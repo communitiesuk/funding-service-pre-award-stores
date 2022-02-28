@@ -5,7 +5,6 @@ in it.
 from apis.fund_api_models import api
 from apis.fund_api_models import full_fund_model
 from apis.fund_api_models import identify_fund_view
-from apis.fund_api_models import round_sub_model
 from apis.fund_store_dao import FundDAO
 from apis.fund_store_dummy_data import FUND_DATA
 from flask_restx import Resource
@@ -34,13 +33,13 @@ class Fund(Resource):
         return FUNDS.get(fund_identifier)
 
 
-@api.route("/<fund_identifier>/round/<round_number>")
-@api.param("fund_identifier", "The fund identifier of the fund")
-@api.param("round_number", "The round identifier of the fund round")
-@api.response(404, "Round not found")
-class Round(Resource):
-    @api.doc("get_round")
-    @api.marshal_with(round_sub_model)
-    def get(self, fund_identifier, round_number):
-        """Fetch a fund given its name"""
-        return FUNDS.get(fund_identifier)["rounds"][int(round_number) - 1]
+# @api.route("/<fund_identifier>/round/<round_number>")
+# @api.param("fund_identifier", "The fund identifier of the fund")
+# @api.param("round_number", "The round identifier of the fund round")
+# @api.response(404, "Round not found")
+# class Round(Resource):
+#     @api.doc("get_round")
+#     @api.marshal_with(round_sub_model)
+#     def get(self, fund_identifier, round_number):
+#         """Fetch a fund given its name"""
+#         return FUNDS.get(fund_identifier)["rounds"][int(round_number) - 1]

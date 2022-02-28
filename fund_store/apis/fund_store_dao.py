@@ -20,12 +20,6 @@ class FundDAO:
 
         for fund in fund_data:
 
-            for round_num in range(len(fund["rounds"])):
-
-                fund["rounds"][round_num]["round_identifier"] = round_num + 1
-
-        for fund in fund_data:
-
             self.create(fund)
 
     def get(self, identifier):

@@ -57,40 +57,10 @@ def test_specific_fund_endpoint_get(flask_test_client):
         "name": "Ram's Get Fit Feb fund",
         "fund_identifier": "ram-s-get-fit-feb-fund",
         "eligibility_criteria": {"maximium_project_cost": 100},
-        "rounds": [
-            {
-                "round_identifier": 1,
-                "opens": "2022-02-01T00:00:00",
-                "deadline": "2022-07-23T00:00:00",
-            },
-            {
-                "round_identifier": 2,
-                "opens": "2022-02-01T00:00:00",
-                "deadline": "2022-07-23T00:00:00",
-            },
-        ],
+        "opens": "2022-02-01T00:00:00",
+        "deadline": "2022-07-23T00:00:00",
     }
 
     expected_content_from_get(
         "/funds/ram-s-get-fit-feb-fund", expected_content, flask_test_client
-    )
-
-
-def test_specific_round_endpoint_get(flask_test_client):
-    """
-    GIVEN Our Api Fund Store
-    WHEN /funds/ram-s-get-fit-feb-fund/round/0 is requested using GET
-    THEN check that the get response returns the expected data
-    If this test succeedes then our apis is set up and returns
-    detailed infomation about a single fund
-    """
-    expected_content = {
-        "round_identifier": 1,
-        "opens": "2022-02-01T00:00:00",
-        "deadline": "2022-07-23T00:00:00",
-    }
-    expected_content_from_get(
-        "/funds/ram-s-get-fit-feb-fund/round/1",
-        expected_content,
-        flask_test_client,
     )

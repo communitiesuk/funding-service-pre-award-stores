@@ -15,20 +15,6 @@ eligibility_criteria_sub_model = api.model(
     },
 )
 
-round_sub_model = api.model(
-    "Fund Round",
-    {
-        "round_identifier": fields.Integer(
-            required=True,
-            description="An unique integer which identifies the round.",
-        ),
-        "opens": fields.DateTime(
-            required=True, description="The round opening date"
-        ),
-        "deadline": fields.DateTime(description="The round closing date"),
-    },
-)
-
 full_fund_model = api.model(
     "Fund Full Data",
     {
@@ -40,15 +26,14 @@ full_fund_model = api.model(
         ),
         "eligibility_criteria": fields.Nested(
             eligibility_criteria_sub_model,
+            required=True,
             desciption="The eligiblity criteria of the fund",
         ),
-        "rounds": fields.List(
-            fields.Nested(round_sub_model),
-            required=True,
-            description=(
-                "A list of the funding rounds, along with data regarding their"
-                " opening and closing dates."
-            ),
+        "opens": fields.DateTime(
+            required=True, description="The fund opening date"
+        ),
+        "deadline": fields.DateTime(
+            required=True, description="The fund closing date"
         ),
     },
 )
