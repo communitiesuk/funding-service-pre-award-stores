@@ -12,7 +12,7 @@ jobs:
     with:
       app_name: ${{ github.event.repository.name }}
       api: true
-      include: ${{ env.users = 1 }}
+      users: 2
     secrets:
       CF_API: ${{secrets.CF_API}}
       CF_ORG: ${{secrets.CF_ORG}}
