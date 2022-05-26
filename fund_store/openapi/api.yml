@@ -149,7 +149,7 @@ components:
             example: "2022-12-25 00:00:00"
           assessment_deadline: 
             type: string
-            description: The date when the asserors will have the application accessed by.
+            description: The date when the assessments will be completed
             example: "2022-12-25 00:00:00"
           application_url:
             type: string
