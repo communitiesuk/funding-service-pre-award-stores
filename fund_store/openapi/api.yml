@@ -1,0 +1,125 @@
+openapi: "3.0.0"
+
+info:
+  description: Fund store API for DLUHC Funding Service Design
+  version: "0.1.0"
+  title: Funding Service Design - Fund store.
+
+paths:
+  /funds/:
+    get:
+      summary: Returns list of all funds
+      description: Given a fund ID and a round ID we return the relavant round data.
+      operationId: core.funds.get_funds
+      responses:
+        200:
+          description: "List all funds."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/fund'
+
+  /funds/{fund_id}/rounds/{round_id}:
+    get:
+      summary: Returns the data on a specified round for a specific fund.
+      description: Given a fund ID and a round ID we return the relavant round data.
+      operationId: core.rounds.get_round
+      responses:
+        200:
+          description: "If the round exists then the data is returned."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/round'
+
+  /funds/{fund_id}:
+    get:
+      summary: Returns the data on a specified fund.
+      description: Given a fund ID we return the relevant fund data.
+      operationId: core.funds.get_fund
+      responses:
+        200: 
+          description: "If the fund exists then the data is returned."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fund'
+
+  /funds/{fund_id}/rounds:
+    get:
+      summary: Given a fund ID we return all rounds for that fund.
+      description:  Given a fund ID we return all rounds for that fund.
+      operationId: core.rounds.get_rounds_for_fund
+      responses:
+        200:
+          description: A list of rounds matching the given fund ID.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref : '#/components/schemas/round'
+
+components:
+  schemas:
+    fund:
+        type: object
+        properties:
+          fund_name: 
+            type: string
+            description: The name of the fund. 
+            example: "J's Stupid T-Shirt Fund"
+          fund_description:
+            type: string
+            description: The description of the fund.
+            example: "Help J buy more t-shirt."
+          fund_id:
+            type: string
+            description: The fund ID, uniquely identifies the fund.
+            example: "sdknbfs98yf48sfd"
+
+    eligibility_criteria:
+        type: object
+        properties:
+          max_project_cost:
+            type: integer
+            description: Maximum project cost
+            example: 1000000
+
+    round:
+        type: object
+        properties:
+          round_id: 
+            type: string
+            description: id of rounds.
+            example: "12345-qwert-....."
+          round_title: 
+            type: string
+            description: title or name of the round.
+            example: "Spring"
+          fund_id: 
+            type: string
+            description: The fund ID, uniquely identifies the fund.
+            example: "funding-service-design"
+          eligibility_criteria: 
+            $ref: '#/components/schemas/eligibility_criteria'
+            description: outlines the eligibility criteria for applicants
+            example: 
+          opens: 
+            type: string
+            description: The date of when the round will be open to recieve applications.
+            example: "2022-12-25 00:00:00"
+          deadline:
+            type: string
+            description: The date of when the round will stop accepting applications.
+            example: "2022-12-25 00:00:00"
+          assessment_deadline: 
+            type: string
+            description: The date when the asserors will have the application accessed by.
+            example: "2022-12-25 00:00:00"
+          application_url:
+            type: string
+            description: The url for the online application form
+            example: "https://application-form-service/fund-id-round-id"
