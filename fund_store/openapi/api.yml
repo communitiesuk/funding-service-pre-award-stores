@@ -6,11 +6,20 @@ info:
   title: Funding Service Design - Fund store.
 
 paths:
-  /funds/:
+  /funds:
     get:
       summary: Returns list of all funds
-      description: Given a fund ID and a round ID we return the relavant round data.
+      description: Returns list of all funds
       operationId: core.funds.get_funds
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: array
+            items: 
+              type: string
+          style: spaceDelimited
+          required: false
       responses:
         200:
           description: "List all funds."
