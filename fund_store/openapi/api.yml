@@ -8,6 +8,8 @@ info:
 paths:
   /funds:
     get:
+      tags:
+      - Funds
       summary: Returns list of all funds
       description: Returns list of all funds
       operationId: core.funds.get_funds
@@ -40,6 +42,8 @@ paths:
 
   /funds/{fund_id}/rounds/{round_id}:
     get:
+      tags:
+      - Rounds
       summary: Returns the data on a specified round for a specific fund.
       description: Given a fund ID and a round ID we return the relavant round data.
       operationId: core.rounds.get_round
@@ -72,6 +76,8 @@ paths:
 
   /funds/{fund_id}:
     get:
+      tags:
+      - Funds
       summary: Returns the data on a specified fund.
       description: Given a fund ID we return the relevant fund data.
       operationId: core.funds.get_fund
@@ -99,6 +105,8 @@ paths:
 
   /funds/{fund_id}/rounds:
     get:
+      tags:
+      - Rounds
       summary: Given a fund ID we return all rounds for that fund.
       description:  Given a fund ID we return all rounds for that fund.
       operationId: core.rounds.get_rounds_for_fund
@@ -125,6 +133,12 @@ paths:
                   title: Rounds page not found
                   type: string
                   example: Not found
+
+tags:
+  - name: Funds
+    description: "See all funds or find a fund"
+  - name: Rounds
+    description: "See all rounds or find a round"
 
 components:
   schemas:
