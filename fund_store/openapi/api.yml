@@ -29,6 +29,14 @@ paths:
                 type: array
                 items:
                   $ref : '#/components/schemas/fund'
+        404:
+          description: "funds page not found."
+          content:
+              texts/plain:
+                schema:
+                  title: Funds page not found
+                  type: string
+                  example: Not found
 
   /funds/{fund_id}/rounds/{round_id}:
     get:
@@ -53,6 +61,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/round'
+        404:
+          description: "Round not found from given fund id and round id."
+          content:
+              texts/plain:
+                schema:
+                  title: Round not found
+                  type: string
+                  example: Not found
 
   /funds/{fund_id}:
     get:
@@ -72,6 +88,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/fund'
+        404:
+          description: "Fund page not found for given fund id."
+          content:
+              texts/plain:
+                schema:
+                  title: Fund page not found
+                  type: string
+                  example: Not found
 
   /funds/{fund_id}/rounds:
     get:
@@ -93,6 +117,14 @@ paths:
                 type: array
                 items:
                   $ref : '#/components/schemas/round'
+        404:
+          description: "Rounds page not found for given fund id."
+          content:
+              texts/plain:
+                schema:
+                  title: Rounds page not found
+                  type: string
+                  example: Not found
 
 components:
   schemas:
