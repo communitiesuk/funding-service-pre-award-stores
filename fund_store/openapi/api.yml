@@ -15,13 +15,14 @@ paths:
       operationId: core.funds.get_funds
       parameters:
         - in: query
-          name: query
+          name: search_items
+          style: form
           schema:
             type: array
             items: 
               type: string
-          style: spaceDelimited
           required: false
+          explode: false
       responses:
         200:
           description: "List all funds."
