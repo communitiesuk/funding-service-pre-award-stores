@@ -1,7 +1,7 @@
-from core.dummy_dao import RoundDAO
-
 """Dummy data to use with testing
 """
+from core.dummy_dao import RoundDAO
+
 
 ROUND_DATA = [
     {

@@ -1,7 +1,8 @@
-from core.dummy_dao import FundDAO
-
 """Dummy data to use with testing
 """
+from core.dummy_dao import FundDAO
+
+
 FUND_DATA = [
     {
         "fund_name": "Harry's breakfast fund",
