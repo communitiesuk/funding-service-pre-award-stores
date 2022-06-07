@@ -6,7 +6,7 @@ components:
           fund_name:
             type: string
             description: The name of the fund.
-            example: "J's Stupid T-Shirt Fund"
+            example: "J's Sensible T-Shirt Fund"
           fund_description:
             type: string
             description: The description of the fund.
