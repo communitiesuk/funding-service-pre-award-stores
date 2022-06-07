@@ -15,7 +15,7 @@ from tests.test_data import ROUNDS_IN_HARRY_S_BREAKFAST_FUND
 def test_all_funds_endpoint(client: Flask):
     """
     GIVEN the flask test client running our api
-    WHEN we execute a GET request on "/funds/"
+    WHEN we execute a GET request on "/funds"
     THEN we expect a response containing our
     initial data.
     """
@@ -31,14 +31,14 @@ def test_all_funds_endpoint(client: Flask):
     asserts.assert_equal(
         response_data,
         expected_data,
-        msg_fmt="/Funds didnt return the expected response, {msg}",
+        msg_fmt="/funds didnt return the expected response, {msg}",
     )
 
 
 def test_single_fund_endpoint(client: Flask):
     """
     GIVEN the flask test client running our api
-    WHEN we execute a GET request on "/funds/"
+    WHEN we execute a GET request on "/funds"
     THEN we expect a response containing our
     initial data.
     """
@@ -54,14 +54,14 @@ def test_single_fund_endpoint(client: Flask):
     asserts.assert_equal(
         response_data,
         expected_data,
-        msg_fmt="/Funds didnt return the expected response, {msg}",
+        msg_fmt="/funds didnt return the expected response, {msg}",
     )
 
 
 def test_all_rounds_in_single_fund_endpoint(client: Flask):
     """
     GIVEN the flask test client running our api
-    WHEN we execute a GET request on "/funds/"
+    WHEN we execute a GET request on "/funds"
     THEN we expect a response containing our
     initial data.
     """
@@ -77,14 +77,14 @@ def test_all_rounds_in_single_fund_endpoint(client: Flask):
     asserts.assert_equal(
         response_data,
         expected_data,
-        msg_fmt="/Funds didnt return the expected response, {msg}",
+        msg_fmt="/funds didnt return the expected response, {msg}",
     )
 
 
 def test_single_round_in_single_fund_endpoint(client: Flask):
     """
     GIVEN the flask test client running our api
-    WHEN we execute a GET request on "/funds/"
+    WHEN we execute a GET request on "/funds"
     THEN we expect a response containing our
     initial data.
     """
@@ -100,5 +100,5 @@ def test_single_round_in_single_fund_endpoint(client: Flask):
     asserts.assert_equal(
         response_data,
         expected_data,
-        msg_fmt="/Funds didnt return the expected response, {msg}",
+        msg_fmt="/funds didnt return the expected response, {msg}",
     )

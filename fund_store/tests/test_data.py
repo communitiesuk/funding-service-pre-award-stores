@@ -24,12 +24,6 @@ RAW_FUND_DATA = [
 ]
 
 
-FUND_DATA = [{"fund_id": slugify(i["fund_name"]), **i} for i in RAW_FUND_DATA]
-
-
-HARRY_S_BREAKFAST_FUND = FUND_DATA[0]
-
-
 ROUND_DATA = [
     {
         "round_id": "spring",
@@ -80,6 +74,13 @@ ROUND_DATA = [
         ),
     },
 ]
+
+
+FUND_DATA = [{"fund_id": slugify(i["fund_name"]), **i} for i in RAW_FUND_DATA]
+
+
+HARRY_S_BREAKFAST_FUND = FUND_DATA[0]
+
 
 ROUNDS_IN_HARRY_S_BREAKFAST_FUND = [
     dict for dict in ROUND_DATA if dict["fund_id"] == "harry-s-breakfast-fund"
