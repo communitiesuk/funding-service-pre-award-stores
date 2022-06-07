@@ -1,3 +1,6 @@
+"""
+Python functions to return responses of funds from our GET requests
+"""
 import warnings
 from typing import List
 
@@ -34,6 +37,14 @@ def search(to_search: dict, word_list: List[str]):
 
 
 def get_funds(search_items=None):
+    """python function to return all funds or a filtered list
+        of funds via search function
+
+    :param search_items: List of strings to search for, defaults to None
+    :type search_items: List[str], optional
+    :return: Tuple containing the list of (filtered) funds and status code
+    :rtype: Tuple
+    """
     list_of_funds = fund_data.FUNDS_DUMMY_DAO.get_all()
     if search_items is None:
         if isinstance(list_of_funds, list):
@@ -45,6 +56,14 @@ def get_funds(search_items=None):
 
 
 def get_fund(fund_id: str):
+    """python function to return a single specified fund from a fund_id
+
+    :param fund_id: String value of the fund_id
+    :type fund_id: str
+    :return: Tuple of single fund filtered by the unique
+                fund_id and response code
+    :rtype: Tuple
+    """
     fund_search = fund_data.FUNDS_DUMMY_DAO.get_one(fund_id)
     if isinstance(fund_search, dict):
         return fund_data.FUNDS_DUMMY_DAO.get_one(fund_id), 200
