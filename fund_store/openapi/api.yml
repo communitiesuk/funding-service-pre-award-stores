@@ -19,7 +19,7 @@ paths:
           style: form
           schema:
             type: array
-            items: 
+            items:
               type: string
           required: false
           explode: false
@@ -89,7 +89,7 @@ paths:
             type: string
           required: true
       responses:
-        200: 
+        200:
           description: "If the fund exists then the data is returned."
           content:
             application/json:
