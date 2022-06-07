@@ -1,1 +1,1 @@
-import app  # noqa
+from core.app import create_app  # noqa

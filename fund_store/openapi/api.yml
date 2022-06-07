@@ -1,0 +1,134 @@
+openapi: "3.0.0"
+
+info:
+  description: Fund store API for DLUHC Funding Service Design
+  version: "0.1.0"
+  title: Funding Service Design - Fund store.
+
+paths:
+  /funds:
+    get:
+      tags:
+      - Funds
+      summary: Returns list of all funds
+      description: Returns list of all funds
+      operationId: core.funds.get_funds
+      parameters:
+        - in: query
+          name: search_items
+          style: form
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          explode: false
+      responses:
+        200:
+          description: "List all funds."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref : 'components.yml#/components/schemas/Fund'
+        404:
+          description: "funds page not found."
+          content:
+              texts/plain:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Error'
+
+  /funds/{fund_id}/rounds/{round_id}:
+    get:
+      tags:
+      - Rounds
+      summary: Returns the data on a specified round for a specific fund.
+      description: Given a fund ID and a round ID we return the relavant round data.
+      operationId: core.rounds.get_round
+      parameters:
+        - in: path
+          name: fund_id
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: round_id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "If the round exists then the data is returned."
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Round'
+        404:
+          description: "Round not found from given fund id and round id."
+          content:
+              application/json:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Error'
+
+  /funds/{fund_id}:
+    get:
+      tags:
+      - Funds
+      summary: Returns the data on a specified fund.
+      description: Given a fund ID we return the relevant fund data.
+      operationId: core.funds.get_fund
+      parameters:
+        - in: path
+          name: fund_id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "If the fund exists then the data is returned."
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Fund'
+        404:
+          description: "Fund page not found for given fund id."
+          content:
+              texts/plain:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Error'
+
+  /funds/{fund_id}/rounds:
+    get:
+      tags:
+      - Rounds
+      summary: Given a fund ID we return all rounds for that fund.
+      description:  Given a fund ID we return all rounds for that fund.
+      operationId: core.rounds.get_rounds_for_fund
+      parameters:
+        - in: path
+          name: fund_id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: A list of rounds matching the given fund ID.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref : 'components.yml#/components/schemas/Round'
+        404:
+          description: "Rounds page not found for given fund id."
+          content:
+              application/json:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Error'
+
+tags:
+  - name: Funds
+    description: "See all funds or find a fund"
+  - name: Rounds
+    description: "See all rounds or find a round"

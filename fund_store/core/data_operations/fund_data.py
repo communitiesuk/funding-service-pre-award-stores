@@ -1,6 +1,6 @@
 """Dummy data to use with testing
 """
-from apis.fund_store_dao import FundDAO
+from core.dummy_dao import FundDAO
 
 
 FUND_DATA = [
