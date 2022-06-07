@@ -1,0 +1,71 @@
+components:
+  schemas:
+    fund:
+        type: object
+        properties:
+          fund_name: 
+            type: string
+            description: The name of the fund. 
+            example: "J's Stupid T-Shirt Fund"
+          fund_description:
+            type: string
+            description: The description of the fund.
+            example: "Help J buy more t-shirt."
+          fund_id:
+            type: string
+            description: The fund ID, uniquely identifies the fund.
+            example: "sdknbfs98yf48sfd"
+
+    eligibility_criteria:
+        type: object
+        properties:
+          max_project_cost:
+            type: integer
+            description: Maximum project cost
+            example: 1000000
+
+    round:
+        type: object
+        properties:
+          round_id: 
+            type: string
+            description: id of rounds.
+            example: "12345-qwert-....."
+          round_title: 
+            type: string
+            description: title or name of the round.
+            example: "Spring"
+          fund_id: 
+            type: string
+            description: The fund ID, uniquely identifies the fund.
+            example: "funding-service-design"
+          eligibility_criteria: 
+            $ref: '#/components/schemas/eligibility_criteria'
+            description: outlines the eligibility criteria for applicants
+            example: 
+          opens: 
+            type: string
+            description: The date of when the round will be open to recieve applications.
+            example: "2022-12-25 00:00:00"
+          deadline:
+            type: string
+            description: The date of when the round will stop accepting applications.
+            example: "2022-12-25 00:00:00"
+          assessment_deadline: 
+            type: string
+            description: The date when the assessments will be completed
+            example: "2022-12-25 00:00:00"
+          application_url:
+            type: string
+            description: The url for the online application form
+            example: "https://application-form-service/fund-id-round-id"
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
