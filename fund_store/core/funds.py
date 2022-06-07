@@ -1,4 +1,3 @@
-from connexion import NoContent
 from core.data_operations import fund_data
 import warnings
 from typing import List
@@ -34,16 +33,16 @@ def search(to_search: dict, word_list: List[str]):
 def get_funds(search_items = None):
     list_of_funds = fund_data.FUNDS_DUMMY_DAO.get_all()
     if search_items is None:
-        if type(list_of_funds) == list:
+        if isinstance(list_of_funds, list):
             return list_of_funds, 200
         else:
-            return NoContent, 404
+            return {"code" : 404, "message" : "No funds exist."}, 404   
     else:
         return search(list_of_funds, search_items), 200
 
 def get_fund(fund_id: str):
     fund_search = fund_data.FUNDS_DUMMY_DAO.get_one(fund_id)
-    if type(fund_search) == dict:
+    if isinstance(fund_search, dict):
         return fund_data.FUNDS_DUMMY_DAO.get_one(fund_id), 200
     else:
-        return NoContent, 404
+        return {"code" : 404, "message" : f"fund_id : {fund_id} cannot be found."}, 404
