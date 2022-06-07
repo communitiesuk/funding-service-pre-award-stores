@@ -66,7 +66,7 @@ def get_fund(fund_id: str):
     """
     fund_search = fund_data.FUNDS_DUMMY_DAO.get_one(fund_id)
     if isinstance(fund_search, dict):
-        return fund_data.FUNDS_DUMMY_DAO.get_one(fund_id), 200
+        return fund_search, 200
     else:
         return {
             "code": 404,
