@@ -13,7 +13,7 @@ def get_rounds_for_fund(fund_id: str):
                 fund_id and response code
     :rtype: Tuple
     """
-    rounds = round_data.ROUNDS_DUMMY_DAO.get_all(fund_id)
+    rounds = round_data.ROUNDS_DUMMY_DAO.get_all_for_fund(fund_id)
     if len(rounds) > 0:
         return rounds, 200
     else:

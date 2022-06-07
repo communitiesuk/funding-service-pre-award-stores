@@ -47,7 +47,7 @@ class RoundDAO:
         )
         return the_round
 
-    def get_all(self, fund_id):
+    def get_all_for_fund(self, fund_id):
         all_round_list = list(self.rounds.values())
         fund_round_list = [
             round for round in all_round_list if round["fund_id"] == fund_id

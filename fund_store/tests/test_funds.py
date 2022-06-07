@@ -31,7 +31,7 @@ def test_all_funds_endpoint(client: Flask):
     asserts.assert_equal(
         response_data,
         expected_data,
-        msg_fmt="/Funds didnt return the expected response, {msg}",
+        msg_fmt="/funds didnt return the expected response, {msg}",
     )
 
 
@@ -54,7 +54,7 @@ def test_single_fund_endpoint(client: Flask):
     asserts.assert_equal(
         response_data,
         expected_data,
-        msg_fmt="/Funds didnt return the expected response, {msg}",
+        msg_fmt="/funds didnt return the expected response, {msg}",
     )
 
 
@@ -77,7 +77,7 @@ def test_all_rounds_in_single_fund_endpoint(client: Flask):
     asserts.assert_equal(
         response_data,
         expected_data,
-        msg_fmt="/Funds didnt return the expected response, {msg}",
+        msg_fmt="/funds didnt return the expected response, {msg}",
     )
 
 
@@ -100,5 +100,5 @@ def test_single_round_in_single_fund_endpoint(client: Flask):
     asserts.assert_equal(
         response_data,
         expected_data,
-        msg_fmt="/Funds didnt return the expected response, {msg}",
+        msg_fmt="/funds didnt return the expected response, {msg}",
     )

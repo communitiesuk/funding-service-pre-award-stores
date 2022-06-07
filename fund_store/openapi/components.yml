@@ -1,6 +1,6 @@
 components:
   schemas:
-    fund:
+    Fund:
         type: object
         properties:
           fund_name:
@@ -16,7 +16,7 @@ components:
             description: The fund ID, uniquely identifies the fund.
             example: "sdknbfs98yf48sfd"
 
-    eligibility_criteria:
+    EligibilityCriteria:
         type: object
         properties:
           max_project_cost:
@@ -24,7 +24,7 @@ components:
             description: Maximum project cost
             example: 1000000
 
-    round:
+    Round:
         type: object
         properties:
           round_id:
@@ -40,7 +40,7 @@ components:
             description: The fund ID, uniquely identifies the fund.
             example: "funding-service-design"
           eligibility_criteria:
-            $ref: '#/components/schemas/eligibility_criteria'
+            $ref: '#/components/schemas/EligibilityCriteria'
             description: outlines the eligibility criteria for applicants
             example:
           opens:
@@ -63,7 +63,7 @@ components:
       type: object
       properties:
         code:
-          type: string
+          type: integer
         message:
           type: string
       required:
