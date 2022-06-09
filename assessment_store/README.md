@@ -36,6 +36,13 @@ From the top-level directory enter the command to install pip and the dependenci
 
     python3 -m pip install --upgrade pip && pip install -r requirements-dev.txt
 
+NOTE: The psycopg2 package (required for PostgreSQL) can sometimes have difficulty installing on certain environments
+related to libssl.
+If you experience difficulties on macOS this might be required:
+
+    export LDFLAGS="-L/usr/local/opt/openssl/lib"
+
+or see other resolutions on [StackOverflow](https://stackoverflow.com/questions/11365619/psycopg2-installation-error-library-not-loaded-libssl-dylib)
 ### Initialise and upgrade database
 This service is designed to use sqlite for local development and PostgreSQL when deployed.
 Both can be easily switched (if required locally) due to the usage of database agnostic ORM SqlAlchemy
