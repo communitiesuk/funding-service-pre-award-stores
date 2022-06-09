@@ -7,11 +7,11 @@ from sqlalchemy.exc import IntegrityError
 class Assessment(db.Model):
     id = db.Column(
         "id",
-        db.Text(length=36),
+        db.Text(),
         default=lambda: str(uuid.uuid4()),
         primary_key=True,
     )
-    application_id = db.Column(db.Text(length=36), index=True, unique=True)
+    application_id = db.Column(db.Text(), index=True, unique=True)
 
     def __repr__(self):
         return "<Assessment {} for Application {}>".format(
