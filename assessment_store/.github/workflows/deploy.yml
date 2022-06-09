@@ -40,10 +40,8 @@ jobs:
           python-version: 3.10.1
       - name: create python env
         run: python -m venv .venv
-      - name: install dependencies
-        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt
-      - name: Run DB migrations
-        run: flask db upgrade
+      - name: install dependencies & upgrade db
+        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt && flask db upgrade
       - name: Deploy to Gov PaaS
         uses: citizen-of-planet-earth/cf-cli-action@v2
         with:
@@ -99,10 +97,8 @@ jobs:
           python-version: 3.10.1
       - name: create python env
         run: python -m venv .venv
-      - name: install dependencies
-        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt
-      - name: Run DB migrations
-        run: flask db upgrade
+      - name: install dependencies & upgrade db
+        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt && flask db upgrade
       - name: Deploy to Gov PaaS
         uses: citizen-of-planet-earth/cf-cli-action@v2
         with:
