@@ -1,0 +1,24 @@
+components:
+  schemas:
+    GeneralError:
+      type: object
+      properties:
+        status:
+          type: string
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    AssessmentCreate:
+      type: object
+      properties:
+        applicationId:
+          type: string
+    Assessment:
+      type: object
+      properties:
+        id:
+          type: string
+        applicationId:
+          type: string

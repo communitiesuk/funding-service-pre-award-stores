@@ -1,0 +1,81 @@
+openapi: "3.0.0"
+info:
+  description: Assessment API for DLUHC Funding Service Design
+  version: "1.0.0"
+  title: Funding Service Design - Assessment Store
+tags:
+  - name: assessments
+    description: Assessment operations
+
+paths:
+  /assessments:
+    get:
+      tags:
+        - assessments
+      summary: Search assessments
+      description: List all assessments
+      operationId: api.AssessmentsView.search
+      responses:
+        200:
+          description: SUCCESS - A list of assessments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/Assessment'
+    post:
+      tags:
+        - assessments
+      summary: Register an assessment
+      description: Register a new application for assessment
+      operationId: api.AssessmentsView.register
+      requestBody:
+        description: Assessment registration parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yml#/components/schemas/AssessmentCreate'
+            example:
+              applicationId: 'abc'
+      responses:
+        201:
+          description: SUCCESS - Application registered, assessment created
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Assessment'
+        401:
+          description: ERROR - Could not create assessment
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/GeneralError'
+  '/assessments/{assessment_id}':
+    get:
+      tags:
+        - assessments
+      summary: Get an assessment
+      description: Return an assesment
+      operationId: api.AssessmentsView.get
+      responses:
+        200:
+          description: SUCCESS - Assessment returned
+          content:
+              application/json:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Assessment'
+        404:
+          description: ERROR - Assessment not found
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/GeneralError'
+      parameters:
+        - name: assessment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
