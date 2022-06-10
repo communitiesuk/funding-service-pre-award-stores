@@ -11,6 +11,9 @@ class TestConfig(Config):
     """
     Gov PaaS
     """
+    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL").replace(
+        "postgres://", "postgresql://"
+    )
 
     # If VCAP_SERVICES are required use the following to parse
     # service params (Redis example given)
