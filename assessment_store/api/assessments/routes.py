@@ -33,6 +33,7 @@ class AssessmentsView(AssessmentMethods, MethodView):
             assessment = self.get_by_id(assessment_id)
         except AssessmentError as e:
             return error_response(404, e.message)
+
         return assessment_response(assessment)
 
     def register(self):
@@ -49,4 +50,5 @@ class AssessmentsView(AssessmentMethods, MethodView):
             new_assessment = self.register_application(application_id)
         except AssessmentError as e:
             return error_response(401, e.message)
+
         return assessment_response(new_assessment, 201)

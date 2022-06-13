@@ -14,11 +14,8 @@ class Assessment(db.Model):
     application_id = db.Column(db.Text(), index=True, unique=True)
 
     def __repr__(self):
-        return "<Assessment {} for Application {}>".format(
-            self.id, self.application_id
-        )
+        return f"<Assessment {self.id} for Application {self.application_id}>"
 
-    @property
     def as_json(self):
         return {"id": self.id, "applicationId": self.application_id}
 
@@ -40,7 +37,7 @@ class AssessmentMethods:
     def assessments(as_json=False):
         assessments = Assessment.query.all()
         if as_json:
-            return [assessment.as_json for assessment in assessments]
+            return [assessment.as_json() for assessment in assessments]
         return assessments
 
     @staticmethod

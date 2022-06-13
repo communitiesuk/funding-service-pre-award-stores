@@ -4,7 +4,11 @@ from os import path
 
 
 class Config(object):
+
+    # ---------------
     #  Application Config
+    # ---------------
+
     SECRET_KEY = environ.get("SECRET_KEY")
     SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME")
     FLASK_ROOT = path.dirname(
@@ -12,9 +16,10 @@ class Config(object):
     )
     FLASK_ENV = environ.get("FLASK_ENV")
 
-    """
-    APIs Config: contains api hosts (set in manifest.yml)
-    """
+    # ---------------
+    # APIs Config: contains api hosts (set in manifest.yml)
+    # ---------------
+
     # Account Store
     ACCOUNT_STORE_API_HOST = environ.get("ACCOUNT_STORE_API_HOST")
     ACCOUNTS_ENDPOINT = "/accounts"
@@ -39,9 +44,9 @@ class Config(object):
     SEND_ENDPOINT = "/send"
     NOTIFY_TEMPLATE_MAGIC_LINK = "MAGIC_LINK"
 
-    """
-    Security
-    """
+    # ---------------
+    # Security
+    # ---------------
 
     # Allow inline scripts for swagger docs (for Talisman Config)
     SWAGGER_CSP = {
@@ -49,9 +54,9 @@ class Config(object):
         "style-src": ["'self'", "'unsafe-inline'"],
     }
 
-    """
-    Database
-    """
+    # ---------------
+    # Database
+    # ---------------
 
     SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False

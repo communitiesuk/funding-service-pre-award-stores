@@ -21,9 +21,7 @@ class DevelopmentConfig(Config):
     # Security
     FORCE_HTTPS = False
 
-    """
-    Database
-    """
+    # Database
     SQLITE_DB_NAME = "sqlite.db"
     SQLALCHEMY_DATABASE_URI = environ.get(
         "DATABASE_URL"

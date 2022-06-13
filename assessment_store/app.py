@@ -32,7 +32,9 @@ def create_app(testing=False) -> Flask:
 
     from db import db, migrate
 
+    # Bind SQLAlchemy ORM to Flask app
     db.init_app(flask_app)
+    # Bind Flask-Migrate db utilities to Flask app
     migrate.init_app(flask_app, db, directory="db/migrations")
 
     return flask_app

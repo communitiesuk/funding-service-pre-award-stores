@@ -20,9 +20,7 @@ class UnitTestingConfig(Config):
     # Security
     FORCE_HTTPS = False
 
-    """
-    Database
-    """
+    # Database
     SQLITE_DB_NAME = "test_sqlite.db"
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + path.join(
         Config.FLASK_ROOT, SQLITE_DB_NAME
