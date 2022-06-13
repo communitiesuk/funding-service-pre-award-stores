@@ -1,5 +1,6 @@
 import pytest
 from app import create_app
+from tests.mocks.sqlite_test_db import SqliteTestDB
 
 
 @pytest.fixture(scope="session")
@@ -10,4 +11,8 @@ def app():
     @pytest.mark.uses_fixture('live_server')
     :return: An instance of the Flask app.
     """
-    yield create_app(testing=True)
+
+    with create_app(testing=True).app_context():
+        SqliteTestDB.create()
+        yield
+        SqliteTestDB.remove()

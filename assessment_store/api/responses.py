@@ -9,7 +9,7 @@ def error_response(code: int, message: str):
     )
 
 
-def assessment_201_response(assessment: Assessment):
+def assessment_response(assessment: Assessment, code: int = 200):
     return (
         make_response(
             {
@@ -17,5 +17,5 @@ def assessment_201_response(assessment: Assessment):
                 "applicationId": assessment.application_id,
             }
         ),
-        201,
+        code,
     )

@@ -12,7 +12,7 @@ def create_app(testing=False) -> Flask:
 
     if testing:
         flask_app.config.from_object(
-            "config.environments.development.DevelopmentConfig"
+            "config.environments.unit_testing.UnitTestingConfig"
         )
     else:
         flask_app.config.from_object("config.Config")

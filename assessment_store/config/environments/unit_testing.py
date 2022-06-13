@@ -1,15 +1,14 @@
-"""Flask Local Development Environment Configuration."""
-from os import environ
+"""Flask Unit Testing Environment Configuration."""
 from os import path
 
 from config.environments.default import Config
 
 
-class DevelopmentConfig(Config):
+class UnitTestingConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
-    FLASK_ENV = "development"
+    FLASK_ENV = "testing"
 
     # APIs
     APPLICATION_STORE_API_HOST = "application_store"
@@ -24,8 +23,8 @@ class DevelopmentConfig(Config):
     """
     Database
     """
-    SQLITE_DB_NAME = "sqlite.db"
-    SQLALCHEMY_DATABASE_URI = environ.get(
-        "DATABASE_URL"
-    ) or "sqlite:///" + path.join(Config.FLASK_ROOT, SQLITE_DB_NAME)
+    SQLITE_DB_NAME = "test_sqlite.db"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + path.join(
+        Config.FLASK_ROOT, SQLITE_DB_NAME
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False

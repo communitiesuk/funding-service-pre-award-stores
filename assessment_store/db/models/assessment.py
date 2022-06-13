@@ -45,11 +45,10 @@ class AssessmentMethods:
 
     @staticmethod
     def get_by_id(assessment_id: str):
-        try:
-            assessment = Assessment.query.get(assessment_id)
-            return assessment
-        except IntegrityError:
+        assessment = Assessment.query.get(assessment_id)
+        if not assessment:
             raise AssessmentError(message="Assessment could not be found")
+        return assessment
 
     @staticmethod
     def register_application(application_id: str):
@@ -57,8 +56,9 @@ class AssessmentMethods:
             assessment = Assessment(application_id=application_id)
             db.session.add(assessment)
             db.session.commit()
-            return assessment
         except IntegrityError:
+            db.session.rollback()
             raise AssessmentError(
                 message="An assessment for this application already exists"
             )
+        return assessment
