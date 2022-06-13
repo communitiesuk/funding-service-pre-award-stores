@@ -52,6 +52,10 @@ paths:
             application/json:
               schema:
                 $ref: 'components.yml#/components/schemas/GeneralError'
+              example:
+                code: 401
+                status: 'error'
+                message: 'An assessment for this application already exists'
   '/assessments/{assessment_id}':
     get:
       tags:
@@ -72,6 +76,10 @@ paths:
             application/json:
               schema:
                 $ref: 'components.yml#/components/schemas/GeneralError'
+              example:
+                code: 404
+                status: 'error'
+                message: 'Assessment could not be found'
       parameters:
         - name: assessment_id
           in: path
