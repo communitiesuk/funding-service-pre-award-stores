@@ -3,7 +3,7 @@ components:
     GeneralError:
       type: object
       properties:
-        status:
+        compliance_status:
           type: string
           example: 'error'
         code:
@@ -24,7 +24,7 @@ components:
       properties:
         id:
           type: string
-        status:
+        compliance_status:
           type: string
         applicationId:
           type: string
@@ -33,5 +33,5 @@ components:
       properties:
         id:
           type: string
-        status:
+        compliance_status:
           type: string

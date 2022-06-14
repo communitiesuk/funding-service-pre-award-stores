@@ -11,7 +11,7 @@ class Assessment(db.Model):
         default=lambda: str(uuid.uuid4()),
         primary_key=True,
     )
-    status = db.Column(db.Text(length=36), default="UNASSESSED")
+    compliance_status = db.Column(db.Text(length=36), default="UNASSESSED")
     application_id = db.Column(db.Text(), index=True, unique=True)
 
     def __repr__(self):
@@ -20,7 +20,7 @@ class Assessment(db.Model):
     def as_json(self):
         return {
             "id": self.id,
-            "status": self.status,
+            "status": self.compliance_status,
             "applicationId": self.application_id,
         }
 
@@ -69,12 +69,12 @@ class AssessmentMethods:
     def update_status(assessment_id: str, status: str):
         try:
             assessment_id = AssessmentMethods.get_by_id(assessment_id)
-            assessment_id.status = status
+            assessment_id.compliance_status = status
             db.session.commit()
             assessment = Assessment(
                 application_id=assessment_id.application_id,
                 id=assessment_id.id,
-                status=assessment_id.status,
+                compliance_status=assessment_id.compliance_status,
             )
             return assessment
         except AttributeError:

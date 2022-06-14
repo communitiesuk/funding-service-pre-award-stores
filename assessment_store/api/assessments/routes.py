@@ -64,12 +64,10 @@ class AssessmentsView(AssessmentMethods, MethodView):
 
         """
         json = request.get_json()
-        status = json.get("status")
+        status = json.get("compliance_status")
         assessment_id = json.get("id")
         try:
-            update_status = self.update_status(
-                assessment_id, status
-            )
+            update_status = self.update_status(assessment_id, status)
 
         except AssessmentError as e:
             return error_response(401, e.message)
