@@ -24,7 +24,14 @@ components:
       properties:
         id:
           type: string
-          example: 'example-id'
+        status:
+          type: string
         applicationId:
           type: string
-          example: 'abc'
+    UpdateStatus:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
