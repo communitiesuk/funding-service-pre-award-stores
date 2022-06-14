@@ -87,3 +87,34 @@ paths:
           schema:
             type: string
             format: path
+
+  '/update-compliance':
+    post:
+      tags:
+        - assessment status
+      summary: Update assessment status
+      description: Return an updated assessment status
+      operationId: api.AssessmentsView.status
+      requestBody:
+        description: Assessment registration parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yml#/components/schemas/UpdateStatus'
+            example:
+              id: '12h6-456j'
+              status: 'COMPLIANT'
+      responses:
+        200:
+          description: SUCCESS - Assessment status returned
+          content:
+              application/json:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Assessment'
+        404:
+          description: ERROR - Assessment not found
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/GeneralError'
