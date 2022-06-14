@@ -52,3 +52,14 @@ class AssessmentsView(AssessmentMethods, MethodView):
             return error_response(401, e.message)
 
         return assessment_response(new_assessment, 201)
+
+    def status(self):
+        json = request.get_json()
+        status = json.get("status")
+        assessment_id = json.get("id")
+        try:
+            update_status = self.update_status(assessment_id, status)
+
+        except AssessmentError as e:
+            return error_response(401, e.message)
+        return assessment_response(update_status)
