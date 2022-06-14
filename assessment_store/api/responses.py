@@ -14,6 +14,7 @@ def assessment_response(assessment: Assessment, code: int = 200):
         make_response(
             {
                 "id": assessment.id,
+                "status": assessment.status,
                 "applicationId": assessment.application_id,
             }
         ),
