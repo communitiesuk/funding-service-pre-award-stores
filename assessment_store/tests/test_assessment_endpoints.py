@@ -61,6 +61,7 @@ class TestAssessmentEndpoints:
         expected_assessments = [
             {
                 "applicationId": "abc",
+                "status": "UNASSESSED",
                 "id": self.assessment_ids[0],
             }
         ]
