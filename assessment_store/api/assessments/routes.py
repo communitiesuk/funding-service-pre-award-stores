@@ -54,11 +54,22 @@ class AssessmentsView(AssessmentMethods, MethodView):
         return assessment_response(new_assessment, 201)
 
     def status(self):
+        """Function  receives json data & calls
+        update_status func to search for an assessment id &
+        updates the status of that id on the database.
+
+        Args: json data includes assessment id & status
+
+        Returns: Updated status with assessment id & application id
+
+        """
         json = request.get_json()
         status = json.get("status")
         assessment_id = json.get("id")
         try:
-            update_status = self.update_status(assessment_id, status)
+            update_status = self.update_status(
+                assessment_id, status
+            )
 
         except AssessmentError as e:
             return error_response(401, e.message)
