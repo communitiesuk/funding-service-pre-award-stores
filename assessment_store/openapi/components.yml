@@ -1,0 +1,30 @@
+components:
+  schemas:
+    GeneralError:
+      type: object
+      properties:
+        status:
+          type: string
+          example: 'error'
+        code:
+          type: integer
+          format: int32
+          example: 404
+        message:
+          type: string
+          example: 'Not found'
+    AssessmentCreate:
+      type: object
+      properties:
+        applicationId:
+          type: string
+          example: 'abc'
+    Assessment:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'example-id'
+        applicationId:
+          type: string
+          example: 'abc'

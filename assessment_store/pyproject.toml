@@ -1,0 +1,9 @@
+[package]
+name = "funding-service-design-assessment-store"
+version = "0.1.1"
+description = "The funding service design assessment store for the DLUHC."
+authors = ["Version One", "HM Government, Department of Levelling Up, Housing and Communities"]
+license = "MIT License"
+
+[tool.black]
+line-length = 79
