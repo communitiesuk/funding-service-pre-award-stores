@@ -21,6 +21,7 @@ def upgrade():
     op.create_table(
         "assessment",
         sa.Column("id", sa.Text(), nullable=False),
+        sa.Column("status", sa.Text(length=36), nullable=False),
         sa.Column("application_id", sa.Text(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
