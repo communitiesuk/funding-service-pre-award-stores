@@ -12,5 +12,4 @@ applications:
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: flask run --host 0.0.0.0 --port 8080
-  services:
-    - assessment-store-test-db
+  services: assessment-store-test-db
