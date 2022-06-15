@@ -104,3 +104,20 @@ class TestAssessmentEndpoints:
 
         assert response.status_code == 404
         assert error_response.get("message") == "Assessment could not be found"
+
+    def test_update_status(self, flask_test_client):
+        """
+        GIVEN: our service runs on flask client and db.
+        WHEN: we POST to /update-compliance with and json payload
+            which includes an assessment_id  which already exists
+            in db & new status to be updated.
+        THEN: we check the response with new status.
+
+        """
+
+        assessment_id = self.assessment_ids[0]
+        compliance_status = "COMPLIANT"
+        payload = {"id": assessment_id, "compliance_status": compliance_status}
+        endpoint = "/update-compliance"
+        response = flask_test_client.post(endpoint, json=payload)
+        assert b"COMPLIANT" in response.data
