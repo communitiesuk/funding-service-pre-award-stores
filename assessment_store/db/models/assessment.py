@@ -67,7 +67,17 @@ class AssessmentMethods:
 
     @staticmethod
     def update_status(assessment_id: str, status: str):
+        """Function searches for an assessment_id from database
+        & updates the compliance status to new status.
 
+        Args:
+            assessment_id (str): assessment_id.
+            status (str): compliance_status.
+
+        Returns:
+            class object with updated status, assessment id
+            and application id.
+        """
         assessment_id = AssessmentMethods.get_by_id(assessment_id)
         assessment_id.compliance_status = status
         db.session.commit()
