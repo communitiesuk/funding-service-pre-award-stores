@@ -1,7 +1,8 @@
+import sys
+
 from slugify import slugify
 
-
-RAW_FUND_DATA = [
+TEST_FUND_DATA = [
     {
         "fund_name": "Harry's breakfast fund",
         "fund_description": (
@@ -15,62 +16,20 @@ RAW_FUND_DATA = [
             " Feb."
         ),
     },
-    {
-        "fund_name": "Funding service design",
-        "fund_description": (
-            "A fund designed to test the funding service design dev team."
-        ),
-    },
 ]
 
 
-FUND_DATA = [{"fund_id": slugify(i["fund_name"]), **i} for i in RAW_FUND_DATA]
-
-
-HARRY_S_BREAKFAST_FUND = FUND_DATA[0]
-
-
-ROUND_DATA = [
-    {
-        "round_id": "spring",
-        "round_title": "Spring",
-        "fund_id": "funding-service-design",
-        "eligibility_criteria": {"max_project_cost": 1200000},
-        "opens": "2022-02-01 00:00:01",
-        "deadline": "2022-06-01 00:00:00",
-        "assessment_deadline": "2022-09-30 00:00:00",
-        "application_url": "https://funding-service-design-"
-        + "form-runner.london.cloudapps.digital/baseline-"
-        + "application-questions",
-    },
-    {
-        "round_id": "summer",
-        "round_title": "Summer",
-        "fund_id": "funding-service-design",
-        "eligibility_criteria": {"max_project_cost": 1500000},
-        "opens": "2022-06-01 00:00:01",
-        "deadline": "2022-08-31 00:00:00",
-        "assessment_deadline": "2023-03-30 00:00:00",
-        "application_url": "https://funding-service-design-"
-        + "form-runner.london.cloudapps.digital/baseline-"
-        + "application-questions",
-    },
-    {
-        "round_id": "autumn",
-        "round_title": "Autumn",
-        "fund_id": "funding-service-design",
-        "eligibility_criteria": {"max_project_cost": 10400000},
-        "opens": "2022-09-01 00:00:01",
-        "deadline": "2022-11-30 00:00:00",
-        "assessment_deadline": "2023-03-30 00:00:00",
-        "application_url": "https://funding-service-design-"
-        + "form-runner.london.cloudapps.digital/funding-application",
-    },
+TEST_ROUND_DATA = [
     {
         "round_id": "brekky",
         "round_title": "Brekky",
         "fund_id": "harry-s-breakfast-fund",
         "eligibility_criteria": {"max_project_cost": 1},
+        "assessment_criteria_weighting": {
+            "strategy": 0.3,
+            "deliverability": 0.4,
+            "value_for_money": 0.3,
+        },
         "opens": "2099-12-25 00:00:01",
         "deadline": "2099-12-26 00:00:00",
         "assessment_deadline": "2099-12-27 00:00:00",
@@ -78,11 +37,32 @@ ROUND_DATA = [
             "https://funding-service-design-"
             "form-runner.london.cloudapps.digital/funding-application"
         ),
-    },
+    }
 ]
 
+# When processed by the api, a slugied fund-id is added to the fund
+# dictionary. We simulate this step here
+TEST_RESPONSE_FUND_DATA = [
+    {"fund_id": slugify(i["fund_name"]), **i} for i in TEST_FUND_DATA
+]
+# setting parent path to get default fund data
+sys.path.append("../core")
+from core.data_operations.fund_data import (  # noqa
+    FUND_DATA as DEFAULT_FUND_DATA,
+)
+
+DEFAULT_RESPONSE_FUND_DATA = [
+    {"fund_id": slugify(i["fund_name"]), **i} for i in DEFAULT_FUND_DATA
+]
+
+
+HARRY_S_BREAKFAST_FUND = TEST_RESPONSE_FUND_DATA[0]
+
+
 ROUNDS_IN_HARRY_S_BREAKFAST_FUND = [
-    dict for dict in ROUND_DATA if dict["fund_id"] == "harry-s-breakfast-fund"
+    dict
+    for dict in TEST_ROUND_DATA
+    if dict["fund_id"] == "harry-s-breakfast-fund"
 ]
 
 

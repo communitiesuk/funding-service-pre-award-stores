@@ -1,22 +1,10 @@
-"""Dummy data to use with testing
+"""
+    Fund configuration
 """
 from core.dummy_dao import FundDAO
 
 
 FUND_DATA = [
-    {
-        "fund_name": "Harry's breakfast fund",
-        "fund_description": (
-            "A fund designed to supply Harry's endless supply of muesli."
-        ),
-    },
-    {
-        "fund_name": "Ram's Get Fit Feb fund",
-        "fund_description": (
-            "A fund designed to supply gym memberships to home workers during"
-            " Feb."
-        ),
-    },
     {
         "fund_name": "Funding service design",
         "fund_description": (

@@ -15,7 +15,10 @@ components:
             type: string
             description: The fund ID, uniquely identifies the fund.
             example: "sdknbfs98yf48sfd"
-
+        required:
+          - fund_name
+          - fund_description
+          - fund_id
     EligibilityCriteria:
         type: object
         properties:
@@ -23,7 +26,36 @@ components:
             type: integer
             description: Maximum project cost
             example: 1000000
-
+        required:
+          - max_project_cost
+    AssessmentCriteriaWeighting:
+        type: object
+        properties:
+          strategy:
+            type: number
+            format: float
+            minimum: 0.0
+            maximum: 1.0
+            description: The score weighting for the strategy criteria
+            example: 0.4
+          deliverability:
+            type: number
+            format: float
+            minimum: 0.0
+            maximum: 1.0
+            description: The score weighting for the deliverability criteria
+            example: 0.3
+          value_for_money:
+            type: number
+            format: float
+            minimum: 0.0
+            maximum: 1.0
+            description: The score weighting for the value for money criteria
+            example: 0.3
+        required:
+          - strategy
+          - deliverability
+          - value_for_money
     Round:
         type: object
         properties:
@@ -43,6 +75,10 @@ components:
             $ref: '#/components/schemas/EligibilityCriteria'
             description: outlines the eligibility criteria for applicants
             example:
+          assessment_criteria_weighting:
+            $ref: '#/components/schemas/AssessmentCriteriaWeighting'
+            description: outlines the eligibility criteria for applicants
+            example:
           opens:
             type: string
             description: The date of when the round will be open to recieve applications.
@@ -59,6 +95,16 @@ components:
             type: string
             description: The url for the online application form
             example: "https://application-form-service/fund-id-round-id"
+        required:
+          - round_id
+          - round_title
+          - fund_id
+          - eligibility_criteria
+          - assessment_criteria_weighting
+          - opens
+          - deadline
+          - assessment_deadline
+          - application_url
     Error:
       type: object
       properties:
@@ -69,3 +115,10 @@ components:
       required:
         - code
         - message
+  parameters:
+    fund_id:
+      in: path
+      name: fund_id
+      schema:
+        type: string
+      required: true

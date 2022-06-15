@@ -1,15 +1,15 @@
 openapi: "3.0.0"
 
 info:
+  title: Funding Service Design - Fund store.
   description: Fund store API for DLUHC Funding Service Design
   version: "0.1.0"
-  title: Funding Service Design - Fund store.
 
 paths:
   /funds:
     get:
       tags:
-      - Funds
+        - Funds
       summary: Returns list of all funds
       description: Returns list of all funds
       operationId: core.funds.get_funds
@@ -42,18 +42,14 @@ paths:
   /funds/{fund_id}/rounds/{round_id}:
     get:
       tags:
-      - Rounds
+        - Rounds
       summary: Returns the data on a specified round for a specific fund.
       description: Given a fund ID and a round ID we return the relavant round data.
       operationId: core.rounds.get_round
       parameters:
-        - in: path
-          name: fund_id
-          schema:
-            type: string
-          required: true
-        - in: path
-          name: round_id
+        - $ref: "components.yml#/components/parameters/fund_id"
+        - name: round_id
+          in: path
           schema:
             type: string
           required: true
@@ -74,16 +70,12 @@ paths:
   /funds/{fund_id}:
     get:
       tags:
-      - Funds
+        - Funds
       summary: Returns the data on a specified fund.
       description: Given a fund ID we return the relevant fund data.
       operationId: core.funds.get_fund
       parameters:
-        - in: path
-          name: fund_id
-          schema:
-            type: string
-          required: true
+        - $ref: "components.yml#/components/parameters/fund_id"
       responses:
         200:
           description: "If the fund exists then the data is returned."
@@ -101,9 +93,9 @@ paths:
   /funds/{fund_id}/rounds:
     get:
       tags:
-      - Rounds
+        - Rounds
       summary: Given a fund ID we return all rounds for that fund.
-      description:  Given a fund ID we return all rounds for that fund.
+      description: Given a fund ID we return all rounds for that fund.
       operationId: core.rounds.get_rounds_for_fund
       parameters:
         - in: path
@@ -123,9 +115,9 @@ paths:
         404:
           description: "Rounds page not found for given fund id."
           content:
-              application/json:
-                schema:
-                  $ref: 'components.yml#/components/schemas/Error'
+            application/json:
+              schema:
+                $ref: "components.yml#/components/schemas/Error"
 
 tags:
   - name: Funds
