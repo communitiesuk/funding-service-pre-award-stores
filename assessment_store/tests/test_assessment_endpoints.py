@@ -114,10 +114,28 @@ class TestAssessmentEndpoints:
         THEN: we check the response with new status.
 
         """
-
         assessment_id = self.assessment_ids[0]
         compliance_status = "COMPLIANT"
         payload = {"id": assessment_id, "compliance_status": compliance_status}
         endpoint = "/update-compliance"
         response = flask_test_client.post(endpoint, json=payload)
         assert b"COMPLIANT" in response.data
+
+    def test_update_status_by_incorrect_id_fails(self, flask_test_client):
+        """
+        GIVEN: our service runs on flask client and db.
+        WHEN: we POST to /update-compliance with and json payload
+            which includes an incorrect assessment_id & new status
+            to be updated.
+        THEN: we check error 401 is returned.
+
+        """
+        assessment_id = "fake_id"
+        compliance_status = "COMPLIANT"
+        payload = {"id": assessment_id, "compliance_status": compliance_status}
+        endpoint = "/update-compliance"
+        response = flask_test_client.post(endpoint, json=payload)
+        error_response = response.get_json()
+
+        assert response.status_code == 401
+        assert error_response.get("message") == "Assessment could not be found"
