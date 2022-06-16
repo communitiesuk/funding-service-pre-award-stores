@@ -137,5 +137,5 @@ class TestAssessmentEndpoints:
         response = flask_test_client.post(endpoint, json=payload)
         error_response = response.get_json()
 
-        assert response.status_code == 401
+        assert response.status_code == 404
         assert error_response.get("message") == "Assessment could not be found"

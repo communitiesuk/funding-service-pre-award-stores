@@ -71,5 +71,5 @@ class AssessmentsView(AssessmentMethods, MethodView):
             update_status = self.update_status(assessment_id, status)
 
         except AssessmentError as e:
-            return error_response(401, e.message)
+            return error_response(404, e.message)
         return assessment_response(update_status)

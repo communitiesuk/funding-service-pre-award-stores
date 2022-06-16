@@ -113,13 +113,13 @@ paths:
                 schema:
                   $ref: 'components.yml#/components/schemas/Assessment'
 
-        401:
+        404:
           description: ERROR - Assessment not found
           content:
             application/json:
               schema:
                 $ref: 'components.yml#/components/schemas/GeneralError'
               example:
-                code: 401
+                code: 404
                 status: 'error'
                 message: 'Assessment could not be found'
