@@ -1,4 +1,5 @@
 """Flask Dev Pipeline Environment Configuration."""
+import logging
 from os import environ
 from os import path
 
@@ -16,6 +17,9 @@ class DevConfig(Config):
     FLASK_ROOT = path.dirname(
         path.dirname(path.dirname(path.realpath(__file__)))
     )
+
+    # Logging
+    FSD_LOG_LEVEL = logging.DEBUG
 
     # Azure Active Directory Config
     AZURE_AD_CLIENT_SECRET = "***REMOVED***"
