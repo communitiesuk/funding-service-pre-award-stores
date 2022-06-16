@@ -127,7 +127,7 @@ class TestAssessmentEndpoints:
         WHEN: we POST to /update-compliance with and json payload
             which includes an incorrect assessment_id & new status
             to be updated.
-        THEN: we check error 401 is returned.
+        THEN: we check error 404 is returned.
 
         """
         assessment_id = "fake_id"
