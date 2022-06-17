@@ -54,8 +54,8 @@ class AssessmentsView(AssessmentMethods, MethodView):
         return assessment_response(new_assessment, 201)
 
     def status(self):
-        """Function receives a json payload containing assessment_id 
-        and compliance_status & calls the update_status func to 
+        """Function receives a json payload containing assessment_id
+        and compliance_status & calls the update_status func to
         search for an assessment_id & updates the status of
         that assessment_id in the database.
 
