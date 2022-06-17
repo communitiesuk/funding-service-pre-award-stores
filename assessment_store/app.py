@@ -3,25 +3,48 @@ from config.env import env
 from connexion.resolver import MethodViewResolver
 from flask import Flask
 from openapi.utils import get_bundled_specs
+from utils.definitions import get_project_root
+import prance
+from pathlib import Path
+from typing import Dict, Any
+import os
+
+
+project_root_path = str(get_project_root())
+
+
+def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
+    parser = prance.ResolvingParser(main_file, strict=False)
+    parser.parse()
+    return parser.specification
 
 
 def create_app(testing=False) -> Flask:
-    connexion_app = connexion.FlaskApp(__name__, specification_dir="openapi/")
-
-    flask_app = connexion_app.app
-
-    if testing:
-        flask_app.config.from_object(
-            "config.environments.unit_testing.UnitTestingConfig"
-        )
-    else:
-        flask_app.config.from_object("config.Config")
 
     options = {
         "swagger_url": "/",
     }
+
+    connexion_app = connexion.FlaskApp(
+        __name__,
+        specification_dir="openapi/",
+        options=options
+    )
+
+    flask_app = connexion_app.app
+
+    if (os.environ.get("FLASK_ENV") == "development") | testing:
+        flask_app.config.from_object(
+            "config.environments.unit_testing.UnitTestingConfig"
+        )
+        from config.environments.development import DevelopmentConfig
+        DevelopmentConfig.pretty_print()
+    else:
+        flask_app.config.from_object("config.Config")
+
+
     connexion_app.add_api(
-        get_bundled_specs("/openapi/api.yml"),
+        get_bundled_specs("openapi/api.yml"),
         options=options,
         resolver=MethodViewResolver("api"),
     )

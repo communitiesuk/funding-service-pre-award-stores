@@ -3,8 +3,10 @@ from os import environ
 from os import path
 
 from config.environments.default import Config
+from fsd_tech import configclass
 
 
+@configclass
 class DevConfig(Config):
 
     SECRET_KEY = "dev"

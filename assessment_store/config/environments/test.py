@@ -2,8 +2,10 @@
 from os import environ
 
 from config.environments.default import Config
+from fsd_tech import configclass
 
 
+@configclass
 class TestConfig(Config):
 
     SECRET_KEY = environ.get("SECRET_KEY", "test")
