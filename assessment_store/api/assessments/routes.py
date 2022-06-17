@@ -52,3 +52,24 @@ class AssessmentsView(AssessmentMethods, MethodView):
             return error_response(401, e.message)
 
         return assessment_response(new_assessment, 201)
+
+    def status(self):
+        """Function receives a json payload containing assessment_id
+        and compliance_status & calls the update_status func to
+        search for an assessment_id & updates the status of
+        that assessment_id in the database.
+
+        Args: json data contains assessment_id & status
+
+        Returns: Updated status with assessment_id & application_id
+
+        """
+        json = request.get_json()
+        status = json.get("compliance_status")
+        assessment_id = json.get("id")
+        try:
+            update_status = self.update_status(assessment_id, status)
+
+        except AssessmentError as e:
+            return error_response(404, e.message)
+        return assessment_response(update_status)

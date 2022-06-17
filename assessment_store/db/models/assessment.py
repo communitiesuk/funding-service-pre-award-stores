@@ -11,13 +11,18 @@ class Assessment(db.Model):
         default=lambda: str(uuid.uuid4()),
         primary_key=True,
     )
+    compliance_status = db.Column(db.Text(), default="UNASSESSED")
     application_id = db.Column(db.Text(), index=True, unique=True)
 
     def __repr__(self):
         return f"<Assessment {self.id} for Application {self.application_id}>"
 
     def as_json(self):
-        return {"id": self.id, "applicationId": self.application_id}
+        return {
+            "id": self.id,
+            "compliance_status": self.compliance_status,
+            "applicationId": self.application_id,
+        }
 
 
 class AssessmentError(Exception):
@@ -59,3 +64,25 @@ class AssessmentMethods:
                 message="An assessment for this application already exists"
             )
         return assessment
+
+    @staticmethod
+    def update_status(assessment_id: str, status: str):
+        """Function searches for an assessment_id from database
+        & updates the compliance status to new status.
+
+        Args:
+            assessment_id (str): assessment_id.
+            status (str): compliance_status.
+
+        Returns:
+            class object with updated status, assessment id
+            and application id.
+        """
+        assessment_id = AssessmentMethods.get_by_id(assessment_id)
+        assessment_id.compliance_status = status
+        db.session.commit()
+        return Assessment(
+            application_id=assessment_id.application_id,
+            id=assessment_id.id,
+            compliance_status=assessment_id.compliance_status,
+        )
