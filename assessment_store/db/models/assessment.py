@@ -20,7 +20,7 @@ class Assessment(db.Model):
     def as_json(self):
         return {
             "id": self.id,
-            "status": self.compliance_status,
+            "compliance_status": self.compliance_status,
             "applicationId": self.application_id,
         }
 
