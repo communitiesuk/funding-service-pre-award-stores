@@ -5,10 +5,6 @@ from config.env import env
 from connexion.resolver import MethodViewResolver
 from flask import Flask
 from openapi.utils import get_bundled_specs
-from utils.definitions import get_project_root
-
-
-project_root_path = str(get_project_root())
 
 
 def create_app(testing=False) -> Flask:
