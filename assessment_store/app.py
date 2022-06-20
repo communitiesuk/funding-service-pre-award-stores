@@ -27,9 +27,9 @@ def create_app(testing=False) -> Flask:
         flask_app.config.from_object(
             "config.environments.unit_testing.UnitTestingConfig"
         )
-        from config.environments.development import DevelopmentConfig
+        from config.environments.unit_testing import UnitTestingConfig
 
-        DevelopmentConfig.pretty_print()
+        UnitTestingConfig.pretty_print()
     else:
         flask_app.config.from_object("config.Config")
 
