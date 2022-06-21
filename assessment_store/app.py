@@ -1,5 +1,3 @@
-import os
-
 import connexion
 from config.env import env
 from connexion.resolver import MethodViewResolver
@@ -19,13 +17,10 @@ def create_app(testing=False) -> Flask:
 
     flask_app = connexion_app.app
 
-    if (os.environ.get("FLASK_ENV") == "development") | testing:
+    if testing:
         flask_app.config.from_object(
             "config.environments.unit_testing.UnitTestingConfig"
         )
-        from config.environments.unit_testing import UnitTestingConfig
-
-        UnitTestingConfig.pretty_print()
     else:
         flask_app.config.from_object("config.Config")
 

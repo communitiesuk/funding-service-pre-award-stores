@@ -2,7 +2,7 @@ from typing import Any
 from typing import Dict
 
 import prance
-from config.environments.default import Config
+from config import Config
 
 
 def get_bundled_specs(main_file: str) -> Dict[str, Any]:

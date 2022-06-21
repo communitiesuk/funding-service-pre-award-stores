@@ -1,14 +1,14 @@
 import os
 
 import flask_migrate
-from config.env import env
+from config.environments.unit_testing import UnitTestingConfig
 
 
 class SqliteTestDB:
     @classmethod
     def remove(cls):
-        flask_root = env.config.get("FLASK_ROOT")
-        db_file_name = env.config.get("SQLITE_DB_NAME")
+        flask_root = UnitTestingConfig.FLASK_ROOT
+        db_file_name = UnitTestingConfig.SQLITE_DB_NAME
         db_file_path = os.path.join(flask_root, db_file_name)
         if os.path.exists(db_file_path):
             os.remove(db_file_path)
