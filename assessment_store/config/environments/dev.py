@@ -3,7 +3,7 @@ from os import environ
 from os import path
 
 from config.environments.default import DefaultConfig
-from fsd_tech import configclass
+from fsd_utils import configclass
 
 
 @configclass

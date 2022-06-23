@@ -1,6 +1,6 @@
 """Flask Production Environment Configuration."""
 from config.environments.default import DefaultConfig
-from fsd_tech import configclass
+from fsd_utils import configclass
 
 
 @configclass

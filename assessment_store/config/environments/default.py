@@ -2,7 +2,7 @@
 from os import environ
 from pathlib import Path
 
-from fsd_tech import configclass
+from fsd_utils import configclass
 
 
 @configclass
