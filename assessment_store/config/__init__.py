@@ -19,7 +19,7 @@ match FLASK_ENV:
             ProductionConfig as Config,
         )
     case _:
-        from config.environments.default import DefaultConfig as Config  # noqa
+        from config.environments.default import DefaultConfig as Config
 
 try:
     Config.pretty_print()
