@@ -2,10 +2,12 @@
 from os import environ
 from os import path
 
-from config.environments.default import Config
+from config.environments.default import DefaultConfig
+from fsd_utils import configclass
 
 
-class DevelopmentConfig(Config):
+@configclass
+class DevelopmentConfig(DefaultConfig):
     #  Application Config
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
@@ -25,5 +27,5 @@ class DevelopmentConfig(Config):
     SQLITE_DB_NAME = "sqlite.db"
     SQLALCHEMY_DATABASE_URI = environ.get(
         "DATABASE_URL"
-    ) or "sqlite:///" + path.join(Config.FLASK_ROOT, SQLITE_DB_NAME)
+    ) or "sqlite:///" + path.join(DefaultConfig.FLASK_ROOT, SQLITE_DB_NAME)
     SQLALCHEMY_TRACK_MODIFICATIONS = False

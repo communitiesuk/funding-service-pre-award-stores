@@ -6,7 +6,14 @@ from openapi.utils import get_bundled_specs
 
 
 def create_app(testing=False) -> Flask:
-    connexion_app = connexion.FlaskApp(__name__, specification_dir="openapi/")
+
+    options = {
+        "swagger_url": "/",
+    }
+
+    connexion_app = connexion.FlaskApp(
+        __name__, specification_dir="openapi/", options=options
+    )
 
     flask_app = connexion_app.app
 
@@ -17,9 +24,6 @@ def create_app(testing=False) -> Flask:
     else:
         flask_app.config.from_object("config.Config")
 
-    options = {
-        "swagger_url": "/",
-    }
     connexion_app.add_api(
         get_bundled_specs("/openapi/api.yml"),
         options=options,
