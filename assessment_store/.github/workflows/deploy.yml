@@ -75,7 +75,7 @@ jobs:
       - name: install dependencies
         run: python -m pip install --upgrade pip && python -m pip install bandit safety
       - name: Bandit
-        run: bandit -r . -x config/*,tests/*
+        run: bandit -x './scripts/*,./.venv/*,./config/*,./tests/*' -r .
       - name: Safety
         run: safety check
       - name: ZAP Scan
