@@ -1,25 +1,25 @@
-"""Flask Dev Pipeline Environment Configuration."""
+"""Flask Local Development Environment Configuration."""
 import logging
-from os import environ
 
 import redis
 from config.environments.default import DefaultConfig as Config
-from config.utils import VcapServices
 from fsd_utils import configclass
 
 
 @configclass
-class DevConfig(Config):
+class UnitTestConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = "session_cookie"
-    AUTHENTICATOR_HOST = environ.get("AUTHENTICATOR_HOST", "")
 
     # Logging
-    FSD_LOG_LEVEL = logging.INFO
+    FSD_LOG_LEVEL = logging.DEBUG
+
+    # Hostname for this service
+    AUTHENTICATOR_HOST = "http://localhost:5000"
 
     # Azure Active Directory Config
-    # This secret is only used for testing purposes
+    # This secret is only used for local testing purposes
     AZURE_AD_CLIENT_SECRET = "***REMOVED***"
     AZURE_AD_AUTHORITY = (
         # consumers|organisations - signifies the Azure AD tenant endpoint
@@ -33,6 +33,15 @@ class DevConfig(Config):
     # in the app's registration in the Azure portal.
     AZURE_AD_REDIRECT_URI = AUTHENTICATOR_HOST + AZURE_AD_REDIRECT_PATH
 
+    SESSION_TYPE = (
+        # Specifies how the token cache should be stored
+        # in server-side session
+        # "filesystem"
+        "redis"
+    )
+    SESSION_PERMANENT = False
+    SESSION_USE_SIGNER = True
+
     # RSA 256 KEYS
     _test_private_key_path = (
         Config.FLASK_ROOT + "/tests/keys/rsa256/private.pem"
@@ -43,14 +52,18 @@ class DevConfig(Config):
     with open(_test_public_key_path, mode="rb") as public_key_file:
         RSA256_PUBLIC_KEY = public_key_file.read()
 
-    # GOV.UK PaaS
-    VCAP_SERVICES = VcapServices.from_env_json(environ.get("VCAP_SERVICES"))
-
     # Redis
-    REDIS_INSTANCE_NAME = "funding-service-magic-links-dev"
-    REDIS_INSTANCE_URI = VCAP_SERVICES.get_service_credentials_value(
-        "redis", REDIS_INSTANCE_NAME, "uri"
-    )
-    REDIS_MLINKS_URL = REDIS_INSTANCE_URI + "/0"
-    REDIS_SESSIONS_URL = REDIS_INSTANCE_URI + "/1"
+    REDIS_MLINKS_URL = "redis://localhost:6379/0"
+    REDIS_SESSIONS_URL = "redis://localhost:6379/1"
     SESSION_REDIS = redis.from_url(REDIS_SESSIONS_URL)
+
+    # APIs
+    APPLICATION_STORE_API_HOST = "application_store"
+    ACCOUNT_STORE_API_HOST = "account_store"
+    FUND_STORE_API_HOST = "fund_store"
+    ROUND_STORE_API_HOST = "round_store"
+    NOTIFICATION_SERVICE_HOST = "notification_service"
+
+    # Security
+    FORCE_HTTPS = False
+    STRICT_CSP = False
