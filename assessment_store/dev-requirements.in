@@ -1,0 +1,8 @@
+-c requirements.txt
+bandit
+black
+deepdiff
+pre-commit
+pytest
+pytest-env
+pytest-flask
