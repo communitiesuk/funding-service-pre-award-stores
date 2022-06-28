@@ -16,7 +16,7 @@ class SubCriteria(db.Model):
         ForeignKey=True,
     )
     criteria_id = db.Column(
-        "round_id",
+        "criteria_id",
         db.Text(),
         ForeignKey=True,
     )
