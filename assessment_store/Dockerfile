@@ -10,8 +10,5 @@ COPY . .
 
 EXPOSE 8080
 ENV FLASK_ENV=development
-# Initialise DB
-RUN flask db upgrade
 
-
-CMD ["flask", "run", "--host", "0.0.0.0", "--port", "8080"]
+CMD bash -c "flask db upgrade && flask run --host 0.0.0.0 --port 8080"
