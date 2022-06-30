@@ -7,7 +7,7 @@ class SubCriteria(db.Model):
     sub_criteria_id = db.Column(
         "sub_criteria_id",
         db.Text(),
-        default=lambda: str(uuid.uuid4()),
+        default=lambda: uuid.uuid4(),
         primary_key=True,
     )
     round_id = db.Column(
