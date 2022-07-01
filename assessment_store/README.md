@@ -44,7 +44,7 @@ If you experience difficulties on macOS this might be required:
 
 or see other resolutions on [StackOverflow](https://stackoverflow.com/questions/11365619/psycopg2-installation-error-library-not-loaded-libssl-dylib)
 
-NB: requirements-dev.txt and requirements.txt is now updated using 'pip-compile dev-requirements.in' or 'pip-compile requirements.in', in order to update requirements we need to manually add the dependencies in the .in files.
+NB: requirements-dev.txt and requirements.txt is now updated using 'pip-compile requirements-dev.in' or 'pip-compile requirements.in', in order to update requirements we need to manually add the dependencies in the .in files.
 
 ### Initialise and upgrade database
 This service is designed to use sqlite for local development and PostgreSQL when deployed.
