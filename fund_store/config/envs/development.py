@@ -16,13 +16,3 @@ class DevelopmentConfig(Config):
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
-
-    # Database
-    SQLITE_DB_NAME = "sqlite.db"
-    SQLALCHEMY_DATABASE_URI = environ.get(
-        "DATABASE_URL"
-    ) or "sqlite:///" + path.join(Config.FLASK_ROOT, SQLITE_DB_NAME)
-
-    # External Services
-    USE_LOCAL_DATA = True
-    FUND_STORE_API_HOST = "fund_store"

@@ -4,7 +4,7 @@ Contains test configuration.
 import copy
 
 import pytest
-from core.app import create_app
+from app import create_app
 from core.data_operations import fund_data
 from core.data_operations import round_data
 from flask import Flask
