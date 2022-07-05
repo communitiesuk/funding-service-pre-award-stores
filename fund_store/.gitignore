@@ -227,3 +227,18 @@ $RECYCLE.BIN/
 
 # Visual Studio Code config
 .vscode
+
+# Flask
+flask_session
+
+# IntelliJ
+.idea
+
+# Mac files
+.bash_profile
+
+# Accessibility test html output folder
+html
+
+# Sqlite
+sqlite.db
