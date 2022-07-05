@@ -1,0 +1,23 @@
+#-----------------------------------
+#   FSD Utils
+#-----------------------------------
+git+https://github.com/communitiesuk/funding-service-design-utils.git@main
+requests
+
+#-----------------------------------
+#   Flask Version
+#-----------------------------------
+Flask==2.1.1
+
+#-----------------------------------
+#   Fund Store
+#-----------------------------------
+python-slugify==6.1.2
+
+#-----------------------------------
+#   Connexion APIs
+#-----------------------------------
+connexion
+swagger-ui-bundle
+openapi-spec-validator
+prance
