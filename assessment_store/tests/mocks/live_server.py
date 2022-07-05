@@ -12,7 +12,7 @@ def app():
     :return: An instance of the Flask app.
     """
 
-    with create_app(testing=True).app_context():
+    with create_app().app_context():
         SqliteTestDB.create()
         yield
         SqliteTestDB.remove()
