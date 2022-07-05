@@ -35,3 +35,37 @@ components:
           type: string
         compliance_status:
           type: string
+    SubCriteria:
+      type: object
+      properties:
+        sub_criteria_id:
+          type: string
+        round_id:
+          type: string
+        criteria_id:
+          type: string
+        sub_criteria_title:
+          type: string
+    ScoreJustification:
+      type: object
+      properties:
+        sub_criteria_id:
+          type: string
+        assessment_id:
+          type: string
+        score:
+          type: integer
+        justification:
+          type: string
+        person_id:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      required:
+        - code
+        - message

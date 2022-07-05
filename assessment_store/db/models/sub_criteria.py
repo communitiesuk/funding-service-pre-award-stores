@@ -13,12 +13,10 @@ class SubCriteria(db.Model):
     round_id = db.Column(
         "round_id",
         db.Text(),
-        ForeignKey=True,
     )
     criteria_id = db.Column(
         "criteria_id",
         db.Text(),
-        ForeignKey=True,
     )
     sub_criteria_title = db.Column(
         db.Text(),
@@ -52,7 +50,7 @@ class SubCriteriaError(Exception):
 
 class SubCriteriaMethods:
     @staticmethod
-    def subcriteria(as_json=False):
+    def subcriterias(as_json=False):
         subcriterias = SubCriteria.query.all()
         if as_json:
             return [subcriteria.as_json() for subcriteria in subcriterias]

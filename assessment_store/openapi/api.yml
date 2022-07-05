@@ -123,3 +123,138 @@ paths:
                 code: 404
                 status: 'error'
                 message: 'Assessment could not be found'
+
+  '/assessments/{assessment_id}/sub_criterias':
+    get:
+      tags:
+        - sub_criteria
+      summary: Get list of sub_criterias
+      description: Get list of sub_criterias
+      operationId: api.SubCriteriaView.list
+      responses:
+        200:
+          description: SUCCESS - A list of sub_criterias
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/SubCriteria'
+      parameters:
+        - name: assessment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+
+  '/assessments/{assessment_id}/sub_criterias/{sub_criteria_id}':
+    get:
+      tags:
+        - sub_criteria
+      summary: Get sub_criteria by ID
+      description: Get sub_criteria by ID
+      operationId: api.SubCriteriaView.get
+      responses:
+        200:
+          description: SUCCESS - the sub_criteria searched for
+          content:
+            application/json:
+              schema:
+                  $ref: 'components.yml#/components/schemas/SubCriteria'
+        404:
+          description: "sub_criteria not found."
+          content:
+              texts/plain:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Error'
+      parameters:
+        - name: assessment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+        - name: sub_criteria_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+
+  '/assessments/{assessment_id}/sub_criterias/{sub_criteria_id}/scores':
+    get:
+      tags:
+        - scores_justifications
+      summary: Get scores and justifications
+      description: Get scores and justifications for given assessment and sub_criteria
+      operationId: api.ScoresJustificationsView.get
+      responses:
+        200:
+          description: SUCCESS - scores for sub_criteria for assessment
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/ScoreJustification'
+      parameters:
+        - name: assessment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+        - name: sub_criteria_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+    post:
+      tags:
+        - scores_justifications
+      summary: Register a score and justification
+      description: Register a score and jsutification for an application
+      operationId: api.ScoresJustificationsView.post
+      requestBody:
+        description: scores_justifications registration parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yml#/components/schemas/ScoreJustification'
+            example:
+              score: 5
+              justification: 'wow'
+              person_id: 'person_1'
+      responses:
+        201:
+          description: SUCCESS - Score and justification registered
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/ScoreJustification'
+        401:
+          description: ERROR - Could not register score and justification
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'A score and justification for this application already exists'
+      parameters:
+        - name: assessment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+        - name: sub_criteria_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
