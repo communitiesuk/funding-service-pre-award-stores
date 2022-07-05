@@ -1,9 +1,4 @@
-from pathlib import Path
-from typing import Any
-from typing import Dict
-
 import connexion
-import prance
 from flask import Flask
 from fsd_utils.logging import logging
 from openapi.utils import get_bundled_specs
@@ -29,5 +24,6 @@ def create_app() -> Flask:
     logging.init_app(flask_app)
 
     return flask_app
+
 
 app = create_app()

@@ -1,6 +1,5 @@
 """Flask Local Development Environment Configuration."""
 import logging
-from os import path
 
 from config.envs.default import DefaultConfig as Config
 from fsd_utils import configclass

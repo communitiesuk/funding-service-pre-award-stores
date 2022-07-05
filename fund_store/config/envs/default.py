@@ -1,7 +1,6 @@
 """Flask configuration."""
 import logging
 from os import environ
-from os import path
 from pathlib import Path
 
 from fsd_utils import configclass
