@@ -2,6 +2,7 @@ import uuid
 
 from db import db
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import StatementError
 from sqlalchemy_utils.types import UUIDType
 
 
@@ -48,7 +49,10 @@ class AssessmentMethods:
 
     @staticmethod
     def get_by_id(assessment_id: str):
-        assessment = Assessment.query.get(assessment_id)
+        try:
+            assessment = Assessment.query.get(assessment_id)
+        except StatementError:
+            raise AssessmentError(message="Assessment could not be found")
         if not assessment:
             raise AssessmentError(message="Assessment could not be found")
         return assessment
