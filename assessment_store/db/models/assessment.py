@@ -2,13 +2,14 @@ import uuid
 
 from db import db
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy_utils.types import UUIDType
 
 
 class Assessment(db.Model):
     id = db.Column(
         "id",
-        db.Text(),
-        default=lambda: str(uuid.uuid4()),
+        UUIDType(binary=False),
+        default=uuid.uuid4,
         primary_key=True,
     )
     compliance_status = db.Column(db.Text(), default="UNASSESSED")

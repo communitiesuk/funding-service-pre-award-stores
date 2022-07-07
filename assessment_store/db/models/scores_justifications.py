@@ -125,7 +125,5 @@ class ScoresJustificationsMethods:
             db.session.commit()
         except IntegrityError:
             db.session.rollback()
-            raise ScoresJustificationsError(
-                message="An assessment for this application already exists"
-            )
+            raise ScoresJustificationsError()
         return score_justification

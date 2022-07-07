@@ -9,7 +9,7 @@ from flask.views import MethodView
 
 
 class SubCriteriaView(SubCriteriaMethods, MethodView):
-    def list(self):
+    def list(self, assessment_id: str = None):
         """
         GET /assessments/{assessment_id}/sub_criterias endpoint
         :return: Json Response
@@ -19,7 +19,7 @@ class SubCriteriaView(SubCriteriaMethods, MethodView):
             mimetype="application/json",
         )
 
-    def get(self, sub_criteria_id: str):
+    def get(self, assessment_id: str = None, sub_criteria_id: str = None):
         """
         GET /assessments/{assessment_id}/sub_criterias/
                 {sub_criteria_id} endpoint
