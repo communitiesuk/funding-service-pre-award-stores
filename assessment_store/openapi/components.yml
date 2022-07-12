@@ -57,7 +57,7 @@ components:
           type: integer
         justification:
           type: string
-        person_id:
+        assessor_user_id:
           type: string
     Error:
       type: object

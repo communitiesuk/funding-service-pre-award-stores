@@ -33,17 +33,22 @@ class ScoresJustificationsView(ScoresJustificationsMethods, MethodView):
         :param assessment_id: ID of assessment
         :param score: score given
         :param justification: justification given
-        :param person_id: person's ID who provides the score and justification
+        :param assessor_user_id: person's ID who provides the
+                                    score and justification
         :return: a json of the score and justification
                 created (or an error if failure)
         """
         score = body.get("score")
         justification = body.get("justification")
-        person_id = body.get("person_id")
+        assessor_user_id = body.get("assessor_user_id")
 
         try:
             new_score_and_justification = self.register_score_justification(
-                sub_criteria_id, assessment_id, score, justification, person_id
+                sub_criteria_id,
+                assessment_id,
+                score,
+                justification,
+                assessor_user_id,
             )
         except ScoresJustificationsError as e:
             return error_response(401, e.message)

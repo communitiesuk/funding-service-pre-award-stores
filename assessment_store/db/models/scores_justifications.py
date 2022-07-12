@@ -19,16 +19,16 @@ class ScoresJustifications(db.Model):
     created_at = db.Column("created_at", DateTime(), default=datetime.utcnow)
     assessment_id = db.Column(
         "assessment_id",
-        db.Text(),
+        db.String(255),
         db.ForeignKey(Assessment.id),
     )
-    person_id = db.Column(
-        "person_id",
-        db.Text(),
+    assessor_user_id = db.Column(
+        "assessor_user_id",
+        db.String(255),
     )
     sub_criteria_id = db.Column(
         "sub_criteria_id",
-        db.Text(),
+        db.String(255),
         db.ForeignKey(SubCriteria.sub_criteria_id),
     )
     score = db.Column(
@@ -44,21 +44,21 @@ class ScoresJustifications(db.Model):
                 assessment_id={self.assessment_id},
                 score={self.score},
                 justification={self.justification},
-                person_id={self.person_id},
+                assessor_user_id={self.assessor_user_id},
             )"""
 
     def __str__(self):
         return f"<Score of {self.score}, justification of {self.justification} \
                 for Sub-Criteria {self.sub_criteria_id} \
                 of Assessment {self.assessment_id} \
-                by Person {self.person_id}>"
+                by Person {self.assessor_user_id}>"
 
     def as_json(self):
         return {
             "scores_justifications_id": self.scores_justifications_id,
             "created_at": self.created_at,
             "assessment_id": self.assessment_id,
-            "person_id": self.person_id,
+            "assessor_user_id": self.assessor_user_id,
             "sub_criteria_id": self.sub_criteria_id,
             "score": self.score,
             "justification": self.justification,
@@ -111,7 +111,7 @@ class ScoresJustificationsMethods:
         assessment_id: str,
         score: int,
         justification: str,
-        person_id: str,
+        assessor_user_id: str,
     ):
         try:
             score_justification = ScoresJustifications(
@@ -119,7 +119,7 @@ class ScoresJustificationsMethods:
                 assessment_id=assessment_id,
                 score=score,
                 justification=justification,
-                person_id=person_id,
+                assessor_user_id=assessor_user_id,
             )
             db.session.add(score_justification)
             db.session.commit()

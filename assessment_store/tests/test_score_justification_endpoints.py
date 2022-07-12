@@ -29,7 +29,7 @@ class TestScoreJustificationEndpoints:
                 "assessment_id": "123e4567-e89b-12d3-a456-426655440000",
                 "score": 5,
                 "justification": "wow",
-                "person_id": "person_1",
+                "assessor_user_id": "person_1",
             }
         ]
         response = flask_test_client.get(self.endpoint)
@@ -52,7 +52,11 @@ class TestScoreJustificationEndpoints:
         THEN an score and justification record is created and returned
         :param flask_test_client:
         """
-        payload = {"justification": "bad", "person_id": "person_2", "score": 1}
+        payload = {
+            "justification": "bad",
+            "assessor_user_id": "person_2",
+            "score": 1,
+        }
         response = flask_test_client.post(self.endpoint, json=payload)
         score_justification = response.get_json()
 

@@ -227,7 +227,7 @@ paths:
             example:
               score: 5
               justification: 'wow'
-              person_id: 'person_1'
+              assessor_user_id: 'person_1'
       responses:
         201:
           description: SUCCESS - Score and justification registered

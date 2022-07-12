@@ -12,11 +12,11 @@ class SubCriteria(db.Model):
     )
     round_id = db.Column(
         "round_id",
-        db.Text(),
+        db.String(255),
     )
     criteria_id = db.Column(
         "criteria_id",
-        db.Text(),
+        db.String(255),
     )
     sub_criteria_title = db.Column(
         db.Text(),

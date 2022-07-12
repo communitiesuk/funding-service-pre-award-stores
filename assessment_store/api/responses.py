@@ -49,7 +49,7 @@ def scores_justifications_response(
             {
                 "scores_justifications_id": scores_justifications.scores_justifications_id,
                 "created_at": scores_justifications.created_at,
-                "person_id": scores_justifications.person_id,
+                "assessor_user_id": scores_justifications.assessor_user_id,
                 "sub_criteria_id": scores_justifications.sub_criteria_id,
                 "assessment_id": scores_justifications.assessment_id,
                 "score": scores_justifications.score,
@@ -70,7 +70,7 @@ def scores_justifications_response_list(
                     {
                         "scores_justifications_id": scores_justifications.scores_justifications_id,
                         "created_at": scores_justifications.created_at,
-                        "person_id": scores_justifications.person_id,
+                        "assessor_user_id": scores_justifications.assessor_user_id,
                         "sub_criteria_id": scores_justifications.sub_criteria_id,
                         "assessment_id": scores_justifications.assessment_id,
                         "score": scores_justifications.score,

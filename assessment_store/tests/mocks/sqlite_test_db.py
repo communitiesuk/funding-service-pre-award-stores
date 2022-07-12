@@ -61,7 +61,7 @@ class SqliteTestDB:
             assessment_id="123e4567-e89b-12d3-a456-426655440000",
             score=5,
             justification="wow",
-            person_id="person_1",
+            assessor_user_id="person_1",
         )
         db.session.add(score_justification)
         db.session.commit()
