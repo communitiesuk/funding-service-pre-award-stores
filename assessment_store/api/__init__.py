@@ -1,3 +1,6 @@
-from api.assessments.routes import AssessmentsView  # noqa
-from api.scores_justifications.routes import ScoresJustificationsView  # noqa
-from api.subcriterias.routes import SubCriteriaView  # noqa
+# flake8: noqa
+from api.routes.assessments.routes import AssessmentsView
+from api.routes.scores_justifications.routes import (
+    ScoresJustificationsView,
+)
+from api.routes.subcriterias.routes import SubCriteriaView
