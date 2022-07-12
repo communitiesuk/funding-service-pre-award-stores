@@ -1,7 +1,7 @@
+import datetime
 import os
 import uuid
 
-import dateutil
 import flask_migrate
 from config import Config
 from db import db
@@ -54,7 +54,9 @@ class SqliteTestDB:
             scores_justifications_id=uuid.UUID(
                 "123e4567-e89b-12d3-a456-426655440003"
             ),
-            created_at=dateutil.parser.parse("2022-07-07T09:11:38.240578Z"),
+            created_at=datetime.datetime.strptime(
+                "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
+            ),
             sub_criteria_id="123e4567-e89b-12d3-a456-426655440001",
             assessment_id="123e4567-e89b-12d3-a456-426655440000",
             score=5,

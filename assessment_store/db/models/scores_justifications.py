@@ -16,7 +16,7 @@ class ScoresJustifications(db.Model):
         default=uuid.uuid4,
         primary_key=True,
     )
-    created_at = db.Column("created_at", DateTime(), default=datetime.utcnow())
+    created_at = db.Column("created_at", DateTime(), default=datetime.utcnow)
     assessment_id = db.Column(
         "assessment_id",
         db.Text(),
@@ -126,4 +126,5 @@ class ScoresJustificationsMethods:
         except IntegrityError:
             db.session.rollback()
             raise ScoresJustificationsError()
+        print(score_justification)
         return score_justification

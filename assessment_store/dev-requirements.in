@@ -7,4 +7,3 @@ pytest
 pytest-env
 pytest-flask
 pip-tools
-python-dateutil

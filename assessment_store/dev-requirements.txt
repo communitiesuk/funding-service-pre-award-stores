@@ -180,8 +180,6 @@ pytest-env==0.6.2
     # via -r dev-requirements.in
 pytest-flask==1.2.0
     # via -r dev-requirements.in
-python-dateutil==2.8.2
-    # via -r dev-requirements.in
 python-dotenv==0.20.0
     # via
     #   -r requirements.txt
@@ -220,7 +218,6 @@ six==1.16.0
     # via
     #   -r requirements.txt
     #   prance
-    #   python-dateutil
     #   sqlalchemy-utils
     #   virtualenv
 smmap==5.0.0
