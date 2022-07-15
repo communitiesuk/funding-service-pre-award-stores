@@ -3,7 +3,7 @@ from app import create_app
 from tests.mocks.sqlite_test_db import SqliteTestDB
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="session")
 def flask_test_client():
     """
     Creates the test client we will be using to test the responses

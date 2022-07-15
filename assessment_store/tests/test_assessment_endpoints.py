@@ -2,6 +2,7 @@
 Test magic links functionality
 """
 import pytest
+from tests.mocks.sqlite_test_db import SqliteTestDB
 
 
 @pytest.mark.usefixtures("flask_test_client")
@@ -18,9 +19,11 @@ class TestAssessmentEndpoints:
         """
         expected_assessments = [
             {
-                "id": "123e4567-e89b-12d3-a456-426655440000",
+                "id": str(SqliteTestDB.assessment_1.uuid),
                 "compliance_status": "great",
                 "application_id": "amazing",
+                "round_id": "COF",
+                "fund_id": "YUM",
             }
         ]
         endpoint = "/assessments"
