@@ -2,36 +2,12 @@
 Test magic links functionality
 """
 import pytest
-from tests.mocks.sqlite_test_db import SqliteTestDB
 
 
 @pytest.mark.usefixtures("flask_test_client")
 class TestAssessmentEndpoints:
 
     assessment_ids = []
-
-    def test_get_assessments_list(self, flask_test_client):
-        """
-        GIVEN a running Flask client and db
-        WHEN we GET /assessments
-        THEN a list of assessment records is returned
-        :param flask_test_client:
-        """
-        expected_assessments = [
-            {
-                "id": str(SqliteTestDB.assessment_1.uuid),
-                "compliance_status": "great",
-                "application_id": "amazing",
-                "round_id": "COF",
-                "fund_id": "YUM",
-            }
-        ]
-        endpoint = "/assessments"
-        response = flask_test_client.get(endpoint)
-        assessments = response.get_json()
-
-        assert response.status_code == 200
-        assert assessments == expected_assessments
 
     def test_assessment_is_created(self, flask_test_client):
         """
