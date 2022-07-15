@@ -1,8 +1,11 @@
 import uuid
+from collections import defaultdict
 from datetime import datetime
 
+from api.routes.scores_justifications.utils import calc_weights
 from db import db
 from db.models.assessment import Assessment
+from db.models.criteria import Criteria
 from db.models.sub_criteria import SubCriteria
 from sqlalchemy import DateTime
 from sqlalchemy.exc import IntegrityError
@@ -19,16 +22,14 @@ class ScoresJustifications(db.Model):
     created_at = db.Column("created_at", DateTime(), default=datetime.utcnow)
     assessment_id = db.Column(
         "assessment_id",
-        db.String(255),
         db.ForeignKey(Assessment.id),
     )
     assessor_user_id = db.Column(
         "assessor_user_id",
-        db.String(255),
+        db.Text(),
     )
     sub_criteria_id = db.Column(
         "sub_criteria_id",
-        db.String(255),
         db.ForeignKey(SubCriteria.sub_criteria_id),
     )
     score = db.Column(
@@ -49,20 +50,24 @@ class ScoresJustifications(db.Model):
 
     def __str__(self):
         return f"<Score of {self.score}, justification of {self.justification} \
-                for Sub-Criteria {self.sub_criteria_id} \
-                of Assessment {self.assessment_id} \
+                for Sub-Criteria {str(self.sub_criteria_id)} \
+                of Assessment {str(self.assessment_id)} \
                 by Person {self.assessor_user_id}>"
 
     def as_json(self):
         return {
-            "scores_justifications_id": self.scores_justifications_id,
+            "scores_justifications_id": str(self.scores_justifications_id),
             "created_at": self.created_at,
-            "assessment_id": self.assessment_id,
+            "assessment_id": str(self.assessment_id),
             "assessor_user_id": self.assessor_user_id,
-            "sub_criteria_id": self.sub_criteria_id,
+            "sub_criteria_id": str(self.sub_criteria_id),
             "score": self.score,
             "justification": self.justification,
         }
+
+    @property
+    def uuid(self):
+        return self.scores_justifications_id
 
 
 class ScoresJustificationsError(Exception):
@@ -79,9 +84,74 @@ class ScoresJustificationsError(Exception):
 
 class ScoresJustificationsMethods:
     @staticmethod
+    def scores(assessment_id: str):
+
+        assessment = (
+            db.session.query(Assessment)
+            .filter(Assessment.id == assessment_id)
+            .one()
+        )
+
+        filtered_and_joined = (
+            db.session.query(ScoresJustifications, SubCriteria, Criteria)
+            .filter(ScoresJustifications.assessment_id == assessment_id)
+            .join(
+                SubCriteria,
+                SubCriteria.sub_criteria_id
+                == ScoresJustifications.sub_criteria_id,
+            )
+            .join(Criteria, Criteria.criteria_id == SubCriteria.criteria_id)
+            .all()
+        )
+
+        grouped_by_crit = defaultdict(list)
+
+        for row in filtered_and_joined:
+
+            score = row[0].score
+            crit_id = str(row[2].criteria_id)
+
+            grouped_by_crit[crit_id].append(score)
+
+        fund_id = assessment.fund_id
+        round_id = assessment.round_id
+
+        return_list = []
+
+        for crit_id in grouped_by_crit.keys():
+
+            crit_row = (
+                db.session.query(Criteria)
+                .filter(Criteria.criteria_id == crit_id)
+                .one()
+            )
+
+            crit_name = crit_row.criteria_name
+
+            calculated_scores = calc_weights(
+                fund_id=fund_id,
+                crit_id=crit_id,
+                list_of_scores=grouped_by_crit[crit_id],
+                round_id=round_id,
+                crit_name=crit_name,
+            )
+
+            return_list.append(
+                {
+                    "criteria_name": crit_name,
+                    "criteria_id": crit_id,
+                    **calculated_scores,
+                }
+            )
+
+        return return_list
+
+    @staticmethod
     def scores_justifications(
         sub_criteria_id: str, assessment_id: str, as_json=False
     ):
+        print(assessment_id)
+        print(sub_criteria_id)
         scores_justifications = (
             db.session.query(ScoresJustifications)
             .filter(
