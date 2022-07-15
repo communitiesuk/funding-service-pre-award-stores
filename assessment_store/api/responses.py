@@ -34,6 +34,7 @@ def sub_criteria_response(sub_criteria: SubCriteria, code: int = 200):
             {
                 "id": sub_criteria.id,
                 "round_id": sub_criteria.round_id,
+                "sub_criteria_id": sub_criteria.sub_criteria_id,
                 "criteria_id": sub_criteria.criteria_id,
                 "title": sub_criteria.sub_criteria_title,
             }
