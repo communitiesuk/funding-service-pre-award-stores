@@ -47,7 +47,7 @@ def scores_justifications_response(
     return (
         make_response(
             {
-                "scores_justifications_id": scores_justifications.scores_justifications_id,
+                "id": scores_justifications.id,
                 "created_at": scores_justifications.created_at,
                 "assessor_user_id": scores_justifications.assessor_user_id,
                 "sub_criteria_id": scores_justifications.sub_criteria_id,
@@ -68,7 +68,7 @@ def scores_justifications_response_list(
             {
                 "scores_justifications": [
                     {
-                        "scores_justifications_id": scores_justifications.scores_justifications_id,
+                        "id": scores_justifications.id,
                         "created_at": scores_justifications.created_at,
                         "assessor_user_id": scores_justifications.assessor_user_id,
                         "sub_criteria_id": scores_justifications.sub_criteria_id,

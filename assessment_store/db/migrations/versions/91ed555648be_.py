@@ -1,16 +1,17 @@
 """empty message
 
-Revision ID: 8d6fbfa12234
+Revision ID: 91ed555648be
 Revises: 4dd55a3dc51e
-Create Date: 2022-07-15 11:08:58.144866
+Create Date: 2022-07-15 14:02:23.602237
 
 """
 import sqlalchemy as sa
 import sqlalchemy_utils
 from alembic import op
 
+
 # revision identifiers, used by Alembic.
-revision = "8d6fbfa12234"
+revision = "91ed555648be"
 down_revision = "4dd55a3dc51e"
 branch_labels = None
 depends_on = None
@@ -33,7 +34,7 @@ def upgrade():
     op.create_table(
         "scores_justifications",
         sa.Column(
-            "scores_justifications_id",
+            "id",
             sqlalchemy_utils.types.uuid.UUIDType(binary=False),
             nullable=False,
         ),
@@ -51,7 +52,7 @@ def upgrade():
             ["sub_criteria_id"],
             ["sub_criteria.id"],
         ),
-        sa.PrimaryKeyConstraint("scores_justifications_id"),
+        sa.PrimaryKeyConstraint("id"),
     )
     # ### end Alembic commands ###
 

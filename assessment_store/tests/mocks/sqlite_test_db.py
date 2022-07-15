@@ -51,9 +51,7 @@ class SqliteTestDB:
         db.session.commit()
 
         score_justification = ScoresJustifications(
-            scores_justifications_id=uuid.UUID(
-                "123e4567-e89b-12d3-a456-426655440003"
-            ),
+            id=uuid.UUID("123e4567-e89b-12d3-a456-426655440003"),
             created_at=datetime.datetime.strptime(
                 "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
             ),

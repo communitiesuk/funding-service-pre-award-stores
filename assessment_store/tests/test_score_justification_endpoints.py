@@ -23,7 +23,7 @@ class TestScoreJustificationEndpoints:
         """
         expected_scores_justifications = [
             {
-                "scores_justifications_id": "123e4567-e89b-12d3-a456-426655440003",  # noqa
+                "id": "123e4567-e89b-12d3-a456-426655440003",  # noqa
                 "created_at": "2022-07-07T09:11:38.240578Z",
                 "sub_criteria_id": "123e4567-e89b-12d3-a456-426655440001",
                 "assessment_id": "123e4567-e89b-12d3-a456-426655440000",
