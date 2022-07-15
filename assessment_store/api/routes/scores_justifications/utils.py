@@ -25,21 +25,14 @@ def calc_weights(
     r = requests.get(url)
 
     json = r.json()
-
     weights = json.get("assessment_criteria_weighting")
-
     total_score = sum(list_of_scores)
 
     if query_by_name:
-
         weight = weights[crit_name]
-
         weighted_score = total_score * weight
-
     else:
-
         weight = weights[crit_id]
-
         weighted_score = total_score * weight
 
     return {

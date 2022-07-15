@@ -35,10 +35,8 @@ class ScoresJustificationsView(ScoresJustificationsMethods, MethodView):
 
         try:
             scores_list = self.scores(assessment_id)
-
         except ScoresJustificationsError as e:
             return error_response(404, e.message)
-
         except sqlalchemy.exc.NoResultFound:
             return error_response(404, "No scores found")
 
@@ -46,8 +44,6 @@ class ScoresJustificationsView(ScoresJustificationsMethods, MethodView):
             return error_response(
                 404, f"No scores found for assessment {assessment_id}"
             )
-
-        print(scores_list)
 
         return make_response({"scores": scores_list}, 200)
 
