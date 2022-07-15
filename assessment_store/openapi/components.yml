@@ -38,7 +38,7 @@ components:
     SubCriteria:
       type: object
       properties:
-        sub_criteria_id:
+        id:
           type: string
         round_id:
           type: string

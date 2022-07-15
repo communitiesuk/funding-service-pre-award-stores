@@ -29,7 +29,7 @@ class ScoresJustifications(db.Model):
     sub_criteria_id = db.Column(
         "sub_criteria_id",
         db.String(255),
-        db.ForeignKey(SubCriteria.sub_criteria_id),
+        db.ForeignKey(SubCriteria.id),
     )
     score = db.Column(
         db.Integer(),

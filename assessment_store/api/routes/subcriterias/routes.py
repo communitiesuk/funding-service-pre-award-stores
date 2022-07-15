@@ -6,6 +6,7 @@ from db.models.sub_criteria import SubCriteriaError
 from db.models.sub_criteria import SubCriteriaMethods
 from flask import Response
 from flask.views import MethodView
+from sqlalchemy.exc import StatementError
 
 
 class SubCriteriaView(SubCriteriaMethods, MethodView):
@@ -14,9 +15,11 @@ class SubCriteriaView(SubCriteriaMethods, MethodView):
         GET /assessments/{assessment_id}/sub_criterias endpoint
         :return: Json Response
         """
+        print("hello")
         return Response(
             json.dumps(self.subcriterias(as_json=True)),
             mimetype="application/json",
+            code=200,
         )
 
     def get(self, assessment_id: str = None, sub_criteria_id: str = None):
@@ -33,5 +36,7 @@ class SubCriteriaView(SubCriteriaMethods, MethodView):
             sub_criteria = self.get_by_id(sub_criteria_id)
         except SubCriteriaError as e:
             return error_response(404, e.message)
+        except StatementError:
+            return error_response(404, "Sub-Criteria could not be found")
 
         return sub_criteria_response(sub_criteria)

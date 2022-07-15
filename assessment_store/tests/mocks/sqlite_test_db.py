@@ -33,7 +33,7 @@ class SqliteTestDB:
         db.session.commit()
 
         sub_criteria_1 = SubCriteria(
-            sub_criteria_id="123e4567-e89b-12d3-a456-426655440001",
+            id="123e4567-e89b-12d3-a456-426655440001",
             round_id="hello",
             criteria_id="hi",
             sub_criteria_title="something",
@@ -42,7 +42,7 @@ class SqliteTestDB:
         db.session.commit()
 
         sub_criteria_2 = SubCriteria(
-            sub_criteria_id="123e4567-e89b-12d3-a456-426655440002",
+            id="123e4567-e89b-12d3-a456-426655440002",
             round_id="ciao",
             criteria_id="cya",
             sub_criteria_title="nothing",

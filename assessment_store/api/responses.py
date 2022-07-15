@@ -31,7 +31,7 @@ def sub_criteria_response(sub_criteria: SubCriteria, code: int = 200):
     return (
         make_response(
             {
-                "sub_criteria_id": sub_criteria.sub_criteria_id,
+                "id": sub_criteria.id,
                 "round_id": sub_criteria.round_id,
                 "criteria_id": sub_criteria.criteria_id,
                 "title": sub_criteria.sub_criteria_title,
