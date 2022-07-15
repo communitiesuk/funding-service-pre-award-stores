@@ -82,3 +82,13 @@ components:
       required:
         - code
         - message
+    AssessmentScores:
+      type: object
+      properties:
+        name:
+          type: string
+        actual_score:
+          type: integer
+        weighted_score:
+          type: number
+          format: float
