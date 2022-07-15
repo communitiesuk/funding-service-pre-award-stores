@@ -195,9 +195,12 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: 'components.yml#/components/schemas/ScoreJustification'
+                type: object
+                properties:
+                  scores_justifications:
+                    type: array
+                    items:
+                      $ref: 'components.yml#/components/schemas/ScoreJustification'
       parameters:
         - name: assessment_id
           in: path
