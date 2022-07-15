@@ -63,8 +63,30 @@ class TestScoreJustificationEndpoints:
         assert score_justification.get("score") == 1
 
     def test_scores(self, flask_test_client):
+        expected_response = [
+            {
+                "criteria_id": str(SqliteTestDB.crit_2_uuid),
+                "criteria_name": "deliverability",
+                "total_score": 7,
+                "weight": 0.4,
+                "weighted_score": 2.8000000000000003,
+            },
+            {
+                "criteria_id": str(SqliteTestDB.crit_1_uuid),
+                "criteria_name": "strategy",
+                "total_score": 3,
+                "weight": 0.3,
+                "weighted_score": 0.8999999999999999,
+            },
+            {
+                "criteria_id": str(SqliteTestDB.crit_3_uuid),
+                "criteria_name": "value_for_money",
+                "total_score": 5,
+                "weight": 0.3,
+                "weighted_score": 1.5,
+            },
+        ]
         assessment_id = str(SqliteTestDB.assessment_2_id)
         endpoint = f"/assessments/{assessment_id}/scores"
         response = flask_test_client.get(endpoint)
-        response
-        assert True
+        assert response.json["scores"] == expected_response
