@@ -44,7 +44,12 @@ If you experience difficulties on macOS this might be required:
 
 or see other resolutions on [StackOverflow](https://stackoverflow.com/questions/11365619/psycopg2-installation-error-library-not-loaded-libssl-dylib)
 
-NB: requirements-dev.txt and requirements.txt is now updated using 'pip-compile requirements-dev.in' or 'pip-compile requirements.in', in order to update requirements we need to manually add the dependencies in the .in files.
+To update requirements please manually add the dependencies in the .in files (not the requirements.txt files)
+Then run:
+
+    pip-compile requirements.in
+
+    pip-compile requirements-dev.in
 
 ### Initialise and upgrade database
 This service is designed to use sqlite for local development and PostgreSQL when deployed.
@@ -81,6 +86,18 @@ A local dev server will be created on
     http://localhost:5000
 
 Flask environment variables are configurable in `.flaskenv`
+
+### Run with Gunicorn
+
+In deployed environments the service is run with gunicorn. You can run the service locally with gunicorn to test
+
+First set the FLASK_ENV environment you wish to test eg:
+
+    export FLASK_ENV=dev
+
+Then run gunicorn using the following command:
+
+    gunicorn wsgi:app -c run/gunicorn/local.py
 
 # Configuration
 
