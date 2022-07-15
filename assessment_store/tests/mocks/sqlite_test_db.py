@@ -15,9 +15,11 @@ class SqliteTestDB:
 
     crit_1_uuid = uuid.uuid4()
     crit_2_uuid = uuid.uuid4()
+    crit_3_uuid = uuid.uuid4()
     sub_crit_1_id = uuid.uuid4()
     sub_crit_2_id = uuid.uuid4()
     sub_crit_3_id = uuid.uuid4()
+    sub_crit_4_id = uuid.uuid4()
     assessment_1_id = uuid.uuid4()
     assessment_2_id = uuid.uuid4()
 
@@ -49,6 +51,12 @@ class SqliteTestDB:
         round_id="COF2",
     )
 
+    criteria_3 = Criteria(
+        criteria_id=crit_3_uuid,
+        criteria_name="value_for_money",
+        round_id="COF2",
+    )
+
     sub_criteria_1 = SubCriteria(
         sub_criteria_id=sub_crit_1_id,
         criteria_id=crit_1_uuid,
@@ -64,6 +72,12 @@ class SqliteTestDB:
     sub_criteria_3 = SubCriteria(
         sub_criteria_id=sub_crit_3_id,
         criteria_id=crit_2_uuid,
+        sub_criteria_title="nothing",
+    )
+
+    sub_criteria_4 = SubCriteria(
+        sub_criteria_id=sub_crit_4_id,
+        criteria_id=crit_3_uuid,
         sub_criteria_title="nothing",
     )
 
@@ -100,6 +114,28 @@ class SqliteTestDB:
         assessor_user_id="person_1",
     )
 
+    score_justification_4 = ScoresJustifications(
+        created_at=datetime.datetime.strptime(
+            "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
+        ),
+        sub_criteria_id=sub_crit_3_id,
+        assessment_id=assessment_2_id,
+        score=5,
+        justification="wow",
+        assessor_user_id="person_1",
+    )
+
+    score_justification_5 = ScoresJustifications(
+        created_at=datetime.datetime.strptime(
+            "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
+        ),
+        sub_criteria_id=sub_crit_4_id,
+        assessment_id=assessment_2_id,
+        score=5,
+        justification="wow",
+        assessor_user_id="person_1",
+    )
+
     @classmethod
     def remove(cls):
         flask_root = Config.FLASK_ROOT
@@ -122,10 +158,19 @@ class SqliteTestDB:
         db.session.add(cls.criteria_2)
         db.session.commit()
 
+        db.session.add(cls.criteria_3)
+        db.session.commit()
+
         db.session.add(cls.sub_criteria_1)
         db.session.commit()
 
         db.session.add(cls.sub_criteria_2)
+        db.session.commit()
+
+        db.session.add(cls.sub_criteria_3)
+        db.session.commit()
+
+        db.session.add(cls.sub_criteria_4)
         db.session.commit()
 
         db.session.add(cls.score_justification)
@@ -135,6 +180,12 @@ class SqliteTestDB:
         db.session.commit()
 
         db.session.add(cls.score_justification_3)
+        db.session.commit()
+
+        db.session.add(cls.score_justification_4)
+        db.session.commit()
+
+        db.session.add(cls.score_justification_5)
         db.session.commit()
 
         db.session.add(cls.assessment_2)

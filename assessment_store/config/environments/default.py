@@ -36,10 +36,7 @@ class DefaultConfig:
     FUNDS_ENDPOINT = "/funds"
     FUND_ENDPOINT = "/funds/{fund_id}"
     ROUND_ENDPOINT = "{host}/funds/{fund_id}/rounds/{round_id}"
-    LIVE_TEST_FUND_STORE_API_HOST = (
-        "https://funding-service-design-fund-store-dev"
-    )
-    ".london.cloudapps.digital/"
+    LIVE_TEST_FUND_STORE_API_HOST = "https://funding-service-design-fund-store-dev.london.cloudapps.digital/"  # noqa
 
     # Round Store
     ROUND_STORE_API_HOST = environ.get("ROUND_STORE_API_HOST")
