@@ -182,6 +182,30 @@ paths:
             type: string
             format: path
 
+  '/assessments/{assessment_id}/scores':
+    get:
+      tags:
+        - scores_justifications
+      summary: Get weighted and unweighted criteria scores
+      description: Get scores and justifications for given assessment and sub_criteria
+      operationId: api.ScoresJustificationsView.calc_scores
+      responses:
+        200:
+          description: SUCCESS - scores for sub_criteria for assessment
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/AssessmentScores'
+    parameters:
+      - name: assessment_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+
   '/assessments/{assessment_id}/sub_criterias/{sub_criteria_id}/scores':
     get:
       tags:
