@@ -10,13 +10,11 @@ def calc_weights(
     list_of_scores: Dict[str, float],
     round_id: str,
     crit_name: str,
+    query_by_name: bool = True,
 ):
     """
     Takes a list of sub criteria and a round id
     """
-    # dict_of_subcriteria = { "sub_crit_id" : score }
-    # Use the round_id to "download"
-    # the weights (look at the round store in the RIP)
 
     url = Config.ROUND_ENDPOINT.format(
         host=Config.LIVE_TEST_FUND_STORE_API_HOST,
@@ -32,6 +30,20 @@ def calc_weights(
 
     total_score = sum(list_of_scores)
 
-    weighted_score = total_score * weights[crit_name]
+    if query_by_name:
 
-    return {"total_score": total_score, "weighted_score": weighted_score}
+        weight = weights[crit_name]
+
+        weighted_score = total_score * weight
+
+    else:
+
+        weight = weights[crit_id]
+
+        weighted_score = total_score * weight
+
+    return {
+        "total_score": total_score,
+        "weighted_score": weighted_score,
+        "weight": weight,
+    }
