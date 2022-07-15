@@ -9,6 +9,27 @@ class TestAssessmentEndpoints:
 
     assessment_ids = []
 
+    def test_get_assessments_list(self, flask_test_client):
+        """
+        GIVEN a running Flask client and db
+        WHEN we GET /assessments
+        THEN a list of assessment records is returned
+        :param flask_test_client:
+        """
+        expected_assessments = [
+            {
+                "id": "123e4567-e89b-12d3-a456-426655440000",
+                "compliance_status": "great",
+                "application_id": "amazing",
+            }
+        ]
+        endpoint = "/assessments"
+        response = flask_test_client.get(endpoint)
+        assessments = response.get_json()
+
+        assert response.status_code == 200
+        assert assessments == expected_assessments
+
     def test_assessment_is_created(self, flask_test_client):
         """
         GIVEN a running Flask client and db
@@ -50,27 +71,6 @@ class TestAssessmentEndpoints:
             error_response.get("message")
             == "An assessment for this application already exists"
         )
-
-    def test_get_assessments_list(self, flask_test_client):
-        """
-        GIVEN a running Flask client and db
-        WHEN we GET /assessments
-        THEN a list of assessment records is returned
-        :param flask_test_client:
-        """
-        expected_assessments = [
-            {
-                "applicationId": "abc",
-                "compliance_status": "UNASSESSED",
-                "id": self.assessment_ids[0],
-            }
-        ]
-        endpoint = "/assessments"
-        response = flask_test_client.get(endpoint)
-        assessments = response.get_json()
-
-        assert response.status_code == 200
-        assert assessments == expected_assessments
 
     def test_get_assessment_by_id(self, flask_test_client):
         """

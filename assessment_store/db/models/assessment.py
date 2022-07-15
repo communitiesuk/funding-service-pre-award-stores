@@ -2,13 +2,15 @@ import uuid
 
 from db import db
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import StatementError
+from sqlalchemy_utils.types import UUIDType
 
 
 class Assessment(db.Model):
     id = db.Column(
         "id",
-        db.Text(),
-        default=lambda: str(uuid.uuid4()),
+        UUIDType(binary=False),
+        default=uuid.uuid4,
         primary_key=True,
     )
     compliance_status = db.Column(db.Text(), default="UNASSESSED")
@@ -19,9 +21,9 @@ class Assessment(db.Model):
 
     def as_json(self):
         return {
-            "id": self.id,
+            "id": str(self.id),
             "compliance_status": self.compliance_status,
-            "applicationId": self.application_id,
+            "application_id": self.application_id,
         }
 
 
@@ -47,7 +49,10 @@ class AssessmentMethods:
 
     @staticmethod
     def get_by_id(assessment_id: str):
-        assessment = Assessment.query.get(assessment_id)
+        try:
+            assessment = Assessment.query.get(assessment_id)
+        except StatementError:
+            raise AssessmentError(message="Assessment could not be found")
         if not assessment:
             raise AssessmentError(message="Assessment could not be found")
         return assessment
