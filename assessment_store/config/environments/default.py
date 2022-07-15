@@ -32,9 +32,14 @@ class DefaultConfig:
     APPLICATION_ENDPOINT = "/applications/{account_id}"
 
     # Fund Store
-    FUND_STORE_API_HOST = environ.get("FUND_STORE_API_HOST")
+    FUND_STORE_API_HOST = environ.get("FUND_STORE_API_HOST", "fund_score_host")
     FUNDS_ENDPOINT = "/funds"
-    FUND_ENDPOINT = "/funds/{account_id}"
+    FUND_ENDPOINT = "/funds/{fund_id}"
+    ROUND_ENDPOINT = "{host}/funds/{fund_id}/rounds/{round_id}"
+    LIVE_TEST_FUND_STORE_API_HOST = (
+        "https://funding-service-design-fund-store-dev"
+    )
+    ".london.cloudapps.digital/"
 
     # Round Store
     ROUND_STORE_API_HOST = environ.get("ROUND_STORE_API_HOST")

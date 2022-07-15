@@ -3,6 +3,7 @@ from api.responses import scores_justifications_response
 from api.responses import scores_justifications_response_list
 from db.models.scores_justifications import ScoresJustificationsError
 from db.models.scores_justifications import ScoresJustificationsMethods
+from flask import make_response
 from flask.views import MethodView
 
 
@@ -25,6 +26,20 @@ class ScoresJustificationsView(ScoresJustificationsMethods, MethodView):
             return error_response(404, e.message)
 
         return scores_justifications_response_list(scores_justifications_list)
+
+    def calc_scores(self, assessment_id: str):
+
+        try:
+            scores_list = self.scores(assessment_id)
+        except ScoresJustificationsError as e:
+            return error_response(404, e.message)
+
+        if len(scores_list) == 0:
+            return error_response(
+                404, f"No scores found for assessment {assessment_id}"
+            )
+
+        return make_response({"scores": scores_list}, 200)
 
     def post(self, sub_criteria_id: str, assessment_id: str, body: dict):
         """
