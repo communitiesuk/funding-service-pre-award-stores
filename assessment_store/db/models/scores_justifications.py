@@ -124,5 +124,4 @@ class ScoresJustificationsMethods:
         except IntegrityError:
             db.session.rollback()
             raise ScoresJustificationsError()
-        print(score_justification)
         return score_justification

@@ -35,8 +35,6 @@ class TestScoreJustificationEndpoints:
         response = flask_test_client.get(self.endpoint)
         scores_justifications = response.get_json()
 
-        print(scores_justifications)
-
         assert response.status_code == 200
         assert (
             scores_justifications["scores_justifications"]

@@ -15,7 +15,6 @@ class SubCriteriaView(SubCriteriaMethods, MethodView):
         GET /assessments/{assessment_id}/sub_criterias endpoint
         :return: Json Response
         """
-        print("hello")
         return Response(
             json.dumps(self.subcriterias(as_json=True)),
             mimetype="application/json",
