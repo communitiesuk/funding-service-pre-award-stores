@@ -4,7 +4,7 @@
 ![Funding Service Design Assessment Store Deploy](https://github.com/communitiesuk/funding-service-design-assessment-store/actions/workflows/deploy.yml/badge.svg)
 [![CodeQL](https://github.com/communitiesuk/funding-service-design-assessment-store/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/communitiesuk/funding-service-design-assessment-store/actions/workflows/codeql-analysis.yml)
 
-Repo for the DLUCH Funding Service Design Assessment Store.
+Repo for the DLUHC Funding Service Design Assessment Store.
 
 Built with Flask.
 
