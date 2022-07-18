@@ -8,8 +8,8 @@ from tests.mocks.sqlite_test_db import SqliteTestDB
 @pytest.mark.usefixtures("flask_test_client")
 class TestScoreJustificationEndpoints:
 
-    assessment_id = str(SqliteTestDB.assessment_1.uuid)
-    sub_criteria_id = str(SqliteTestDB.sub_criteria_1.uuid)
+    assessment_id = str(SqliteTestDB.assessment_2_uuid)
+    sub_criteria_id = str(SqliteTestDB.sub_crit_2_uuid)
     endpoint = (
         f"/assessments/{assessment_id}/sub_criterias/{sub_criteria_id}/scores"
     )
@@ -24,11 +24,11 @@ class TestScoreJustificationEndpoints:
         """
         expected_scores_justifications = [
             {
-                "id": "123e4567-e89b-12d3-a456-426655440003",  # noqa
+                "id": str(SqliteTestDB.score_uuid_2),  # noqa
                 "created_at": "2022-07-07T09:11:38.240578Z",
-                "sub_criteria_id": str(SqliteTestDB.sub_criteria_1.uuid),
-                "assessment_id": str(SqliteTestDB.assessment_1.uuid),
-                "score": 5,
+                "sub_criteria_id": str(SqliteTestDB.sub_crit_2_uuid),
+                "assessment_id": str(SqliteTestDB.assessment_2_uuid),
+                "score": 2,
                 "justification": "wow",
                 "assessor_user_id": "person_1",
             }
@@ -65,18 +65,18 @@ class TestScoreJustificationEndpoints:
     def test_scores(self, flask_test_client):
         expected_response = [
             {
-                "criteria_id": str(SqliteTestDB.crit_2_uuid),
-                "criteria_name": "deliverability",
-                "total_score": 7,
-                "weight": 0.4,
-                "weighted_score": 2.8000000000000003,
-            },
-            {
                 "criteria_id": str(SqliteTestDB.crit_1_uuid),
                 "criteria_name": "strategy",
-                "total_score": 3,
+                "total_score": 5,
                 "weight": 0.3,
-                "weighted_score": 0.8999999999999999,
+                "weighted_score": 1.5,
+            },
+            {
+                "criteria_id": str(SqliteTestDB.crit_2_uuid),
+                "criteria_name": "deliverability",
+                "total_score": 6,
+                "weight": 0.4,
+                "weighted_score": 2.4000000000000004,
             },
             {
                 "criteria_id": str(SqliteTestDB.crit_3_uuid),

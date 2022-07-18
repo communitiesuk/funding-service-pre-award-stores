@@ -1,6 +1,7 @@
 import uuid
 from itertools import chain
 
+import sqlalchemy
 from db import db
 from db.models.assessment import Assessment
 from db.models.criteria import Criteria
@@ -16,7 +17,7 @@ class SubCriteria(db.Model):
     )
     criteria_id = db.Column(
         UUIDType(binary=False),
-        db.ForeignKey(Criteria.criteria_id),
+        db.ForeignKey(Criteria.id),
     )
     sub_criteria_title = db.Column(
         db.Text(),
@@ -24,20 +25,18 @@ class SubCriteria(db.Model):
 
     def __repr__(self):
         return f"<Sub-Criteria {self.sub_criteria_title}, {self.id} \
-                for Criteria {self.criteria_id} \
-                of Round {self.round_id}>"
+                for Criteria {self.criteria_id}>"
 
     def as_json(self):
         return {
-            "id": self.id,
-            "round_id": self.round_id,
-            "criteria_id": self.criteria_id,
+            "id": str(self.id),
+            "criteria_id": str(self.criteria_id),
             "sub_criteria_title": self.sub_criteria_title,
         }
 
     @property
     def uuid(self):
-        return self.sub_criteria_id
+        return self.id
 
 
 class SubCriteriaError(Exception):
@@ -54,7 +53,7 @@ class SubCriteriaError(Exception):
 
 class SubCriteriaMethods:
     @staticmethod
-    def subcriterias_by_assessment_id(assessment_id: str, as_json=False):
+    def subcriterias_by_assessment_id(assessment_id: str, as_json=True):
 
         assessment_id = uuid.UUID(assessment_id)
 
@@ -63,16 +62,14 @@ class SubCriteriaMethods:
             .filter(Assessment.id == assessment_id)
             .one()
         )
-        round_id = str(assessment.round_id)
+        fund_id = assessment.fund_id
         criterias_list = (
             db.session.query(Criteria)
-            .filter(Criteria.round_id == round_id)
+            .filter(Criteria.fund_id == fund_id)
             .all()
         )
         print("CRITERIA LIST:", criterias_list)
-        criteria_ids_list = [
-            str(criteria.criteria_id) for criteria in criterias_list
-        ]
+        criteria_ids_list = [str(criteria.id) for criteria in criterias_list]
         print("CRITERIA ID LIST:", criteria_ids_list)
         list_of_subcriteria_lists = [
             db.session.query(SubCriteria)
@@ -88,7 +85,13 @@ class SubCriteriaMethods:
 
     @staticmethod
     def get_by_id(id: str):
-        subcriteria = SubCriteria.query.get(id)
-        if not subcriteria:
+        try:
+            subcriteria = (
+                db.session.query(SubCriteria)
+                .filter(SubCriteria.id == id)
+                .one()
+            )
+        except sqlalchemy.exc.NoResultFound:
             raise SubCriteriaError(message="Sub-Criteria could not be found")
+        print(subcriteria)
         return subcriteria

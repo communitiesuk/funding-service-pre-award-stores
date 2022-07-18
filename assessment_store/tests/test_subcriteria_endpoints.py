@@ -16,8 +16,13 @@ class TestSubCriteriaEndpoints:
         THEN a list of sub-criteria records are returned
         :param flask_test_client:
         """
-        expected_sub_criterias = [SqliteTestDB.sub_criteria_1.as_json()]
-        assessment_1_path = str(SqliteTestDB.assessment_1.uuid)
+        expected_sub_criterias = [
+            SqliteTestDB.sub_criteria_1.as_json(),
+            SqliteTestDB.sub_criteria_2.as_json(),
+            SqliteTestDB.sub_criteria_3.as_json(),
+            SqliteTestDB.sub_criteria_4.as_json(),
+        ]
+        assessment_1_path = str(SqliteTestDB.assessment_2_uuid)
         endpoint = f"/assessments/{assessment_1_path}/sub_criterias"
         response = flask_test_client.get(endpoint)
         sub_criterias = response.get_json()
@@ -33,8 +38,8 @@ class TestSubCriteriaEndpoints:
         THEN the appropriate sub_criteria record is returned
         :param flask_test_client:
         """
-        assessment_id = str(SqliteTestDB.assessment_1.uuid)
-        sub_criteria_id = str(SqliteTestDB.sub_criteria_1.uuid)
+        assessment_id = str(SqliteTestDB.assessment_1_uuid)
+        sub_criteria_id = str(SqliteTestDB.sub_crit_1_uuid)
         endpoint = (
             f"/assessments/{assessment_id}/sub_criterias/{sub_criteria_id}"
         )
@@ -42,7 +47,7 @@ class TestSubCriteriaEndpoints:
         sub_criteria = response.get_json()
 
         assert response.status_code == 200
-        assert sub_criteria.get("sub_criteria_id") == sub_criteria_id
+        assert sub_criteria.get("id") == sub_criteria_id
 
     def test_get_sub_criteria_by_non_existent_id_fails(
         self, flask_test_client

@@ -2,7 +2,6 @@ import json
 
 from api.responses import error_response
 from api.responses import sub_criteria_response
-from db.models.sub_criteria import SubCriteria
 from db.models.sub_criteria import SubCriteriaError
 from db.models.sub_criteria import SubCriteriaMethods
 from flask import Response
@@ -21,7 +20,7 @@ class SubCriteriaView(SubCriteriaMethods, MethodView):
                 self.subcriterias_by_assessment_id(assessment_id, as_json=True)
             ),
             mimetype="application/json",
-            code=200,
+            status=200,
         )
 
     def get(self, assessment_id: str = None, sub_criteria_id: str = None):
@@ -40,7 +39,5 @@ class SubCriteriaView(SubCriteriaMethods, MethodView):
             return error_response(404, e.message)
         except StatementError:
             return error_response(404, "Sub-Criteria could not be found")
-
-        sub_criteria = SubCriteria(**sub_criteria[0])
 
         return sub_criteria_response(sub_criteria)
