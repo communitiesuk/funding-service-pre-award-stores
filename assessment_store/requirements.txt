@@ -37,10 +37,8 @@ flask-sqlalchemy==2.5.1
     # via
     #   -r requirements.in
     #   flask-migrate
-funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils.git@main
+funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils.git@fs-1169-common-config
     # via -r requirements.in
-greenlet==1.1.2
-    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.3
@@ -76,6 +74,8 @@ prance==0.21.8.0
     # via -r requirements.in
 pygments==2.12.0
     # via rich
+pyjwt==2.4.0
+    # via funding-service-design-utils
 pyparsing==3.0.9
     # via packaging
 pyrsistent==0.18.1
