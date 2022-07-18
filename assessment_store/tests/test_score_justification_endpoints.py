@@ -24,9 +24,7 @@ class TestScoreJustificationEndpoints:
         """
         expected_scores_justifications = [
             {
-                "scores_justifications_id": str(
-                    SqliteTestDB.score_justification.uuid
-                ),  # noqa
+                "id": "123e4567-e89b-12d3-a456-426655440003",  # noqa
                 "created_at": "2022-07-07T09:11:38.240578Z",
                 "sub_criteria_id": str(SqliteTestDB.sub_criteria_1.uuid),
                 "assessment_id": str(SqliteTestDB.assessment_1.uuid),
@@ -88,7 +86,7 @@ class TestScoreJustificationEndpoints:
                 "weighted_score": 1.5,
             },
         ]
-        assessment_id = str(SqliteTestDB.assessment_2_id)
+        assessment_id = str(SqliteTestDB.assessment_2_uuid)
         endpoint = f"/assessments/{assessment_id}/scores"
         response = flask_test_client.get(endpoint)
         assert response.json["scores"] == expected_response

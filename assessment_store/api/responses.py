@@ -31,7 +31,8 @@ def sub_criteria_response(sub_criteria: SubCriteria, code: int = 200):
     return (
         make_response(
             {
-                "sub_criteria_id": sub_criteria.sub_criteria_id,
+                "id": sub_criteria.id,
+                "round_id": sub_criteria.round_id,
                 "criteria_id": sub_criteria.criteria_id,
                 "title": sub_criteria.sub_criteria_title,
             }
@@ -46,7 +47,7 @@ def scores_justifications_response(
     return (
         make_response(
             {
-                "scores_justifications_id": scores_justifications.scores_justifications_id,
+                "id": scores_justifications.id,
                 "created_at": scores_justifications.created_at,
                 "assessor_user_id": scores_justifications.assessor_user_id,
                 "sub_criteria_id": scores_justifications.sub_criteria_id,
@@ -67,7 +68,7 @@ def scores_justifications_response_list(
             {
                 "scores_justifications": [
                     {
-                        "scores_justifications_id": scores_justifications.scores_justifications_id,
+                        "id": scores_justifications.id,
                         "created_at": scores_justifications.created_at,
                         "assessor_user_id": scores_justifications.assessor_user_id,
                         "sub_criteria_id": scores_justifications.sub_criteria_id,

@@ -13,8 +13,8 @@ from sqlalchemy_utils.types import UUIDType
 
 
 class ScoresJustifications(db.Model):
-    scores_justifications_id = db.Column(
-        "scores_justifications_id",
+    id = db.Column(
+        "id",
         UUIDType(binary=False),
         default=uuid.uuid4,
         primary_key=True,
@@ -30,7 +30,8 @@ class ScoresJustifications(db.Model):
     )
     sub_criteria_id = db.Column(
         "sub_criteria_id",
-        db.ForeignKey(SubCriteria.sub_criteria_id),
+        db.String(255),
+        db.ForeignKey(SubCriteria.id),
     )
     score = db.Column(
         db.Integer(),
@@ -56,7 +57,7 @@ class ScoresJustifications(db.Model):
 
     def as_json(self):
         return {
-            "scores_justifications_id": str(self.scores_justifications_id),
+            "id": self.id,
             "created_at": self.created_at,
             "assessment_id": str(self.assessment_id),
             "assessor_user_id": self.assessor_user_id,
@@ -165,10 +166,8 @@ class ScoresJustificationsMethods:
         return scores_justifications
 
     @staticmethod
-    def get_by_id(scores_justifications_id: str):
-        score_justification = ScoresJustifications.query.get(
-            scores_justifications_id
-        )
+    def get_by_id(id: str):
+        score_justification = ScoresJustifications.query.get(id)
         if not score_justification:
             raise ScoresJustifications(
                 message="Sub-Criteria could not be found"
@@ -196,5 +195,4 @@ class ScoresJustificationsMethods:
         except IntegrityError:
             db.session.rollback()
             raise ScoresJustificationsError()
-        print(score_justification)
         return score_justification

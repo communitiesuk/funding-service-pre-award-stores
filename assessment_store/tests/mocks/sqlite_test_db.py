@@ -16,15 +16,15 @@ class SqliteTestDB:
     crit_1_uuid = uuid.uuid4()
     crit_2_uuid = uuid.uuid4()
     crit_3_uuid = uuid.uuid4()
-    sub_crit_1_id = uuid.uuid4()
-    sub_crit_2_id = uuid.uuid4()
-    sub_crit_3_id = uuid.uuid4()
-    sub_crit_4_id = uuid.uuid4()
-    assessment_1_id = uuid.uuid4()
-    assessment_2_id = uuid.uuid4()
+    sub_crit_1_uuid = uuid.uuid4()
+    sub_crit_2_uuid = uuid.uuid4()
+    sub_crit_3_uuid = uuid.uuid4()
+    sub_crit_4_uuid = uuid.uuid4()
+    assessment_1_uuid = uuid.uuid4()
+    assessment_2_uuid = uuid.uuid4()
 
     assessment_1 = Assessment(
-        id=assessment_1_id,
+        id=assessment_1_uuid,
         compliance_status="great",
         application_id="amazing",
         round_id="COF",
@@ -32,7 +32,7 @@ class SqliteTestDB:
     )
 
     assessment_2 = Assessment(
-        id=assessment_2_id,
+        id=assessment_2_uuid,
         compliance_status="great111",
         application_id="amazing111",
         round_id="winter",
@@ -40,43 +40,43 @@ class SqliteTestDB:
     )
 
     criteria_1 = Criteria(
-        criteria_id=crit_1_uuid,
+        id=crit_1_uuid,
         criteria_name="strategy",
         round_id="COF",
     )
 
     criteria_2 = Criteria(
-        criteria_id=crit_2_uuid,
+        id=crit_2_uuid,
         criteria_name="deliverability",
         round_id="COF2",
     )
 
     criteria_3 = Criteria(
-        criteria_id=crit_3_uuid,
+        id=crit_3_uuid,
         criteria_name="value_for_money",
         round_id="COF2",
     )
 
     sub_criteria_1 = SubCriteria(
-        sub_criteria_id=sub_crit_1_id,
+        id=sub_crit_1_uuid,
         criteria_id=crit_1_uuid,
         sub_criteria_title="something",
     )
 
     sub_criteria_2 = SubCriteria(
-        sub_criteria_id=sub_crit_2_id,
+        id=sub_crit_2_uuid,
         criteria_id=crit_2_uuid,
         sub_criteria_title="nothing",
     )
 
     sub_criteria_3 = SubCriteria(
-        sub_criteria_id=sub_crit_3_id,
+        id=sub_crit_3_uuid,
         criteria_id=crit_2_uuid,
         sub_criteria_title="nothing",
     )
 
     sub_criteria_4 = SubCriteria(
-        sub_criteria_id=sub_crit_4_id,
+        id=sub_crit_4_uuid,
         criteria_id=crit_3_uuid,
         sub_criteria_title="nothing",
     )
@@ -85,8 +85,8 @@ class SqliteTestDB:
         created_at=datetime.datetime.strptime(
             "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
         ),
-        sub_criteria_id=sub_crit_1_id,
-        assessment_id=assessment_1_id,
+        id=sub_crit_1_uuid,
+        assessment_id=assessment_1_uuid,
         score=5,
         justification="wow",
         assessor_user_id="person_1",
@@ -96,8 +96,8 @@ class SqliteTestDB:
         created_at=datetime.datetime.strptime(
             "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
         ),
-        sub_criteria_id=sub_crit_2_id,
-        assessment_id=assessment_2_id,
+        id=sub_crit_2_uuid,
+        assessment_id=assessment_2_uuid,
         score=2,
         justification="wow",
         assessor_user_id="person_1",
@@ -107,8 +107,8 @@ class SqliteTestDB:
         created_at=datetime.datetime.strptime(
             "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
         ),
-        sub_criteria_id=sub_crit_1_id,
-        assessment_id=assessment_2_id,
+        id=sub_crit_1_uuid,
+        assessment_id=assessment_2_uuid,
         score=3,
         justification="wow",
         assessor_user_id="person_1",
@@ -118,8 +118,8 @@ class SqliteTestDB:
         created_at=datetime.datetime.strptime(
             "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
         ),
-        sub_criteria_id=sub_crit_3_id,
-        assessment_id=assessment_2_id,
+        id=sub_crit_3_uuid,
+        assessment_id=assessment_2_uuid,
         score=5,
         justification="wow",
         assessor_user_id="person_1",
@@ -129,8 +129,8 @@ class SqliteTestDB:
         created_at=datetime.datetime.strptime(
             "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
         ),
-        sub_criteria_id=sub_crit_4_id,
-        assessment_id=assessment_2_id,
+        id=sub_crit_4_uuid,
+        assessment_id=assessment_2_uuid,
         score=5,
         justification="wow",
         assessor_user_id="person_1",
@@ -189,4 +189,38 @@ class SqliteTestDB:
         db.session.commit()
 
         db.session.add(cls.assessment_2)
+
+        sub_criteria_5 = SubCriteria(
+            id="123e4567-e89b-12d3-a456-426655440001",
+            round_id="hello",
+            criteria_id="hi",
+            sub_criteria_title="something",
+        )
+
+        db.session.add(sub_criteria_5)
+        db.session.commit()
+
+        sub_criteria_6 = SubCriteria(
+            id="123e4567-e89b-12d3-a456-426655440002",
+            round_id="ciao",
+            criteria_id="cya",
+            sub_criteria_title="nothing",
+        )
+
+        db.session.add(sub_criteria_6)
+        db.session.commit()
+
+        score_justification_6 = ScoresJustifications(
+            id=uuid.UUID("123e4567-e89b-12d3-a456-426655440003"),
+            created_at=datetime.datetime.strptime(
+                "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
+            ),
+            sub_criteria_id="123e4567-e89b-12d3-a456-426655440001",
+            assessment_id="123e4567-e89b-12d3-a456-426655440000",
+            score=5,
+            justification="wow",
+            assessor_user_id="person_1",
+        )
+
+        db.session.add(score_justification_6)
         db.session.commit()

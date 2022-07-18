@@ -38,7 +38,7 @@ components:
     SubCriteria:
       type: object
       properties:
-        sub_criteria_id:
+        id:
           type: string
         round_id:
           type: string
@@ -49,6 +49,8 @@ components:
     ScoreJustification:
       type: object
       properties:
+        id:
+          type: string
         sub_criteria_id:
           type: string
         assessment_id:
