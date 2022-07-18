@@ -2,6 +2,7 @@
 from typing import List
 
 from db.models.assessment import Assessment
+from db.models.compliance import Compliance
 from db.models.scores_justifications import ScoresJustifications
 from db.models.sub_criteria import SubCriteria
 from flask import make_response
@@ -78,6 +79,22 @@ def scores_justifications_response_list(
                     }
                     for scores_justifications in scores_justifications_list
                 ]
+            }
+        ),
+        code,
+    )
+
+def compliance_response(compliance: Compliance, code: int = 200):
+    if type(compliance) == dict:
+        compliance = Compliance(**compliance)
+    return (
+        make_response(
+            {
+                "id": compliance.id,
+                "created_at": compliance.created_at,
+                "sub_criteria_id": compliance.sub_criteria_id,
+                "assessment_id": compliance.assessment_id,
+                "is_compliant": compliance.is_compliant,
             }
         ),
         code,
