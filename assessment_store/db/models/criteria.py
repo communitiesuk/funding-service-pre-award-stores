@@ -7,14 +7,14 @@ from sqlalchemy_utils.types import UUIDType
 class Criteria(db.Model):
 
     id = db.Column(
-        "criteria_id",
+        "id",
         UUIDType(binary=False),
         default=uuid.uuid4,
         primary_key=True,
     )
 
     criteria_name = db.Column(
-        "criteria_name",
+        "name",
         db.Text(),
     )
 
