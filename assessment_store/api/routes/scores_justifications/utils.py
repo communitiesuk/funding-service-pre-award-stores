@@ -17,7 +17,7 @@ def calc_weights(
     """
 
     url = Config.ROUND_ENDPOINT.format(
-        host=Config.LIVE_TEST_FUND_STORE_API_HOST,
+        host=Config.FUND_STORE_API_HOST,
         fund_id=fund_id,
         round_id=round_id,
     )
