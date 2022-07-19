@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: c20eef2754cf
+Revision ID: 4cf5c9a457d1
 Revises: 91ed555648be
-Create Date: 2022-07-18 16:52:27.694556
+Create Date: 2022-07-19 15:21:00.387864
 
 """
 import sqlalchemy as sa
@@ -11,7 +11,7 @@ from alembic import op
 
 
 # revision identifiers, used by Alembic.
-revision = "c20eef2754cf"
+revision = "4cf5c9a457d1"
 down_revision = "91ed555648be"
 branch_labels = None
 depends_on = None
@@ -22,14 +22,14 @@ def upgrade():
     op.create_table(
         "criteria",
         sa.Column(
-            "criteria_id",
+            "id",
             sqlalchemy_utils.types.uuid.UUIDType(binary=False),
             nullable=False,
         ),
-        sa.Column("criteria_name", sa.Text(), nullable=True),
+        sa.Column("name", sa.Text(), nullable=True),
         sa.Column("round_id", sa.String(), nullable=True),
         sa.Column("fund_id", sa.String(), nullable=True),
-        sa.PrimaryKeyConstraint("criteria_id", name=op.f("pk_criteria")),
+        sa.PrimaryKeyConstraint("id", name=op.f("pk_criteria")),
     )
     with op.batch_alter_table("assessment", schema=None) as batch_op:
         batch_op.add_column(sa.Column("fund_id", sa.Text(), nullable=True))
@@ -62,7 +62,7 @@ def upgrade():
             batch_op.f("fk_sub_criteria_criteria_id_criteria"),
             "criteria",
             ["criteria_id"],
-            ["criteria_id"],
+            ["id"],
         )
         batch_op.drop_column("round_id")
 
