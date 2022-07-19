@@ -15,7 +15,7 @@ class UnitTestingConfig(DefaultConfig):
     # APIs
     APPLICATION_STORE_API_HOST = "application_store"
     ACCOUNT_STORE_API_HOST = "account_store"
-    FUND_STORE_API_HOST = "fund_store"
+    FUND_STORE_API_HOST = "https://funding-service-design-fund-store-dev.london.cloudapps.digital/"  # noqa
     ROUND_STORE_API_HOST = "round_store"
     NOTIFICATION_SERVICE_HOST = "notification_service"
 
