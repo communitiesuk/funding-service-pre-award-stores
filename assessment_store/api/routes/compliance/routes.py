@@ -21,7 +21,8 @@ class ComplianceView(ComplianceMethods, MethodView):
                 sub_criteria_id, assessment_id
             )
         except ComplianceError as e:
-            return error_response(404, e.message)
+            return error_response(404, "error - compliance record does not exist"
+            )
         except IndexError:
             return error_response(
                 404, "error - compliance record does not exist"
@@ -44,6 +45,6 @@ class ComplianceView(ComplianceMethods, MethodView):
                 sub_criteria_id, assessment_id, is_compliant
             )
         except ComplianceError as e:
-            return error_response(401, e.message)
+            return error_response(401, "error - could not create compliance record")
 
         return compliance_response(new_compliance, 201)

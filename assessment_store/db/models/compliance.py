@@ -41,9 +41,9 @@ class Compliance(db.Model):
             )"""
 
     def __str__(self):
-        return f"< Subcriteria of {self.sub_criteria_id}, \
-                for assessment {self.assessment_id}, \
-                has compliant status set to {self.is_compliant}>"
+        return f"""< Subcriteria of {self.sub_criteria_id},
+                for assessment {self.assessment_id},
+                has compliant status set to {self.is_compliant}>"""
 
     def as_json(self):
         return {
