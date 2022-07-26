@@ -261,3 +261,76 @@ paths:
           schema:
             type: string
             format: path
+
+  '/assessments/{assessment_id}/sub_criterias/{sub_criteria_id}/compliance':
+    get:
+      tags:
+        - compliance
+      summary: Get compliance
+      description: Get compliance status for given assessment and sub_criteria
+      operationId: api.ComplianceView.get
+      responses:
+        200:
+          description: SUCCESS - compliance for sub_criteria for assessment
+          content:
+            application/json:
+              schema:
+                  $ref: 'components.yml#/components/schemas/Compliance'
+      parameters:
+        - name: assessment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+        - name: sub_criteria_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+    post:
+      tags:
+        - compliance
+      summary: Register a compliance status
+      description: Register a compliance status for an application
+      operationId: api.ComplianceView.post
+      requestBody:
+        description: Compliance registration parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yml#/components/schemas/Compliance'
+            example:
+              is_compliant: True
+      responses:
+        201:
+          description: SUCCESS - compliance status registered
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Compliance'
+        401:
+          description: ERROR - Could not register compliance status
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'A compliance status for this application already exists'
+      parameters:
+        - name: assessment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+        - name: sub_criteria_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path

@@ -6,6 +6,7 @@ import flask_migrate
 from config import Config
 from db import db
 from db.models.assessment import Assessment
+from db.models.compliance import Compliance
 from db.models.scores_justifications import ScoresJustifications
 from db.models.sub_criteria import SubCriteria
 
@@ -51,7 +52,7 @@ class SqliteTestDB:
         db.session.commit()
 
         score_justification = ScoresJustifications(
-            id=uuid.UUID("123e4567-e89b-12d3-a456-426655440003"),
+            id="123e4567-e89b-12d3-a456-426655440003",
             created_at=datetime.datetime.strptime(
                 "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
             ),
@@ -62,4 +63,16 @@ class SqliteTestDB:
             assessor_user_id="person_1",
         )
         db.session.add(score_justification)
+        db.session.commit()
+
+        compliance = Compliance(
+            id="123e4567-e89b-12d3-a456-426655440004",
+            created_at=datetime.datetime.strptime(
+                "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
+            ),
+            assessment_id="123e4567-e89b-12d3-a456-426655440000",
+            sub_criteria_id="123e4567-e89b-12d3-a456-426655440001",
+            is_compliant=True,
+        )
+        db.session.add(compliance)
         db.session.commit()

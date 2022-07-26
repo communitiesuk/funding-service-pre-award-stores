@@ -4,3 +4,4 @@ from api.routes.scores_justifications.routes import (
     ScoresJustificationsView,
 )
 from api.routes.subcriterias.routes import SubCriteriaView
+from api.routes.compliance.routes import ComplianceView
