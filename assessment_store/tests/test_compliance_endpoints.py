@@ -60,8 +60,8 @@ class TestComplianceEndpoints:
         THEN a compliance record is created and returned
         :param flask_test_client:
         """
-        assessment_id = "test"
-        sub_criteria_id = "testing"
+        assessment_id = "123e4567-e89b-12d3-a456-426655448888"
+        sub_criteria_id = "123e4567-e89b-12d3-a456-426655448888"
         endpoint = f"/assessments/{assessment_id}/sub_criterias/{sub_criteria_id}/compliance"
         payload = {"is_compliant": False}
         response = flask_test_client.post(endpoint, json=payload)

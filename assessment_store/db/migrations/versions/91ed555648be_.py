@@ -39,9 +39,17 @@ def upgrade():
             nullable=False,
         ),
         sa.Column("created_at", sa.DateTime(), nullable=True),
-        sa.Column("assessment_id", sa.String(length=255), nullable=True),
+        sa.Column(
+            "assessment_id", 
+            sqlalchemy_utils.types.uuid.UUIDType(binary=False),
+            nullable=True,
+        ),
         sa.Column("assessor_user_id", sa.String(length=255), nullable=True),
-        sa.Column("sub_criteria_id", sa.String(length=255), nullable=True),
+        sa.Column(
+            "sub_criteria_id",
+            sqlalchemy_utils.types.uuid.UUIDType(binary=False),
+            nullable=True,
+        ),
         sa.Column("score", sa.Integer(), nullable=True),
         sa.Column("justification", sa.Text(), nullable=True),
         sa.ForeignKeyConstraint(

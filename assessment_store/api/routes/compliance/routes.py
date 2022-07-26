@@ -3,6 +3,7 @@ from api.responses import error_response
 from db.models.compliance import ComplianceError
 from db.models.compliance import ComplianceMethods
 from flask.views import MethodView
+from sqlalchemy.exc import StatementError
 
 
 class ComplianceView(ComplianceMethods, MethodView):
@@ -27,7 +28,11 @@ class ComplianceView(ComplianceMethods, MethodView):
             return error_response(
                 404, "error - compliance record does not exist"
             )
+        except StatementError:
+            return error_response(404, 'please enter a uuid type')
+
         return compliance_response(compliance_record)
+
 
     def post(self, sub_criteria_id: str, assessment_id: str, body: dict):
         """
@@ -46,5 +51,7 @@ class ComplianceView(ComplianceMethods, MethodView):
             )
         except ComplianceError as e:
             return error_response(401, "error - could not create compliance record")
+        except StatementError:
+            return error_response(404, 'please enter a uuid type')
 
         return compliance_response(new_compliance, 201)

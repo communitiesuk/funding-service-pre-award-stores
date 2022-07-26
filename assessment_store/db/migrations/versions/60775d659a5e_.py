@@ -22,8 +22,16 @@ def upgrade():
     op.create_table('compliance',
     sa.Column('id', sqlalchemy_utils.types.uuid.UUIDType(binary=False), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
-    sa.Column('assessment_id', sa.Text(), nullable=True),
-    sa.Column('sub_criteria_id', sa.Text(), nullable=True),
+    sa.Column(
+        "assessment_id", 
+        sqlalchemy_utils.types.uuid.UUIDType(binary=False),
+        nullable=True,
+    ),
+    sa.Column(
+        "sub_criteria_id",
+        sqlalchemy_utils.types.uuid.UUIDType(binary=False),
+        nullable=True,
+    ),
     sa.Column('is_compliant', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['assessment_id'], ['assessment.id'], ),
     sa.ForeignKeyConstraint(['sub_criteria_id'], ['sub_criteria.id'], ),

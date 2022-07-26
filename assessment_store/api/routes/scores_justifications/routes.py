@@ -1,3 +1,4 @@
+from sqlalchemy.exc import StatementError
 from api.responses import error_response
 from api.responses import scores_justifications_response
 from api.responses import scores_justifications_response_list
@@ -23,6 +24,8 @@ class ScoresJustificationsView(ScoresJustificationsMethods, MethodView):
             )
         except ScoresJustificationsError as e:
             return error_response(404, e.message)
+        except StatementError:
+            return error_response(404, 'please enter a uuid type')
 
         return scores_justifications_response_list(scores_justifications_list)
 
@@ -52,5 +55,7 @@ class ScoresJustificationsView(ScoresJustificationsMethods, MethodView):
             )
         except ScoresJustificationsError as e:
             return error_response(401, e.message)
+        except StatementError:
+            return error_response(404, 'please enter a uuid type')
 
         return scores_justifications_response(new_score_and_justification, 201)

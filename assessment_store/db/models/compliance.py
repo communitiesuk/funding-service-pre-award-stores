@@ -20,12 +20,12 @@ class Compliance(db.Model):
     created_at = db.Column("created_at", DateTime(), default=datetime.utcnow())
     assessment_id = db.Column(
         "assessment_id",
-        db.Text(),
+        UUIDType(binary=False),
         db.ForeignKey(Assessment.id),
     )
     sub_criteria_id = db.Column(
         "sub_criteria_id",
-        db.Text(),
+        UUIDType(binary=False),
         db.ForeignKey(SubCriteria.id),
     )
     is_compliant = db.Column(
