@@ -2,13 +2,14 @@
 Test magic links functionality
 """
 import pytest
+from tests.mocks.sqlite_test_db import SqliteTestDB
 
 
 @pytest.mark.usefixtures("flask_test_client")
 class TestScoreJustificationEndpoints:
 
-    assessment_id = "123e4567-e89b-12d3-a456-426655440000"
-    sub_criteria_id = "123e4567-e89b-12d3-a456-426655440001"
+    assessment_id = str(SqliteTestDB.assessment_1.uuid)
+    sub_criteria_id = str(SqliteTestDB.sub_criteria_1.uuid)
     endpoint = (
         f"/assessments/{assessment_id}/sub_criterias/{sub_criteria_id}/scores"
     )
@@ -25,8 +26,8 @@ class TestScoreJustificationEndpoints:
             {
                 "id": "123e4567-e89b-12d3-a456-426655440003",  # noqa
                 "created_at": "2022-07-07T09:11:38.240578Z",
-                "sub_criteria_id": "123e4567-e89b-12d3-a456-426655440001",
-                "assessment_id": "123e4567-e89b-12d3-a456-426655440000",
+                "sub_criteria_id": str(SqliteTestDB.sub_criteria_1.uuid),
+                "assessment_id": str(SqliteTestDB.assessment_1.uuid),
                 "score": 5,
                 "justification": "wow",
                 "assessor_user_id": "person_1",
@@ -60,3 +61,10 @@ class TestScoreJustificationEndpoints:
 
         assert response.status_code == 201
         assert score_justification.get("score") == 1
+
+    def test_scores(self, flask_test_client):
+        assessment_id = str(SqliteTestDB.assessment_2_id)
+        endpoint = f"/assessments/{assessment_id}/scores"
+        response = flask_test_client.get(endpoint)
+        response
+        assert True
