@@ -3,7 +3,11 @@ import json
 import sqlalchemy
 from api.responses import error_response
 from api.responses import sub_criteria_response
+<<<<<<< HEAD
 from db.models.sub_criteria import SubCriteria
+=======
+from db.models.sub_criteria import SubCriteriaError
+>>>>>>> f2fcf11 (:green_check_mark: Tests updated from merge commit.)
 from db.models.sub_criteria import SubCriteriaMethods
 from flask import Response
 from flask.views import MethodView
@@ -21,7 +25,7 @@ class SubCriteriaView(SubCriteriaMethods, MethodView):
                 self.subcriterias_by_assessment_id(assessment_id, as_json=True)
             ),
             mimetype="application/json",
-            code=200,
+            status=200,
         )
 
     def get(self, assessment_id: str = None, sub_criteria_id: str = None):
@@ -61,6 +65,10 @@ class SubCriteriaView(SubCriteriaMethods, MethodView):
         except Exception as e:
             return error_response(code=500, message=e.__repr__)
 
+<<<<<<< HEAD
         subcriteria = SubCriteria(**subcriteria[0])
 
         return sub_criteria_response(subcriteria)
+=======
+        return sub_criteria_response(sub_criteria)
+>>>>>>> f2fcf11 (:green_check_mark: Tests updated from merge commit.)

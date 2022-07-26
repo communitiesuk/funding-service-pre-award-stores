@@ -6,11 +6,8 @@ import flask_migrate
 from config import Config
 from db import db
 from db.models.assessment import Assessment
-<<<<<<< HEAD
 from db.models.compliance import Compliance
-=======
 from db.models.criteria import Criteria
->>>>>>> dfd6de2 (:sparkles: Updated tests)
 from db.models.scores_justifications import ScoresJustifications
 from db.models.sub_criteria import SubCriteria
 
@@ -20,12 +17,17 @@ class SqliteTestDB:
     crit_1_uuid = uuid.uuid4()
     crit_2_uuid = uuid.uuid4()
     crit_3_uuid = uuid.uuid4()
-    sub_crit_1_id = uuid.uuid4()
-    sub_crit_2_id = uuid.uuid4()
-    sub_crit_3_id = uuid.uuid4()
-    sub_crit_4_id = uuid.uuid4()
-    assessment_1_id = uuid.uuid4()
-    assessment_2_id = uuid.uuid4()
+    sub_crit_1_uuid = uuid.uuid4()
+    sub_crit_2_uuid = uuid.uuid4()
+    sub_crit_3_uuid = uuid.uuid4()
+    sub_crit_4_uuid = uuid.uuid4()
+    sub_crit_5_uuid = uuid.uuid4()
+    assessment_1_uuid = uuid.uuid4()
+    assessment_2_uuid = uuid.uuid4()
+    score_uuid_1 = uuid.uuid4()
+    score_uuid_2 = uuid.uuid4()
+    score_uuid_3 = uuid.uuid4()
+    score_uuid_4 = uuid.uuid4()
 
     assessment_1 = Assessment(
         id=assessment_1_id,
@@ -46,19 +48,22 @@ class SqliteTestDB:
     criteria_1 = Criteria(
         criteria_id=crit_1_uuid,
         criteria_name="strategy",
-        round_id="COF",
+        round_id="winter",
+        fund_id="funding-service-design",
     )
 
     criteria_2 = Criteria(
         criteria_id=crit_2_uuid,
         criteria_name="deliverability",
-        round_id="COF2",
+        round_id="winter",
+        fund_id="funding-service-design",
     )
 
     criteria_3 = Criteria(
         criteria_id=crit_3_uuid,
         criteria_name="value_for_money",
-        round_id="COF2",
+        round_id="winter",
+        fund_id="funding-service-design",
     )
 
     sub_criteria_1 = SubCriteria(
@@ -89,8 +94,9 @@ class SqliteTestDB:
         created_at=datetime.datetime.strptime(
             "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
         ),
-        sub_criteria_id=sub_crit_1_id,
-        assessment_id=assessment_1_id,
+        id=score_uuid_1,
+        assessment_id=assessment_2_uuid,
+        sub_criteria_id=sub_crit_1_uuid,
         score=5,
         justification="wow",
         assessor_user_id="person_1",
@@ -100,8 +106,9 @@ class SqliteTestDB:
         created_at=datetime.datetime.strptime(
             "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
         ),
-        sub_criteria_id=sub_crit_2_id,
-        assessment_id=assessment_2_id,
+        id=score_uuid_2,
+        assessment_id=assessment_2_uuid,
+        sub_criteria_id=sub_crit_2_uuid,
         score=2,
         justification="wow",
         assessor_user_id="person_1",
@@ -111,8 +118,9 @@ class SqliteTestDB:
         created_at=datetime.datetime.strptime(
             "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
         ),
-        sub_criteria_id=sub_crit_1_id,
-        assessment_id=assessment_2_id,
+        id=score_uuid_3,
+        assessment_id=assessment_2_uuid,
+        sub_criteria_id=sub_crit_3_uuid,
         score=3,
         justification="wow",
         assessor_user_id="person_1",
@@ -122,23 +130,23 @@ class SqliteTestDB:
         created_at=datetime.datetime.strptime(
             "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
         ),
-        sub_criteria_id=sub_crit_3_id,
-        assessment_id=assessment_2_id,
+        id=score_uuid_4,
+        assessment_id=assessment_2_uuid,
+        sub_criteria_id=sub_crit_4_uuid,
         score=5,
         justification="wow",
         assessor_user_id="person_1",
     )
 
-    score_justification_5 = ScoresJustifications(
-        created_at=datetime.datetime.strptime(
-            "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
-        ),
-        sub_criteria_id=sub_crit_4_id,
-        assessment_id=assessment_2_id,
-        score=5,
-        justification="wow",
-        assessor_user_id="person_1",
-    )
+    compliance_1 = Compliance(
+            id="123e4567-e89b-12d3-a456-426655440004",
+            created_at=datetime.datetime.strptime(
+                "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
+            ),
+            assessment_id="123e4567-e89b-12d3-a456-426655440000",
+            sub_criteria_id="123e4567-e89b-12d3-a456-426655440001",
+            is_compliant=True,
+        )
 
     @classmethod
     def remove(cls):
@@ -156,38 +164,6 @@ class SqliteTestDB:
         db.session.add(cls.assessment_1)
         db.session.commit()
 
-<<<<<<< HEAD
-        sub_criteria_1 = SubCriteria(
-            id="123e4567-e89b-12d3-a456-426655440001",
-            round_id="hello",
-            criteria_id="hi",
-            sub_criteria_title="something",
-        )
-        db.session.add(sub_criteria_1)
-        db.session.commit()
-
-        sub_criteria_2 = SubCriteria(
-            id="123e4567-e89b-12d3-a456-426655440002",
-            round_id="ciao",
-            criteria_id="cya",
-            sub_criteria_title="nothing",
-        )
-        db.session.add(sub_criteria_2)
-        db.session.commit()
-
-        score_justification = ScoresJustifications(
-            id="123e4567-e89b-12d3-a456-426655440003",
-            created_at=datetime.datetime.strptime(
-                "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
-            ),
-            sub_criteria_id="123e4567-e89b-12d3-a456-426655440001",
-            assessment_id="123e4567-e89b-12d3-a456-426655440000",
-            score=5,
-            justification="wow",
-            assessor_user_id="person_1",
-        )
-        db.session.add(score_justification)
-=======
         db.session.add(cls.criteria_1)
         db.session.commit()
 
@@ -221,21 +197,8 @@ class SqliteTestDB:
         db.session.add(cls.score_justification_4)
         db.session.commit()
 
-        db.session.add(cls.score_justification_5)
-        db.session.commit()
-
         db.session.add(cls.assessment_2)
->>>>>>> dfd6de2 (:sparkles: Updated tests)
         db.session.commit()
-
-        compliance = Compliance(
-            id="123e4567-e89b-12d3-a456-426655440004",
-            created_at=datetime.datetime.strptime(
-                "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
-            ),
-            assessment_id="123e4567-e89b-12d3-a456-426655440000",
-            sub_criteria_id="123e4567-e89b-12d3-a456-426655440001",
-            is_compliant=True,
-        )
-        db.session.add(compliance)
+        
+        db.session.add(cls.compliance_1)
         db.session.commit()

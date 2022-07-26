@@ -6,7 +6,7 @@ from sqlalchemy_utils.types import UUIDType
 
 class Criteria(db.Model):
 
-    criteria_id = db.Column(
+    id = db.Column(
         "criteria_id",
         UUIDType(binary=False),
         default=uuid.uuid4,
@@ -20,8 +20,10 @@ class Criteria(db.Model):
 
     round_id = db.Column(
         "round_id",
-        db.Text(),
+        db.String(),
     )
+
+    fund_id = db.Column("fund_id", db.String())
 
     def as_json(self):
         return {

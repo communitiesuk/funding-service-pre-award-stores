@@ -33,8 +33,11 @@ def sub_criteria_response(sub_criteria: SubCriteria, code: int = 200):
         make_response(
             {
                 "id": sub_criteria.id,
+<<<<<<< HEAD
                 "round_id": sub_criteria.round_id,
                 "sub_criteria_id": sub_criteria.sub_criteria_id,
+=======
+>>>>>>> f2fcf11 (:green_check_mark: Tests updated from merge commit.)
                 "criteria_id": sub_criteria.criteria_id,
                 "title": sub_criteria.sub_criteria_title,
             }

@@ -29,14 +29,14 @@ class ScoresJustifications(db.Model):
         "assessor_user_id",
         db.Text(),
     )
+    assessor_user_id = db.Column("assessor_user_id", db.Text(), nullable=False)
     sub_criteria_id = db.Column(
         "sub_criteria_id",
         UUIDType(binary=False),
         db.ForeignKey(SubCriteria.id),
+        nullable=False,
     )
-    score = db.Column(
-        db.Integer(),
-    )
+    score = db.Column(db.Integer(), nullable=False)
     justification = db.Column(
         db.Text(),
     )
@@ -99,10 +99,9 @@ class ScoresJustificationsMethods:
             .filter(ScoresJustifications.assessment_id == assessment_id)
             .join(
                 SubCriteria,
-                SubCriteria.sub_criteria_id
-                == ScoresJustifications.sub_criteria_id,
+                SubCriteria.id == ScoresJustifications.sub_criteria_id,
             )
-            .join(Criteria, Criteria.criteria_id == SubCriteria.criteria_id)
+            .join(Criteria, Criteria.id == SubCriteria.criteria_id)
             .all()
         )
 
@@ -111,7 +110,7 @@ class ScoresJustificationsMethods:
         for row in filtered_and_joined:
 
             score = row[0].score
-            crit_id = str(row[2].criteria_id)
+            crit_id = str(row[2].id)
 
             grouped_by_crit[crit_id].append(score)
 
@@ -123,9 +122,7 @@ class ScoresJustificationsMethods:
         for crit_id in grouped_by_crit.keys():
 
             crit_row = (
-                db.session.query(Criteria)
-                .filter(Criteria.criteria_id == crit_id)
-                .one()
+                db.session.query(Criteria).filter(Criteria.id == crit_id).one()
             )
 
             crit_name = crit_row.criteria_name
@@ -152,8 +149,6 @@ class ScoresJustificationsMethods:
     def scores_justifications(
         sub_criteria_id: str, assessment_id: str, as_json=False
     ):
-        print(assessment_id)
-        print(sub_criteria_id)
         scores_justifications = (
             db.session.query(ScoresJustifications)
             .filter(

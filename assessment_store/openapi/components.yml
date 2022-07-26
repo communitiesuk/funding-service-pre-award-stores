@@ -85,10 +85,13 @@ components:
     AssessmentScores:
       type: object
       properties:
-        name:
+        criteria_name:
           type: string
         actual_score:
           type: integer
+        weight:
+          type: number
+          format: float
         weighted_score:
           type: number
           format: float
