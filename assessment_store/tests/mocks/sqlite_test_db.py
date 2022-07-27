@@ -30,7 +30,7 @@ class SqliteTestDB:
     score_uuid_4 = uuid.uuid4()
 
     assessment_1 = Assessment(
-        id=assessment_1_id,
+        id=assessment_1_uuid,
         compliance_status="great",
         application_id="amazing",
         round_id="COF",
@@ -38,7 +38,7 @@ class SqliteTestDB:
     )
 
     assessment_2 = Assessment(
-        id=assessment_2_id,
+        id=assessment_2_uuid,
         compliance_status="great111",
         application_id="amazing111",
         round_id="winter",
@@ -46,46 +46,46 @@ class SqliteTestDB:
     )
 
     criteria_1 = Criteria(
-        criteria_id=crit_1_uuid,
+        id=crit_1_uuid,
         criteria_name="strategy",
         round_id="winter",
         fund_id="funding-service-design",
     )
 
     criteria_2 = Criteria(
-        criteria_id=crit_2_uuid,
+        id=crit_2_uuid,
         criteria_name="deliverability",
         round_id="winter",
         fund_id="funding-service-design",
     )
 
     criteria_3 = Criteria(
-        criteria_id=crit_3_uuid,
+        id=crit_3_uuid,
         criteria_name="value_for_money",
         round_id="winter",
         fund_id="funding-service-design",
     )
 
     sub_criteria_1 = SubCriteria(
-        sub_criteria_id=sub_crit_1_id,
+        id=sub_crit_1_uuid,
         criteria_id=crit_1_uuid,
         sub_criteria_title="something",
     )
 
     sub_criteria_2 = SubCriteria(
-        sub_criteria_id=sub_crit_2_id,
+        id=sub_crit_2_uuid,
         criteria_id=crit_2_uuid,
         sub_criteria_title="nothing",
     )
 
     sub_criteria_3 = SubCriteria(
-        sub_criteria_id=sub_crit_3_id,
+        id=sub_crit_3_uuid,
         criteria_id=crit_2_uuid,
         sub_criteria_title="nothing",
     )
 
     sub_criteria_4 = SubCriteria(
-        sub_criteria_id=sub_crit_4_id,
+        id=sub_crit_4_uuid,
         criteria_id=crit_3_uuid,
         sub_criteria_title="nothing",
     )

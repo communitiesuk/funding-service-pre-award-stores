@@ -1,3 +1,4 @@
+from pprint import pprint
 import uuid
 from itertools import chain
 
@@ -81,17 +82,15 @@ class SubCriteriaMethods:
 
         if as_json:
             return [subcriteria.as_json() for subcriteria in subcriteria_list]
+        
         return subcriteria_list
 
     @staticmethod
     def get_by_id(id: str):
-        try:
-            subcriteria = (
-                db.session.query(SubCriteria)
-                .filter(SubCriteria.id == id)
-                .one()
-            )
-        except sqlalchemy.exc.NoResultFound:
+        subcriteria = (
+            db.session.get(SubCriteria, id)
+        )
+        if subcriteria is None:
             raise SubCriteriaError(message="Sub-Criteria could not be found")
-        print(subcriteria)
+
         return subcriteria

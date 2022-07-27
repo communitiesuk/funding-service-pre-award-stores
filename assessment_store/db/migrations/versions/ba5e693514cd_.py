@@ -27,6 +27,8 @@ def upgrade():
             nullable=False,
         ),
         sa.Column("application_id", sa.Text(), nullable=True),
+        sa.Column("fund_id", sa.Text(), nullable=True),
+        sa.Column("round_id", sa.Text(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(

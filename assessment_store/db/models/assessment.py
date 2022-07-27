@@ -16,10 +16,7 @@ class Assessment(db.Model):
     compliance_status = db.Column(db.Text(), default="UNASSESSED")
     application_id = db.Column(db.Text(), index=True, unique=True)
     fund_id = db.Column("fund_id", db.Text())
-    round_id = db.Column(
-        "round_id",
-        db.Text(),
-    )
+    round_id = db.Column("round_id", db.Text())
 
     def __repr__(self):
         return f"<Assessment {self.id} for Application {self.application_id}>"

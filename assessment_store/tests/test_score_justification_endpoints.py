@@ -86,7 +86,7 @@ class TestScoreJustificationEndpoints:
                 "weighted_score": 1.5,
             },
         ]
-        assessment_id = str(SqliteTestDB.assessment_2_id)
+        assessment_id = str(SqliteTestDB.assessment_2_uuid)
         endpoint = f"/assessments/{assessment_id}/scores"
         response = flask_test_client.get(endpoint)
         assert response.json["scores"] == expected_response
