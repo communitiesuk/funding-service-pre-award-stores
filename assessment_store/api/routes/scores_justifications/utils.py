@@ -16,7 +16,7 @@ def calc_weights(
     Takes a list of sub criteria and a round id
     """
 
-    url = Config.ROUND_ENDPOINT.format(
+    url = Config.ROUNDS_ENDPOINT.format(
         host=Config.FUND_STORE_API_HOST,
         fund_id=fund_id,
         round_id=round_id,
