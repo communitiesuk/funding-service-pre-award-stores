@@ -1,9 +1,8 @@
 import json
 
-import sqlalchemy
 from api.responses import error_response
 from api.responses import sub_criteria_response
-from db.models.sub_criteria import SubCriteria, SubCriteriaError
+from db.models.sub_criteria import SubCriteriaError
 from db.models.sub_criteria import SubCriteriaMethods
 from flask import Response
 from flask.views import MethodView
@@ -35,7 +34,7 @@ class SubCriteriaView(SubCriteriaMethods, MethodView):
         """
         try:
             subcriteria = self.get_by_id(sub_criteria_id)
-        except SubCriteriaError as e:
+        except SubCriteriaError:
             return error_response(
                 code=404,
                 message=f"Subcriteria not found for assessment_id"

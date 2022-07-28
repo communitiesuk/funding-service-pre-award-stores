@@ -139,14 +139,14 @@ class SqliteTestDB:
     )
 
     compliance_1 = Compliance(
-            id="123e4567-e89b-12d3-a456-426655440004",
-            created_at=datetime.datetime.strptime(
-                "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
-            ),
-            assessment_id="123e4567-e89b-12d3-a456-426655440000",
-            sub_criteria_id="123e4567-e89b-12d3-a456-426655440001",
-            is_compliant=True,
-        )
+        id="123e4567-e89b-12d3-a456-426655440004",
+        created_at=datetime.datetime.strptime(
+            "2022-07-07T09:11:38.240578Z", "%Y-%m-%dT%H:%M:%S.%fZ"
+        ),
+        assessment_id="123e4567-e89b-12d3-a456-426655440000",
+        sub_criteria_id="123e4567-e89b-12d3-a456-426655440001",
+        is_compliant=True,
+    )
 
     @classmethod
     def remove(cls):
@@ -199,6 +199,6 @@ class SqliteTestDB:
 
         db.session.add(cls.assessment_2)
         db.session.commit()
-        
+
         db.session.add(cls.compliance_1)
         db.session.commit()

@@ -1,8 +1,6 @@
-from pprint import pprint
 import uuid
 from itertools import chain
 
-import sqlalchemy
 from db import db
 from db.models.assessment import Assessment
 from db.models.criteria import Criteria
@@ -69,9 +67,7 @@ class SubCriteriaMethods:
             .filter(Criteria.fund_id == fund_id)
             .all()
         )
-        print("CRITERIA LIST:", criterias_list)
         criteria_ids_list = [str(criteria.id) for criteria in criterias_list]
-        print("CRITERIA ID LIST:", criteria_ids_list)
         list_of_subcriteria_lists = [
             db.session.query(SubCriteria)
             .filter(SubCriteria.criteria_id == criteria_id)
@@ -82,14 +78,12 @@ class SubCriteriaMethods:
 
         if as_json:
             return [subcriteria.as_json() for subcriteria in subcriteria_list]
-        
+
         return subcriteria_list
 
     @staticmethod
     def get_by_id(id: str):
-        subcriteria = (
-            db.session.get(SubCriteria, id)
-        )
+        subcriteria = db.session.get(SubCriteria, id)
         if subcriteria is None:
             raise SubCriteriaError(message="Sub-Criteria could not be found")
 

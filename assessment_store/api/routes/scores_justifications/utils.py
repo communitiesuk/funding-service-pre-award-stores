@@ -21,9 +21,9 @@ def calc_weights(
         round_id=round_id,
     )
 
-    r = requests.get(url)
+    round_store_response = requests.get(url)
 
-    json = r.json()
+    json = round_store_response.json()
     weights = json.get("assessment_criteria_weighting")
     total_score = sum(list_of_scores)
 
