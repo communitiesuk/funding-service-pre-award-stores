@@ -2,6 +2,7 @@
 from os import environ
 from pathlib import Path
 
+from fsd_utils import CommonConfig
 from fsd_utils import configclass
 
 
@@ -9,52 +10,42 @@ from fsd_utils import configclass
 class DefaultConfig:
 
     # ---------------
-    #  Application Config
+    #  General App Config
     # ---------------
 
-    SECRET_KEY = environ.get("SECRET_KEY")
-    SESSION_COOKIE_NAME = environ.get("SESSION_COOKIE_NAME")
+    SECRET_KEY = CommonConfig.SECRET_KEY
+    SESSION_COOKIE_NAME = CommonConfig.SESSION_COOKIE_NAME
     FLASK_ROOT = str(Path(__file__).parent.parent.parent)
-    FLASK_ENV = environ.get("FLASK_ENV")
+    FLASK_ENV = CommonConfig.FLASK_ENV
+    FORCE_HTTPS = CommonConfig.FORCE_HTTPS
+    FSD_LOG_LEVEL = CommonConfig.FSD_LOG_LEVEL
 
     # ---------------
     # APIs Config: contains api hosts (set in manifest.yml)
     # ---------------
 
     # Account Store
-    ACCOUNT_STORE_API_HOST = environ.get("ACCOUNT_STORE_API_HOST")
-    ACCOUNTS_ENDPOINT = "/accounts"
-    ACCOUNT_ENDPOINT = "/accounts/{account_id}"
+    ACCOUNT_STORE_API_HOST = CommonConfig.ACCOUNT_STORE_API_HOST
+    ACCOUNTS_ENDPOINT = CommonConfig.ACCOUNTS_ENDPOINT
+    ACCOUNT_ENDPOINT = CommonConfig.ACCOUNT_ENDPOINT
 
     # Application Store
-    APPLICATION_STORE_API_HOST = environ.get("APPLICATION_STORE_API_HOST")
-    APPLICATIONS_ENDPOINT = "/applications"
-    APPLICATION_ENDPOINT = "/applications/{account_id}"
+    APPLICATION_STORE_API_HOST = CommonConfig.APPLICATION_STORE_API_HOST
+    APPLICATIONS_ENDPOINT = CommonConfig.APPLICATIONS_ENDPOINT
+    APPLICATION_ENDPOINT = CommonConfig.APPLICATION_ENDPOINT
 
     # Fund Store
-    FUND_STORE_API_HOST = environ.get("FUND_STORE_API_HOST", "fund_score_host")
-    FUNDS_ENDPOINT = "/funds"
-    FUND_ENDPOINT = "/funds/{fund_id}"
-    ROUND_ENDPOINT = "{host}/funds/{fund_id}/rounds/{round_id}"
+    FUND_STORE_API_HOST = CommonConfig.FUND_STORE_API_HOST
+    FUNDS_ENDPOINT = CommonConfig.FUNDS_ENDPOINT
+    FUND_ENDPOINT = CommonConfig.FUND_ENDPOINT
 
     # Round Store
-    ROUND_STORE_API_HOST = environ.get("ROUND_STORE_API_HOST")
-    ROUNDS_ENDPOINT = "/funds/{fund_id}/rounds"
+    ROUNDS_ENDPOINT = CommonConfig.ROUNDS_ENDPOINT
 
     # Notification Service
-    NOTIFICATION_SERVICE_HOST = environ.get("NOTIFICATION_SERVICE_HOST")
-    SEND_ENDPOINT = "/send"
-    NOTIFY_TEMPLATE_MAGIC_LINK = "MAGIC_LINK"
-
-    # ---------------
-    # Security
-    # ---------------
-
-    # Allow inline scripts for swagger docs (for Talisman Config)
-    SWAGGER_CSP = {
-        "script-src": ["'self'", "'unsafe-inline'"],
-        "style-src": ["'self'", "'unsafe-inline'"],
-    }
+    NOTIFICATION_SERVICE_HOST = CommonConfig.NOTIFICATION_SERVICE_HOST
+    NOTIFICATION_SEND_ENDPOINT = CommonConfig.NOTIFICATION_SEND_ENDPOINT
+    NOTIFY_TEMPLATE_MAGIC_LINK = CommonConfig.NOTIFY_TEMPLATE_MAGIC_LINK
 
     # ---------------
     # Database

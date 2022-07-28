@@ -33,7 +33,9 @@ certifi==2022.6.15
     #   requests
     #   urllib3
 cffi==1.15.1
-    # via cryptography
+    # via
+    #   -r requirements.txt
+    #   cryptography
 cfgv==3.3.1
     # via pre-commit
 chardet==4.0.0
@@ -62,8 +64,9 @@ commonmark==0.9.1
     #   rich
 connexion==2.14.0
     # via -r requirements.txt
-cryptography==37.0.2
+cryptography==37.0.4
     # via
+    #   -r requirements.txt
     #   pyjwt
     #   pyopenssl
     #   urllib3
@@ -89,14 +92,12 @@ flask-sqlalchemy==2.5.1
     # via
     #   -r requirements.txt
     #   flask-migrate
-funding-service-design-utils @ git+https://github.com/communitiesuk/funding-service-design-utils.git@main
+funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.11.tar.gz
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython
 gitpython==3.1.27
     # via bandit
-greenlet==1.1.2
-    # via -r requirements.txt
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -184,16 +185,22 @@ prance==0.21.8.0
     # via -r requirements.txt
 pre-commit==2.19.0
     # via -r requirements-dev.in
+psycopg2==2.9.3
+    # via -r requirements.txt
 py==1.11.0
     # via pytest
 pycparser==2.21
-    # via cffi
+    # via
+    #   -r requirements.txt
+    #   cffi
 pygments==2.12.0
     # via
     #   -r requirements.txt
     #   rich
 pyjwt[crypto]==2.4.0
-    # via funding-service-design-utils
+    # via
+    #   -r requirements.txt
+    #   funding-service-design-utils
 pyopenssl==22.0.0
     # via urllib3
 pyparsing==3.0.9
