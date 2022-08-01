@@ -40,7 +40,7 @@ class DefaultConfig:
     FUND_ENDPOINT = CommonConfig.FUND_ENDPOINT
 
     # Round Store
-    ROUND_ENDPOINT = CommonConfig.ROUND_ENDPOINT
+    SINGLE_ROUND_ENDPOINT = CommonConfig.ROUND_ENDPOINT
     ROUNDS_ENDPOINT = CommonConfig.ROUNDS_ENDPOINT
 
     # Notification Service
