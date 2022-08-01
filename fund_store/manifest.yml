@@ -6,9 +6,13 @@ applications:
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: gunicorn wsgi:app -c run/gunicorn/devtest.py
+  env:
+    FLASK_ENV: dev
 
 - name: funding-service-design-fund-store-test
   memory: 64M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: gunicorn wsgi:app -c run/gunicorn/devtest.py
+  env:
+    FLASK_ENV: test
