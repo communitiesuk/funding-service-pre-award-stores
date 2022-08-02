@@ -20,7 +20,7 @@ components:
           - name
           - description
     AssessmentCriteriaWeighting:
-        type: object
+        type: array
         properties:
           strategy:
             type: number

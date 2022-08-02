@@ -11,7 +11,7 @@ FUND_DATA = [
         "description": (
             "The Community Ownership Fund is a £150 million fund over 4 years to support community groups across "
             "England, Wales, Scotland and Northern Ireland to take ownership of assets which are at risk of being "
-            "lost to the community. "
+            "lost to the community."
         ),
     },
 ]
