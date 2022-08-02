@@ -9,27 +9,6 @@ class TestAssessmentEndpoints:
 
     assessment_ids = []
 
-    def test_get_assessments_list(self, flask_test_client):
-        """
-        GIVEN a running Flask client and db
-        WHEN we GET /assessments
-        THEN a list of assessment records is returned
-        :param flask_test_client:
-        """
-        expected_assessments = [
-            {
-                "id": "123e4567-e89b-12d3-a456-426655440000",
-                "compliance_status": "great",
-                "application_id": "amazing",
-            }
-        ]
-        endpoint = "/assessments"
-        response = flask_test_client.get(endpoint)
-        assessments = response.get_json()
-
-        assert response.status_code == 200
-        assert assessments == expected_assessments
-
     def test_assessment_is_created(self, flask_test_client):
         """
         GIVEN a running Flask client and db

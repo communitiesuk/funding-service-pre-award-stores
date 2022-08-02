@@ -6,8 +6,8 @@ Create Date: 2022-06-09 17:08:14.809145
 
 """
 import sqlalchemy as sa
-from alembic import op
 import sqlalchemy_utils
+from alembic import op
 
 
 # revision identifiers, used by Alembic.
@@ -27,6 +27,8 @@ def upgrade():
             nullable=False,
         ),
         sa.Column("application_id", sa.Text(), nullable=True),
+        sa.Column("fund_id", sa.Text(), nullable=True),
+        sa.Column("round_id", sa.Text(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(

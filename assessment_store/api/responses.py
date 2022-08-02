@@ -33,9 +33,8 @@ def sub_criteria_response(sub_criteria: SubCriteria, code: int = 200):
         make_response(
             {
                 "id": sub_criteria.id,
-                "round_id": sub_criteria.round_id,
                 "criteria_id": sub_criteria.criteria_id,
-                "title": sub_criteria.sub_criteria_title,
+                "sub_criteria_title": sub_criteria.sub_criteria_title,
             }
         ),
         code,
@@ -83,6 +82,7 @@ def scores_justifications_response_list(
         ),
         code,
     )
+
 
 def compliance_response(compliance: Compliance, code: int = 200):
     if type(compliance) == dict:

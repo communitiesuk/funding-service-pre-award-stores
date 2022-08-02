@@ -1,10 +1,12 @@
-from sqlalchemy.exc import StatementError
+import sqlalchemy
 from api.responses import error_response
 from api.responses import scores_justifications_response
 from api.responses import scores_justifications_response_list
 from db.models.scores_justifications import ScoresJustificationsError
 from db.models.scores_justifications import ScoresJustificationsMethods
+from flask import make_response
 from flask.views import MethodView
+from sqlalchemy.exc import StatementError
 
 
 class ScoresJustificationsView(ScoresJustificationsMethods, MethodView):
@@ -25,9 +27,34 @@ class ScoresJustificationsView(ScoresJustificationsMethods, MethodView):
         except ScoresJustificationsError as e:
             return error_response(404, e.message)
         except StatementError:
-            return error_response(404, 'please enter a uuid type')
+            return error_response(404, "please enter a uuid type")
 
         return scores_justifications_response_list(scores_justifications_list)
+
+    def calc_scores(self, assessment_id: str):
+        """GET '/assessments/{assessment_id}/sub_criterias/{sub_criteria_id}
+        /scores' endpoint.
+
+        Returns a list of dictionaries containing
+        the scoring infomation for each criteria
+        given an assessment id to filter scores
+        by.
+
+        """
+
+        try:
+            scores_list = self.scores(assessment_id)
+        except ScoresJustificationsError as e:
+            return error_response(404, e.message)
+        except sqlalchemy.exc.NoResultFound:
+            return error_response(404, "No scores found")
+
+        if len(scores_list) == 0:
+            return error_response(
+                404, f"No scores found for assessment {assessment_id}"
+            )
+
+        return make_response({"scores": scores_list}, 200)
 
     def post(self, sub_criteria_id: str, assessment_id: str, body: dict):
         """
@@ -56,6 +83,6 @@ class ScoresJustificationsView(ScoresJustificationsMethods, MethodView):
         except ScoresJustificationsError as e:
             return error_response(401, e.message)
         except StatementError:
-            return error_response(404, 'please enter a uuid type')
+            return error_response(404, "please enter a uuid type")
 
         return scores_justifications_response(new_score_and_justification, 201)

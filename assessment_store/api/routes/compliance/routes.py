@@ -21,18 +21,18 @@ class ComplianceView(ComplianceMethods, MethodView):
             compliance_record = self.get_compliance(
                 sub_criteria_id, assessment_id
             )
-        except ComplianceError as e:
-            return error_response(404, "error - compliance record does not exist"
+        except ComplianceError:
+            return error_response(
+                404, "error - compliance record does not exist"
             )
         except IndexError:
             return error_response(
                 404, "error - compliance record does not exist"
             )
         except StatementError:
-            return error_response(404, 'please enter a uuid type')
+            return error_response(404, "please enter a uuid type")
 
         return compliance_response(compliance_record)
-
 
     def post(self, sub_criteria_id: str, assessment_id: str, body: dict):
         """
@@ -49,9 +49,11 @@ class ComplianceView(ComplianceMethods, MethodView):
             new_compliance = self.register_compliance(
                 sub_criteria_id, assessment_id, is_compliant
             )
-        except ComplianceError as e:
-            return error_response(401, "error - could not create compliance record")
+        except ComplianceError:
+            return error_response(
+                401, "error - could not create compliance record"
+            )
         except StatementError:
-            return error_response(404, 'please enter a uuid type')
+            return error_response(404, "please enter a uuid type")
 
         return compliance_response(new_compliance, 201)

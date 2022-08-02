@@ -26,10 +26,17 @@ def upgrade():
             sqlalchemy_utils.types.uuid.UUIDType(binary=False),
             nullable=False,
         ),
-        sa.Column("round_id", sa.String(length=255), nullable=True),
-        sa.Column("criteria_id", sa.String(length=255), nullable=True),
+        sa.Column(
+            "criteria_id",
+            sqlalchemy_utils.types.uuid.UUIDType(binary=False),
+            nullable=True,
+        ),
         sa.Column("sub_criteria_title", sa.Text(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
+        sa.ForeignKeyConstraint(
+            ["criteria_id"],
+            ["criteria.id"],
+        ),
     )
     op.create_table(
         "scores_justifications",
@@ -40,11 +47,11 @@ def upgrade():
         ),
         sa.Column("created_at", sa.DateTime(), nullable=True),
         sa.Column(
-            "assessment_id", 
+            "assessment_id",
             sqlalchemy_utils.types.uuid.UUIDType(binary=False),
             nullable=True,
         ),
-        sa.Column("assessor_user_id", sa.String(length=255), nullable=True),
+        sa.Column("assessor_user_id", sa.Text(), nullable=True),
         sa.Column(
             "sub_criteria_id",
             sqlalchemy_utils.types.uuid.UUIDType(binary=False),

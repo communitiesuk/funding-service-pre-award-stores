@@ -1,6 +1,9 @@
 import uuid
+from itertools import chain
 
 from db import db
+from db.models.assessment import Assessment
+from db.models.criteria import Criteria
 from sqlalchemy_utils.types import UUIDType
 
 
@@ -11,13 +14,9 @@ class SubCriteria(db.Model):
         default=uuid.uuid4,
         primary_key=True,
     )
-    round_id = db.Column(
-        "round_id",
-        db.String(255),
-    )
     criteria_id = db.Column(
-        "criteria_id",
-        db.String(255),
+        UUIDType(binary=False),
+        db.ForeignKey(Criteria.id),
     )
     sub_criteria_title = db.Column(
         db.Text(),
@@ -25,16 +24,18 @@ class SubCriteria(db.Model):
 
     def __repr__(self):
         return f"<Sub-Criteria {self.sub_criteria_title}, {self.id} \
-                for Criteria {self.criteria_id} \
-                of Round {self.round_id}>"
+                for Criteria {self.criteria_id}>"
 
     def as_json(self):
         return {
-            "id": self.id,
-            "round_id": self.round_id,
-            "criteria_id": self.criteria_id,
+            "id": str(self.id),
+            "criteria_id": str(self.criteria_id),
             "sub_criteria_title": self.sub_criteria_title,
         }
+
+    @property
+    def uuid(self):
+        return self.id
 
 
 class SubCriteriaError(Exception):
@@ -51,15 +52,39 @@ class SubCriteriaError(Exception):
 
 class SubCriteriaMethods:
     @staticmethod
-    def subcriterias(as_json=False):
-        subcriterias = SubCriteria.query.all()
+    def subcriterias_by_assessment_id(assessment_id: str, as_json=True):
+
+        assessment_id = uuid.UUID(assessment_id)
+
+        assessment = (
+            db.session.query(Assessment)
+            .filter(Assessment.id == assessment_id)
+            .one()
+        )
+        fund_id = assessment.fund_id
+        criterias_list = (
+            db.session.query(Criteria)
+            .filter(Criteria.fund_id == fund_id)
+            .all()
+        )
+        criteria_ids_list = [str(criteria.id) for criteria in criterias_list]
+        list_of_subcriteria_lists = [
+            db.session.query(SubCriteria)
+            .filter(SubCriteria.criteria_id == criteria_id)
+            .all()
+            for criteria_id in criteria_ids_list
+        ]
+        subcriteria_list = list(chain.from_iterable(list_of_subcriteria_lists))
+
         if as_json:
-            return [subcriteria.as_json() for subcriteria in subcriterias]
-        return subcriterias
+            return [subcriteria.as_json() for subcriteria in subcriteria_list]
+
+        return subcriteria_list
 
     @staticmethod
     def get_by_id(id: str):
-        subcriteria = SubCriteria.query.get(id)
-        if not subcriteria:
+        subcriteria = db.session.get(SubCriteria, id)
+        if subcriteria is None:
             raise SubCriteriaError(message="Sub-Criteria could not be found")
+
         return subcriteria
