@@ -1,7 +1,5 @@
 import sys
 
-from slugify import slugify
-
 TEST_FUND_DATA = [
     {
         "id": "fb986cdc-8e02-477a-a7e0-41cf19dd7675",
@@ -20,11 +18,28 @@ TEST_ROUND_DATA = [
         "id": "3b1ae9e8-eda4-4910-a5dd-fc144f9a8ba1",
         "title": "Test Round 1",
         "fund_id": "fb986cdc-8e02-477a-a7e0-41cf19dd7675",
-        "assessment_criteria_weighting": {
-            "strategy": 0.3,
-            "deliverability": 0.4,
-            "value_for_money": 0.3,
-        },
+        "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30,
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30,
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30,
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10,
+            },
+        ],
         "opens": "2099-12-25 00:00:01",
         "deadline": "2099-12-26 00:00:00",
         "assessment_deadline": "2099-12-27 00:00:00",
