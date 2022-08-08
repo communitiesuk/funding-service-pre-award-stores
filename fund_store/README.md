@@ -14,7 +14,7 @@ Built with Flask.
 
 ## Installation
 
-Clone the repository
+Clone the repository.
 
 ### Create a Virtual environment
 
