@@ -17,9 +17,7 @@ class FundDAO:
         return list(self.funds.values())
 
     def create(self, data):
-        key = slugify(data["fund_name"])
-        data["fund_id"] = key
-        self.funds[key] = data
+        self.funds[data["id"]] = data
 
     def load_dummy(self, fund_data):
         for fund in fund_data:
@@ -41,7 +39,7 @@ class RoundDAO:
             (
                 round
                 for round in fund_round_list
-                if round["round_id"] == round_id
+                if round["id"] == round_id
             ),
             None,
         )
@@ -55,9 +53,7 @@ class RoundDAO:
         return fund_round_list
 
     def create(self, data):
-        key = slugify(data["round_title"])
-        data["round_id"] = key
-        self.rounds[key] = data
+        self.rounds[data["id"]] = data
 
     def load_dummy(self, round_data):
         for round in round_data:

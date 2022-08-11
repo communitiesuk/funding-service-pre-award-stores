@@ -6,72 +6,34 @@ from core.dummy_dao import RoundDAO
 
 ROUND_DATA = [
     {
-        "round_id": "spring",
-        "round_title": "Spring",
-        "fund_id": "funding-service-design",
-        "eligibility_criteria": {"max_project_cost": 1200000},
-        "assessment_criteria_weighting": {
-            "strategy": 0.35,
-            "deliverability": 0.35,
-            "value_for_money": 0.3,
-        },
-        "opens": "2025-12-28 00:00:01",
-        "deadline": "2025-12-28 00:00:00",
-        "assessment_deadline": "2026-1-28 00:00:00",
-        "application_url": "https://funding-service-design-"
-        + "form-runner.london.cloudapps.digital/baseline-"
-        + "application-questions",
-    },
-    {
-        "round_id": "summer",
-        "round_title": "Summer",
-        "fund_id": "funding-service-design",
-        "eligibility_criteria": {"max_project_cost": 1500000},
-        "assessment_criteria_weighting": {
-            "strategy": 0.25,
-            "deliverability": 0.45,
-            "value_for_money": 0.3,
-        },
-        "opens": "2026-3-28 00:00:01",
-        "deadline": "2026-4-28 00:00:00",
-        "assessment_deadline": "2026-5-28 00:00:00",
-        "application_url": "https://funding-service-design-"
-        + "form-runner.london.cloudapps.digital/baseline-"
-        + "application-questions",
-    },
-    {
-        "round_id": "autumn",
-        "round_title": "Autumn",
-        "fund_id": "funding-service-design",
-        "eligibility_criteria": {"max_project_cost": 10400000},
-        "assessment_criteria_weighting": {
-            "strategy": 0.2,
-            "deliverability": 0.6,
-            "value_for_money": 0.2,
-        },
-        "opens": "2026-6-28 00:00:01",
-        "deadline": "2026-7-28 00:00:00",
-        "assessment_deadline": "2026-8-28 00:00:00",
-        "application_url": "https://funding-service-design-"
-        + "form-runner.london.cloudapps.digital/funding-application",
-    },
-    {
-        "round_id": "winter",
-        "round_title": "Winter",
-        "fund_id": "funding-service-design",
-        "eligibility_criteria": {"max_project_cost": 10400000},
-        "assessment_criteria_weighting": {
-            "strategy": 0.3,
-            "deliverability": 0.4,
-            "value_for_money": 0.3,
-        },
-        "opens": "2026-9-28 00:00:01",
-        "deadline": "2026-10-28 00:00:00",
-        "assessment_deadline": "2026-11-28 00:00:00",
-        "application_url": (
-            "https://funding-service-design-"
-            "form-runner.london.cloudapps.digital/funding-application"
-        ),
+        "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+        "title": "Round 2 Window 2",
+        "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+        "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10
+            }
+        ],
+        "opens": "2022-09-01 00:00:01",
+        "deadline": "2023-01-30 00:00:01",
+        "assessment_deadline": "2023-03-20 00:00:01",
     },
 ]
 

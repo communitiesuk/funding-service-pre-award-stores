@@ -3,33 +3,24 @@ components:
     Fund:
         type: object
         properties:
-          fund_name:
+          name:
             type: string
             description: The name of the fund.
             example: "J's Sensible T-Shirt Fund"
-          fund_description:
+          description:
             type: string
             description: The description of the fund.
             example: "Help J buy more t-shirt."
-          fund_id:
+          id:
             type: string
             description: The fund ID, uniquely identifies the fund.
             example: "sdknbfs98yf48sfd"
         required:
-          - fund_name
-          - fund_description
-          - fund_id
-    EligibilityCriteria:
-        type: object
-        properties:
-          max_project_cost:
-            type: integer
-            description: Maximum project cost
-            example: 1000000
-        required:
-          - max_project_cost
+          - id
+          - name
+          - description
     AssessmentCriteriaWeighting:
-        type: object
+        type: array
         properties:
           strategy:
             type: number
@@ -59,11 +50,11 @@ components:
     Round:
         type: object
         properties:
-          round_id:
+          id:
             type: string
             description: id of rounds.
             example: "12345-qwert-....."
-          round_title:
+          title:
             type: string
             description: title or name of the round.
             example: "Spring"
@@ -71,13 +62,9 @@ components:
             type: string
             description: The fund ID, uniquely identifies the fund.
             example: "funding-service-design"
-          eligibility_criteria:
-            $ref: '#/components/schemas/EligibilityCriteria'
-            description: outlines the eligibility criteria for applicants
-            example:
           assessment_criteria_weighting:
             $ref: '#/components/schemas/AssessmentCriteriaWeighting'
-            description: outlines the eligibility criteria for applicants
+            description: assessment criteria weightings for application criteria.
             example:
           opens:
             type: string
@@ -91,20 +78,14 @@ components:
             type: string
             description: The date when the assessments will be completed
             example: "2022-12-25 00:00:00"
-          application_url:
-            type: string
-            description: The url for the online application form
-            example: "https://application-form-service/fund-id-round-id"
         required:
-          - round_id
-          - round_title
+          - id
           - fund_id
-          - eligibility_criteria
+          - title
           - assessment_criteria_weighting
           - opens
           - deadline
           - assessment_deadline
-          - application_url
     Error:
       type: object
       properties:
