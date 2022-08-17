@@ -13,3 +13,5 @@ applications:
     FLASK_ENV: test
   services:
     - assessment-store-test-db
+  health-check-http-endpoint: /healthcheck
+  health-check-type: http

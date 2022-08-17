@@ -12,3 +12,5 @@ applications:
     NOTIFICATION_SERVICE_HOST: http://funding-service-design-notification-dev.apps.internal:8080
     FLASK_ENV: dev
     FLASK_DEBUG: 1
+  health-check-http-endpoint: /healthcheck
+  health-check-type: http
