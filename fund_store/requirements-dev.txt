@@ -82,7 +82,7 @@ flask==2.1.1
     #   connexion
     #   funding-service-design-utils
     #   pytest-flask
-funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.11.tar.gz
+funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.14.tar.gz
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython

@@ -31,7 +31,7 @@ flask==2.1.1
     #   -r requirements.in
     #   connexion
     #   funding-service-design-utils
-funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.11.tar.gz
+funding-service-design-utils @ https://github.com/communitiesuk/funding-service-design-utils/archive/refs/tags/0.0.14.tar.gz
     # via -r requirements.in
 gunicorn==20.1.0
     # via funding-service-design-utils

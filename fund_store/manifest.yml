@@ -8,6 +8,8 @@ applications:
   command: gunicorn wsgi:app -c run/gunicorn/devtest.py
   env:
     FLASK_ENV: dev
+  health-check-http-endpoint: /healthcheck
+  health-check-type: http
 
 - name: funding-service-design-fund-store-test
   memory: 64M
@@ -16,3 +18,5 @@ applications:
   command: gunicorn wsgi:app -c run/gunicorn/devtest.py
   env:
     FLASK_ENV: test
+  health-check-http-endpoint: /healthcheck
+  health-check-type: http
