@@ -1,5 +1,7 @@
 import connexion
 from flask import Flask
+from fsd_utils.healthchecks.checkers import FlaskRunningChecker
+from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
 from openapi.utils import get_bundled_specs
 
@@ -22,6 +24,9 @@ def create_app() -> Flask:
 
     # Initialise logging
     logging.init_app(flask_app)
+
+    health = Healthcheck(flask_app)
+    health.add_check(FlaskRunningChecker())
 
     return flask_app
 
