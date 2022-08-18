@@ -118,3 +118,12 @@ class TestAssessmentEndpoints:
 
         assert response.status_code == 404
         assert error_response.get("message") == "Assessment could not be found"
+
+    def testHealthcheckRoute(self, flask_test_client):
+        expected_result = {
+            "checks": [{"check_running": "OK"}, {"check_db": "OK"}]
+        }
+
+        result = flask_test_client.get("/healthcheck")
+        assert result.status_code == 200, "Unexpected status code"
+        assert result.json == expected_result, "Unexpected json body"

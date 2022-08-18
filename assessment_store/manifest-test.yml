@@ -1,7 +1,7 @@
 ---
 applications:
 - name: funding-service-design-assessment-store-test
-  memory: 64M
+  memory: 128M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
@@ -13,3 +13,5 @@ applications:
     FLASK_ENV: test
   services:
     - assessment-store-test-db
+  health-check-http-endpoint: /healthcheck
+  health-check-type: http
