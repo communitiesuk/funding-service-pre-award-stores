@@ -63,8 +63,9 @@ class TestScoreJustificationEndpoints:
         assert score_justification.get("score") == 1
 
 
-# TODO reinstate this when we go back to assessment. Currently points at data
-#  on test which isn't compatible with this test. Should use fixed test data
+# TODO FS-1344 reinstate this when we go back to assessment. Currently points
+# at data on test which isn't compatible with this test. Should use fixed
+# test data
 # def test_scores(self, flask_test_client):
 #     expected_response = [
 #         {
