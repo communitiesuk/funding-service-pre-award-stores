@@ -34,6 +34,16 @@ ROUND_DATA = [
         "opens": "2022-09-01 00:00:01",
         "deadline": "2023-01-30 00:00:01",
         "assessment_deadline": "2023-03-20 00:00:01",
+        "contact_details": {
+            "phone": "",
+            "email_address": "COF@levellingup.gov.uk",
+            "text_phone": ""
+        },
+        "support_availability": {
+            "time": "9am to 5pm",
+            "days": "Monday to Friday",
+            "closed": "Easter Sunday, Christmas Day, Boxing Day and New Year’s Day"
+        }
     },
 ]
 
