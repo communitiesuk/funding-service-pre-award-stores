@@ -1,7 +1,6 @@
 """A dummy DAO implementation. Acts as a template for our
 future implementation.
 """
-from slugify import slugify
 
 
 class FundDAO:
@@ -36,11 +35,7 @@ class RoundDAO:
             round for round in all_round_list if round["fund_id"] == fund_id
         ]
         the_round = next(
-            (
-                round
-                for round in fund_round_list
-                if round["id"] == round_id
-            ),
+            (round for round in fund_round_list if round["id"] == round_id),
             None,
         )
         return the_round

@@ -4,11 +4,11 @@ A file containing all tests related to the fund endpoint.
 import asserts
 from flask import Flask
 from flask import request
-from tests.test_data import TEST_ROUND_ONE
 from tests.test_data import DEFAULT_RESPONSE_FUND_DATA
 from tests.test_data import TEST_FUND_ONE
-from tests.test_data import TEST_ROUNDS_IN_FUND_ONE
 from tests.test_data import TEST_RESPONSE_FUND_DATA
+from tests.test_data import TEST_ROUND_ONE
+from tests.test_data import TEST_ROUNDS_IN_FUND_ONE
 
 
 def test_all_funds_endpoint(client: Flask, load_test_data):
@@ -79,7 +79,11 @@ def test_single_round_in_single_fund_endpoint(client: Flask, load_test_data):
     initial data.
     """
     host_url = request.host_url
-    url = host_url + "funds/fb986cdc-8e02-477a-a7e0-41cf19dd7675/rounds/3b1ae9e8-eda4-4910-a5dd-fc144f9a8ba1"
+    url = (
+        host_url
+        + "funds/fb986cdc-8e02-477a-a7e0-41cf19dd7675/"
+        "rounds/3b1ae9e8-eda4-4910-a5dd-fc144f9a8ba1"
+    )
     api_response_json = client.get(url).json
 
     expected_data = TEST_ROUND_ONE

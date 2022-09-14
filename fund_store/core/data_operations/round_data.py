@@ -13,23 +13,23 @@ ROUND_DATA = [
             {
                 "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
                 "name": "Strategic case",
-                "value": 0.30
+                "value": 0.30,
             },
             {
                 "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
                 "name": "Management case",
-                "value": 0.30
+                "value": 0.30,
             },
             {
                 "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
                 "name": "Potential to delivery community benefits",
-                "value": 0.30
+                "value": 0.30,
             },
             {
                 "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
                 "name": "Added value to the community",
-                "value": 0.10
-            }
+                "value": 0.10,
+            },
         ],
         "opens": "2022-10-04 12:00:00",
         "deadline": "2023-01-30 11:59:00",
@@ -37,13 +37,15 @@ ROUND_DATA = [
         "contact_details": {
             "phone": "",
             "email_address": "COF@levellingup.gov.uk",
-            "text_phone": ""
+            "text_phone": "",
         },
         "support_availability": {
             "time": "9am to 5pm",
             "days": "Monday to Friday",
-            "closed": "Easter Sunday, Christmas Day, Boxing Day and New Year’s Day"
-        }
+            "closed": (
+                "Easter Sunday, Christmas Day, Boxing Day and New Year’s Day"
+            ),
+        },
     },
 ]
 
