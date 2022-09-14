@@ -3,11 +3,11 @@
 """
 from core.dummy_dao import RoundDAO
 
-
 ROUND_DATA = [
     {
         "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
         "title": "Round 2 Window 2",
+        "short_name": "R2W2",
         "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
         "assessment_criteria_weighting": [
             {
@@ -31,9 +31,9 @@ ROUND_DATA = [
                 "value": 0.10
             }
         ],
-        "opens": "2022-09-01 00:00:01",
-        "deadline": "2023-01-30 00:00:01",
-        "assessment_deadline": "2023-03-20 00:00:01",
+        "opens": "2022-10-04 12:00:00",
+        "deadline": "2023-01-30 11:59:00",
+        "assessment_deadline": "2023-03-30 12:00:00",
         "contact_details": {
             "phone": "",
             "email_address": "COF@levellingup.gov.uk",
