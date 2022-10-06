@@ -60,7 +60,6 @@ click==8.0.2
     #   clickclick
     #   flask
     #   pip-tools
-    #   safety
 clickclick==20.10.2
     # via
     #   -r requirements.txt
@@ -81,8 +80,6 @@ deepdiff==5.8.1
     # via -r requirements-dev.in
 distlib==0.3.4
     # via virtualenv
-dparse==0.5.1
-    # via safety
 filelock==3.7.1
     # via virtualenv
 flask==2.1.1
@@ -165,9 +162,7 @@ packaging==21.3
     #   -r requirements.txt
     #   build
     #   connexion
-    #   dparse
     #   pytest
-    #   safety
 pathspec==0.9.0
     # via black
 pbr==5.9.0
@@ -263,7 +258,6 @@ pyyaml==6.0
     #   bandit
     #   clickclick
     #   connexion
-    #   dparse
     #   funding-service-design-utils
     #   openapi-spec-validator
     #   pre-commit
@@ -274,7 +268,6 @@ requests==2.27.1
     #   prance
     #   pytest-base-url
     #   pytest-selenium
-    #   safety
     #   webdriver-manager
 rich==12.4.4
     # via
@@ -288,8 +281,6 @@ ruamel-yaml-clib==0.2.6
     # via
     #   -r requirements.txt
     #   ruamel-yaml
-safety==1.10.3
-    # via -r requirements-dev.in
 selenium==4.2.0
     # via
     #   -r requirements-dev.in
@@ -326,9 +317,7 @@ text-unidecode==1.3
     #   -r requirements.txt
     #   python-slugify
 toml==0.10.2
-    # via
-    #   dparse
-    #   pre-commit
+    # via pre-commit
 tomli==2.0.1
     # via
     #   black
