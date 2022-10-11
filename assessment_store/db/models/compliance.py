@@ -47,10 +47,10 @@ class Compliance(db.Model):
 
     def as_json(self):
         return {
-            "id": self.id,
-            "created_at": self.created_at,
-            "assessment_id": self.assessment_id,
-            "sub_criteria_id": self.sub_criteria_id,
+            "id": str(self.id),
+            "created_at": self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+            "assessment_id": str(self.assessment_id),
+            "sub_criteria_id": str(self.sub_criteria_id),
             "is_compliant": self.is_compliant,
         }
 

@@ -2,7 +2,9 @@ import uuid
 from collections import defaultdict
 from datetime import datetime
 
-from api.routes.scores_justifications.utils import calc_weights
+from api.routes.scores_justifications.utils import (
+    calc_weighted_scores_for_criteria,
+)
 from db import db
 from db.models.assessment import Assessment
 from db.models.criteria import Criteria
@@ -58,8 +60,8 @@ class ScoresJustifications(db.Model):
 
     def as_json(self):
         return {
-            "id": self.id,
-            "created_at": self.created_at,
+            "id": str(self.id),
+            "created_at": self.created_at.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "assessment_id": str(self.assessment_id),
             "assessor_user_id": self.assessor_user_id,
             "sub_criteria_id": str(self.sub_criteria_id),
@@ -127,7 +129,7 @@ class ScoresJustificationsMethods:
 
             crit_name = crit_row.criteria_name
 
-            calculated_scores = calc_weights(
+            calculated_scores = calc_weighted_scores_for_criteria(
                 fund_id=fund_id,
                 crit_id=crit_id,
                 list_of_scores=grouped_by_crit[crit_id],

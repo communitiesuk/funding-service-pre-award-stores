@@ -1,7 +1,4 @@
 """Flask Local Development Environment Configuration."""
-from os import environ
-from os import path
-
 from config.envs.default import DefaultConfig
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
@@ -24,8 +21,4 @@ class DevelopmentConfig(DefaultConfig):
     FORCE_HTTPS = False
 
     # Database
-    SQLITE_DB_NAME = "sqlite.db"
-    SQLALCHEMY_DATABASE_URI = environ.get(
-        "DATABASE_URL"
-    ) or "sqlite:///" + path.join(DefaultConfig.FLASK_ROOT, SQLITE_DB_NAME)
     SQLALCHEMY_TRACK_MODIFICATIONS = False

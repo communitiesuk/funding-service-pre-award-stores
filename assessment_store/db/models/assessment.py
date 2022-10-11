@@ -1,6 +1,7 @@
 import uuid
 
 from db import db
+from flask import current_app
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.exc import StatementError
 from sqlalchemy_utils.types import UUIDType
@@ -73,6 +74,12 @@ class AssessmentMethods:
             db.session.commit()
         except IntegrityError:
             db.session.rollback()
+            current_app.logger.warning(
+                (
+                    "An assessment for this application "
+                    f"({application_id}) already exists"
+                )
+            )
             raise AssessmentError(
                 message="An assessment for this application already exists"
             )

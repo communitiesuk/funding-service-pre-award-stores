@@ -4,6 +4,7 @@ from pathlib import Path
 
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
+from fsd_utils import NotifyConstants
 
 
 @configclass
@@ -46,11 +47,13 @@ class DefaultConfig:
     # Notification Service
     NOTIFICATION_SERVICE_HOST = CommonConfig.NOTIFICATION_SERVICE_HOST
     NOTIFICATION_SEND_ENDPOINT = CommonConfig.NOTIFICATION_SEND_ENDPOINT
-    NOTIFY_TEMPLATE_MAGIC_LINK = CommonConfig.NOTIFY_TEMPLATE_MAGIC_LINK
+    NOTIFY_TEMPLATE_MAGIC_LINK = NotifyConstants.TEMPLATE_TYPE_MAGIC_LINK
 
     # ---------------
     # Database
     # ---------------
 
-    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL").replace(
+        "postgres://", "postgresql://"
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False

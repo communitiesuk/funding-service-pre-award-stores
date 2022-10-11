@@ -133,9 +133,10 @@ flask_session
 
 # IntelliJ
 .idea
+.run
 
 # VS Code
-.vscode/settings.json
+.vscode
 
 # Mac files
 .bash_profile
@@ -143,3 +144,4 @@ flask_session
 
 # Sqlite
 sqlite.db
+test_sqlite.db

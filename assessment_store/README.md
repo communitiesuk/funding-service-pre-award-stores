@@ -52,9 +52,8 @@ Then run:
     pip-compile requirements-dev.in
 
 ### Initialise and upgrade database
-This service is designed to use sqlite for local development and PostgreSQL when deployed.
-Both can be easily switched (if required locally) due to the usage of database agnostic ORM SqlAlchemy
-This can by done by setting the DATABASE_URL environment variable to the URL of the database you want to test with.
+This service is designed to use PostgreSQL as a database, via SqlAlchemy
+When running the service (eg. `flask run`) you need to set the DATABASE_URL environment variable to the URL of the database you want to test with.
 
 Initialise the database:
 
@@ -73,7 +72,7 @@ Please then commit and push these to github so that the migrations will be run i
 upgrade the deployed db instances with your changes.
 
 ## How to use
-Enter the virtual environment as described above, then:
+Enter the virtual environment and setup the db as described above, then:
 
 ### Run Flask
 
@@ -112,9 +111,26 @@ These are the current pipelines running on the repo:
 
 ## Unit & Accessibility Testing
 
-To run all tests run:
+1. Ensure you have a local postgres instance setup and running with a user `postgres` created.
+1. Install `requirements-dev.txt`
+1. Activate your virtual env: `source .venv/bin/activate`
+1. Run `invoke bootstrap-test-db --database-host=your-db-url` to create a db called "fsd_assess_store_test" in your local postgres instance. This uses the invoke python module to execute tasks defined in `tasks.py`
+1. Run pytest
+- Note you will not see any data inserted from the tests as they run within transactions so are not persisted after the testing session.
 
-    pytest
+## Transactional tests
+These rely on the module `pytest-flask-sqlalchemy` which has good docs on its github page: https://github.com/jeancochrane/pytest-flask-sqlalchemy
+
+The main parts of this framework are invoked in `conftest.py` with the following fixture definitions:
+- `enable_transactional_tests` - This makes all tests use transactions so we don't need to turn it on for each test individually
+- `_db` - this makes the framework use our `db` variable from `db.db`, overriding anywhere it is used during the tests.
+
+`conftest.py` also seeds data into the test db which enables all the tests to be run individually - no test should rely on another to run before or after it. This seeded data is also rolled back after a test session.
+
+To make the tests work with a test postgres db in the github pipelines, we pass the following 2 inputs to the shared workflow:
+
+      postgres_unit_testing: true
+      db_name: fsd_assess_store_test
 
 ## Performance Testing
 
@@ -130,3 +146,15 @@ the following while in your virtual environment:
 
 Once the above is done you will have autoformatting and pep8 compliance built
 into your workflow. You will be notified of any pep8 errors during commits.
+
+# Database on Paas
+Create db service with:
+
+    cf create-service postgres medium-13 assessment-store-dev-db
+
+Ensure the following elements are present in your `manifest.yml`. The `run_migrations_paas.py` is what initialises the database, and the `services` element binds the application to the database service.
+
+    command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
+
+    services:
+        - assessment-store-dev-db

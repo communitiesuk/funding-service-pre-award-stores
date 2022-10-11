@@ -3,146 +3,53 @@ name: Deploy to Gov PaaS
 on:
   workflow_dispatch:
   push:
-    # branches:
-    # - master
-    # - FS-389
-    # - FS-390
-
     paths-ignore:
       - '**/README.md'
 
 jobs:
-  testing:
-    runs-on: ubuntu-latest
-    environment: Dev
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.1
-      - name: install dependencies
-        run: python -m pip install --upgrade pip && python -m pip install -r requirements-dev.txt
-      - name: run unit tests
-        run: python -m pip install pytest && python -m pytest .
 
-  deploy_dev:
-    if: ${{ github.actor != 'dependabot[bot]' }}
-    needs: testing
+  test_and_deploy:
+    uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@main
+    with:
+      app_name: ${{ github.event.repository.name }}
+      api: true
+      postgres_unit_testing: true
+      db_name: fsd_assess_store_test
+      deploy_to_dev: false
+      users: 2
+      spawn-rate: 2
+      run-time: 11s
+    secrets:
+      CF_API: ${{secrets.CF_API}}
+      CF_ORG: ${{secrets.CF_ORG}}
+      CF_SPACE: ${{secrets.CF_SPACE}}
+      CF_USER: ${{secrets.CF_USER}}
+      CF_PASSWORD: ${{secrets.CF_PASSWORD}}
+  apply_network_policy_dev:
     runs-on: ubuntu-latest
     environment: Dev
     steps:
-      - name: checkout code
-        uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.1
-      - name: create python env
-        run: python -m venv .venv
-      - name: install dependencies & upgrade db
-        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt && flask db upgrade
-      - name: Deploy to Gov PaaS
-        uses: citizen-of-planet-earth/cf-cli-action@v2
-        with:
-          cf_api:      ${{secrets.CF_API}}
-          cf_org:      ${{secrets.CF_ORG}}
-          cf_space:    ${{secrets.CF_SPACE }}
-          cf_username: ${{secrets.CF_USER}}
-          cf_password: ${{secrets.CF_PASSWORD}}
-          command: push funding-service-design-assessment-store-dev -f manifest-dev.yml
-      - name: Apply network policy for notification service
-        uses: citizen-of-planet-earth/cf-cli-action@v2
-        with:
+    - name: Apply network policy for notification service for dev
+      uses: citizen-of-planet-earth/cf-cli-action@v2
+      with:
           cf_api:      ${{secrets.CF_API}}
           cf_org:      ${{secrets.CF_ORG}}
           cf_space:    ${{secrets.CF_SPACE }}
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
           command: add-network-policy funding-service-design-assessment-store-dev funding-service-design-notification-dev --protocol tcp --port 8080
-
-  security:
-    needs: deploy_dev
-    runs-on: ubuntu-latest
-    environment: Dev
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.1
-      - name: install dependencies
-        run: python -m pip install --upgrade pip && python -m pip install bandit
-      - name: Bandit
-        run: bandit -x './scripts/*,./.venv/*,./config/*,./tests/*' -r .
-      - name: ZAP Scan
-        uses: zaproxy/action-full-scan@v0.3.0
-        with:
-          target: 'https://funding-service-design-assessment-store-dev.london.cloudapps.digital/'
-          allow_issue_writing: False
-
-  deploy_test:
-    needs: security
-    runs-on: ubuntu-latest
-    environment: test
+  apply_network_policy_test:
+    needs: test_and_deploy
     if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: Test
     steps:
-      - name: checkout code
-        uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.1
-      - name: create python env
-        run: python -m venv .venv
-      - name: install dependencies & upgrade db
-        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r requirements.txt && flask db upgrade
-      - name: Deploy to Gov PaaS
-        uses: citizen-of-planet-earth/cf-cli-action@v2
-        with:
-          cf_api:      ${{secrets.CF_API}}
-          cf_org:      ${{secrets.CF_ORG}}
-          cf_space:    ${{secrets.CF_SPACE }}
-          cf_username: ${{secrets.CF_USER}}
-          cf_password: ${{secrets.CF_PASSWORD}}
-          command: push funding-service-design-assessment-store-test -f manifest-test.yml
-      - name: Apply network policy for notification service
-        uses: citizen-of-planet-earth/cf-cli-action@v2
-        with:
+    - name: Apply network policy for notification service for test
+      uses: citizen-of-planet-earth/cf-cli-action@v2
+      with:
           cf_api:      ${{secrets.CF_API}}
           cf_org:      ${{secrets.CF_ORG}}
           cf_space:    ${{secrets.CF_SPACE }}
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
           command: add-network-policy funding-service-design-assessment-store-test funding-service-design-notification-test --protocol tcp --port 8080
-
-  run_performance_tests:
-    needs: deploy_test
-    runs-on: ubuntu-latest
-    environment: test
-    steps:
-      - name: checkout code
-        uses: actions/checkout@main
-        with:
-          repository: communitiesuk/funding-service-design-performance-tests
-          path: ./funding-service-design-performance-tests
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.10.1
-      - name: create python env
-        run: python -m venv .venv
-      - name: install dependencies
-        run: source .venv/bin/activate && python -m pip install --upgrade pip && pip install -r ./funding-service-design-performance-tests/requirements.txt
-
-      - name: Run performance tests
-        run: ls && python -m pip install locust && python -m locust
-        working-directory: ./funding-service-design-performance-tests
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: performance-test-report
-          path: ./funding-service-design-performance-tests/locust_html_report.html
-          retention-days: 5
