@@ -38,7 +38,7 @@ class DefaultConfig(object):
     # Azure Active Directory Config
     AZURE_AD_CLIENT_ID = (
         # Application (client) ID of app registration on Azure AD
-        "***REMOVED***"
+        environ.get("AZURE_AD_CLIENT_ID", "***REMOVED***")
     )
     AZURE_AD_CLIENT_SECRET = environ.get("AZURE_AD_CLIENT_SECRET")
     AZURE_AD_AUTHORITY = (
