@@ -20,7 +20,14 @@ class DevConfig(Config):
 
     # Azure Active Directory Config
     # This secret is only used for testing purposes
-    AZURE_AD_CLIENT_SECRET = "***REMOVED***"
+    AZURE_AD_CLIENT_ID = (
+        # Application (client) ID of app registration on Azure AD
+        environ.get("AZURE_AD_CLIENT_ID", "***REMOVED***")
+    )
+    AZURE_AD_CLIENT_SECRET = environ.get(
+        "AZURE_AD_CLIENT_SECRET",
+        "***REMOVED***"
+    )
     AZURE_AD_AUTHORITY = (
         # consumers|organisations - signifies the Azure AD tenant endpoint
         "https://login.microsoftonline.com/consumers"
