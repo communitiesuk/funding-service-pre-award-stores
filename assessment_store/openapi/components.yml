@@ -95,3 +95,17 @@ components:
         weighted_score:
           type: number
           format: float
+    CommentSaved:
+      type: object
+      properties:
+        comment_id:
+          type: string
+    Comment:
+      type: object
+      properties:
+        assessor_user_id:
+          type: string
+        section:
+          type: integer
+        comment:
+          type: string

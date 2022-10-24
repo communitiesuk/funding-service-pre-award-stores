@@ -1,6 +1,7 @@
 # flake8: noqa
 from typing import List
 
+from db.models.comments import Comment
 from db.models.assessment import Assessment
 from db.models.compliance import Compliance
 from db.models.scores_justifications import ScoresJustifications
@@ -95,6 +96,41 @@ def compliance_response(compliance: Compliance, code: int = 200):
                 "sub_criteria_id": compliance.sub_criteria_id,
                 "assessment_id": compliance.assessment_id,
                 "is_compliant": compliance.is_compliant,
+            }
+        ),
+        code,
+    )
+
+def comment_created(comment: Comment, code: int = 201):
+    if type(comment) == dict:
+        comment = Comment(**comment)
+    return (
+        make_response(
+            {
+                "comment_id": comment.id,
+                "comment": comment.comment,
+            }
+        ),
+        code,
+    )
+
+def comments_response(
+    comment_list: List[Comment], code: int = 200
+):
+    return (
+        make_response(
+            {
+                "comments_list": [
+                    {
+                        "id": comment.id,
+                        "created_at": comment.created_at,
+                        "assessor_user_id": comment.assessor_user_id,
+                        "sub_criteria_id": comment.sub_criteria_id,
+                        "assessment_id": comment.assessment_id,
+                        "comment": comment.comment,
+                    }
+                    for comment in comment_list
+                ]
             }
         ),
         code,

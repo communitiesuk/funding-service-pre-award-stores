@@ -91,7 +91,7 @@ paths:
   '/update-compliance':
     post:
       tags:
-        - assessment status
+        - compliance
       summary: Update assessment status
       description: Return an updated assessment status
       operationId: api.AssessmentsView.status
@@ -360,4 +360,96 @@ paths:
           required: true
           schema:
             type: string
+            format: path
+
+  '/assessments/{assessment_id}/sub_criterias/{sub_criteria_id}/section/{section_id}/comments':
+    get:
+      tags:
+        - comments
+      summary: Get comments for a section
+      description: Get comments for a sub-criteria section
+      operationId: api.CommentsView.get
+      responses:
+        200:
+          description: SUCCESS - comments for sub_criteria section
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  comments:
+                    type: array
+                    items:
+                      $ref: 'components.yml#/components/schemas/Comment'
+      parameters:
+        - name: assessment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+        - name: sub_criteria_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+        - name: section_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: path
+
+    post:
+      tags:
+        - comments
+      summary: Record a comment
+      description: Record a comment against a sub-criterias section
+      operationId: api.CommentsView.post
+      requestBody:
+        description: record a comment parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yml#/components/schemas/Comment'
+            example:
+              assessor_user_id: "example_person"
+              comment: "Nice job!"
+      responses:
+        201:
+          description: SUCCESS - Comment recorded
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/CommentSaved'
+        401:
+          description: ERROR - Could not record comment
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'There was a problem recording the comment.'
+      parameters:
+        - name: assessment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+        - name: sub_criteria_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+        - name: section_id
+          in: path
+          required: true
+          schema:
+            type: integer
             format: path
