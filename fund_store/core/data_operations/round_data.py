@@ -32,7 +32,7 @@ ROUND_DATA = [
             },
         ],
         "opens": "2022-10-04 12:00:00",
-        "deadline": "2023-01-30 11:59:00",
+        "deadline": "2022-12-14 11:59:00",
         "assessment_deadline": "2023-03-30 12:00:00",
         "contact_details": {
             "phone": "",
