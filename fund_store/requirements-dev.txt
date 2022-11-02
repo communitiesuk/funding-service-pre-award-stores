@@ -94,7 +94,7 @@ flask-babel==2.0.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-funding-service-design-utils==1.0.7
+funding-service-design-utils==1.0.8
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython
