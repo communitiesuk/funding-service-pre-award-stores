@@ -1,4 +1,3 @@
-import pytest
 from app import create_app
 from db import db
 from flask_migrate import upgrade
