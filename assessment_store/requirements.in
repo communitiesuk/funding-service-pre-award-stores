@@ -15,7 +15,7 @@ Flask==2.1.1
 SQLAlchemy
 Flask-SQLAlchemy
 Flask-Migrate
-psycopg2
+psycopg2-binary
 
 #-----------------------------------
 #   Connexion APIs

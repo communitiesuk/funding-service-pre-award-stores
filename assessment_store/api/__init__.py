@@ -1,8 +1,2 @@
 # flake8: noqa
-from api.routes.assessments.routes import AssessmentsView
-from api.routes.compliance.routes import ComplianceView
-from api.routes.scores_justifications.routes import (
-    ScoresJustificationsView,
-)
-from api.routes.subcriterias.routes import SubCriteriaView
-from api.routes.comments.routes import CommentsView
+import api.routes.template_route as TemplateRoute
