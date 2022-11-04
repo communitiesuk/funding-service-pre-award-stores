@@ -1,14 +1,71 @@
+from collections import defaultdict
+import traceback
+from sqlalchemy.engine import Engine
+import datetime
+import pytest
 from app import create_app
 from db import db
+from config import Config
 from flask_migrate import upgrade
 from db.models.assessment_records import AssessmentRecords
-from tests.db_seed_data import AssessmentRows
+from tests.db_seed_data import create_rows
+import inspect
+from sqlalchemy import event
+
+queries_types = defaultdict(int)
+
+@event.listens_for(db.Session, 'do_orm_execute')
+def receive_do_orm_execute(orm_execute_state):
+    
+    if orm_execute_state.is_select:
+        queries_types["selects"] =+ 1
+    if orm_execute_state.is_insert:
+        queries_types["inserts"] =+ 1
+
+@event.listens_for(Engine, "before_cursor_execute")
+def before_cursor_execute(conn, cursor, statement, parameters, context, executemany):
+    conn.info.setdefault("query_start_time", []).append(datetime.datetime.now())
+
+
+@event.listens_for(Engine, "after_cursor_execute")
+def after_cursor_execute(conn, cursor, statement, parameters, context, executemany):
+    total = datetime.datetime.now() - conn.info["query_start_time"].pop(-1)
+    if "SAVEPOINT" not in statement and 'pytest_pyfunc_call' in [frame.function for frame in inspect.stack()]:
+        print(total.microseconds/1000, statement[0:30])
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--testrows",
+        action="store",
+        default=20,
+        help="The amount of rows to use when testing the db.",
+        type=int,
+    )
+
+def pytest_terminal_summary(terminalreporter):
+    terminalreporter.section("Database test information")
+    rows_to_create = terminalreporter.config.option.testrows
+    database_url = Config.SQLALCHEMY_DATABASE_URI
+    terminalreporter.write_line(f"Database URL: {database_url}")
+    terminalreporter.write_line(f"Rows created: {rows_to_create} (Adjust with --testrows=INT)")
+    terminalreporter.write_line(f"Selects made: {queries_types['selects']}")
+    terminalreporter.write_line(f"Inserts made: {queries_types['inserts']}")
+    terminalreporter.ensure_newline()
 
 
 @pytest.fixture(autouse=True)
-def seed_data(db_session):
-    print(AssessmentRows)
-    for row in AssessmentRows:
+def row_data(request):
+
+    rows_to_create = request.config.getoption("testrows")
+
+    row_data = create_rows(rows_to_create)
+
+    yield row_data
+
+@pytest.fixture(autouse=True)
+def seed_data(db_session, row_data):
+
+    for row in row_data:
         db.session.add(row)
     db.session.commit()
     

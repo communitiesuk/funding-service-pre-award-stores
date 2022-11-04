@@ -1,19 +1,21 @@
 import random
 from db.models.assessment_records import find_field_by_key
-from tests.db_seed_data import random_apps, random_keys, random_questions
 
-def test_select_field_by_id():
+def test_select_field_by_id(row_data):
 
-    random_index = random.choice(range(len(random_apps)))
+    assessment_rows = row_data
 
-    picked_app_id = random_apps[random_index]
+    picked_row = random.choice(assessment_rows)
 
-    picked_field_key = random.choice(random_keys[random_index])
+    # We pick a random row to extract some data from.
+    picked_app_id = picked_row.application_id
 
-    for question_dict in random_questions[random_index]:
-        for field_dict in question_dict["fields"]:
-            if field_dict["key"] == picked_field_key:
-                correct_answer = field_dict
-                break
+    picked_questions = picked_row.application_json
+    picked_question = random.choice(picked_questions)
+    picked_field = random.choice(picked_question["fields"])
 
-    assert find_field_by_key(picked_field_key, picked_app_id)[0] == correct_answer
+    picked_key = picked_field["key"]
+
+    field_found = find_field_by_key(picked_key, picked_app_id)[0]
+
+    assert field_found == picked_field

@@ -4,7 +4,7 @@ import string
 from db.models.assessment_records import AssessmentRecords
 
 
-def create_question_row():
+def create_question_row_data():
 
     random_keys = [''.join(random.choices(string.ascii_uppercase + string.digits, k=10)) for i in range(6)]
 
@@ -64,17 +64,19 @@ def create_question_row():
 
     return (random_keys, question_row)
 
-keys_and_row = [(create_question_row()) for i in range(10)]
+def create_rows(rows_to_make):
 
-print(keys_and_row)
+    keys_and_row = [(create_question_row_data()) for i in range(rows_to_make)]
 
-random_keys = [i for i,_ in keys_and_row]
-random_questions = [j for _,j in keys_and_row]
-random_apps = [random.choice(["app1","app2","app3"]) for question in random_questions]
+    random_keys = [i for i,_ in keys_and_row]
+    random_questions = [j for _,j in keys_and_row]
+    random_apps = [random.choice(["app1","app2","app3"]) for _ in random_questions]
 
-zipped_seed_data = zip(random_apps, random_keys, random_questions)
+    zipped_seed_data = zip(random_apps, random_keys, random_questions)
 
-AssessmentRows = [
-    AssessmentRecords(application_id=app_id, application_json=app_json)
-    for app_id, _, app_json in zipped_seed_data
-]
+    AssessmentRows = [
+        AssessmentRecords(application_id=app_id, application_json=app_json)
+        for app_id, _, app_json in zipped_seed_data
+    ]
+
+    return AssessmentRows
