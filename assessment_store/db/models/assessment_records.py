@@ -34,6 +34,11 @@ Index(
     postgresql_using="gin",
 )
 
+Index(
+    "application_id_index",
+    AssessmentRecords.application_id,
+)
+
 def find_field_by_key(field_key: str, app_id : str):
 
     return (
@@ -43,7 +48,6 @@ def find_field_by_key(field_key: str, app_id : str):
                 f"$[*].fields[*] ? (@.key == \"{field_key}\")",
             )
         )
-        .select_from(AssessmentRecords)
         .filter(
             AssessmentRecords.application_json.contains(
                 [ { "fields": [ { "key" : field_key } ] } ]
