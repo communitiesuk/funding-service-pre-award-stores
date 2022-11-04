@@ -31,7 +31,7 @@ def before_cursor_execute(conn, cursor, statement, parameters, context, executem
 def after_cursor_execute(conn, cursor, statement, parameters, context, executemany):
     total = datetime.datetime.now() - conn.info["query_start_time"].pop(-1)
     if "SAVEPOINT" not in statement and 'pytest_pyfunc_call' in [frame.function for frame in inspect.stack()]:
-        print(total.microseconds/1000, statement[0:30])
+        print(total.microseconds/1000, statement)
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -66,7 +66,9 @@ def row_data(request):
 
     rows_to_create = request.config.getoption("testrows")
 
-    row_data = create_rows(rows_to_create)
+    rows_per_app = request.config.getoption("rowsperapp")
+
+    row_data = create_rows(rows_to_create, rows_per_app)
 
     yield row_data
 
