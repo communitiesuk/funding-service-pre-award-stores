@@ -42,6 +42,14 @@ def pytest_addoption(parser):
         type=int,
     )
 
+    parser.addoption(
+        "--rowsperapp",
+        action="store",
+        default=10,
+        help="The amount of rows to assign to each app use when testing the db.",
+        type=int,
+    )
+
 def pytest_terminal_summary(terminalreporter):
     terminalreporter.section("Database test information")
     rows_to_create = terminalreporter.config.option.testrows
