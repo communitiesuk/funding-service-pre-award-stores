@@ -19,11 +19,12 @@ class UnitTestConfig(Config):
     AUTHENTICATOR_HOST = "http://localhost:5000"
 
     # Azure Active Directory Config
-    AZURE_AD_CLIENT_ID = "***REMOVED***"
-    AZURE_AD_CLIENT_SECRET = "***REMOVED***"
+    AZURE_AD_CLIENT_ID = "abc"
+    AZURE_AD_CLIENT_SECRET = "123"
+    AZURE_AD_TENANT_ID = "organizations"
     AZURE_AD_AUTHORITY = (
-        # consumers|organisations - signifies the Azure AD tenant endpoint
-        "https://login.microsoftonline.com/consumers"
+        # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint
+            "https://login.microsoftonline.com/" + AZURE_AD_TENANT_ID
     )
 
     # The absolute URL must match the redirect URI you set
