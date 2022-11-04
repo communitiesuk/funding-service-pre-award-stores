@@ -23,8 +23,6 @@ class DevelopmentConfig(Config):
     SSO_POST_SIGN_OUT_URL = AUTHENTICATOR_HOST + "/service/sso/signed-out/signout-request"
 
     # Azure Active Directory Config
-    AZURE_AD_CLIENT_ID = "***REMOVED***"
-    AZURE_AD_CLIENT_SECRET = "***REMOVED***"
     AZURE_AD_AUTHORITY = (
         # consumers|organizations|<tenant_id> - signifies the Azure AD tenant endpoint
         "https://login.microsoftonline.com/organizations"
