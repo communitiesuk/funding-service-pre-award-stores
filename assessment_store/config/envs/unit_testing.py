@@ -20,3 +20,5 @@ class UnitTestingConfig(DefaultConfig):
     FORCE_HTTPS = False
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    WARN_IF_QUERIES_OVER_MS = 50
