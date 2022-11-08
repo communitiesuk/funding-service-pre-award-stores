@@ -21,4 +21,4 @@ class UnitTestingConfig(DefaultConfig):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    WARN_IF_QUERIES_OVER_MS = 50
+    WARN_IF_QUERIES_OVER_MS = 5

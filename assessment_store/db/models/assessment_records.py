@@ -118,7 +118,8 @@ Index(
 
 Index(
     "application_id_index",
-    AssessmentRecords.id,
+    AssessmentRecords.application_id,
+    postgresql_using="hash",
 )
 
 COF_json_mapper = {
@@ -148,11 +149,11 @@ def find_field_by_key(field_key: str, app_id : str):
                 f"$[*].fields[*] ? (@.key == \"{field_key}\")",
             )
         )
+        .filter(AssessmentRecords.application_id == app_id)
         .filter(
             AssessmentRecords.application_json.contains(
                 [ { "fields": [ { "key" : field_key } ] } ]
             )
         )
-        .filter(AssessmentRecords.application_id == app_id)
         .one()
     )

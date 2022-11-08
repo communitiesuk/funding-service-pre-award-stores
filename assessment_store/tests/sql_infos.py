@@ -5,6 +5,7 @@ from db import db
 from config import Config
 import inspect
 from statistics import mean
+from sqlalchemy import event
 
 queries_types = defaultdict(int)
 slow_queries = []
@@ -29,8 +30,8 @@ def after_cursor_execute(conn, cursor, statement, parameters, context, executema
 
     if "SAVEPOINT" not in statement and 'pytest_pyfunc_call' in [frame.function for frame in inspect.stack()]:
         if time_for_query.microseconds/1000 > Config.WARN_IF_QUERIES_OVER_MS:
-            slow_queries.append({"query_statement" : statement, "query_time" : time_for_query})
-        query_times.append(time_for_query)
+            slow_queries.append({"query_statement" : statement, "query_time" : time_for_query.microseconds/1000})
+        query_times.append(time_for_query.microseconds/1000)
         
 
 def pytest_addoption(parser):
@@ -50,6 +51,7 @@ def pytest_addoption(parser):
         type=int,
     )
 
+
 def pytest_terminal_summary(terminalreporter):
     terminalreporter.section("Database test information")
     rows_to_create = terminalreporter.config.option.testrows
@@ -58,8 +60,8 @@ def pytest_terminal_summary(terminalreporter):
     terminalreporter.write_line(f"Test rows created: {rows_to_create} (Adjust with --testrows=INT)")
 
     terminalreporter.section("SQL Query information")
-    terminalreporter.write_line(f"Average query time: {mean(query_times)}")
-    if slow_queries == []:
+    terminalreporter.write_line(f"Average query time: {round(mean(query_times), 3)}")
+    if slow_queries != []:
         terminalreporter.write_line(f"Slow queries found!")
         for query in slow_queries:
             terminalreporter.write_line("-" * 10)
