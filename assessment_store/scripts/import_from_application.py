@@ -7,3 +7,4 @@ with app.app_context():
 
     # Upsert data into assessment store.
 
+    pass

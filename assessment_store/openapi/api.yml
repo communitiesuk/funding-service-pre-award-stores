@@ -8,7 +8,7 @@ tags:
     description: Assessment operations
 
 paths:
-  /assessments:
+  /application_overviews/{fund_id}/{round_id}:
     get:
       tags:
         - assessments
