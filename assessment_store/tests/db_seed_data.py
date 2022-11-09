@@ -1,86 +1,47 @@
-import random
-import string
+from random import choice, sample
+from string import ascii_uppercase
 from uuid import uuid4
+from tests.application_store_json import application_store_json_template
 
-from db.models.assessment_records import AssessmentRecords
 
+def create_rows(number_of_apps):
 
-def create_question_row_data():
+    ids = [str(uuid4()) for _ in range(number_of_apps)]
 
-    random_keys = [''.join(random.choices(string.ascii_uppercase + string.digits, k=10)) for i in range(6)]
+    verbs = ["Save", "Restore", "Refurbish", "Rebuild", "Remodel"]
 
-    question_row = [
-                {
-                    "question": "About your organisation",
-                    "fields": [
-                        {
-                            "key": random_keys[0],
-                            "title": "Applicant name",
-                            "type": "text",
-                            "answer": "Coolio",
-                        },
-                        {
-                            "key": random_keys[1],
-                            "title": "Email",
-                            "type": "text",
-                            "answer": "a@example.com",
-                        },
-                        {
-                            "key": random_keys[2],
-                            "title": "Telephone number",
-                            "type": "text",
-                            "answer": "Wow",
-                        },
-                        {
-                            "key": random_keys[3],
-                            "title": "Website",
-                            "type": "text",
-                            "answer": "www.example.com",
-                        },
-                    ],
-                },
-                {
-                    "question": "About your organisation",
-                    "fields": [
-                        {
-                            "key": random_keys[4],
-                            "title": "Applicant name",
-                            "type": "text",
-                            "answer": "cool",
-                        },
-                    ],
-                },
-                {
-                    "question": "About your organisation",
-                    "fields": [
-                        {
-                            "key": random_keys[5],
-                            "title": "Applicant job",
-                            "type": "text",
-                            "answer": "cool",
-                        },
-                    ],
-                },
-            ]
+    adjects = ["old", "humble", "derelict", "vintage", "loved", "beautiful"]
 
-    return (random_keys, question_row)
+    places = ["skatepark", "pub", "cinema", "community centre", ]
 
-def create_rows(rows_to_make, avg_rows_per_app):
-
-    keys_and_row = [(create_question_row_data()) for i in range(rows_to_make)]
-
-    random_keys = [i for i,_ in keys_and_row]
-    random_questions = [j for _,j in keys_and_row]
-
-    apps = [str(uuid4()) for _ in range(round(rows_to_make/10))]
-
-    random_apps = [random.choice(apps) for _ in random_questions]
-
-    zipped_seed_data = zip(random_apps, random_keys, random_questions)
-
-    AssessmentRows = [
-        AssessmentRecords(application_id=app_id, application_json=app_json)
-        for app_id, _, app_json in zipped_seed_data
+    cities = [
+    "Bath",
+    "Birmingham",
+    "Bradford",
+    "Brighton",
+    "Bristol",
+    "Cambridge",
+    "Canterbury",
+    "Carlisle",
+    "Chelmsford",
+    "Chichester",
+    "Colchester",
+    "Exeter",
+    "Gloucester",
+    "Hereford",
+    "Aberdeen",
+    "Dundee",
+    "Dunfermline",
+    "Edinburgh",
+    "Bangor",
+    "Cardiff",
+    "Newport",
     ]
 
-    return AssessmentRows
+    for app_id in ids:
+
+        project_name = f"{choice(verbs)} the {choice(adjects)} {choice(places)} in {choice(cities)}"
+
+        short_ref = "COF-R2W2-" + "".join(sample(ascii_uppercase, 6))
+
+        yield application_store_json_template.substitute(app_id=app_id, project_name=project_name, short_ref=short_ref)

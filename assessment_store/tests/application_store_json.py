@@ -1,4 +1,6 @@
-application_store_json = """{
+from string import Template
+
+application_store_json_template = Template("""{
     "account_id": "cbf981cf-5238-4d3e-84e9-b9c183789a91",
     "date_submitted": "2022-10-27T08:32:13.383999",
     "forms": [
@@ -202,7 +204,7 @@ application_store_json = """{
                 {
                     "fields": [
                         {
-                            "answer": "E2E Automated Test Project",
+                            "answer": "$project_name",
                             "key": "KAgrBz",
                             "title": "Project name",
                             "type": "text"
@@ -904,13 +906,13 @@ application_store_json = """{
         }
     ],
     "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-    "id": "6ef7a515-c12f-4a4c-846a-42431609b5ad",
+    "id": "$app_id" ,
     "last_edited": "2022-10-27T08:32:11.843201",
-    "project_name": "E2E Automated Test Project",
-    "reference": "COF-R2W2-IXSVQP",
+    "project_name": "$project_name" ,
+    "reference": "$short_ref" ,
     "round_id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
     "round_name": "Round 2 Window 2",
     "started_at": "2022-10-27T08:28:55.699864",
     "status": "SUBMITTED"
 }
-"""
+""")

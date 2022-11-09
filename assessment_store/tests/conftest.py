@@ -3,23 +3,24 @@ import pytest
 from app import create_app
 from db import db
 from flask_migrate import upgrade
+from db.models.assessment_records import cof_insert_application_record
 from tests.db_seed_data import create_rows
 from tests.sql_infos import *
 
-
-@pytest.fixture
+@pytest.fixture(scope="session")
 def row_data(request):
+    """row_data A fixture which provides the test row data. Uses caching to
+    allow sharing data between test sessions.
+    """
 
     test_row_data = request.config.cache.get("assessment_test_data", None)
 
     rows_to_create = request.config.getoption("testrows")
-    rows_per_app = request.config.getoption("rowsperapp")
 
-    if test_row_data is None or rows_per_app != test_row_data["rows_per_app"]:
+    if test_row_data is None:
 
-        row_data = create_rows(rows_to_create, rows_per_app)
-        test_row_data = {"rows_to_create" : rows_to_create,
-        "rows_per_app" : rows_per_app, "test_rows" : row_data}
+        row_data = create_rows(rows_to_create)
+        test_row_data = {"rows_to_create" : rows_to_create, "test_rows" : list(row_data)}
 
         request.config.cache.set("assessment_test_data", test_row_data)
 
@@ -28,9 +29,9 @@ def row_data(request):
         if rows_to_create > test_row_data["rows_to_create"]:
 
             rows_to_add = rows_to_create - test_row_data["rows_to_create"]
-            row_data = create_rows(rows_to_add, rows_per_app)
+            new_rows = list(create_rows(rows_to_add))
 
-            test_row_data["test_rows"] = test_row_data["test_rows"] + rows_to_add
+            test_row_data["test_rows"] = test_row_data["test_rows"] + new_rows
             test_row_data["rows_to_create"] = rows_to_create
 
             request.config.cache.set("assessment_test_data", test_row_data)
@@ -38,20 +39,21 @@ def row_data(request):
         if rows_to_create < test_row_data["rows_to_create"]:
 
             row_data = random.sample(test_row_data["test_rows"], rows_to_create)
-            test_row_data["test_rows"] = row_data
-            
+
+            test_row_data["test_rows"] = list(row_data)
             test_row_data["rows_to_create"] = rows_to_create
 
             request.config.cache.set("assessment_test_data", test_row_data)
 
     return test_row_data
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def seed_data(db_session, row_data):
 
-    for row in row_data["test_rows"]:
-        db.session.add(row)
-    db.session.commit()
+    for json_string in row_data["test_rows"]:
+        
+        cof_insert_application_record(json_string)
+
     
 
 @pytest.fixture(scope="session")

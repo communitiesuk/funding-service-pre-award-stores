@@ -9,6 +9,19 @@ tags:
 
 paths:
   /application_overviews/{fund_id}/{round_id}:
+    parameters:
+    - name: fund_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path
+    - name: round_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path
     get:
       tags:
         - assessments
