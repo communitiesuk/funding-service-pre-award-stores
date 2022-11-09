@@ -1,5 +1,6 @@
 import random
 import string
+from uuid import uuid4
 
 from db.models.assessment_records import AssessmentRecords
 
@@ -71,7 +72,7 @@ def create_rows(rows_to_make, avg_rows_per_app):
     random_keys = [i for i,_ in keys_and_row]
     random_questions = [j for _,j in keys_and_row]
 
-    apps = [f"app{i}" for i in range(round(rows_to_make/10))]
+    apps = [str(uuid4()) for _ in range(round(rows_to_make/10))]
 
     random_apps = [random.choice(apps) for _ in random_questions]
 

@@ -6,6 +6,7 @@ from sqlalchemy.dialects.postgresql import JSONB, BYTEA, ENUM
 from db.models.enums.workflow_status import Status
 from sqlalchemy_utils.types import UUIDType
 from db import db
+from copy import deepcopy
 
 class AssessmentRecords(db.Model):
 
@@ -130,14 +131,22 @@ COF_json_mapper = {
     "round_id" : "$.round_id",
     "application_json" : "$.forms",
     "funding_amount_requested" : "$.forms[*].questions[*].fields[?(@.key = 'JzWvhj')].answer",
-
+    "DEFAULTS" : {
+        "type_of_application" : "COF"
+    }
 }
 
-def insert_application_record(json_string : str, json_metadata_mapping : dict):
+def insert_application_record(json_string : str, json_row_mapper : dict):
 
     application_dict = json.loads(json_string)
 
-    
+    mapper = deepcopy(json_row_mapper)
+
+    defaults = mapper.pop("DEFAULTS")
+
+    jsonpath_matchers = []
+
+
 
 
 def find_field_by_key(field_key: str, app_id : str):
