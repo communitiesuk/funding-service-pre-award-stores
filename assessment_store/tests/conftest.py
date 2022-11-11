@@ -5,8 +5,14 @@ from flask_migrate import upgrade, migrate
 
 from app import create_app
 from db import db
-from db.models.assessment_record.record_inserter import bulk_insert_application_record
-from sqlalchemy_utils.functions import drop_database, create_database, database_exists
+from db.models.assessment_record.record_inserter import (
+    bulk_insert_application_record,
+)
+from sqlalchemy_utils.functions import (
+    drop_database,
+    create_database,
+    database_exists,
+)
 from tests.db_seed_data import create_rows
 from tests.sql_infos import *
 
@@ -16,7 +22,6 @@ def row_data(request):
     """row_data A fixture which provides the test row data. Uses caching to
     allow sharing data between test sessions.
     """
-
 
     rows_to_create = request.config.getoption("testrows")
 
@@ -31,7 +36,6 @@ def row_data(request):
 
 @pytest.fixture(autouse=True)
 def seed_data(app, row_data):
-
     @event.listens_for(Engine, "before_cursor_execute", retval=True)
     def mark_seed_data_queries(
         conn, cursor, statement, parameters, context, executemany
@@ -57,7 +61,6 @@ def app():
     yield app
 
 
-
 @pytest.fixture(scope="session")
 def _db(app):
     """
@@ -68,7 +71,8 @@ def _db(app):
     if not database_exists(Config.TEST_SQLALCHEMY_DATABASE_URI):
         create_database(Config.TEST_SQLALCHEMY_DATABASE_URI)
     yield db
-        drop_database(Config.TEST_SQLALCHEMY_DATABASE_URI)
+
+    drop_database(Config.TEST_SQLALCHEMY_DATABASE_URI)
 
 
 @pytest.fixture(autouse=True)

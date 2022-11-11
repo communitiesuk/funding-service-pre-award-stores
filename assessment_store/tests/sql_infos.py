@@ -46,7 +46,14 @@ def after_cursor_execute(
         "query_start_time"
     ].pop(-1)
 
-    filter_strings = ["--seeding-database", "SAVEPOINT", "DROP DATABASE", "CREATE DATABASE", "pg_database", "pg_terminate_backend"]
+    filter_strings = [
+        "--seeding-database",
+        "SAVEPOINT",
+        "DROP DATABASE",
+        "CREATE DATABASE",
+        "pg_database",
+        "pg_terminate_backend",
+    ]
 
     if not any([substr in statement for substr in filter_strings]):
         if time_for_query.microseconds / 1000 > Config.WARN_IF_QUERIES_OVER_MS:
@@ -56,7 +63,12 @@ def after_cursor_execute(
                     "query_time": time_for_query.microseconds / 1000,
                 }
             )
-        query_info["query_times"].append({"statement":statement, "time" : time_for_query.microseconds / 1000})
+        query_info["query_times"].append(
+            {
+                "statement": statement,
+                "time": time_for_query.microseconds / 1000,
+            }
+        )
 
 
 def pytest_terminal_summary(terminalreporter):
@@ -82,7 +94,9 @@ def pytest_terminal_summary(terminalreporter):
             statement_string = Text("Statement:", style="bold magenta")
             time_string = Text("Time:", style="bold green")
 
-            statement = Syntax(query['statement'], "sql", theme="solarized-light", dedent=True)
+            statement = Syntax(
+                query["statement"], "sql", theme="solarized-light", dedent=True
+            )
             time = Text(f"{query['time']}", style="italic black")
 
             time_string.append(time)
@@ -90,14 +104,16 @@ def pytest_terminal_summary(terminalreporter):
             fancy_print(statement_string)
             fancy_print(statement)
             fancy_print(time_string)
-    
+
     if statementdetails:
         for query in query_info["query_times"]:
 
             statement_string = Text("Statement:", style="bold magenta")
             time_string = Text("Time:", style="bold green")
 
-            statement = Syntax(query['statement'], "sql", theme="solarized-light", dedent=True)
+            statement = Syntax(
+                query["statement"], "sql", theme="solarized-light", dedent=True
+            )
             time = Text(f"{query['time']}", style="italic black")
 
             time_string.append(time)

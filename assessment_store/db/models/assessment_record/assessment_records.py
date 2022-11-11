@@ -10,14 +10,15 @@ from sqlalchemy_utils import UUIDType
 from db import db
 from db.models.enums.workflow_status import Status
 
+
 class AssessmentRecords(db.Model):
     __tablename__ = "assessment_records"
 
     application_id = db.Column(
-		"application_id",
-		db.Text(),
-		primary_key=True,
-	)
+        "application_id",
+        db.Text(),
+        primary_key=True,
+    )
 
     short_id = db.Column(
         "short_id",
@@ -39,35 +40,24 @@ class AssessmentRecords(db.Model):
         db.Float(),
     )
 
-    round_id = db.Column(
-        "round_id",
-        db.Text(),
-        index=True
-    )
+    round_id = db.Column("round_id", db.Text(), index=True)
 
-    fund_id = db.Column(
-        "fund_id",
-        db.Text(),
-        index=True
-    )
+    fund_id = db.Column("fund_id", db.Text(), index=True)
 
-    langauge = db.Column(
-        "langauge",
-        db.Text(),
-        default="en"
-    )
+    langauge = db.Column("langauge", db.Text(), default="en")
 
     workflow_status = db.Column(
-        "workflow_status",
-        ENUM(Status),
-        index=True,
-        default="NOT_STARTED"
+        "workflow_status", ENUM(Status), index=True, default="NOT_STARTED"
     )
 
     jsonb_blob = db.Column("jsonb_blob", JSONB)
 
-    application_json_md5 = db.Column("application_json_sha256", TEXT,
-    Computed(func.md5(cast(jsonb_blob, TEXT)), persisted=True))
+    application_json_md5 = db.Column(
+        "application_json_sha256",
+        TEXT,
+        Computed(func.md5(cast(jsonb_blob, TEXT)), persisted=True),
+    )
+
 
 # class AssessmentJsonBlobs(db.model):
 
