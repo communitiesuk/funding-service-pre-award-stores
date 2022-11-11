@@ -1,11 +1,15 @@
 import random
+
 import pytest
+from flask_migrate import upgrade, migrate
+
 from app import create_app
 from db import db
-from flask_migrate import upgrade
-from db.models.assessment_records import cof_insert_application_record
+from db.models.assessment_record.record_inserter import bulk_insert_application_record
+from sqlalchemy_utils.functions import drop_database, create_database, database_exists
 from tests.db_seed_data import create_rows
 from tests.sql_infos import *
+
 
 @pytest.fixture(scope="session")
 def row_data(request):
@@ -13,60 +17,46 @@ def row_data(request):
     allow sharing data between test sessions.
     """
 
-    test_row_data = request.config.cache.get("assessment_test_data", None)
 
     rows_to_create = request.config.getoption("testrows")
 
-    if test_row_data is None:
-
-        row_data = create_rows(rows_to_create)
-        test_row_data = {"rows_to_create" : rows_to_create, "test_rows" : list(row_data)}
-
-        request.config.cache.set("assessment_test_data", test_row_data)
-
-    elif rows_to_create != test_row_data["rows_to_create"]:
-
-        if rows_to_create > test_row_data["rows_to_create"]:
-
-            rows_to_add = rows_to_create - test_row_data["rows_to_create"]
-            new_rows = list(create_rows(rows_to_add))
-
-            test_row_data["test_rows"] = test_row_data["test_rows"] + new_rows
-            test_row_data["rows_to_create"] = rows_to_create
-
-            request.config.cache.set("assessment_test_data", test_row_data)
-
-        if rows_to_create < test_row_data["rows_to_create"]:
-
-            row_data = random.sample(test_row_data["test_rows"], rows_to_create)
-
-            test_row_data["test_rows"] = list(row_data)
-            test_row_data["rows_to_create"] = rows_to_create
-
-            request.config.cache.set("assessment_test_data", test_row_data)
+    row_data = create_rows(rows_to_create)
+    test_row_data = {
+        "rows_to_create": rows_to_create,
+        "test_rows": list(row_data),
+    }
 
     return test_row_data
 
+
 @pytest.fixture(autouse=True)
-def seed_data(db_session, row_data):
+def seed_data(app, row_data):
 
-    for json_string in row_data["test_rows"]:
-        
-        cof_insert_application_record(json_string)
+    @event.listens_for(Engine, "before_cursor_execute", retval=True)
+    def mark_seed_data_queries(
+        conn, cursor, statement, parameters, context, executemany
+    ):
+        statement = statement + " --seeding-database"
+        return statement, parameters
 
-    
+    with app.app_context():
+        migrate()
+        upgrade()
+
+    bulk_insert_application_record(row_data["test_rows"], "COF")
+
+    event.remove(Engine, "before_cursor_execute", mark_seed_data_queries)
+
 
 @pytest.fixture(scope="session")
 def app():
     """
-    Creates the test client we will be using to test the responses
-    from our app, this is a test fixture.
-    :return: A flask test client.
+    Creates a very minimal flask app just for testing db related functionality.
     """
     app = create_app()
-    with app.app_context():
-        upgrade()
-    return app
+    yield app
+
+
 
 @pytest.fixture(scope="session")
 def _db(app):
@@ -75,9 +65,13 @@ def _db(app):
     to the database via a Flask-SQLAlchemy
     database connection.
     """
-    return db
+    if not database_exists(Config.TEST_SQLALCHEMY_DATABASE_URI):
+        create_database(Config.TEST_SQLALCHEMY_DATABASE_URI)
+    yield db
+        drop_database(Config.TEST_SQLALCHEMY_DATABASE_URI)
 
 
 @pytest.fixture(autouse=True)
 def enable_transactional_tests(db_session):
+
     pass

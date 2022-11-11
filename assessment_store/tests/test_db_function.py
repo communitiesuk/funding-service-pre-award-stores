@@ -1,6 +1,8 @@
 import json
 import random
-from db.models.assessment_records import find_field_by_key
+
+from db.models.assessment_record.helpers import find_answer_by_key_cof
+
 
 def test_select_field_by_id(row_data):
 
@@ -17,6 +19,6 @@ def test_select_field_by_id(row_data):
 
     picked_key = picked_field["key"]
 
-    field_found = find_field_by_key(picked_key, picked_app_id)[0]
+    field_found = find_answer_by_key_cof(picked_key, picked_app_id)[0]
 
     assert field_found == picked_field

@@ -1,6 +1,7 @@
 from random import choice, sample
 from string import ascii_uppercase
 from uuid import uuid4
+
 from tests.application_store_json import application_store_json_template
 
 
@@ -12,30 +13,35 @@ def create_rows(number_of_apps):
 
     adjects = ["old", "humble", "derelict", "vintage", "loved", "beautiful"]
 
-    places = ["skatepark", "pub", "cinema", "community centre", ]
+    places = [
+        "skatepark",
+        "pub",
+        "cinema",
+        "community centre",
+    ]
 
     cities = [
-    "Bath",
-    "Birmingham",
-    "Bradford",
-    "Brighton",
-    "Bristol",
-    "Cambridge",
-    "Canterbury",
-    "Carlisle",
-    "Chelmsford",
-    "Chichester",
-    "Colchester",
-    "Exeter",
-    "Gloucester",
-    "Hereford",
-    "Aberdeen",
-    "Dundee",
-    "Dunfermline",
-    "Edinburgh",
-    "Bangor",
-    "Cardiff",
-    "Newport",
+        "Bath",
+        "Birmingham",
+        "Bradford",
+        "Brighton",
+        "Bristol",
+        "Cambridge",
+        "Canterbury",
+        "Carlisle",
+        "Chelmsford",
+        "Chichester",
+        "Colchester",
+        "Exeter",
+        "Gloucester",
+        "Hereford",
+        "Aberdeen",
+        "Dundee",
+        "Dunfermline",
+        "Edinburgh",
+        "Bangor",
+        "Cardiff",
+        "Newport",
     ]
 
     for app_id in ids:
@@ -44,4 +50,6 @@ def create_rows(number_of_apps):
 
         short_ref = "COF-R2W2-" + "".join(sample(ascii_uppercase, 6))
 
-        yield application_store_json_template.substitute(app_id=app_id, project_name=project_name, short_ref=short_ref)
+        yield application_store_json_template.substitute(
+            app_id=app_id, project_name=project_name, short_ref=short_ref
+        )

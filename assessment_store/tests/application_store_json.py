@@ -1,6 +1,7 @@
 from string import Template
 
-application_store_json_template = Template("""{
+application_store_json_template = Template(
+    """{
     "account_id": "cbf981cf-5238-4d3e-84e9-b9c183789a91",
     "date_submitted": "2022-10-27T08:32:13.383999",
     "forms": [
@@ -915,4 +916,5 @@ application_store_json_template = Template("""{
     "started_at": "2022-10-27T08:28:55.699864",
     "status": "SUBMITTED"
 }
-""")
+"""
+)
