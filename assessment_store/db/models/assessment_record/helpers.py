@@ -1,12 +1,7 @@
-from typing import List
-
-from sqlalchemy import func
-from sqlalchemy.dialects.postgresql import JSONB
-
 from db import db
 from db.models.assessment_record.assessment_records import AssessmentRecords
-
-# AssessmentJsonBlobs
+from sqlalchemy import func
+from sqlalchemy.dialects.postgresql import JSONB
 
 
 def find_answer_by_key_cof(field_key: str, app_id: str):

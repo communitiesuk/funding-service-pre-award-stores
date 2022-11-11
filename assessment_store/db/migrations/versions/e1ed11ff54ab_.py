@@ -1,13 +1,13 @@
 """empty message
 
 Revision ID: e1ed11ff54ab
-Revises: 
+Revises:
 Create Date: 2022-11-11 09:41:24.152244
 
 """
-from alembic import op
 import sqlalchemy as sa
-import sqlalchemy_utils
+import sqlalchemy_utils  # noqa
+from alembic import op
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.

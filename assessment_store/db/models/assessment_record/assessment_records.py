@@ -1,14 +1,12 @@
-import uuid
-from typing import List
-
-from sqlalchemy import Computed, Index, cast, func
-from sqlalchemy.dialects.postgresql import ENUM, JSONB, TEXT
-from sqlalchemy.orm import declared_attr
-from sqlalchemy.sql import select
-from sqlalchemy_utils import UUIDType
-
 from db import db
 from db.models.enums.workflow_status import Status
+from sqlalchemy import cast
+from sqlalchemy import Computed
+from sqlalchemy import func
+from sqlalchemy import Index
+from sqlalchemy.dialects.postgresql import ENUM
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import TEXT
 
 
 class AssessmentRecords(db.Model):

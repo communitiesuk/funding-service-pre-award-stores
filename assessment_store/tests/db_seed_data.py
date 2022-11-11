@@ -1,4 +1,5 @@
-from random import choice, sample
+from random import choice
+from random import sample
 from string import ascii_uppercase
 from uuid import uuid4
 
@@ -46,7 +47,10 @@ def create_rows(number_of_apps):
 
     for app_id in ids:
 
-        project_name = f"{choice(verbs)} the {choice(adjects)} {choice(places)} in {choice(cities)}"
+        project_name = (
+            f"{choice(verbs)} the {choice(adjects)} {choice(places)} in"
+            f" {choice(cities)}"
+        )
 
         short_ref = "COF-R2W2-" + "".join(sample(ascii_uppercase, 6))
 

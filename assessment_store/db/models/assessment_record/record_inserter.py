@@ -1,17 +1,9 @@
-from functools import lru_cache
 import json
-from sqlalchemy import cast, func, insert, update
-from sqlalchemy.dialects.postgresql import TEXT
-from sqlalchemy.orm import declared_attr
-from sqlalchemy.sql import select
-from sqlalchemy_utils import UUIDType
-from db.models.assessment_record.assessment_records import AssessmentRecords
-
-# ,AssessmentJsonBlobs
-import cysimdjson
-from jsonpath_ng.ext import parse
+from functools import lru_cache
 
 from db import db
+from db.models.assessment_record.assessment_records import AssessmentRecords
+from jsonpath_ng.ext import parse
 
 COF_json_mapper = {
     "application_id": "$.id",
@@ -19,7 +11,9 @@ COF_json_mapper = {
     "short_id": "$.reference",
     "fund_id": "$.fund_id",
     "round_id": "$.round_id",
-    "funding_amount_requested": '$.forms[*].questions[*].fields[?(@.key == "JzWvhj")].answer',
+    "funding_amount_requested": (
+        '$.forms[*].questions[*].fields[?(@.key == "JzWvhj")].answer'
+    ),
 }
 
 
@@ -49,8 +43,6 @@ def jsonpath_extractors(json_type: str):
 
 
 def derive_values_from_json(json_as_dict, json_type):
-
-    json_mapper = get_mapper(json_type)
 
     parsed_json_paths = jsonpath_extractors(json_type)
 
@@ -89,6 +81,7 @@ def bulk_insert_application_record(json_strings, application_type):
     db.session.commit()
 
 
+# flake8: noqa
 # def bulk_insert_application_record(json_strings, application_type):
 
 #     record_rows = []

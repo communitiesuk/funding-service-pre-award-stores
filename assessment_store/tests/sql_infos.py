@@ -1,17 +1,14 @@
 import datetime
 from collections import defaultdict
 from statistics import mean
-from rich.text import Text
-from rich import print as fancy_print
-from rich.syntax import Syntax
-
-import pytest
-from sqlalchemy import event
-from sqlalchemy.engine import Engine
-from sqlalchemy.exc import InvalidRequestError
 
 from config import Config
 from db import db
+from rich import print as fancy_print
+from rich.syntax import Syntax
+from rich.text import Text
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
 
 query_info = {
     "queries_types": defaultdict(int),
@@ -87,7 +84,7 @@ def pytest_terminal_summary(terminalreporter):
         f"Average query time: {round(mean(query_times or [0]), 3)}"
     )
     if query_info["slow_queries"] != []:
-        terminalreporter.write_line(f"Slow queries found!")
+        terminalreporter.write_line("Slow queries found!")
 
         for query in query_info["slow_queries"]:
 

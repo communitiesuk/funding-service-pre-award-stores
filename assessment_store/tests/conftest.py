@@ -1,20 +1,19 @@
-import random
-
 import pytest
-from flask_migrate import upgrade, migrate
-
 from app import create_app
+from config import Config
 from db import db
 from db.models.assessment_record.record_inserter import (
     bulk_insert_application_record,
 )
-from sqlalchemy_utils.functions import (
-    drop_database,
-    create_database,
-    database_exists,
-)
+from flask_migrate import migrate
+from flask_migrate import upgrade
+from pytest import event
+from sqlalchemy.engine import Engine
+from sqlalchemy_utils.functions import create_database
+from sqlalchemy_utils.functions import database_exists
+from sqlalchemy_utils.functions import drop_database
 from tests.db_seed_data import create_rows
-from tests.sql_infos import *
+from tests.sql_infos import *  # noqa
 
 
 @pytest.fixture(scope="session")
