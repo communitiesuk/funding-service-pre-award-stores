@@ -22,3 +22,9 @@ class DevelopmentConfig(DefaultConfig):
 
     # Database
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    DEV_SQLALCHEMY_DATABASE_URI = (
+        DefaultConfig.SQLALCHEMY_DATABASE_URI + "_DEV"
+    )
+
+    SQLALCHEMY_DATABASE_URI = DEV_SQLALCHEMY_DATABASE_URI

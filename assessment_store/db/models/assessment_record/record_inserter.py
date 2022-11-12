@@ -79,30 +79,3 @@ def bulk_insert_application_record(json_strings, application_type):
 
     db.session.bulk_insert_mappings(AssessmentRecords, rows)
     db.session.commit()
-
-
-# flake8: noqa
-# def bulk_insert_application_record(json_strings, application_type):
-
-#     record_rows = []
-#     blob_rows = []
-
-#     for single_json_string in json_strings:
-
-
-#         loaded_json = json.loads(single_json_string)
-
-#         row = {"jsonb_blob" : loaded_json, "type_of_application" : application_type}
-
-#         derived_values = derive_values_from_json(loaded_json, application_type)
-
-#         row = {**row, **derived_values}
-#         record_rows.append(row)
-
-#         blob_rows.append("jsonb_blob" : loaded_json, "application_id" : row["application_id"])
-
-#         del loaded_json
-
-#     db.session.bulk_insert_mappings(AssessmentRecords, record_rows)
-#     db.session.bulk_insert_mappings(AssessmentJsonBlobs, record_rows)
-#     db.session.commit()

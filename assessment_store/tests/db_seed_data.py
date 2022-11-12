@@ -6,7 +6,7 @@ from uuid import uuid4
 from tests.application_store_json import application_store_json_template
 
 
-def create_rows(number_of_apps):
+def create_rows(number_of_apps, round_id="", fund_id=""):
 
     ids = [str(uuid4()) for _ in range(number_of_apps)]
 
@@ -55,5 +55,6 @@ def create_rows(number_of_apps):
         short_ref = "COF-R2W2-" + "".join(sample(ascii_uppercase, 6))
 
         yield application_store_json_template.substitute(
-            app_id=app_id, project_name=project_name, short_ref=short_ref
+            app_id=app_id, project_name=project_name, short_ref=short_ref,
+            round_id=round_id, fund_id=fund_id
         )

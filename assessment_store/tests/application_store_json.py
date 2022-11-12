@@ -907,12 +907,12 @@ application_store_json_template = Template(
             "status": "COMPLETED"
         }
     ],
-    "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+    "fund_id": "$fund_id",
     "id": "$app_id" ,
     "last_edited": "2022-10-27T08:32:11.843201",
     "project_name": "$project_name" ,
     "reference": "$short_ref" ,
-    "round_id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+    "round_id": "$round_id",
     "round_name": "Round 2 Window 2",
     "started_at": "2022-10-27T08:28:55.699864",
     "status": "SUBMITTED"
