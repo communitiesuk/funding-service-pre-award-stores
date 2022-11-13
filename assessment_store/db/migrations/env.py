@@ -4,7 +4,12 @@ import logging
 from logging.config import fileConfig
 
 from alembic import context
+from alembic_utils.replaceable_entity import register_entities
+from db.models.assessment_record import block_json_func
+from db.models.assessment_record import block_json_updates_trig
 from flask import current_app
+
+register_entities([block_json_func, block_json_updates_trig])
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

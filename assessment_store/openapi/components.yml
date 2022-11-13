@@ -124,14 +124,3 @@ components:
           type: string
         workflow_status:
           type: string
-
-    # application_ID (UUID) - primary key !
-    # application_short_ID (VARCHAR) !
-    # type_of_application (VARCHAR) !
-    # project_name (VARCHAR) !
-    # funding_amount_requested (CURRENCY) !
-    # fund_ID (UUID)
-    # round_ID (UUID)
-    # application_language (VARCHAR)
-    # workflow_status (ENUM)!
-    # application_blob_id (JSONBLOB)

@@ -1,8 +1,5 @@
-import json
 from functools import lru_cache
 
-from db import db
-from db.models.assessment_record.assessment_records import AssessmentRecords
 from jsonpath_ng.ext import parse
 
 COF_json_mapper = {
@@ -55,27 +52,3 @@ def derive_values_from_json(json_as_dict, json_type):
         )
 
     return found_values_from_json
-
-
-def bulk_insert_application_record(json_strings, application_type):
-
-    rows = []
-
-    for single_json_string in json_strings:
-
-        loaded_json = json.loads(single_json_string)
-
-        row = {
-            "jsonb_blob": loaded_json,
-            "type_of_application": application_type,
-        }
-
-        derived_values = derive_values_from_json(loaded_json, application_type)
-
-        row = {**row, **derived_values}
-        rows.append(row)
-
-        del loaded_json
-
-    db.session.bulk_insert_mappings(AssessmentRecords, rows)
-    db.session.commit()

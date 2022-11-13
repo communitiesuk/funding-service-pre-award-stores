@@ -1,13 +1,14 @@
-from contextlib import contextmanager
 import os
+from contextlib import contextmanager
+
 from colored import attr
 from colored import fg
 from colored import stylize
-from invoke import task, Call
-from flask_migrate import migrate
 from flask_migrate import upgrade
-from sqlalchemy_utils.functions import create_database, drop_database
+from invoke import task
+from sqlalchemy_utils.functions import create_database
 from sqlalchemy_utils.functions import database_exists
+from sqlalchemy_utils.functions import drop_database
 
 ECHO_STYLE = fg("blue") + attr("bold")
 
@@ -21,15 +22,6 @@ def env_var(key, value):
 
 
 @task
-def bootstrap_test_db(c, database_host="localhost"):
-    """Create a clean database for testing"""
-    c.run(f"dropdb -h {database_host} --if-exists {DB_NAME}")
-    print(stylize(f"{DB_NAME} db dropped...", ECHO_STYLE))
-    c.run(f"createdb -h {database_host} {DB_NAME}")
-    print(stylize(f"{DB_NAME} db created...", ECHO_STYLE))
-
-
-@task
 def profile_pytest(c, testrows=100, resultsfile="profile.txt"):
     """Runs profiling during pytest to help find slow code."""
     if not resultsfile.endswith(".txt"):
@@ -37,7 +29,8 @@ def profile_pytest(c, testrows=100, resultsfile="profile.txt"):
         resultsfile = resultsfile[0] + ".txt"
     print(stylize("Profiling tests.", ECHO_STYLE))
     c.run(
-        f"python -m cProfile -s tottime -m pytest --testrows={testrows} --statementdetails=True > {resultsfile}"
+        "python -m cProfile -s tottime -m pytest"
+        f" --testrows={testrows} --statementdetails=True > {resultsfile}"
     )
     print(stylize(f"Results saved in f{resultsfile}", ECHO_STYLE))
 
@@ -74,7 +67,8 @@ def bootstrap_dev_db(c):
 
             print(
                 stylize(
-                    f"Running migrations on db {Config.DEV_SQLALCHEMY_DATABASE_URI}.",
+                    "Running migrations on db"
+                    f" {Config.DEV_SQLALCHEMY_DATABASE_URI}.",
                     ECHO_STYLE,
                 )
             )
@@ -95,16 +89,18 @@ def seed_dev_db(c, rows=1000):
 
             print(
                 stylize(
-                    f"Seeding db {Config.DEV_SQLALCHEMY_DATABASE_URI} with {rows} test rows.",
+                    f"Seeding db {Config.DEV_SQLALCHEMY_DATABASE_URI} with"
+                    f" {rows} test rows.",
                     ECHO_STYLE,
                 )
             )
 
-            seed_database(rows)
+            seed_database(100, 3, 5)
 
             print(
                 stylize(
-                    f"Seeding db {Config.DEV_SQLALCHEMY_DATABASE_URI} complete.",
+                    "Seeding db"
+                    f" {Config.DEV_SQLALCHEMY_DATABASE_URI} complete.",
                     ECHO_STYLE,
                 )
             )

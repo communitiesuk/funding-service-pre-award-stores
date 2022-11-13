@@ -1,7 +1,11 @@
 # flake8: noqa
-from db.models.assessment_record.helpers import find_answer_by_key_cof
+from db.queries.assessment_records import get_metadata_for_fund_round_id
 
 
 def template_route(fund_id, round_id):
 
-    return True
+    app_list = get_metadata_for_fund_round_id(
+        fund_id=fund_id, round_id=round_id
+    )
+
+    return app_list

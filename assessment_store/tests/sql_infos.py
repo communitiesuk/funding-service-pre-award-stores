@@ -1,4 +1,3 @@
-from contextlib import contextmanager
 import datetime
 from collections import defaultdict
 from statistics import mean
@@ -16,20 +15,6 @@ query_info = {
     "slow_queries": [],
     "query_times": [],
 }
-
-
-@contextmanager
-def no_gather_sql(comment):
-    @event.listens_for(Engine, "before_cursor_execute", retval=True)
-    def mark_as_ignore(
-        conn, cursor, statement, parameters, context, executemany
-    ):
-        statement = statement + f"{comment}"
-        return statement, parameters
-
-    yield
-
-    event.remove(Engine, "before_cursor_execute", mark_as_ignore)
 
 
 def attach_listeners():
@@ -57,15 +42,11 @@ def attach_listeners():
             "query_start_time"
         ].pop(-1)
 
-        filter_strings = [
-            "--seeding-database",
-            "SAVEPOINT",
-            "--prepping-database",
-            "--rollback-database",
-            "--test-helper",
-        ]
+        ignores = ["--IGNORE", "SAVEPOINT"]
 
-        if not any([substr in statement for substr in filter_strings]):
+        if "--gather-this" in statement and not any(
+            ignore in statement for ignore in ignores
+        ):
             if (
                 time_for_query.microseconds / 1000
                 > Config.WARN_IF_QUERIES_OVER_MS
@@ -86,13 +67,17 @@ def attach_listeners():
 
 def pytest_terminal_summary(terminalreporter):
     terminalreporter.section("Database test information")
-    rows_to_create = terminalreporter.config.option.testrows
-    statementdetails = terminalreporter.config.option.statementdetails
+
+    apps_per_round = terminalreporter.config.getoption("apps_per_round")
+    rounds_per_fund = terminalreporter.config.getoption("rounds_per_fund")
+    number_of_funds = terminalreporter.config.getoption("number_of_funds")
+    statementdetails = terminalreporter.config.getoption("statementdetails")
+
+    rows_created = apps_per_round * rounds_per_fund * number_of_funds
+
     database_url = Config.SQLALCHEMY_DATABASE_URI
     terminalreporter.write_line(f"Database URL: {database_url}")
-    terminalreporter.write_line(
-        f"Test rows created: {rows_to_create} (Adjust with --testrows=INT)"
-    )
+    terminalreporter.write_line(f"Test rows created: {rows_created}")
 
     terminalreporter.section("SQL Query information")
     query_times = [query["time"] for query in query_info["query_times"]]
