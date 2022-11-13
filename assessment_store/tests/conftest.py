@@ -124,7 +124,7 @@ def pytest_addoption(parser):
     parser.addoption(
         "--statementdetails",
         action="store",
-        default=False,
+        default=True,
         help="The amount of rows to use when testing the db.",
         type=bool,
     )

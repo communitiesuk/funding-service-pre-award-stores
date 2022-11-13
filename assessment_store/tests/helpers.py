@@ -13,7 +13,7 @@ def gather_sql():
     def mark_as_ignore(
         conn, cursor, statement, parameters, context, executemany
     ):
-        statement = statement + "--gather-this"
+        statement = statement + " --gather-this"
         return statement, parameters
 
     yield
@@ -27,7 +27,7 @@ def no_gather_sql():
     def mark_as_ignore(
         conn, cursor, statement, parameters, context, executemany
     ):
-        statement = statement + "--IGNORE"
+        statement = statement + " --IGNORE"
         return statement, parameters
 
     yield
