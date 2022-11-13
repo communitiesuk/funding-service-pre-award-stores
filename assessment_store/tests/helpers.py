@@ -8,20 +8,6 @@ from sqlalchemy.inspection import inspect
 
 
 @contextmanager
-def gather_sql():
-    @event.listens_for(Engine, "before_cursor_execute", retval=True)
-    def mark_as_ignore(
-        conn, cursor, statement, parameters, context, executemany
-    ):
-        statement = statement + " --gather-this"
-        return statement, parameters
-
-    yield
-
-    event.remove(Engine, "before_cursor_execute", mark_as_ignore)
-
-
-@contextmanager
 def no_gather_sql():
     @event.listens_for(Engine, "before_cursor_execute", retval=True)
     def mark_as_ignore(

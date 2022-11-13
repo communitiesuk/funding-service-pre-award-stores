@@ -12,7 +12,6 @@ from sqlalchemy_utils.functions import create_database
 from sqlalchemy_utils.functions import database_exists
 from sqlalchemy_utils.functions import drop_database
 from tests.db_seed_data import create_rows
-from tests.helpers import gather_sql
 from tests.sql_infos import attach_listeners
 from tests.sql_infos import pytest_terminal_summary  # noqa
 
@@ -89,14 +88,6 @@ def _db(app, request):
 def enable_transactional_tests(db_session):
 
     yield
-
-
-@pytest.fixture(autouse=True)
-def gather_test_sql(enable_transactional_tests):
-
-    with gather_sql():
-
-        yield
 
 
 def pytest_addoption(parser):
