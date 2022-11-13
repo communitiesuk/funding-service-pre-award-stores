@@ -7,9 +7,10 @@
 alembic==1.8.0
     # via
     #   -r requirements.txt
+    #   alembic-utils
     #   flask-migrate
-atomicwrites==1.4.1
-    # via pytest
+alembic-utils==0.7.8
+    # via -r requirements.txt
 attrs==21.4.0
     # via
     #   -r requirements.txt
@@ -59,13 +60,6 @@ clickclick==20.10.2
     # via
     #   -r requirements.txt
     #   connexion
-colorama==0.4.6
-    # via
-    #   -r requirements.txt
-    #   bandit
-    #   build
-    #   click
-    #   pytest
 colored==1.4.3
     # via -r requirements-dev.in
 commonmark==0.9.1
@@ -109,6 +103,10 @@ flask-sqlalchemy==2.5.1
     #   -r requirements.txt
     #   flask-migrate
     #   pytest-flask-sqlalchemy
+flupy==1.2.0
+    # via
+    #   -r requirements.txt
+    #   alembic-utils
 funding-service-design-utils==1.0.1
     # via -r requirements.txt
 gitdb==4.0.9
@@ -167,6 +165,12 @@ markupsafe==2.1.1
     #   -r requirements.txt
     #   jinja2
     #   mako
+marshmallow==3.19.0
+    # via
+    #   -r requirements.txt
+    #   marshmallow-sqlalchemy
+marshmallow-sqlalchemy==0.28.1
+    # via -r requirements.txt
 mypy-extensions==0.4.3
     # via black
 nodeenv==1.7.0
@@ -184,8 +188,14 @@ packaging==21.3
     #   -r requirements.txt
     #   build
     #   connexion
+    #   marshmallow
+    #   marshmallow-sqlalchemy
     #   pytest
     #   pytest-flask-sqlalchemy
+parse==1.19.0
+    # via
+    #   -r requirements.txt
+    #   alembic-utils
 pathspec==0.9.0
     # via black
 pbr==5.9.0
@@ -310,7 +320,9 @@ sqlalchemy==1.4.39
     # via
     #   -r requirements.txt
     #   alembic
+    #   alembic-utils
     #   flask-sqlalchemy
+    #   marshmallow-sqlalchemy
     #   pytest-flask-sqlalchemy
     #   sqlalchemy-utils
 sqlalchemy-utils==0.38.2
@@ -327,6 +339,11 @@ tomli==2.0.1
     #   build
     #   pep517
     #   pytest
+typing-extensions==4.4.0
+    # via
+    #   -r requirements.txt
+    #   alembic-utils
+    #   flupy
 urllib3==1.26.12
     # via
     #   -r requirements.txt

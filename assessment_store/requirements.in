@@ -17,6 +17,8 @@ Flask-SQLAlchemy
 Flask-Migrate
 psycopg2-binary
 jsonpath_ng
+alembic-utils
+marshmallow-sqlalchemy
 
 #-----------------------------------
 #   Connexion APIs
