@@ -1,5 +1,6 @@
 import random
 
+import sqlalchemy
 from db.models.assessment_record.assessment_records import AssessmentRecords
 from db.models.assessment_record.helpers import find_answer_by_key_cof
 from tests.helpers import get_random_row
@@ -21,3 +22,26 @@ def test_select_field_by_id():
     field_found = find_answer_by_key_cof(picked_key, picked_app_id)[0]
 
     assert field_found == picked_field
+
+
+def test_jsonb_blob_immutable(db_session):
+
+    picked_row = get_random_row(AssessmentRecords)
+
+    picked_row.jsonb_blob = {"application": "deleted :( oops"}
+
+    try:
+        db_session.commit()
+    except sqlalchemy.exc.InternalError as error:
+        assert "Cannot mutate application json" in str(error)
+    else:
+        assert False
+
+
+def test_non_blob_columns_mutable(db_session):
+
+    picked_row = get_random_row(AssessmentRecords)
+
+    picked_row.workflow_status = "IN_PROGRESS"
+
+    db_session.commit()
