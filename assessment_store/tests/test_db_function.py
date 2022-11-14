@@ -2,7 +2,7 @@ import random
 
 import sqlalchemy
 from db.models.assessment_record.assessment_records import AssessmentRecords
-from db.models.assessment_record.helpers import find_answer_by_key_cof
+from db.queries.assessment_records import find_answer_by_key_cof
 from tests.helpers import get_random_row
 
 

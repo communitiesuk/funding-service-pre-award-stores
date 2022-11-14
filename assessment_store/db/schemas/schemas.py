@@ -4,7 +4,7 @@ from marshmallow.fields import Enum
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 
-class AssessmentRecordMetaData(SQLAlchemyAutoSchema):
+class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     class Meta:
         model = AssessmentRecords
         exclude = ["jsonb_blob", "application_json_md5"]

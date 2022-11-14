@@ -2,10 +2,11 @@ import json
 
 from db import db
 from db.models.assessment_record import AssessmentRecords
-from db.models.assessment_record.schemas import AssessmentRecordMetaData
+from db.schemas import AssessmentRecordMetadata
 from db.queries.assessment_records.helpers import derive_values_from_json
 from sqlalchemy import select
 from sqlalchemy.orm import defer
+from sqlalchemy import func
 
 
 def get_metadata_for_fund_round_id(fund_id, round_id):
@@ -21,7 +22,7 @@ def get_metadata_for_fund_round_id(fund_id, round_id):
 
     assessment_metadatas = db.session.scalars(stmt).all()
 
-    metadata_serialiser = AssessmentRecordMetaData()
+    metadata_serialiser = AssessmentRecordMetadata()
 
     assessment_metadatas = [
         metadata_serialiser.dump(app_metadata)
@@ -53,3 +54,18 @@ def bulk_insert_application_record(json_strings, application_type):
 
     db.session.bulk_insert_mappings(AssessmentRecords, rows)
     db.session.commit()
+
+def find_answer_by_key_cof(field_key: str, app_id: str):
+
+    return (
+        db.session.query(
+            func.jsonb_path_query_first(
+                AssessmentRecords.jsonb_blob,
+                "$.forms[*].questions[*].fields[*] ? (@.key =="
+                f' "{field_key}")',
+            )
+        )
+        .filter(AssessmentRecords.application_id == app_id)
+        .one()
+    )
+

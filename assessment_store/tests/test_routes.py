@@ -16,6 +16,4 @@ def test_gets_all_apps_for_fund_round(request, client):
         f"/application_overviews/{random_fund_id}/{random_round_id}"
     ).json
 
-    print(f"/application_overviews/{random_fund_id}/f{random_round_id}")
-
     assert len(response_json) == apps_per_round
