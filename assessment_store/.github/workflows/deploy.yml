@@ -62,7 +62,7 @@ jobs:
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
           command: add-network-policy funding-service-design-assessment-store-test funding-service-design-notification-test --protocol tcp --port 8080
-    - name: Apply network policy for application store service for dev
+    - name: Apply network policy for application store service for test
       uses: citizen-of-planet-earth/cf-cli-action@v2
       with:
           cf_api:      ${{secrets.CF_API}}
