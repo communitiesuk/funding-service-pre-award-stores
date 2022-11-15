@@ -1,15 +1,17 @@
-from functools import lru_cache
-
-from jsonpath_ng.ext import parse
+from sqlalchemy import select, cast, func
+from sqlalchemy.dialects.postgresql import JSONB
+import json
+from db import db
 
 COF_json_mapper = {
+    # "column name" : "jsonpath to value in jsonb blob".
     "application_id": "$.id",
     "project_name": "$.project_name",
     "short_id": "$.reference",
     "fund_id": "$.fund_id",
     "round_id": "$.round_id",
     "funding_amount_requested": (
-        '$.forms[*].questions[*].fields[?(@.key == "JzWvhj")].answer'
+        '$.forms[*].questions[*].fields[*] ? (@.key == "JzWvhj")."answer"'
     ),
 }
 
@@ -25,30 +27,19 @@ def get_mapper(application_type):
             return {"id": "some key in some json somewhere."}
 
 
-@lru_cache
-def jsonpath_extractors(json_type: str):
+def derive_values_from_json(loaded_json, application_type):
 
-    json_mapper = get_mapper(json_type)
+    mapper = get_mapper(application_type)
 
-    jsonpath_matchers = {
-        key: parse(jsonpath_str)
-        for key, jsonpath_str in json_mapper.items()
-        if key != "DEFAULTS"
-    }
+    # Uses a CTE query to extract values from blob, faster then using 
+    # python jsonpath libraries.
 
-    return jsonpath_matchers
+    loaded_blob = select(
+        cast(loaded_json, JSONB).label("json_value"
+    )).cte("blob")
 
+    selects = [func.jsonb_path_query_first(loaded_blob.c.json_value, json_path).label(column_name) for column_name, json_path in mapper.items()]
 
-def derive_values_from_json(json_as_dict, json_type):
+    test_stmt = select(*selects).select_from(loaded_blob)
 
-    parsed_json_paths = jsonpath_extractors(json_type)
-
-    found_values_from_json = dict()
-
-    for key, jsonpath_query in parsed_json_paths.items():
-
-        found_values_from_json[key] = (
-            jsonpath_query.find(json_as_dict).pop().value
-        )
-
-    return found_values_from_json
+    return db.session.execute(test_stmt).one()._asdict()

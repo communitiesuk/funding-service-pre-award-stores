@@ -1,21 +1,21 @@
-# flake8: noqa
 """empty message
 
-Revision ID: 03b7d7a4e1c3
-Revises: e113157c8da3
-Create Date: 2022-11-13 14:31:17.914497
+Revision ID: 4e50b0a33a5a
+Revises: 74b251ecf21c
+Create Date: 2022-11-14 11:47:42.344835
 
 """
+from alembic import op
 import sqlalchemy as sa
 import sqlalchemy_utils
-from alembic import op
 from alembic_utils.pg_function import PGFunction
+from sqlalchemy import text as sql_text
 from alembic_utils.pg_trigger import PGTrigger
 from sqlalchemy import text as sql_text
 
 # revision identifiers, used by Alembic.
-revision = "03b7d7a4e1c3"
-down_revision = "e113157c8da3"
+revision = '4e50b0a33a5a'
+down_revision = '74b251ecf21c'
 branch_labels = None
 depends_on = None
 
@@ -25,12 +25,7 @@ def upgrade():
     public_block_blob_mutate = PGFunction(
         schema="public",
         signature="block_blob_mutate()",
-        definition=(
-            "RETURNS TRIGGER \n    LANGUAGE PLPGSQL\n    AS\n    $$\n   "
-            " BEGIN\n        IF NEW.jsonb_blob <> OLD.jsonb_blob THEN\n       "
-            " RAISE EXCEPTION 'Cannot mutate application json.';\n        END"
-            " IF;\n        RETURN NEW;\n    END;\n    $$"
-        ),
+        definition="RETURNS TRIGGER\n    LANGUAGE PLPGSQL\n    AS\n    $$\n    BEGIN\n        IF NEW.jsonb_blob <> OLD.jsonb_blob THEN\n        RAISE EXCEPTION 'Cannot mutate application json.';\n        END IF;\n        RETURN NEW;\n    END;\n    $$"
     )
     op.create_entity(public_block_blob_mutate)
 
@@ -39,10 +34,7 @@ def upgrade():
         signature="block_updates_on_app_blob",
         on_entity="public.assessment_records",
         is_constraint=False,
-        definition=(
-            "BEFORE UPDATE\n    ON assessment_records\n    FOR EACH ROW\n   "
-            " EXECUTE PROCEDURE block_blob_mutate()"
-        ),
+        definition='BEFORE UPDATE\n    ON assessment_records\n    FOR EACH ROW\n    EXECUTE PROCEDURE block_blob_mutate()'
     )
     op.create_entity(public_assessment_records_block_updates_on_app_blob)
 
@@ -56,22 +48,14 @@ def downgrade():
         signature="block_updates_on_app_blob",
         on_entity="public.assessment_records",
         is_constraint=False,
-        definition=(
-            "BEFORE UPDATE\n    ON assessment_records\n    FOR EACH ROW\n   "
-            " EXECUTE PROCEDURE block_blob_mutate()"
-        ),
+        definition='BEFORE UPDATE\n    ON assessment_records\n    FOR EACH ROW\n    EXECUTE PROCEDURE block_blob_mutate()'
     )
     op.drop_entity(public_assessment_records_block_updates_on_app_blob)
 
     public_block_blob_mutate = PGFunction(
         schema="public",
         signature="block_blob_mutate()",
-        definition=(
-            "RETURNS TRIGGER \n    LANGUAGE PLPGSQL\n    AS\n    $$\n   "
-            " BEGIN\n        IF NEW.jsonb_blob <> OLD.jsonb_blob THEN\n       "
-            " RAISE EXCEPTION 'Cannot mutate application json.';\n        END"
-            " IF;\n        RETURN NEW;\n    END;\n    $$"
-        ),
+        definition="RETURNS TRIGGER\n    LANGUAGE PLPGSQL\n    AS\n    $$\n    BEGIN\n        IF NEW.jsonb_blob <> OLD.jsonb_blob THEN\n        RAISE EXCEPTION 'Cannot mutate application json.';\n        END IF;\n        RETURN NEW;\n    END;\n    $$"
     )
     op.drop_entity(public_block_blob_mutate)
 

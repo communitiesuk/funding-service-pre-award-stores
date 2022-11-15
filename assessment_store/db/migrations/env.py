@@ -9,6 +9,9 @@ from db.models.assessment_record import block_json_func
 from db.models.assessment_record import block_json_updates_trig
 from flask import current_app
 
+# Comment this out if the functions/trigs refer to tables
+# which havent been migrated yet. These must be in a seperate
+# migration to table creation.
 register_entities([block_json_func, block_json_updates_trig])
 
 # this is the Alembic Config object, which provides
@@ -85,6 +88,8 @@ def run_migrations_online():
             target_metadata=target_metadata,
             process_revision_directives=process_revision_directives,
             **current_app.extensions["migrate"].configure_args,
+            compare_type=True,
+            compare_server_default=True
         )
 
         with context.begin_transaction():

@@ -1,3 +1,5 @@
+import logging
+import time
 import pytest
 from app import create_app
 from config import Config
@@ -15,7 +17,6 @@ from tests.db_seed_data import create_rows
 from tests.sql_infos import attach_listeners
 from tests.sql_infos import pytest_terminal_summary  # noqa
 
-
 def prep_db():
     """
     Provide the transactional fixtures with access
@@ -23,13 +24,11 @@ def prep_db():
     database connection.
     """
 
-    if database_exists(Config.TEST_SQLALCHEMY_DATABASE_URI):
-        drop_database(Config.TEST_SQLALCHEMY_DATABASE_URI)
+    if database_exists(Config.SQLALCHEMY_DATABASE_URI):
+        drop_database(Config.SQLALCHEMY_DATABASE_URI)
 
-    create_database(Config.TEST_SQLALCHEMY_DATABASE_URI)
+    create_database(Config.SQLALCHEMY_DATABASE_URI)
 
-    upgrade()
-    migrate()
     upgrade()
 
 
@@ -45,11 +44,20 @@ def row_data(apps_per_round, rounds_per_fund, number_of_funds):
 
 def seed_database(apps_per_round, rounds_per_fund, number_of_funds):
 
+    start = time.time()
+
     test_input_data = row_data(
         apps_per_round, rounds_per_fund, number_of_funds
     )
 
     bulk_insert_application_record(test_input_data, "COF")
+
+    end = time.time()
+
+    print(
+        'Creating test rows took:'
+        f', time={end - start:.3f}'
+    )
 
 
 @pytest.fixture(scope="session")

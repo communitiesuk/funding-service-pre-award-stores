@@ -10,3 +10,4 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
         exclude = ["jsonb_blob", "application_json_md5"]
 
     workflow_status = Enum(Status)
+
