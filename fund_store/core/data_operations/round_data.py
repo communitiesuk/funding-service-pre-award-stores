@@ -6,7 +6,9 @@ from core.dummy_dao import RoundDAO
 ROUND_DATA = [
     {
         "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-        "title": "Round 2 Window 2",
+        "title": {
+            "en":"Round 2 Window 2",
+            "cy": "Cylch 2 Window 2"},
         "short_name": "R2W2",
         "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
         "assessment_criteria_weighting": [
