@@ -55,7 +55,7 @@ components:
             description: id of rounds.
             example: "12345-qwert-....."
           title:
-            type: string
+            type: object
             description: title or name of the round.
             example: "Spring"
           fund_id:
