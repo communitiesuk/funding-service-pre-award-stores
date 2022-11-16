@@ -16,7 +16,9 @@ TEST_FUND_DATA = [
 TEST_ROUND_DATA = [
     {
         "id": "3b1ae9e8-eda4-4910-a5dd-fc144f9a8ba1",
-        "title": "Test Round 1",
+        "title": {
+            "en": "English Round 1",
+            "cy": "Welsh round 1"},
         "fund_id": "fb986cdc-8e02-477a-a7e0-41cf19dd7675",
         "assessment_criteria_weighting": [
             {
