@@ -80,6 +80,10 @@ paths:
       operationId: core.funds.get_fund
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
+        - name: language
+          in: query
+          schema: 
+            type: string  
       responses:
         200:
           description: "If the fund exists then the data is returned."
