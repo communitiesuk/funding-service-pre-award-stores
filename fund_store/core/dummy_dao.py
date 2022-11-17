@@ -9,8 +9,10 @@ class FundDAO:
     def __init__(self):
         self.funds = {}
 
-    def get_one(self, fund_id):
-        return self.funds.get(fund_id)
+    def get_one(self, fund_id, language):
+        fund = self.funds.get(fund_id, language)
+        self.set_fund_title(language, fund)
+        return fund
 
     def get_all(self):
         return list(self.funds.values())
@@ -21,6 +23,13 @@ class FundDAO:
     def load_dummy(self, fund_data):
         for fund in fund_data:
             self.create(fund)
+            
+    def set_fund_title(self,language, data):
+        if language == "cy":
+            data['name'] = data['fund_name_translations'] ['cy']
+        else:
+            data['name'] = data['fund_name_translations'] ['en']
+                    
 
 
 class RoundDAO:
@@ -58,7 +67,6 @@ class RoundDAO:
     def set_round_title(self,language, data):
         if language == "cy":
             data['title'] = data['title_translations'] ['cy']
-     
         else:
             data['title'] = data['title_translations'] ['en']
             
