@@ -54,7 +54,7 @@ components:
             type: string
             description: id of rounds.
             example: "12345-qwert-....."
-          title:
+          title_translations:
             type: object
             description: title or name of the round.
             example: "Spring"
@@ -103,3 +103,4 @@ components:
       schema:
         type: string
       required: true
+  

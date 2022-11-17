@@ -53,6 +53,10 @@ paths:
           schema:
             type: string
           required: true
+        - name: language
+          in: query
+          schema: 
+            type: string  
       responses:
         200:
           description: "If the round exists then the data is returned."
