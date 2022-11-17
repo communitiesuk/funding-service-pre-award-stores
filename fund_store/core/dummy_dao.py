@@ -29,7 +29,7 @@ class RoundDAO:
     def __init__(self):
         self.rounds = {}
 
-    def get_one(self, fund_id, round_id):
+    def get_one(self, fund_id, round_id, language):
         all_round_list = list(self.rounds.values())
         fund_round_list = [
             round for round in all_round_list if round["fund_id"] == fund_id
@@ -38,6 +38,7 @@ class RoundDAO:
             (round for round in fund_round_list if round["id"] == round_id),
             None,
         )
+        self.set_round_title(language, the_round)
         return the_round
 
     def get_all_for_fund(self, fund_id):
@@ -53,3 +54,13 @@ class RoundDAO:
     def load_dummy(self, round_data):
         for round in round_data:
             self.create(round)
+            
+    def set_round_title(self,language, data):
+        if language == "cy":
+            data['title'] = data['title_translations'] ['cy']
+     
+        else:
+            data['title'] = data['title_translations'] ['en']
+            
+            
+            
