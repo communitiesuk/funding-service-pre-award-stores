@@ -12,6 +12,7 @@ jobs:
 
       - name: Install and Build 🔧
         run: |
+          pip install --upgrade pip
           pip install pdoc3
           pip install -r requirements.txt
           pdoc --html --output-dir docs .
