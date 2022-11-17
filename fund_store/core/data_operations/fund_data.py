@@ -7,7 +7,9 @@ from core.dummy_dao import FundDAO
 FUND_DATA = [
     {
         "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-        "name": "Community Ownership Fund",
+        "fund_name_translations": 
+            {"en":"Community Ownership Fund",
+             "cy": "Y Cronfa Perchnogaeth Gymunedol"},
         "short_name": "COF",
         "description": (
             "The Community Ownership Fund is a £150 million fund over 4 years"
