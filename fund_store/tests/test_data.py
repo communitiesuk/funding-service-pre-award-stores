@@ -16,7 +16,7 @@ TEST_FUND_DATA = [
 TEST_ROUND_DATA = [
     {
         "id": "3b1ae9e8-eda4-4910-a5dd-fc144f9a8ba1",
-        "title": {
+        "title_translations": {
             "en": "English Round 1",
             "cy": "Welsh round 1"},
         "fund_id": "fb986cdc-8e02-477a-a7e0-41cf19dd7675",
@@ -45,6 +45,7 @@ TEST_ROUND_DATA = [
         "opens": "2099-12-25 00:00:01",
         "deadline": "2099-12-26 00:00:00",
         "assessment_deadline": "2099-12-27 00:00:00",
+        "title": "English Round 1"
     }
 ]
 
