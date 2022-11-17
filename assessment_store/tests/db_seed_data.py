@@ -1,23 +1,60 @@
-import itertools
-from pprint import pprint
-from random import choice
-from random import sample
-from string import ascii_uppercase
-from uuid import uuid4
 
-from tests.application_store_json import application_store_json_template
+def get_deterministic_rows():
 
+    import json
 
-def create_rows(number_of_apps_per_round, number_of_funds, number_of_rounds):
+    with open("tests/test_data/apps.json", "r") as f:
+
+        parsed_json_apps_file = json.load(f)
+
+    list_of_json_strings = [json.dumps(json_object) for json_object in parsed_json_apps_file]
+
+    return list_of_json_strings
+
+def get_dynamic_rows(number_of_apps_per_round, number_of_funds, number_of_rounds):
+
+    from random import choice
+    from random import sample
+    from string import ascii_uppercase
+    from uuid import uuid4
+
+    from tests.application_store_json import application_store_json_template
 
     funds = [uuid4() for _ in range(number_of_funds)]
 
-    project_names = itertools.cycle([
-        "Save the boardgame cafe in Colchester",
-        "Remodel the vintage cinema in Bath",
-        "Rebuild the beautiful spar in Falmouth",
-        "Restore the derelict student union in Plymouth",
-    ])
+    verbs = ["Save", "Restore", "Refurbish", "Rebuild", "Remodel"]
+
+    adjects = ["old", "humble", "derelict", "vintage", "loved", "beautiful"]
+
+    places = [
+        "skatepark",
+        "pub",
+        "cinema",
+        "community centre",
+    ]
+    cities = [
+        "Bath",
+        "Birmingham",
+        "Bradford",
+        "Brighton",
+        "Bristol",
+        "Cambridge",
+        "Canterbury",
+        "Carlisle",
+        "Chelmsford",
+        "Chichester",
+        "Colchester",
+        "Exeter",
+        "Gloucester",
+        "Hereford",
+        "Aberdeen",
+        "Dundee",
+        "Dunfermline",
+        "Edinburgh",
+        "Bangor",
+        "Cardiff",
+        "Newport",
+    ]
 
     for count,fund_id in enumerate(funds):
 
@@ -34,7 +71,10 @@ def create_rows(number_of_apps_per_round, number_of_funds, number_of_rounds):
             for app_id in app_ids:
 
 
-                project_name = next(project_names)
+                project_name = (
+                f"{choice(verbs)} the {choice(adjects)} {choice(places)} in"
+                f" {choice(cities)}"
+                )
 
                 short_ref = "COF-R2W2-" + "".join(sample(ascii_uppercase, 6))
 

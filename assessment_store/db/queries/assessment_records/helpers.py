@@ -26,6 +26,9 @@ def get_mapper(application_type):
         case "citizan_space":
             return {"id": "some key in some json somewhere."}
 
+        case _:
+            raise KeyError("Valid application type not given.")
+
 
 def derive_values_from_json(loaded_json, application_type):
 
@@ -40,6 +43,6 @@ def derive_values_from_json(loaded_json, application_type):
 
     selects = [func.jsonb_path_query_first(loaded_blob.c.json_value, json_path).label(column_name) for column_name, json_path in mapper.items()]
 
-    test_stmt = select(*selects).select_from(loaded_blob)
+    extract_fields_stmt = select(*selects).select_from(loaded_blob)
 
-    return db.session.execute(test_stmt).one()._asdict()
+    return db.session.execute(extract_fields_stmt).one()._asdict()

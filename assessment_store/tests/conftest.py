@@ -13,38 +13,41 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils.functions import create_database
 from sqlalchemy_utils.functions import database_exists
 from sqlalchemy_utils.functions import drop_database
-from tests.db_seed_data import create_rows
+from tests.db_seed_data import get_deterministic_rows, get_dynamic_rows
 from tests.sql_infos import attach_listeners
 from tests.sql_infos import pytest_terminal_summary  # noqa
 
-def prep_db():
+def prep_db(reuse_db=False):
     """
     Provide the transactional fixtures with access
     to the database via a Flask-SQLAlchemy
     database connection.
     """
+    no_db = not database_exists(Config.SQLALCHEMY_DATABASE_URI)
+    refresh_db = not reuse_db
 
-    if database_exists(Config.SQLALCHEMY_DATABASE_URI):
+    if no_db:
+
+        create_database(Config.SQLALCHEMY_DATABASE_URI)
+
+    elif refresh_db:
+
         drop_database(Config.SQLALCHEMY_DATABASE_URI)
-
-    create_database(Config.SQLALCHEMY_DATABASE_URI)
+        create_database(Config.SQLALCHEMY_DATABASE_URI)
 
     upgrade()
-
 
 def row_data(apps_per_round, rounds_per_fund, number_of_funds):
     """row_data A fixture which provides the test row data."""
 
     row_data = list(
-        create_rows(apps_per_round, rounds_per_fund, number_of_funds)
+        get_dynamic_rows(apps_per_round, rounds_per_fund, number_of_funds)
     )
 
     return row_data
 
 
-def seed_database(apps_per_round, rounds_per_fund, number_of_funds):
-
-    start = time.time()
+def seed_database_randomly(apps_per_round, rounds_per_fund, number_of_funds):
 
     test_input_data = row_data(
         apps_per_round, rounds_per_fund, number_of_funds
@@ -52,12 +55,11 @@ def seed_database(apps_per_round, rounds_per_fund, number_of_funds):
 
     bulk_insert_application_record(test_input_data, "COF")
 
-    end = time.time()
+def seed_database_deterministically():
 
-    print(
-        'Creating test rows took:'
-        f', time={end - start:.3f}'
-    )
+    test_input_data = get_deterministic_rows()
+
+    bulk_insert_application_record(test_input_data, "COF")
 
 
 @pytest.fixture(scope="session")
@@ -78,16 +80,35 @@ def _db(app, request):
     apps_per_round = request.config.getoption("apps_per_round")
     rounds_per_fund = request.config.getoption("rounds_per_fund")
     number_of_funds = request.config.getoption("number_of_funds")
+    current_run_is_random = request.config.getoption("randomdata")
 
     with app.app_context():
-        prep_db()
-        seed_database(apps_per_round, rounds_per_fund, number_of_funds)
 
-    def rollback():
-        with app.app_context():
-            downgrade(revision="base")
+        # Did this and the last run use fixed test data?
+        prev_run_deterministic = request.config.cache.get("was_deterministic", False)
+        current_run_deterministic = not current_run_is_random
+        request.config.cache.set("was_deterministic", current_run_deterministic)
 
-    request.addfinalizer(rollback)
+        # Did this and the last run have the same db uri?
+        prev_db_uri = request.config.cache.get("db_uri", False)
+        current_db_uri = Config.SQLALCHEMY_DATABASE_URI
+        request.config.cache.set("db_uri", current_db_uri)
+
+        same_db_uri = prev_db_uri == current_db_uri
+        both_determ = prev_run_deterministic and current_run_deterministic
+
+        # If same data and uri then lets reuse the last test db..
+        # NB: Pytest cleans up changes made during tests.
+        reuse_db = same_db_uri and both_determ
+
+        print(reuse_db)
+
+        prep_db(reuse_db)
+        if not reuse_db:
+            if current_run_is_random:
+                seed_database_randomly(apps_per_round, rounds_per_fund, number_of_funds)
+            else:
+                seed_database_deterministically()
 
     return db
 
@@ -125,5 +146,12 @@ def pytest_addoption(parser):
         action="store",
         default=True,
         help="The amount of rows to use when testing the db.",
+        type=bool,
+    )
+    parser.addoption(
+        "--randomdata",
+        action="store",
+        default=False,
+        help="Decides if random data is used to seed the appliation rows..",
         type=bool,
     )

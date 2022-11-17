@@ -58,7 +58,7 @@ def bulk_insert_application_record(json_strings, application_type):
     db.session.bulk_insert_mappings(AssessmentRecords, rows)
     db.session.commit()
 
-def find_answer_by_key_cof(field_key: str, app_id: str):
+def find_answer_by_key_runner(field_key: str, app_id: str):
 
     return (
         db.session.query(
