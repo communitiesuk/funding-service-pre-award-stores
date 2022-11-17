@@ -6,7 +6,7 @@ from core.dummy_dao import RoundDAO
 ROUND_DATA = [
     {
         "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-        "title": {
+        "title_translations": {
             "en":"Round 2 Window 2",
             "cy": "Cylch 2 Window 2"},
         "short_name": "R2W2",
