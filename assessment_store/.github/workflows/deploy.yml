@@ -38,15 +38,6 @@ jobs:
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
           command: add-network-policy funding-service-design-assessment-store-dev funding-service-design-notification-dev --protocol tcp --port 8080
-    - name: Apply network policy for application store service for dev
-      uses: citizen-of-planet-earth/cf-cli-action@v2
-      with:
-          cf_api:      ${{secrets.CF_API}}
-          cf_org:      ${{secrets.CF_ORG}}
-          cf_space:    ${{secrets.CF_SPACE }}
-          cf_username: ${{secrets.CF_USER}}
-          cf_password: ${{secrets.CF_PASSWORD}}
-          command: add-network-policy funding-service-design-assessment-store-dev funding-service-design-application-store-dev --protocol tcp --port 8080
   apply_network_policy_test:
     needs: test_and_deploy
     if: github.ref == 'refs/heads/main'
@@ -62,12 +53,4 @@ jobs:
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
           command: add-network-policy funding-service-design-assessment-store-test funding-service-design-notification-test --protocol tcp --port 8080
-    - name: Apply network policy for application store service for test
-      uses: citizen-of-planet-earth/cf-cli-action@v2
-      with:
-          cf_api:      ${{secrets.CF_API}}
-          cf_org:      ${{secrets.CF_ORG}}
-          cf_space:    ${{secrets.CF_SPACE }}
-          cf_username: ${{secrets.CF_USER}}
-          cf_password: ${{secrets.CF_PASSWORD}}
-          command: add-network-policy funding-service-design-assessment-store-test funding-service-design-application-store-test --protocol tcp --port 8080
+
