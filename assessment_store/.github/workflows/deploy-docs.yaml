@@ -13,8 +13,10 @@ jobs:
       - name: Install and Build 🔧
         run: |
           pip install --upgrade pip
+          python -m venv .venv
+          source .venv/bin/activate
           pip install pdoc3
-          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
           pdoc --html --output-dir docs .
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
