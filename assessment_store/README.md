@@ -10,8 +10,18 @@ Built with Flask.
 
 ## Prerequisites
 - python ^= 3.10
+- postgres or docker (If running postgres in docker)
 
 # Getting started
+
+## Quickstart / TL;DR
+If on windows: use `python` instead of `python3`, `set` instead of `export`, and `.venv\Scripts\activate` instead of `.venv/bin/activate`.
+
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements-dev.txt
+docker container run -e POSTGRES_PASSWORD=postgres -p 5432:5432 --name=assess_store_postgres -e POSTGRES_DB=assess_store_dev postgres
+export DATABASE_URL='postgresql://postgres:postgres@127.0.0.1:5432/assess_store_dev'
+flask run
 
 ## Installation
 
@@ -112,11 +122,14 @@ These are the current pipelines running on the repo:
 ## Unit & Accessibility Testing
 
 1. Ensure you have a local postgres instance setup and running with a user `postgres` created.
-1. Install `requirements-dev.txt`
-1. Activate your virtual env: `source .venv/bin/activate`
-1. Run `invoke bootstrap-test-db --database-host=your-db-url` to create a db called "fsd_assess_store_test" in your local postgres instance. This uses the invoke python module to execute tasks defined in `tasks.py`
-1. Run pytest
-- Note you will not see any data inserted from the tests as they run within transactions so are not persisted after the testing session.
+2. Ensure that you have set a DATABASE_URL environment varaible.
+3. Install `requirements-dev.txt`
+4. Activate your virtual env: `source .venv/bin/activate`
+5. Run pytest
+
+NB : pytest will create a database with a unique name to use just for unit tests. Changes to this db from tests does not persist. Caching is enable so that sequential pytest invocations will reuse the database with the test data. **Again, only the seeded data is reused since changes due to unit tests are not persisted.**
+
+To rerun the unit test database creation/seeding process run `pytest --cache-clear`.
 
 ## Transactional tests
 These rely on the module `pytest-flask-sqlalchemy` which has good docs on its github page: https://github.com/jeancochrane/pytest-flask-sqlalchemy
