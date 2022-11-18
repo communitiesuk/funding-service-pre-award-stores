@@ -10,7 +10,7 @@ from sqlalchemy.dialects.postgresql import TEXT
 from sqlalchemy.dialects.postgresql import UUID
 
 
-class AssessmentRecords(db.Model):
+class AssessmentRecord(db.Model):
     __tablename__ = "assessment_records"
 
     application_id = db.Column(
@@ -51,7 +51,7 @@ class AssessmentRecords(db.Model):
 
 Index(
     "application_jsonb_index",
-    AssessmentRecords.jsonb_blob,
+    AssessmentRecord.jsonb_blob,
     postgresql_ops={
         "jsonb_blob": "jsonb_path_ops",
     },
@@ -61,20 +61,20 @@ Index(
 # This is very fast for "=" in WHERE clauses.
 Index(
     "application_id_hash_index",
-    AssessmentRecords.application_id,
+    AssessmentRecord.application_id,
     postgresql_using="hash",
 )
 
 # Links the round_id and fund_id columns by an index.
 Index(
     "application_round_fund_id_index",
-    AssessmentRecords.round_id,
-    AssessmentRecords.fund_id,
+    AssessmentRecord.round_id,
+    AssessmentRecord.fund_id,
 )
 
 Index(
     "application_jsonb_index",
-    func.concat(AssessmentRecords.short_id, ' ', AssessmentRecords.project_name),
+    func.concat(AssessmentRecord.short_id, ' ', AssessmentRecord.project_name),
     postgresql_ops={
         "jsonb_blob": "jsonb_path_ops",
     },

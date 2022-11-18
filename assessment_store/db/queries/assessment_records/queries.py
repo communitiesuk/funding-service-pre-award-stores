@@ -3,7 +3,7 @@ import re
 import uuid
 
 from db import db
-from db.models.assessment_record import AssessmentRecords
+from db.models.assessment_record import AssessmentRecord
 from db.schemas import AssessmentRecordMetadata
 from db.queries.assessment_records.helpers import derive_values_from_json, get_mapper
 from sqlalchemy import bindparam, insert, literal, literal_column, select
@@ -19,11 +19,11 @@ from sqlalchemy import column, String
 def get_metadata_for_fund_round_id(fund_id, round_id):
 
     stmt = (
-        select(AssessmentRecords)
+        select(AssessmentRecord)
         # Dont load json into memory
-        .options(defer(AssessmentRecords.jsonb_blob)).where(
-            AssessmentRecords.fund_id == fund_id,
-            AssessmentRecords.round_id == round_id,
+        .options(defer(AssessmentRecord.jsonb_blob)).where(
+            AssessmentRecord.fund_id == fund_id,
+            AssessmentRecord.round_id == round_id,
         )
     )
 
@@ -55,7 +55,7 @@ def bulk_insert_application_record(json_strings, application_type):
 
         del loaded_json
 
-    db.session.bulk_insert_mappings(AssessmentRecords, rows)
+    db.session.bulk_insert_mappings(AssessmentRecord, rows)
     db.session.commit()
 
 def find_answer_by_key_runner(field_key: str, app_id: str):
@@ -63,12 +63,12 @@ def find_answer_by_key_runner(field_key: str, app_id: str):
     return (
         db.session.query(
             func.jsonb_path_query_first(
-                AssessmentRecords.jsonb_blob,
+                AssessmentRecord.jsonb_blob,
                 "$.forms[*].questions[*].fields[*] ? (@.key =="
                 f' "{field_key}")',
             )
         )
-        .filter(AssessmentRecords.application_id == app_id)
+        .filter(AssessmentRecord.application_id == app_id)
         .one()
     )
 

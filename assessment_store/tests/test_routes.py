@@ -1,10 +1,10 @@
-from db.models.assessment_record.assessment_records import AssessmentRecords
+from db.models.assessment_record.assessment_records import AssessmentRecord
 from tests.helpers import get_random_row
 
 
 def test_gets_all_apps_for_fund_round(request, client):
 
-    picked_row = get_random_row(AssessmentRecords)
+    picked_row = get_random_row(AssessmentRecord)
 
     apps_per_round = request.config.getoption("apps_per_round")
 

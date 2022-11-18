@@ -1,3 +1,3 @@
 # flake8: noqa
-from .assessment_records import AssessmentRecords
+from .assessment_records import AssessmentRecord
 from .db_triggers import *
