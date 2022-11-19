@@ -1,21 +1,17 @@
-import logging
-import time
 import pytest
 from app import create_app
 from config import Config
 from db.queries.assessment_records import (
     bulk_insert_application_record,
 )
-from flask_migrate import downgrade
-from flask_migrate import migrate
 from flask_migrate import upgrade
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils.functions import create_database
 from sqlalchemy_utils.functions import database_exists
 from sqlalchemy_utils.functions import drop_database
-from tests.db_seed_data import get_deterministic_rows, get_dynamic_rows
-from tests.sql_infos import attach_listeners
-from tests.sql_infos import pytest_terminal_summary  # noqa
+from tests._db_seed_data import get_deterministic_rows, get_dynamic_rows
+from tests._sql_infos import attach_listeners
+from tests._sql_infos import pytest_terminal_summary  # noqa
 
 def prep_db(reuse_db=False):
     """
@@ -77,6 +73,8 @@ def _db(app, request):
 
     db = SQLAlchemy(app)
 
+    print(db.__dict__)
+
     apps_per_round = request.config.getoption("apps_per_round")
     rounds_per_fund = request.config.getoption("rounds_per_fund")
     number_of_funds = request.config.getoption("number_of_funds")
@@ -100,8 +98,6 @@ def _db(app, request):
         # If same data and uri then lets reuse the last test db..
         # NB: Pytest cleans up changes made during tests.
         reuse_db = same_db_uri and both_determ
-
-        print(reuse_db)
 
         prep_db(reuse_db)
         if not reuse_db:

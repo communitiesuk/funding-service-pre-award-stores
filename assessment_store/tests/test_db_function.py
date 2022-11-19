@@ -3,7 +3,7 @@ import random
 import sqlalchemy
 from db.models.assessment_record.assessment_records import AssessmentRecord
 from db.queries.assessment_records import find_answer_by_key_runner
-from tests.helpers import get_random_row
+from tests._helpers import get_random_row
 
 
 def test_select_field_by_id():

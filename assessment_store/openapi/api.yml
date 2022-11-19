@@ -27,7 +27,7 @@ paths:
         - assessments
       summary: Search assessments
       description: List all assessments
-      operationId: api.TemplateRoute.template_route
+      operationId: api.routes.all_assessments_for_fund_round_id
       responses:
         200:
           description: SUCCESS - A list of assessments

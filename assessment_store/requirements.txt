@@ -55,7 +55,7 @@ flask-babel==2.0.0
     # via funding-service-design-utils
 flask-migrate==4.0.0
     # via -r requirements.in
-flask-sqlalchemy==3.0.2
+flask-sqlalchemy==2.5.1
     # via
     #   -r requirements.in
     #   flask-migrate

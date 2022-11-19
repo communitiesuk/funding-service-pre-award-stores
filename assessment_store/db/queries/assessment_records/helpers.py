@@ -11,7 +11,8 @@ COF_json_mapper = {
     "fund_id": "$.fund_id",
     "round_id": "$.round_id",
     "funding_amount_requested": (
-        '$.forms[*].questions[*].fields[*] ? (@.key == "JzWvhj")."answer"'
+        """$.forms[*].questions[*].fields[*] ? (@.key == "JzWvhj")."answer".double()
+        + $.forms[*].questions[*].fields[*] ? (@.key == "jLIgoi")."answer".double() """
     ),
 }
 
@@ -22,9 +23,6 @@ def get_mapper(application_type):
 
         case "COF":
             return COF_json_mapper
-
-        case "citizan_space":
-            return {"id": "some key in some json somewhere."}
 
         case _:
             raise KeyError("Valid application type not given.")

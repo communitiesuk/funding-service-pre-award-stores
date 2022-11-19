@@ -18,7 +18,7 @@ def get_dynamic_rows(number_of_apps_per_round, number_of_funds, number_of_rounds
     from string import ascii_uppercase
     from uuid import uuid4
 
-    from tests.application_store_json import application_store_json_template
+    from tests._application_store_json import application_store_json_template
 
     funds = [uuid4() for _ in range(number_of_funds)]
 

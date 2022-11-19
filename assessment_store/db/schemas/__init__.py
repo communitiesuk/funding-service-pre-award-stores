@@ -1,1 +1,3 @@
-from .schemas import * # noqa
+from .schemas import AssessmentRecordMetadata
+
+__all__ = [AssessmentRecordMetadata]

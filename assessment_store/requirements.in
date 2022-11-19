@@ -13,7 +13,7 @@ Flask
 #   Database
 #-----------------------------------
 SQLAlchemy
-Flask-SQLAlchemy
+Flask-SQLAlchemy==2.5.1
 Flask-Migrate
 psycopg2-binary
 alembic-utils

@@ -1,5 +1,5 @@
 from db.models.assessment_record.assessment_records import AssessmentRecord
-from tests.helpers import get_random_row
+from tests._helpers import get_random_row
 
 
 def test_gets_all_apps_for_fund_round(request, client):
