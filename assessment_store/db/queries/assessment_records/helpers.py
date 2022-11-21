@@ -18,7 +18,6 @@ COF_json_mapper = {
     ),
 }
 
-
 def get_mapper(application_type):
 
     match application_type:

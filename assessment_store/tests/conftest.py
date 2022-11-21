@@ -77,8 +77,6 @@ def _db(app, request):
 
     db = SQLAlchemy(app)
 
-    print(db.__dict__)
-
     apps_per_round = request.config.getoption("apps_per_round")
     rounds_per_fund = request.config.getoption("rounds_per_fund")
     number_of_funds = request.config.getoption("number_of_funds")
