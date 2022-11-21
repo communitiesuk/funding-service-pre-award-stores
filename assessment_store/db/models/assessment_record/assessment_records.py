@@ -1,5 +1,5 @@
 from db import db
-from db.models.assessment_record.enums import Langauge
+from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
 from sqlalchemy import cast
 from sqlalchemy import Computed
@@ -34,7 +34,7 @@ class AssessmentRecord(db.Model):
 
     fund_id = db.Column("fund_id", UUID, index=True, nullable=False)
 
-    langauge = db.Column("langauge", ENUM(Langauge), default="en")
+    language = db.Column("language", ENUM(Language), default="en")
 
     workflow_status = db.Column(
         "workflow_status", ENUM(Status), index=True, default="NOT_STARTED"

@@ -8,6 +8,6 @@ class Status(Enum):
     COMPLETED = 3
 
 
-class Langauge(Enum):
+class Language(Enum):
     en = 0
     cy = 1
