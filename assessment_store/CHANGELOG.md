@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - CHANGELOG.md (so meta).
 - assessment_records table, complete with JSONB blob.
+- a marshmallow model for serializing rows.
 - The `/application_overviews/{fund_id}/{round_id}` endpoint.
 - test set up which inserts data into a database rather then mocking endpoints and using envs to decide program flow.
 - application test data, this file contains 1500 rows of application json for testing.
