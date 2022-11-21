@@ -14,6 +14,10 @@ jobs:
   # Build the documentation and upload the static HTML files as an artifact.
   build:
     runs-on: ubuntu-latest
+    env:
+      FLASK_ENV : "docs"
+      VERSION : ${{github.ref_name}}
+      VERSION_LINK : https://github.com/communitiesuk/${{ github.event.repository.name }}/releases/tag/${{github.ref_name}}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -23,7 +27,7 @@ jobs:
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - run: pip install -r requirements-dev.txt pdoc
       - name: pdoc setup.
-        run: cp README.md docs/README.md && cp tasks/TASKS.md docs/TASKS.md && cp CHANGELOG.md docs/CHANGELOG.md && export FLASK_ENV=docs && export VERSION=${{github.ref_name}} && export VERSION_LINK=https://github.com/communitiesuk/${{ github.event.repository.name }}/releases/tag/${{github.ref_name}}
+        run: cp README.md docs/README.md && cp tasks/TASKS.md docs/TASKS.md && cp CHANGELOG.md docs/CHANGELOG.md
       - name: pdoc build
         run: pdoc api db tests -t docs/ -o docs/dist/
       - uses: actions/upload-pages-artifact@v1
