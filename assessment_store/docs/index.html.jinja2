@@ -3,10 +3,10 @@
 {% block content %}
     <header class="pdoc">
         {% block logo %}
-                <a href="https://pdoc.dev">
-                    <img src="data:image/svg+xml,{% filter urlencode %}{% include "logo.svg" %}{% endfilter %}"
-                         alt="Department for Levelling Up, Housing and Communities logo"/>
-                </a>
+        <a href="/">
+            <img class="logo" src="data:image/svg+xml,{% filter urlencode %}{% include "logo.svg" %}{% endfilter %}"
+                    alt="Department for Levelling Up, Housing and Communities logo"/>
+        </a>
         {% endblock %}
         {% if search %}
             <input type="search" placeholder="Search API Documentation..." aria-label="search box">
@@ -17,4 +17,7 @@
     {% include 'README.md' %}
     {% endfilter %}
     </main>
+    {% if search %}
+        {% include "search.html.jinja2" %}
+    {% endif %}
 {% endblock %}

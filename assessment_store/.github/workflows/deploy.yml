@@ -53,4 +53,3 @@ jobs:
           cf_username: ${{secrets.CF_USER}}
           cf_password: ${{secrets.CF_PASSWORD}}
           command: add-network-policy funding-service-design-assessment-store-test funding-service-design-notification-test --protocol tcp --port 8080
-

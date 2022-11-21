@@ -22,4 +22,3 @@ class DevelopmentConfig(DefaultConfig):
 
     # Database
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-

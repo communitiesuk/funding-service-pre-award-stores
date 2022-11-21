@@ -43,5 +43,5 @@ def test_non_blob_columns_mutable(db_session):
         picked_row = get_random_row(AssessmentRecord)
         picked_row.workflow_status = "IN_PROGRESS"
         db_session.commit()
-    except sqlalchemy.exc.InternalError as error:
+    except sqlalchemy.exc.InternalError:
         raise AssertionError

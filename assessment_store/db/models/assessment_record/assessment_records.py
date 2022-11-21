@@ -1,9 +1,10 @@
-from sqlalchemy import Index
 from db import db
-from db.models.assessment_record.enums import Langauge, Status
+from db.models.assessment_record.enums import Langauge
+from db.models.assessment_record.enums import Status
 from sqlalchemy import cast
 from sqlalchemy import Computed
 from sqlalchemy import func
+from sqlalchemy import Index
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import TEXT
@@ -13,9 +14,7 @@ from sqlalchemy.dialects.postgresql import UUID
 class AssessmentRecord(db.Model):
     __tablename__ = "assessment_records"
 
-    application_id = db.Column(
-        "application_id", UUID, primary_key=True
-    )
+    application_id = db.Column("application_id", UUID, primary_key=True)
 
     short_id = db.Column("short_id", db.String(255), nullable=False)
 
@@ -49,6 +48,7 @@ class AssessmentRecord(db.Model):
         Computed(func.md5(cast(jsonb_blob, TEXT)), persisted=True),
     )
 
+
 Index(
     "ix_application_jsonb",
     AssessmentRecord.jsonb_blob,
@@ -71,4 +71,3 @@ Index(
     AssessmentRecord.round_id,
     AssessmentRecord.fund_id,
 )
-

@@ -22,8 +22,7 @@ jobs:
           python-version: '3.x'
 
       - run: pip install -r requirements-dev.txt pdoc
-      - run: cp README.md docs/README.md
-      - run: pdoc api db tests -t docs/ --logo "https://upload.wikimedia.org/wikipedia/en/thumb/2/28/Department_for_Levelling_Up%2C_Housing_and_Communities_logo.svg/220px-Department_for_Levelling_Up%2C_Housing_and_Communities_logo.svg.png" -o docs/dist/
+      - run: cp README.md docs/README.md && export FLASK_ENV=docs && pdoc api db tests -t docs/ -o docs/dist/
       - uses: actions/upload-pages-artifact@v1
         with:
           path: docs/dist/

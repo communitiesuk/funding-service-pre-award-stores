@@ -23,4 +23,6 @@ class UnitTestingConfig(DefaultConfig):
 
     WARN_IF_QUERIES_OVER_MS = 5
 
-    SQLALCHEMY_DATABASE_URI = DefaultConfig.SQLALCHEMY_DATABASE_URI + "_UNIT_TEST"
+    SQLALCHEMY_DATABASE_URI = (
+        DefaultConfig.SQLALCHEMY_DATABASE_URI + "_UNIT_TEST"
+    )

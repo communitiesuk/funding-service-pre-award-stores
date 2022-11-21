@@ -9,9 +9,11 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_utils.functions import create_database
 from sqlalchemy_utils.functions import database_exists
 from sqlalchemy_utils.functions import drop_database
-from tests._db_seed_data import get_deterministic_rows, get_dynamic_rows
+from tests._db_seed_data import get_deterministic_rows
+from tests._db_seed_data import get_dynamic_rows
 from tests._sql_infos import attach_listeners
 from tests._sql_infos import pytest_terminal_summary  # noqa
+
 
 def prep_db(reuse_db=False):
     """
@@ -33,6 +35,7 @@ def prep_db(reuse_db=False):
 
     upgrade()
 
+
 def row_data(apps_per_round, rounds_per_fund, number_of_funds):
     """row_data A fixture which provides the test row data."""
 
@@ -50,6 +53,7 @@ def seed_database_randomly(apps_per_round, rounds_per_fund, number_of_funds):
     )
 
     bulk_insert_application_record(test_input_data, "COF")
+
 
 def seed_database_deterministically():
 
@@ -83,9 +87,13 @@ def _db(app, request):
     with app.app_context():
 
         # Did this and the last run use fixed test data?
-        prev_run_deterministic = request.config.cache.get("was_deterministic", False)
+        prev_run_deterministic = request.config.cache.get(
+            "was_deterministic", False
+        )
         current_run_deterministic = not current_run_is_random
-        request.config.cache.set("was_deterministic", current_run_deterministic)
+        request.config.cache.set(
+            "was_deterministic", current_run_deterministic
+        )
 
         # Did this and the last run have the same db uri?
         prev_db_uri = request.config.cache.get("db_uri", False)
@@ -102,7 +110,9 @@ def _db(app, request):
         prep_db(reuse_db)
         if not reuse_db:
             if current_run_is_random:
-                seed_database_randomly(apps_per_round, rounds_per_fund, number_of_funds)
+                seed_database_randomly(
+                    apps_per_round, rounds_per_fund, number_of_funds
+                )
             else:
                 seed_database_deterministically()
 

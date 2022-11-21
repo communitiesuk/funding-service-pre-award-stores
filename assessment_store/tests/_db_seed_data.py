@@ -1,4 +1,3 @@
-
 def get_deterministic_rows():
 
     import json
@@ -7,11 +6,16 @@ def get_deterministic_rows():
 
         parsed_json_apps_file = json.load(f)
 
-    list_of_json_strings = [json.dumps(json_object) for json_object in parsed_json_apps_file]
+    list_of_json_strings = [
+        json.dumps(json_object) for json_object in parsed_json_apps_file
+    ]
 
     return list_of_json_strings
 
-def get_dynamic_rows(number_of_apps_per_round, number_of_funds, number_of_rounds):
+
+def get_dynamic_rows(
+    number_of_apps_per_round, number_of_funds, number_of_rounds
+):
 
     from random import choice
     from random import sample
@@ -56,24 +60,19 @@ def get_dynamic_rows(number_of_apps_per_round, number_of_funds, number_of_rounds
         "Newport",
     ]
 
-    for count,fund_id in enumerate(funds):
+    for count, fund_id in enumerate(funds):
 
-        rounds = [
-        uuid4() for _ in range(number_of_rounds)
-        ]
+        rounds = [uuid4() for _ in range(number_of_rounds)]
 
         for round_id in rounds:
 
-            app_ids = [
-                uuid4() for _ in range(number_of_apps_per_round)
-            ]
+            app_ids = [uuid4() for _ in range(number_of_apps_per_round)]
 
             for app_id in app_ids:
 
-
                 project_name = (
-                f"{choice(verbs)} the {choice(adjects)} {choice(places)} in"
-                f" {choice(cities)}"
+                    f"{choice(verbs)} the"
+                    f" {choice(adjects)} {choice(places)} in {choice(cities)}"
                 )
 
                 short_ref = "COF-R2W2-" + "".join(sample(ascii_uppercase, 6))

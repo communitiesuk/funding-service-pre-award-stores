@@ -10,18 +10,20 @@ Built with Flask.
 
 ## Prerequisites
 - python ^= 3.10
-- postgres or docker (If running postgres in docker)
+- postgres or (docker if running postgres in docker).
 
 # Getting started
 
 ## Quickstart / TL;DR
 If on windows: use `python` instead of `python3`, `set` instead of `export`, and `.venv\Scripts\activate` instead of `.venv/bin/activate`.
 
+```
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements-dev.txt
 docker container run -e POSTGRES_PASSWORD=postgres -p 5432:5432 --name=assess_store_postgres -e POSTGRES_DB=assess_store_dev postgres
 export DATABASE_URL='postgresql://postgres:postgres@127.0.0.1:5432/assess_store_dev'
 flask run
+```
 
 ## Installation
 

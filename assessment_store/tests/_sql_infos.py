@@ -84,11 +84,11 @@ def pytest_terminal_summary(terminalreporter):
     database_url = Config.SQLALCHEMY_DATABASE_URI
     terminalreporter.write_line(f"Database URL: {database_url}")
     if randomdata:
-        terminalreporter.write_line(f"Test data created dynamically.")
+        terminalreporter.write_line("Test data created dynamically.")
         terminalreporter.write_line(f"Test rows created: {rows_created}")
     else:
-        terminalreporter.write_line(f"Test data created deterministically.")
-        terminalreporter.write_line(f"Test rows created: 1500")
+        terminalreporter.write_line("Test data created deterministically.")
+        terminalreporter.write_line("Test rows created: 1500")
 
     terminalreporter.section("SQL Query information")
     query_times = [query["time"] for query in query_info["query_times"]]

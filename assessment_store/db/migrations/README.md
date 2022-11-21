@@ -32,5 +32,3 @@ DROP TYPE status;
 """
 )
 ```
-
-

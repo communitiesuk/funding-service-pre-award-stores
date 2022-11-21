@@ -9,4 +9,3 @@ from fsd_utils import configclass
 class TestConfig(DefaultConfig):
 
     SECRET_KEY = environ.get("SECRET_KEY", "test")
-
