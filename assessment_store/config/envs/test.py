@@ -9,8 +9,3 @@ from fsd_utils import configclass
 class TestConfig(DefaultConfig):
 
     SECRET_KEY = environ.get("SECRET_KEY", "test")
-
-    # Database
-    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL").replace(
-        "postgres://", "postgresql://"
-    )

@@ -9,7 +9,6 @@ from openapi.utils import get_bundled_specs
 
 
 def create_app() -> Flask:
-
     connexion_options = {
         "swagger_url": "/",
     }
@@ -34,7 +33,12 @@ def create_app() -> Flask:
     db.init_app(flask_app)
     # Bind Flask-Migrate db utilities to Flask app
     migrate.init_app(
-        flask_app, db, directory="db/migrations", render_as_batch=True
+        flask_app,
+        db,
+        directory="db/migrations",
+        render_as_batch=True,
+        compare_type=True,
+        compare_server_default=True,
     )
 
     health = Healthcheck(flask_app)

@@ -1,188 +1,153 @@
 import pytest
 from app import create_app
-from colored import attr
-from colored import fg
-from colored import stylize
-from db import db
-from db.models.assessment import Assessment
-from db.models.compliance import Compliance
-from db.models.criteria import Criteria
-from db.models.scores_justifications import ScoresJustifications
-from db.models.sub_criteria import SubCriteria
+from config import Config
+from db.queries.assessment_records import (
+    bulk_insert_application_record,
+)
 from flask_migrate import upgrade
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy_utils.functions import create_database
+from sqlalchemy_utils.functions import database_exists
+from sqlalchemy_utils.functions import drop_database
+from tests._db_seed_data import get_deterministic_rows
+from tests._db_seed_data import get_dynamic_rows
+from tests._sql_infos import attach_listeners
+from tests._sql_infos import pytest_terminal_summary  # noqa
 
-TEST_STYLE = fg("dark_orange_3a") + attr("bold")
-seeded_assessment_ids = []
-seeded_criteria = []
-seeded_subcriteria = []
-seeded_compliance_records = []
-seeded_scores_justifications = []
+
+def prep_db(reuse_db=False):
+    """Provide the transactional fixtures with access to the database via a
+    Flask-SQLAlchemy database connection."""
+    no_db = not database_exists(Config.SQLALCHEMY_DATABASE_URI)
+    refresh_db = not reuse_db
+
+    if no_db:
+
+        create_database(Config.SQLALCHEMY_DATABASE_URI)
+
+    elif refresh_db:
+
+        drop_database(Config.SQLALCHEMY_DATABASE_URI)
+        create_database(Config.SQLALCHEMY_DATABASE_URI)
+
+    upgrade()
+
+
+def row_data(apps_per_round, rounds_per_fund, number_of_funds):
+    """row_data A fixture which provides the test row data."""
+
+    row_data = list(
+        get_dynamic_rows(apps_per_round, rounds_per_fund, number_of_funds)
+    )
+
+    return row_data
+
+
+def seed_database_randomly(apps_per_round, rounds_per_fund, number_of_funds):
+    test_input_data = row_data(
+        apps_per_round, rounds_per_fund, number_of_funds
+    )
+
+    bulk_insert_application_record(test_input_data, "COF")
+
+
+def seed_database_deterministically():
+    test_input_data = get_deterministic_rows()
+
+    bulk_insert_application_record(test_input_data, "COF")
 
 
 @pytest.fixture(scope="session")
 def app():
-    """
-    Creates the test client we will be using to test the responses
-    from our app, this is a test fixture.
-    :return: A flask test client.
-    """
+    attach_listeners()
+
     app = create_app()
-    with app.app_context():
-        upgrade()
+
     yield app
 
 
-@pytest.fixture(autouse=True)
-def seed_data(db_session):
-    print(stylize("in before_tests", TEST_STYLE))
-    assessment_1 = Assessment(
-        compliance_status="UNASSESSED",
-        application_id="app_id_existing",
-        round_id="round_1",
-        fund_id="fund_1",
-    )
-    assessment_2 = Assessment(
-        compliance_status="UNASSESSED",
-        application_id="app_id_123",
-        round_id="round_1",
-        fund_id="fund_1",
-    )
-    db.session.add(assessment_1)
-    db.session.add(assessment_2)
-    db.session.commit()
-    seeded_assessment_ids.append(assessment_1.id)
-    seeded_assessment_ids.append(assessment_2.id)
-
-    seeded_criteria.append(
-        Criteria(
-            criteria_name="strategy",
-            round_id="round_1",
-            fund_id="fund_1",
-        )
-    )
-    seeded_criteria.append(
-        Criteria(
-            criteria_name="deliverability",
-            round_id="round_1",
-            fund_id="fund_1",
-        )
-    )
-    seeded_criteria.append(
-        Criteria(
-            criteria_name="value_for_money",
-            round_id="round_1",
-            fund_id="fund_1",
-        )
-    )
-
-    for c in seeded_criteria:
-        db.session.add(c)
-    db.session.commit()
-
-    seeded_subcriteria.append(
-        SubCriteria(
-            criteria_id=seeded_criteria[0].id,
-            sub_criteria_title="something",
-        )
-    )
-    seeded_subcriteria.append(
-        SubCriteria(
-            criteria_id=seeded_criteria[1].id,
-            sub_criteria_title="nothing",
-        )
-    )
-
-    seeded_subcriteria.append(
-        SubCriteria(
-            criteria_id=seeded_criteria[2].id,
-            sub_criteria_title="nothing",
-        )
-    )
-
-    seeded_subcriteria.append(
-        SubCriteria(
-            criteria_id=seeded_criteria[2].id,
-            sub_criteria_title="nothing",
-        )
-    )
-
-    for s in seeded_subcriteria:
-        db.session.add(s)
-    db.session.commit()
-
-    seeded_compliance_records.append(
-        Compliance(
-            assessment_id=seeded_assessment_ids[1],
-            sub_criteria_id=seeded_subcriteria[1].id,
-            is_compliant=True,
-        )
-    )
-
-    for cr in seeded_compliance_records:
-        db.session.add(cr)
-    db.session.commit()
-
-    seeded_scores_justifications.append(
-        ScoresJustifications(
-            assessment_id=seeded_assessment_ids[1],
-            sub_criteria_id=seeded_subcriteria[0].id,
-            score=0,
-            justification="wow0",
-            assessor_user_id="person_1",
-        )
-    )
-    seeded_scores_justifications.append(
-        ScoresJustifications(
-            assessment_id=seeded_assessment_ids[1],
-            sub_criteria_id=seeded_subcriteria[1].id,
-            score=1,
-            justification="wow1",
-            assessor_user_id="person_1",
-        )
-    )
-    seeded_scores_justifications.append(
-        ScoresJustifications(
-            assessment_id=seeded_assessment_ids[1],
-            sub_criteria_id=seeded_subcriteria[2].id,
-            score=2,
-            justification="wow2",
-            assessor_user_id="person_1",
-        )
-    )
-    seeded_scores_justifications.append(
-        ScoresJustifications(
-            assessment_id=seeded_assessment_ids[1],
-            sub_criteria_id=seeded_subcriteria[2].id,
-            score=2,
-            justification="not great",
-            assessor_user_id="person_2",
-        )
-    )
-
-    for sj in seeded_scores_justifications:
-        db.session.add(sj)
-    db.session.commit()
-
-    yield
-
-    #  Do some cleanup
-    seeded_assessment_ids.clear()
-    seeded_criteria.clear()
-    seeded_subcriteria.clear()
-    seeded_compliance_records.clear()
-    seeded_scores_justifications.clear()
-
-
 @pytest.fixture(scope="session")
-def _db(app):
-    """
-    Provide the transactional fixtures with access
-    to the database via a Flask-SQLAlchemy
-    database connection.
-    """
+def _db(app, request):
+    db = SQLAlchemy(app)
+
+    apps_per_round = request.config.getoption("apps_per_round")
+    rounds_per_fund = request.config.getoption("rounds_per_fund")
+    number_of_funds = request.config.getoption("number_of_funds")
+    current_run_is_random = request.config.getoption("randomdata")
+
+    with app.app_context():
+
+        # Did this and the last run use fixed test data?
+        prev_run_deterministic = request.config.cache.get(
+            "was_deterministic", False
+        )
+        current_run_deterministic = not current_run_is_random
+        request.config.cache.set(
+            "was_deterministic", current_run_deterministic
+        )
+
+        # Did this and the last run have the same db uri?
+        prev_db_uri = request.config.cache.get("db_uri", False)
+        current_db_uri = Config.SQLALCHEMY_DATABASE_URI
+        request.config.cache.set("db_uri", current_db_uri)
+
+        same_db_uri = prev_db_uri == current_db_uri
+        both_determ = prev_run_deterministic and current_run_deterministic
+
+        # If same data and uri then lets reuse the last test db..
+        # NB: Pytest cleans up changes made during tests.
+        reuse_db = same_db_uri and both_determ
+
+        prep_db(reuse_db)
+        if not reuse_db:
+            if current_run_is_random:
+                seed_database_randomly(
+                    apps_per_round, rounds_per_fund, number_of_funds
+                )
+            else:
+                seed_database_deterministically()
+
     return db
 
 
 @pytest.fixture(autouse=True)
 def enable_transactional_tests(db_session):
-    pass
+    yield
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--apps-per-round",
+        action="store",
+        default=100,
+        help="The amount of rows to use when testing the db.",
+        type=int,
+    )
+    parser.addoption(
+        "--rounds-per-fund",
+        action="store",
+        default=2,
+        help="The amount of rows to use when testing the db.",
+        type=int,
+    )
+    parser.addoption(
+        "--number-of-funds",
+        action="store",
+        default=5,
+        help="The amount of rows to use when testing the db.",
+        type=int,
+    )
+    parser.addoption(
+        "--statementdetails",
+        action="store",
+        default=True,
+        help="The amount of rows to use when testing the db.",
+        type=bool,
+    )
+    parser.addoption(
+        "--randomdata",
+        action="store",
+        default=False,
+        help="Decides if random data is used to seed the appliation rows..",
+        type=bool,
+    )

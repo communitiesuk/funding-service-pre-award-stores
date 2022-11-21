@@ -1,0 +1,51 @@
+name: website
+
+# build the documentation whenever there are new commits on main
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+
+# security: restrict permissions for CI jobs.
+permissions:
+  contents: read
+
+jobs:
+  # Build the documentation and upload the static HTML files as an artifact.
+  build:
+    runs-on: ubuntu-latest
+    env:
+      FLASK_ENV : "docs"
+      VERSION : ${{github.ref_name}}
+      VERSION_LINK : https://github.com/communitiesuk/${{ github.event.repository.name }}/releases/tag/${{github.ref_name}}
+      DATABASE_URL : "docs"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - run: pip install -r requirements-dev.txt pdoc
+      - name: pdoc setup.
+        run: cp README.md docs/README.md && cp tasks/TASKS.md docs/TASKS.md && cp CHANGELOG.md docs/CHANGELOG.md
+      - name: pdoc build
+        run: pdoc api db tests -t docs/ -o docs/dist/
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: docs/dist/
+
+  # Deploy the artifact to GitHub pages.
+  # This is a separate job so that only actions/deploy-pages has the necessary permissions.
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v1

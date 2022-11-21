@@ -1,0 +1,8 @@
+{% extends "default/module.html.jinja2" %}
+
+{% block nav_title %}
+<a href="/">
+<img class="logo" src="data:image/svg+xml,{% filter urlencode %}{% include "logo.svg" %}{% endfilter %}"
+                    alt="Department for Levelling Up, Housing and Communities logo"/>
+</a>
+{% endblock %}

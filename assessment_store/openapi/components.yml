@@ -109,3 +109,18 @@ components:
           type: integer
         comment:
           type: string
+    ApplicationOverview:
+      type: object
+      properties:
+        application_id:
+          type: string
+        application_short_id:
+          type: string
+        type_of_application:
+          type: string
+        project_name:
+          type: string
+        funding_amount_requested:
+          type: string
+        workflow_status:
+          type: string

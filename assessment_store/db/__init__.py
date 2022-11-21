@@ -1,3 +1,7 @@
+"""..
+
+include:: ./README.md
+"""
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData

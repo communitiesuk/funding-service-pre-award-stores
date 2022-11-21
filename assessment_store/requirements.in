@@ -7,15 +7,18 @@ requests
 #-----------------------------------
 #   Flask Version
 #-----------------------------------
-Flask==2.1.1
+Flask
 
 #-----------------------------------
 #   Database
 #-----------------------------------
 SQLAlchemy
-Flask-SQLAlchemy
+# 3 has came out but our testing framework isn't updated to use it yet.
+Flask-SQLAlchemy==2.5.1
 Flask-Migrate
-psycopg2
+psycopg2-binary
+alembic-utils
+marshmallow-sqlalchemy
 
 #-----------------------------------
 #   Connexion APIs

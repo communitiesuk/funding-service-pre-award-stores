@@ -4,7 +4,15 @@ import logging
 from logging.config import fileConfig
 
 from alembic import context
+from alembic_utils.replaceable_entity import register_entities
+from db.models.assessment_record import block_json_func
+from db.models.assessment_record import block_json_updates_trig
 from flask import current_app
+
+# Comment this out if the functions/trigs refer to tables
+# which havent been migrated yet. These must be in a seperate
+# migration to table creation.
+register_entities([block_json_func, block_json_updates_trig])
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -21,9 +29,7 @@ logger = logging.getLogger("alembic.env")
 # target_metadata = mymodel.Base.metadata
 config.set_main_option(
     "sqlalchemy.url",
-    str(current_app.extensions["migrate"].db.get_engine().url).replace(
-        "%", "%%"
-    ),
+    str(current_app.extensions["migrate"].db.engine.url).replace("%", "%%"),
 )
 target_metadata = current_app.extensions["migrate"].db.metadata
 
@@ -43,7 +49,6 @@ def run_migrations_offline():
 
     Calls to context.execute() here emit the given string to the
     script output.
-
     """
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
@@ -57,9 +62,8 @@ def run_migrations_offline():
 def run_migrations_online():
     """Run migrations in 'online' mode.
 
-    In this scenario we need to create an Engine
-    and associate a connection with the context.
-
+    In this scenario we need to create an Engine and associate a
+    connection with the context.
     """
 
     # this callback is used to prevent an auto-migration from being generated
@@ -72,7 +76,7 @@ def run_migrations_online():
                 directives[:] = []
                 logger.info("No changes in schema detected.")
 
-    connectable = current_app.extensions["migrate"].db.get_engine()
+    connectable = current_app.extensions["migrate"].db.engine
 
     with connectable.connect() as connection:
         context.configure(
