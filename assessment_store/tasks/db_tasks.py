@@ -1,8 +1,13 @@
+import inspect
 from invoke import task
 from tasks.helper_tasks import _echo_input
 from tasks.helper_tasks import _echo_print
 from tasks.helper_tasks import _env_var
 
+# Needed for invoke to work on python3.11
+# Remove once invoke has been updated.
+if not hasattr(inspect, "getargspec"):
+    inspect.getargspec = inspect.getfullargspec
 
 @task
 def bootstrap_dev_db(c):

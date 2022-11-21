@@ -1,8 +1,13 @@
+import inspect
 import os
 from contextlib import contextmanager
 
 from invoke import task
 
+# Needed for invoke to work on python3.11
+# Remove once invoke has been updated.
+if not hasattr(inspect, "getargspec"):
+    inspect.getargspec = inspect.getfullargspec
 
 @contextmanager
 def _env_var(key, value):

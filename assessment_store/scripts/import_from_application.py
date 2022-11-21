@@ -7,4 +7,6 @@ with app.app_context():
 
     # Upsert data into assessment store.
 
+    # TODO: Write this function once the application store PR is merged!!
+
     pass
