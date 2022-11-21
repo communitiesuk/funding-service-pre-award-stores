@@ -16,7 +16,6 @@ def bootstrap_dev_db(c):
 
     from sqlalchemy_utils.functions import create_database
     from sqlalchemy_utils.functions import database_exists
-    from flask_migrate import upgrade
 
     with _env_var("FLASK_ENV", "development"):
 
@@ -39,14 +38,11 @@ def bootstrap_dev_db(c):
                     f"{Config.SQLALCHEMY_DATABASE_URI} db created...",
                 )
 
-            _echo_print(
-                f"Running migrations on db {Config.SQLALCHEMY_DATABASE_URI}.",
-            )
-            upgrade()
-
 
 @task
 def seed_dev_db(c):
+
+    from flask_migrate import upgrade
 
     with _env_var("FLASK_ENV", "development"):
 
@@ -72,6 +68,11 @@ def seed_dev_db(c):
                     ).lower()
                     == "y"
                 )
+
+            _echo_print(
+                f"Running migrations on db {Config.SQLALCHEMY_DATABASE_URI}.",
+            )
+            upgrade()
 
             _echo_print(
                 f"Seeding db {Config.SQLALCHEMY_DATABASE_URI} with"
