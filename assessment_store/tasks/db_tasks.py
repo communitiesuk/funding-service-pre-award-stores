@@ -1,4 +1,5 @@
 import inspect
+
 from invoke import task
 from tasks.helper_tasks import _echo_input
 from tasks.helper_tasks import _echo_print
@@ -9,10 +10,13 @@ from tasks.helper_tasks import _env_var
 if not hasattr(inspect, "getargspec"):
     inspect.getargspec = inspect.getfullargspec
 
+
 @task
 def bootstrap_dev_db(c):
-    """Create a clean database for development. Unit testing makes a seperate
-    db."""
+    """Create a clean database for development.
+
+    Unit testing makes a seperate db.
+    """
 
     from sqlalchemy_utils.functions import create_database
     from sqlalchemy_utils.functions import database_exists
@@ -41,7 +45,8 @@ def bootstrap_dev_db(c):
 
 @task
 def seed_dev_db(c):
-
+    """Uses the `tests.conftest.seed_database` function to insert test data
+    into your dev database."""
     from flask_migrate import upgrade
 
     with _env_var("FLASK_ENV", "development"):

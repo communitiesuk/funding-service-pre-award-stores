@@ -1,8 +1,8 @@
-"""
-.. include:: ./README.md
+"""..
+
+include:: ./README.md
 """
 from invoke import task
-
 from tasks.db_tasks import bootstrap_dev_db
 from tasks.db_tasks import create_seeded_db
 from tasks.db_tasks import seed_dev_db
@@ -18,4 +18,3 @@ __all__ = [
     profile_pytest,
     reqs,
 ]
-

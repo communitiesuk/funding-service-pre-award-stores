@@ -1,5 +1,4 @@
 def get_deterministic_rows():
-
     import json
 
     with open("tests/test_data/apps.json", "r") as f:

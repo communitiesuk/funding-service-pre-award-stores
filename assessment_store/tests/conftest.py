@@ -16,11 +16,8 @@ from tests._sql_infos import pytest_terminal_summary  # noqa
 
 
 def prep_db(reuse_db=False):
-    """
-    Provide the transactional fixtures with access
-    to the database via a Flask-SQLAlchemy
-    database connection.
-    """
+    """Provide the transactional fixtures with access to the database via a
+    Flask-SQLAlchemy database connection."""
     no_db = not database_exists(Config.SQLALCHEMY_DATABASE_URI)
     refresh_db = not reuse_db
 
@@ -47,7 +44,6 @@ def row_data(apps_per_round, rounds_per_fund, number_of_funds):
 
 
 def seed_database_randomly(apps_per_round, rounds_per_fund, number_of_funds):
-
     test_input_data = row_data(
         apps_per_round, rounds_per_fund, number_of_funds
     )
@@ -56,7 +52,6 @@ def seed_database_randomly(apps_per_round, rounds_per_fund, number_of_funds):
 
 
 def seed_database_deterministically():
-
     test_input_data = get_deterministic_rows()
 
     bulk_insert_application_record(test_input_data, "COF")
@@ -64,7 +59,6 @@ def seed_database_deterministically():
 
 @pytest.fixture(scope="session")
 def app():
-
     attach_listeners()
 
     app = create_app()
@@ -74,7 +68,6 @@ def app():
 
 @pytest.fixture(scope="session")
 def _db(app, request):
-
     db = SQLAlchemy(app)
 
     apps_per_round = request.config.getoption("apps_per_round")
@@ -119,7 +112,6 @@ def _db(app, request):
 
 @pytest.fixture(autouse=True)
 def enable_transactional_tests(db_session):
-
     yield
 
 

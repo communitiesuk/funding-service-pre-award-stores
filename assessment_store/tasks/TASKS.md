@@ -23,7 +23,7 @@ Executes the above commands in sequence to create a database with seeded data.
 
 Profiles your code while running pytest. This is useful for seeing what python functions are not performant.
 
-Results are saved to a `profile.txt` file in your working directory. 
+Results are saved to a `profile.txt` file in your working directory.
 
 ## `reqs`
 

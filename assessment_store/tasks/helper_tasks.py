@@ -9,6 +9,7 @@ from invoke import task
 if not hasattr(inspect, "getargspec"):
     inspect.getargspec = inspect.getfullargspec
 
+
 @contextmanager
 def _env_var(key, value):
     old_val = os.environ.get(key, "")
@@ -18,7 +19,6 @@ def _env_var(key, value):
 
 
 def _echo_print(to_print):
-
     from colored import attr
     from colored import fg
     from colored import stylize
@@ -29,7 +29,6 @@ def _echo_print(to_print):
 
 
 def _error_print(to_print):
-
     from colored import attr
     from colored import fg
     from colored import stylize
@@ -40,7 +39,6 @@ def _error_print(to_print):
 
 
 def _echo_input(to_print):
-
     from colored import attr
     from colored import fg
     from colored import stylize

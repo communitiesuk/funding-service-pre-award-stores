@@ -1,3 +1,9 @@
+"""The module containing all code related to the `assessment_records` table
+within the Postgres db.
+
+Tangential structures such as triggers and ENUMS are kept in other
+files.
+"""
 from db import db
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
@@ -12,6 +18,9 @@ from sqlalchemy.dialects.postgresql import UUID
 
 
 class AssessmentRecord(db.Model):
+    """AssessmentRecord The sqlalchemy-flask model class used to define the
+    `assessment_records` table in the Postgres database."""
+
     __tablename__ = "assessment_records"
 
     application_id = db.Column("application_id", UUID, primary_key=True)

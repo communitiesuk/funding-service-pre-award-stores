@@ -6,6 +6,9 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 
 class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
+    """AssessmentRecordMetadata The marshmallow class used to turn SQLAlchemy
+    rows into json for return in http responses."""
+
     class Meta:
         model = AssessmentRecord
         exclude = ["jsonb_blob", "application_json_md5"]

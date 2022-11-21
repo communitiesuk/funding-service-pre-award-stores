@@ -1,4 +1,4 @@
-<!-- TEMPLATE 
+<!-- TEMPLATE
 
 We bundle our changes into unreleased. When someone creates a tag, they move it into a proper version heading.
 
@@ -24,7 +24,7 @@ We bundle our changes into unreleased. When someone creates a tag, they move it 
     Deprecated: for soon-to-be removed features.
     Removed: for now removed features.
     Fixed: for any bug fixes.
-    Security: in case of vulnerabilities. 
+    Security: in case of vulnerabilities.
 -->
 
 # Changelog

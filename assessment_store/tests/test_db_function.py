@@ -7,7 +7,8 @@ from tests._helpers import get_random_row
 
 
 def test_select_field_by_id():
-
+    """test_select_field_by_id Tests that the correct field is picked from the
+    corresponding application."""
     picked_row = get_random_row(AssessmentRecord)
 
     # We pick a random row to extract some data from.
@@ -25,6 +26,11 @@ def test_select_field_by_id():
 
 
 def test_jsonb_blob_immutable(db_session):
+    """test_jsonb_blob_immutable Tests that attempting to update a json blob
+    though the sqlalchemy interface raises an error.
+
+    Error is defined in `db.models.assessment_record.db_triggers`.
+    """
 
     picked_row = get_random_row(AssessmentRecord)
     picked_row.jsonb_blob = {"application": "deleted :( oops"}
@@ -38,6 +44,8 @@ def test_jsonb_blob_immutable(db_session):
 
 
 def test_non_blob_columns_mutable(db_session):
+    """test_non_blob_columns_mutable Tests we haven't made the whole table
+    immutable by accident when making the json blob immutable."""
 
     try:
         picked_row = get_random_row(AssessmentRecord)

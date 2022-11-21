@@ -13,10 +13,10 @@
         {% endif %}
     </header>
     <main class="pdoc">
-    <h1> 
+    <h1>
         <a href="{{env["VERSION_LINK"] | default("") }}">
-            {{ "Version: " + env["VERSION"] | default("") }} 
-        </a> 
+            {{ "Version: " + env["VERSION"] | default("") }}
+        </a>
     </h1>
 
     {% filter to_html %}

@@ -9,7 +9,6 @@ from openapi.utils import get_bundled_specs
 
 
 def create_app() -> Flask:
-
     connexion_options = {
         "swagger_url": "/",
     }

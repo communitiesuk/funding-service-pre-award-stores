@@ -23,8 +23,8 @@ def no_gather_sql():
 
 @no_gather_sql()
 def get_random_row(table):
-    """get_random_row Uses a database-side select to get a random
-    row. Does this by using a random offset with range (1, number of rows)
+    """get_random_row Uses a database-side select to get a random row. Does
+    this by using a random offset with range (1, number of rows)
 
     :param table: Sqlalchemy mapper object
     :return: A random row from the given mapper.
