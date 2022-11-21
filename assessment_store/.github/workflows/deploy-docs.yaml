@@ -18,6 +18,7 @@ jobs:
       FLASK_ENV : "docs"
       VERSION : ${{github.ref_name}}
       VERSION_LINK : https://github.com/communitiesuk/${{ github.event.repository.name }}/releases/tag/${{github.ref_name}}
+      DATABASE_URL : "docs"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
