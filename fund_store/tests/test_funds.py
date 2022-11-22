@@ -4,7 +4,6 @@ A file containing all tests related to the fund endpoint.
 import asserts
 from flask import Flask
 from flask import request
-from tests.test_data import DEFAULT_RESPONSE_FUND_DATA
 from tests.test_data import TEST_FUND_ONE
 from tests.test_data import TEST_RESPONSE_FUND_DATA
 from tests.test_data import TEST_ROUND_ONE
@@ -22,7 +21,7 @@ def test_all_funds_endpoint(client: Flask, load_test_data):
     url = host_url + "funds"
     api_response_json = client.get(url).json
 
-    expected_data = DEFAULT_RESPONSE_FUND_DATA + TEST_RESPONSE_FUND_DATA
+    expected_data = TEST_RESPONSE_FUND_DATA
 
     asserts.assert_equal(
         api_response_json,
