@@ -66,6 +66,7 @@ def get_fund(fund_id: str):
     :rtype: Tuple
     """
     language = request.args.get("language")
+    fund_data.FUNDS_DUMMY_DAO.load_dummy(fund_data.get_fund_data(language))
     fund_search = fund_data.FUNDS_DUMMY_DAO.get_one(fund_id, language)
     if isinstance(fund_search, dict):
         return fund_search, 200
