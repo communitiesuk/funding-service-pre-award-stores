@@ -3,8 +3,8 @@ components:
     Fund:
         type: object
         properties:
-          fund_name_translations:
-            type: object
+          name:
+            type: string
             description: The name of the fund.
             example: "J's Sensible T-Shirt Fund"
           description:
@@ -17,7 +17,7 @@ components:
             example: "sdknbfs98yf48sfd"
         required:
           - id
-          - fund_name_translations
+          - name
           - description
     AssessmentCriteriaWeighting:
         type: array
@@ -54,8 +54,8 @@ components:
             type: string
             description: id of rounds.
             example: "12345-qwert-....."
-          title_translations:
-            type: object
+          title:
+            type: string
             description: title or name of the round.
             example: "Spring"
           fund_id:
@@ -103,5 +103,3 @@ components:
       schema:
         type: string
       required: true
-
-  

@@ -55,8 +55,8 @@ paths:
           required: true
         - name: language
           in: query
-          schema: 
-            type: string  
+          schema:
+            type: string
       responses:
         200:
           description: "If the round exists then the data is returned."
@@ -82,8 +82,8 @@ paths:
         - $ref: "components.yml#/components/parameters/fund_id"
         - name: language
           in: query
-          schema: 
-            type: string  
+          schema:
+            type: string
       responses:
         200:
           description: "If the fund exists then the data is returned."
