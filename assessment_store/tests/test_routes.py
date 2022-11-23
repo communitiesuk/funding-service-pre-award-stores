@@ -23,7 +23,8 @@ def test_gets_all_apps_for_fund_round(request, client):
     random_fund_id = picked_row.fund_id
 
     response_json = client.get(
-        f"/application_overviews/{random_fund_id}/{random_round_id}"
+        f"""/application_overviews/{random_fund_id}/{random_round_id}
+        ?search_term=COF-R2W2-HGBNFM"""
     ).json
 
     assert len(response_json) == apps_per_round

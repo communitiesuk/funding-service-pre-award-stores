@@ -15,7 +15,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import defer
 
 
-def get_metadata_for_fund_round_id(fund_id: str, round_id: str) -> List[Dict]:
+def get_metadata_for_fund_round_id(
+    fund_id: str, round_id: str, search_term: str
+) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
     which returns all rows matching the given fund_id and round_id. Excludes
     irrelevant columns such as `db.models.AssessmentRecord.jsonb_blob`.
@@ -24,13 +26,14 @@ def get_metadata_for_fund_round_id(fund_id: str, round_id: str) -> List[Dict]:
     :param round_id: The stringified round UUID.
     :return: A list of dictionaries.
     """
-
+    search = "%{}%".format("COF\\-R2W2\\-HJPTUS")
     stmt = (
         select(AssessmentRecord)
         # Dont load json into memory
         .options(defer(AssessmentRecord.jsonb_blob)).where(
             AssessmentRecord.fund_id == fund_id,
             AssessmentRecord.round_id == round_id,
+            AssessmentRecord.short_id.like(search),
         )
     )
 

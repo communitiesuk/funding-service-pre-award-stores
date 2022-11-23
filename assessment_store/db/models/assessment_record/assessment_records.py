@@ -80,3 +80,12 @@ Index(
     AssessmentRecord.round_id,
     AssessmentRecord.fund_id,
 )
+
+Index(
+    "ix_short_id",
+    AssessmentRecord.short_id,
+    postgresql_ops={
+        "short_id": "gin_trgm_ops",
+    },
+    postgresql_using="gin",
+)
