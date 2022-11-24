@@ -55,7 +55,7 @@ def seed_dev_db(c):
 
         with app.app_context():
 
-            from tests.conftest import seed_database
+            from tests.conftest import seed_database_randomly
             from config import Config
 
             choosing = True
@@ -84,7 +84,7 @@ def seed_dev_db(c):
                 f" {apps * rounds * funds} test rows."
             )
 
-            seed_database(apps, rounds, funds)
+            seed_database_randomly(apps, rounds, funds)
 
             _echo_print(
                 f"Seeding db {Config.SQLALCHEMY_DATABASE_URI} complete."

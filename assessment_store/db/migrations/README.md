@@ -6,9 +6,9 @@ This folder contains all of the code related to performing database migrations.
 
 If you would like to create a migration or run the migrations against your DB do the following:
 
-- Set the `DATABASE_URL` to your DB connection string.
+- Set the `DATABASE_URL` to your DB connection string (manually in your terminal via `export DATABASE_URL=*your_database_url_here*`).
 - Ensure that you have installed all the needed dependancies.
-- Run `invoke bootstrap-dev-db` (This will create a db and upgrade it.)
+- Run `invoke bootstrap_dev_db` (This will create a db and upgrade it.)
 
 To create a migration do the above and run:
 

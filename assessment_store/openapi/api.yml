@@ -6,6 +6,8 @@ info:
 tags:
   - name: assessments
     description: Assessment operations
+  - name: scores
+    description: Score operations
 
 paths:
   /application_overviews/{fund_id}/{round_id}:
@@ -37,3 +39,66 @@ paths:
                 type: array
                 items:
                   $ref: 'components.yml#/components/schemas/Assessment'
+
+  /score:
+    parameters:
+    - name: application_id
+      in: query
+      schema:
+        type: string
+      required: true
+    - name: sub_criteria_id
+      in: query
+      schema:
+        type: string
+      required: true
+    - name: score
+      in: query
+      schema:
+        type: integer
+      required: false
+    - name: justification
+      in: query
+      schema:
+        type: string
+      required: false
+    - name: timestamp
+      in: query
+      schema:
+        type: string
+      required: false
+    - name: user_id
+      in: query
+      schema:
+        type: string
+      required: false
+    get:
+      tags:
+        - scores
+      summary: get score for subcriteria in application
+      description: get a score for a subcriteria in an application
+      operationId: api.routes.latest_score_for_application_sub_criteria
+      responses:
+        200:
+          description: SUCCESS - Score for Subcriteria in Application
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/JustScore'
+    post:
+      tags:
+        - scores
+      summary: post score for subcriteria in application
+      description: post a score for a subcriteria in an application
+      operationId: api.routes.post_score_for_application_sub_criteria
+      responses:
+        200:
+          description: SUCCESS - Score for Subcriteria in Application Saved
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/JustScore'

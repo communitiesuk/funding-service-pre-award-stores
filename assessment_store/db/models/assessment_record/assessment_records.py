@@ -8,6 +8,7 @@ from db import db
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
 from sqlalchemy import cast
+from sqlalchemy.orm import relationship
 from sqlalchemy import Computed
 from sqlalchemy import func
 from sqlalchemy import Index
@@ -56,6 +57,8 @@ class AssessmentRecord(db.Model):
         TEXT,
         Computed(func.md5(cast(jsonb_blob, TEXT)), persisted=True),
     )
+
+    scores = relationship("JustScore")
 
 
 Index(

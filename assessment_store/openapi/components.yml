@@ -124,3 +124,21 @@ components:
           type: string
         workflow_status:
           type: string
+    JustScore:
+      type: object
+      properties:
+        just_score_id:
+          type: string
+        score:
+          type: integer
+        justification:
+          type: string
+        application_short_id:
+          type: string
+        timestamp:
+          type: string
+        sub_criteria_id:
+          type: string
+        user_id:
+          type: string
+
