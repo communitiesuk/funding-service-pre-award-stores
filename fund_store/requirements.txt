@@ -41,7 +41,7 @@ flask==2.1.1
     #   sentry-sdk
 flask-babel==2.0.0
     # via funding-service-design-utils
-funding-service-design-utils==1.0.8
+funding-service-design-utils==1.0.10
     # via -r requirements.in
 gunicorn==20.1.0
     # via funding-service-design-utils

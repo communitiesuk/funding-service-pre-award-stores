@@ -9,8 +9,9 @@ class FundDAO:
     def __init__(self):
         self.funds = {}
 
-    def get_one(self, fund_id):
-        return self.funds.get(fund_id)
+    def get_one(self, fund_id, language):
+        fund = self.funds.get(fund_id, language)
+        return fund
 
     def get_all(self):
         return list(self.funds.values())
@@ -29,7 +30,7 @@ class RoundDAO:
     def __init__(self):
         self.rounds = {}
 
-    def get_one(self, fund_id, round_id):
+    def get_one(self, fund_id, round_id, language):
         all_round_list = list(self.rounds.values())
         fund_round_list = [
             round for round in all_round_list if round["fund_id"] == fund_id

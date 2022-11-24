@@ -3,12 +3,12 @@ import sys
 TEST_FUND_DATA = [
     {
         "id": "fb986cdc-8e02-477a-a7e0-41cf19dd7675",
-        "name": "Test fund 1",
+        "name": "English fund 1",
         "description": "Test fund description 1",
     },
     {
         "id": "e356c266-68a8-4000-ad95-6e4d961f65b4",
-        "name": "Test fund 2",
+        "name": "English fund 2",
         "description": "Test fund description 2",
     },
 ]
@@ -16,7 +16,7 @@ TEST_FUND_DATA = [
 TEST_ROUND_DATA = [
     {
         "id": "3b1ae9e8-eda4-4910-a5dd-fc144f9a8ba1",
-        "title": "Test Round 1",
+        "title": "English Round 1",
         "fund_id": "fb986cdc-8e02-477a-a7e0-41cf19dd7675",
         "assessment_criteria_weighting": [
             {
@@ -43,6 +43,7 @@ TEST_ROUND_DATA = [
         "opens": "2099-12-25 00:00:01",
         "deadline": "2099-12-26 00:00:00",
         "assessment_deadline": "2099-12-27 00:00:00",
+        "title": "English Round 1",
     }
 ]
 
@@ -52,11 +53,9 @@ TEST_RESPONSE_FUND_DATA = TEST_FUND_DATA
 
 # setting parent path to get default fund data
 sys.path.append("../core")
-from core.data_operations.fund_data import (  # noqa
-    FUND_DATA as DEFAULT_FUND_DATA,
-)
+from core.data_operations.fund_data import get_fund_data  # noqa
 
-DEFAULT_RESPONSE_FUND_DATA = DEFAULT_FUND_DATA
+DEFAULT_RESPONSE_FUND_DATA = get_fund_data(language=None)
 
 
 TEST_FUND_ONE = TEST_RESPONSE_FUND_DATA[0]

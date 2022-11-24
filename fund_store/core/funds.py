@@ -5,6 +5,7 @@ import warnings
 from typing import List
 
 from core.data_operations import fund_data
+from flask import request
 
 
 def search(to_search: dict, word_list: List[str]):
@@ -64,7 +65,9 @@ def get_fund(fund_id: str):
                 fund_id and response code
     :rtype: Tuple
     """
-    fund_search = fund_data.FUNDS_DUMMY_DAO.get_one(fund_id)
+    language = request.args.get("language")
+    fund_data.FUNDS_DUMMY_DAO.load_dummy(fund_data.get_fund_data(language))
+    fund_search = fund_data.FUNDS_DUMMY_DAO.get_one(fund_id, language)
     if isinstance(fund_search, dict):
         return fund_search, 200
     else:
