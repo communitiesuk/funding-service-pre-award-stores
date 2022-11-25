@@ -447,7 +447,7 @@ application_store_json_template = Template(
                 {
                     "fields": [
                         {
-                            "answer": "cinema",
+                            "answer": "$asset_type",
                             "key": "yaQoxU",
                             "title": "Asset type",
                             "type": "list"
