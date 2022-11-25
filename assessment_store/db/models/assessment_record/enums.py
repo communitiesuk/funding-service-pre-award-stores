@@ -23,16 +23,15 @@ class AssestType(Enum):
     """Status The ENUM used by `db.models.AssessmentRecord` to validate the
     possible values for the `language` column."""
 
-
-COMMUNITY_CENTRE = 0
-CINEMA = 1
-GALLERY = 2
-MUSEUM = 3
-MUSIC_VENUE = 4
-PARK = 5
-POST_OFFICE = 6
-PUB = 7
-SHOP = 8
-SPORTING = 9
-THEATRE = 10
-OTHER = 11
+    COMMUNITY_CENTRE = 0
+    CINEMA = 1
+    GALLERY = 2
+    MUSEUM = 3
+    MUSIC_VENUE = 4
+    PARK = 5
+    POST_OFFICE = 6
+    PUB = 7
+    SHOP = 8
+    SPORTING = 9
+    THEATRE = 10
+    OTHER = 11
