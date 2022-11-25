@@ -8,6 +8,7 @@ from typing import List
 
 from db import db
 from db.models.assessment_record import AssessmentRecord
+from db.models.assessment_record.enums import Status
 from db.queries.assessment_records._helpers import derive_values_from_json
 from db.schemas import AssessmentRecordMetadata
 from sqlalchemy import func
@@ -16,7 +17,11 @@ from sqlalchemy.orm import defer
 
 
 def get_metadata_for_fund_round_id(
-    fund_id: str, round_id: str, search_term: str
+    fund_id: str,
+    round_id: str,
+    search_term: str,
+    assest_type: str,
+    status: str,
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
     which returns all rows matching the given fund_id and round_id. Excludes
@@ -26,14 +31,17 @@ def get_metadata_for_fund_round_id(
     :param round_id: The stringified round UUID.
     :return: A list of dictionaries.
     """
-    search = "%{}%".format("COF\\-R2W2\\-HJPTUS")
+
     stmt = (
         select(AssessmentRecord)
         # Dont load json into memory
         .options(defer(AssessmentRecord.jsonb_blob)).where(
             AssessmentRecord.fund_id == fund_id,
             AssessmentRecord.round_id == round_id,
-            AssessmentRecord.short_id.like(search),
+            AssessmentRecord.short_id.like(f"%{search_term}%")
+            | AssessmentRecord.project_name.like(f"%{search_term}%"),
+            AssessmentRecord.type_of_application.like(f"%{assest_type}%"),
+            AssessmentRecord.workflow_status.like(Status(1)),
         )
     )
 

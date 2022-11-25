@@ -23,8 +23,41 @@ def test_gets_all_apps_for_fund_round(request, client):
     random_fund_id = picked_row.fund_id
 
     response_json = client.get(
-        f"""/application_overviews/{random_fund_id}/{random_round_id}
-        ?search_term=COF-R2W2-HGBNFM"""
+        f"/application_overviews/{random_fund_id}/{random_round_id}"
     ).json
 
     assert len(response_json) == apps_per_round
+
+
+def test_search_by_short_id(client):
+    round_id = "a950b75c-769f-41c7-9615-a6275d2f7c82"
+    fund_id = "fd3abd75-6803-4a08-b098-e92263998373"
+
+    response_json = client.get(
+        f"""/application_overviews/{fund_id}/{round_id}
+        ?search_term=COF-R2W2-HJPTUS"""
+    ).json
+
+    assert len(response_json) == 1
+
+
+def test_search_by_assest_type(client):
+    round_id = "a950b75c-769f-41c7-9615-a6275d2f7c82"
+    fund_id = "fd3abd75-6803-4a08-b098-e92263998373"
+
+    response_json = client.get(
+        f"/application_overviews/{fund_id}/{round_id}?search_term=COF-R2W2-HJ"
+    ).json
+
+    assert len(response_json) == 1
+
+
+def test_search_by_status(client):
+    round_id = "a950b75c-769f-41c7-9615-a6275d2f7c82"
+    fund_id = "fd3abd75-6803-4a08-b098-e92263998373"
+
+    response_json = client.get(
+        f"/application_overviews/{fund_id}/{round_id}?status=SUBMITTED"
+    ).json
+
+    assert len(response_json) == 1
