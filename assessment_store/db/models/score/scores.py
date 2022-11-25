@@ -37,4 +37,4 @@ class JustScore(db.Model):
         "sub_criteria_id", db.String(),  nullable=False
     )
 
-    user_id = db.Column("user_id", db.String(), nullable=False) # getting this from account store?
+    user_id = db.Column("user_id", db.String(), nullable=False)

@@ -133,7 +133,7 @@ components:
           type: integer
         justification:
           type: string
-        application_short_id:
+        application_id:
           type: string
         timestamp:
           type: string
