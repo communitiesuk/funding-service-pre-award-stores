@@ -4,7 +4,7 @@ from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
 from marshmallow.fields import Enum
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow_sqlalchemy import fields
+from marshmallow_sqlalchemy import auto_field
 
 
 class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
@@ -26,6 +26,7 @@ class JustScoreMetadata(SQLAlchemyAutoSchema):
     class Meta:
         model = JustScore
         include_relationships = True
+        load_instance = True
     
-    application_id = fields.Nested(AssessmentRecord)
+    application_id = auto_field(dump_only=True)
 

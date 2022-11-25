@@ -34,7 +34,6 @@ def get_just_score_for_application_sub_crit(
     latest_score_metadata = db.session.scalar(stmt)
     metadata_serialiser = JustScoreMetadata()
     latest_score_metadata = metadata_serialiser.dump(latest_score_metadata)
-    print(latest_score_metadata)
 
     return latest_score_metadata
 
