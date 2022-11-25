@@ -50,7 +50,9 @@ class AssessmentRecord(db.Model):
         "workflow_status", ENUM(Status), index=True, default="NOT_STARTED"
     )
 
-    asset_type = db.Column("asset_type", ENUM(AssestType), index=True)
+    asset_type = db.Column(
+        "asset_type", db.String(255), index=True, nullable=False
+    )
 
     jsonb_blob = db.Column("jsonb_blob", JSONB, nullable=False)
 

@@ -151,6 +151,12 @@ To make the tests work with a test postgres db in the github pipelines, we pass 
 
 Performance tests are stored in a separate repository which is then run in the pipeline. If you want to run the performance tests yourself follow the steps in the README for the performance test repo located [here](https://github.com/communitiesuk/funding-service-design-performance-tests/blob/main/README.md)
 
+## Testing FAQS
+
+### Q: help! My tests are failing because of `no rows found`
+You've deleted your unit test db or done something manually, so pytest's cache is confused.
+Run `pytest --cache-clear` to fix your problem.
+
 
 # Extras
 

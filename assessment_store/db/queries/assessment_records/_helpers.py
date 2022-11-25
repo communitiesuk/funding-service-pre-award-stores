@@ -16,6 +16,9 @@ cof_json_mapper = {
         ' "JzWvhj")."answer".double() + $.forms[*].questions[*].fields[*] ?'
         ' (@.key == "jLIgoi")."answer".double() '
     ),
+    "asset_type": (
+        '$.forms[*].questions[*].fields[*] ? (@.key == "yaQoxU")."answer"'
+    ),
 }
 
 
