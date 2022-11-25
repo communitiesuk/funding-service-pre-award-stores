@@ -5,7 +5,6 @@ Tangential structures such as triggers and ENUMS are kept in other
 files.
 """
 from db import db
-from db.models.assessment_record.enums import AssestType
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
 from sqlalchemy import cast
