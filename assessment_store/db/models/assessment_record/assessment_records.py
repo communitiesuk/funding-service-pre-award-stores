@@ -5,6 +5,7 @@ Tangential structures such as triggers and ENUMS are kept in other
 files.
 """
 from db import db
+from db.models.assessment_record.enums import AssestType
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
 from sqlalchemy import cast
@@ -48,6 +49,8 @@ class AssessmentRecord(db.Model):
     workflow_status = db.Column(
         "workflow_status", ENUM(Status), index=True, default="NOT_STARTED"
     )
+
+    asset_type = db.Column("asset_type", ENUM(AssestType), index=True)
 
     jsonb_blob = db.Column("jsonb_blob", JSONB, nullable=False)
 
