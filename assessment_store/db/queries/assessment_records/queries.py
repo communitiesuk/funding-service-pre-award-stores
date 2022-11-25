@@ -10,6 +10,7 @@ from db import db
 from db.models.assessment_record import AssessmentRecord
 from db.queries.assessment_records._helpers import derive_values_from_json
 from db.schemas import AssessmentRecordMetadata
+from db.schemas.schemas import AssessmentRecordMetadataWithJson
 from sqlalchemy import func
 from sqlalchemy import select
 from sqlalchemy.orm import defer
@@ -61,7 +62,6 @@ def bulk_insert_application_record(
     rows = []
 
     for single_json_string in json_strings:
-
         loaded_json = json.loads(single_json_string)
 
         derived_values = derive_values_from_json(loaded_json, application_type)
@@ -105,3 +105,26 @@ def find_answer_by_key_runner(field_key: str, app_id: str) -> List[tuple]:
         .filter(AssessmentRecord.application_id == app_id)
         .one()
     )
+
+
+def find_assessment(application_id: str):
+    """find_assessment Given an application id `application_id` we return the
+    matching row from the `assessment_records` table.
+
+    :param application_id: The application id of the queried row.
+    :type application_id: str
+    :return: The matching row from the `assessment_records` table.
+    :rtype: AssessmentRecord
+    """
+
+    assessment_record = (
+        db.session.query(AssessmentRecord)
+        .filter(AssessmentRecord.application_id == application_id)
+        .one()
+    )
+
+    assessment_record_json = AssessmentRecordMetadataWithJson().dump(
+        assessment_record
+    )
+
+    return assessment_record_json

@@ -8,7 +8,7 @@ tags:
     description: Assessment operations
 
 paths:
-  /application_overviews/{fund_id}/{round_id}:
+  '/application_overviews/{fund_id}/{round_id}':
     parameters:
     - name: fund_id
       in: path
@@ -37,3 +37,53 @@ paths:
                 type: array
                 items:
                   $ref: 'components.yml#/components/schemas/Assessment'
+
+  '/application_overviews/{application_id}':
+    parameters:
+    - name: application_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path
+    get:
+      tags:
+        - assessments
+      summary: Retrieve an assessment
+      description: Retrieve an assessment
+      operationId: api.routes.get_assessment_for_application_id
+      responses:
+        200:
+          description: SUCCESS - A single assessment
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Assessment'
+
+  '/config/{fund_id}/{round_id}':
+    parameters:
+    - name: fund_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path
+    - name: round_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path
+    get:
+      tags:
+        - assessments
+      summary: Retrieve assessment config
+      description: Returns JSON containing the assessment config
+      operationId: api.routes.config_for_fund_round_id
+      responses:
+        200:
+          description: SUCCESS - JSON containing the assessment config
+          content:
+            application/json:
+              schema:
+                $ref: 'assessment_config.yml#/components/schemas/Config'
