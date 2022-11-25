@@ -39,7 +39,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Theme'
-    UnscoredCriteria:
+    Criteria:
       type: object
       properties:
         id:
@@ -51,19 +51,13 @@ components:
           items:
             $ref: '#/components/schemas/SubCriteria'
     ScoredCriteria:
+      allOf:
+      - $ref: '#/components/schemas/Criteria'
       type: object
       properties:
-        id:
-          type: string
-        name:
-          type: string
         weighting:
           type: number
           format: float
-        sub_criteria:
-          type: array
-          items:
-            $ref: '#/components/schemas/SubCriteria'
     Config:
       type: object
       properties:
@@ -72,7 +66,7 @@ components:
         unscored_sections:
           type: array
           items:
-            $ref: '#/components/schemas/UnscoredCriteria'
+            $ref: '#/components/schemas/Criteria'
         scored_criteria:
           type: array
           items:

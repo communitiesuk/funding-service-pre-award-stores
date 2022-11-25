@@ -10,7 +10,6 @@ from db import db
 from db.models.assessment_record import AssessmentRecord
 from db.queries.assessment_records._helpers import derive_values_from_json
 from db.schemas import AssessmentRecordMetadata
-from db.schemas.schemas import AssessmentRecordMetadataWithJson
 from sqlalchemy import func
 from sqlalchemy import select
 from sqlalchemy.orm import defer
@@ -107,7 +106,7 @@ def find_answer_by_key_runner(field_key: str, app_id: str) -> List[tuple]:
     )
 
 
-def find_assessment(application_id: str):
+def find_assessment(application_id: str) -> dict:
     """find_assessment Given an application id `application_id` we return the
     matching row from the `assessment_records` table.
 
@@ -117,14 +116,10 @@ def find_assessment(application_id: str):
     :rtype: AssessmentRecord
     """
 
-    assessment_record = (
-        db.session.query(AssessmentRecord)
-        .filter(AssessmentRecord.application_id == application_id)
-        .one()
+    stmt = select(AssessmentRecord).where(
+        AssessmentRecord.application_id == application_id
     )
-
-    assessment_record_json = AssessmentRecordMetadataWithJson().dump(
-        assessment_record
-    )
+    assessment_record = db.session.scalar(stmt)
+    assessment_record_json = AssessmentRecordMetadata().dump(assessment_record)
 
     return assessment_record_json
