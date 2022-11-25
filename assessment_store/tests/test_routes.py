@@ -57,7 +57,7 @@ def test_search_by_status(client):
     fund_id = "fd3abd75-6803-4a08-b098-e92263998373"
 
     response_json = client.get(
-        f"/application_overviews/{fund_id}/{round_id}?status=SUBMITTED"
+        f"/application_overviews/{fund_id}/{round_id}?status=NOT_STARTED"
     ).json
 
     assert len(response_json) == 1

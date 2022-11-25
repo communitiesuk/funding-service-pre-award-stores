@@ -8,11 +8,12 @@ from typing import List
 
 from db import db
 from db.models.assessment_record import AssessmentRecord
-from db.models.assessment_record.enums import Status
 from db.queries.assessment_records._helpers import derive_values_from_json
 from db.schemas import AssessmentRecordMetadata
+from sqlalchemy import cast
 from sqlalchemy import func
 from sqlalchemy import select
+from sqlalchemy import TEXT
 from sqlalchemy.orm import defer
 
 
@@ -41,9 +42,10 @@ def get_metadata_for_fund_round_id(
             AssessmentRecord.short_id.like(f"%{search_term}%")
             | AssessmentRecord.project_name.like(f"%{search_term}%"),
             AssessmentRecord.type_of_application.like(f"%{assest_type}%"),
-            AssessmentRecord.workflow_status.like(Status(1)),
+            cast(AssessmentRecord.workflow_status, TEXT).like(f"%{status}%"),
         )
     )
+    print(stmt)
 
     assessment_metadatas = db.session.scalars(stmt).all()
 
