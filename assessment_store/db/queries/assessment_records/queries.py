@@ -12,6 +12,7 @@ from db.queries.assessment_records._helpers import derive_values_from_json
 from db.schemas import AssessmentRecordMetadata
 from sqlalchemy import func
 from sqlalchemy import select
+from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.orm import defer
 
 
@@ -76,7 +77,12 @@ def bulk_insert_application_record(
 
         del loaded_json
 
-    db.session.bulk_insert_mappings(AssessmentRecord, rows)
+    stmt = postgres_insert(AssessmentRecord).values(rows)
+
+    upsert_rows_stmt = stmt.on_conflict_do_nothing(index_elements=["applciation_id"])
+
+    db.session.execute(upsert_rows_stmt)
+
     db.session.commit()
 
 
