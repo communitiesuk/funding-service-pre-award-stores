@@ -38,6 +38,7 @@ paths:
                 items:
                   $ref: 'components.yml#/components/schemas/Assessment'
 
+
   '/application_overviews/{application_id}':
     parameters:
     - name: application_id
@@ -49,41 +50,14 @@ paths:
     get:
       tags:
         - assessments
-      summary: Retrieve an assessment
-      description: Retrieve an assessment
-      operationId: api.routes.get_assessment_for_application_id
+      summary: Retrieves data to populate the assessors task list page for a given application
+      description: Retrieves data to populate the assessors task list page for a given application
+      operationId: api.routes.get_assessor_task_list_state
       responses:
         200:
-          description: SUCCESS - A single assessment
+          description: SUCCESS - Accessor task list state
           content:
             application/json:
               schema:
-                $ref: 'components.yml#/components/schemas/Assessment'
-
-  '/config/{fund_id}/{round_id}':
-    parameters:
-    - name: fund_id
-      in: path
-      required: true
-      schema:
-        type: string
-        format: path
-    - name: round_id
-      in: path
-      required: true
-      schema:
-        type: string
-        format: path
-    get:
-      tags:
-        - assessments
-      summary: Retrieve assessment config
-      description: Returns JSON containing the assessment config
-      operationId: api.routes.config_for_fund_round_id
-      responses:
-        200:
-          description: SUCCESS - JSON containing the assessment config
-          content:
-            application/json:
-              schema:
-                $ref: 'assessment_config.yml#/components/schemas/Config'
+                type: object
+                $ref: 'assessor_task_list.yml#/components/schemas/AssessorTaskListState'

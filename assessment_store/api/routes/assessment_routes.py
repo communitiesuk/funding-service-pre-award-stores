@@ -3,10 +3,10 @@ from typing import Dict
 from typing import List
 
 from config.mappings.assessment_mapping_fund_round import (
-    fund_round_to_assessment_mapping,
+    transform_to_assessor_task_list_metadata,
 )
 from db.queries.assessment_records import get_metadata_for_fund_round_id
-from db.queries.assessment_records.queries import find_assessment
+from db.queries.assessment_records.queries import find_assessor_task_list_state
 
 
 def all_assessments_for_fund_round_id(
@@ -27,26 +27,26 @@ def all_assessments_for_fund_round_id(
     return app_list
 
 
-def get_assessment_for_application_id(application_id: str) -> dict:
-    """get_assessment Function used by the endpoint
-    `/application_overviews/{application_id}`.
+def get_assessor_task_list_state(application_id: str) -> dict:
+    """get_assessor_task_list_state Function used by the endpoint
+    `/assessor_task_list/{application_id}`.
 
     :param application_id: The stringified application UUID.
     :return: A dictionary.
     """
 
-    assessment_record = find_assessment(application_id)
+    metadata = find_assessor_task_list_state(application_id)
+    sections, criterias = transform_to_assessor_task_list_metadata(
+        metadata["fund_id"], metadata["round_id"]
+    )
 
-    return assessment_record
+    # We don't need to return this state.  It's only used to get the config above.
+    del metadata["round_id"]
 
+    # this... should be deleted? needed at the moment to populate fund name on the ui.
+    # del metadata["fund_id"]
 
-def config_for_fund_round_id(fund_id: str, round_id: str) -> dict:
-    """config_for_fund_round_id Function used by the endpoint
-    `/config/{fund_id}/{round_id}`.
+    metadata["sections"] = sections
+    metadata["criterias"] = criterias
 
-    :param fund_id: The stringified fund UUID.
-    :param round_id: The stringified round UUID.
-    :return: A dictionary.
-    """
-
-    return fund_round_to_assessment_mapping[f"{fund_id}:{round_id}"]
+    return metadata

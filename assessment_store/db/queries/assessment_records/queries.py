@@ -10,9 +10,12 @@ from db import db
 from db.models.assessment_record import AssessmentRecord
 from db.queries.assessment_records._helpers import derive_values_from_json
 from db.schemas import AssessmentRecordMetadata
+from db.schemas import AssessorTaskListMetadata
+from db.schemas.schemas import ASSESSOR_TASK_LIST_METADATA_FIELDS
 from sqlalchemy import func
 from sqlalchemy import select
 from sqlalchemy.orm import defer
+from sqlalchemy.orm import load_only
 
 
 def get_metadata_for_fund_round_id(fund_id: str, round_id: str) -> List[Dict]:
@@ -36,7 +39,9 @@ def get_metadata_for_fund_round_id(fund_id: str, round_id: str) -> List[Dict]:
 
     assessment_metadatas = db.session.scalars(stmt).all()
 
-    metadata_serialiser = AssessmentRecordMetadata()
+    metadata_serialiser = AssessmentRecordMetadata(
+        exclude=("jsonb_blob", "application_json_md5")
+    )
 
     assessment_metadatas = [
         metadata_serialiser.dump(app_metadata)
@@ -106,20 +111,24 @@ def find_answer_by_key_runner(field_key: str, app_id: str) -> List[tuple]:
     )
 
 
-def find_assessment(application_id: str) -> dict:
+def find_assessor_task_list_state(application_id: str) -> dict:
     """find_assessment Given an application id `application_id` we return the
     matching row from the `assessment_records` table.
 
     :param application_id: The application id of the queried row.
     :type application_id: str
     :return: The matching row from the `assessment_records` table.
-    :rtype: AssessmentRecord
+    :rtype: dict
     """
 
-    stmt = select(AssessmentRecord).where(
-        AssessmentRecord.application_id == application_id
+    stmt = (
+        select(AssessmentRecord)
+        .where(AssessmentRecord.application_id == application_id)
+        .options(load_only(*ASSESSOR_TASK_LIST_METADATA_FIELDS))
     )
+
     assessment_record = db.session.scalar(stmt)
-    assessment_record_json = AssessmentRecordMetadata().dump(assessment_record)
+
+    assessment_record_json = AssessorTaskListMetadata().dump(assessment_record)
 
     return assessment_record_json
