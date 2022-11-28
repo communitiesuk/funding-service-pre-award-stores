@@ -86,37 +86,10 @@ Index(
 )
 
 Index(
-    "ix_short_id",
-    AssessmentRecord.short_id,
-    postgresql_ops={
-        "short_id": "gin_trgm_ops",
-    },
-    postgresql_using="gin",
-)
-
-Index(
     "ix_project_name",
     AssessmentRecord.project_name,
     postgresql_ops={
         "project_name": "gin_trgm_ops",
-    },
-    postgresql_using="gin",
-)
-
-Index(
-    "ix_type_of_application",
-    AssessmentRecord.type_of_application,
-    postgresql_ops={
-        "type_of_application": "gin_trgm_ops",
-    },
-    postgresql_using="gin",
-)
-
-Index(
-    "ix_workflow_status",
-    AssessmentRecord.workflow_status,
-    postgresql_ops={
-        "workflow_status": "gin_trgm_ops",
     },
     postgresql_using="gin",
 )

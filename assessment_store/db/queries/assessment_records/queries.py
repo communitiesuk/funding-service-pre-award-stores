@@ -10,10 +10,8 @@ from db import db
 from db.models.assessment_record import AssessmentRecord
 from db.queries.assessment_records._helpers import derive_values_from_json
 from db.schemas import AssessmentRecordMetadata
-from sqlalchemy import cast
 from sqlalchemy import func
 from sqlalchemy import select
-from sqlalchemy import TEXT
 from sqlalchemy.orm import defer
 
 
@@ -21,7 +19,7 @@ def get_metadata_for_fund_round_id(
     fund_id: str,
     round_id: str,
     search_term: str,
-    assest_type: str,
+    asset_type: str,
     status: str,
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
@@ -39,12 +37,23 @@ def get_metadata_for_fund_round_id(
         .options(defer(AssessmentRecord.jsonb_blob)).where(
             AssessmentRecord.fund_id == fund_id,
             AssessmentRecord.round_id == round_id,
-            AssessmentRecord.short_id.like(f"%{search_term}%")
-            | AssessmentRecord.project_name.like(f"%{search_term}%"),
-            AssessmentRecord.type_of_application.like(f"%{assest_type}%"),
-            cast(AssessmentRecord.workflow_status, TEXT).like(f"%{status}%"),
         )
     )
+
+    if search_term != "":
+        stmt = stmt.where(
+            AssessmentRecord.short_id.like(f"%{search_term}%")
+            | AssessmentRecord.project_name.regexp_match(
+                "^(?=.*old)(?=.*cinema).*$"
+            )
+        )
+
+    if asset_type != "":
+        stmt = stmt.where(AssessmentRecord.asset_type.like(f"%{asset_type}%"))
+
+    if status != "":
+        stmt = stmt.where(AssessmentRecord.workflow_status == status)
+
     print(stmt)
 
     assessment_metadatas = db.session.scalars(stmt).all()

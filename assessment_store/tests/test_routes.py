@@ -1,5 +1,8 @@
 from db.models.assessment_record.assessment_records import AssessmentRecord
+from sqlalchemy import cast
+from sqlalchemy import TEXT
 from tests._helpers import get_random_row
+from tests._helpers import get_rows_by_filters
 
 
 def test_gets_all_apps_for_fund_round(request, client):
@@ -30,34 +33,47 @@ def test_gets_all_apps_for_fund_round(request, client):
 
 
 def test_search_by_short_id(client):
-    round_id = "a950b75c-769f-41c7-9615-a6275d2f7c82"
-    fund_id = "fd3abd75-6803-4a08-b098-e92263998373"
+    picked_row = get_random_row(AssessmentRecord)
 
     response_json = client.get(
-        f"""/application_overviews/{fund_id}/{round_id}
-        ?search_term=COF-R2W2-HJPTUS"""
+        f"""/application_overviews/{picked_row.fund_id}/{picked_row.round_id}
+        ?search_term={picked_row.short_id}"""
     ).json
 
     assert len(response_json) == 1
 
 
 def test_search_by_assest_type(client):
-    round_id = "a950b75c-769f-41c7-9615-a6275d2f7c82"
-    fund_id = "fd3abd75-6803-4a08-b098-e92263998373"
+    picked_row = get_random_row(AssessmentRecord)
+    filters = {AssessmentRecord.asset_type == picked_row.asset_type}
+
+    rows = get_rows_by_filters(
+        picked_row.fund_id, picked_row.round_id, filters
+    )
 
     response_json = client.get(
-        f"/application_overviews/{fund_id}/{round_id}?search_term=COF-R2W2-HJ"
+        f"""/application_overviews/{picked_row.fund_id}/{picked_row.round_id}
+        ?asset_type={picked_row.asset_type}"""
     ).json
 
-    assert len(response_json) == 1
+    assert len(response_json) == len(rows)
 
 
 def test_search_by_status(client):
-    round_id = "a950b75c-769f-41c7-9615-a6275d2f7c82"
-    fund_id = "fd3abd75-6803-4a08-b098-e92263998373"
+    picked_row = get_random_row(AssessmentRecord)
+    filters = {
+        cast(AssessmentRecord.workflow_status, TEXT).like(
+            f"%{picked_row.workflow_status}%"
+        )
+    }
+
+    rows = get_rows_by_filters(
+        picked_row.fund_id, picked_row.round_id, filters
+    )
 
     response_json = client.get(
-        f"/application_overviews/{fund_id}/{round_id}?status=NOT_STARTED"
+        f"""/application_overviews/{picked_row.fund_id}/{picked_row.round_id}
+        ?status={picked_row.workflow_status}"""
     ).json
 
-    assert len(response_json) == 1
+    assert len(response_json) == len(rows)

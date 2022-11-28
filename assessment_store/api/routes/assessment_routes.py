@@ -10,7 +10,7 @@ def all_assessments_for_fund_round_id(
     fund_id: str,
     round_id: str,
     search_term: str = "",
-    assest_type: str = "",
+    asset_type: str = "",
     status: str = "",
 ) -> List[Dict]:
     """all_assessments_for_fund_round_id Function used by the endpoint
@@ -25,7 +25,7 @@ def all_assessments_for_fund_round_id(
         fund_id=fund_id,
         round_id=round_id,
         search_term=search_term,
-        assest_type=assest_type,
+        asset_type=asset_type,
         status=status,
     )
 
