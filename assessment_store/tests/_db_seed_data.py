@@ -30,10 +30,12 @@ def get_dynamic_rows(
     adjects = ["old", "humble", "derelict", "vintage", "loved", "beautiful"]
 
     places = [
-        "skatepark",
-        "pub",
-        "cinema",
-        "community centre",
+        ("skatepark", "sporting"),
+        ("pub", "pub"),
+        ("cinema", "cinema"),
+        ("community centre", "community-centre"),
+        ("gallary", "gallary"),
+        ("museum", "museum"),
     ]
     cities = [
         "Bath",
@@ -69,9 +71,11 @@ def get_dynamic_rows(
 
             for app_id in app_ids:
 
+                picked_place = choice(places)
+
                 project_name = (
                     f"{choice(verbs)} the"
-                    f" {choice(adjects)} {choice(places)} in {choice(cities)}"
+                    f" {choice(adjects)} {picked_place[0]} in {choice(cities)}"
                 )
 
                 short_ref = "COF-R2W2-" + "".join(sample(ascii_uppercase, 6))
@@ -82,4 +86,5 @@ def get_dynamic_rows(
                     short_ref=short_ref,
                     round_id=round_id,
                     fund_id=fund_id,
+                    asset_type=picked_place[1],
                 )

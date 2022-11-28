@@ -28,3 +28,7 @@ Results are saved to a `profile.txt` file in your working directory.
 ## `reqs`
 
 Runs `pip-compile requirements.in` and `pip-compile requirements-dev.in` in that order.
+
+## `generate_test_data`
+
+Execute the above command to create test data into app.json

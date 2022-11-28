@@ -6,6 +6,7 @@ from invoke import task
 from tasks.db_tasks import bootstrap_dev_db
 from tasks.db_tasks import create_seeded_db
 from tasks.db_tasks import seed_dev_db
+from tasks.db_tasks import generate_test_data
 from tasks.helper_tasks import profile_pytest
 from tasks.helper_tasks import reqs
 
@@ -17,4 +18,5 @@ __all__ = [
     bootstrap_dev_db,
     profile_pytest,
     reqs,
+    generate_test_data,
 ]

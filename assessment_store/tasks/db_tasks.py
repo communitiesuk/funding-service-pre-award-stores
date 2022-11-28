@@ -44,6 +44,20 @@ def bootstrap_dev_db(c):
 
 
 @task
+def generate_test_data(c):
+
+    from tests._db_seed_data import get_dynamic_rows
+    import json
+
+    _echo_print("Generating data.")
+    rows = [json.loads(row) for row in get_dynamic_rows(100, 5, 3)]
+
+    _echo_print("Writing data to apps.json")
+    with open("apps.json", "w") as f:
+        json.dump(rows, f, indent=4)
+
+
+@task
 def seed_dev_db(c):
     """Uses the `tests.conftest.seed_database` function to insert test data
     into your dev database."""
