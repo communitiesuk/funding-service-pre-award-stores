@@ -6,8 +6,6 @@ applications:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
   env:
-    AUTHENTICATOR_HOST: https://funding-service-design-authenticator-dev.london.cloudapps.digital
-    ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-dev.london.cloudapps.digital
     APPLICATION_STORE_API_HOST: https://funding-service-design-application-store-dev.london.cloudapps.digital
     NOTIFICATION_SERVICE_HOST: http://funding-service-design-notification-dev.apps.internal:8080
     FLASK_ENV: dev
@@ -24,8 +22,6 @@ applications:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
   env:
-    AUTHENTICATOR_HOST: https://funding-service-design-authenticator-test.london.cloudapps.digital
-    ACCOUNT_STORE_API_HOST: https://funding-service-design-account-store-test.london.cloudapps.digital
     APPLICATION_STORE_API_HOST: https://funding-service-design-application-store-test.london.cloudapps.digital
     NOTIFICATION_SERVICE_HOST: http://funding-service-design-notification-test.apps.internal:8080
     FLASK_ENV: test
