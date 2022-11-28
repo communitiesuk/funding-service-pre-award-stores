@@ -5,6 +5,7 @@ from pathlib import Path
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
 from fsd_utils import NotifyConstants
+from config.mappings import assessment_mapping
 
 
 @configclass
@@ -58,3 +59,5 @@ class DefaultConfig:
     )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    COF_R2W2_ASSESSMENT_MAPPING = assessment_mapping.cof_r2w2_assessment_mapping
