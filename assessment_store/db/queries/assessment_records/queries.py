@@ -11,7 +11,6 @@ from db.models.assessment_record import AssessmentRecord
 from db.queries.assessment_records._helpers import derive_values_from_json
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessorTaskListMetadata
-from db.schemas.schemas import ASSESSOR_TASK_LIST_METADATA_FIELDS
 from sqlalchemy import func
 from sqlalchemy import select
 from sqlalchemy.orm import defer
@@ -124,11 +123,29 @@ def find_assessor_task_list_state(application_id: str) -> dict:
     stmt = (
         select(AssessmentRecord)
         .where(AssessmentRecord.application_id == application_id)
-        .options(load_only(*ASSESSOR_TASK_LIST_METADATA_FIELDS))
+        .options(
+            load_only(
+                "short_id",
+                "project_name",
+                "workflow_status",
+                "jsonb_blob",
+                "fund_id",
+                "round_id",
+            )
+        )
     )
 
     assessment_record = db.session.scalar(stmt)
 
-    assessment_record_json = AssessorTaskListMetadata().dump(assessment_record)
+    assessment_record_json = AssessorTaskListMetadata(
+        only=(
+            "short_id",
+            "project_name",
+            "date_submitted",
+            "workflow_status",
+            "fund_id",
+            "round_id",
+        )
+    ).dump(assessment_record)
 
     return assessment_record_json

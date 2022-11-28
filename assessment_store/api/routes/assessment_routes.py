@@ -40,11 +40,9 @@ def get_assessor_task_list_state(application_id: str) -> dict:
         metadata["fund_id"], metadata["round_id"]
     )
 
-    # We don't need to return this state.  It's only used to get the config above.
-    del metadata["round_id"]
-
-    # this... should be deleted? needed at the moment to populate fund name on the ui.
-    # del metadata["fund_id"]
+    # we don't need to return round_id as it's not relevant to the frontend
+    # (same with fund_id, but we're using that at the moment for fund_name)
+    metadata = {k: v for k, v in metadata.items() if k not in ["round_id"]}
 
     metadata["sections"] = sections
     metadata["criterias"] = criterias
