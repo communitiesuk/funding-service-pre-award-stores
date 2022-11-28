@@ -5,7 +5,6 @@ from pathlib import Path
 from config.mappings import assessment_mapping
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
-from fsd_utils import NotifyConstants
 
 
 @configclass
@@ -30,20 +29,6 @@ class DefaultConfig:
     APPLICATION_STORE_API_HOST = CommonConfig.APPLICATION_STORE_API_HOST
     APPLICATIONS_ENDPOINT = CommonConfig.APPLICATIONS_ENDPOINT
     APPLICATION_ENDPOINT = CommonConfig.APPLICATION_ENDPOINT
-
-    # Fund Store
-    FUND_STORE_API_HOST = CommonConfig.FUND_STORE_API_HOST
-    FUNDS_ENDPOINT = CommonConfig.FUNDS_ENDPOINT
-    FUND_ENDPOINT = CommonConfig.FUND_ENDPOINT
-
-    # Round Store
-    SINGLE_ROUND_ENDPOINT = CommonConfig.ROUND_ENDPOINT
-    ROUNDS_ENDPOINT = CommonConfig.ROUNDS_ENDPOINT
-
-    # Notification Service
-    NOTIFICATION_SERVICE_HOST = CommonConfig.NOTIFICATION_SERVICE_HOST
-    NOTIFICATION_SEND_ENDPOINT = CommonConfig.NOTIFICATION_SEND_ENDPOINT
-    NOTIFY_TEMPLATE_MAGIC_LINK = NotifyConstants.TEMPLATE_TYPE_MAGIC_LINK
 
     # ---------------
     # Database
