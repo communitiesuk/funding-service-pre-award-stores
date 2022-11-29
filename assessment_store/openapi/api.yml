@@ -41,37 +41,6 @@ paths:
                   $ref: 'components.yml#/components/schemas/Assessment'
 
   /score:
-    parameters:
-    - name: application_id
-      in: query
-      schema:
-        type: string
-      required: true
-    - name: sub_criteria_id
-      in: query
-      schema:
-        type: string
-      required: true
-    - name: score
-      in: query
-      schema:
-        type: integer
-      required: false
-    - name: justification
-      in: query
-      schema:
-        type: string
-      required: false
-    - name: timestamp
-      in: query
-      schema:
-        type: string
-      required: false
-    - name: user_id
-      in: query
-      schema:
-        type: string
-      required: false
     get:
       tags:
         - scores
@@ -87,18 +56,73 @@ paths:
                 type: object
                 items:
                   $ref: 'components.yml#/components/schemas/JustScore'
+      parameters:
+      - name: application_id
+        in: query
+        schema:
+          type: string
+        required: true
+      - name: sub_criteria_id
+        in: query
+        schema:
+          type: string
+        required: true
+      - name: score
+        in: query
+        schema:
+          type: integer
+        required: false
+      - name: justification
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: timestamp
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: user_id
+        in: query
+        schema:
+          type: string
+        required: false
     post:
       tags:
         - scores
       summary: post score for subcriteria in application
       description: post a score for a subcriteria in an application
       operationId: api.routes.post_score_for_application_sub_criteria
+      requestBody:
+        description: Score creation parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yml#/components/schemas/PostJustScore'
+            example:
+              score: 3
+              justification: 'bang average'
+              application_id: 'r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd'
+              timestamp: '2022-11-28 12:10:05'
+              sub_criteria_id: 'app-info'
+              user_id: 'gio'
       responses:
-        200:
-          description: SUCCESS - Score for Subcriteria in Application Saved
+        201:
+          description: SUCCESS - Score for Subcriteria in Application Submitted
           content:
             application/json:
               schema:
                 type: object
                 items:
                   $ref: 'components.yml#/components/schemas/JustScore'
+        401:
+          description: ERROR - Could not Save Score
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'Could not save Score for application sub-criteria'

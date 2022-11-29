@@ -5,6 +5,7 @@ from typing import List
 from db.queries.scores import get_just_score_for_application_sub_crit
 from db.queries.scores import post_just_score_for_application_sub_crit
 from db.schemas import JustScoreMetadata
+from flask import request
 
 
 def latest_score_for_application_sub_criteria(
@@ -26,10 +27,7 @@ def latest_score_for_application_sub_criteria(
     return latest_score
 
 
-def post_score_for_application_sub_criteria(
-    score: int, justification: str, application_id: str, timestamp: str, 
-    sub_criteria_id: str, user_id: str
-) -> Dict:
+def post_score_for_application_sub_criteria() -> Dict:
     """post_score_for_application_sub_criteria Function 
     used by the post endpoint `/applications/{application_id}/
     subcriterias/{subcriteria_id}/scores`.
@@ -38,6 +36,13 @@ def post_score_for_application_sub_criteria(
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :return: A dictionary.
     """
+    args = request.get_json()
+    application_id = args["application_id"]
+    sub_criteria_id = args["sub_criteria_id"]
+    score = args["score"]
+    justification = args["justification"]
+    user_id = args["user_id"]
+    timestamp = args["timestamp"]
 
     post_score = post_just_score_for_application_sub_crit(
         application_id=application_id, sub_criteria_id=sub_criteria_id,

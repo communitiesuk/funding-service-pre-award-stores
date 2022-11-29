@@ -141,4 +141,20 @@ components:
           type: string
         user_id:
           type: string
+    PostJustScore:
+      type: object
+      properties:
+        score:
+          type: integer
+        justification:
+          type: string
+        application_id:
+          type: string
+        timestamp:
+          type: string
+        sub_criteria_id:
+          type: string
+        user_id:
+          type: string
+
 
