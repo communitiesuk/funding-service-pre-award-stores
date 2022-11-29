@@ -1,6 +1,4 @@
 from db.models.assessment_record.assessment_records import AssessmentRecord
-from sqlalchemy import cast
-from sqlalchemy import TEXT
 from tests._helpers import get_random_row
 from tests._helpers import get_rows_by_filters
 
@@ -32,48 +30,44 @@ def test_gets_all_apps_for_fund_round(request, client):
     assert len(response_json) == apps_per_round
 
 
-def test_search_by_short_id(client):
-    picked_row = get_random_row(AssessmentRecord)
+def test_search(client):
 
-    response_json = client.get(
-        f"""/application_overviews/{picked_row.fund_id}/{picked_row.round_id}
-        ?search_term={picked_row.short_id}"""
-    ).json
+    searchs = [
+        {
+            "url": "{row.fund_id}/{row.round_id}?search_term={row.short_id}",
+            "filter": lambda row: AssessmentRecord.short_id == row.short_id,
+        },
+        {
+            "url": "{row.fund_id}/{row.round_id}"
+            "?search_term={row.project_name}",
+            "filter": lambda row: AssessmentRecord.project_name
+            == row.project_name,
+        },
+        {
+            "url": "{row.fund_id}/{row.round_id}?search_term={row.asset_type}",
+            "filter": lambda row: AssessmentRecord.asset_type
+            == row.asset_type,
+        },
+        {
+            "url": "{row.fund_id}/{row.round_id}"
+            "?status={row.workflow_status.name}",
+            "filter": lambda row: AssessmentRecord.workflow_status
+            == row.workflow_status.name,
+        },
+    ]
 
-    assert len(response_json) == 1
+    for search in searchs:
 
+        picked_row = get_random_row(AssessmentRecord)
 
-def test_search_by_assest_type(client):
-    picked_row = get_random_row(AssessmentRecord)
-    filters = {AssessmentRecord.asset_type == picked_row.asset_type}
+        filters = [search["filter"](picked_row)]
 
-    rows = get_rows_by_filters(
-        picked_row.fund_id, picked_row.round_id, filters
-    )
-
-    response_json = client.get(
-        f"""/application_overviews/{picked_row.fund_id}/{picked_row.round_id}
-        ?asset_type={picked_row.asset_type}"""
-    ).json
-
-    assert len(response_json) == len(rows)
-
-
-def test_search_by_status(client):
-    picked_row = get_random_row(AssessmentRecord)
-    filters = {
-        cast(AssessmentRecord.workflow_status, TEXT).like(
-            f"%{picked_row.workflow_status}%"
+        rows = get_rows_by_filters(
+            picked_row.fund_id, picked_row.round_id, filters
         )
-    }
 
-    rows = get_rows_by_filters(
-        picked_row.fund_id, picked_row.round_id, filters
-    )
+        response_json = client.get(
+            "/application_overviews/" + search["url"].format(row=picked_row)
+        ).json
 
-    response_json = client.get(
-        f"""/application_overviews/{picked_row.fund_id}/{picked_row.round_id}
-        ?status={picked_row.workflow_status}"""
-    ).json
-
-    assert len(response_json) == len(rows)
+        assert len(response_json) == len(rows)

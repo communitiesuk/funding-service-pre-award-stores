@@ -41,11 +41,10 @@ def get_metadata_for_fund_round_id(
     )
 
     if search_term != "":
+        search_term = search_term.replace(" ", "%")
         stmt = stmt.where(
             AssessmentRecord.short_id.like(f"%{search_term}%")
-            | AssessmentRecord.project_name.regexp_match(
-                "^(?=.*old)(?=.*cinema).*$"
-            )
+            | AssessmentRecord.project_name.like(f"%{search_term}%")
         )
 
     if asset_type != "":
@@ -53,8 +52,6 @@ def get_metadata_for_fund_round_id(
 
     if status != "":
         stmt = stmt.where(AssessmentRecord.workflow_status == status)
-
-    print(stmt)
 
     assessment_metadatas = db.session.scalars(stmt).all()
 
