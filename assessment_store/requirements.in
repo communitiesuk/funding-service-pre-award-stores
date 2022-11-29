@@ -12,7 +12,7 @@ Flask
 #-----------------------------------
 #   Database
 #-----------------------------------
-SQLAlchemy
+SQLAlchemy[mypy]
 # 3 has came out but our testing framework isn't updated to use it yet.
 Flask-SQLAlchemy==2.5.1
 Flask-Migrate
