@@ -79,7 +79,7 @@ def bulk_insert_application_record(
 
     stmt = postgres_insert(AssessmentRecord).values(rows)
 
-    upsert_rows_stmt = stmt.on_conflict_do_nothing(index_elements=[AssessmentRecord.applciation_id])
+    upsert_rows_stmt = stmt.on_conflict_do_nothing(index_elements=[AssessmentRecord.appliciation_id])
 
     db.session.execute(upsert_rows_stmt)
 
