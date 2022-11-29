@@ -47,10 +47,10 @@ def get_metadata_for_fund_round_id(
             | AssessmentRecord.project_name.like(f"%{search_term}%")
         )
 
-    if asset_type != "":
+    if asset_type != "all":
         stmt = stmt.where(AssessmentRecord.asset_type.like(f"%{asset_type}%"))
 
-    if status != "":
+    if status != "all":
         stmt = stmt.where(AssessmentRecord.workflow_status == status)
 
     assessment_metadatas = db.session.scalars(stmt).all()
