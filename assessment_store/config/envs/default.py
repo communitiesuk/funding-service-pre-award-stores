@@ -5,7 +5,6 @@ from pathlib import Path
 from config.mappings import assessment_mapping
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
-from fsd_utils import NotifyConstants
 
 
 @configclass

@@ -23,8 +23,10 @@ def get_metadata_for_fund_round_id(
     status: str,
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
-    which returns all rows matching the given fund_id and round_id. Excludes
-    irrelevant columns such as `db.models.AssessmentRecord.jsonb_blob`.
+    which returns all rows matching the given fund_id and round_id. Has
+    optional parameters of search_term, asset_type and status for filterting.
+    Excludes irrelevant columns such as
+    `db.models.AssessmentRecord.jsonb_blob`.
 
     :param fund_id: The stringified fund UUID.
     :param round_id: The stringified round UUID.
@@ -47,10 +49,10 @@ def get_metadata_for_fund_round_id(
             | AssessmentRecord.project_name.ilike(f"%{search_term}%")
         )
 
-    if asset_type != "ALL":
+    if asset_type != "ALL" and asset_type != "":
         stmt = stmt.where(AssessmentRecord.asset_type.like(f"%{asset_type}%"))
 
-    if status != "ALL":
+    if status != "ALL" and asset_type != "":
         stmt = stmt.where(AssessmentRecord.workflow_status == status)
 
     assessment_metadatas = db.session.scalars(stmt).all()
