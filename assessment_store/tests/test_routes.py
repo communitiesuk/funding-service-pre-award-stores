@@ -44,7 +44,7 @@ def test_search(client):
             == row.project_name,
         },
         {
-            "url": "{row.fund_id}/{row.round_id}?search_term={row.asset_type}",
+            "url": "{row.fund_id}/{row.round_id}?asset_type={row.asset_type}",
             "filter": lambda row: AssessmentRecord.asset_type
             == row.asset_type,
         },
