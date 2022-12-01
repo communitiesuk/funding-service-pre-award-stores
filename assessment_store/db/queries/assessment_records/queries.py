@@ -15,10 +15,18 @@ from sqlalchemy import select
 from sqlalchemy.orm import defer
 
 
-def get_metadata_for_fund_round_id(fund_id: str, round_id: str) -> List[Dict]:
+def get_metadata_for_fund_round_id(
+    fund_id: str,
+    round_id: str,
+    search_term: str,
+    asset_type: str,
+    status: str,
+) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
-    which returns all rows matching the given fund_id and round_id. Excludes
-    irrelevant columns such as `db.models.AssessmentRecord.jsonb_blob`.
+    which returns all rows matching the given fund_id and round_id. Has
+    optional parameters of search_term, asset_type and status for filterting.
+    Excludes irrelevant columns such as
+    `db.models.AssessmentRecord.jsonb_blob`.
 
     :param fund_id: The stringified fund UUID.
     :param round_id: The stringified round UUID.
@@ -33,6 +41,19 @@ def get_metadata_for_fund_round_id(fund_id: str, round_id: str) -> List[Dict]:
             AssessmentRecord.round_id == round_id,
         )
     )
+
+    if search_term != "":
+        search_term = search_term.replace(" ", "%")
+        stmt = stmt.where(
+            AssessmentRecord.short_id.like(f"%{search_term}%")
+            | AssessmentRecord.project_name.ilike(f"%{search_term}%")
+        )
+
+    if asset_type != "ALL" and asset_type != "":
+        stmt = stmt.where(AssessmentRecord.asset_type.ilike(f"%{asset_type}%"))
+
+    if status != "ALL" and status != "":
+        stmt = stmt.where(AssessmentRecord.workflow_status == status)
 
     assessment_metadatas = db.session.scalars(stmt).all()
 
