@@ -29,8 +29,8 @@ class JustScore(db.Model):
         "application_id", UUID, ForeignKey("assessment_records.application_id")
     )
 
-    timestamp = db.Column(
-        "timestamp", db.DateTime(), nullable=False
+    date_created = db.Column(
+        "date_created", db.DateTime(), nullable=False
     )
 
     sub_criteria_id = db.Column(

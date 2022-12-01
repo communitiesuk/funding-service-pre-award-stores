@@ -15,10 +15,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import defer
 
 
-def get_just_score_for_application_sub_crit(
+def get_latest_just_score_for_application_sub_crit(
     application_id: str, sub_criteria_id: str
 ) -> Dict:
-    """get_just_score_for_application_sub_crit executes a query on scores
+    """get_latest_just_score_for_application_sub_crit executes a query on scores
     which returns the most recent score for the given application_id and 
     sub_criteria_id.
 
@@ -29,7 +29,7 @@ def get_just_score_for_application_sub_crit(
     stmt = select(JustScore).where(
         JustScore.application_id == application_id,
         JustScore.sub_criteria_id == sub_criteria_id
-        ).order_by(JustScore.timestamp.desc())
+        ).order_by(JustScore.date_created.desc())
 
     latest_score_metadata = db.session.scalar(stmt)
     metadata_serialiser = JustScoreMetadata()
@@ -38,21 +38,25 @@ def get_just_score_for_application_sub_crit(
     return latest_score_metadata
 
 
-def post_just_score_for_application_sub_crit(
-    score: int, justification: str, application_id: str, timestamp: str, 
+def create_just_score_for_application_sub_crit(
+    score: int, justification: str, application_id: str, date_created: str, 
     sub_criteria_id: str, user_id: str
 ) -> Dict:
-    """get_just_score_for_application_sub_crit executes a query on scores
-    which returns the most recent score for the given application_id and 
+    """create_just_score_for_application_sub_crit executes a query on scores
+    which creates a justified score for the given application_id and 
     sub_criteria_id.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
+    :param score: The score integer.
+    :param justification: The justification text.
+    :param date_created: The date_created.
+    :param user_id: The stringified user_id.
     :return: dictionary.
     """
     score = JustScore(
         score=score, justification=justification, application_id=application_id,
-        timestamp=timestamp, sub_criteria_id=sub_criteria_id,user_id=user_id
+        date_created=date_created, sub_criteria_id=sub_criteria_id,user_id=user_id
     )
     db.session.add(score)
     db.session.commit()

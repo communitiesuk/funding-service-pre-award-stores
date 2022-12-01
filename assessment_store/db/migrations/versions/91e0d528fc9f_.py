@@ -24,7 +24,7 @@ def upgrade():
     sa.Column('score', sa.Integer(), nullable=False),
     sa.Column('justification', sa.Text(), nullable=False),
     sa.Column('application_id', postgresql.UUID(), nullable=True),
-    sa.Column('timestamp', sa.DateTime(), nullable=False),
+    sa.Column('date_created', sa.DateTime(), nullable=False),
     sa.Column('sub_criteria_id', sa.String(), nullable=False),
     sa.Column('user_id', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['application_id'], ['assessment_records.application_id'], name=op.f('fk_just_scores_application_id_assessment_records')),

@@ -135,7 +135,7 @@ components:
           type: string
         application_id:
           type: string
-        timestamp:
+        date_created:
           type: string
         sub_criteria_id:
           type: string
@@ -150,7 +150,7 @@ components:
           type: string
         application_id:
           type: string
-        timestamp:
+        date_created:
           type: string
         sub_criteria_id:
           type: string

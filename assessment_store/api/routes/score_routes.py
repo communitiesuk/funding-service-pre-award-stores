@@ -2,8 +2,8 @@
 from typing import Dict
 from typing import List
 
-from db.queries.scores import get_just_score_for_application_sub_crit
-from db.queries.scores import post_just_score_for_application_sub_crit
+from db.queries.scores import get_latest_just_score_for_application_sub_crit
+from db.queries.scores import create_just_score_for_application_sub_crit
 from db.schemas import JustScoreMetadata
 from flask import request
 
@@ -20,7 +20,7 @@ def latest_score_for_application_sub_criteria(
     :return: A dictionary.
     """
 
-    latest_score = get_just_score_for_application_sub_crit(
+    latest_score = get_latest_just_score_for_application_sub_crit(
         application_id=application_id, sub_criteria_id=sub_criteria_id
     )
 
@@ -42,12 +42,12 @@ def post_score_for_application_sub_criteria() -> Dict:
     score = args["score"]
     justification = args["justification"]
     user_id = args["user_id"]
-    timestamp = args["timestamp"]
+    date_created = args["date_created"]
 
-    post_score = post_just_score_for_application_sub_crit(
+    created_score = create_just_score_for_application_sub_crit(
         application_id=application_id, sub_criteria_id=sub_criteria_id,
         score=score, justification=justification, user_id=user_id,
-        timestamp=timestamp
+        date_created=date_created
     )
 
-    return post_score
+    return created_score
