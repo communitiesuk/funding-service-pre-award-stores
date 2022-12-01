@@ -42,12 +42,10 @@ def post_score_for_application_sub_criteria() -> Dict:
     score = args["score"]
     justification = args["justification"]
     user_id = args["user_id"]
-    date_created = args["date_created"]
 
     created_score = create_just_score_for_application_sub_crit(
         application_id=application_id, sub_criteria_id=sub_criteria_id,
-        score=score, justification=justification, user_id=user_id,
-        date_created=date_created
+        score=score, justification=justification, user_id=user_id
     )
 
     return created_score

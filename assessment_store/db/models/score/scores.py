@@ -3,7 +3,8 @@ within the Postgres db.
 """
 import uuid
 from db import db
-from sqlalchemy import ForeignKey 
+from sqlalchemy import ForeignKey
+from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import UUID
 
 
@@ -30,7 +31,7 @@ class JustScore(db.Model):
     )
 
     date_created = db.Column(
-        "date_created", db.DateTime(), nullable=False
+        "date_created", db.DateTime(), default=func.now()
     )
 
     sub_criteria_id = db.Column(

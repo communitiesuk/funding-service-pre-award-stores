@@ -104,7 +104,6 @@ paths:
               score: 3
               justification: 'bang average'
               application_id: 'r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd'
-              date_created: '2022-11-28 12:10:05'
               sub_criteria_id: 'app-info'
               user_id: 'gio'
       responses:

@@ -1,17 +1,16 @@
 """empty message
 
-Revision ID: 91e0d528fc9f
-Revises: 190bf5378715
-Create Date: 2022-11-24 15:52:01.294846
+Revision ID: f783496def21
+Revises: 5ce0b8e0e1b6
+Create Date: 2022-12-01 14:59:04.914461
 
 """
 from alembic import op
 import sqlalchemy as sa
-import sqlalchemy_utils
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '91e0d528fc9f'
+revision = 'f783496def21'
 down_revision = '5ce0b8e0e1b6'
 branch_labels = None
 depends_on = None
@@ -24,7 +23,7 @@ def upgrade():
     sa.Column('score', sa.Integer(), nullable=False),
     sa.Column('justification', sa.Text(), nullable=False),
     sa.Column('application_id', postgresql.UUID(), nullable=True),
-    sa.Column('date_created', sa.DateTime(), nullable=False),
+    sa.Column('date_created', sa.DateTime(), nullable=True),
     sa.Column('sub_criteria_id', sa.String(), nullable=False),
     sa.Column('user_id', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['application_id'], ['assessment_records.application_id'], name=op.f('fk_just_scores_application_id_assessment_records')),

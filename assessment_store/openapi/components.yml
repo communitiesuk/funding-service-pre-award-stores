@@ -150,8 +150,6 @@ components:
           type: string
         application_id:
           type: string
-        date_created:
-          type: string
         sub_criteria_id:
           type: string
         user_id:

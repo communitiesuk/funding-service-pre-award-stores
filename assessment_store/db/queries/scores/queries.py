@@ -39,7 +39,7 @@ def get_latest_just_score_for_application_sub_crit(
 
 
 def create_just_score_for_application_sub_crit(
-    score: int, justification: str, application_id: str, date_created: str, 
+    score: int, justification: str, application_id: str, 
     sub_criteria_id: str, user_id: str
 ) -> Dict:
     """create_just_score_for_application_sub_crit executes a query on scores
@@ -55,8 +55,8 @@ def create_just_score_for_application_sub_crit(
     :return: dictionary.
     """
     score = JustScore(
-        score=score, justification=justification, application_id=application_id,
-        date_created=date_created, sub_criteria_id=sub_criteria_id,user_id=user_id
+        score=score, justification=justification, application_id=application_id, 
+        sub_criteria_id=sub_criteria_id,user_id=user_id
     )
     db.session.add(score)
     db.session.commit()
