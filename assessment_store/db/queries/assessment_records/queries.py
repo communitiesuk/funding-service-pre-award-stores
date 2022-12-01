@@ -33,7 +33,7 @@ def get_metadata_for_fund_round_id(
     :return: A list of dictionaries.
     """
 
-    stmt = (
+    statement = (
         select(AssessmentRecord)
         # Dont load json into memory
         .options(defer(AssessmentRecord.jsonb_blob)).where(
@@ -44,18 +44,18 @@ def get_metadata_for_fund_round_id(
 
     if search_term != "":
         search_term = search_term.replace(" ", "%")
-        stmt = stmt.where(
+        statement = statement.where(
             AssessmentRecord.short_id.like(f"%{search_term}%")
             | AssessmentRecord.project_name.ilike(f"%{search_term}%")
         )
 
     if asset_type != "ALL" and asset_type != "":
-        stmt = stmt.where(AssessmentRecord.asset_type == asset_type)
+        statement = statement.where(AssessmentRecord.asset_type == asset_type)
 
     if status != "ALL" and status != "":
-        stmt = stmt.where(AssessmentRecord.workflow_status == status)
+        statement = statement.where(AssessmentRecord.workflow_status == status)
 
-    assessment_metadatas = db.session.scalars(stmt).all()
+    assessment_metadatas = db.session.scalars(statement).all()
 
     metadata_serialiser = AssessmentRecordMetadata()
 
