@@ -50,7 +50,7 @@ def get_metadata_for_fund_round_id(
         )
 
     if asset_type != "ALL" and asset_type != "":
-        stmt = stmt.where(AssessmentRecord.asset_type.ilike(f"%{asset_type}%"))
+        stmt = stmt.where(AssessmentRecord.asset_type == asset_type)
 
     if status != "ALL" and status != "":
         stmt = stmt.where(AssessmentRecord.workflow_status == status)
