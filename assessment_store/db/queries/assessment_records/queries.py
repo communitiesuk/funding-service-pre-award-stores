@@ -17,17 +17,25 @@ from sqlalchemy.orm import defer
 from sqlalchemy.orm import load_only
 
 
-def get_metadata_for_fund_round_id(fund_id: str, round_id: str) -> List[Dict]:
+def get_metadata_for_fund_round_id(
+    fund_id: str,
+    round_id: str,
+    search_term: str,
+    asset_type: str,
+    status: str,
+) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
-    which returns all rows matching the given fund_id and round_id. Excludes
-    irrelevant columns such as `db.models.AssessmentRecord.jsonb_blob`.
+    which returns all rows matching the given fund_id and round_id. Has
+    optional parameters of search_term, asset_type and status for filterting.
+    Excludes irrelevant columns such as
+    `db.models.AssessmentRecord.jsonb_blob`.
 
     :param fund_id: The stringified fund UUID.
     :param round_id: The stringified round UUID.
     :return: A list of dictionaries.
     """
 
-    stmt = (
+    statement = (
         select(AssessmentRecord)
         # Dont load json into memory
         .options(defer(AssessmentRecord.jsonb_blob)).where(
@@ -36,7 +44,20 @@ def get_metadata_for_fund_round_id(fund_id: str, round_id: str) -> List[Dict]:
         )
     )
 
-    assessment_metadatas = db.session.scalars(stmt).all()
+    if search_term != "":
+        search_term = search_term.replace(" ", "%")
+        statement = statement.where(
+            AssessmentRecord.short_id.like(f"%{search_term}%")
+            | AssessmentRecord.project_name.ilike(f"%{search_term}%")
+        )
+
+    if asset_type != "ALL" and asset_type != "":
+        statement = statement.where(AssessmentRecord.asset_type == asset_type)
+
+    if status != "ALL" and status != "":
+        statement = statement.where(AssessmentRecord.workflow_status == status)
+
+    assessment_metadatas = db.session.scalars(statement).all()
 
     metadata_serialiser = AssessmentRecordMetadata(
         exclude=("jsonb_blob", "application_json_md5")

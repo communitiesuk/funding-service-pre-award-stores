@@ -22,6 +22,30 @@ paths:
       schema:
         type: string
         format: path
+    - name: search_term
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
+    - name: asset_type
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
+    - name: status
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
     get:
       tags:
         - assessments
