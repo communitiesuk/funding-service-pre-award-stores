@@ -1,8 +1,7 @@
-def get_deterministic_rows():
+def load_json_strings_from_file(filename: str) -> list[str]:
     import json
 
-    with open("tests/test_data/apps.json", "r") as f:
-
+    with open(f"tests/test_data/{filename}", "r") as f:
         parsed_json_apps_file = json.load(f)
 
     list_of_json_strings = [
@@ -16,8 +15,7 @@ def get_dynamic_rows(
     number_of_apps_per_round, number_of_funds, number_of_rounds
 ):
 
-    from random import choice
-    from random import sample
+    from random import choice, sample
     from string import ascii_uppercase
     from uuid import uuid4
 

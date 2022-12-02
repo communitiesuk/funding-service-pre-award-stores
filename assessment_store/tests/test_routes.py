@@ -1,4 +1,5 @@
 from db.models.assessment_record.assessment_records import AssessmentRecord
+from tests._expected_responses import APPLICATION_METADATA_RESPONSE
 from tests._helpers import get_random_row
 
 
@@ -27,3 +28,11 @@ def test_gets_all_apps_for_fund_round(request, client):
     ).json
 
     assert len(response_json) == apps_per_round
+
+
+def test_get_application_metadata_for_application_id(client):
+    response_json = client.get(
+        f"/application_overviews/a3ec41db-3eac-4220-90db-c92dea049c00"
+    ).json
+
+    assert response_json == APPLICATION_METADATA_RESPONSE
