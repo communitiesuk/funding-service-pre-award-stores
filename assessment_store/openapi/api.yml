@@ -55,7 +55,7 @@ paths:
               schema:
                 type: object
                 items:
-                  $ref: 'components.yml#/components/schemas/JustScore'
+                  $ref: 'components.yml#/components/schemas/Score'
       parameters:
       - name: application_id
         in: query
@@ -99,7 +99,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: 'components.yml#/components/schemas/PostJustScore'
+              $ref: 'components.yml#/components/schemas/PostScore'
             example:
               score: 3
               justification: 'bang average'
@@ -114,7 +114,7 @@ paths:
               schema:
                 type: object
                 items:
-                  $ref: 'components.yml#/components/schemas/JustScore'
+                  $ref: 'components.yml#/components/schemas/Score'
         401:
           description: ERROR - Could not Save Score
           content:

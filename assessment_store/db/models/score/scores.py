@@ -8,13 +8,13 @@ from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import UUID
 
 
-class JustScore(db.Model):
+class Score(db.Model):
     """Score The sqlalchemy-flask model class used to define the
     `scores` table in the Postgres database."""
 
     __tablename__ = "just_scores"
 
-    just_score_id = db.Column(
+    id = db.Column(
         "score_id", UUID(as_uuid=True), default=uuid.uuid4, primary_key=True
     )
 

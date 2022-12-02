@@ -62,7 +62,7 @@ class AssessmentRecord(db.Model):
         Computed(func.md5(cast(jsonb_blob, TEXT)), persisted=True),
     )
 
-    scores = relationship("JustScore")
+    scores = relationship("Score")
 
 
 Index(

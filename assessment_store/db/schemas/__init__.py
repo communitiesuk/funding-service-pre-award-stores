@@ -1,4 +1,4 @@
 from .schemas import AssessmentRecordMetadata
-from .schemas import JustScoreMetadata
+from .schemas import ScoreMetadata
 
-__all__ = [AssessmentRecordMetadata, JustScoreMetadata]
+__all__ = [AssessmentRecordMetadata, ScoreMetadata]

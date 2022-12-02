@@ -1,5 +1,5 @@
 from db.models.assessment_record import AssessmentRecord
-from db.models.score import JustScore
+from db.models.score import Score
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
 from marshmallow.fields import Enum
@@ -19,12 +19,12 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     language = Enum(Language)
 
 
-class JustScoreMetadata(SQLAlchemyAutoSchema):
-    """JustScoreMetadata The marshmallow class used to turn SQLAlchemy
+class ScoreMetadata(SQLAlchemyAutoSchema):
+    """ScoreMetadata The marshmallow class used to turn SQLAlchemy
     rows into json for return in http responses."""
 
     class Meta:
-        model = JustScore
+        model = Score
         include_relationships = True
         load_instance = True
     

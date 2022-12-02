@@ -4,7 +4,7 @@ from typing import List
 
 from db.queries.scores import get_latest_just_score_for_application_sub_crit
 from db.queries.scores import create_just_score_for_application_sub_crit
-from db.schemas import JustScoreMetadata
+from db.schemas import ScoreMetadata
 from flask import request
 
 

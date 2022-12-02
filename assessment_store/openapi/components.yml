@@ -124,7 +124,7 @@ components:
           type: string
         workflow_status:
           type: string
-    JustScore:
+    Score:
       type: object
       properties:
         just_score_id:
@@ -141,7 +141,7 @@ components:
           type: string
         user_id:
           type: string
-    PostJustScore:
+    PostScore:
       type: object
       properties:
         score:
