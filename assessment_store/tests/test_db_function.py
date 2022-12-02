@@ -60,7 +60,10 @@ def test_non_blob_columns_mutable(db_session):
         raise AssertionError
 
 
-def test_create_scores_for_application_su_crit():
+def test_create_scores_for_application_sub_crit():
+    """test_create_scores_for_application_sub_crit Tests we can create
+    score records in the scores table in the appropriate format."""
+
     picked_row = get_random_row(AssessmentRecord)
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
@@ -75,11 +78,14 @@ def test_create_scores_for_application_su_crit():
     score_metadata = create_score_for_application_sub_crit(**assessment_payload)
 
     assert len(score_metadata) == 7
-    assert score_metadata.get("date_created")
-    assert score_metadata.get("score") == 3
+    assert score_metadata["date_created"]
+    assert score_metadata["score"] == 3
 
 
-def test_scores_for_application_sub_crit():
+def test_get_latest_score_for_application_sub_crit():
+    """test_get_latest_score_for_application_sub_crit Tests we can add
+    score records in the scores table and return the most recently created."""
+
     picked_row = get_random_row(AssessmentRecord)
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
@@ -95,6 +101,6 @@ def test_scores_for_application_sub_crit():
 
     latest_score_metadata = get_latest_score_for_application_sub_crit(application_id, sub_criteria_id)
 
-    assert latest_score_metadata.get("date_created") == score_metadata.get("date_created")
-    assert latest_score_metadata.get("score") == score_metadata.get("score")
-    assert latest_score_metadata.get("justification") == score_metadata.get("justification")
+    assert latest_score_metadata["date_created"] == score_metadata.get("date_created")
+    assert latest_score_metadata["score"] == score_metadata.get("score")
+    assert latest_score_metadata["justification"] == score_metadata.get("justification")
