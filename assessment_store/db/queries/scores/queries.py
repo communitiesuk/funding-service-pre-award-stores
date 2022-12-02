@@ -31,9 +31,9 @@ def get_latest_score_for_application_sub_crit(
         Score.sub_criteria_id == sub_criteria_id
         ).order_by(Score.date_created.desc())
 
-    latest_score_metadata = db.session.scalar(stmt)
+    latest_score_row = db.session.scalar(stmt)
     metadata_serialiser = ScoreMetadata()
-    latest_score_metadata = metadata_serialiser.dump(latest_score_metadata)
+    latest_score_metadata = metadata_serialiser.dump(latest_score_row)
 
     return latest_score_metadata
 
