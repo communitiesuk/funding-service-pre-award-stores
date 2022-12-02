@@ -31,7 +31,7 @@ class JustScore(db.Model):
     )
 
     date_created = db.Column(
-        "date_created", db.DateTime(), default=func.now()
+        "date_created", db.DateTime(), server_default=func.now()
     )
 
     sub_criteria_id = db.Column(
