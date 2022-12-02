@@ -12,7 +12,7 @@ class Score(db.Model):
     """Score The sqlalchemy-flask model class used to define the
     `scores` table in the Postgres database."""
 
-    __tablename__ = "just_scores"
+    __tablename__ = "scores"
 
     id = db.Column(
         "score_id", UUID(as_uuid=True), default=uuid.uuid4, primary_key=True

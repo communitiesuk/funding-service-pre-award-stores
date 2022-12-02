@@ -7,8 +7,8 @@ from tests._helpers import get_random_row
 import time
 from db import db
 
-from db.queries.scores.queries import create_just_score_for_application_sub_crit
-from db.queries.scores.queries import get_latest_just_score_for_application_sub_crit
+from db.queries.scores.queries import create_score_for_application_sub_crit
+from db.queries.scores.queries import get_latest_score_for_application_sub_crit
 
 
 def test_select_field_by_id():
@@ -72,7 +72,7 @@ def test_create_scores_for_application_su_crit():
         "justification": "bang average",
         "user_id": "test"
     }
-    score_metadata = create_just_score_for_application_sub_crit(**assessment_payload)
+    score_metadata = create_score_for_application_sub_crit(**assessment_payload)
 
     assert len(score_metadata) == 7
     assert score_metadata.get("date_created")
@@ -91,9 +91,9 @@ def test_scores_for_application_sub_crit():
         "justification": "great",
         "user_id": "test"
     }
-    score_metadata = create_just_score_for_application_sub_crit(**assessment_payload)
+    score_metadata = create_score_for_application_sub_crit(**assessment_payload)
 
-    latest_score_metadata = get_latest_just_score_for_application_sub_crit(application_id, sub_criteria_id)
+    latest_score_metadata = get_latest_score_for_application_sub_crit(application_id, sub_criteria_id)
 
     assert latest_score_metadata.get("date_created") == score_metadata.get("date_created")
     assert latest_score_metadata.get("score") == score_metadata.get("score")

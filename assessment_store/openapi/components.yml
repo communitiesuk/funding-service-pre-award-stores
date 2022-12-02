@@ -127,7 +127,7 @@ components:
     Score:
       type: object
       properties:
-        just_score_id:
+        id:
           type: string
         score:
           type: integer

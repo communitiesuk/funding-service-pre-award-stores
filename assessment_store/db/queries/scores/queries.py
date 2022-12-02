@@ -15,10 +15,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import defer
 
 
-def get_latest_just_score_for_application_sub_crit(
+def get_latest_score_for_application_sub_crit(
     application_id: str, sub_criteria_id: str
 ) -> Dict:
-    """get_latest_just_score_for_application_sub_crit executes a query on scores
+    """get_latest_score_for_application_sub_crit executes a query on scores
     which returns the most recent score for the given application_id and 
     sub_criteria_id.
 
@@ -38,11 +38,11 @@ def get_latest_just_score_for_application_sub_crit(
     return latest_score_metadata
 
 
-def create_just_score_for_application_sub_crit(
+def create_score_for_application_sub_crit(
     score: int, justification: str, application_id: str, 
     sub_criteria_id: str, user_id: str
 ) -> Dict:
-    """create_just_score_for_application_sub_crit executes a query on scores
+    """create_score_for_application_sub_crit executes a query on scores
     which creates a justified score for the given application_id and 
     sub_criteria_id.
 
