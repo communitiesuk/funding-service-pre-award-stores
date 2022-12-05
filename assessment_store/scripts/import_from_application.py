@@ -21,7 +21,7 @@ with app.app_context():
         + f"?round_id={args.roundid}"
     )
 
-    app_store_response_json = requests.get(applications_url).json
+    app_store_response_json = requests.get(applications_url).json()
 
     for application in app_store_response_json:
 
