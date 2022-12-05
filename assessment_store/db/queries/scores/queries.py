@@ -13,6 +13,7 @@ from db.schemas import ScoreMetadata
 from sqlalchemy import func
 from sqlalchemy import select
 from sqlalchemy.orm import defer
+from flask import current_app
 
 
 def get_latest_score_for_application_sub_crit(
@@ -29,7 +30,7 @@ def get_latest_score_for_application_sub_crit(
     stmt = select(Score).where(
         Score.application_id == application_id,
         Score.sub_criteria_id == sub_criteria_id
-        ).order_by(Score.date_created.desc())
+        ).order_by(Score.date_created.desc()).limit(1)
 
     latest_score_row = db.session.scalar(stmt)
     metadata_serialiser = ScoreMetadata()
