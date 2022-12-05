@@ -10,9 +10,11 @@ from db import db
 from db.models.assessment_record import AssessmentRecord
 from db.queries.assessment_records._helpers import derive_values_from_json
 from db.schemas import AssessmentRecordMetadata
+from db.schemas import AssessorTaskListMetadata
 from sqlalchemy import func
 from sqlalchemy import select
 from sqlalchemy.orm import defer
+from sqlalchemy.orm import load_only
 
 
 def get_metadata_for_fund_round_id(
@@ -57,7 +59,9 @@ def get_metadata_for_fund_round_id(
 
     assessment_metadatas = db.session.scalars(statement).all()
 
-    metadata_serialiser = AssessmentRecordMetadata()
+    metadata_serialiser = AssessmentRecordMetadata(
+        exclude=("jsonb_blob", "application_json_md5")
+    )
 
     assessment_metadatas = [
         metadata_serialiser.dump(app_metadata)
@@ -82,7 +86,6 @@ def bulk_insert_application_record(
     rows = []
 
     for single_json_string in json_strings:
-
         loaded_json = json.loads(single_json_string)
 
         derived_values = derive_values_from_json(loaded_json, application_type)
@@ -126,3 +129,44 @@ def find_answer_by_key_runner(field_key: str, app_id: str) -> List[tuple]:
         .filter(AssessmentRecord.application_id == app_id)
         .one()
     )
+
+
+def find_assessor_task_list_state(application_id: str) -> dict:
+    """find_assessment Given an application id `application_id` we return the
+    matching row from the `assessment_records` table.
+
+    :param application_id: The application id of the queried row.
+    :type application_id: str
+    :return: The matching row from the `assessment_records` table.
+    :rtype: dict
+    """
+
+    stmt = (
+        select(AssessmentRecord)
+        .where(AssessmentRecord.application_id == application_id)
+        .options(
+            load_only(
+                "short_id",
+                "project_name",
+                "workflow_status",
+                "jsonb_blob",
+                "fund_id",
+                "round_id",
+            )
+        )
+    )
+
+    assessment_record = db.session.scalar(stmt)
+
+    assessment_record_json = AssessorTaskListMetadata(
+        only=(
+            "short_id",
+            "project_name",
+            "date_submitted",
+            "workflow_status",
+            "fund_id",
+            "round_id",
+        )
+    ).dump(assessment_record)
+
+    return assessment_record_json

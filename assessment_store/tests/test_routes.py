@@ -1,5 +1,6 @@
 import pytest
 from db.models.assessment_record.assessment_records import AssessmentRecord
+from tests._expected_responses import APPLICATION_METADATA_RESPONSE
 from tests._helpers import get_random_row
 from tests._helpers import get_rows_by_filters
 
@@ -74,6 +75,14 @@ def test_search(client):
         assert len(response_json) == len(rows)
 
 
+def test_get_application_metadata_for_application_id(client):
+    response_json = client.get(
+        f"/application_overviews/a3ec41db-3eac-4220-90db-c92dea049c00"
+    ).json
+
+    assert response_json == APPLICATION_METADATA_RESPONSE
+
+
 @pytest.mark.parametrize("sub_criteria_response_key", ["id", "name", "score_submitted","themes"])
 def test_get_sub_criteria(request, client, sub_criteria_response_key):
     """Test to check that sub criteria metadata and ordered themes are returned for
@@ -89,7 +98,7 @@ def test_get_sub_criteria(request, client, sub_criteria_response_key):
     for theme in response_json["themes"]:
         actual_theme_order.append(theme["id"])
     assert expected_theme_order == actual_theme_order
-    assert sub_criteria_response_key in response_json 
+    assert sub_criteria_response_key in response_json
 
 
 def test_get_false_sub_criteria(request, client):
@@ -100,7 +109,7 @@ def test_get_false_sub_criteria(request, client):
         f"/sub_criteria_overview/{sub_criteria_id}"
     )
 
-    
+
     assert response.json["status"] == 404
     assert response.json["title"] == "Not Found"
     assert response.json["detail"] == "sub_criteria: 'does-not-exist' not found."
