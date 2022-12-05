@@ -63,7 +63,8 @@ paths:
                 type: array
                 items:
                   $ref: 'components.yml#/components/schemas/Assessment'
-  /score:
+
+  '/score':
     get:
       tags:
         - scores
@@ -170,6 +171,7 @@ paths:
             application/json:
               schema:
                 $ref: 'components.yml#/components/schemas/SubCriteria'
+
   '/application_overviews/{application_id}':
     parameters:
     - name: application_id

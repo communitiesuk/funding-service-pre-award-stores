@@ -10,7 +10,7 @@ from alembic_utils.pg_extension import PGExtension
 
 # revision identifiers, used by Alembic.
 revision = "409915dc382e"
-down_revision = "5ce0b8e0e1b6"
+down_revision = "1508d2c4dfa8"
 branch_labels = None
 depends_on = None
 

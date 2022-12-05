@@ -157,7 +157,11 @@ components:
         question:
           type: string
     Theme:
-        example: "general-information"
+      type: object
+      properties:
+        id:
+          type: string
+          example: "general-information"
         name:
           type: string
           example: "General Information"

@@ -61,6 +61,7 @@ def get_assessor_task_list_state(application_id: str) -> dict:
     """
 
     metadata = find_assessor_task_list_state(application_id)
+    print(metadata)
     sections, criterias = transform_to_assessor_task_list_metadata(
         metadata["fund_id"], metadata["round_id"]
     )
