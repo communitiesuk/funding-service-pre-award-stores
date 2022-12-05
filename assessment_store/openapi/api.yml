@@ -6,6 +6,8 @@ info:
 tags:
   - name: assessments
     description: Assessment operations
+  - name: scores
+    description: Score operations
 
 paths:
   '/application_overviews/{fund_id}/{round_id}':
@@ -61,6 +63,93 @@ paths:
                 type: array
                 items:
                   $ref: 'components.yml#/components/schemas/Assessment'
+
+  '/score':
+    get:
+      tags:
+        - scores
+      summary: get score for subcriteria in application
+      description: get a score for a subcriteria in an application
+      operationId: api.routes.latest_score_for_application_sub_criteria
+      responses:
+        200:
+          description: SUCCESS - Score for Subcriteria in Application
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/Score'
+      parameters:
+      - name: application_id
+        in: query
+        schema:
+          type: string
+        required: true
+      - name: sub_criteria_id
+        in: query
+        schema:
+          type: string
+        required: true
+      - name: score
+        in: query
+        schema:
+          type: integer
+        required: false
+      - name: justification
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: date_created
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: user_id
+        in: query
+        schema:
+          type: string
+        required: false
+    post:
+      tags:
+        - scores
+      summary: post score for subcriteria in application
+      description: post a score for a subcriteria in an application
+      operationId: api.routes.post_score_for_application_sub_criteria
+      requestBody:
+        description: Score creation parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yml#/components/schemas/PostScore'
+            example:
+              score: 3
+              justification: 'bang average'
+              application_id: 'r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd'
+              sub_criteria_id: 'app-info'
+              user_id: 'gio'
+      responses:
+        201:
+          description: SUCCESS - Score for Subcriteria in Application Submitted
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/Score'
+        401:
+          description: ERROR - Could not Save Score
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'Could not save Score for application sub-criteria'
+
   '/sub_criteria_overview/{sub_criteria_id}':
     parameters:
     - name: sub_criteria_id
@@ -82,6 +171,7 @@ paths:
             application/json:
               schema:
                 $ref: 'components.yml#/components/schemas/SubCriteria'
+
   '/application_overviews/{application_id}':
     parameters:
     - name: application_id

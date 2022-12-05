@@ -10,6 +10,8 @@ from flask_sqlalchemy import DefaultMeta
 from db import db
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
+from sqlalchemy import cast
+from sqlalchemy.orm import relationship
 from sqlalchemy import Column, cast
 from sqlalchemy import Computed
 from sqlalchemy import func
@@ -64,6 +66,8 @@ class AssessmentRecord(BaseModel):
         TEXT,
         Computed(func.md5(cast(jsonb_blob, TEXT)), persisted=True),
     )
+
+    scores = relationship("Score")
 
 
 Index(

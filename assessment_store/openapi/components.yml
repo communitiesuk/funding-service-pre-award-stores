@@ -113,6 +113,36 @@ components:
           type: string
         workflow_status:
           type: string
+    Score:
+      type: object
+      properties:
+        id:
+          type: string
+        score:
+          type: integer
+        justification:
+          type: string
+        application_id:
+          type: string
+        date_created:
+          type: string
+        sub_criteria_id:
+          type: string
+        user_id:
+          type: string
+    PostScore:
+      type: object
+      properties:
+        score:
+          type: integer
+        justification:
+          type: string
+        application_id:
+          type: string
+        sub_criteria_id:
+          type: string
+        user_id:
+          type: string
     Answer:
       type: object
       properties:
