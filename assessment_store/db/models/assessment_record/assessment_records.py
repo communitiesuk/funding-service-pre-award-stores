@@ -88,3 +88,12 @@ Index(
     AssessmentRecord.round_id,
     AssessmentRecord.fund_id,
 )
+
+Index(
+    "ix_project_name",
+    AssessmentRecord.project_name,
+    postgresql_ops={
+        "project_name": "gin_trgm_ops",
+    },
+    postgresql_using="gin",
+)

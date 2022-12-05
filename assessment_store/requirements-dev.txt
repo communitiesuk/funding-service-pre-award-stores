@@ -80,6 +80,8 @@ cryptography==38.0.3
     # via
     #   -r requirements.txt
     #   pyjwt
+dataclass-dict-convert==1.7.1
+    # via -r requirements.txt
 deepdiff==6.2.1
     # via -r requirements-dev.in
 distlib==0.3.6
@@ -283,6 +285,10 @@ pytest-mock==3.7.0
     # via
     #   -r requirements-dev.in
     #   pytest-flask-sqlalchemy
+python-dateutil==2.8.2
+    # via
+    #   -r requirements.txt
+    #   dataclass-dict-convert
 python-dotenv==0.20.0
     # via
     #   -r requirements.txt
@@ -332,6 +338,7 @@ six==1.16.0
     # via
     #   -r requirements.txt
     #   prance
+    #   python-dateutil
 smmap==5.0.0
     # via gitdb
 sqlalchemy[mypy]==1.4.44
@@ -353,6 +360,10 @@ sqlalchemy2-stubs==0.0.2a29
     #   sqlalchemy
 stevedore==4.1.1
     # via bandit
+stringcase==1.2.0
+    # via
+    #   -r requirements.txt
+    #   dataclass-dict-convert
 swagger-ui-bundle==0.0.9
     # via -r requirements.txt
 toml==0.10.2

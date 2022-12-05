@@ -1,8 +1,10 @@
 import random
 
 import sqlalchemy
+
 from db.models.assessment_record.assessment_records import AssessmentRecord
 from db.queries.assessment_records import find_answer_by_key_runner
+from db.queries.assessment_records.queries import find_assessor_task_list_state
 from tests._helpers import get_random_row
 
 
@@ -53,3 +55,20 @@ def test_non_blob_columns_mutable(db_session):
         db_session.commit()
     except sqlalchemy.exc.InternalError:
         raise AssertionError
+
+
+def test_find_assessor_task_list_ui_metadata():
+    """test_find_assessor_task_list_ui_metadata Tests that the correct metadata
+    is returned for the assessor task list UI."""
+
+    metadata = find_assessor_task_list_state(
+        "a3ec41db-3eac-4220-90db-c92dea049c00"
+    )
+    assert metadata == {
+        "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+        "project_name": "Mock that is used to test Assessors Task List",
+        "round_id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+        "workflow_status": "NOT_STARTED",
+        "date_submitted": "2022-10-27T08:32:13.383999",
+        "project_reference": "COF-R2W2-JWBTLN",
+    }

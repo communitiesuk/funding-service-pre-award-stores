@@ -1,3 +1,4 @@
 from .schemas import AssessmentRecordMetadata
+from .schemas import AssessorTaskListMetadata
 
-__all__ = ["AssessmentRecordMetadata"]
+__all__ = ["AssessmentRecordMetadata", "AssessorTaskListMetadata"]
