@@ -25,6 +25,6 @@ with app.app_context():
 
     for application in app_store_response_json:
 
-        form_jsons_list = app_store_response_json["forms"]
+        form_jsons_list = application["forms"]
 
         bulk_insert_application_record(form_jsons_list)
