@@ -1,3 +1,4 @@
+from alembic_utils.pg_extension import PGExtension
 from alembic_utils.pg_function import PGFunction
 from alembic_utils.pg_trigger import PGTrigger
 
@@ -28,4 +29,9 @@ block_json_updates_trig = PGTrigger(
     FOR EACH ROW
     EXECUTE PROCEDURE block_blob_mutate();""",
     on_entity="assessment_records",
+)
+
+extension = PGExtension(
+    schema="public",
+    signature="pg_trgm",
 )

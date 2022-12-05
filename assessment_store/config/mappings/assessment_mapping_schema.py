@@ -1,9 +1,4 @@
-field_id_schema = {
-    "type": ["string", "array"],
-    "items": {
-        "type": "string"
-    }
-}
+field_id_schema = {"type": ["string", "array"], "items": {"type": "string"}}
 
 answer_schema = {
     "type": "array",
@@ -11,56 +6,52 @@ answer_schema = {
         "type": "object",
         "properties": {
             "field_id": field_id_schema,
-            "form_name": {
-                "type": "string"
-            },
+            "form_name": {"type": "string"},
             "field_type": {
                 "type": "string",
                 "enum": [
-                    "textField", 
-                    "yesNoField", 
-                    "radiosField", 
-                    "datePartsField", 
-                    "UkAddressField", 
-                    "websiteField", 
-                    "multiInputField", 
+                    "textField",
+                    "yesNoField",
+                    "radiosField",
+                    "datePartsField",
+                    "UkAddressField",
+                    "websiteField",
+                    "multiInputField",
                     "multilineTextField",
-                    "emailAddressField", 
-                    "telephoneNumberField", 
-                    "numberField", 
-                    "checkboxesField", 
-                    "fileUploadField"
-                ]
+                    "emailAddressField",
+                    "telephoneNumberField",
+                    "numberField",
+                    "checkboxesField",
+                    "fileUploadField",
+                ],
             },
             "presentation_type": {
                 "type": "string",
                 "enum": [
                     "text",
                     # covers:
-                    # "textField", 
-                    # "yesNoField", 
-                    # "radiosField", 
-                    # "datePartsField", 
-                    # "websiteField", 
-                    # "numberField", 
-                    # "emailAddressField", 
-                    # "telephoneNumberField",  
+                    # "textField",
+                    # "yesNoField",
+                    # "radiosField",
+                    # "datePartsField",
+                    # "websiteField",
+                    # "numberField",
+                    # "emailAddressField",
+                    # "telephoneNumberField",
                     "address",
                     # covers:
-                    # "UkAddressField", 
+                    # "UkAddressField",
                     "list",
                     # covers:
-                    # "multiInputField", 
+                    # "multiInputField",
                     # "multilineTextField",
-                    # "checkboxesField", 
+                    # "checkboxesField",
                     "file",
                     # covers:
                     # "fileUploadField"
-                ]
+                ],
             },
-            "question": {
-                "type": "string"
-            }
+            "question": {"type": "string"},
         },
         "additionalProperties": False,
         "minProperties": 4,

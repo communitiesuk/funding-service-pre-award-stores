@@ -1,10 +1,13 @@
 from contextlib import contextmanager
 
 from db import db
+from db.models.assessment_record import AssessmentRecord
 from sqlalchemy import event
 from sqlalchemy import func
+from sqlalchemy import select
 from sqlalchemy.engine import Engine
 from sqlalchemy.inspection import inspect
+from sqlalchemy.orm import defer
 
 
 @contextmanager
@@ -43,3 +46,23 @@ def get_random_row(table):
         .limit(1)
         .one()
     )
+
+
+@no_gather_sql()
+def get_rows_by_filters(fund_id, round_id, filters):
+    """get_rows_by_asset_type Uses a database-side where to get rows
+    for provided asset type
+
+    :param table: fund_id, round_id, asset_type
+    :return: rows for given assest type.
+    """
+    stmt = (
+        select(AssessmentRecord)
+        # Dont load json into memory
+        .options(defer(AssessmentRecord.jsonb_blob)).where(
+            AssessmentRecord.fund_id == fund_id,
+            AssessmentRecord.round_id == round_id,
+            *filters,
+        )
+    )
+    return db.session.scalars(stmt).all()

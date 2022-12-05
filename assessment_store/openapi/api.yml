@@ -10,7 +10,7 @@ tags:
     description: Score operations
 
 paths:
-  /application_overviews/{fund_id}/{round_id}:
+  '/application_overviews/{fund_id}/{round_id}':
     parameters:
     - name: fund_id
       in: path
@@ -24,6 +24,30 @@ paths:
       schema:
         type: string
         format: path
+    - name: search_term
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
+    - name: asset_type
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
+    - name: status
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
     get:
       tags:
         - assessments
@@ -39,7 +63,6 @@ paths:
                 type: array
                 items:
                   $ref: 'components.yml#/components/schemas/Assessment'
-
   /score:
     get:
       tags:
@@ -109,11 +132,7 @@ paths:
       responses:
         201:
           description: SUCCESS - Score for Subcriteria in Application Submitted
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
+          items:
                   $ref: 'components.yml#/components/schemas/Score'
         401:
           description: ERROR - Could not Save Score
@@ -125,3 +144,47 @@ paths:
                 code: 401
                 status: 'error'
                 message: 'Could not save Score for application sub-criteria'
+
+  '/sub_criteria_overview/{sub_criteria_id}':
+    parameters:
+    - name: sub_criteria_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path
+    get:
+      tags:
+        - assessments
+      summary: Sub criteria
+      description: Returns sub criteria metadata and themes
+      operationId: api.routes.sub_criteria
+      responses:
+        200:
+          description: SUCCESS - A subcriteria
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/SubCriteria'
+  '/application_overviews/{application_id}':
+    parameters:
+    - name: application_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path
+    get:
+      tags:
+        - assessments
+      summary: Retrieves data to populate the assessors task list page for a given application
+      description: Retrieves data to populate the assessors task list page for a given application
+      operationId: api.routes.get_assessor_task_list_state
+      responses:
+        200:
+          description: SUCCESS - Accessor task list state
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: 'assessor_task_list.yml#/components/schemas/AssessorTaskListState'
