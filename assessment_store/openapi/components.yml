@@ -35,17 +35,6 @@ components:
           type: string
         compliance_status:
           type: string
-    SubCriteria:
-      type: object
-      properties:
-        id:
-          type: string
-        round_id:
-          type: string
-        criteria_id:
-          type: string
-        sub_criteria_title:
-          type: string
     ScoreJustification:
       type: object
       properties:
@@ -124,3 +113,45 @@ components:
           type: string
         workflow_status:
           type: string
+    Answer:
+      type: object
+      properties:
+        field_id:
+          type: string
+        form_name:
+          type: string
+        field_type:
+          type: string
+        presentation_type:
+          type: string
+        question:
+          type: string
+    Theme:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "general-information"
+        name:
+          type: string
+          example: "General Information"
+        answers: 
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+    SubCriteria:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "engagement"
+        name:
+          type: string
+          example: "Engagement"
+        score_submitted:
+          type: boolean
+          example: true
+        themes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Theme'

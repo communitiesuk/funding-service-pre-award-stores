@@ -1,10 +1,11 @@
 # flake8: noqa
 from typing import Dict
 from typing import List
-
+from api.routes.subcriterias.get_sub_criteria import (
+    return_subcriteria_from_config,
+)
 from db.queries.assessment_records import get_metadata_for_fund_round_id
-from db.schemas import AssessmentRecordMetadata
-
+from flask import current_app
 
 def all_assessments_for_fund_round_id(
     fund_id: str,
@@ -30,3 +31,18 @@ def all_assessments_for_fund_round_id(
     )
 
     return app_list
+
+
+def sub_criteria(
+    sub_criteria_id: str,
+) -> Dict:
+    """Returns metadata and themes for a sub_criteria
+    `/sub_criteria_overview/{sub_criteria_id}`.
+
+    :param sub_criteria_id: The stringified sub criteria id (NOT sub critria name).
+    :return: A sub criteria dictionary.
+    """
+    current_app.logger.info("Processing request for sub criteria: {sub_criteria_id}.")
+    sub_criteria = return_subcriteria_from_config(sub_criteria_id)
+    sub_criteria_dict = sub_criteria.to_dict()
+    return sub_criteria_dict
