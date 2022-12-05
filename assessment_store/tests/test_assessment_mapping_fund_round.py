@@ -1,7 +1,6 @@
-from config.mappings.assessment_mapping_fund_round import (
-    transform_to_assessor_task_list_metadata,
-)
 from fsd_utils import CommonConfig
+
+from api.routes._helpers import transform_to_assessor_task_list_metadata
 
 
 def test_transform_to_assessor_task_list_metadata():
