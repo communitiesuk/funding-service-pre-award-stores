@@ -18,7 +18,7 @@ with app.app_context():
     applications_url = (
         Config.APPLICATIONS_ENDPOINT
         + "?status_only=SUBMITTED"
-        + f"?round_id={args.roundid}"
+        + f"&round_id={args.roundid}"
     )
 
     app_store_response_json = requests.get(applications_url).json()
