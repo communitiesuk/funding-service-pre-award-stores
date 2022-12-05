@@ -133,7 +133,7 @@ paths:
         201:
           description: SUCCESS - Score for Subcriteria in Application Submitted
           items:
-                  $ref: 'components.yml#/components/schemas/Score'
+          $ref: 'components.yml#/components/schemas/Score'
         401:
           description: ERROR - Could not Save Score
           content:
