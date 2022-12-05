@@ -31,3 +31,5 @@ requests
 SQLAlchemy
 swagger-ui-bundle
 sqlalchemy-utils
+
+dataclass_dict_convert
