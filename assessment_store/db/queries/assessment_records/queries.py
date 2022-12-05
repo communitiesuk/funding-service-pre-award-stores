@@ -13,6 +13,7 @@ from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessorTaskListMetadata
 from sqlalchemy import func
 from sqlalchemy import select
+from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.orm import defer
 from sqlalchemy.orm import load_only
 
@@ -100,7 +101,12 @@ def bulk_insert_application_record(
 
         del loaded_json
 
-    db.session.bulk_insert_mappings(AssessmentRecord, rows)
+    stmt = postgres_insert(AssessmentRecord).values(rows)
+
+    upsert_rows_stmt = stmt.on_conflict_do_nothing(index_elements=[AssessmentRecord.application_id])
+
+    db.session.execute(upsert_rows_stmt)
+
     db.session.commit()
 
 

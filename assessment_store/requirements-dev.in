@@ -13,3 +13,5 @@ pip-tools
 json2html==1.3.0
 pytest-flask-sqlalchemy
 colored
+mypy
+sqlalchemy-stubs

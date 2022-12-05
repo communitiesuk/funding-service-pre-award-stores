@@ -1,12 +1,30 @@
 #!/usr/bin/env python3
+import argparse
+
+import requests
 from app import app
+from config import Config
+from db.queries import bulk_insert_application_record
+
+parser = argparse.ArgumentParser(
+    description="Import applcations from application store."
+)
+parser.add_argument("--roundid", type=str)
+
+args = parser.parse_args()
 
 with app.app_context():
 
-    # Grab data from app store.
+    applications_url = (
+        Config.APPLICATIONS_ENDPOINT
+        + "?status_only=SUBMITTED"
+        + f"&round_id={args.roundid}"
+    )
 
-    # Upsert data into assessment store.
+    app_store_response_json = requests.get(applications_url).json()
 
-    # TODO: Write this function once the application store PR is merged!!
+    for application in app_store_response_json:
 
-    pass
+        form_jsons_list = application["forms"]
+
+        bulk_insert_application_record(form_jsons_list)
