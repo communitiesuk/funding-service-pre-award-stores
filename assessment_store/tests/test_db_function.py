@@ -9,8 +9,8 @@ from tests._helpers import get_random_row
 import time
 from db import db
 
-from db.queries.scores.queries import create_score_for_application_sub_crit
-from db.queries.scores.queries import get_latest_score_for_application_sub_crit
+from db.queries.scores.queries import create_score_for_app_sub_crit
+from db.queries.scores.queries import get_scores_for_app_sub_crit
 
 
 def test_select_field_by_id():
@@ -77,7 +77,7 @@ def test_create_scores_for_application_sub_crit():
         "justification": "bang average",
         "user_id": "test"
     }
-    score_metadata = create_score_for_application_sub_crit(**assessment_payload)
+    score_metadata = create_score_for_app_sub_crit(**assessment_payload)
 
     assert len(score_metadata) == 7
     assert score_metadata["date_created"]
@@ -99,13 +99,44 @@ def test_get_latest_score_for_application_sub_crit():
         "justification": "great",
         "user_id": "test"
     }
-    score_metadata = create_score_for_application_sub_crit(**assessment_payload)
+    create_score_metadata = create_score_for_app_sub_crit(**assessment_payload)
 
-    latest_score_metadata = get_latest_score_for_application_sub_crit(application_id, sub_criteria_id)
+    score_metadata = get_scores_for_app_sub_crit(application_id, sub_criteria_id)
+    latest_score_metadata = score_metadata[0]
 
-    assert latest_score_metadata["date_created"] == score_metadata.get("date_created")
-    assert latest_score_metadata["score"] == score_metadata.get("score")
-    assert latest_score_metadata["justification"] == score_metadata.get("justification")
+    assert latest_score_metadata["date_created"] == create_score_metadata.get("date_created")
+    assert latest_score_metadata["score"] == create_score_metadata.get("score")
+    assert latest_score_metadata["justification"] == create_score_metadata.get("justification")
+
+
+def test_get_score_history():
+    picked_row = get_random_row(AssessmentRecord)
+    application_id = picked_row.application_id
+    sub_criteria_id = "app-info"
+
+    assessment_payload_1 = {
+        "application_id": application_id,
+        "sub_criteria_id": sub_criteria_id,
+        "score": 3,
+        "justification": "bang average",
+        "user_id": "test"
+    }
+    create_score_metadata_1 = create_score_for_app_sub_crit(**assessment_payload_1)
+
+    assessment_payload_2 = {
+        "application_id": application_id,
+        "sub_criteria_id": sub_criteria_id,
+        "score": 5,
+        "justification": "great",
+        "user_id": "test"
+    }
+    create_score_metadata_2 = create_score_for_app_sub_crit(**assessment_payload_2)
+    
+    score_metadata = get_scores_for_app_sub_crit(application_id, sub_criteria_id, True)
+
+    assert len(score_metadata) == 2
+    assert score_metadata[0]["score"] == create_score_metadata_1["score"]
+    assert score_metadata[1]["justification"] == create_score_metadata_2["justification"]
 
 
 def test_find_assessor_task_list_ui_metadata():

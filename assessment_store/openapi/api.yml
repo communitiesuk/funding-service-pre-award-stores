@@ -70,14 +70,14 @@ paths:
         - scores
       summary: get score for subcriteria in application
       description: get a score for a subcriteria in an application
-      operationId: api.routes.latest_score_for_application_sub_criteria
+      operationId: api.routes.get_score_for_application_sub_criteria
       responses:
         200:
           description: SUCCESS - Score for Subcriteria in Application
           content:
             application/json:
               schema:
-                type: object
+                type: array
                 items:
                   $ref: 'components.yml#/components/schemas/Score'
       parameters:
@@ -91,6 +91,11 @@ paths:
         schema:
           type: string
         required: true
+      - name: score_history
+        in: query
+        schema:
+          type: boolean
+        required: false
       - name: score
         in: query
         schema:

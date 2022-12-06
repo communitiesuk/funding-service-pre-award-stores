@@ -2,29 +2,30 @@
 from typing import Dict
 from typing import List
 
-from db.queries.scores import get_latest_score_for_application_sub_crit
-from db.queries.scores import create_score_for_application_sub_crit
+from db.queries.scores import get_scores_for_app_sub_crit
+from db.queries.scores import create_score_for_app_sub_crit
 from db.schemas import ScoreMetadata
 from flask import request
 
 
-def latest_score_for_application_sub_criteria(
-    application_id: str, sub_criteria_id: str
+def get_score_for_application_sub_criteria(
+    application_id: str, sub_criteria_id: str, score_history: bool = False
 ) -> Dict:
-    """latest_score_for_application_sub_criteria Function 
+    """get_score_for_application_sub_criteria Function 
     used by the get endpoint `/applications/{application_id}/
     subcriterias/{subcriteria_id}/scores`.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
+    :param score_history: Boolean to return all scores if true
     :return: A dictionary.
     """
 
-    latest_score = get_latest_score_for_application_sub_crit(
-        application_id=application_id, sub_criteria_id=sub_criteria_id
+    score_metadata = get_scores_for_app_sub_crit(
+        application_id, sub_criteria_id, score_history
     )
 
-    return latest_score
+    return score_metadata
 
 
 def post_score_for_application_sub_criteria() -> Dict:
@@ -43,7 +44,7 @@ def post_score_for_application_sub_criteria() -> Dict:
     justification = args["justification"]
     user_id = args["user_id"]
 
-    created_score = create_score_for_application_sub_crit(
+    created_score = create_score_for_app_sub_crit(
         application_id=application_id, sub_criteria_id=sub_criteria_id,
         score=score, justification=justification, user_id=user_id
     )
