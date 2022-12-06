@@ -19,12 +19,13 @@ from flask import current_app
 def get_scores_for_app_sub_crit(
     application_id: str, sub_criteria_id: str, score_history: bool = False
 ) -> Dict:
-    """get_latest_score_for_application_sub_crit executes a query on scores
-    which returns the most recent score for the given application_id and 
-    sub_criteria_id.
+    """get_scores_for_app_sub_crit executes a query on scores
+    which returns the most recent score or all scores for the 
+    given application_id and sub_criteria_id.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
+    :param score_history: Boolean value that reurns all scores if true
     :return: dictionary.
     """
     if score_history:
@@ -54,7 +55,7 @@ def create_score_for_app_sub_crit(
     score: int, justification: str, application_id: str, 
     sub_criteria_id: str, user_id: str
 ) -> Dict:
-    """create_score_for_application_sub_crit executes a query on scores
+    """create_score_for_app_sub_crit executes a query on scores
     which creates a justified score for the given application_id and 
     sub_criteria_id.
 

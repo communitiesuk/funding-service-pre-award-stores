@@ -110,6 +110,9 @@ def test_get_latest_score_for_application_sub_crit():
 
 
 def test_get_score_history():
+    """test_get_score_history Tests we can get all score 
+    records in the scores table """
+    
     picked_row = get_random_row(AssessmentRecord)
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
