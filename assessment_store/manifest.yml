@@ -13,8 +13,6 @@ applications:
   health-check-type: http
   services:
     - assessment-store-dev-db
----
-applications:
 - name: funding-service-design-assessment-store-test
   memory: 128M
   buildpacks:
