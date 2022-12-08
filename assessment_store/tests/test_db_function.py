@@ -3,7 +3,7 @@ import random
 import sqlalchemy
 
 from db.models.assessment_record.assessment_records import AssessmentRecord
-from db.queries.assessment_records import find_answer_by_key_runner
+from db.queries import find_answer_by_key_runner
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from tests._helpers import get_random_row
 import time

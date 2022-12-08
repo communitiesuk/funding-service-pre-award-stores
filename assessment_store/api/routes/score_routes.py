@@ -2,15 +2,14 @@
 from typing import Dict
 from typing import List
 
-from db.queries.scores import get_scores_for_app_sub_crit
-from db.queries.scores import create_score_for_app_sub_crit
-from db.schemas import ScoreMetadata
+from db.queries import get_scores_for_app_sub_crit
+from db.queries import create_score_for_app_sub_crit
 from flask import request
 
 
 def get_score_for_application_sub_criteria(
     application_id: str, sub_criteria_id: str, score_history: bool = False
-) -> Dict:
+) -> List[Dict]:
     """get_score_for_application_sub_criteria Function 
     used by the get endpoint `/applications/{application_id}/
     subcriterias/{subcriteria_id}/scores`.
@@ -18,7 +17,7 @@ def get_score_for_application_sub_criteria(
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :param score_history: Boolean to return all scores if true
-    :return: A dictionary.
+    :return: A List of dictionaries.
     """
 
     score_metadata = get_scores_for_app_sub_crit(

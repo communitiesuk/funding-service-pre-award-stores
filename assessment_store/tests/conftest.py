@@ -9,7 +9,7 @@ from sqlalchemy_utils.functions import (
 
 from app import create_app
 from config import Config
-from db.queries.assessment_records import bulk_insert_application_record
+from db.queries import bulk_insert_application_record
 from tests._db_seed_data import get_dynamic_rows, load_json_strings_from_file
 from tests._sql_infos import pytest_terminal_summary  # noqa
 from tests._sql_infos import attach_listeners
