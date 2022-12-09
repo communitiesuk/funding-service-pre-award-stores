@@ -6,7 +6,7 @@ from api.routes._helpers import transform_to_assessor_task_list_metadata
 from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_config,
 )
-from db.queries.assessment_records import get_metadata_for_fund_round_id
+from db.queries import get_metadata_for_fund_round_id
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 
 from flask import current_app
