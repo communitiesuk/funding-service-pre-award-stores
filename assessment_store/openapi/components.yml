@@ -84,19 +84,35 @@ components:
         weighted_score:
           type: number
           format: float
-    CommentSaved:
-      type: object
-      properties:
-        comment_id:
-          type: string
     Comment:
       type: object
       properties:
-        assessor_user_id:
+        id:
           type: string
-        section:
-          type: integer
+        application_id:
+          type: string
         comment:
+          type: string
+        user_id:
+          type: string
+        date_created: 
+          type: string
+        sub_criteria_id:
+          type: string
+        comment_type:
+          type: string
+    PostComment:
+      type: object
+      properties:
+        application_id:
+          type: string
+        comment:
+          type: string
+        user_id:
+          type: string
+        sub_criteria_id:
+          type: string
+        comment_type:
           type: string
     ApplicationOverview:
       type: object
