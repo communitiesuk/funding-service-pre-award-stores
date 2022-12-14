@@ -48,7 +48,19 @@ answer_schema = {
                     # "checkboxesField",
                     "file",
                     # covers:
-                    # "fileUploadField"
+                    # "fileUploadField",
+                    "grouped_fields",
+                    #covers:
+                    # "multipleFields",
+                    "heading",
+                    #covers:
+                    # "section title for add-another component",
+                    "description",
+                    #covers:
+                    # "question description for add-another component",
+                    "amount",
+                    # covers:
+                    # "amount (£) for add-another component question"
                 ],
             },
             "question": {"type": "string"},

@@ -135,3 +135,22 @@ APPLICATION_METADATA_RESPONSE = {
     ],
     "workflow_status": "NOT_STARTED",
 }
+
+subcriteria_themes_and_expected_response= {
+    "community_use" : "Test",
+    "risk_loss_impact" : "Test",
+    "engaging-the-community" : "Tell us how you have engaged with the community about your intention to take ownership of the asset",
+    "local-support" : "Tell us how your project supports any wider local plans",
+    "environmental-considerations" : "Test",
+    "funding_requested" : (
+            ('Capital funding', '2300'), ('Revenue funding (optional)', '2300')
+            ),
+    "risk" : "sample1.doc",
+    "income_and_running_costs" : "Test",
+    "previous_experience" : "No",
+    "governance_and_structures": "Test",
+    "recruitment" : "No",
+    "representing_community_views" : "Test",
+    "accessibility_and_inclusivity" : "Test",
+
+    }

@@ -199,3 +199,83 @@ paths:
               schema:
                 type: object
                 $ref: 'assessor_task_list.yml#/components/schemas/AssessorTaskListState'
+
+  '/sub_criteria_themes/{application_id}/{theme_id}':
+    parameters:
+    - name: application_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path
+    - name: theme_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path    
+    get:
+      tags:
+        - assessments
+      summary: Retrieves data to populate the answers for sub criteria theme
+      description: Retrieves data to populate the answers for sub criteria theme
+      operationId: api.routes.get_sub_criteria_theme_answers
+      responses:
+        200:
+          description: SUCCESS - Sub criteria themes
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: 'components.yml#/components/schemas/Sub_criteria_theme'
+              example:
+                [
+                {
+                  "answer": [
+                    ["Capital funding","2300"],
+                    ["Revenue funding (optional)","2300"]
+                  ],
+                  "field_id": ["HhhyGh","jhusgT"],
+                  "field_type": "numberField",
+                  "form_name": "",
+                  "presentation_type": "grouped_fields",
+                  "question": "Total funding request"
+                },
+                {
+                  "answer": "Capital costs",
+                  "field_id": "ThLigF",
+                  "field_type": "multiInputField",
+                  "form_name": "funding-required",
+                  "presentation_type": "heading",
+                  "question": "Capital costs"
+                },
+                {
+                  "field_id": "ThLigF",
+                  "field_type": "textField",
+                  "form_name": "funding-required",
+                  "presentation_type": "description",
+                  "question": "Describe the cost"
+                },
+                {
+                  "field_id": "ThLigF",
+                  "field_type": "numberField",
+                  "form_name": "funding-required",
+                  "presentation_type": "amount",
+                  "question": "Amount"
+                },
+                {
+                  "answer": "2300",
+                  "field_id": "fnIdkJ",
+                  "field_type": "numberField",
+                  "form_name": "funding-required",
+                  "presentation_type": "text",
+                  "question": "Asset value"
+                },
+              ]
+        500:
+          description: "Bad request - Incorrect application_id or theme_id"
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/GeneralError'                
+       
