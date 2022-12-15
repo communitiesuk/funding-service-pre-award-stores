@@ -192,13 +192,25 @@ components:
         id:
           type: string
           example: "engagement"
+        short_id:
+          type: string
+          example: "FUNDX_R2"
         name:
           type: string
           example: "Engagement"
-        score_submitted:
-          type: boolean
-          example: true
         themes:
           type: array
           items:
             $ref: '#/components/schemas/Theme'
+        funding_amount_requested:
+          type: number
+          example: 100000
+        project_name:
+          type: string
+          example: "Refurbish the community centre."
+        fund_id:
+          type: string
+          example: "12345678abcdefgh"
+        workflow_status:
+          type: string
+          example: "COMPLETED"
