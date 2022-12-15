@@ -63,7 +63,7 @@ answer_schema = {
                     # "amount (£) for add-another component question"
                 ],
             },
-            "question": {"type": "string"},
+            "question": {"type": ["string", "array"]},
         },
         "additionalProperties": False,
         "minProperties": 4,

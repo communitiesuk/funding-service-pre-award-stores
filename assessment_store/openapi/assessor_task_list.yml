@@ -7,6 +7,8 @@ components:
           type: string
         name:
           type: string
+        first_theme_id:
+          type: string
     SubCriteriaThemeCount:
       allOf:
         - $ref: '#/components/schemas/SubCriteria'

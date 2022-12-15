@@ -164,7 +164,9 @@ components:
           presentation_type:
             type: string  
           question: 
-            type: string  
+            oneOf:
+              - type: string
+              - type: array
           field_id:
             oneOf:
               - type: string   
