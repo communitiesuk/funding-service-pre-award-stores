@@ -12,27 +12,42 @@ def test_transform_to_assessor_task_list_metadata():
         {
             "name": "Organisation information",
             "sub_criterias": [
-                {"name": "Organisation information", "id": "org_info"},
-                {"name": "Applicant information", "id": "applicant_info"},
-            ],
+                {
+                    "name": "Organisation information",
+                    "id": "org_info",
+                },
+                {
+                    "name": "Applicant information",
+                    "id": "applicant_info",
+                }
+            ]
         },
         {
             "name": "Project information",
             "sub_criterias": [
-                {"name": "Project information", "id": "project_info"},
-                {"name": "Asset information", "id": "asset_info"},
-            ],
+                {
+                    "name": "Project information",
+                    "id": "project_info",
+                },
+                {
+                    "name": "Asset information",
+                    "id": "asset_info",
+                }
+            ]
         },
         {
             "name": "Check declarations",
             "sub_criterias": [
-                {"name": "Declarations", "id": "declarations"},
+                {
+                    "name": "Declarations",
+                    "id": "declarations",
+                },
                 {
                     "name": "Subsidy control and state aid",
                     "id": "subsidy_control_and_state_aid",
-                },
-            ],
-        },
+                }
+            ]
+        }
     ]
 
     assert critera == [
@@ -62,8 +77,8 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 1,
                     "status": "Not started",
-                },
-            ],
+                }
+            ]
         },
         {
             "name": "Management case",
@@ -105,8 +120,8 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 1,
                     "status": "Not started",
-                },
-            ],
+                }
+            ]
         },
         {
             "name": "Potential to deliver community benefit",
@@ -121,7 +136,7 @@ def test_transform_to_assessor_task_list_metadata():
                     "theme_count": 2,
                     "status": "Not started",
                 }
-            ],
+            ]
         },
         {
             "name": "Added value of the community asset",
@@ -136,6 +151,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "theme_count": 1,
                     "status": "Not started",
                 }
-            ],
-        },
+            ]
+        }
     ]

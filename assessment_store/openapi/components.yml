@@ -147,7 +147,9 @@ components:
       type: object
       properties:
         field_id:
-          type: string
+          oneOf:
+            - type: string
+            - type: array
         form_name:
           type: string
         field_type:
@@ -155,7 +157,9 @@ components:
         presentation_type:
           type: string
         question:
-          type: string
+          oneOf:
+            - type: string
+            - type: array
     Sub_criteria_theme:
       type: array
       items:
@@ -164,7 +168,9 @@ components:
           presentation_type:
             type: string  
           question: 
-            type: string  
+            oneOf:
+              - type: string
+              - type: array
           field_id:
             oneOf:
               - type: string   

@@ -178,7 +178,7 @@ scored_criteria = [
                                 "form_name": "",
                                 "field_type": "numberField",
                                 "presentation_type": "grouped_fields",
-                                "question": "Total funding request",
+                                "question": ["Total funding request", "Total funding request"],
                             },
                             {
                                 "field_id": "NdFwgy",
@@ -417,7 +417,7 @@ scored_criteria = [
                                 "form_name": "organisation-information",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "grouped_fields",
-                                "question": "Describe your previous projects",
+                                "question": ["Describe your previous projects", "Describe your previous projects"],
                             },
                             {
                                 "field_id": "CBIWnt",
@@ -536,7 +536,7 @@ scored_criteria = [
                                 "form_name": "upload-business-plan",
                                 "field_type": "fileUploadField",
                                 "presentation_type": "file",
-                                "question": "business plan (document upload)",
+                                "question": "Business plan (document upload)",
                             },
                         ],
                     }
