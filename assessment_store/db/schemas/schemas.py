@@ -36,7 +36,7 @@ class AssessorTaskListMetadata(AssessmentRecordMetadata):
     rows into json for return in http responses.
     """
 
-    short_id = auto_field(data_key="project_reference")
+    short_id = auto_field(data_key="short_id")
     date_submitted = Field(
         data_key="date_submitted", attribute="jsonb_blob.date_submitted"
     )
