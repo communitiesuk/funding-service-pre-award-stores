@@ -15,12 +15,10 @@ def test_transform_to_assessor_task_list_metadata():
                 {
                     "name": "Organisation information",
                     "id": "org_info",
-
                 },
                 {
                     "name": "Applicant information",
                     "id": "applicant_info",
-
                 }
             ]
         },
@@ -30,12 +28,10 @@ def test_transform_to_assessor_task_list_metadata():
                 {
                     "name": "Project information",
                     "id": "project_info",
-
                 },
                 {
                     "name": "Asset information",
                     "id": "asset_info",
-
                 }
             ]
         },
@@ -45,12 +41,10 @@ def test_transform_to_assessor_task_list_metadata():
                 {
                     "name": "Declarations",
                     "id": "declarations",
-
                 },
                 {
                     "name": "Subsidy control and state aid",
                     "id": "subsidy_control_and_state_aid",
-
                 }
             ]
         }
