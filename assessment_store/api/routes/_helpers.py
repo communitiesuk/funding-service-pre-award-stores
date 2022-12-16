@@ -13,7 +13,6 @@ def transform_to_assessor_task_list_metadata(
                 {
                     "name": sc["name"],
                     "id": sc["id"],
-                    "first_theme_id": sc["themes"][0]["id"],
                 }
                 for sc in s["sub_criteria"]
             ],
@@ -34,7 +33,6 @@ def transform_to_assessor_task_list_metadata(
                     "score": -1,  # TODO(FS-2000): Get dynamic state.
                     "theme_count": len(sc["themes"]),
                     "status": "Not started",  # TODO(FS-2000): Get dynamic state.
-                    "first_theme_id": sc["themes"][0]["id"],
                 }
                 for sc in c["sub_criteria"]
             ],

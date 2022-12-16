@@ -15,12 +15,12 @@ def test_transform_to_assessor_task_list_metadata():
                 {
                     "name": "Organisation information",
                     "id": "org_info",
-                    "first_theme_id": "general_info"
+
                 },
                 {
                     "name": "Applicant information",
                     "id": "applicant_info",
-                    "first_theme_id": "contact_information"
+
                 }
             ]
         },
@@ -30,12 +30,12 @@ def test_transform_to_assessor_task_list_metadata():
                 {
                     "name": "Project information",
                     "id": "project_info",
-                    "first_theme_id": "previous_funding"
+
                 },
                 {
                     "name": "Asset information",
                     "id": "asset_info",
-                    "first_theme_id": "asset_ownership"
+
                 }
             ]
         },
@@ -45,12 +45,12 @@ def test_transform_to_assessor_task_list_metadata():
                 {
                     "name": "Declarations",
                     "id": "declarations",
-                    "first_theme_id": "declarations"
+
                 },
                 {
                     "name": "Subsidy control and state aid",
                     "id": "subsidy_control_and_state_aid",
-                    "first_theme_id": "asset_ownership"
+
                 }
             ]
         }
@@ -69,7 +69,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 2,
                     "status": "Not started",
-                    "first_theme_id": "community_use"
                 },
                 {
                     "name": "Engagement",
@@ -77,7 +76,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 2,
                     "status": "Not started",
-                    "first_theme_id": "engaging-the-community"
                 },
                 {
                     "name": "Environmental Sustainability",
@@ -85,7 +83,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 1,
                     "status": "Not started",
-                    "first_theme_id": "environmental-considerations"
                 }
             ]
         },
@@ -101,7 +98,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 1,
                     "status": "Not started",
-                    "first_theme_id": "funding_requested"
                 },
                 {
                     "name": "Financial and risk forecasts",
@@ -109,7 +105,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 3,
                     "status": "Not started",
-                    "first_theme_id": "feasibility"
                 },
                 {
                     "name": "Skills and resources",
@@ -117,7 +112,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 3,
                     "status": "Not started",
-                    "first_theme_id": "previous_experience"
                 },
                 {
                     "name": "Representation, inclusiveness and integration",
@@ -125,7 +119,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 2,
                     "status": "Not started",
-                    "first_theme_id": "representing_community_views"
                 },
                 {
                     "name": "Business plan",
@@ -133,7 +126,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 1,
                     "status": "Not started",
-                    "first_theme_id": "business_plan"
                 }
             ]
         },
@@ -149,7 +141,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 2,
                     "status": "Not started",
-                    "first_theme_id": "delivering_and_sustaining_benefits"
                 }
             ]
         },
@@ -165,7 +156,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "score": -1,
                     "theme_count": 1,
                     "status": "Not started",
-                    "first_theme_id": "addressing_community_challenges"
                 }
             ]
         }
