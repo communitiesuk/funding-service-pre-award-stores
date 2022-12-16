@@ -106,7 +106,7 @@ APPLICATION_METADATA_RESPONSE = {
     "date_submitted": "2022-10-27T08:32:13.383999",
     "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
     "project_name": "Mock that is used to test Assessors Task List",
-    "project_reference": "COF-R2W2-JWBTLN",
+    "short_id": "COF-R2W2-JWBTLN",
     "sections": [
         {
             "name": "Organisation information",

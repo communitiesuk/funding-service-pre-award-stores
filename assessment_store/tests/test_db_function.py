@@ -155,5 +155,5 @@ def test_find_assessor_task_list_ui_metadata():
         "round_id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
         "workflow_status": "NOT_STARTED",
         "date_submitted": "2022-10-27T08:32:13.383999",
-        "project_reference": "COF-R2W2-JWBTLN",
+        "short_id": "COF-R2W2-JWBTLN",
     }
