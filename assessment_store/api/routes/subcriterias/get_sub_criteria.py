@@ -2,8 +2,7 @@ from api.models.sub_criteria import SubCriteria
 from config import Config
 from db.queries.assessment_records.queries import get_application_jsonb_blob
 from flask import abort
-from flask import current_app
-
+from flask import current_app, abort
 
 def get_all_subcriteria():
     sub_criterias = []
@@ -15,8 +14,7 @@ def get_all_subcriteria():
             sub_criterias.append(sub_criteria)
     return sub_criterias
 
-
-def get_matching_sub_criteria(sub_criteria_id):
+def return_subcriteria_from_mapping(sub_criteria_id):
     current_app.logger.info(
         f"Finding sub criteria data in config for: {sub_criteria_id}"
     )
@@ -37,16 +35,6 @@ def get_matching_sub_criteria(sub_criteria_id):
         msg = f"sub_criteria: '{sub_criteria_id}' not found."
         current_app.logger.warn(msg)
         abort(404, description=msg)
-
-
-def return_subcriteria_from_config(sub_criteria_id):
-    sub_criteria = get_matching_sub_criteria(sub_criteria_id)
-    # TODO get actual score submitted status when score table available
-    score_submitted = False
-
-    return SubCriteria.from_filtered_dict(
-        {"score_submitted": score_submitted, **sub_criteria}
-    )
 
 
 class SubCriteriaThemes:
@@ -92,7 +80,7 @@ class SubCriteriaThemes:
                 if answers["answer"] == True:
                     answers.update(answer="Yes")
                 else:
-                    continue    
+                    continue
 
     @classmethod
     def sort_add_another_component_contents(
