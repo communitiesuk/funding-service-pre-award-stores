@@ -265,11 +265,11 @@ paths:
             schema:
               $ref: 'components.yml#/components/schemas/PostComment'
             example:
-              comment: "Please provide more information"
-              application_id: "r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd"
-              sub_criteria_id: "app-info"
-              user_id: "abu"
-              comment_type: "COMMENT"
+              application_id: 'r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd'
+              comment: 'Please provide more information'
+              user_id: 'abu'
+              sub_criteria_id: 'app-info'
+              comment_type: 'COMMENT'
       responses:
         201:
           description: SUCCESS - Comment for Subcriteria in Application Submitted
