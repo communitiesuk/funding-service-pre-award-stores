@@ -59,13 +59,6 @@ APPLICATION_METADATA_RESPONSE = {
                     "score": -1,
                     "status": "Not started",
                     "theme_count": 2
-                },
-                {
-                    "id": "business_plan",
-                    "name": "Business plan",
-                    "score": -1,
-                    "status": "Not started",
-                    "theme_count": 1
                 }
             ],
             "total_criteria_score": -1,
@@ -109,7 +102,7 @@ APPLICATION_METADATA_RESPONSE = {
     "short_id": "COF-R2W2-JWBTLN",
     "sections": [
         {
-            "name": "Organisation information",
+            "name": "Unscored",
             "sub_criterias": [
                 {
                     "id": "org_info",
@@ -118,12 +111,7 @@ APPLICATION_METADATA_RESPONSE = {
                 {
                     "id": "applicant_info",
                     "name": "Applicant information"
-                }
-            ]
-        },
-        {
-            "name": "Project information",
-            "sub_criterias": [
+                },
                 {
                     "id": "project_info",
                     "name": "Project information"
@@ -131,11 +119,15 @@ APPLICATION_METADATA_RESPONSE = {
                 {
                     "id": "asset_info",
                     "name": "Asset information"
+                },
+                {
+                    "id": "business_plan",
+                    "name": "Business plan"
                 }
             ]
         },
         {
-            "name": "Check declarations",
+            "name": "Declarations",
             "sub_criterias": [
                 {
                     "id": "declarations",
@@ -148,7 +140,8 @@ APPLICATION_METADATA_RESPONSE = {
             ]
         }
     ],
-    "workflow_status": "NOT_STARTED"
+    "workflow_status": "NOT_STARTED",
+    "funding_amount_requested": 4600.00
 }
 
 subcriteria_themes_and_expected_response = {

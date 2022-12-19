@@ -8,6 +8,7 @@ from tests._helpers import get_rows_by_filters
 from api.routes.subcriterias.get_sub_criteria import SubCriteriaThemes
 from ._expected_responses import subcriteria_themes_and_expected_response
 
+
 def test_gets_all_apps_for_fund_round(request, client):
     """test_gets_all_apps_for_fund_round Tests that the number of rows returned
     by filtering by round on `assessment_records` matches the number of
@@ -33,6 +34,7 @@ def test_gets_all_apps_for_fund_round(request, client):
     ).json
 
     assert len(response_json) == apps_per_round
+
 
 def test_search(client):
 
@@ -76,12 +78,14 @@ def test_search(client):
 
         assert len(response_json) == len(rows)
 
+
 def test_get_application_metadata_for_application_id(client):
     response_json = client.get(
         f"/application_overviews/a3ec41db-3eac-4220-90db-c92dea049c00"
     ).json
 
     assert response_json == APPLICATION_METADATA_RESPONSE
+
 
 def test_get_sub_criteria(client):
     """Test to check that sub criteria metadata and ordered themes are returned for
@@ -101,6 +105,7 @@ def test_get_sub_criteria(client):
     assert "short_id" in response_json
     assert "id" in response_json
 
+
 def test_get_sub_criteria_metadata_for_false_sub_criteria_id(client):
     """Test to check that sub criteria metadata is not retuned for false sub criteria"""
 
@@ -110,10 +115,10 @@ def test_get_sub_criteria_metadata_for_false_sub_criteria_id(client):
         f"/sub_criteria_overview/{picked_row.application_id}/{sub_criteria_id}"
     ).json
 
-
     assert response["status"] == 404
     assert response["title"] == "Not Found"
     assert response["detail"] == "sub_criteria: 'does-not-exist' not found."
+
 
 def test_get_sub_criteria_theme_answers_field_id(request, client):
     """ Test to check field_id with given application_id and
@@ -127,6 +132,7 @@ def test_get_sub_criteria_theme_answers_field_id(request, client):
     )
 
     assert response.json[0]['field_id'] == "ieRCkI"
+
 
 def test_add_another_presentation_type(request, client):
     """ Test to check presentation_types for add_another component
@@ -145,6 +151,7 @@ def test_add_another_presentation_type(request, client):
     assert response.json[2]['presentation_type'] == "description"
     assert response.json[3]['presentation_type'] == "amount"
 
+
 def test_incorrect_theme_id(request, client):
     """ Test to check incorrect theme_id that is expected
     to return custom error along with the openapi validation
@@ -159,6 +166,7 @@ def test_incorrect_theme_id(request, client):
 
     assert f"Incorrect theme id" in response.json['detail']
 
+
 def test_random_theme_content():
     """ Test the function with random theme id that maps
     the application & subcriteria theme and
@@ -171,6 +179,7 @@ def test_random_theme_content():
             app_id,theme_id )
 
     assert result [0]['answer'] == expected_response
+
 
 def test_convert_boolean_values():
     """ Test the function that convert boolean values to

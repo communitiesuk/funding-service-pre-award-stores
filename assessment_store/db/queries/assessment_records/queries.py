@@ -161,6 +161,7 @@ def find_assessor_task_list_state(application_id: str) -> dict:
                 "jsonb_blob",
                 "fund_id",
                 "round_id",
+                "funding_amount_requested",
             )
         )
     )
@@ -175,6 +176,7 @@ def find_assessor_task_list_state(application_id: str) -> dict:
             "workflow_status",
             "fund_id",
             "round_id",
+            "funding_amount_requested",
         )
     ).dump(assessment_record)
 

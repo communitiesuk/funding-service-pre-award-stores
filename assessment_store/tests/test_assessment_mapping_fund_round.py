@@ -10,7 +10,7 @@ def test_transform_to_assessor_task_list_metadata():
 
     assert sections == [
         {
-            "name": "Organisation information",
+            "name": "Unscored",
             "sub_criterias": [
                 {
                     "name": "Organisation information",
@@ -19,12 +19,7 @@ def test_transform_to_assessor_task_list_metadata():
                 {
                     "name": "Applicant information",
                     "id": "applicant_info",
-                }
-            ]
-        },
-        {
-            "name": "Project information",
-            "sub_criterias": [
+                },
                 {
                     "name": "Project information",
                     "id": "project_info",
@@ -32,11 +27,15 @@ def test_transform_to_assessor_task_list_metadata():
                 {
                     "name": "Asset information",
                     "id": "asset_info",
+                },
+                {
+                    "name": "Business plan",
+                    "id": "business_plan",
                 }
             ]
         },
         {
-            "name": "Check declarations",
+            "name": "Declarations",
             "sub_criterias": [
                 {
                     "name": "Declarations",
@@ -112,13 +111,6 @@ def test_transform_to_assessor_task_list_metadata():
                     "id": "representation_inclusiveness_and_integration",
                     "score": -1,
                     "theme_count": 2,
-                    "status": "Not started",
-                },
-                {
-                    "name": "Business plan",
-                    "id": "business_plan",
-                    "score": -1,
-                    "theme_count": 1,
                     "status": "Not started",
                 }
             ]
