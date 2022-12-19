@@ -53,7 +53,7 @@ def create_comment_for_application_sub_crit(
     :param user_id: The stringified user_id.
     :return: dictionary.
     """
-    score = Comment(
+    comment = Comment(
         application_id=application_id, 
         sub_criteria_id=sub_criteria_id,
         comment=comment,
@@ -64,6 +64,6 @@ def create_comment_for_application_sub_crit(
     db.session.commit()
 
     metadata_serialiser = CommentMetadata()
-    comment_metadata = metadata_serialiser.dump(score)
+    comment_metadata = metadata_serialiser.dump(comment)
 
     return comment_metadata

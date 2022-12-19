@@ -2,6 +2,7 @@ from db.models.assessment_record import AssessmentRecord
 from db.models.score import Score
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
+from db.models.comment.enums import CommentType
 from db.models.comment import Comment
 from marshmallow.fields import Enum
 from marshmallow.fields import Field
@@ -41,6 +42,7 @@ class CommentMetadata(SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
 
+    comment_type = Enum(CommentType)
     application_id = auto_field(dump_only=True)
 
 class AssessorTaskListMetadata(AssessmentRecordMetadata):
