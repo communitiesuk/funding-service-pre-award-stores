@@ -3,8 +3,8 @@
 
 unscored_sections = [
     {
-        "id": "organisation_info",
-        "name": "Organisation information",
+        "id": "unscored",
+        "name": "Unscored",
         "sub_criteria": [
             {
                 "id": "org_info",
@@ -39,15 +39,17 @@ unscored_sections = [
                                 "field_id": ["PHFkCs", "QgNhXX", "XCcqae"],
                                 "form_name": "organisation-information",
                                 "field_type": "textField",
-                                "presentation_type": "text",
-                                "question": "Alternative names of your organisation",
+                                "presentation_type": "grouped_fields",
+                                "question": ["Alternative names of your organisation",
+                                             "Alternative names of your organisation"],
                             },
                             {
                                 "field_id": ["lajFtB", "plmwJv"],
                                 "form_name": "organisation-information",
                                 "field_type": "radiosField",
-                                "presentation_type": "text",
-                                "question": "Type of organisation",
+                                "presentation_type": "grouped_fields",
+                                "question": ["Type of organisation",
+                                             "Type of organisation"],
                             },
                             {
                                 "field_id": "GlPmCX",
@@ -60,8 +62,9 @@ unscored_sections = [
                                 "field_id": ["GvPSna", "zsbmRx"],
                                 "form_name": "organisation-information",
                                 "field_type": "radiosField",
-                                "presentation_type": "text",
-                                "question": "Which regulatory body is your company registered with?",
+                                "presentation_type": "grouped_fields",
+                                "question": ["Which regulatory body is your company registered with?",
+                                             "Which regulatory body is your company registered with?"],
                             },
                             {
                                 "field_id": "aHIGbK",
@@ -116,8 +119,9 @@ unscored_sections = [
                                 "field_id": ["FhbaEy", "FcdKlB", "BzxgDA"],
                                 "form_name": "organisation-information",
                                 "field_type": "websiteField",
-                                "presentation_type": "text",
-                                "question": "Website and social media",
+                                "presentation_type": "grouped_fields",
+                                "question": ["Website and social media",
+                                             "Website and social media"],
                             },
                         ],
                     },
@@ -136,8 +140,9 @@ unscored_sections = [
                                 "field_id": ["btTtIb", "SkocDi", "CNeeiC"],
                                 "form_name": "organisation-information",
                                 "field_type": "multilineTextField",
-                                "presentation_type": "list",
-                                "question": "Tell us about your organisation's main activities",
+                                "presentation_type": "grouped_fields",
+                                "question": ["Tell us about your organisation's main activities",
+                                             "Tell us about your organisation's main activities"],
                             },
                         ],
                     },
@@ -210,13 +215,7 @@ unscored_sections = [
                     },
                 ],
             },
-        ],
-    },
-    {
-        "id": "project_info",
-        "name": "Project information",
-        "sub_criteria": [
-            {
+{
                 "id": "project_info",
                 "name": "Project information",
                 "themes": [
@@ -398,8 +397,8 @@ unscored_sections = [
                                 "field_id": ["yaQoxU", "GjzaqR"],
                                 "form_name": "asset-information",
                                 "field_type": "textField",
-                                "presentation_type": "text",
-                                "question": "Asset type",
+                                "presentation_type": "grouped_fields",
+                                "question": ["Asset type", "Asset type"],
                             },
                             {
                                 "field_id": "hvzzWB",
@@ -474,11 +473,30 @@ unscored_sections = [
                     },
                 ],
             },
+            {
+                "id": "business_plan",
+                "name": "Business plan",
+                "themes": [
+                    {
+                        "id": "business_plan",
+                        "name": "Business plan",
+                        "answers": [
+                            {
+                                "field_id": "rFXeZo",
+                                "form_name": "upload-business-plan",
+                                "field_type": "fileUploadField",
+                                "presentation_type": "file",
+                                "question": "Business plan (document upload)",
+                            },
+                        ],
+                    }
+                ],
+            },
         ],
     },
     {
-        "id": "check_declarations",
-        "name": "Check declarations",
+        "id": "declarations",
+        "name": "Declarations",
         "sub_criteria": [
             {
                 "id": "declarations",
@@ -562,4 +580,5 @@ unscored_sections = [
             },
         ],
     },
+
 ]
