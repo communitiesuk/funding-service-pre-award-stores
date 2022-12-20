@@ -82,7 +82,7 @@ def get_dynamic_rows(
                     app_id=app_id,
                     project_name=project_name,
                     short_ref=short_ref,
-                    round_id=round_id,
-                    fund_id=fund_id,
+                    round_id="c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+                    fund_id="47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
                     asset_type=picked_place[1],
                 )

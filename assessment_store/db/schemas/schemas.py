@@ -50,7 +50,17 @@ class AssessorTaskListMetadata(AssessmentRecordMetadata):
     rows into json for return in http responses.
     """
 
-    short_id = auto_field(data_key="project_reference")
+    short_id = auto_field(data_key="short_id")
     date_submitted = Field(
         data_key="date_submitted", attribute="jsonb_blob.date_submitted"
     )
+
+class AssessmentSubCriteriaMetadata(AssessmentRecordMetadata):
+    """AssessmentSubCriteriaMetadata The marshmallow class used to turn SQLAlchemy
+    rows into json for return in http responses.
+    """
+
+    funding_amount_requested=auto_field(data_key="funding_amount_requested")
+    project_name=auto_field(data_key="project_name")
+    fund_id=auto_field(data_key="fund_id")
+    workflow_status=auto_field(data_key="workflow_status")
