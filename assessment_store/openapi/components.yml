@@ -106,14 +106,6 @@ components:
       properties:
         application_id:
           type: string
-        # comment:
-        #   type: string
-        # user_id:
-        #   type: string
-        # sub_criteria_id:
-        #   type: string
-        # comment_type:
-        #   type: string
     ApplicationOverview:
       type: object
       properties:

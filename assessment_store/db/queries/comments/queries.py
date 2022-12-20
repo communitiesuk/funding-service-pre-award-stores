@@ -60,9 +60,9 @@ def create_comment_for_application_sub_crit(
         comment_type=comment_type,
         user_id=user_id
     )
+    
     db.session.add(comment)
     db.session.commit()
-
     metadata_serialiser = CommentMetadata()
     comment_metadata = metadata_serialiser.dump(comment)
 
