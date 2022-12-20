@@ -3,6 +3,9 @@ from .assessment_routes import get_assessor_task_list_state
 from .assessment_routes import sub_criteria
 from .score_routes import get_score_for_application_sub_criteria
 from .score_routes import post_score_for_application_sub_criteria
+from .comment_routes import comments_for_application_sub_criteria
+from .comment_routes import post_comments_for_application_sub_criteria
+from .assessment_routes import get_sub_criteria_theme_answers
 
 from .assessment_routes import get_sub_criteria_theme_answers
 
@@ -13,4 +16,6 @@ __all__ = [
     "get_assessor_task_list_state",
     "sub_criteria",
     "get_sub_criteria_theme_answers",
+    "comments_for_application_sub_criteria",
+    "post_comments_for_application_sub_criteria",
     ]

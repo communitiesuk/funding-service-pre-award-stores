@@ -284,4 +284,84 @@ paths:
             application/json:
               schema:
                 $ref: 'components.yml#/components/schemas/GeneralError'                
-       
+  '/comment':
+    get:
+      tags:
+        - comments
+      summary: get comment for subcriteria in application
+      description: get comments for a subcriteria in an application
+      operationId: api.routes.comments_for_application_sub_criteria
+      responses:
+        200:
+          description: SUCCESS - A list of comments
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/Comment'
+      parameters:
+      - name: application_id
+        in: query
+        schema:
+          type: string
+        required: true
+      - name: sub_criteria_id
+        in: query
+        schema:
+          type: string
+        required: true
+      - name: comment_id
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: comment
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: date_created
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: user_id
+        in: query
+        schema:
+          type: string
+        required: false
+      - name: comment_type
+        in: query
+        schema:
+          type: string
+        required: false
+    post:
+      tags:
+        - comments
+      summary: post a comment for subcriteria in application
+      description: post a comment for a subcriteria in an application
+      operationId: api.routes.post_comments_for_application_sub_criteria
+      requestBody:
+        description: Comment creation parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yml#/components/schemas/PostComment'
+            example:
+              application_id: 'r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd'
+              comment: 'Please provide more information'
+              user_id: 'abu'
+              sub_criteria_id: 'app-info'
+              comment_type: 'COMMENT'
+              theme_index: ""
+      responses:
+        201:
+          description: SUCCESS - Comment for Subcriteria in Application Submitted
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/Comment'
