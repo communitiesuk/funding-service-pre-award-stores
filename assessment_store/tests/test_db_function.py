@@ -5,6 +5,7 @@ import sqlalchemy
 from db.models.assessment_record.assessment_records import AssessmentRecord
 from db.queries import find_answer_by_key_runner
 from db.queries.assessment_records.queries import find_assessor_task_list_state
+from db.queries.comments.queries import create_comment_for_application_sub_crit, get_comments_for_application_sub_crit
 from tests._helpers import get_random_row
 import time
 from db import db
@@ -158,3 +159,74 @@ def test_find_assessor_task_list_ui_metadata():
         "date_submitted": "2022-10-27T08:32:13.383999",
         "funding_amount_requested": 4600.00
     }
+
+
+def test_post_comment():
+    """test_post_comment tests we can create
+    comment records in the comments table."""
+
+    picked_row = get_random_row(AssessmentRecord)
+    application_id = picked_row.application_id
+    sub_criteria_id = "app-info"
+    
+    assessment_payload = {
+        "application_id": application_id, 
+        "sub_criteria_id": sub_criteria_id,
+        "comment": "Please provide more information",
+        "comment_type": "COMMENT",
+        "user_id": "test",
+        "theme_id": "something"
+    }
+    comment_metadata = create_comment_for_application_sub_crit(**assessment_payload)
+
+    assert len(comment_metadata) == 8
+    assert comment_metadata["user_id"] == "test"
+    assert comment_metadata["theme_id"] == "something"
+
+
+def test_get_comments():
+    """test_get_comments tests we can get all comment 
+    records in the comments table filtered by application_id,
+    subcriteria_id and theme_id"""
+    
+    picked_row = get_random_row(AssessmentRecord)
+    application_id = picked_row.application_id
+    sub_criteria_id = "app-info"
+    theme_id = "theme"
+    
+    assessment_payload_1 = {
+        "application_id": application_id, 
+        "sub_criteria_id": sub_criteria_id,
+        "comment": "Please provide more information",
+        "comment_type": "COMMENT",
+        "user_id": "test",
+        "theme_id": theme_id
+    }
+    create_comment_for_application_sub_crit(**assessment_payload_1)
+
+    assessment_payload_2 = {
+        "application_id": application_id, 
+        "sub_criteria_id": sub_criteria_id,
+        "comment": "Please provide more information",
+        "comment_type": "COMMENT",
+        "user_id": "test",
+        "theme_id": theme_id
+    }
+    create_comment_for_application_sub_crit(**assessment_payload_2)
+
+    assessment_payload_3 = {
+        "application_id": application_id, 
+        "sub_criteria_id": sub_criteria_id,
+        "comment": "Please provide more information",
+        "comment_type": "COMMENT",
+        "user_id": "test",
+        "theme_id": "different"
+    }
+    create_comment_for_application_sub_crit(**assessment_payload_3)
+
+    comment_metadata_for_theme = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id)
+    comment_metadata = get_comments_for_application_sub_crit(application_id, sub_criteria_id)
+
+    assert len(comment_metadata_for_theme) == 2
+    assert comment_metadata_for_theme[0]["theme_id"] == comment_metadata_for_theme[1]["theme_id"]
+    assert len(comment_metadata) == 3

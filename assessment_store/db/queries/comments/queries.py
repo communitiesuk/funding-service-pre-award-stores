@@ -17,7 +17,7 @@ from sqlalchemy.orm import load_only
 
 # May need rewrite after testing
 def get_comments_for_application_sub_crit(
-        application_id: str, sub_criteria_id: str
+        application_id: str, sub_criteria_id: str, theme_id: str = None
 ) -> Dict:
     """get_comments_for_application_sub_crit executes a query on comments
     which returns a list of comments for the given application_id and 
@@ -26,23 +26,35 @@ def get_comments_for_application_sub_crit(
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :return: dictionary.
     """
-    stmt = select(Comment).where(
-        Comment.application_id == application_id,
-        Comment.sub_criteria_id == sub_criteria_id
-        ).order_by(Comment.date_created.desc()).limit(1)
+    if theme_id:
+        stmt = select(Comment).where(
+            Comment.application_id == application_id,
+            Comment.sub_criteria_id == sub_criteria_id,
+            Comment.theme_id == theme_id
+            ).order_by(Comment.date_created.desc())
+    else:
+        stmt = select(Comment).where(
+            Comment.application_id == application_id,
+            Comment.sub_criteria_id == sub_criteria_id
+            ).order_by(Comment.date_created.desc())
 
-    comments_row = db.session.scalar(stmt)
+    comment_rows = db.session.scalars(stmt)
     metadata_serialiser = CommentMetadata()
-    comments_metadata = metadata_serialiser.dump(comments_row)
 
-    return comments_metadata
+    comment_metadatas = [
+        metadata_serialiser.dump(comment_row) 
+        for comment_row in comment_rows
+    ]
+
+    return comment_metadatas
 
 def create_comment_for_application_sub_crit(
     application_id: str, 
     sub_criteria_id: str,
     comment: str,
     comment_type: str,
-    user_id: str
+    user_id: str,
+    theme_id:str
 ) -> Dict:
     """create_comment_for_application_sub_crit executes a query on comments
     which creates a comment for the given application_id and 
@@ -60,7 +72,8 @@ def create_comment_for_application_sub_crit(
         sub_criteria_id=sub_criteria_id,
         comment=comment,
         comment_type=comment_type,
-        user_id=user_id
+        user_id=user_id,
+        theme_id=theme_id
     )
     
     db.session.add(comment)

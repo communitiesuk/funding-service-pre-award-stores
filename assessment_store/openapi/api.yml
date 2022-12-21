@@ -288,7 +288,7 @@ paths:
     get:
       tags:
         - comments
-      summary: get comment for subcriteria in application
+      summary: get comments for subcriteria in application
       description: get comments for a subcriteria in an application
       operationId: api.routes.comments_for_application_sub_criteria
       responses:
@@ -297,7 +297,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                type: array
                 items:
                   $ref: 'components.yml#/components/schemas/Comment'
       parameters:
@@ -311,6 +311,11 @@ paths:
         schema:
           type: string
         required: true
+      - name: theme_id
+        in: query
+        schema:
+          type: string
+        required: false
       - name: comment_id
         in: query
         schema:
@@ -355,7 +360,7 @@ paths:
               user_id: 'abu'
               sub_criteria_id: 'app-info'
               comment_type: 'COMMENT'
-              theme_index: ""
+              theme_id: "something"
       responses:
         201:
           description: SUCCESS - Comment for Subcriteria in Application Submitted
