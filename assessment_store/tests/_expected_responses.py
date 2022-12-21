@@ -6,27 +6,27 @@ APPLICATION_METADATA_RESPONSE = {
                 {
                     "id": "benefits",
                     "name": "Benefits",
-                    "score": -1,
-                    "status": "Not started",
+                    "score": None,
+                    "status": "NOT_STARTED",
                     "theme_count": 2
                 },
                 {
                     "id": "engagement",
                     "name": "Engagement",
-                    "score": -1,
-                    "status": "Not started",
+                    "score": None,
+                    "status": "NOT_STARTED",
                     "theme_count": 2
                 },
                 {
                     "id": "environmental_sustainability",
                     "name": "Environmental Sustainability",
-                    "score": -1,
-                    "status": "Not started",
+                    "score": None,
+                    "status": "NOT_STARTED",
                     "theme_count": 1
                 }
             ],
-            "total_criteria_score": -1,
-            "total_criteria_score_possible": -1,
+            "total_criteria_score": 0,
+            "total_criteria_score_possible": 15,
             "weighting": 0.3
         },
         {
@@ -35,34 +35,34 @@ APPLICATION_METADATA_RESPONSE = {
                 {
                     "id": "funding_breakdown",
                     "name": "Funding breakdown",
-                    "score": -1,
-                    "status": "Not started",
+                    "score": None,
+                    "status": "NOT_STARTED",
                     "theme_count": 1
                 },
                 {
                     "id": "financial_and_risk_forecasts",
                     "name": "Financial and risk forecasts",
-                    "score": -1,
-                    "status": "Not started",
+                    "score": None,
+                    "status": "NOT_STARTED",
                     "theme_count": 3
                 },
                 {
                     "id": "skills_and_resources",
                     "name": "Skills and resources",
-                    "score": -1,
-                    "status": "Not started",
+                    "score": None,
+                    "status": "NOT_STARTED",
                     "theme_count": 3
                 },
                 {
                     "id": "representation_inclusiveness_and_integration",
                     "name": "Representation, inclusiveness and integration",
-                    "score": -1,
-                    "status": "Not started",
+                    "score": None,
+                    "status": "NOT_STARTED",
                     "theme_count": 2
                 }
             ],
-            "total_criteria_score": -1,
-            "total_criteria_score_possible": -1,
+            "total_criteria_score": 0,
+            "total_criteria_score_possible": 20,
             "weighting": 0.3
         },
         {
@@ -71,13 +71,13 @@ APPLICATION_METADATA_RESPONSE = {
                 {
                     "id": "community-benefits",
                     "name": "How the community benefits\t",
-                    "score": -1,
-                    "status": "Not started",
+                    "score": None,
+                    "status": "NOT_STARTED",
                     "theme_count": 2
                 }
             ],
-            "total_criteria_score": -1,
-            "total_criteria_score_possible": -1,
+            "total_criteria_score": 0,
+            "total_criteria_score_possible": 5,
             "weighting": 0.3
         },
         {
@@ -86,20 +86,20 @@ APPLICATION_METADATA_RESPONSE = {
                 {
                     "id": "value-to-the-community",
                     "name": "Value to the community",
-                    "score": -1,
-                    "status": "Not started",
+                    "score": None,
+                    "status": "NOT_STARTED",
                     "theme_count": 1
                 }
             ],
-            "total_criteria_score": -1,
-            "total_criteria_score_possible": -1,
+            "total_criteria_score": 0,
+            "total_criteria_score_possible": 5,
             "weighting": 0.1
         }
     ],
     "date_submitted": "2022-10-27T08:32:13.383999",
     "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+    "funding_amount_requested": 4600.0,
     "project_name": "Mock that is used to test Assessors Task List",
-    "short_id": "COF-R2W2-JWBTLN",
     "sections": [
         {
             "name": "Unscored",
@@ -140,8 +140,8 @@ APPLICATION_METADATA_RESPONSE = {
             ]
         }
     ],
-    "workflow_status": "NOT_STARTED",
-    "funding_amount_requested": 4600.00
+    "short_id": "COF-R2W2-JWBTLN",
+    "workflow_status": "NOT_STARTED"
 }
 
 subcriteria_themes_and_expected_response = {
