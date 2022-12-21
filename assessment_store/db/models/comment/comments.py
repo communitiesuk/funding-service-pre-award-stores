@@ -5,10 +5,8 @@ within the Postgres db.
 import uuid
 from db import db
 from sqlalchemy import ForeignKey
-from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.dialects.postgresql import ENUM
-from sqlalchemy.dialects.postgresql import TEXT
 from sqlalchemy import func
 from db.models.comment.enums import CommentType
 

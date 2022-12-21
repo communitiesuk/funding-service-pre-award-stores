@@ -10,7 +10,6 @@ from flask_sqlalchemy import DefaultMeta
 from db import db
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
-from sqlalchemy import cast
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, cast
 from sqlalchemy import Computed
@@ -68,6 +67,8 @@ class AssessmentRecord(BaseModel):
     )
 
     scores = relationship("Score")
+
+    comments = relationship("Comment")
 
 
 Index(

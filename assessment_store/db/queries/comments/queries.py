@@ -3,6 +3,7 @@ Joins allowed.
 """
 
 import json
+from collections import defaultdict
 from typing import Dict
 from typing import List
 from db import db
@@ -13,9 +14,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import defer
 from sqlalchemy.orm import load_only
 
+
 # May need rewrite after testing
 def get_comments_for_application_sub_crit(
-    application_id: str, sub_criteria_id: str
+        application_id: str, sub_criteria_id: str
 ) -> Dict:
     """get_comments_for_application_sub_crit executes a query on comments
     which returns a list of comments for the given application_id and 
@@ -67,3 +69,20 @@ def create_comment_for_application_sub_crit(
     comment_metadata = metadata_serialiser.dump(comment)
 
     return comment_metadata
+
+
+def get_sub_criteria_to_has_comment_map(application_id: str) -> dict:
+    stmt = (
+        select([Comment.sub_criteria_id])
+        .select_from(Comment)
+        .where(Comment.application_id == application_id)
+        .distinct()
+    )
+
+    result = db.session.execute(stmt).fetchall()
+
+    sub_criteria_to_has_comment_map = defaultdict(lambda: False)
+    for sub_criteria_id, in result:
+        sub_criteria_to_has_comment_map[sub_criteria_id] = True
+
+    return sub_criteria_to_has_comment_map

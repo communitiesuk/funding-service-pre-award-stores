@@ -2,23 +2,18 @@
 
 Joins allowed.
 """
-import json
 from typing import Dict
-from typing import List
 
 from db import db
+from db.models import AssessmentRecord
 from db.models.score import Score
-from db.queries.assessment_records._helpers import derive_values_from_json
 from db.schemas import ScoreMetadata
-from sqlalchemy import func
 from sqlalchemy import select
-from sqlalchemy.orm import defer
-from flask import current_app
 
 
 def get_scores_for_app_sub_crit(
     application_id: str, sub_criteria_id: str, score_history: bool = False
-) -> Dict:
+) -> list[dict]:
     """get_scores_for_app_sub_crit executes a query on scores
     which returns the most recent score or all scores for the 
     given application_id and sub_criteria_id.
@@ -78,3 +73,18 @@ def create_score_for_app_sub_crit(
     score_metadata = metadata_serialiser.dump(score)
     
     return score_metadata
+
+
+def get_sub_criteria_to_latest_score_map(application_id: str) -> dict:
+    stmt = (
+        select([Score.sub_criteria_id, Score.score])
+        .select_from(Score)
+        .join(AssessmentRecord, Score.application_id == AssessmentRecord.application_id)
+        .where(AssessmentRecord.application_id == application_id)
+        .order_by(Score.date_created.desc())
+        .limit(1)
+    )
+
+    result = db.session.execute(stmt).fetchall()
+
+    return {row["sub_criteria_id"]: row["score"] for row in result}

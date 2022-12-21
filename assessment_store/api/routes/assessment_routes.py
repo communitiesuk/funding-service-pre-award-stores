@@ -1,5 +1,4 @@
 # flake8: noqa
-from pprint import pprint
 from typing import Dict
 from typing import List
 
@@ -8,13 +7,16 @@ from api.routes._helpers import transform_to_assessor_task_list_metadata
 from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_mapping,
 )
-from db.queries.assessment_records.queries import find_assessor_task_list_state, get_assessment_sub_critera_state
+from db.models.assessment_record.enums import Status
+from db.queries.assessment_records.queries import get_assessment_sub_critera_state
 from api.routes.subcriterias.get_sub_criteria import SubCriteriaThemes
 from db.queries import get_metadata_for_fund_round_id
 
 from db.queries.assessment_records.queries import find_assessor_task_list_state
-from db.queries.assessment_records.queries import get_application_jsonb_blob
 from flask import current_app
+
+from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
+from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
 
 
 def all_assessments_for_fund_round_id(
@@ -74,14 +76,21 @@ def get_assessor_task_list_state(application_id: str) -> dict:
     """
 
     metadata = find_assessor_task_list_state(application_id)
+    score_map = get_sub_criteria_to_latest_score_map(application_id)
+    comment_map = get_sub_criteria_to_has_comment_map(application_id)
     sections, criterias = transform_to_assessor_task_list_metadata(
-        metadata["fund_id"], metadata["round_id"]
+        metadata["fund_id"], metadata["round_id"], score_map, comment_map
     )
 
     # we don't need to return round_id as it's not relevant to the frontend
     # (same with fund_id, but we're using that at the moment for fund_name)
     metadata = {k: v for k, v in metadata.items() if k not in ["round_id"]}
 
+    # workflow status exists in the database, should we be updating that when
+    # creating score/comment? or do we derive it from database queries?...
+    metadata["workflow_status"] = Status.IN_PROGRESS.name if any(
+        (score_map | comment_map).values()
+    ) else metadata["workflow_status"]
     metadata["sections"] = sections
     metadata["criterias"] = criterias
 
