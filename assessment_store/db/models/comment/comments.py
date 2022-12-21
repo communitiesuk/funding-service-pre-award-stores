@@ -35,13 +35,13 @@ class Comment(db.Model):
     )
 
     sub_criteria_id = db.Column(
-        "sub_criteria_id", db.String(),  nullable=True
+        "sub_criteria_id", db.String(), nullable=True
     )
 
     comment_type = db.Column(
-        "comment_type", ENUM(CommentType),  nullable=True
+        "comment_type", ENUM(CommentType), nullable=True
     )
 
-    theme_index = db.Column(
-        "theme_index", db.Integer(),  nullable=True
+    theme_id = db.Column(
+        "theme_id", db.String(), nullable=True
     )

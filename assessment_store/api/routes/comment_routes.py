@@ -5,7 +5,7 @@ from db.schemas import CommentMetadata
 from flask import request
 
 def comments_for_application_sub_criteria(
-    application_id: str, sub_criteria_id: str
+    application_id: str, sub_criteria_id: str, theme_id: str = None
 ) -> Dict:
     """comments_for_application_sub_criteria Function 
     used by the get endpoint `/applications/{application_id}/
@@ -16,11 +16,11 @@ def comments_for_application_sub_criteria(
     :return: A List of dictionaries.
     """ 
 
-    comment_metadata = get_comments_for_application_sub_crit(
-        application_id, sub_criteria_id
+    comment_metadatas = get_comments_for_application_sub_crit(
+        application_id, sub_criteria_id, theme_id
     )
 
-    return comment_metadata
+    return comment_metadatas
 
 def post_comments_for_application_sub_criteria() -> Dict:
     """post_comments_for_application_sub_criteria Function 
@@ -37,10 +37,11 @@ def post_comments_for_application_sub_criteria() -> Dict:
     comment = args["comment"]
     comment_type = args["comment_type"]
     user_id = args["user_id"]
+    theme_id = args["theme_id"]
 
     created_score = create_comment_for_application_sub_crit(
         application_id=application_id, sub_criteria_id=sub_criteria_id,
-        comment=comment, comment_type=comment_type, user_id=user_id
+        comment=comment, comment_type=comment_type, user_id=user_id, theme_id=theme_id
     )
 
     return created_score
