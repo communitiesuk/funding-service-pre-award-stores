@@ -220,12 +220,12 @@ def test_get_comments():
         "comment": "Please provide more information",
         "comment_type": "COMMENT",
         "user_id": "test",
-        "theme_id": "different"
+        "theme_id": "different theme"
     }
     create_comment_for_application_sub_crit(**assessment_payload_3)
 
     comment_metadata_for_theme = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id)
-    comment_metadata = get_comments_for_application_sub_crit(application_id, sub_criteria_id)
+    comment_metadata = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id="score")
 
     assert len(comment_metadata_for_theme) == 2
     assert comment_metadata_for_theme[0]["theme_id"] == comment_metadata_for_theme[1]["theme_id"]

@@ -26,16 +26,16 @@ def get_comments_for_application_sub_crit(
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :return: dictionary.
     """
-    if theme_id:
+    if theme_id == "score":
         stmt = select(Comment).where(
             Comment.application_id == application_id,
-            Comment.sub_criteria_id == sub_criteria_id,
-            Comment.theme_id == theme_id
+            Comment.sub_criteria_id == sub_criteria_id
             ).order_by(Comment.date_created.desc())
     else:
         stmt = select(Comment).where(
             Comment.application_id == application_id,
-            Comment.sub_criteria_id == sub_criteria_id
+            Comment.sub_criteria_id == sub_criteria_id,
+            Comment.theme_id == theme_id
             ).order_by(Comment.date_created.desc())
 
     comment_rows = db.session.scalars(stmt)
