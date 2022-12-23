@@ -4,14 +4,12 @@ within the Postgres db.
 Tangential structures such as triggers and ENUMS are kept in other
 files.
 """
-from typing import TYPE_CHECKING
-
-from flask_sqlalchemy import DefaultMeta
 from db import db
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, cast
+from flask_sqlalchemy import DefaultMeta
+from sqlalchemy import cast
+from sqlalchemy import Column
 from sqlalchemy import Computed
 from sqlalchemy import func
 from sqlalchemy import Index
@@ -19,8 +17,10 @@ from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import TEXT
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 
 BaseModel: DefaultMeta = db.Model
+
 
 class AssessmentRecord(BaseModel):
     """AssessmentRecord The sqlalchemy-flask model class used to define the
@@ -69,6 +69,8 @@ class AssessmentRecord(BaseModel):
     scores = relationship("Score")
 
     comments = relationship("Comment")
+
+    flags = relationship("Flag")
 
 
 Index(

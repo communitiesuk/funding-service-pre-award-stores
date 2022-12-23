@@ -5,6 +5,8 @@ from .assessment_routes import get_sub_criteria_theme_answers
 from .assessment_routes import sub_criteria
 from .comment_routes import comments_for_application_sub_criteria
 from .comment_routes import post_comments_for_application_sub_criteria
+from .flag_routes import get_flags_for_application
+from .flag_routes import post_flag_for_application
 from .score_routes import get_score_for_application_sub_criteria
 from .score_routes import post_score_for_application_sub_criteria
 
@@ -18,4 +20,6 @@ __all__ = [
     "comments_for_application_sub_criteria",
     "post_comments_for_application_sub_criteria",
     "get_banner_state",
+    "get_flags_for_application",
+    "post_flag_for_application",
 ]
