@@ -88,3 +88,9 @@ def get_sub_criteria_to_latest_score_map(application_id: str) -> dict:
     result = db.session.execute(stmt).fetchall()
 
     return {row["sub_criteria_id"]: row["score"] for row in result}
+
+def get_scored_sub_crit_no_for_application(application_id: str) -> int:
+    stmt = (
+        
+    )
+    pass

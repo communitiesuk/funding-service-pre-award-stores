@@ -238,3 +238,10 @@ components:
         workflow_status:
           type: string
           example: "COMPLETED"
+    Progress:
+      type: object
+      properties:
+        application_id:
+          type: string
+        progress:
+          type: integer
