@@ -1,17 +1,19 @@
 import random
 
+import pytest
 import sqlalchemy
-
+from db.models import Comment
+from db.models import Score
 from db.models.assessment_record.assessment_records import AssessmentRecord
+from db.models.assessment_record.enums import Status
+from db.models.comment.enums import CommentType
 from db.queries import find_answer_by_key_runner
 from db.queries.assessment_records.queries import find_assessor_task_list_state
-from db.queries.comments.queries import create_comment_for_application_sub_crit, get_comments_for_application_sub_crit
-from tests._helpers import get_random_row
-import time
-from db import db
-
+from db.queries.comments.queries import create_comment_for_application_sub_crit
+from db.queries.comments.queries import get_comments_for_application_sub_crit
 from db.queries.scores.queries import create_score_for_app_sub_crit
 from db.queries.scores.queries import get_scores_for_app_sub_crit
+from tests._helpers import get_random_row
 
 
 def test_select_field_by_id():
@@ -70,13 +72,13 @@ def test_create_scores_for_application_sub_crit():
     picked_row = get_random_row(AssessmentRecord)
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
-    
+
     assessment_payload = {
         "application_id": application_id,
         "sub_criteria_id": sub_criteria_id,
         "score": 3,
         "justification": "bang average",
-        "user_id": "test"
+        "user_id": "test",
     }
     score_metadata = create_score_for_app_sub_crit(**assessment_payload)
 
@@ -98,22 +100,28 @@ def test_get_latest_score_for_application_sub_crit():
         "sub_criteria_id": sub_criteria_id,
         "score": 5,
         "justification": "great",
-        "user_id": "test"
+        "user_id": "test",
     }
     create_score_metadata = create_score_for_app_sub_crit(**assessment_payload)
 
-    score_metadata = get_scores_for_app_sub_crit(application_id, sub_criteria_id)
+    score_metadata = get_scores_for_app_sub_crit(
+        application_id, sub_criteria_id
+    )
     latest_score_metadata = score_metadata[0]
 
-    assert latest_score_metadata["date_created"] == create_score_metadata.get("date_created")
+    assert latest_score_metadata["date_created"] == create_score_metadata.get(
+        "date_created"
+    )
     assert latest_score_metadata["score"] == create_score_metadata.get("score")
-    assert latest_score_metadata["justification"] == create_score_metadata.get("justification")
+    assert latest_score_metadata["justification"] == create_score_metadata.get(
+        "justification"
+    )
 
 
 def test_get_score_history():
-    """test_get_score_history Tests we can get all score 
-    records in the scores table """
-    
+    """test_get_score_history Tests we can get all score
+    records in the scores table"""
+
     picked_row = get_random_row(AssessmentRecord)
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
@@ -123,24 +131,33 @@ def test_get_score_history():
         "sub_criteria_id": sub_criteria_id,
         "score": 3,
         "justification": "bang average",
-        "user_id": "test"
+        "user_id": "test",
     }
-    create_score_metadata_1 = create_score_for_app_sub_crit(**assessment_payload_1)
+    create_score_metadata_1 = create_score_for_app_sub_crit(
+        **assessment_payload_1
+    )
 
     assessment_payload_2 = {
         "application_id": application_id,
         "sub_criteria_id": sub_criteria_id,
         "score": 5,
         "justification": "great",
-        "user_id": "test"
+        "user_id": "test",
     }
-    create_score_metadata_2 = create_score_for_app_sub_crit(**assessment_payload_2)
-    
-    score_metadata = get_scores_for_app_sub_crit(application_id, sub_criteria_id, True)
+    create_score_metadata_2 = create_score_for_app_sub_crit(
+        **assessment_payload_2
+    )
+
+    score_metadata = get_scores_for_app_sub_crit(
+        application_id, sub_criteria_id, True
+    )
 
     assert len(score_metadata) == 2
     assert score_metadata[0]["score"] == create_score_metadata_1["score"]
-    assert score_metadata[1]["justification"] == create_score_metadata_2["justification"]
+    assert (
+        score_metadata[1]["justification"]
+        == create_score_metadata_2["justification"]
+    )
 
 
 def test_find_assessor_task_list_ui_metadata():
@@ -157,7 +174,7 @@ def test_find_assessor_task_list_ui_metadata():
         "round_id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
         "workflow_status": "NOT_STARTED",
         "date_submitted": "2022-10-27T08:32:13.383999",
-        "funding_amount_requested": 4600.00
+        "funding_amount_requested": 4600.00,
     }
 
 
@@ -168,16 +185,18 @@ def test_post_comment():
     picked_row = get_random_row(AssessmentRecord)
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
-    
+
     assessment_payload = {
-        "application_id": application_id, 
+        "application_id": application_id,
         "sub_criteria_id": sub_criteria_id,
         "comment": "Please provide more information",
         "comment_type": "COMMENT",
         "user_id": "test",
-        "theme_id": "something"
+        "theme_id": "something",
     }
-    comment_metadata = create_comment_for_application_sub_crit(**assessment_payload)
+    comment_metadata = create_comment_for_application_sub_crit(
+        **assessment_payload
+    )
 
     assert len(comment_metadata) == 8
     assert comment_metadata["user_id"] == "test"
@@ -185,48 +204,92 @@ def test_post_comment():
 
 
 def test_get_comments():
-    """test_get_comments tests we can get all comment 
+    """test_get_comments tests we can get all comment
     records in the comments table filtered by application_id,
     subcriteria_id and theme_id"""
-    
+
     picked_row = get_random_row(AssessmentRecord)
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
     theme_id = "theme"
-    
+
     assessment_payload_1 = {
-        "application_id": application_id, 
+        "application_id": application_id,
         "sub_criteria_id": sub_criteria_id,
         "comment": "Please provide more information",
         "comment_type": "COMMENT",
         "user_id": "test",
-        "theme_id": theme_id
+        "theme_id": theme_id,
     }
     create_comment_for_application_sub_crit(**assessment_payload_1)
 
     assessment_payload_2 = {
-        "application_id": application_id, 
+        "application_id": application_id,
         "sub_criteria_id": sub_criteria_id,
         "comment": "Please provide more information",
         "comment_type": "COMMENT",
         "user_id": "test",
-        "theme_id": theme_id
+        "theme_id": theme_id,
     }
     create_comment_for_application_sub_crit(**assessment_payload_2)
 
     assessment_payload_3 = {
-        "application_id": application_id, 
+        "application_id": application_id,
         "sub_criteria_id": sub_criteria_id,
         "comment": "Please provide more information",
         "comment_type": "COMMENT",
         "user_id": "test",
-        "theme_id": "different theme"
+        "theme_id": "different theme",
     }
     create_comment_for_application_sub_crit(**assessment_payload_3)
 
-    comment_metadata_for_theme = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id)
-    comment_metadata = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id="score")
+    comment_metadata_for_theme = get_comments_for_application_sub_crit(
+        application_id, sub_criteria_id, theme_id
+    )
+    comment_metadata = get_comments_for_application_sub_crit(
+        application_id, sub_criteria_id, theme_id="score"
+    )
 
     assert len(comment_metadata_for_theme) == 2
-    assert comment_metadata_for_theme[0]["theme_id"] == comment_metadata_for_theme[1]["theme_id"]
+    assert (
+        comment_metadata_for_theme[0]["theme_id"]
+        == comment_metadata_for_theme[1]["theme_id"]
+    )
     assert len(comment_metadata) == 3
+
+
+@pytest.mark.parametrize(
+    "insertion_object",
+    [
+        Score(
+            application_id="a3ec41db-3eac-4220-90db-c92dea049c01",
+            sub_criteria_id="test",
+            user_id="test",
+            score=5,
+            justification="great",
+        ),
+        Comment(
+            application_id="a3ec41db-3eac-4220-90db-c92dea049c01",
+            sub_criteria_id="test",
+            user_id="test",
+            comment="great",
+            comment_type=CommentType.COMMENT,
+        ),
+    ],
+)
+def test_update_workflow_status_on_insert(db_session, insertion_object):
+    assessment_record = (
+        db_session.query(AssessmentRecord)
+        .where(
+            AssessmentRecord.application_id
+            == "a3ec41db-3eac-4220-90db-c92dea049c01"
+        )
+        .first()
+    )
+
+    assert assessment_record.workflow_status == Status.NOT_STARTED
+
+    db_session.add(insertion_object)
+    db_session.commit()
+
+    assert assessment_record.workflow_status == Status.IN_PROGRESS
