@@ -9,6 +9,8 @@ applications:
     APPLICATION_STORE_API_HOST: https://funding-service-design-application-store-dev.london.cloudapps.digital
     FLASK_ENV: dev
     FLASK_DEBUG: 1
+    # Sentry DSN is OK to be public see: https://docs.sentry.io/product/sentry-basics/dsn-explainer/#dsn-utilization
+    SENTRY_DSN: https://79a6d9e960144fad834bb3495ecbcc53@o1432034.ingest.sentry.io/4504418765963264
   health-check-http-endpoint: /healthcheck
   health-check-type: http
   services:
@@ -21,6 +23,8 @@ applications:
   env:
     APPLICATION_STORE_API_HOST: https://funding-service-design-application-store-test.london.cloudapps.digital
     FLASK_ENV: test
+    # Sentry DSN is OK to be public see: https://docs.sentry.io/product/sentry-basics/dsn-explainer/#dsn-utilization
+    SENTRY_DSN: https://79a6d9e960144fad834bb3495ecbcc53@o1432034.ingest.sentry.io/4504418765963264
   services:
     - assessment-store-test-db
   health-check-http-endpoint: /healthcheck
