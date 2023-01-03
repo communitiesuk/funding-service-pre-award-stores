@@ -3,11 +3,15 @@ import random
 import pytest
 import sqlalchemy
 from db.models import Comment
+from db.models import Flag
 from db.models import Score
 from db.models.assessment_record.assessment_records import AssessmentRecord
 from db.models.assessment_record.enums import Status
 from db.models.comment.enums import CommentType
+from db.models.flags.enums import FlagType
+from db.queries import create_flag_for_application
 from db.queries import find_answer_by_key_runner
+from db.queries import retrieve_flags_for_application
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.comments.queries import create_comment_for_application_sub_crit
 from db.queries.comments.queries import get_comments_for_application_sub_crit
@@ -293,3 +297,48 @@ def test_update_workflow_status_on_insert(db_session, insertion_object):
     db_session.commit()
 
     assert assessment_record.workflow_status == Status.IN_PROGRESS
+
+
+@pytest.fixture
+def flag_fixture(db_session):
+    flag = Flag(
+        justification="Test justification",
+        section_to_flag="Test section",
+        application_id="a3ec41db-3eac-4220-90db-c92dea049c01",
+        user_id="test-user-id",
+        flag_type=FlagType.FLAGGED,
+    )
+    db_session.add(flag)
+    db_session.commit()
+
+    yield flag
+
+    db_session.delete(flag)
+    db_session.commit()
+
+
+def test_create_flag_for_application(flag_fixture):
+    result = create_flag_for_application(
+        justification=flag_fixture.justification,
+        section_to_flag=flag_fixture.section_to_flag,
+        application_id=flag_fixture.application_id,
+        user_id=flag_fixture.user_id,
+        flag_type=flag_fixture.flag_type,
+    )
+
+    assert result["justification"] == flag_fixture.justification
+    assert result["section_to_flag"] == flag_fixture.section_to_flag
+    assert result["application_id"] == flag_fixture.application_id
+    assert result["user_id"] == flag_fixture.user_id
+    assert result["flag_type"] == flag_fixture.flag_type.name
+
+
+def test_retrieve_flags_for_application(flag_fixture):
+    result = retrieve_flags_for_application(flag_fixture.application_id)
+
+    assert len(result) == 1
+    assert result[0]["justification"] == flag_fixture.justification
+    assert result[0]["section_to_flag"] == flag_fixture.section_to_flag
+    assert result[0]["application_id"] == flag_fixture.application_id
+    assert result[0]["user_id"] == flag_fixture.user_id
+    assert result[0]["flag_type"] == flag_fixture.flag_type.name
