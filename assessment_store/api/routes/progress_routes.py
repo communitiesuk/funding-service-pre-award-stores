@@ -7,11 +7,10 @@ from config.mappings.mapping_parts.scored_criteria import scored_criteria
 def get_progress_for_application(
     application_id: str
 ) -> Dict:
-    """get_porgress_for_application Function 
+    """get_progress_for_application Function 
     used by the get endpoint `/progress.
-
     :param application_id: The stringified application UUID.
-    :return: An objection containg the progress of the application
+    :return: An object containing the progress of the application
     """
     # count how many scored sub_crits there are and populate scored_sub_crit_list
     scored_sub_criteria_count = 0
@@ -39,6 +38,11 @@ def get_progress_for_application(
 
 
 def get_bulk_progress_for_applications(application_ids: List[str]) -> List[Dict]:
+    """get_progress_for_application Function 
+    used by the get endpoint `/progress.
+    :param application_ids: List of stringified applications' UUIDs.
+    :return: List of objects containing the progress of the application
+    """
     progress_list = []
     for application_id in application_ids:
         progress = get_progress_for_application(application_id)
