@@ -7,7 +7,6 @@ from api.routes._helpers import transform_to_assessor_task_list_metadata
 from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_mapping,
 )
-from db.models.assessment_record.enums import Status
 from db.queries.assessment_records.queries import get_assessment_sub_critera_state
 from api.routes.subcriterias.get_sub_criteria import SubCriteriaThemes
 from db.queries import get_metadata_for_fund_round_id
@@ -86,11 +85,6 @@ def get_assessor_task_list_state(application_id: str) -> dict:
     # (same with fund_id, but we're using that at the moment for fund_name)
     metadata = {k: v for k, v in metadata.items() if k not in ["round_id"]}
 
-    # workflow status exists in the database, should we be updating that when
-    # creating score/comment? or do we derive it from database queries?...
-    metadata["workflow_status"] = Status.IN_PROGRESS.name if any(
-        (score_map | comment_map).values()
-    ) else metadata["workflow_status"]
     metadata["sections"] = sections
     metadata["criterias"] = criterias
 
