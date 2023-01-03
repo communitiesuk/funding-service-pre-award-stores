@@ -208,7 +208,7 @@ paths:
                 items:
                   $ref: 'components.yml#/components/schemas/Flag'
         401:
-          description: ERROR - Could not Save Score
+          description: ERROR - Could not Save Flag
           content:
             application/json:
               schema:
