@@ -2,6 +2,7 @@ import random
 
 import pytest
 import sqlalchemy
+from api.routes.progress_routes import get_bulk_progress_for_applications
 from db.models import Comment
 from db.models import Flag
 from db.models import Score
@@ -260,6 +261,52 @@ def test_get_comments():
         == comment_metadata_for_theme[1]["theme_id"]
     )
     assert len(comment_metadata) == 3
+
+
+def test_get_progress_for_application():
+    """test_create_scores_for_application_sub_crit Tests we can create
+    score records in the scores table in the appropriate format."""
+
+    picked_row = get_random_row(AssessmentRecord)
+    application_id_1 = picked_row.application_id
+    picked_row = get_random_row(AssessmentRecord)
+    application_id_2 = picked_row.application_id
+    sub_criteria_ids = ["benefits", "engagement"]
+
+    score_payload_1 = {
+        "application_id": application_id_1,
+        "sub_criteria_id": sub_criteria_ids[0],
+        "score": 3,
+        "justification": "bang average",
+        "user_id": "test",
+    }
+    create_score_for_app_sub_crit(**score_payload_1)
+
+    score_payload_2 = {
+        "application_id": application_id_1,
+        "sub_criteria_id": sub_criteria_ids[1],
+        "score": 3,
+        "justification": "bang average",
+        "user_id": "test",
+    }
+    create_score_for_app_sub_crit(**score_payload_2)
+
+    score_payload_3 = {
+        "application_id": application_id_2,
+        "sub_criteria_id": sub_criteria_ids[1],
+        "score": 3,
+        "justification": "bang average",
+        "user_id": "test",
+    }
+    create_score_for_app_sub_crit(**score_payload_3)
+
+    application_progress = get_bulk_progress_for_applications(
+        [application_id_1, application_id_2]
+    )
+
+    assert len(application_progress) == 2
+    assert application_progress[0]["progress"] == 22
+    assert application_progress[1]["progress"] == 11
 
 
 @pytest.mark.parametrize(
