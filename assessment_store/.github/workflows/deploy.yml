@@ -28,31 +28,3 @@ jobs:
       CF_USER: ${{secrets.CF_USERNAME}}
       CF_PASSWORD: ${{secrets.CF_PASSWORD}}
       E2E_PAT: ${{secrets.E2E_PAT}}
-  apply_network_policy_dev:
-    runs-on: ubuntu-latest
-    environment: Dev
-    steps:
-    - name: Apply network policy for notification service for dev
-      uses: citizen-of-planet-earth/cf-cli-action@v2
-      with:
-          cf_api:      ${{secrets.CF_API}}
-          cf_org:      ${{secrets.CF_ORG}}
-          cf_space:    ${{secrets.CF_SPACE }}
-          cf_username: ${{secrets.CF_USERNAME}}
-          cf_password: ${{secrets.CF_PASSWORD}}
-          command: add-network-policy funding-service-design-assessment-store-dev funding-service-design-notification-dev --protocol tcp --port 8080
-  apply_network_policy_test:
-    needs: test_and_deploy
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment: Test
-    steps:
-    - name: Apply network policy for notification service for test
-      uses: citizen-of-planet-earth/cf-cli-action@v2
-      with:
-          cf_api:      ${{secrets.CF_API}}
-          cf_org:      ${{secrets.CF_ORG}}
-          cf_space:    ${{secrets.CF_SPACE }}
-          cf_username: ${{secrets.CF_USER}}
-          cf_password: ${{secrets.CF_PASSWORD}}
-          command: add-network-policy funding-service-design-assessment-store-test funding-service-design-notification-test --protocol tcp --port 8080
