@@ -8,6 +8,8 @@ tags:
     description: Assessment operations
   - name: scores
     description: Score operations
+  - name: flags
+    description: Flag operations
 
 paths:
   '/application_overviews/{fund_id}/{round_id}':
@@ -155,6 +157,67 @@ paths:
                 status: 'error'
                 message: 'Could not save Score for application sub-criteria'
 
+  '/flag':
+    get:
+      tags:
+        - flags
+      summary: get flags for an application
+      description: get flags for an application
+      operationId: api.routes.get_flags_for_application
+      responses:
+        200:
+          description: SUCCESS - Flags for an Application
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/Flag'
+      parameters:
+      - name: application_id
+        in: query
+        schema:
+          type: string
+        required: true
+    post:
+      tags:
+        - flags
+      summary: post a flag for an application
+      description: post a flag for an application
+      operationId: api.routes.post_flag_for_application
+      requestBody:
+        description: Flag creation parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yml#/components/schemas/PostFlag'
+            example:
+              justification: 'justification for flagging'
+              section_to_flag: 'information on the section to flag'
+              flag_type: 'FLAGGED'
+              application_id: 'r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd'
+              user_id: 'r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd'
+      responses:
+        201:
+          description: SUCCESS - Flag for Application Submitted
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/Flag'
+        401:
+          description: ERROR - Could not Save Flag
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'Could not save Flag for application'
+
   '/sub_criteria_overview/{application_id}/{sub_criteria_id}':
     parameters:
     - name: application_id
@@ -182,6 +245,44 @@ paths:
             application/json:
               schema:
                 $ref: 'components.yml#/components/schemas/SubCriteria'
+
+  '/sub_criteria_overview/banner_state/{application_id}':
+    parameters:
+    - name: application_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path
+    get:
+      tags:
+        - assessments
+      summary: Banner state
+      description: Returns state of banner for an application
+      operationId: api.routes.get_banner_state
+      responses:
+        200:
+          description: SUCCESS - Banner state
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  short_id:
+                    type: string
+                    example: "FUNDX_R2"
+                  funding_amount_requested:
+                    type: number
+                    example: 100000
+                  project_name:
+                    type: string
+                    example: "Refurbish the community centre."
+                  fund_id:
+                    type: string
+                    example: "12345678abcdefgh"
+                  workflow_status:
+                    type: string
+                    example: "COMPLETED"
 
   '/application_overviews/{application_id}':
     parameters:
@@ -219,7 +320,7 @@ paths:
       required: true
       schema:
         type: string
-        format: path    
+        format: path
     get:
       tags:
         - assessments
@@ -283,7 +384,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'components.yml#/components/schemas/GeneralError'                
+                $ref: 'components.yml#/components/schemas/GeneralError'
   '/comment':
     get:
       tags:
@@ -370,7 +471,7 @@ paths:
                 type: object
                 items:
                   $ref: 'components.yml#/components/schemas/Comment'
-  
+
   '/progress':
     get:
       tags:
@@ -393,7 +494,7 @@ paths:
         schema:
           type: string
         required: true
-  
+
   '/bulk-progress':
     get:
       tags:

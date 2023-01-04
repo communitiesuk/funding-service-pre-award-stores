@@ -4,11 +4,15 @@ import pytest
 import sqlalchemy
 from api.routes.progress_routes import get_bulk_progress_for_applications
 from db.models import Comment
+from db.models import Flag
 from db.models import Score
 from db.models.assessment_record.assessment_records import AssessmentRecord
 from db.models.assessment_record.enums import Status
 from db.models.comment.enums import CommentType
+from db.models.flags.enums import FlagType
+from db.queries import create_flag_for_application
 from db.queries import find_answer_by_key_runner
+from db.queries import retrieve_flags_for_application
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.comments.queries import create_comment_for_application_sub_crit
 from db.queries.comments.queries import get_comments_for_application_sub_crit
@@ -268,13 +272,13 @@ def test_get_progress_for_application():
     picked_row = get_random_row(AssessmentRecord)
     application_id_2 = picked_row.application_id
     sub_criteria_ids = ["benefits", "engagement"]
-    
+
     score_payload_1 = {
         "application_id": application_id_1,
         "sub_criteria_id": sub_criteria_ids[0],
         "score": 3,
         "justification": "bang average",
-        "user_id": "test"
+        "user_id": "test",
     }
     create_score_for_app_sub_crit(**score_payload_1)
 
@@ -283,7 +287,7 @@ def test_get_progress_for_application():
         "sub_criteria_id": sub_criteria_ids[1],
         "score": 3,
         "justification": "bang average",
-        "user_id": "test"
+        "user_id": "test",
     }
     create_score_for_app_sub_crit(**score_payload_2)
 
@@ -292,11 +296,13 @@ def test_get_progress_for_application():
         "sub_criteria_id": sub_criteria_ids[1],
         "score": 3,
         "justification": "bang average",
-        "user_id": "test"
+        "user_id": "test",
     }
     create_score_for_app_sub_crit(**score_payload_3)
 
-    application_progress = get_bulk_progress_for_applications([application_id_1, application_id_2])
+    application_progress = get_bulk_progress_for_applications(
+        [application_id_1, application_id_2]
+    )
 
     assert len(application_progress) == 2
     assert application_progress[0]["progress"] == 22
@@ -338,3 +344,48 @@ def test_update_workflow_status_on_insert(db_session, insertion_object):
     db_session.commit()
 
     assert assessment_record.workflow_status == Status.IN_PROGRESS
+
+
+@pytest.fixture
+def flag_fixture(db_session):
+    flag = Flag(
+        justification="Test justification",
+        section_to_flag="Test section",
+        application_id="a3ec41db-3eac-4220-90db-c92dea049c01",
+        user_id="test-user-id",
+        flag_type=FlagType.FLAGGED,
+    )
+    db_session.add(flag)
+    db_session.commit()
+
+    yield flag
+
+    db_session.delete(flag)
+    db_session.commit()
+
+
+def test_create_flag_for_application(flag_fixture):
+    result = create_flag_for_application(
+        justification=flag_fixture.justification,
+        section_to_flag=flag_fixture.section_to_flag,
+        application_id=flag_fixture.application_id,
+        user_id=flag_fixture.user_id,
+        flag_type=flag_fixture.flag_type,
+    )
+
+    assert result["justification"] == flag_fixture.justification
+    assert result["section_to_flag"] == flag_fixture.section_to_flag
+    assert result["application_id"] == flag_fixture.application_id
+    assert result["user_id"] == flag_fixture.user_id
+    assert result["flag_type"] == flag_fixture.flag_type.name
+
+
+def test_retrieve_flags_for_application(flag_fixture):
+    result = retrieve_flags_for_application(flag_fixture.application_id)
+
+    assert len(result) == 1
+    assert result[0]["justification"] == flag_fixture.justification
+    assert result[0]["section_to_flag"] == flag_fixture.section_to_flag
+    assert result[0]["application_id"] == flag_fixture.application_id
+    assert result[0]["user_id"] == flag_fixture.user_id
+    assert result[0]["flag_type"] == flag_fixture.flag_type.name

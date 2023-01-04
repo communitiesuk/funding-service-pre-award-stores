@@ -95,7 +95,7 @@ components:
           type: string
         user_id:
           type: string
-        date_created: 
+        date_created:
           type: string
         sub_criteria_id:
           type: string
@@ -184,14 +184,14 @@ components:
         type: object
         properties:
           presentation_type:
-            type: string  
-          question: 
+            type: string
+          question:
             oneOf:
               - type: string
               - type: array
           field_id:
             oneOf:
-              - type: string   
+              - type: string
               - type: array
           answer:
             oneOf:
@@ -206,7 +206,7 @@ components:
         name:
           type: string
           example: "General Information"
-        answers: 
+        answers:
           type: array
           items:
             $ref: '#/components/schemas/Answer'
@@ -245,3 +245,47 @@ components:
           type: string
         progress:
           type: integer
+    Flag:
+      type: object
+      properties:
+        id:
+          type: string
+        justification:
+          type: string
+        section_to_flag:
+          type: string
+        resolution_reason:
+          type: string
+          nullable: true
+          enum:
+            - 'QUERY_RESOLVED'
+            - 'STOP_ASSESSMENT'
+        flag_type:
+          type: string
+          enum:
+            - 'FLAGGED'
+            - 'STOPPED'
+            - 'QA_COMPLETED'
+        application_id:
+          type: string
+        date_created:
+          type: string
+        user_id:
+          type: string
+    PostFlag:
+      type: object
+      properties:
+        justification:
+          type: string
+        section_to_flag:
+          type: string
+        flag_type:
+          type: string
+          enum:
+            - 'FLAGGED'
+            - 'STOPPED'
+            - 'QA_COMPLETED'
+        application_id:
+          type: string
+        user_id:
+          type: string
