@@ -88,19 +88,18 @@ def bulk_insert_application_record(
     rows = []
 
     for single_json_string in json_strings:
-        loaded_json = json.loads(single_json_string)
 
-        derived_values = derive_values_from_json(loaded_json, application_type)
+        derived_values = derive_values_from_json(single_json_string, application_type)
 
         row = {
             **derived_values,
-            "jsonb_blob": loaded_json,
+            "jsonb_blob": single_json_string,
             "type_of_application": application_type,
         }
 
         rows.append(row)
 
-        del loaded_json
+        del single_json_string
 
     stmt = postgres_insert(AssessmentRecord).values(rows)
 
