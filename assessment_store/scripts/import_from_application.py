@@ -20,6 +20,7 @@ with app.app_context():
         CommonConfig.APPLICATION_STORE_API_HOST + Config.APPLICATIONS_ENDPOINT
         + "?status_only=SUBMITTED"
         + f"&round_id={args.roundid}"
+        + "&forms=true"
     )
 
     app_store_response_json = requests.get(applications_url).json()
