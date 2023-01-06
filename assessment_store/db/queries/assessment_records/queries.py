@@ -2,7 +2,6 @@
 
 Joins allowed.
 """
-from sqlalchemy import exc
 from typing import Dict
 from typing import List
 
@@ -12,6 +11,7 @@ from db.queries.assessment_records._helpers import derive_values_from_json
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
 from db.schemas import AssessorTaskListMetadata
+from sqlalchemy import exc
 from sqlalchemy import func
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
@@ -89,7 +89,9 @@ def bulk_insert_application_record(
 
         for single_json_string in json_strings:
 
-            derived_values = derive_values_from_json(single_json_string, application_type)
+            derived_values = derive_values_from_json(
+                single_json_string, application_type
+            )
 
             row = {
                 **derived_values,
@@ -109,8 +111,8 @@ def bulk_insert_application_record(
 
         db.session.execute(upsert_rows_stmt)
     except exc.SQLAlchemyError as e:
-        print(e.message)
         db.session.rollback()
+        raise (e)
     db.session.commit()
 
 
@@ -186,7 +188,7 @@ def find_assessor_task_list_state(application_id: str) -> dict:
 
 def get_assessment_sub_critera_state(application_id: str) -> dict:
     """Given an application id `application_id` we return the
-    relevant record from the `assessment_records` table with 
+    relevant record from the `assessment_records` table with
     state related to the assessments sub_criteria context.
 
     :param application_id: The application id of the queried row.
@@ -229,7 +231,8 @@ def get_application_jsonb_blob(application_id: str) -> dict:
     stmt = (
         select(AssessmentRecord)
         .where(AssessmentRecord.application_id == application_id)
-        .options(load_only("jsonb_blob")))
+        .options(load_only("jsonb_blob"))
+    )
     application_jsonb_blob = db.session.scalar(stmt)
     application_json = AssessorTaskListMetadata().dump(application_jsonb_blob)
     return application_json
