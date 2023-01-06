@@ -2,7 +2,7 @@
 
 Joins allowed.
 """
-import json
+from sqlalchemy import exc
 from typing import Dict
 from typing import List
 
@@ -84,31 +84,33 @@ def bulk_insert_application_record(
     :param json_strings: _description_
     :param application_type: _description_
     """
+    try:
+        rows = []
 
-    rows = []
+        for single_json_string in json_strings:
 
-    for single_json_string in json_strings:
+            derived_values = derive_values_from_json(single_json_string, application_type)
 
-        derived_values = derive_values_from_json(single_json_string, application_type)
+            row = {
+                **derived_values,
+                "jsonb_blob": single_json_string,
+                "type_of_application": application_type,
+            }
 
-        row = {
-            **derived_values,
-            "jsonb_blob": single_json_string,
-            "type_of_application": application_type,
-        }
+            rows.append(row)
 
-        rows.append(row)
+            del single_json_string
 
-        del single_json_string
+        stmt = postgres_insert(AssessmentRecord).values(rows)
 
-    stmt = postgres_insert(AssessmentRecord).values(rows)
+        upsert_rows_stmt = stmt.on_conflict_do_nothing(
+            index_elements=[AssessmentRecord.application_id]
+        )
 
-    upsert_rows_stmt = stmt.on_conflict_do_nothing(
-        index_elements=[AssessmentRecord.application_id]
-    )
-
-    db.session.execute(upsert_rows_stmt)
-
+        db.session.execute(upsert_rows_stmt)
+    except exc.SQLAlchemyError as e:
+        print(e.message)
+        db.session.rollback()
     db.session.commit()
 
 
