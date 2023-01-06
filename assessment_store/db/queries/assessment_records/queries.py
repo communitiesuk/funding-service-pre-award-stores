@@ -2,6 +2,7 @@
 
 Joins allowed.
 """
+import json
 from typing import Dict
 from typing import List
 
@@ -74,7 +75,7 @@ def get_metadata_for_fund_round_id(
 
 
 def bulk_insert_application_record(
-    json_strings: List[str], application_type: str
+    json_strings: List[str], application_type: str, is_json=False
 ) -> None:
     """bulk_insert_application_record Given a list of json strings (not
     `dict`s) and an `application_type` we extract key values from the json
@@ -87,21 +88,22 @@ def bulk_insert_application_record(
     try:
         rows = []
 
-        for single_json_string in json_strings:
-
+        for single_json in json_strings:
+            if not is_json:
+                single_json = json.loads(single_json)
             derived_values = derive_values_from_json(
-                single_json_string, application_type
+                single_json, application_type
             )
 
             row = {
                 **derived_values,
-                "jsonb_blob": single_json_string,
+                "jsonb_blob": single_json,
                 "type_of_application": application_type,
             }
 
             rows.append(row)
 
-            del single_json_string
+            del single_json
 
         stmt = postgres_insert(AssessmentRecord).values(rows)
 

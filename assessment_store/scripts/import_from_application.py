@@ -29,4 +29,4 @@ with app.app_context():
 
         form_jsons_list = application["forms"]
 
-        bulk_insert_application_record(form_jsons_list, application_type="COF")
+        bulk_insert_application_record(form_jsons_list, application_type="COF", is_json=True)
