@@ -26,7 +26,16 @@ def return_subcriteria_from_mapping(sub_criteria_id):
         )
     )
     if len(matching_sub_criteria) == 1:
-        return matching_sub_criteria[0]
+        sub_crit = matching_sub_criteria[0]
+
+        is_scored = False
+        for criteria in Config.COF_R2W2_ASSESSMENT_MAPPING["scored_criteria"]:
+            for sub_criteria in criteria["sub_criteria"]:
+                if sub_criteria_id == sub_criteria["id"]:
+                    is_scored = True
+        sub_crit['is_scored'] = is_scored
+        
+        return sub_crit
     elif len(matching_sub_criteria) > 1:
         msg = "sub_criteria: '{sub_criteria_id}' duplicated."
         current_app.logger.error(msg)
