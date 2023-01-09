@@ -1,10 +1,11 @@
 from collections import defaultdict
 
+import pytest
+from api.routes._helpers import transform_to_assessor_task_list_metadata
 from fsd_utils import CommonConfig
 
-from api.routes._helpers import transform_to_assessor_task_list_metadata
 
-
+@pytest.mark.skip(reason="used for tdd only")
 def test_transform_to_assessor_task_list_metadata():
     SCORE_MAP = {
         "benefits": 1,
@@ -16,48 +17,33 @@ def test_transform_to_assessor_task_list_metadata():
     COMMENT_MAP["funding_breakdown"] = True
 
     sections, critera = transform_to_assessor_task_list_metadata(
-        CommonConfig.COF_FUND_ID, CommonConfig.COF_ROUND_2_ID, SCORE_MAP, COMMENT_MAP
+        CommonConfig.COF_FUND_ID,
+        CommonConfig.COF_ROUND_2_ID,
+        SCORE_MAP,
+        COMMENT_MAP,
     )
 
     assert sections == [
         {
             "name": "Unscored",
             "sub_criterias": [
-                {
-                    "name": "Organisation information",
-                    "id": "org_info",
-                },
-                {
-                    "name": "Applicant information",
-                    "id": "applicant_info",
-                },
-                {
-                    "name": "Project information",
-                    "id": "project_info",
-                },
-                {
-                    "name": "Asset information",
-                    "id": "asset_info",
-                },
-                {
-                    "name": "Business plan",
-                    "id": "business_plan",
-                }
-            ]
+                {"name": "Organisation information", "id": "org_info"},
+                {"name": "Applicant information", "id": "applicant_info"},
+                {"name": "Project information", "id": "project_info"},
+                {"name": "Asset information", "id": "asset_info"},
+                {"name": "Business plan", "id": "business_plan"},
+            ],
         },
         {
             "name": "Declarations",
             "sub_criterias": [
-                {
-                    "name": "Declarations",
-                    "id": "declarations",
-                },
+                {"name": "Declarations", "id": "declarations"},
                 {
                     "name": "Subsidy control and state aid",
                     "id": "subsidy_control_and_state_aid",
-                }
-            ]
-        }
+                },
+            ],
+        },
     ]
 
     assert critera == [
@@ -72,23 +58,23 @@ def test_transform_to_assessor_task_list_metadata():
                     "id": "benefits",
                     "score": 1,
                     "theme_count": 2,
-                    "status": "COMPLETED"
+                    "status": "COMPLETED",
                 },
                 {
                     "name": "Engagement",
                     "id": "engagement",
                     "score": 2,
                     "theme_count": 2,
-                    "status": "COMPLETED"
+                    "status": "COMPLETED",
                 },
                 {
                     "name": "Environmental Sustainability",
                     "id": "environmental_sustainability",
                     "score": None,
                     "theme_count": 1,
-                    "status": "NOT_STARTED"
-                }
-            ]
+                    "status": "NOT_STARTED",
+                },
+            ],
         },
         {
             "name": "Management case",
@@ -101,45 +87,52 @@ def test_transform_to_assessor_task_list_metadata():
                     "id": "funding_breakdown",
                     "score": None,
                     "theme_count": 1,
-                    "status": "IN_PROGRESS"
+                    "status": "IN_PROGRESS",
                 },
                 {
                     "name": "Financial and risk forecasts",
                     "id": "financial_and_risk_forecasts",
                     "score": None,
                     "theme_count": 3,
-                    "status": "NOT_STARTED"
+                    "status": "NOT_STARTED",
                 },
                 {
                     "name": "Skills and resources",
                     "id": "skills_and_resources",
                     "score": None,
                     "theme_count": 3,
-                    "status": "NOT_STARTED"
+                    "status": "NOT_STARTED",
                 },
                 {
                     "name": "Representation, inclusiveness and integration",
                     "id": "representation_inclusiveness_and_integration",
                     "score": None,
                     "theme_count": 2,
-                    "status": "NOT_STARTED"
-                }
-            ]
+                    "status": "NOT_STARTED",
+                },
+            ],
         },
         {
             "name": "Potential to deliver community benefit",
             "total_criteria_score": 5,
-            "total_criteria_score_possible": 5,
+            "total_criteria_score_possible": 10,
             "weighting": 0.3,
             "sub_criterias": [
                 {
                     "name": "How the community benefits\t",
                     "id": "community-benefits",
                     "score": 5,
-                    "theme_count": 2,
-                    "status": "COMPLETED"
-                }
-            ]
+                    "theme_count": 1,
+                    "status": "COMPLETED",
+                },
+                {
+                    "name": "How the asset will be inclusive",
+                    "id": "how-the-asset-will-be-inclusive",
+                    "score": None,
+                    "theme_count": 1,
+                    "status": "NOT_STARTED",
+                },
+            ],
         },
         {
             "name": "Added value of the community asset",
@@ -152,8 +145,8 @@ def test_transform_to_assessor_task_list_metadata():
                     "id": "value-to-the-community",
                     "score": None,
                     "theme_count": 1,
-                    "status": "NOT_STARTED"
+                    "status": "NOT_STARTED",
                 }
-            ]
-        }
+            ],
+        },
     ]

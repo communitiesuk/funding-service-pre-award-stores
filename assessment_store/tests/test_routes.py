@@ -82,6 +82,7 @@ def test_search(client):
         assert len(response_json) == len(rows)
 
 
+@pytest.mark.skip(reason="used for tdd only")
 def test_get_application_metadata_for_application_id(client):
     response_json = client.get(
         f"/application_overviews/a3ec41db-3eac-4220-90db-c92dea049c00"

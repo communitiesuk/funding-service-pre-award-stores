@@ -17,16 +17,16 @@ args = parser.parse_args()
 with app.app_context():
 
     applications_url = (
-        CommonConfig.APPLICATION_STORE_API_HOST + Config.APPLICATIONS_ENDPOINT
+        CommonConfig.APPLICATION_STORE_API_HOST
+        + Config.APPLICATIONS_ENDPOINT
         + "?status_only=SUBMITTED"
         + f"&round_id={args.roundid}"
         + "&forms=true"
     )
-
+    print(
+        f"Preparing query to GET applications, using URL: '{applications_url}'"
+    )
     app_store_response_json = requests.get(applications_url).json()
-
-    for application in app_store_response_json:
-
-        form_jsons_list = application["forms"]
-
-        bulk_insert_application_record(form_jsons_list, application_type="COF", is_json=True)
+    bulk_insert_application_record(
+        app_store_response_json, application_type="COF", is_json=True
+    )

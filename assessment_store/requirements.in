@@ -33,3 +33,4 @@ swagger-ui-bundle
 sqlalchemy-utils
 
 dataclass_dict_convert
+jsonpath-rw-ext
