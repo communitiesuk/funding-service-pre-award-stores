@@ -1,11 +1,14 @@
-import pytest
 import random
 
+import pytest
+from api.routes.subcriterias.get_sub_criteria import (
+    map_application_with_sub_criteria_themes,
+)
 from db.models.assessment_record.assessment_records import AssessmentRecord
 from tests._expected_responses import APPLICATION_METADATA_RESPONSE
 from tests._helpers import get_random_row
 from tests._helpers import get_rows_by_filters
-from api.routes.subcriterias.get_sub_criteria import SubCriteriaThemes
+
 from ._expected_responses import subcriteria_themes_and_expected_response
 
 
@@ -121,68 +124,63 @@ def test_get_sub_criteria_metadata_for_false_sub_criteria_id(client):
 
 
 def test_get_sub_criteria_theme_answers_field_id(request, client):
-    """ Test to check field_id with given application_id and
+    """Test to check field_id with given application_id and
     theme_id"""
 
     theme_id = "feasibility"
     application_id = "a3ec41db-3eac-4220-90db-c92dea049c00"
 
-    response = client.get(
-        f"/sub_criteria_themes/{application_id}/{theme_id}"
-    )
+    response = client.get(f"/sub_criteria_themes/{application_id}/{theme_id}")
 
-    assert response.json[0]['field_id'] == "ieRCkI"
+    assert response.json[0]["field_id"] == "ieRCkI"
 
 
 def test_add_another_presentation_type(request, client):
-    """ Test to check presentation_types for add_another component
+    """Test to check presentation_types for add_another component
     with given application_id and theme_id"""
 
     theme_id = "funding_requested"
     application_id = "a3ec41db-3eac-4220-90db-c92dea049c00"
 
-    response = client.get(
-        f"/sub_criteria_themes/{application_id}/{theme_id}"
-    )
+    response = client.get(f"/sub_criteria_themes/{application_id}/{theme_id}")
 
     assert response.status_code == 200
-    assert response.json[0]['presentation_type'] == "grouped_fields"
-    assert response.json[1]['presentation_type'] == "heading"
-    assert response.json[2]['presentation_type'] == "description"
-    assert response.json[3]['presentation_type'] == "amount"
+    assert response.json[0]["presentation_type"] == "grouped_fields"
+    assert response.json[1]["presentation_type"] == "heading"
+    assert response.json[2]["presentation_type"] == "description"
+    assert response.json[3]["presentation_type"] == "amount"
 
 
 def test_incorrect_theme_id(request, client):
-    """ Test to check incorrect theme_id that is expected
+    """Test to check incorrect theme_id that is expected
     to return custom error along with the openapi validation
     error."""
 
     theme_id = "incorrect-theme-id"
     application_id = "a3ec41db-3eac-4220-90db-c92dea049c00"
 
-    response = client.get(
-        f"/sub_criteria_themes/{application_id}/{theme_id}"
-    )
+    response = client.get(f"/sub_criteria_themes/{application_id}/{theme_id}")
 
-    assert f"Incorrect theme id" in response.json['detail']
+    assert f"Incorrect theme id" in response.json["detail"]
 
 
 def test_random_theme_content():
-    """ Test the function with random theme id that maps
+    """Test the function with random theme id that maps
     the application & subcriteria theme and
     returns subcriteria_theme with an answer from
     application
     """
     app_id = "a3ec41db-3eac-4220-90db-c92dea049c00"
-    theme_id, expected_response = random.choice(list(subcriteria_themes_and_expected_response.items()))
-    result = SubCriteriaThemes.map_application_with_sub_criteria_themes(
-            app_id,theme_id )
+    theme_id, expected_response = random.choice(
+        list(subcriteria_themes_and_expected_response.items())
+    )
+    result = map_application_with_sub_criteria_themes(app_id, theme_id)
 
-    assert result [0]['answer'] == expected_response
+    assert result[0]["answer"] == expected_response
 
 
 def test_convert_boolean_values():
-    """ Test the function that convert boolean values to
+    """Test the function that convert boolean values to
     "Yes" and "No".
     Args: application_id, theme_id.
     """
@@ -190,6 +188,10 @@ def test_convert_boolean_values():
     theme_id = "local-support"
     application_id = "a3ec41db-3eac-4220-90db-c92dea049c00"
 
-    results = SubCriteriaThemes.map_application_with_sub_criteria_themes(application_id, theme_id)
+    results = map_application_with_sub_criteria_themes(
+        application_id, theme_id
+    )
 
-    assert [value['answer'] for value in results if value['field_id']== "KqoaJL"][0] == "No"
+    assert [
+        value["answer"] for value in results if value["field_id"] == "KqoaJL"
+    ][0] == "No"
