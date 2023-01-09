@@ -1522,7 +1522,7 @@
           {
             "fields": [
               {
-                "answer": "2300",
+                "answer": "2300.0",
                 "key": "JzWvhj",
                 "title": "Capital funding",
                 "type": "text"
