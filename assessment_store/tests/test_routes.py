@@ -1,7 +1,9 @@
 import random
 
 import pytest
-from api.routes.subcriterias.get_sub_criteria import SubCriteriaThemes
+from api.routes.subcriterias.get_sub_criteria import (
+    map_application_with_sub_criteria_themes,
+)
 from db.models.assessment_record.assessment_records import AssessmentRecord
 from tests._expected_responses import APPLICATION_METADATA_RESPONSE
 from tests._helpers import get_random_row
@@ -173,9 +175,7 @@ def test_random_theme_content():
     theme_id, expected_response = random.choice(
         list(subcriteria_themes_and_expected_response.items())
     )
-    result = SubCriteriaThemes.map_application_with_sub_criteria_themes(
-        app_id, theme_id
-    )
+    result = map_application_with_sub_criteria_themes(app_id, theme_id)
 
     assert result[0]["answer"] == expected_response
 
@@ -189,7 +189,7 @@ def test_convert_boolean_values():
     theme_id = "local-support"
     application_id = "a3ec41db-3eac-4220-90db-c92dea049c00"
 
-    results = SubCriteriaThemes.map_application_with_sub_criteria_themes(
+    results = map_application_with_sub_criteria_themes(
         application_id, theme_id
     )
 
