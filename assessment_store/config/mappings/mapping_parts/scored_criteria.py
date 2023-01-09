@@ -567,7 +567,13 @@ scored_criteria = [
                                 "question": "Explain how you plan to sustain, and potentially expand, these benefits over time",
                             },
                         ],
-                    },
+                    }
+                ],
+            },
+            {
+                "id": "how-the-asset-will-be-inclusive",
+                "name": "How the asset will be inclusive",
+                "themes": [
                     {
                         "id": "benefitting_the_whole_community",
                         "name": "Benefitting the whole community",
