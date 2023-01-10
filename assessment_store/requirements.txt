@@ -63,10 +63,8 @@ flask-sqlalchemy==2.5.1
     #   flask-migrate
 flupy==1.2.0
     # via alembic-utils
-funding-service-design-utils==1.0.13
+funding-service-design-utils==1.0.18
     # via -r requirements.in
-greenlet==2.0.1
-    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.4
