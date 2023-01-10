@@ -138,7 +138,9 @@ def sort_add_another_component_contents(
                 continue
 
         except (KeyError, IndexError):
-            current_app.logger.error("Incorrect field key")
+            current_app.logger.debug(
+                f"Answer not provided for field_id: {heading['field_id']}"
+            )
 
 
 def map_grouped_fields_answers(theme: dict, questions: dict) -> tuple:
