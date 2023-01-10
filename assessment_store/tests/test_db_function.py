@@ -1,4 +1,6 @@
+import datetime
 import random
+import uuid
 
 import pytest
 import sqlalchemy
@@ -18,6 +20,7 @@ from db.queries.comments.queries import create_comment_for_application_sub_crit
 from db.queries.comments.queries import get_comments_for_application_sub_crit
 from db.queries.scores.queries import create_score_for_app_sub_crit
 from db.queries.scores.queries import get_scores_for_app_sub_crit
+from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
 from tests._helpers import get_random_row
 
 
@@ -389,3 +392,72 @@ def test_retrieve_flags_for_application(flag_fixture):
     assert result[0]["application_id"] == flag_fixture.application_id
     assert result[0]["user_id"] == flag_fixture.user_id
     assert result[0]["flag_type"] == flag_fixture.flag_type.name
+
+
+def test_get_sub_criteria_to_latest_score_map(db_session):
+    application_id = "a3ec41db-3eac-4220-90db-c92dea049c01"
+    sub_criteria_1_id = str(uuid.uuid4())
+    sub_criteria_2_id = str(uuid.uuid4())
+    user_id = str(uuid.uuid4())
+
+    now = datetime.datetime.now()
+    earlier = now - datetime.timedelta(days=1)
+    latest = now + datetime.timedelta(days=1)
+
+    scores = [
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_1_id,
+            score=2,
+            justification="test",
+            date_created=earlier,
+            user_id=user_id,
+        ),
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_1_id,
+            score=5,
+            justification="test",
+            date_created=now,
+            user_id=user_id,
+        ),
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_1_id,
+            score=2,
+            justification="test",
+            date_created=latest,
+            user_id=user_id,
+        ),
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_2_id,
+            score=1,
+            justification="test",
+            date_created=earlier,
+            user_id=user_id,
+        ),
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_2_id,
+            score=3,
+            justification="test",
+            date_created=now,
+            user_id=user_id,
+        ),
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_2_id,
+            score=5,
+            justification="test",
+            date_created=latest,
+            user_id=user_id,
+        ),
+    ]
+    db_session.add_all(scores)
+    db_session.commit()
+
+    result = get_sub_criteria_to_latest_score_map(str(application_id))
+
+    assert result[sub_criteria_1_id] == 2
+    assert result[sub_criteria_2_id] == 5

@@ -15,7 +15,7 @@ def get_scores_for_app_sub_crit(
     application_id: str, sub_criteria_id: str, score_history: bool = False
 ) -> list[dict]:
     """get_scores_for_app_sub_crit executes a query on scores
-    which returns the most recent score or all scores for the 
+    which returns the most recent score or all scores for the
     given application_id and sub_criteria_id.
 
     :param application_id: The stringified application UUID.
@@ -24,34 +24,45 @@ def get_scores_for_app_sub_crit(
     :return: dictionary.
     """
     if score_history:
-        stmt = select(Score).where(
-            Score.application_id == application_id,
-            Score.sub_criteria_id == sub_criteria_id
-            ).order_by(Score.date_created.desc())
+        stmt = (
+            select(Score)
+            .where(
+                Score.application_id == application_id,
+                Score.sub_criteria_id == sub_criteria_id,
+            )
+            .order_by(Score.date_created.desc())
+        )
     else:
-        stmt = select(Score).where(
-            Score.application_id == application_id,
-            Score.sub_criteria_id == sub_criteria_id
-            ).order_by(Score.date_created.desc()).limit(1)
+        stmt = (
+            select(Score)
+            .where(
+                Score.application_id == application_id,
+                Score.sub_criteria_id == sub_criteria_id,
+            )
+            .order_by(Score.date_created.desc())
+            .limit(1)
+        )
 
     score_rows = db.session.scalars(stmt)
 
     metadata_serialiser = ScoreMetadata()
-    
+
     score_metadatas = [
-        metadata_serialiser.dump(score_row) 
-        for score_row in score_rows
+        metadata_serialiser.dump(score_row) for score_row in score_rows
     ]
 
     return score_metadatas
 
 
 def create_score_for_app_sub_crit(
-    score: int, justification: str, application_id: str, 
-    sub_criteria_id: str, user_id: str
+    score: int,
+    justification: str,
+    application_id: str,
+    sub_criteria_id: str,
+    user_id: str,
 ) -> Dict:
     """create_score_for_app_sub_crit executes a query on scores
-    which creates a justified score for the given application_id and 
+    which creates a justified score for the given application_id and
     sub_criteria_id.
 
     :param application_id: The stringified application UUID.
@@ -63,15 +74,18 @@ def create_score_for_app_sub_crit(
     :return: dictionary.
     """
     score = Score(
-        score=score, justification=justification, application_id=application_id, 
-        sub_criteria_id=sub_criteria_id,user_id=user_id
+        score=score,
+        justification=justification,
+        application_id=application_id,
+        sub_criteria_id=sub_criteria_id,
+        user_id=user_id,
     )
     db.session.add(score)
     db.session.commit()
-    
+
     metadata_serialiser = ScoreMetadata()
     score_metadata = metadata_serialiser.dump(score)
-    
+
     return score_metadata
 
 
@@ -79,12 +93,19 @@ def get_sub_criteria_to_latest_score_map(application_id: str) -> dict:
     stmt = (
         select([Score.sub_criteria_id, Score.score])
         .select_from(Score)
-        .join(AssessmentRecord, Score.application_id == AssessmentRecord.application_id)
+        .join(
+            AssessmentRecord,
+            Score.application_id == AssessmentRecord.application_id,
+        )
         .where(AssessmentRecord.application_id == application_id)
         .order_by(Score.date_created.desc())
-        .limit(1)
     )
 
     result = db.session.execute(stmt).fetchall()
 
-    return {row["sub_criteria_id"]: row["score"] for row in result}
+    sub_criteria_to_latest_score = {}
+    for sid, score in result:
+        if sid not in sub_criteria_to_latest_score:
+            sub_criteria_to_latest_score[sid] = score
+
+    return sub_criteria_to_latest_score
