@@ -7,10 +7,9 @@ from .comment_routes import comments_for_application_sub_criteria
 from .comment_routes import post_comments_for_application_sub_criteria
 from .flag_routes import get_flags_for_application
 from .flag_routes import post_flag_for_application
-from .progress_routes import get_bulk_progress_for_applications
-from .progress_routes import get_progress_for_application
 from .score_routes import get_score_for_application_sub_criteria
 from .score_routes import post_score_for_application_sub_criteria
+from .progress_routes import get_progress_for_applications
 
 
 __all__ = [
@@ -25,6 +24,5 @@ __all__ = [
     "get_banner_state",
     "get_flags_for_application",
     "post_flag_for_application",
-    "get_progress_for_application",
-    "get_bulk_progress_for_applications",
+    "get_progress_for_applications",
 ]

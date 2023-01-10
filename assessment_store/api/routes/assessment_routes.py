@@ -42,7 +42,6 @@ def all_assessments_for_fund_round_id(
         asset_type=asset_type,
         status=status,
     )
-
     return app_list
 
 

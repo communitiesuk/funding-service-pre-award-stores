@@ -11,6 +11,7 @@ from marshmallow.fields import Enum
 from marshmallow.fields import Field
 from marshmallow_sqlalchemy import auto_field
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow import Schema, fields
 
 
 class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
@@ -83,3 +84,8 @@ class AssessmentSubCriteriaMetadata(AssessmentRecordMetadata):
     project_name = auto_field(data_key="project_name")
     fund_id = auto_field(data_key="fund_id")
     workflow_status = Enum(Status)
+
+
+class ProgressSchema(Schema):
+    application_id = fields.Str()
+    scored_sub_criterias = fields.Int()

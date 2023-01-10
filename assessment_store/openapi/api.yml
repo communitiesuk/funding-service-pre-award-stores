@@ -478,30 +478,7 @@ paths:
         - progress
       summary: get % progress for an application
       description: get % progress for an application
-      operationId: api.routes.get_progress_for_application
-      responses:
-        200:
-          description: SUCCESS - % progress for an application
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
-                  $ref: 'components.yml#/components/schemas/Progress'
-      parameters:
-      - name: application_id
-        in: query
-        schema:
-          type: string
-        required: true
-
-  '/bulk-progress':
-    get:
-      tags:
-        - progress
-      summary: get % progress for an application
-      description: get % progress for an application
-      operationId: api.routes.get_bulk_progress_for_applications
+      operationId: api.routes.get_progress_for_applications
       responses:
         200:
           description: SUCCESS - % progress for an application
@@ -511,6 +488,12 @@ paths:
                 type: array
                 items:
                   $ref: 'components.yml#/components/schemas/Progress'
+        400:
+          description: "Bad request - Incorrect application_id or application_ids"
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/GeneralError'          
       parameters:
       - name: application_ids
         in: query
