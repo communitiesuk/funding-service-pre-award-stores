@@ -1,6 +1,7 @@
 """
     Round configuration
 """
+from config import Config
 from core.dummy_dao import RoundDAO
 
 
@@ -37,7 +38,9 @@ def get_round_data(language):
                 },
             ],
             "opens": "2022-10-04 12:00:00",
-            "deadline": "2022-12-14 11:59:00",
+            "deadline": "2022-12-14 11:59:00"
+            if not Config.FORCE_OPEN
+            else "2024-12-31 11:59:00",
             "assessment_deadline": "2023-03-30 12:00:00",
             "contact_details": {
                 "phone": "",

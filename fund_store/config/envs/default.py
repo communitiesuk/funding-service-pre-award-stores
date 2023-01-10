@@ -1,8 +1,10 @@
 """Flask configuration."""
 import logging
 from os import environ
+from os import getenv
 from pathlib import Path
 
+from distutils.util import strtobool
 from fsd_utils import configclass
 
 
@@ -20,3 +22,4 @@ class DefaultConfig(object):
     # Frontend
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
+    FORCE_OPEN = strtobool(getenv("FORCE_OPEN", "False"))
