@@ -84,6 +84,17 @@ components:
         weighted_score:
           type: number
           format: float
+    AssessmentsStats:
+      type: object
+      properties:
+        total:
+          type: integer
+        not_started:
+          type: integer
+        assessing:
+          type: integer
+        qa_completed:
+          type: integer
     Comment:
       type: object
       properties:
