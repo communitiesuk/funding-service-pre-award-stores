@@ -23,25 +23,18 @@ def get_scores_for_app_sub_crit(
     :param score_history: Boolean value that reurns all scores if true
     :return: dictionary.
     """
-    if score_history:
-        stmt = (
-            select(Score)
-            .where(
-                Score.application_id == application_id,
-                Score.sub_criteria_id == sub_criteria_id,
-            )
-            .order_by(Score.date_created.desc())
+
+    stmt = (
+        select(Score)
+        .where(
+            Score.application_id == application_id,
+            Score.sub_criteria_id == sub_criteria_id,
         )
-    else:
-        stmt = (
-            select(Score)
-            .where(
-                Score.application_id == application_id,
-                Score.sub_criteria_id == sub_criteria_id,
-            )
-            .order_by(Score.date_created.desc())
-            .limit(1)
-        )
+        .order_by(Score.date_created.desc())
+    )
+
+    if not score_history:
+        stmt = stmt.limit(1)
 
     score_rows = db.session.scalars(stmt)
 
