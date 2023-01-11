@@ -63,7 +63,7 @@ def get_metadata_for_fund_round_id(
                 AssessmentRecord.workflow_status == status
             )
         case "INELIGIBLE" | "QA_COMPLETE" | "QA_READY":
-            return []
+            return []  # TODO: Handle these statuses
 
     assessment_metadatas = db.session.scalars(statement).all()
 
