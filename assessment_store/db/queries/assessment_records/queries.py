@@ -38,10 +38,6 @@ def get_metadata_for_fund_round_id(
     :return: A list of dictionaries.
     """
 
-    # TODO: Handle these statuses
-    if status in ("INELIGIBLE", "QA_COMPLETE", "QA_READY"):
-        return []
-
     statement = (
         select(AssessmentRecord)
         # Dont load json into memory
@@ -61,8 +57,13 @@ def get_metadata_for_fund_round_id(
     if asset_type != "ALL" and asset_type != "":
         statement = statement.where(AssessmentRecord.asset_type == asset_type)
 
-    if status not in ("", "ALL", "FLAGGED"):
-        statement = statement.where(AssessmentRecord.workflow_status == status)
+    match status:
+        case "NOT_STARTED" | "IN_PROGRESS" | "SUBMITTED" | "COMPLETED":
+            statement = statement.where(
+                AssessmentRecord.workflow_status == status
+            )
+        case "INELIGIBLE" | "QA_COMPLETE" | "QA_READY":
+            return []
 
     assessment_metadatas = db.session.scalars(statement).all()
 
@@ -73,18 +74,21 @@ def get_metadata_for_fund_round_id(
     flags = retrieve_flags_for_applications(application_ids)
     flagged_application_ids = [f["application_id"] for f in flags]
 
-    if status == "FLAGGED":
-        assessment_metadatas = [
-            am
-            for am in assessment_metadatas
-            if am.application_id in flagged_application_ids
-        ]
-    elif status not in ("", "ALL"):
-        assessment_metadatas = [
-            am
-            for am in assessment_metadatas
-            if am.application_id not in flagged_application_ids
-        ]
+    match status:
+        case "FLAGGED":
+            assessment_metadatas = [
+                am
+                for am in assessment_metadatas
+                if am.application_id in flagged_application_ids
+            ]
+        case "ALL" | "":
+            ...
+        case _:
+            assessment_metadatas = [
+                am
+                for am in assessment_metadatas
+                if am.application_id not in flagged_application_ids
+            ]
 
     metadata_serialiser = AssessmentRecordMetadata(
         exclude=("jsonb_blob", "application_json_md5")
@@ -258,7 +262,6 @@ def get_assessment_sub_critera_state(application_id: str) -> dict:
 
 
 def get_application_jsonb_blob(application_id: str) -> dict:
-
     stmt = (
         select(AssessmentRecord)
         .where(AssessmentRecord.application_id == application_id)
