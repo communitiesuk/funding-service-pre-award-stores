@@ -161,3 +161,13 @@ subcriteria_themes_and_expected_response = {
     "representing_community_views": "Test",
     "accessibility_and_inclusivity": "Test",
 }
+
+ASSESSMENTS_STATS_RESPONSE = {
+    "completed": 0,
+    "assessing": 0,
+    "not_started": 2,
+    "qa_completed": 1,
+    "stopped": 0,
+    "flagged": 0,
+    "total": 2,
+}
