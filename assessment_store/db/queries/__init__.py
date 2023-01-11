@@ -4,10 +4,10 @@ from .assessment_records.queries import get_metadata_for_fund_round_id
 from .comments.queries import create_comment_for_application_sub_crit
 from .comments.queries import get_comments_for_application_sub_crit
 from .flags.queries import create_flag_for_application
-from .flags.queries import retrieve_flags_for_application
+from .flags.queries import retrieve_flags_for_applications
+from .progress.queries import get_progress_for_app
 from .scores.queries import create_score_for_app_sub_crit
 from .scores.queries import get_scores_for_app_sub_crit
-from .progress.queries import get_progress_for_app
 
 __all__ = [
     "get_metadata_for_fund_round_id",
@@ -17,7 +17,7 @@ __all__ = [
     "create_score_for_app_sub_crit",
     "get_comments_for_application_sub_crit",
     "create_comment_for_application_sub_crit",
-    "retrieve_flags_for_application",
+    "retrieve_flags_for_applications",
     "create_flag_for_application",
     "get_progress_for_app",
 ]
