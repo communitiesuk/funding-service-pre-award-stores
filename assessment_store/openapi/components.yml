@@ -87,13 +87,21 @@ components:
     AssessmentsStats:
       type: object
       properties:
-        total:
-          type: integer
-        not_started:
+        completed:
           type: integer
         assessing:
           type: integer
+        not_started:
+          type: integer
         qa_completed:
+          type: integer
+        stopped:
+          type: integer
+        flagged:
+          type: integer
+        query_resolved:
+          type: integer
+        total:
           type: integer
     Comment:
       type: object
