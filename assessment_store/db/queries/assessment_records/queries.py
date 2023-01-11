@@ -68,9 +68,9 @@ def get_metadata_for_fund_round_id(
 
     application_ids = [a.application_id for a in assessment_metadatas]
     # added locally to avoid circular import
-    from db.queries import retrieve_flags_for_application
+    from db.queries import retrieve_flags_for_applications
 
-    flags = retrieve_flags_for_application(application_ids)
+    flags = retrieve_flags_for_applications(application_ids)
     flagged_application_ids = [f["application_id"] for f in flags]
 
     if status == "FLAGGED":

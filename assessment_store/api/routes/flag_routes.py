@@ -1,7 +1,7 @@
 # flake8: noqa
 from db.models.flags.enums import FlagType
 from db.queries.flags.queries import create_flag_for_application
-from db.queries.flags.queries import retrieve_flags_for_application
+from db.queries.flags.queries import retrieve_flags_for_applications
 from flask import request
 
 
@@ -20,5 +20,5 @@ def post_flag_for_application() -> dict:
 
 
 def get_flags_for_application(application_id: str) -> list:
-    flags = retrieve_flags_for_application([application_id])
+    flags = retrieve_flags_for_applications([application_id])
     return flags
