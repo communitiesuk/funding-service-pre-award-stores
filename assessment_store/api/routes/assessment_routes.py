@@ -135,26 +135,28 @@ def assessment_stats_for_fund_round_id(
         fund_id=fund_id,
         round_id=round_id
     )
-    qa_completed_flagged_assessments = [
+    qa_completed_assessments = [
         flag["application_id"] for flag in get_latest_flags_for_each(
         "QA_COMPLETED"
     )
     ]
-    stopped_flagged_assessments = [
+    stopped_assessments = [
         flag["application_id"] for flag in get_latest_flags_for_each(
             "STOPPED"
         )
     ]
-    other_flagged_assessments = [
+    flagged_assessments = [
         flag["application_id"] for flag in get_latest_flags_for_each(
             "FLAGGED"
         )
     ]
-    resolved_flagged_assessments = [
-        flag["application_id"] for flag in get_latest_flags_for_each(
-            "FLAGGED", "QUERY_RESOLVED"
-        )
-    ]
+    # TODO: add resolved if required, after flag_type enum
+    # has been updated to include QUERY_RESOLVED
+    # resolved_assessments = [
+    #     flag["application_id"] for flag in get_latest_flags_for_each(
+    #         "QUERY_RESOLVED"
+    #     )
+    # ]
     stats.update(
         {
             "completed": len(
@@ -182,30 +184,32 @@ def assessment_stats_for_fund_round_id(
                 [
                     1
                     for assessment in assessments
-                    if assessment["application_id"] in qa_completed_flagged_assessments
+                    if assessment["application_id"] in qa_completed_assessments
                 ]
             ),
             "stopped": len(
                 [
                     1
                     for assessment in assessments
-                    if assessment["application_id"] in stopped_flagged_assessments
+                    if assessment["application_id"] in stopped_assessments
                 ]
             ),
-            "other_flagged": len(
+            "flagged": len(
                 [
                     1
                     for assessment in assessments
-                    if assessment["application_id"] in other_flagged_assessments
+                    if assessment["application_id"] in flagged_assessments
                 ]
             ),
-            "resolved_flags": len(
-                [
-                    1
-                    for assessment in assessments
-                    if assessment["application_id"] in resolved_flagged_assessments
-                ]
-            ),
+    # TODO: add resolved if required, after flag_type enum
+    # has been updated to include QUERY_RESOLVED
+    #         "query_resolved": len(
+    #             [
+    #                 1
+    #                 for assessment in assessments
+    #                 if assessment["application_id"] in resolved_assessments
+    #             ]
+    #         ),
             "total": len(assessments),
         }
     )
