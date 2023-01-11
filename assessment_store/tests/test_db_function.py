@@ -387,7 +387,7 @@ def test_create_flag_for_application(flag_fixture):
 
 
 def test_retrieve_flags_for_application(flag_fixture):
-    result = retrieve_flags_for_application(flag_fixture.application_id)
+    result = retrieve_flags_for_application([flag_fixture.application_id])
 
     assert len(result) == 1
     assert result[0]["justification"] == flag_fixture.justification

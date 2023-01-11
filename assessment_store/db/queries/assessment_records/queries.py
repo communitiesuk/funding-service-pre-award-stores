@@ -38,6 +38,10 @@ def get_metadata_for_fund_round_id(
     :return: A list of dictionaries.
     """
 
+    # TODO: Handle these statuses
+    if status in ("INELIGIBLE", "QA_COMPLETE", "QA_READY"):
+        return []
+
     statement = (
         select(AssessmentRecord)
         # Dont load json into memory
@@ -57,10 +61,24 @@ def get_metadata_for_fund_round_id(
     if asset_type != "ALL" and asset_type != "":
         statement = statement.where(AssessmentRecord.asset_type == asset_type)
 
-    if status != "ALL" and status != "":
+    if status not in ("", "ALL", "FLAGGED"):
         statement = statement.where(AssessmentRecord.workflow_status == status)
 
     assessment_metadatas = db.session.scalars(statement).all()
+
+    application_ids = [a.application_id for a in assessment_metadatas]
+    # added locally to avoid circular import
+    from db.queries import retrieve_flags_for_application
+
+    flags = retrieve_flags_for_application(application_ids)
+    flagged_application_ids = [f["application_id"] for f in flags]
+
+    if status in ("FLAGGED",):
+        assessment_metadatas = [
+            am
+            for am in assessment_metadatas
+            if am.application_id in flagged_application_ids
+        ]
 
     metadata_serialiser = AssessmentRecordMetadata(
         exclude=("jsonb_blob", "application_json_md5")
@@ -70,6 +88,10 @@ def get_metadata_for_fund_round_id(
         metadata_serialiser.dump(app_metadata)
         for app_metadata in assessment_metadatas
     ]
+
+    for am in assessment_metadatas:
+        if am["application_id"] in flagged_application_ids:
+            am["workflow_status"] = "FLAGGED"
 
     return assessment_metadatas
 
@@ -110,7 +132,7 @@ def bulk_insert_application_record(
         upsert_rows_stmt = stmt.on_conflict_do_nothing(
             index_elements=[AssessmentRecord.application_id]
         )
-        print(f"Attemping bulk insert of all application rows.")
+        print("Attemping bulk insert of all application rows.")
         db.session.execute(upsert_rows_stmt)
     except exc.SQLAlchemyError as e:
         db.session.rollback()

@@ -20,5 +20,5 @@ def post_flag_for_application() -> dict:
 
 
 def get_flags_for_application(application_id: str) -> list:
-    flags = retrieve_flags_for_application(application_id)
+    flags = retrieve_flags_for_application([application_id])
     return flags
