@@ -11,7 +11,7 @@ from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_mapping,
 )
 from db.queries import get_metadata_for_fund_round_id
-from db.queries.flags.queries import get_flags_by_type
+from db.queries.flags.queries import get_latest_flags_for_each
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.assessment_records.queries import (
     get_assessment_sub_critera_state,
@@ -136,22 +136,22 @@ def assessment_stats_for_fund_round_id(
         round_id=round_id
     )
     qa_completed_flagged_assessments = [
-        flag["application_id"] for flag in get_flags_by_type(
+        flag["application_id"] for flag in get_latest_flags_for_each(
         "QA_COMPLETED"
     )
     ]
     stopped_flagged_assessments = [
-        flag["application_id"] for flag in get_flags_by_type(
+        flag["application_id"] for flag in get_latest_flags_for_each(
             "STOPPED"
         )
     ]
     other_flagged_assessments = [
-        flag["application_id"] for flag in get_flags_by_type(
+        flag["application_id"] for flag in get_latest_flags_for_each(
             "FLAGGED"
         )
     ]
     resolved_flagged_assessments = [
-        flag["application_id"] for flag in get_flags_by_type(
+        flag["application_id"] for flag in get_latest_flags_for_each(
             "FLAGGED", "QUERY_RESOLVED"
         )
     ]

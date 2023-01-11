@@ -18,6 +18,7 @@ from db.queries import retrieve_flags_for_application
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.comments.queries import create_comment_for_application_sub_crit
 from db.queries.comments.queries import get_comments_for_application_sub_crit
+from db.queries.flags.queries import get_latest_flags_for_each
 from db.queries.scores.queries import create_score_for_app_sub_crit
 from db.queries.scores.queries import get_scores_for_app_sub_crit
 from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
@@ -464,3 +465,86 @@ def test_get_sub_criteria_to_latest_score_map(db_session):
 
     assert result[sub_criteria_1_id] == 2
     assert result[sub_criteria_2_id] == 5
+
+
+@pytest.fixture
+def sample_flags(db_session):
+    now = datetime.datetime.now()
+    earlier = now - datetime.timedelta(days=1)
+
+    flag1 = Flag(
+        application_id="a3ec41db-3eac-4220-90db-c92dea049c94",
+        flag_type=FlagType.FLAGGED,
+        justification="Latest 1",
+        section_to_flag="Test section 1",
+        date_created=now,
+        user_id="user1",
+    )
+    flag2 = Flag(
+        application_id="a3ec41db-3eac-4220-90db-c92dea049c94",
+        flag_type=FlagType.STOPPED,
+        justification="Test justification 2",
+        section_to_flag="Test section 2",
+        date_created=earlier,
+        user_id="user2",
+    )
+    flag3 = Flag(
+        application_id="68c045a9-49ff-4788-8615-8507b7a978e6",
+        flag_type=FlagType.QA_COMPLETED,
+        justification="Test justification 3",
+        section_to_flag="Test section 3",
+        date_created=earlier,
+        user_id="user3",
+    )
+    flag4 = Flag(
+        application_id="68c045a9-49ff-4788-8615-8507b7a978e6",
+        flag_type=FlagType.FLAGGED,
+        justification="Latest 2",
+        section_to_flag="Test section 3",
+        date_created=now,
+        user_id="user3",
+    )
+    flag5 = Flag(
+        application_id="fe8f56d5-6669-45ad-9d19-f799063246ec",
+        flag_type=FlagType.QA_COMPLETED,
+        justification="Latest 3",
+        section_to_flag="Test section 4",
+        date_created=now,
+        user_id="user4",
+    )
+    flag6 = Flag(
+        application_id="fe8f56d5-6669-45ad-9d19-f799063246ec",
+        flag_type=FlagType.QA_COMPLETED,
+        justification="Test justification 4",
+        section_to_flag="Test section 4",
+        date_created=earlier,
+        user_id="user4",
+    )
+
+    db_session.add_all([flag1, flag2, flag3, flag4, flag5, flag6])
+    db_session.commit()
+
+    yield (flag1, flag2, flag3, flag4, flag5, flag6)
+
+    db_session.delete(flag1)
+    db_session.delete(flag2)
+    db_session.delete(flag3)
+    db_session.delete(flag4)
+    db_session.delete(flag5)
+    db_session.delete(flag6)
+    db_session.commit()
+
+
+def test_get_latest_flags_for_each(sample_flags):
+    result_list = get_latest_flags_for_each()
+
+    assert len(result_list) == 3
+    assert result_list[0]["justification"] == "Latest 1"
+    assert result_list[1]["justification"] == "Latest 2"
+    assert result_list[2]["justification"] == "Latest 3"
+
+def test_get_latest_flags_for_each_with_type_filter(sample_flags):
+    result_list = get_latest_flags_for_each("QA_COMPLETED")
+
+    assert len(result_list) == 1
+    assert result_list[0]["flag_type"] == "QA_COMPLETED"
