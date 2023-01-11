@@ -73,11 +73,17 @@ def get_metadata_for_fund_round_id(
     flags = retrieve_flags_for_application(application_ids)
     flagged_application_ids = [f["application_id"] for f in flags]
 
-    if status in ("FLAGGED",):
+    if status == "FLAGGED":
         assessment_metadatas = [
             am
             for am in assessment_metadatas
             if am.application_id in flagged_application_ids
+        ]
+    elif status not in ("", "ALL"):
+        assessment_metadatas = [
+            am
+            for am in assessment_metadatas
+            if am.application_id not in flagged_application_ids
         ]
 
     metadata_serialiser = AssessmentRecordMetadata(
