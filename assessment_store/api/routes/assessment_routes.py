@@ -5,9 +5,11 @@ from typing import List
 from api.models.sub_criteria import SubCriteria
 from api.routes._helpers import transform_to_assessor_task_list_metadata
 from api.routes.subcriterias.get_sub_criteria import (
+    map_application_with_sub_criteria_themes,
+)
+from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_mapping,
 )
-from api.routes.subcriterias.get_sub_criteria import SubCriteriaThemes
 from db.queries import get_metadata_for_fund_round_id
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.assessment_records.queries import (
@@ -40,7 +42,6 @@ def all_assessments_for_fund_round_id(
         asset_type=asset_type,
         status=status,
     )
-
     return app_list
 
 
@@ -112,6 +113,4 @@ def get_sub_criteria_theme_answers(application_id: str, theme_id: str):
     """Function returns mapped answers from application & Sub_criteria_themes
     with given application_id and theme_id"""
 
-    return SubCriteriaThemes.map_application_with_sub_criteria_themes(
-        application_id, theme_id
-    )
+    return map_application_with_sub_criteria_themes(application_id, theme_id)

@@ -1,8 +1,10 @@
+import datetime
 import random
+import uuid
 
 import pytest
 import sqlalchemy
-from api.routes.progress_routes import get_bulk_progress_for_applications
+from api.routes.progress_routes import get_progress_for_applications
 from db.models import Comment
 from db.models import Flag
 from db.models import Score
@@ -18,6 +20,7 @@ from db.queries.comments.queries import create_comment_for_application_sub_crit
 from db.queries.comments.queries import get_comments_for_application_sub_crit
 from db.queries.scores.queries import create_score_for_app_sub_crit
 from db.queries.scores.queries import get_scores_for_app_sub_crit
+from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
 from tests._helpers import get_random_row
 
 
@@ -263,7 +266,7 @@ def test_get_comments():
     assert len(comment_metadata) == 3
 
 
-def test_get_progress_for_application():
+def test_get_progress_for_applications():
     """test_create_scores_for_application_sub_crit Tests we can create
     score records in the scores table in the appropriate format."""
 
@@ -300,13 +303,16 @@ def test_get_progress_for_application():
     }
     create_score_for_app_sub_crit(**score_payload_3)
 
-    application_progress = get_bulk_progress_for_applications(
+    application_progress_list = get_progress_for_applications(
         [application_id_1, application_id_2]
     )
 
-    assert len(application_progress) == 2
-    assert application_progress[0]["progress"] == 22
-    assert application_progress[1]["progress"] == 11
+    assert len(application_progress_list) == 2
+    for application in application_progress_list:
+        if application["application_id"] == application_id_1:
+            assert application["progress"] == 20
+        if application["application_id"] == application_id_2:
+            assert application["progress"] == 10
 
 
 @pytest.mark.parametrize(
@@ -389,3 +395,72 @@ def test_retrieve_flags_for_application(flag_fixture):
     assert result[0]["application_id"] == flag_fixture.application_id
     assert result[0]["user_id"] == flag_fixture.user_id
     assert result[0]["flag_type"] == flag_fixture.flag_type.name
+
+
+def test_get_sub_criteria_to_latest_score_map(db_session):
+    application_id = "a3ec41db-3eac-4220-90db-c92dea049c01"
+    sub_criteria_1_id = str(uuid.uuid4())
+    sub_criteria_2_id = str(uuid.uuid4())
+    user_id = str(uuid.uuid4())
+
+    now = datetime.datetime.now()
+    earlier = now - datetime.timedelta(days=1)
+    latest = now + datetime.timedelta(days=1)
+
+    scores = [
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_1_id,
+            score=2,
+            justification="test",
+            date_created=earlier,
+            user_id=user_id,
+        ),
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_1_id,
+            score=5,
+            justification="test",
+            date_created=now,
+            user_id=user_id,
+        ),
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_1_id,
+            score=2,
+            justification="test",
+            date_created=latest,
+            user_id=user_id,
+        ),
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_2_id,
+            score=1,
+            justification="test",
+            date_created=earlier,
+            user_id=user_id,
+        ),
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_2_id,
+            score=3,
+            justification="test",
+            date_created=now,
+            user_id=user_id,
+        ),
+        Score(
+            application_id=application_id,
+            sub_criteria_id=sub_criteria_2_id,
+            score=5,
+            justification="test",
+            date_created=latest,
+            user_id=user_id,
+        ),
+    ]
+    db_session.add_all(scores)
+    db_session.commit()
+
+    result = get_sub_criteria_to_latest_score_map(str(application_id))
+
+    assert result[sub_criteria_1_id] == 2
+    assert result[sub_criteria_2_id] == 5

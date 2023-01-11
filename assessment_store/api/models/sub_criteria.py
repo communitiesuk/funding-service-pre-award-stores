@@ -17,6 +17,7 @@ class SubCriteria:
     fund_id: str
     workflow_status: str
     short_id: str
+    is_scored: bool
 
 
     def __post_init__(self):

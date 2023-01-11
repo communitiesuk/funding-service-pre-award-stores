@@ -8,10 +8,11 @@ from typing import List
 
 from db import db
 from db.models.assessment_record import AssessmentRecord
-from db.queries.assessment_records._helpers import derive_values_from_json
+from db.queries.assessment_records._helpers import derive_application_values
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
 from db.schemas import AssessorTaskListMetadata
+from sqlalchemy import exc
 from sqlalchemy import func
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
@@ -74,42 +75,47 @@ def get_metadata_for_fund_round_id(
 
 
 def bulk_insert_application_record(
-    json_strings: List[str], application_type: str
+    application_json_strings: List[str], application_type: str, is_json=False
 ) -> None:
-    """bulk_insert_application_record Given a list of json strings (not
-    `dict`s) and an `application_type` we extract key values from the json
+    """bulk_insert_application_record Given a list of json strings
+    and an `application_type` we extract key values from the json
     strings before inserting them with the remaining values into
     `db.models.AssessmentRecord`.
 
-    :param json_strings: _description_
+    :param application_json_strings: _description_
     :param application_type: _description_
     """
+    try:
+        print("Beginning bulk application insert.")
+        rows = []
 
-    rows = []
+        for single_application_json in application_json_strings:
+            if not is_json:
+                single_application_json = json.loads(single_application_json)
 
-    for single_json_string in json_strings:
-        loaded_json = json.loads(single_json_string)
+            derived_values = derive_application_values(single_application_json)
 
-        derived_values = derive_values_from_json(loaded_json, application_type)
+            row = {
+                **derived_values,
+                "jsonb_blob": single_application_json,
+                "type_of_application": application_type,
+            }
+            print(f"Appending row to insert list, values: '{derived_values}'.")
+            rows.append(row)
 
-        row = {
-            **derived_values,
-            "jsonb_blob": loaded_json,
-            "type_of_application": application_type,
-        }
+            del single_application_json
 
-        rows.append(row)
+        stmt = postgres_insert(AssessmentRecord).values(rows)
 
-        del loaded_json
-
-    stmt = postgres_insert(AssessmentRecord).values(rows)
-
-    upsert_rows_stmt = stmt.on_conflict_do_nothing(
-        index_elements=[AssessmentRecord.application_id]
-    )
-
-    db.session.execute(upsert_rows_stmt)
-
+        upsert_rows_stmt = stmt.on_conflict_do_nothing(
+            index_elements=[AssessmentRecord.application_id]
+        )
+        print(f"Attemping bulk insert of all application rows.")
+        db.session.execute(upsert_rows_stmt)
+    except exc.SQLAlchemyError as e:
+        db.session.rollback()
+        print(f"Error running bulk insert: '{e.message}'.")
+        raise (e)
     db.session.commit()
 
 
@@ -185,7 +191,7 @@ def find_assessor_task_list_state(application_id: str) -> dict:
 
 def get_assessment_sub_critera_state(application_id: str) -> dict:
     """Given an application id `application_id` we return the
-    relevant record from the `assessment_records` table with 
+    relevant record from the `assessment_records` table with
     state related to the assessments sub_criteria context.
 
     :param application_id: The application id of the queried row.
@@ -228,7 +234,8 @@ def get_application_jsonb_blob(application_id: str) -> dict:
     stmt = (
         select(AssessmentRecord)
         .where(AssessmentRecord.application_id == application_id)
-        .options(load_only("jsonb_blob")))
+        .options(load_only("jsonb_blob"))
+    )
     application_jsonb_blob = db.session.scalar(stmt)
     application_json = AssessorTaskListMetadata().dump(application_jsonb_blob)
     return application_json

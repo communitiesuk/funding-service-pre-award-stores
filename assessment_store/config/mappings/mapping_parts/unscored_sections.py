@@ -215,7 +215,7 @@ unscored_sections = [
                     },
                 ],
             },
-{
+            {
                 "id": "project_info",
                 "name": "Project information",
                 "themes": [
@@ -365,14 +365,14 @@ unscored_sections = [
                                 "form_name": "asset-information",
                                 "field_type": "checkboxesField",
                                 "presentation_type": "list",
-                                "question": "confirmation 1",
+                                "question": "When you buy or lease a publicly owned asset, the public authority cannot transfer statutory services or duties to the community group",
                             },
                             {
                                 "field_id": "PraPAq",
                                 "form_name": "asset-information",
                                 "field_type": "checkboxesField",
                                 "presentation_type": "list",
-                                "question": "confirmation 2",
+                                "question": "Grants from this fund cannot be used to buy the freehold or premium on the lease of a publicly owned asset. Money must only be used for renovation and refurbishment costs",
                             },
                         ],
                     },
@@ -543,8 +543,8 @@ unscored_sections = [
                 "name": "Subsidy control and state aid",
                 "themes": [
                     {
-                        "id": "asset_ownership",
-                        "name": "Asset ownership",
+                        "id": "project_qualification",
+                        "name": "Project qualification",
                         "answers": [
                             {
                                 "field_id": "HvxXPI",
@@ -580,5 +580,4 @@ unscored_sections = [
             },
         ],
     },
-
 ]
