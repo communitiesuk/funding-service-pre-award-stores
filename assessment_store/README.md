@@ -121,6 +121,12 @@ These are the current pipelines running on the repo:
 
 # Testing
 
+## Seed Postgres DB with mock data
+
+`invoke seed_dev_db`
+
+Running the above command will prompt you to enter the number applications, funds & rounds you would like to create as mock data within the database.
+
 ## Unit & Accessibility Testing
 
 1. Ensure you have a local postgres instance setup and running with a user `postgres` created.
