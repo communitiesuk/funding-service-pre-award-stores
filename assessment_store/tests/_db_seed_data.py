@@ -32,7 +32,7 @@ def get_dynamic_rows(
         ("pub", "pub"),
         ("cinema", "cinema"),
         ("community centre", "community-centre"),
-        ("gallary", "gallary"),
+        ("gallery", "gallery"),
         ("museum", "museum"),
     ]
     cities = [

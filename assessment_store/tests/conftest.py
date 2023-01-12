@@ -156,6 +156,6 @@ def pytest_addoption(parser):
         "--randomdata",
         action="store",
         default=False,
-        help="Decides if random data is used to seed the appliation rows..",
+        help="Decides if random data is used to seed the application rows..",
         type=bool,
     )
