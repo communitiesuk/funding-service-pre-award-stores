@@ -1,6 +1,7 @@
 import datetime
 import random
 import uuid
+from unittest.mock import MagicMock
 
 import pytest
 import sqlalchemy
@@ -266,7 +267,7 @@ def test_get_comments():
     assert len(comment_metadata) == 3
 
 
-def test_get_progress_for_applications():
+def test_get_progress_for_applications(monkeypatch):
     """test_create_scores_for_application_sub_crit Tests we can create
     score records in the scores table in the appropriate format."""
 
@@ -303,6 +304,13 @@ def test_get_progress_for_applications():
     }
     create_score_for_app_sub_crit(**score_payload_3)
 
+    request = MagicMock()
+    request.get_json.return_value = {
+        "application_ids": [
+            application_id_1,
+            application_id_2,
+        ]
+    }
     application_progress_list = get_progress_for_applications(
         [application_id_1, application_id_2]
     )
