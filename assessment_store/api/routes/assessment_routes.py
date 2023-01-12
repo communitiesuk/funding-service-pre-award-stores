@@ -150,13 +150,6 @@ def assessment_stats_for_fund_round_id(
             "FLAGGED"
         )
     ]
-    # TODO: add resolved if required, after flag_type enum
-    # has been updated to include QUERY_RESOLVED
-    # resolved_assessments = [
-    #     flag["application_id"] for flag in get_latest_flags_for_each(
-    #         "QUERY_RESOLVED"
-    #     )
-    # ]
     stats.update(
         {
             "completed": len(
@@ -201,15 +194,6 @@ def assessment_stats_for_fund_round_id(
                     if assessment["application_id"] in flagged_assessments
                 ]
             ),
-    # TODO: add resolved if required, after flag_type enum
-    # has been updated to include QUERY_RESOLVED
-    #         "query_resolved": len(
-    #             [
-    #                 1
-    #                 for assessment in assessments
-    #                 if assessment["application_id"] in resolved_assessments
-    #             ]
-    #         ),
             "total": len(assessments),
         }
     )

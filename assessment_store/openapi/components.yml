@@ -99,8 +99,6 @@ components:
           type: integer
         flagged:
           type: integer
-        query_resolved:
-          type: integer
         total:
           type: integer
     Comment:
