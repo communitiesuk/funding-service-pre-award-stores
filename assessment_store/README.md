@@ -121,10 +121,16 @@ These are the current pipelines running on the repo:
 
 # Testing
 
+## Seed Postgres DB with mock data
+
+`invoke seed_dev_db`
+
+Running the above command will prompt you to enter the number applications, funds & rounds you would like to create as mock data within the database.
+
 ## Unit & Accessibility Testing
 
 1. Ensure you have a local postgres instance setup and running with a user `postgres` created.
-2. Ensure that you have set a DATABASE_URL environment varaible.
+2. Ensure that you have set a DATABASE_URL environment variable.
 3. Install `requirements-dev.txt`
 4. Activate your virtual env: `source .venv/bin/activate`
 5. Run pytest

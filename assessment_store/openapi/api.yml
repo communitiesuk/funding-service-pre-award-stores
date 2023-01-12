@@ -500,6 +500,38 @@ paths:
                   $ref: 'components.yml#/components/schemas/Comment'
 
   '/progress':
+    post:
+      tags:
+        - progress
+      summary: get % progress for an application
+      description: get % progress for an application
+      operationId: api.routes.post_progress_for_applications
+      responses:
+        200:
+          description: SUCCESS - % progress for an application
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/Progress'
+        400:
+          description: "Bad request - Incorrect application_id or application_ids"
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/GeneralError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                application_ids:
+                  type: array
+                  items:
+                    type: string
     get:
       tags:
         - progress
@@ -520,7 +552,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'components.yml#/components/schemas/GeneralError'          
+                $ref: 'components.yml#/components/schemas/GeneralError'
       parameters:
       - name: application_ids
         in: query

@@ -1,6 +1,7 @@
 import datetime
 import random
 import uuid
+from unittest.mock import MagicMock
 
 import pytest
 import sqlalchemy
@@ -14,7 +15,7 @@ from db.models.comment.enums import CommentType
 from db.models.flags.enums import FlagType
 from db.queries import create_flag_for_application
 from db.queries import find_answer_by_key_runner
-from db.queries import retrieve_flags_for_application
+from db.queries import retrieve_flags_for_applications
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.comments.queries import create_comment_for_application_sub_crit
 from db.queries.comments.queries import get_comments_for_application_sub_crit
@@ -267,7 +268,7 @@ def test_get_comments():
     assert len(comment_metadata) == 3
 
 
-def test_get_progress_for_applications():
+def test_get_progress_for_applications(monkeypatch):
     """test_create_scores_for_application_sub_crit Tests we can create
     score records in the scores table in the appropriate format."""
 
@@ -304,6 +305,13 @@ def test_get_progress_for_applications():
     }
     create_score_for_app_sub_crit(**score_payload_3)
 
+    request = MagicMock()
+    request.get_json.return_value = {
+        "application_ids": [
+            application_id_1,
+            application_id_2,
+        ]
+    }
     application_progress_list = get_progress_for_applications(
         [application_id_1, application_id_2]
     )
@@ -388,7 +396,7 @@ def test_create_flag_for_application(flag_fixture):
 
 
 def test_retrieve_flags_for_application(flag_fixture):
-    result = retrieve_flags_for_application(flag_fixture.application_id)
+    result = retrieve_flags_for_applications([flag_fixture.application_id])
 
     assert len(result) == 1
     assert result[0]["justification"] == flag_fixture.justification

@@ -34,9 +34,9 @@ def create_flag_for_application(
     return flag_metadata
 
 
-def retrieve_flags_for_application(application_id: str) -> dict:
+def retrieve_flags_for_applications(application_ids: list[str]) -> dict:
     flags = (
-        Flag.query.filter(Flag.application_id == application_id)
+        Flag.query.filter(Flag.application_id.in_(application_ids))
         .order_by(Flag.date_created.desc())
         .all()
     )
