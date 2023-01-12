@@ -311,8 +311,9 @@ def test_get_progress_for_applications(monkeypatch):
             application_id_2,
         ]
     }
-    monkeypatch.setattr("api.routes.progress_routes.request", request)
-    application_progress_list = get_progress_for_applications()
+    application_progress_list = get_progress_for_applications(
+        [application_id_1, application_id_2]
+    )
 
     assert len(application_progress_list) == 2
     for application in application_progress_list:
