@@ -473,7 +473,7 @@ paths:
                   $ref: 'components.yml#/components/schemas/Comment'
 
   '/progress':
-    get:
+    post:
       tags:
         - progress
       summary: get % progress for an application
@@ -493,12 +493,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'components.yml#/components/schemas/GeneralError'          
-      parameters:
-      - name: application_ids
-        in: query
-        schema:
-            type: array
-            items:
-              type: string
+                $ref: 'components.yml#/components/schemas/GeneralError'
+      requestBody:
         required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                application_ids:
+                  type: array
+                  items:
+                    type: string
