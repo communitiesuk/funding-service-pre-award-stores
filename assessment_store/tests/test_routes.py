@@ -5,7 +5,10 @@ from api.routes.subcriterias.get_sub_criteria import (
     map_application_with_sub_criteria_themes,
 )
 from db.models.assessment_record.assessment_records import AssessmentRecord
+from db.queries.flags.queries import create_flag_for_application
 from tests._expected_responses import APPLICATION_METADATA_RESPONSE
+from tests._expected_responses import ASSESSMENTS_STATS_RESPONSE
+from db.models.flags.enums import FlagType
 from tests._helpers import get_random_row
 from tests._helpers import get_rows_by_filters
 
@@ -196,3 +199,28 @@ def test_convert_boolean_values():
     assert [
         value["answer"] for value in results if value["field_id"] == "KqoaJL"
     ][0] == "No"
+
+def test_get_assessments_stats(client):
+    fund_id = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
+    round_id = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
+
+    # Get test applications
+    applications = client.get(
+        f"/application_overviews/{fund_id}/{round_id}"
+    ).json
+
+    # Add a QA_COMPLETED flag for the first application
+    # so that one result from the set is flagged as QA_COMPLETED
+    create_flag_for_application(
+        justification="bob",
+        section_to_flag="Overview",
+        application_id=applications[0]["application_id"],
+        user_id="abc",
+        flag_type=FlagType.QA_COMPLETED,
+    )
+
+    response_json = client.get(
+        f"/assessments/get-stats/{fund_id}/{round_id}"
+    ).json
+
+    assert response_json == ASSESSMENTS_STATS_RESPONSE

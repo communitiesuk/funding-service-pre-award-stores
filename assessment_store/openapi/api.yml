@@ -65,7 +65,34 @@ paths:
                 type: array
                 items:
                   $ref: 'components.yml#/components/schemas/Assessment'
-
+  '/assessments/get-stats/{fund_id}/{round_id}':
+    parameters:
+      - name: fund_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      - name: round_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+    get:
+      tags:
+        - assessments
+      summary: Get assessment stats
+      description: Get a selection of required metrics
+      operationId: api.routes.assessment_stats_for_fund_round_id
+      responses:
+        200:
+          description: SUCCESS - A collection of assessment metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: 'components.yml#/components/schemas/AssessmentsStats'
   '/score':
     get:
       tags:

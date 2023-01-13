@@ -23,9 +23,9 @@ from sqlalchemy.orm import load_only
 def get_metadata_for_fund_round_id(
     fund_id: str,
     round_id: str,
-    search_term: str,
-    asset_type: str,
-    status: str,
+    search_term: str = "",
+    asset_type: str = "",
+    status: str = "",
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
     which returns all rows matching the given fund_id and round_id. Has
