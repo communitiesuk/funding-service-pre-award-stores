@@ -5,7 +5,6 @@ from db.models.assessment_record.enums import Status
 from db.models.comment import Comment
 from db.models.comment.enums import CommentType
 from db.models.flags.enums import FlagType
-from db.models.flags.enums import ResolutionType
 from db.models.score import Score
 from marshmallow.fields import Enum
 from marshmallow.fields import Field
@@ -60,7 +59,6 @@ class FlagMetadata(SQLAlchemyAutoSchema):
         load_instance = True
 
     flag_type = Enum(FlagType)
-    resolution_reason = Enum(ResolutionType, allow_none=True)
     application_id = auto_field(dump_only=True)
 
 

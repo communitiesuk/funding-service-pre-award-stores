@@ -5,7 +5,6 @@ import uuid
 
 from db import db
 from db.models.flags.enums import FlagType
-from db.models.flags.enums import ResolutionType
 from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.dialects.postgresql import UUID
@@ -27,11 +26,7 @@ class Flag(db.Model):
     section_to_flag = db.Column("section_to_flag", db.Text(), nullable=False)
 
     flag_type = db.Column("flag_type", ENUM(FlagType), nullable=False)
-
-    resolution_reason = db.Column(
-        "resolution_reason", ENUM(ResolutionType), nullable=True
-    )
-
+    
     application_id = db.Column(
         "application_id", UUID, ForeignKey("assessment_records.application_id")
     )

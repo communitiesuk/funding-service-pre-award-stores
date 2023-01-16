@@ -6,7 +6,7 @@ from .assessment_routes import sub_criteria
 from .assessment_routes import assessment_stats_for_fund_round_id
 from .comment_routes import comments_for_application_sub_criteria
 from .comment_routes import post_comments_for_application_sub_criteria
-from .flag_routes import get_flags_for_application
+from .flag_routes import get_latest_flag_for_application
 from .flag_routes import post_flag_for_application
 from .progress_routes import get_progress_for_applications
 from .progress_routes import post_progress_for_applications
@@ -24,7 +24,7 @@ __all__ = [
     "comments_for_application_sub_criteria",
     "post_comments_for_application_sub_criteria",
     "get_banner_state",
-    "get_flags_for_application",
+    "get_latest_flag_for_application",
     "post_flag_for_application",
     "get_progress_for_applications",
     "assessment_stats_for_fund_round_id",

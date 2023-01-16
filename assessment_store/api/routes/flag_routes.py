@@ -1,13 +1,12 @@
 # flake8: noqa
 from db.models.flags.enums import FlagType
 from db.queries.flags.queries import create_flag_for_application
-from db.queries.flags.queries import retrieve_flags_for_applications
-from flask import request
+from db.queries.flags.queries import retrieve_flag_for_application
+from flask import request, current_app
 
 
 def post_flag_for_application() -> dict:
     args = request.get_json()
-
     created_flag = create_flag_for_application(
         justification=args["justification"],
         section_to_flag=args["section_to_flag"],
@@ -19,6 +18,6 @@ def post_flag_for_application() -> dict:
     return created_flag
 
 
-def get_flags_for_application(application_id: str) -> list:
-    flags = retrieve_flags_for_applications([application_id])
-    return flags
+def get_latest_flag_for_application(application_id: str) -> list:
+    flag = retrieve_flag_for_application(application_id)
+    return flag

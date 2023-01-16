@@ -188,18 +188,16 @@ paths:
     get:
       tags:
         - flags
-      summary: get flags for an application
-      description: get flags for an application
-      operationId: api.routes.get_flags_for_application
+      summary: get latest flag for an application
+      description: get latest flag for an application
+      operationId: api.routes.get_latest_flag_for_application
       responses:
         200:
           description: SUCCESS - Flags for an Application
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: 'components.yml#/components/schemas/Flag'
+                $ref: 'components.yml#/components/schemas/Flag'
       parameters:
       - name: application_id
         in: query
