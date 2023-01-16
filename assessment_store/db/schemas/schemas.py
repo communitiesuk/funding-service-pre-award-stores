@@ -6,11 +6,12 @@ from db.models.comment import Comment
 from db.models.comment.enums import CommentType
 from db.models.flags.enums import FlagType
 from db.models.score import Score
+from marshmallow import fields
+from marshmallow import Schema
 from marshmallow.fields import Enum
 from marshmallow.fields import Field
 from marshmallow_sqlalchemy import auto_field
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow import Schema, fields
 
 
 class AssessmentRecordMetadata(SQLAlchemyAutoSchema):

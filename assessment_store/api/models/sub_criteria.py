@@ -1,8 +1,8 @@
-import inspect
 import enum
+import inspect
 from dataclasses import dataclass
+
 from api.models.theme import Theme
-from dataclasses import dataclass
 from dataclass_dict_convert import dataclass_dict_convert
 
 
@@ -18,7 +18,6 @@ class SubCriteria:
     workflow_status: str
     short_id: str
     is_scored: bool
-
 
     def __post_init__(self):
         self.themes = [

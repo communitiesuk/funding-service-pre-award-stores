@@ -8,26 +8,26 @@ APPLICATION_METADATA_RESPONSE = {
                     "name": "Benefits",
                     "score": None,
                     "status": "NOT_STARTED",
-                    "theme_count": 2
+                    "theme_count": 2,
                 },
                 {
                     "id": "engagement",
                     "name": "Engagement",
                     "score": None,
                     "status": "NOT_STARTED",
-                    "theme_count": 2
+                    "theme_count": 2,
                 },
                 {
                     "id": "environmental_sustainability",
                     "name": "Environmental Sustainability",
                     "score": None,
                     "status": "NOT_STARTED",
-                    "theme_count": 1
-                }
+                    "theme_count": 1,
+                },
             ],
             "total_criteria_score": 0,
             "total_criteria_score_possible": 15,
-            "weighting": 0.3
+            "weighting": 0.3,
         },
         {
             "name": "Management case",
@@ -37,33 +37,33 @@ APPLICATION_METADATA_RESPONSE = {
                     "name": "Funding breakdown",
                     "score": None,
                     "status": "NOT_STARTED",
-                    "theme_count": 1
+                    "theme_count": 1,
                 },
                 {
                     "id": "financial_and_risk_forecasts",
                     "name": "Financial and risk forecasts",
                     "score": None,
                     "status": "NOT_STARTED",
-                    "theme_count": 3
+                    "theme_count": 3,
                 },
                 {
                     "id": "skills_and_resources",
                     "name": "Skills and resources",
                     "score": None,
                     "status": "NOT_STARTED",
-                    "theme_count": 3
+                    "theme_count": 3,
                 },
                 {
                     "id": "representation_inclusiveness_and_integration",
                     "name": "Representation, inclusiveness and integration",
                     "score": None,
                     "status": "NOT_STARTED",
-                    "theme_count": 2
-                }
+                    "theme_count": 2,
+                },
             ],
             "total_criteria_score": 0,
             "total_criteria_score_possible": 20,
-            "weighting": 0.3
+            "weighting": 0.3,
         },
         {
             "name": "Potential to deliver community benefit",
@@ -73,12 +73,12 @@ APPLICATION_METADATA_RESPONSE = {
                     "name": "How the community benefits\t",
                     "score": None,
                     "status": "NOT_STARTED",
-                    "theme_count": 2
+                    "theme_count": 2,
                 }
             ],
             "total_criteria_score": 0,
             "total_criteria_score_possible": 5,
-            "weighting": 0.3
+            "weighting": 0.3,
         },
         {
             "name": "Added value of the community asset",
@@ -88,13 +88,13 @@ APPLICATION_METADATA_RESPONSE = {
                     "name": "Value to the community",
                     "score": None,
                     "status": "NOT_STARTED",
-                    "theme_count": 1
+                    "theme_count": 1,
                 }
             ],
             "total_criteria_score": 0,
             "total_criteria_score_possible": 5,
-            "weighting": 0.1
-        }
+            "weighting": 0.1,
+        },
     ],
     "date_submitted": "2022-10-27T08:32:13.383999",
     "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
@@ -104,54 +104,38 @@ APPLICATION_METADATA_RESPONSE = {
         {
             "name": "Unscored",
             "sub_criterias": [
-                {
-                    "id": "org_info",
-                    "name": "Organisation information"
-                },
-                {
-                    "id": "applicant_info",
-                    "name": "Applicant information"
-                },
-                {
-                    "id": "project_info",
-                    "name": "Project information"
-                },
-                {
-                    "id": "asset_info",
-                    "name": "Asset information"
-                },
-                {
-                    "id": "business_plan",
-                    "name": "Business plan"
-                }
-            ]
+                {"id": "org_info", "name": "Organisation information"},
+                {"id": "applicant_info", "name": "Applicant information"},
+                {"id": "project_info", "name": "Project information"},
+                {"id": "asset_info", "name": "Asset information"},
+                {"id": "business_plan", "name": "Business plan"},
+            ],
         },
         {
             "name": "Declarations",
             "sub_criterias": [
-                {
-                    "id": "declarations",
-                    "name": "Declarations"
-                },
+                {"id": "declarations", "name": "Declarations"},
                 {
                     "id": "subsidy_control_and_state_aid",
-                    "name": "Subsidy control and state aid"
-                }
-            ]
-        }
+                    "name": "Subsidy control and state aid",
+                },
+            ],
+        },
     ],
     "short_id": "COF-R2W2-JWBTLN",
-    "workflow_status": "NOT_STARTED"
+    "workflow_status": "NOT_STARTED",
 }
 
 subcriteria_themes_and_expected_response = {
     "community_use": "Test",
     "risk_loss_impact": "Test",
-    "engaging-the-community": "Tell us how you have engaged with the community about your intention to take ownership of the asset",
+    "engaging-the-community": "Tell us how you have engaged with "
+    "the community about your intention to take ownership of the asset",
     "local-support": "Tell us how your project supports any wider local plans",
     "environmental-considerations": "Test",
     "funding_requested": (
-        ('Capital funding', '2300'), ('Revenue funding (optional)', '2300')
+        ("Capital funding", "2300"),
+        ("Revenue funding (optional)", "2300"),
     ),
     "risk": "sample1.doc",
     "income_and_running_costs": "Test",

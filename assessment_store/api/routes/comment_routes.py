@@ -1,20 +1,21 @@
 from typing import Dict
-from db.queries.comments import get_comments_for_application_sub_crit
+
 from db.queries.comments import create_comment_for_application_sub_crit
-from db.schemas import CommentMetadata
+from db.queries.comments import get_comments_for_application_sub_crit
 from flask import request
+
 
 def comments_for_application_sub_criteria(
     application_id: str, sub_criteria_id: str, theme_id: str = None
 ) -> Dict:
-    """comments_for_application_sub_criteria Function 
+    """comments_for_application_sub_criteria Function
     used by the get endpoint `/applications/{application_id}/
     subcriterias/{subcriteria_id}/scores`.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :return: A List of dictionaries.
-    """ 
+    """
 
     comment_metadatas = get_comments_for_application_sub_crit(
         application_id, sub_criteria_id, theme_id
@@ -22,8 +23,9 @@ def comments_for_application_sub_criteria(
 
     return comment_metadatas
 
+
 def post_comments_for_application_sub_criteria() -> Dict:
-    """post_comments_for_application_sub_criteria Function 
+    """post_comments_for_application_sub_criteria Function
     used by the post endpoint `/applications/{application_id}/
     subcriterias/{subcriteria_id}/scores`.
 
@@ -40,9 +42,12 @@ def post_comments_for_application_sub_criteria() -> Dict:
     theme_id = args["theme_id"]
 
     created_score = create_comment_for_application_sub_crit(
-        application_id=application_id, sub_criteria_id=sub_criteria_id,
-        comment=comment, comment_type=comment_type, user_id=user_id, theme_id=theme_id
+        application_id=application_id,
+        sub_criteria_id=sub_criteria_id,
+        comment=comment,
+        comment_type=comment_type,
+        user_id=user_id,
+        theme_id=theme_id,
     )
 
     return created_score
-

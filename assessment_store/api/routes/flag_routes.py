@@ -2,7 +2,7 @@
 from db.models.flags.enums import FlagType
 from db.queries.flags.queries import create_flag_for_application
 from db.queries.flags.queries import retrieve_flag_for_application
-from flask import request, current_app
+from flask import request
 
 
 def post_flag_for_application() -> dict:

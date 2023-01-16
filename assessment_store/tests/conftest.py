@@ -1,18 +1,16 @@
 import pytest
-from flask_migrate import upgrade
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy_utils.functions import (
-    create_database,
-    database_exists,
-    drop_database,
-)
-
 from app import create_app
 from config import Config
 from db.queries import bulk_insert_application_record
-from tests._db_seed_data import get_dynamic_rows, load_json_strings_from_file
-from tests._sql_infos import pytest_terminal_summary  # noqa
+from flask_migrate import upgrade
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy_utils.functions import create_database
+from sqlalchemy_utils.functions import database_exists
+from sqlalchemy_utils.functions import drop_database
+from tests._db_seed_data import get_dynamic_rows
+from tests._db_seed_data import load_json_strings_from_file
 from tests._sql_infos import attach_listeners
+from tests._sql_infos import pytest_terminal_summary  # noqa
 
 
 def prep_db(reuse_db=False):

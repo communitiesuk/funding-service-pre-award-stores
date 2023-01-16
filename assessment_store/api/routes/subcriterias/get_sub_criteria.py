@@ -84,9 +84,9 @@ def convert_boolean_values(themes_answers: list[dict]) -> list[dict]:
     current_app.logger.info("Converting boolean values to strings")
     for answers in themes_answers:
         if "answer" in answers.keys():
-            if answers["answer"] == False:
+            if answers["answer"] is False:
                 answers.update(answer="No")
-            if answers["answer"] == True:
+            if answers["answer"] is True:
                 answers.update(answer="Yes")
             else:
                 continue

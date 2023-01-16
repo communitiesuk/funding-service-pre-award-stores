@@ -40,16 +40,20 @@ unscored_sections = [
                                 "form_name": "organisation-information",
                                 "field_type": "textField",
                                 "presentation_type": "grouped_fields",
-                                "question": ["Alternative names of your organisation",
-                                             "Alternative names of your organisation"],
+                                "question": [
+                                    "Alternative names of your organisation",
+                                    "Alternative names of your organisation",
+                                ],
                             },
                             {
                                 "field_id": ["lajFtB", "plmwJv"],
                                 "form_name": "organisation-information",
                                 "field_type": "radiosField",
                                 "presentation_type": "grouped_fields",
-                                "question": ["Type of organisation",
-                                             "Type of organisation"],
+                                "question": [
+                                    "Type of organisation",
+                                    "Type of organisation",
+                                ],
                             },
                             {
                                 "field_id": "GlPmCX",
@@ -63,8 +67,10 @@ unscored_sections = [
                                 "form_name": "organisation-information",
                                 "field_type": "radiosField",
                                 "presentation_type": "grouped_fields",
-                                "question": ["Which regulatory body is your company registered with?",
-                                             "Which regulatory body is your company registered with?"],
+                                "question": [
+                                    "Which regulatory body is your company registered with?",
+                                    "Which regulatory body is your company registered with?",
+                                ],
                             },
                             {
                                 "field_id": "aHIGbK",
@@ -120,8 +126,10 @@ unscored_sections = [
                                 "form_name": "organisation-information",
                                 "field_type": "websiteField",
                                 "presentation_type": "grouped_fields",
-                                "question": ["Website and social media",
-                                             "Website and social media"],
+                                "question": [
+                                    "Website and social media",
+                                    "Website and social media",
+                                ],
                             },
                         ],
                     },
@@ -141,8 +149,10 @@ unscored_sections = [
                                 "form_name": "organisation-information",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "grouped_fields",
-                                "question": ["Tell us about your organisation's main activities",
-                                             "Tell us about your organisation's main activities"],
+                                "question": [
+                                    "Tell us about your organisation's main activities",
+                                    "Tell us about your organisation's main activities",
+                                ],
                             },
                         ],
                     },

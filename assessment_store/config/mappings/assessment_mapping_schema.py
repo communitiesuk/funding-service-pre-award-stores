@@ -50,13 +50,13 @@ answer_schema = {
                     # covers:
                     # "fileUploadField",
                     "grouped_fields",
-                    #covers:
+                    # covers:
                     # "multipleFields",
                     "heading",
-                    #covers:
+                    # covers:
                     # "section title for add-another component",
                     "description",
-                    #covers:
+                    # covers:
                     # "question description for add-another component",
                     "amount",
                     # covers:

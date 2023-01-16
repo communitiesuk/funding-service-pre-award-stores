@@ -5,10 +5,10 @@ from api.routes.subcriterias.get_sub_criteria import (
     map_application_with_sub_criteria_themes,
 )
 from db.models.assessment_record.assessment_records import AssessmentRecord
+from db.models.flags.enums import FlagType
 from db.queries.flags.queries import create_flag_for_application
 from tests._expected_responses import APPLICATION_METADATA_RESPONSE
 from tests._expected_responses import ASSESSMENTS_STATS_RESPONSE
-from db.models.flags.enums import FlagType
 from tests._helpers import get_random_row
 from tests._helpers import get_rows_by_filters
 
@@ -88,7 +88,7 @@ def test_search(client):
 @pytest.mark.skip(reason="used for tdd only")
 def test_get_application_metadata_for_application_id(client):
     response_json = client.get(
-        f"/application_overviews/a3ec41db-3eac-4220-90db-c92dea049c00"
+        "/application_overviews/a3ec41db-3eac-4220-90db-c92dea049c00"
     ).json
 
     assert response_json == APPLICATION_METADATA_RESPONSE
@@ -103,7 +103,8 @@ def test_get_sub_criteria(client):
     response_json = client.get(
         f"/sub_criteria_overview/{picked_row.application_id}/{sub_criteria_id}"
     ).json
-    # The order of themes within a sub_criteria is important, ensure it is preserved
+    # The order of themes within a sub_criteria is important,
+    # ensure it is preserved
     expected_theme_order = ["community_use", "risk_loss_impact"]
     actual_theme_order = []
     for theme in response_json["themes"]:
@@ -114,7 +115,8 @@ def test_get_sub_criteria(client):
 
 
 def test_get_sub_criteria_metadata_for_false_sub_criteria_id(client):
-    """Test to check that sub criteria metadata is not retuned for false sub criteria"""
+    """Test to check that sub criteria metadata is
+    not retuned for false sub criteria"""
 
     sub_criteria_id = "does-not-exist"
     picked_row = get_random_row(AssessmentRecord)
@@ -165,7 +167,7 @@ def test_incorrect_theme_id(request, client):
 
     response = client.get(f"/sub_criteria_themes/{application_id}/{theme_id}")
 
-    assert f"Incorrect theme id" in response.json["detail"]
+    assert "Incorrect theme id" in response.json["detail"]
 
 
 def test_random_theme_content():
@@ -199,6 +201,7 @@ def test_convert_boolean_values():
     assert [
         value["answer"] for value in results if value["field_id"] == "KqoaJL"
     ][0] == "No"
+
 
 def test_get_assessments_stats(client):
     fund_id = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"

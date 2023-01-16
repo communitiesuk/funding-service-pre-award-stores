@@ -1,10 +1,10 @@
 from alembic_utils.pg_extension import PGExtension
 from alembic_utils.pg_function import PGFunction
 from alembic_utils.pg_trigger import PGTrigger
-from sqlalchemy import event, text
-
 from db.models.comment import Comment
 from db.models.score import Score
+from sqlalchemy import event
+from sqlalchemy import text
 
 # A method of imposing a database level block to mutating application json.
 
@@ -41,12 +41,14 @@ extension = PGExtension(
 )
 
 
-@event.listens_for(Score, 'after_insert', propagate=True)
-@event.listens_for(Comment, 'after_insert', propagate=True)
+@event.listens_for(Score, "after_insert", propagate=True)
+@event.listens_for(Comment, "after_insert", propagate=True)
 def update_workflow_status(_, connection, target):
     connection.execute(
-        text("UPDATE assessment_records SET workflow_status = 'IN_PROGRESS' "
-             "WHERE application_id = :application_id "
-             "AND workflow_status = 'NOT_STARTED'"),
-        application_id=target.application_id
+        text(
+            "UPDATE assessment_records SET workflow_status = 'IN_PROGRESS' "
+            "WHERE application_id = :application_id "
+            "AND workflow_status = 'NOT_STARTED'"
+        ),
+        application_id=target.application_id,
     )

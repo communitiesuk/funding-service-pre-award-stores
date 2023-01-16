@@ -1,6 +1,6 @@
-from dataclasses import dataclass
 import inspect
-from stringcase import camelcase
+from dataclasses import dataclass
+
 from dataclass_dict_convert import dataclass_dict_convert
 
 

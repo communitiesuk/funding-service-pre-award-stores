@@ -46,6 +46,7 @@ def retrieve_flag_for_application(application_id: str) -> dict:
 
     return flag_metadata
 
+
 def retrieve_flags_for_applications(application_ids: list[str]) -> dict:
     flags = (
         Flag.query.filter(Flag.application_id.in_(application_ids))
@@ -57,6 +58,7 @@ def retrieve_flags_for_applications(application_ids: list[str]) -> dict:
     flag_metadatas = [metadata_serialiser.dump(flag) for flag in flags]
 
     return flag_metadatas
+
 
 def get_latest_flags_for_each(flag_type: str = None) -> dict:
 
@@ -75,15 +77,13 @@ def get_latest_flags_for_each(flag_type: str = None) -> dict:
         subquery,
         and_(
             Flag.application_id == subquery.c.application_id,
-            Flag.date_created == subquery.c.latest_date
+            Flag.date_created == subquery.c.latest_date,
         ),
     )
 
     # Add filter of flag_type if provided
     if flag_type:
-        query = query.where(
-            Flag.flag_type == flag_type
-        )
+        query = query.where(Flag.flag_type == flag_type)
 
     flags = db.session.execute(query).scalars().all()
 
