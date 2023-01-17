@@ -20,6 +20,11 @@ from api.routes.subcriterias.get_sub_criteria import (
             ["£1"],
         ),
         (
+            ["An : Answer : with : lots: of :colons : £1"],
+            ["An : Answer : with : lots: of :colons "],
+            ["£1"],
+        ),
+        (
             ["An Answer : £1", "Another Answer : £2"],
             ["An Answer ", "Another Answer "],
             ["£1", "£2"],
