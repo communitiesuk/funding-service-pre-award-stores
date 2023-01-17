@@ -141,6 +141,19 @@ def test_get_sub_criteria_theme_answers_field_id(request, client):
     assert response.json[0]["field_id"] == "ieRCkI"
 
 
+def test_update_ar_status_to_completed(request, client):
+    """ Test checks that the status code returned by the POST request is 204, 
+    which indicates that the request was successful and 
+    that the application status was updated to COMPLETED. """
+
+
+    application_id = "a3ec41db-3eac-4220-90db-c92dea049c00"
+
+    response = client.post(f"/application/{application_id}/status/complete")
+
+    assert response.status_code == 204
+
+
 def test_add_another_presentation_type(request, client):
     """Test to check presentation_types for add_another component
     with given application_id and theme_id"""

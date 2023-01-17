@@ -8,6 +8,7 @@ from typing import List
 
 from db import db
 from db.models.assessment_record import AssessmentRecord
+from db.models.assessment_record.enums import Status
 from db.queries.assessment_records._helpers import derive_application_values
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
@@ -270,3 +271,16 @@ def get_application_jsonb_blob(application_id: str) -> dict:
     application_jsonb_blob = db.session.scalar(stmt)
     application_json = AssessorTaskListMetadata().dump(application_jsonb_blob)
     return application_json
+
+
+def update_status_to_completed(application_id):
+    from flask import current_app
+    current_app.logger.info(
+             f"Updating application status to COMPLETED")
+    db.session.query(AssessmentRecord)\
+        .filter(AssessmentRecord.application_id == application_id)\
+        .update(
+        {AssessmentRecord.workflow_status: Status.COMPLETED}, synchronize_session=False)
+
+    db.session.commit()
+    

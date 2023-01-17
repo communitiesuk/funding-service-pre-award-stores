@@ -271,6 +271,24 @@ paths:
               schema:
                 $ref: 'components.yml#/components/schemas/SubCriteria'
 
+  '/application/{application_id}/status/complete':
+    parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+    post:
+      tags:
+        - assessments
+      summary: Update application status to completed
+      description: Update application status to completed
+      operationId: api.routes.update_ar_status_to_completed
+      responses:
+       204:
+          description: Successfully updated application status to completed.
+
   '/sub_criteria_overview/banner_state/{application_id}':
     parameters:
     - name: application_id
