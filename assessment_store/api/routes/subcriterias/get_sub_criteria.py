@@ -129,7 +129,8 @@ def sort_add_another_component_contents(
                         and theme["presentation_type"] == "amount"
                     ):
                         amount_answer = [
-                            amount.split(": ")[1] for amount in theme["answer"]
+                            amount.rsplit(": ", 1)[1]
+                            for amount in theme["answer"]
                         ]
 
                         theme["answer"] = amount_answer
