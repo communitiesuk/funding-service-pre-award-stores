@@ -15,6 +15,9 @@ from db.models.comment.enums import CommentType
 from db.queries import create_flag_for_application
 from db.queries import find_answer_by_key_runner
 from db.queries import retrieve_flag_for_application
+from db.queries.assessment_records.queries import (
+    bulk_update_location_jsonb_blob,
+)
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.comments.queries import create_comment_for_application_sub_crit
 from db.queries.comments.queries import get_comments_for_application_sub_crit
@@ -495,3 +498,30 @@ def test_get_sub_criteria_to_latest_score_map(db_session):
 
     assert result[sub_criteria_1_id] == 2
     assert result[sub_criteria_2_id] == 5
+
+
+def test_bulk_update_location_data(db_session):
+    picked_row = get_random_row(AssessmentRecord)
+    assert picked_row, "Picked row not returned"
+    application_id = picked_row.application_id
+
+    test_random_append = random.randint(999, 99999)
+
+    location = {
+        "error": False,
+        "county": f"test_county_{test_random_append}",
+        "country": f"test_country_{test_random_append}",
+    }
+
+    application_ids_to_location_data = [
+        {"application_id": application_id, "location": location}
+    ]
+
+    bulk_update_location_jsonb_blob(application_ids_to_location_data)
+
+    assessment_record = (
+        db_session.query(AssessmentRecord)
+        .where(AssessmentRecord.application_id == application_id)
+        .first()
+    )
+    assert location == assessment_record.location_json_blob

@@ -13,9 +13,11 @@ from db.queries.assessment_records._helpers import derive_application_values
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
 from db.schemas import AssessorTaskListMetadata
+from sqlalchemy import bindparam
 from sqlalchemy import exc
 from sqlalchemy import func
 from sqlalchemy import select
+from sqlalchemy import update
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.orm import defer
 from sqlalchemy.orm import load_only
@@ -273,6 +275,24 @@ def get_application_jsonb_blob(application_id: str) -> dict:
     return application_json
 
 
+def bulk_update_location_jsonb_blob(application_ids_to_location_data):
+    stmt = (
+        update(AssessmentRecord)
+        .where(AssessmentRecord.application_id == bindparam("app_id"))
+        .values(location_json_blob=bindparam("location_data"))
+    )
+
+    update_params = [
+        {
+            "app_id": item["application_id"],
+            "location_data": item["location"],
+        }
+        for item in application_ids_to_location_data
+    ]
+
+    db.session.execute(stmt, update_params)
+    db.session.commit()
+
 def update_status_to_completed(application_id):
     from flask import current_app
     current_app.logger.info(
@@ -284,3 +304,4 @@ def update_status_to_completed(application_id):
 
     db.session.commit()
     
+

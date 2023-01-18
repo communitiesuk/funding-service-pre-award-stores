@@ -30,8 +30,8 @@ def derive_application_values(application_json):
         ) or 0
     except Exception:
         print(
-            "Could not extract funding_value_one"
-            f" from application: {application_id}."
+            "Could not extract funding_value_one from application: "
+            + f"{application_id}."
         )
         funding_one = 0
     try:
@@ -44,9 +44,8 @@ def derive_application_values(application_json):
         ) or 0
     except Exception:
         print(
-            "Could not extract funding_value_two "
-            "from application:"
-            f" {application_id}."
+            "Could not extract funding_value_two from application: "
+            + f"{application_id}."
         )
         funding_two = 0
     derived_values["application_id"] = application_id
@@ -58,5 +57,9 @@ def derive_application_values(application_json):
         float(funding_two)
     )
     derived_values["asset_type"] = asset_type
+    if "location_json_blob" in application_json.keys():
+        derived_values["location_json_blob"] = application_json[
+            "location_json_blob"
+        ]
 
     return derived_values

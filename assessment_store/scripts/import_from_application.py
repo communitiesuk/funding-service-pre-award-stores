@@ -2,10 +2,11 @@
 import argparse
 
 import requests
-from app import app
-from config import Config
-from db.queries import bulk_insert_application_record
-from fsd_utils import CommonConfig
+from app import app  # noqa: E402
+from config import Config  # noqa: E402
+from db.queries import bulk_insert_application_record  # noqa: E402
+from fsd_utils import CommonConfig  # noqa: E402
+
 
 parser = argparse.ArgumentParser(
     description="Import applcations from application store."

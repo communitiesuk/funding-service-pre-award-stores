@@ -63,7 +63,7 @@ Then run:
 
     pip-compile requirements-dev.in
 
-### Initialise and upgrade database
+### Setting up for database development
 This service is designed to use PostgreSQL as a database, via SqlAlchemy
 When running the service (eg. `flask run`) you need to set the DATABASE_URL environment variable to the URL of the database you want to test with.
 
@@ -85,6 +85,17 @@ upgrade the deployed db instances with your changes.
 
 ## How to use
 Enter the virtual environment and setup the db as described above, then:
+## How to run locally
+Enter the virtual environment and install dependencies as described above, then:
+
+### Create and seed local DB
+- Make sure your local `DATABASE_URL` env var is set to your local postgres db (this doesn't need to actually exist yet), eg:
+
+        DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/fsd_assess_store
+
+- Use `tasks\db_tasks.py` to create and seed this DB (follow command prompts for what data to create):
+
+        invoke create_seeded_db
 
 ### Run Flask
 
@@ -121,11 +132,17 @@ These are the current pipelines running on the repo:
 
 # Testing
 
+The tests within /tests are designed to connect to a real database to run tests that use the DB layer, details below. This takes a long time to setup on a test run, so if your tests don't need a DB put them in /tests_no_db. This folder doesn't pickup /tests/conftest.py so therefore doesn't do the DB setup work and these tests can run in isolation much faster.
+
 ## Seed Postgres DB with mock data
 
 `invoke seed_dev_db`
 
-Running the above command will prompt you to enter the number applications, funds & rounds you would like to create as mock data within the database.
+Running the above command will prompt you to enter the number of applications, funds & rounds you would like to create as mock data within the database.
+
+This will also work for the DB within the docker runner. Find the ID of the docker container running assessment-store (`docker ps`) then execute:
+
+        docker exec -it <container_id> invoke seed_dev_db
 
 ## Unit & Accessibility Testing
 
@@ -137,7 +154,9 @@ Running the above command will prompt you to enter the number applications, fund
 
 NB : pytest will create a database with a unique name to use just for unit tests. Changes to this db from tests does not persist. Caching is enable so that sequential pytest invocations will reuse the database with the test data. **Again, only the seeded data is reused since changes due to unit tests are not persisted.**
 
-To rerun the unit test database creation/seeding process run `pytest --cache-clear`.
+To rerun the unit test database creation/seeding process run `pytest --cache-clear`. This is the same as deleting the `.pytest_cache` directory.
+
+If you have deleted the unit test database and then get errors where no rows exist, you need to clear the cache as above before running the unit tests again.
 
 ## Transactional tests
 These rely on the module `pytest-flask-sqlalchemy` which has good docs on its github page: https://github.com/jeancochrane/pytest-flask-sqlalchemy

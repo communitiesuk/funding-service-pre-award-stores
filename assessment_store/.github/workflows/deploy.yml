@@ -2,6 +2,12 @@ name: Deploy to Gov PaaS
 
 on:
   workflow_dispatch:
+    inputs:
+      deploy_to_dev:
+        required: false
+        default: false
+        type: boolean
+        description: Deploy to dev?
   push:
     paths-ignore:
       - '**/README.md'
@@ -15,7 +21,7 @@ jobs:
       api: true
       postgres_unit_testing: true
       db_name: fsd_assess_store_test
-      deploy_to_dev: false
+      deploy_to_dev: ${{github.event.inputs.deploy_to_dev == 'true'}}
       users: 2
       spawn-rate: 2
       run-time: 11s
