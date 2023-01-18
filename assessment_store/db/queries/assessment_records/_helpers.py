@@ -61,5 +61,17 @@ def derive_application_values(application_json):
         derived_values["location_json_blob"] = application_json[
             "location_json_blob"
         ]
+    else:
+        derived_values["location_json_blob"] = {"error": True}
+
+    FIELD_DEFAULT_VALUE = "Not Available"
+    if derived_values["location_json_blob"]["error"] is True:
+        derived_values["location_json_blob"]["county"] = FIELD_DEFAULT_VALUE
+        derived_values["location_json_blob"]["region"] = FIELD_DEFAULT_VALUE
+        derived_values["location_json_blob"]["country"] = FIELD_DEFAULT_VALUE
+        derived_values["location_json_blob"][
+            "constituency"
+        ] = FIELD_DEFAULT_VALUE
+        derived_values["location_json_blob"]["postcode"] = FIELD_DEFAULT_VALUE
 
     return derived_values
