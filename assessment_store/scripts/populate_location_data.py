@@ -38,7 +38,7 @@ def process_locations(
 
         # extract the postcode from each application we have
         for id in application_ids:
-            app_json = get_application_jsonb_blob(id)
+            app_json = get_application_jsonb_blob(id[0])
             questions = get_application_form(app_json)
             postcode = get_postcode_from_questions(questions)
             application_ids_to_postcodes[id] = postcode
