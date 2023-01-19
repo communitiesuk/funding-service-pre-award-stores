@@ -3,8 +3,10 @@ import json
 from db.queries.assessment_records._helpers import derive_application_values
 
 
-def test_derive_cof_values():
-    single_application_json = "tests_no_db/test_data/single_application.json"
+def test_derive_cof_values_no_location():
+    single_application_json = (
+        "tests_no_db/test_data/single_application_no_location.json"
+    )
 
     with open(single_application_json, "r") as f:
         loaded_test_json = json.load(f)
@@ -24,4 +26,54 @@ def test_derive_cof_values():
         "community-centre" == derived_fields["asset_type"]
     ), "Wrong Asset Type"
 
-    # Assert postcode & country extracted
+    assert (
+        derived_fields["location_json_blob"]["error"] is True
+    ), "wrong error value"
+    assert (
+        "Not Available" == derived_fields["location_json_blob"]["county"]
+    ), "wrong county value"
+
+
+def test_derive_cof_values_location_present_no_error():
+    single_application_json = (
+        "tests_no_db/test_data/single_application_no_location.json"
+    )
+
+    with open(single_application_json, "r") as f:
+        loaded_test_json = json.load(f)
+    loaded_test_json["location_json_blob"] = {
+        "error": False,
+        "county": "Cornwall",
+        "region": "region",
+        "country": "country",
+        "constituency": "constituency",
+        "postcode": "postcode",
+    }
+    derived_fields = derive_application_values(loaded_test_json)
+    assert "TEST-REF" == derived_fields["short_id"], "Wrong Short ID"
+
+    assert (
+        derived_fields["location_json_blob"]["error"] is False
+    ), "wrong error value"
+    assert (
+        "Cornwall" == derived_fields["location_json_blob"]["county"]
+    ), "wrong county value"
+
+
+def test_derive_cof_values_location_present_with_error():
+    single_application_json = (
+        "tests_no_db/test_data/single_application_no_location.json"
+    )
+
+    with open(single_application_json, "r") as f:
+        loaded_test_json = json.load(f)
+    loaded_test_json["location_json_blob"] = {"error": True, "county": "error"}
+    derived_fields = derive_application_values(loaded_test_json)
+    assert "TEST-REF" == derived_fields["short_id"], "Wrong Short ID"
+
+    assert (
+        derived_fields["location_json_blob"]["error"] is True
+    ), "wrong error value"
+    assert (
+        "Not Available" == derived_fields["location_json_blob"]["county"]
+    ), "wrong county value"

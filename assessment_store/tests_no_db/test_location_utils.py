@@ -97,7 +97,7 @@ def test_write_csv_file():
         "postcode": "QQ121EE",
     }
 
-    application_ids_to_postcodes = {"abc123": "QQ121EE"}
+    application_ids_to_postcodes = {("111122223333", "abc123"): "QQ121EE"}
 
     postcodes_to_location_data = {"QQ121EE": location}
 

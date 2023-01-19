@@ -39,11 +39,13 @@ def get_postcode_from_questions(form_questions) -> str:
 
 def get_all_application_ids_for_fund_round(fund_id, round_id) -> list:
     """
-    Returns a list of application IDs in assessment_store for the given fund
-    and round IDs
+    Returns a list of tuples (application_id, application_short_id) in
+    assessment_store for the given fund and round IDs
     """
     metadata = get_metadata_for_fund_round_id(fund_id, round_id, "", "", "")
-    application_ids = [item["application_id"] for item in metadata]
+    application_ids = [
+        (item["application_id"], item["short_id"]) for item in metadata
+    ]
     return application_ids
 
 
@@ -128,7 +130,7 @@ def update_db_with_location_data(
     """
     application_ids_to_location_data = [
         {
-            "application_id": application_id,
+            "application_id": application_id[0],
             "location": postcodes_to_location_data[postcode],
         }
         for application_id, postcode in application_ids_to_postcodes.items()
@@ -157,5 +159,5 @@ def write_locations_to_csv(
         writer.writeheader()
         for k, v in application_ids_to_postcodes.items():
             writer.writerow(
-                {"application_id": k, **postcodes_to_location_data[v]}
+                {"application_id": k[1], **postcodes_to_location_data[v]}
             )
