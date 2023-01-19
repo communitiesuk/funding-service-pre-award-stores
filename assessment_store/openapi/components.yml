@@ -272,8 +272,10 @@ components:
           type: string
         justification:
           type: string
+          nullable: true
         section_to_flag:
           type: string
+          nullable: true
         flag_type:
           type: string
           enum:
