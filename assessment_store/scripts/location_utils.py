@@ -58,8 +58,12 @@ def retrieve_data_from_postcodes_io(postcodes: list):
     result = requests.post(
         url="http://api.postcodes.io/postcodes", data={"postcodes": postcodes}
     )
-
-    return result
+    if result.status_code == 200:
+        return result
+    else:
+        print(postcodes)
+        print(result.text)
+        raise Exception("Unexpected response code from postcodes.io")
 
 
 def extract_location_data(json_data_item):
@@ -113,6 +117,7 @@ def get_all_location_data(just_postcodes) -> dict:
     raw_location_data = retrieve_data_from_postcodes_io(just_postcodes)
 
     postcodes_to_location_data = {}
+
     for postcode_data_item in raw_location_data.json()["result"]:
         postcode = postcode_data_item["query"]
         location_data = extract_location_data(postcode_data_item)
