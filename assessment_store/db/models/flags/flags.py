@@ -21,10 +21,6 @@ class Flag(db.Model):
         "flag_id", UUID(as_uuid=True), default=uuid.uuid4, primary_key=True
     )
 
-    justification = db.Column("justification", db.Text(), nullable=False)
-
-    section_to_flag = db.Column("section_to_flag", db.Text(), nullable=False)
-
     flag_type = db.Column("flag_type", ENUM(FlagType), nullable=False)
 
     application_id = db.Column(
@@ -36,3 +32,7 @@ class Flag(db.Model):
     )
 
     user_id = db.Column("user_id", db.String(), nullable=False)
+
+    justification = db.Column("justification", db.Text(), nullable=True)
+
+    section_to_flag = db.Column("section_to_flag", db.Text(), nullable=True)
