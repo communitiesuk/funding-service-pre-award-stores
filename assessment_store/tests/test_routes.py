@@ -40,7 +40,46 @@ def test_gets_all_apps_for_fund_round(request, client):
     ).json
 
     assert len(response_json) == apps_per_round
+ 
+    #Check application overview returns flags in order of descending
+    create_flag_for_application(
+        justification="Test 1",
+        section_to_flag="Overview",
+        application_id=picked_row.application_id,
+        user_id="abc",
+        flag_type=FlagType.FLAGGED,
+    )
 
+    create_flag_for_application(
+        justification="Test 2",
+        section_to_flag="Overview",
+        application_id=picked_row.application_id,
+        user_id="abc",
+        flag_type=FlagType.RESOLVED,
+    )
+
+    create_flag_for_application(
+        justification="Test 3",
+        section_to_flag="Overview",
+        application_id=picked_row.application_id,
+        user_id="abc",
+        flag_type=FlagType.STOPPED,
+    )
+
+    response_with_flag_json = client.get(
+        f"/application_overviews/{random_fund_id}/{random_round_id}"
+    ).json
+
+    application_to_check = None
+    for application in response_with_flag_json:
+
+        if application['application_id'] == picked_row.application_id:
+            application_to_check = application
+
+
+    ## Check that the last flag in the flag array is the latest flag added
+    assert application_to_check['flags'][-1]['flag_type'] == "STOPPED"
+    assert application_to_check['flags'][-1]['justification'] == "Test 3"
 
 def test_search(client):
 
