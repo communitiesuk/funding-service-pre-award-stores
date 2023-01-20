@@ -10,6 +10,7 @@ from marshmallow import fields
 from marshmallow import Schema
 from marshmallow.fields import Enum
 from marshmallow.fields import Field
+from marshmallow.fields import Nested
 from marshmallow_sqlalchemy import auto_field
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
@@ -23,7 +24,7 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
 
     workflow_status = Enum(Status)
     language = Enum(Language)
-
+    flags = Nested("FlagMetadata", many=True)
 
 class ScoreMetadata(SQLAlchemyAutoSchema):
     """ScoreMetadata The marshmallow class used to turn SQLAlchemy
