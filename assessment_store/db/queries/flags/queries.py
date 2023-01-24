@@ -56,7 +56,7 @@ def find_qa_complete_flag(application_id):
         .first()
     )
 
-    return {"is_qa_complete": True if qa_complete_flag else False}
+    return {"is_qa_complete": bool(qa_complete_flag)}
 
 
 def retrieve_flags_for_applications(application_ids: list[str]) -> dict:
