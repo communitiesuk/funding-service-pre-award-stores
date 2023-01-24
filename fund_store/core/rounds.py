@@ -14,6 +14,8 @@ def get_rounds_for_fund(fund_id: str):
                 fund_id and response code
     :rtype: Tuple
     """
+    language = request.args.get("language")
+    round_data.ROUNDS_DUMMY_DAO.load_dummy(round_data.get_round_data(language))
     rounds = round_data.ROUNDS_DUMMY_DAO.get_all_for_fund(fund_id)
     if len(rounds) > 0:
         return rounds, 200
