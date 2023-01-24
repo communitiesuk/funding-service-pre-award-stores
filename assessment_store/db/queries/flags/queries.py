@@ -47,6 +47,18 @@ def retrieve_flag_for_application(application_id: str) -> dict:
     return flag_metadata
 
 
+def find_qa_complete_flag(application_id):
+    qa_complete_flag = (
+        Flag.query.filter(
+            Flag.application_id == application_id,
+            Flag.flag_type == "QA_COMPLETED"
+        )
+        .first()
+    )
+
+    return {"is_qa_complete": True if qa_complete_flag else False}
+
+
 def retrieve_flags_for_applications(application_ids: list[str]) -> dict:
     flags = (
         Flag.query.filter(Flag.application_id.in_(application_ids))

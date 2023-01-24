@@ -1,6 +1,6 @@
 # flake8: noqa
 from db.models.flags.enums import FlagType
-from db.queries.flags.queries import create_flag_for_application
+from db.queries.flags.queries import create_flag_for_application, find_qa_complete_flag
 from db.queries.flags.queries import retrieve_flag_for_application
 from flask import request
 
@@ -20,4 +20,5 @@ def post_flag_for_application() -> dict:
 
 def get_latest_flag_for_application(application_id: str) -> list:
     flag = retrieve_flag_for_application(application_id)
-    return flag
+    is_qa_complete = find_qa_complete_flag(application_id)
+    return flag | is_qa_complete if flag else {}
