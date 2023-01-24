@@ -102,10 +102,6 @@ def get_metadata_for_fund_round_id(
         for app_metadata in assessment_metadatas
     ]
 
-    for am in assessment_metadatas:
-        if am["application_id"] in flagged_application_ids:
-            am["workflow_status"] = "FLAGGED"
-
     return assessment_metadatas
 
 

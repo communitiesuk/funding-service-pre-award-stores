@@ -149,7 +149,7 @@ subcriteria_themes_and_expected_response = {
 ASSESSMENTS_STATS_RESPONSE = {
     "completed": 0,
     "assessing": 0,
-    "not_started": 1,
+    "not_started": 2,
     "qa_completed": 1,
     "stopped": 0,
     "flagged": 0,
