@@ -289,6 +289,8 @@ components:
           type: string
         user_id:
           type: string
+        is_qa_complete:
+          type: boolean
     PostFlag:
       type: object
       properties:
