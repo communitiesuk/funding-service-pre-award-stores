@@ -6,10 +6,13 @@ import json
 from typing import Dict
 from typing import List
 
+from flask import current_app
+
 from db import db
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record.enums import Status
 from db.queries.assessment_records._helpers import derive_application_values
+from db.queries.flags.queries import find_qa_complete_flag
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
 from db.schemas import AssessorTaskListMetadata
@@ -70,35 +73,12 @@ def get_metadata_for_fund_round_id(
 
     assessment_metadatas = db.session.scalars(statement).all()
 
-    application_ids = [a.application_id for a in assessment_metadatas]
-    # added locally to avoid circular import
-    from db.queries import retrieve_flags_for_applications
-
-    flags = retrieve_flags_for_applications(application_ids)
-    flagged_application_ids = [f["application_id"] for f in flags]
-
-    match status:
-        case "FLAGGED":
-            assessment_metadatas = [
-                am
-                for am in assessment_metadatas
-                if am.application_id in flagged_application_ids
-            ]
-        case "ALL" | "":
-            ...
-        case _:
-            assessment_metadatas = [
-                am
-                for am in assessment_metadatas
-                if am.application_id not in flagged_application_ids
-            ]
-
     metadata_serialiser = AssessmentRecordMetadata(
         exclude=("jsonb_blob", "application_json_md5")
     )
 
     assessment_metadatas = [
-        metadata_serialiser.dump(app_metadata)
+        metadata_serialiser.dump(app_metadata) | find_qa_complete_flag(app_metadata.application_id)
         for app_metadata in assessment_metadatas
     ]
 
