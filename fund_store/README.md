@@ -88,3 +88,12 @@ into your workflow. You will be notified of any pep8 errors during commits.
 
 In deploy.yml, there are three environment variables called users, spawn-rate and run-time. These are used
 to override the locust config if the performance tests need to run with different configs for fund store.
+
+# Data
+This repo also defines the production data for funds and rounds in JSON format in lieu of a real database. Certain fields can be overridden through environment variables in the following format:
+
+        force_fieldname_roundshortid=value
+
+The fields that can be overridden are: opens, deadline, assessment_deadline. So to override the opening date:
+
+        export force_opens_R2W3=2023-01-01

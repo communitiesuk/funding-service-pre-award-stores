@@ -9,7 +9,7 @@ def test_healthchecks_endpoint(client: Flask):
 
     expected_dict = {
         "checks": [{"check_flask_running": "OK"}],
-        "version": "123123"
+        "version": "123123",
     }
 
     assert 200 == response.status_code, "Unexpected status code"
