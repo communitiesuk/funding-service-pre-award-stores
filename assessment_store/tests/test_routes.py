@@ -29,7 +29,10 @@ def test_gets_all_apps_for_fund_round(request, client):
     else:
         # If you regenerate the deterministic test data you will have to change
         # this to the value you used.
-        apps_per_round = 100
+        # Hand crafted data could be picked here (as its a random selection),
+        # if there is a different number of applications for handcrafted data
+        # than for the auto-generated data this will fail the test
+        apps_per_round = 3
 
     random_round_id = picked_row.round_id
 
@@ -40,8 +43,8 @@ def test_gets_all_apps_for_fund_round(request, client):
     ).json
 
     assert len(response_json) == apps_per_round
- 
-    #Check application overview returns flags in order of descending
+
+    # Check application overview returns flags in order of descending
     create_flag_for_application(
         justification="Test 1",
         section_to_flag="Overview",
@@ -73,13 +76,13 @@ def test_gets_all_apps_for_fund_round(request, client):
     application_to_check = None
     for application in response_with_flag_json:
 
-        if application['application_id'] == picked_row.application_id:
+        if application["application_id"] == picked_row.application_id:
             application_to_check = application
 
+    # Check that the last flag in the flag array is the latest flag added
+    assert application_to_check["flags"][-1]["flag_type"] == "STOPPED"
+    assert application_to_check["flags"][-1]["justification"] == "Test 3"
 
-    ## Check that the last flag in the flag array is the latest flag added
-    assert application_to_check['flags'][-1]['flag_type'] == "STOPPED"
-    assert application_to_check['flags'][-1]['justification'] == "Test 3"
 
 def test_search(client):
 
@@ -181,10 +184,9 @@ def test_get_sub_criteria_theme_answers_field_id(request, client):
 
 
 def test_update_ar_status_to_completed(request, client):
-    """ Test checks that the status code returned by the POST request is 204, 
-    which indicates that the request was successful and 
-    that the application status was updated to COMPLETED. """
-
+    """Test checks that the status code returned by the POST request is 204,
+    which indicates that the request was successful and
+    that the application status was updated to COMPLETED."""
 
     application_id = "a3ec41db-3eac-4220-90db-c92dea049c00"
 

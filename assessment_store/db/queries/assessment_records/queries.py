@@ -6,16 +6,18 @@ import json
 from typing import Dict
 from typing import List
 
-from flask import current_app
-
 from db import db
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record.enums import Status
+from db.models.flags import Flag
+from db.models.flags.enums import FlagType
 from db.queries.assessment_records._helpers import derive_application_values
 from db.queries.flags.queries import find_qa_complete_flag
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
 from db.schemas import AssessorTaskListMetadata
+from flask import current_app
+from sqlalchemy import and_
 from sqlalchemy import bindparam
 from sqlalchemy import exc
 from sqlalchemy import func
@@ -54,6 +56,9 @@ def get_metadata_for_fund_round_id(
     )
 
     if search_term != "":
+        current_app.logger.info(
+            f"Performing assessment search on search term: {search_term}."
+        )
         search_term = search_term.replace(" ", "%")
         statement = statement.where(
             AssessmentRecord.short_id.like(f"%{search_term}%")
@@ -61,15 +66,67 @@ def get_metadata_for_fund_round_id(
         )
 
     if asset_type != "ALL" and asset_type != "":
+        current_app.logger.info(
+            f"Performing assessment search on asset type: {asset_type}."
+        )
         statement = statement.where(AssessmentRecord.asset_type == asset_type)
 
     match status:
-        case "NOT_STARTED" | "IN_PROGRESS" | "SUBMITTED" | "COMPLETED":
+        case FlagType.QA_COMPLETED.name:
+            current_app.logger.info(
+                f"Performing search for assessments with flag: {status}."
+            )
+            statement = (
+                statement.join(Flag)
+                .group_by(AssessmentRecord.application_id)
+                .filter(Flag.flag_type == status)
+            )
+
+        case (  # noqa
+            Status.NOT_STARTED.name
+            | Status.IN_PROGRESS.name
+            | Status.COMPLETED.name
+        ):
+            current_app.logger.info(
+                f"Performing search for assessments with status: {status}."
+            )
             statement = statement.where(
                 AssessmentRecord.workflow_status == status
             )
-        case "INELIGIBLE" | "QA_COMPLETE" | "QA_READY":
-            return []  # TODO: Handle these statuses
+
+        case FlagType.STOPPED.name | FlagType.FLAGGED.name:
+            # Only keep assessment records whoms most recent
+            #  flag matches the status parameter.
+            current_app.logger.info(
+                "Performing search for assessments with"
+                f" latest flag: {status}."
+            )
+            subq = (
+                db.session.query(
+                    Flag.application_id,
+                    func.max(Flag.date_created).label("maxdate"),
+                )
+                .group_by(Flag.application_id)
+                .subquery("t2")
+            )
+
+            query = db.session.query(Flag.application_id).join(
+                subq,
+                and_(
+                    Flag.application_id == subq.c.application_id,
+                    Flag.date_created == subq.c.maxdate,
+                    Flag.flag_type == status,
+                ),
+            )
+            applications_with_latest_flag_match = [
+                x.application_id for x in db.session.execute(query).all()
+            ]
+
+            statement = statement.filter(
+                AssessmentRecord.application_id.in_(
+                    applications_with_latest_flag_match
+                )
+            )
 
     assessment_metadatas = db.session.scalars(statement).all()
 
@@ -78,7 +135,8 @@ def get_metadata_for_fund_round_id(
     )
 
     assessment_metadatas = [
-        metadata_serialiser.dump(app_metadata) | find_qa_complete_flag(app_metadata.application_id)
+        metadata_serialiser.dump(app_metadata)
+        | find_qa_complete_flag(app_metadata.application_id)
         for app_metadata in assessment_metadatas
     ]
 
@@ -269,15 +327,17 @@ def bulk_update_location_jsonb_blob(application_ids_to_location_data):
     db.session.execute(stmt, update_params)
     db.session.commit()
 
+
 def update_status_to_completed(application_id):
-    from flask import current_app
     current_app.logger.info(
-             f"Updating application status to COMPLETED")
-    db.session.query(AssessmentRecord)\
-        .filter(AssessmentRecord.application_id == application_id)\
-        .update(
-        {AssessmentRecord.workflow_status: Status.COMPLETED}, synchronize_session=False)
+        "Updating application status to COMPLETED"
+        f" for application: {application_id}."
+    )
+    db.session.query(AssessmentRecord).filter(
+        AssessmentRecord.application_id == application_id
+    ).update(
+        {AssessmentRecord.workflow_status: Status.COMPLETED},
+        synchronize_session=False,
+    )
 
     db.session.commit()
-    
-

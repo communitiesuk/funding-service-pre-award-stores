@@ -50,15 +50,18 @@ def generate_test_data(c):
     import json
 
     _echo_print("Generating data.")
-    rows = [json.loads(row) for row in get_dynamic_rows(100, 5, 3)]
+    rows = [json.loads(row) for row in get_dynamic_rows(3, 3, 10)]
 
     _echo_print("Writing data to apps.json")
     with open("apps.json", "w") as f:
         json.dump(rows, f, indent=4)
 
 
-@task
-def seed_dev_db(c):
+@task(help={
+        "fundround": "The round and fund to seed applications for assessment.",
+        "appcount": "The amount of applications to seed."}
+    )
+def seed_dev_db(c, fundround=None, appcount=None):
     """Uses the `tests.conftest.seed_database` function to insert test data
     into your dev database."""
     from flask_migrate import upgrade
@@ -68,22 +71,40 @@ def seed_dev_db(c):
         from app import app
 
         with app.app_context():
-
-            from tests.conftest import seed_database_randomly
+            from fsd_utils import CommonConfig
+            from uuid import uuid4
+            from tests.conftest import seed_database_for_fund_round
             from config import Config
 
-            choosing = True
+            config = {
+                "COFR2W2": {
+                    "fund_id": CommonConfig.COF_FUND_ID,
+                    "round_id": CommonConfig.COF_ROUND_2_ID
+                },
+                "RANDOM_FUND_ROUND": {
+                    "fund_id": uuid4(),
+                    "round_id": uuid4()
+                }
+            }
+            
+            choosing = not bool(fundround and appcount)
+            if not choosing:
+                fund_round = config[fundround]
+                apps = int(appcount)
+                print(f"Seeding {apps} applications for fund_round: '{fundround}'")
 
             while choosing:
 
-                apps = int(_echo_input("How many applications per round?"))
-                rounds = int(_echo_input("How many rounds per fund?"))
-                funds = int(_echo_input("How many funds?"))
-
+                new_line = '\n'
+                _echo_print(
+                    f"fund-rounds available to seed: {new_line} - {f' {new_line} - '.join(config.keys())}",
+                )
+                fund_round_input = str(_echo_input("Please type the fund-round to seed:"))
+                fund_round = config[fund_round_input]
+                apps = int(_echo_input("How many applications?"))
                 choosing = (
                     not _echo_input(
-                        f"This will create {apps * rounds * funds} rows. Would"
-                        " you like to continue? y/n \n"
+                        f"Would you like to insert {apps} applications for {fund_round_input}? y/n \n"
                     ).lower()
                     == "y"
                 )
@@ -91,14 +112,14 @@ def seed_dev_db(c):
             _echo_print(
                 f"Running migrations on db {Config.SQLALCHEMY_DATABASE_URI}.",
             )
+
             upgrade()
 
             _echo_print(
                 f"Seeding db {Config.SQLALCHEMY_DATABASE_URI} with"
-                f" {apps * rounds * funds} test rows."
+                f" {apps} test rows."
             )
-
-            seed_database_randomly(apps, rounds, funds)
+            seed_database_for_fund_round(apps, fund_round)
 
             _echo_print(
                 f"Seeding db {Config.SQLALCHEMY_DATABASE_URI} complete."

@@ -519,7 +519,7 @@ paths:
     post:
       tags:
         - progress
-      summary: get % progress for an application
+      summary: post % progress for an application
       description: get % progress for an application
       operationId: api.routes.post_progress_for_applications
       responses:
