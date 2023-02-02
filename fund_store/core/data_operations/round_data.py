@@ -4,7 +4,7 @@
 import os
 
 from config import Config
-from core.dummy_dao import RoundDAO
+from core.fund_round_dao import RoundDAO
 
 shared_cof_r2_data = {
     "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
@@ -65,7 +65,9 @@ def get_round_data(language):
                 if language == "cy"
                 else "Round 2 Window 2",
                 "short_name": "R2W2",
-                "opens": "2022-10-04 12:00:00",
+                "opens": "2022-10-04 12:00:00"
+                if not Config.FORCE_OPEN
+                else "2022-01-01 12:00:00",
                 "deadline": "2022-12-14 11:59:00"
                 if not Config.FORCE_OPEN
                 else "2024-12-31 11:59:00",
@@ -81,10 +83,10 @@ def get_round_data(language):
                 if language == "cy"
                 else "Round 2 Window 3",
                 "short_name": "R2W3",
-                "opens": "2023-02-08 12:00:00"
+                "opens": "2023-02-15 12:00:00"
                 if not Config.FORCE_OPEN
                 else "2022-01-01 12:00:00",
-                "deadline": "2023-04-05 11:59:00"
+                "deadline": "2023-04-14 12:00:00"
                 if not Config.FORCE_OPEN
                 else "2024-12-31 11:59:00",
                 "assessment_deadline": "2023-05-05 12:00:00",
@@ -95,4 +97,4 @@ def get_round_data(language):
     ]
 
 
-ROUNDS_DUMMY_DAO = RoundDAO()
+ROUNDS_DAO = RoundDAO()

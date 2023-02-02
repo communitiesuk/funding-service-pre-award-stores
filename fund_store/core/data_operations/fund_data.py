@@ -1,7 +1,7 @@
 """
     Fund configuration
 """
-from core.dummy_dao import FundDAO
+from core.fund_round_dao import FundDAO
 
 
 def get_fund_data(language):
@@ -22,4 +22,4 @@ def get_fund_data(language):
     ]
 
 
-FUNDS_DUMMY_DAO = FundDAO()
+FUNDS_DAO = FundDAO()

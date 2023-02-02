@@ -97,3 +97,8 @@ This repo also defines the production data for funds and rounds in JSON format i
 The fields that can be overridden are: opens, deadline, assessment_deadline. So to override the opening date:
 
         export force_opens_R2W3=2023-01-01
+
+You can also force all defined rounds to be open by setting the environment variable `FORCE_OPEN`. This has the effect of setting the following values for all rounds:
+
+        `opens = "2022-02-02 12:00:00",
+        deadline = "2024-12-31 11:59:00",`

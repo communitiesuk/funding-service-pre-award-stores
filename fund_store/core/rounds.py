@@ -15,8 +15,8 @@ def get_rounds_for_fund(fund_id: str):
     :rtype: Tuple
     """
     language = request.args.get("language")
-    round_data.ROUNDS_DUMMY_DAO.load_dummy(round_data.get_round_data(language))
-    rounds = round_data.ROUNDS_DUMMY_DAO.get_all_for_fund(fund_id)
+    round_data.ROUNDS_DAO.load_data(round_data.get_round_data(language))
+    rounds = round_data.ROUNDS_DAO.get_all_for_fund(fund_id)
     if len(rounds) > 0:
         return rounds, 200
     else:
@@ -38,8 +38,8 @@ def get_round(fund_id: str, round_id: str):
     :rtype: Tuple
     """
     language = request.args.get("language")
-    round_data.ROUNDS_DUMMY_DAO.load_dummy(round_data.get_round_data(language))
-    round = round_data.ROUNDS_DUMMY_DAO.get_one(fund_id, round_id, language)
+    round_data.ROUNDS_DAO.load_data(round_data.get_round_data(language))
+    round = round_data.ROUNDS_DAO.get_one(fund_id, round_id, language)
     if round:
         return round, 200
     else:

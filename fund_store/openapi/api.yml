@@ -13,16 +13,6 @@ paths:
       summary: Returns list of all funds
       description: Returns list of all funds
       operationId: core.funds.get_funds
-      parameters:
-        - in: query
-          name: search_items
-          style: form
-          schema:
-            type: array
-            items:
-              type: string
-          required: false
-          explode: false
       responses:
         200:
           description: "List all funds."
@@ -33,7 +23,7 @@ paths:
                 items:
                   $ref : 'components.yml#/components/schemas/Fund'
         404:
-          description: "funds page not found."
+          description: "No funds exist"
           content:
               texts/plain:
                 schema:

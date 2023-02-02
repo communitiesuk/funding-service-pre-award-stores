@@ -1,5 +1,4 @@
-"""A dummy DAO implementation. Acts as a template for our
-future implementation.
+"""Simple DAO class that works with static data defined in code.
 """
 
 
@@ -19,7 +18,7 @@ class FundDAO:
     def create(self, data):
         self.funds[data["id"]] = data
 
-    def load_dummy(self, fund_data):
+    def load_data(self, fund_data):
         for fund in fund_data:
             self.create(fund)
 
@@ -51,6 +50,6 @@ class RoundDAO:
     def create(self, data):
         self.rounds[data["id"]] = data
 
-    def load_dummy(self, round_data):
+    def load_data(self, round_data):
         for round in round_data:
             self.create(round)

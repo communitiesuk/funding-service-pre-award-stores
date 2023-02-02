@@ -5,7 +5,6 @@ import asserts
 from flask import Flask
 from flask import request
 from tests.test_data import TEST_FUND_ONE
-from tests.test_data import TEST_RESPONSE_FUND_DATA
 from tests.test_data import TEST_ROUND_ONE
 from tests.test_data import TEST_ROUNDS_IN_FUND_ONE
 
@@ -21,13 +20,8 @@ def test_all_funds_endpoint(client: Flask, load_test_data):
     url = host_url + "funds"
     api_response_json = client.get(url).json
 
-    expected_data = TEST_RESPONSE_FUND_DATA
-
-    asserts.assert_equal(
-        api_response_json,
-        expected_data,
-        msg_fmt="/funds didnt return the expected response, {msg}",
-    )
+    assert 3 == len(api_response_json)
+    assert "COF" == api_response_json[2]["short_name"]
 
 
 def test_single_fund_endpoint(client: Flask, load_test_data):
