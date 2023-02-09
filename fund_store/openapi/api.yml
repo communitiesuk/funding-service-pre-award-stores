@@ -74,6 +74,11 @@ paths:
           in: query
           schema:
             type: string
+        - name: use_short_name
+          in: query
+          schema:
+            type: boolean
+          required: false
       responses:
         200:
           description: "If the fund exists then the data is returned."
@@ -101,6 +106,11 @@ paths:
           schema:
             type: string
           required: true
+        - name: use_short_name
+          in: query
+          schema:
+            type: boolean
+          required: false
       responses:
         200:
           description: A list of rounds matching the given fund ID.

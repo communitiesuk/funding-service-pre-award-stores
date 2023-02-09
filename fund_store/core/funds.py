@@ -31,11 +31,17 @@ def get_fund(fund_id: str):
     """
     language = request.args.get("language")
     fund_data.FUNDS_DAO.load_data(fund_data.get_fund_data(language))
-    fund_search = fund_data.FUNDS_DAO.get_one(fund_id, language)
+    use_short_name = request.args.get("use_short_name")
+    if use_short_name == "true":
+        fund_search = fund_data.FUNDS_DAO.search_by_short_name(fund_id)
+    else:
+        fund_search = fund_data.FUNDS_DAO.get_one(fund_id, language)
     if isinstance(fund_search, dict):
         return fund_search, 200
     else:
         return {
             "code": 404,
-            "message": f"fund_id : {fund_id} cannot be found.",
+            "message": f"fund_id : {fund_id} cannot be found"
+            if use_short_name != "true"
+            else f"short_name {fund_id} cannot be found",
         }, 404
