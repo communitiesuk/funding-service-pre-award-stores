@@ -260,13 +260,24 @@ def test_get_comments():
         application_id, sub_criteria_id, theme_id
     )
     comment_metadata = get_comments_for_application_sub_crit(
-        application_id, sub_criteria_id, theme_id="score"
+        application_id, sub_criteria_id, theme_id=None
     )
 
     assert len(comment_metadata_for_theme) == 2
     assert (
         comment_metadata_for_theme[0]["theme_id"]
         == comment_metadata_for_theme[1]["theme_id"]
+    )
+    assert len(comment_metadata) == 3
+    # TODO: remove this once frontend is updated not to use 'theme_id=score'
+    comment_metadata_score_theme_id = get_comments_for_application_sub_crit(
+        application_id, sub_criteria_id, theme_id="score"
+    )
+
+    assert len(comment_metadata_for_theme) == 2
+    assert (
+        comment_metadata_score_theme_id[0]["theme_id"]
+        == comment_metadata_score_theme_id[1]["theme_id"]
     )
     assert len(comment_metadata) == 3
 

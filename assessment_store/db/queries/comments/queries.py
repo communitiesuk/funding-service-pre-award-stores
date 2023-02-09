@@ -19,9 +19,14 @@ def get_comments_for_application_sub_crit(
     sub_criteria_id.
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
+    :param theme_id: optional theme_id, if not supplied
+    returns all comments for subcriteria
     :return: dictionary.
     """
-    if theme_id == "score":
+    # TODO: remove 'score' option once
+    # frontend updated not to use it as it is not
+    # semantically meaningful
+    if not theme_id or theme_id == "score":
         stmt = (
             select(Comment)
             .where(
