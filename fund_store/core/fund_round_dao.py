@@ -22,6 +22,16 @@ class FundDAO:
         for fund in fund_data:
             self.create(fund)
 
+    def search_by_short_name(self, short_name):
+        return next(
+            (
+                fund
+                for fund in self.get_all()
+                if str.upper(fund["short_name"]) == str.upper(short_name)
+            ),
+            None,
+        )
+
 
 class RoundDAO:
     """A dummy interface to use instead of a database ORM."""

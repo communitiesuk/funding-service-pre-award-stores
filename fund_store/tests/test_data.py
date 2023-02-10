@@ -5,11 +5,13 @@ TEST_FUND_DATA = [
         "id": "fb986cdc-8e02-477a-a7e0-41cf19dd7675",
         "name": "English fund 1",
         "description": "Test fund description 1",
+        "short_name": "FUND1",
     },
     {
         "id": "e356c266-68a8-4000-ad95-6e4d961f65b4",
         "name": "English fund 2",
         "description": "Test fund description 2",
+        "short_name": "FUND2",
     },
 ]
 
