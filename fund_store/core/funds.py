@@ -2,6 +2,7 @@
 Python functions to return responses of funds from our GET requests
 """
 from core.data_operations import fund_data
+from distutils.util import strtobool
 from flask import request
 
 
@@ -31,8 +32,9 @@ def get_fund(fund_id: str):
     """
     language = request.args.get("language")
     fund_data.FUNDS_DAO.load_data(fund_data.get_fund_data(language))
-    use_short_name = request.args.get("use_short_name")
-    if use_short_name == "true":
+    short_name_arg = request.args.get("use_short_name")
+    use_short_name = short_name_arg and strtobool(short_name_arg)
+    if use_short_name:
         fund_search = fund_data.FUNDS_DAO.search_by_short_name(fund_id)
     else:
         fund_search = fund_data.FUNDS_DAO.get_one(fund_id, language)
@@ -42,6 +44,6 @@ def get_fund(fund_id: str):
         return {
             "code": 404,
             "message": f"fund_id : {fund_id} cannot be found"
-            if use_short_name != "true"
+            if not use_short_name
             else f"short_name {fund_id} cannot be found",
         }, 404
