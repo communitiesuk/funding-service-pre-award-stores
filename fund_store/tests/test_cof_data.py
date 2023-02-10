@@ -16,7 +16,6 @@ class MockRequest_en:
 
 
 def test_get_cof_r2w3(mocker, monkeypatch):
-
     monkeypatch.setattr(
         "core.rounds.request",
         MockRequest_en(),
@@ -24,6 +23,7 @@ def test_get_cof_r2w3(mocker, monkeypatch):
     result = get_round(
         CommonConfig.COF_FUND_ID, CommonConfig.COF_ROUND_2_W3_ID
     )
+
     assert "Round 2 Window 3" == result[0]["title"]
     assert "Monday to Friday" == result[0]["support_availability"]["days"]
 

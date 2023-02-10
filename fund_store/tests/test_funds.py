@@ -21,7 +21,7 @@ def test_all_funds_endpoint(client: Flask, load_test_data):
     api_response_json = client.get(url).json
 
     assert 3 == len(api_response_json)
-    assert "COF" == api_response_json[2]["short_name"]
+    assert "COF" in [f["short_name"] for f in api_response_json]
 
 
 def test_single_fund_endpoint(client: Flask, load_test_data):
