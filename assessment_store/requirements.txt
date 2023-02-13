@@ -11,9 +11,7 @@ alembic==1.8.1
 alembic-utils==0.7.8
     # via -r requirements.in
 attrs==22.1.0
-    # via
-    #   jsonschema
-    #   openapi-schema-validator
+    # via jsonschema
 babel==2.11.0
     # via flask-babel
 blinker==1.5
@@ -65,12 +63,12 @@ flupy==1.2.0
     # via alembic-utils
 funding-service-design-utils==1.0.18
     # via -r requirements.in
+greenlet==2.0.2
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.4
     # via requests
-importlib-resources==5.10.0
-    # via openapi-spec-validator
 inflection==0.5.1
     # via connexion
 itsdangerous==2.1.2
@@ -111,9 +109,9 @@ mypy==0.991
     # via sqlalchemy
 mypy-extensions==0.4.3
     # via mypy
-openapi-schema-validator==0.3.4
+openapi-schema-validator==0.4.3
     # via openapi-spec-validator
-openapi-spec-validator==0.5.1
+openapi-spec-validator==0.5.5
     # via -r requirements.in
 packaging==21.3
     # via
@@ -160,18 +158,17 @@ pyyaml==6.0
     #   connexion
     #   funding-service-design-utils
     #   jsonschema-spec
-    #   openapi-spec-validator
 requests==2.28.1
     # via
     #   -r requirements.in
     #   connexion
     #   prance
+rfc3339-validator==0.1.4
+    # via openapi-schema-validator
 rich==12.6.0
     # via funding-service-design-utils
 ruamel-yaml==0.17.21
     # via prance
-ruamel-yaml-clib==0.2.7
-    # via ruamel-yaml
 semver==2.13.0
     # via prance
 sentry-sdk[flask]==1.11.1
@@ -181,6 +178,7 @@ six==1.16.0
     #   jsonpath-rw
     #   prance
     #   python-dateutil
+    #   rfc3339-validator
 sqlalchemy[mypy]==1.4.44
     # via
     #   -r requirements.in
@@ -197,8 +195,6 @@ stringcase==1.2.0
     # via dataclass-dict-convert
 swagger-ui-bundle==0.0.9
     # via -r requirements.in
-tomli==2.0.1
-    # via mypy
 typing-extensions==4.4.0
     # via
     #   alembic-utils
