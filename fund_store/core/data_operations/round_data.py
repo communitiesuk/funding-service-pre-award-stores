@@ -86,7 +86,7 @@ def get_round_data(language):
                 "opens": "2023-02-15 12:00:00"
                 if not Config.FORCE_OPEN
                 else "2022-01-01 12:00:00",
-                "deadline": "2023-04-14 12:00:00"
+                "deadline": "2023-04-14 11:59:00"
                 if not Config.FORCE_OPEN
                 else "2024-12-31 11:59:00",
                 "assessment_deadline": "2023-05-05 12:00:00",
