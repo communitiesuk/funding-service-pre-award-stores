@@ -281,3 +281,12 @@ def test_get_assessments_stats(client):
     ).json
 
     assert response_json == ASSESSMENTS_STATS_RESPONSE
+
+
+def test_get_application_json(client):
+    picked_row = get_random_row(AssessmentRecord)
+    response = client.get(f"/application/{picked_row.application_id}/json")
+    assert 200 == response.status_code
+
+    json_blob = response.json
+    assert picked_row.application_id == json_blob["application_id"]
