@@ -58,6 +58,18 @@ def find_qa_complete_flag(application_id):
 
     return {"is_qa_complete": bool(qa_complete_flag)}
 
+def find_qa_complete_flag_for_applications(application_ids: list[str]) -> dict:
+    flags = (
+        Flag.query.filter(Flag.application_id.in_(application_ids),
+        Flag.flag_type == "QA_COMPLETED")
+        .all()
+    )
+
+    metadata_serialiser = FlagMetadata()
+    flag_metadatas = [metadata_serialiser.dump(flag) for flag in flags]
+
+    return flag_metadatas
+
 
 def retrieve_flags_for_applications(application_ids: list[str]) -> dict:
     flags = (
