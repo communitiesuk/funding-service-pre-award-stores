@@ -1,4 +1,6 @@
 name: tag-to-release
+permissions:
+  contents: write
 on:
   pull_request:
     types:
