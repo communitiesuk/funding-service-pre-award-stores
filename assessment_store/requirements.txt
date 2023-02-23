@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements.in
 #
-alembic==1.8.1
+alembic==1.9.4
     # via
     #   alembic-utils
     #   flask-migrate
@@ -53,7 +53,7 @@ flask==2.2.3
     #   sentry-sdk
 flask-babel==2.0.0
     # via funding-service-design-utils
-flask-migrate==4.0.0
+flask-migrate==4.0.4
     # via -r requirements.in
 flask-sqlalchemy==2.5.1
     # via

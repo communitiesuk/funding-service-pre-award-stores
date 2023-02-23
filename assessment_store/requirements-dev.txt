@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements-dev.in
 #
-alembic==1.8.1
+alembic==1.9.4
     # via
     #   -r requirements.txt
     #   alembic-utils
@@ -98,7 +98,7 @@ flask-babel==2.0.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-flask-migrate==4.0.0
+flask-migrate==4.0.4
     # via -r requirements.txt
 flask-sqlalchemy==2.5.1
     # via
