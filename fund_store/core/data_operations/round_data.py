@@ -61,7 +61,7 @@ def get_round_data(language):
         override_fields_from_env(
             {
                 "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-                "title": "Cylch 2 Window 2"
+                "title": "Cylch 2 Cyfnod Cynnig 2"
                 if language == "cy"
                 else "Round 2 Window 2",
                 "short_name": "R2W2",
@@ -79,7 +79,7 @@ def get_round_data(language):
         override_fields_from_env(
             {
                 "id": "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f",
-                "title": "Cylch 2 Window 3"
+                "title": "Cylch 2 Cyfnod Cynnig 3"
                 if language == "cy"
                 else "Round 2 Window 3",
                 "short_name": "R2W3",
