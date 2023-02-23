@@ -84,7 +84,7 @@ distlib==0.3.6
     # via virtualenv
 filelock==3.8.0
     # via virtualenv
-flask==2.2.2
+flask==2.2.3
     # via
     #   -r requirements.txt
     #   connexion
