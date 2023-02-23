@@ -42,7 +42,7 @@ dataclass-dict-convert==1.7.1
     # via -r requirements.in
 decorator==5.1.1
     # via jsonpath-rw
-flask==2.2.2
+flask==2.2.3
     # via
     #   -r requirements.in
     #   connexion
