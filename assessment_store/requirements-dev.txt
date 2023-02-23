@@ -364,7 +364,7 @@ sqlalchemy[mypy]==1.4.44
     #   sqlalchemy-utils
 sqlalchemy-stubs==0.4
     # via -r requirements-dev.in
-sqlalchemy-utils==0.39.0
+sqlalchemy-utils==0.40.0
     # via -r requirements.txt
 sqlalchemy2-stubs==0.0.2a29
     # via
