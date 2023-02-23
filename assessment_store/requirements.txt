@@ -34,7 +34,7 @@ clickclick==20.10.2
     # via connexion
 commonmark==0.9.1
     # via rich
-connexion==2.14.1
+connexion==2.14.2
     # via -r requirements.in
 cryptography==39.0.1
     # via pyjwt
