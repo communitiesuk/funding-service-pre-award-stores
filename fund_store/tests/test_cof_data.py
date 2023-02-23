@@ -37,7 +37,7 @@ def test_get_cof_r2w3_welsh(mocker, monkeypatch):
     result = get_round(
         CommonConfig.COF_FUND_ID, CommonConfig.COF_ROUND_2_W3_ID
     )
-    assert "Cylch 2 Window 3" == result[0]["title"]
+    assert "Cylch 2 Cyfnod Cynnig 3" == result[0]["title"]
     assert "Monday to Friday" == result[0]["support_availability"]["days"]
 
 
