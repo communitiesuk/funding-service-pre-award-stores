@@ -61,7 +61,7 @@ flask-sqlalchemy==2.5.1
     #   flask-migrate
 flupy==1.2.0
     # via alembic-utils
-funding-service-design-utils==1.0.18
+funding-service-design-utils==1.0.24
     # via -r requirements.in
 greenlet==2.0.2
     # via sqlalchemy
@@ -162,6 +162,7 @@ requests==2.28.1
     # via
     #   -r requirements.in
     #   connexion
+    #   funding-service-design-utils
     #   prance
 rfc3339-validator==0.1.4
     # via openapi-schema-validator
