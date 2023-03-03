@@ -80,8 +80,6 @@ deepdiff==5.8.1
     # via -r requirements-dev.in
 distlib==0.3.4
     # via virtualenv
-exceptiongroup==1.0.0
-    # via pytest
 filelock==3.7.1
     # via virtualenv
 flask==2.1.1
@@ -183,6 +181,8 @@ prance==0.21.8.0
     # via -r requirements.txt
 pre-commit==2.20.0
     # via -r requirements-dev.in
+py==1.11.0
+    # via pytest
 pycparser==2.21
     # via
     #   -r requirements.txt
@@ -207,7 +207,7 @@ pyrsistent==0.18.1
     #   jsonschema
 pysocks==1.7.1
     # via urllib3
-pytest==7.2.0
+pytest==7.1.2
     # via
     #   -r requirements-dev.in
     #   axe-selenium-python
