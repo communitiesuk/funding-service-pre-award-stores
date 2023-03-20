@@ -12,9 +12,6 @@ jobs:
     with:
       app_name: ${{ github.event.repository.name }}
       api: true
-      users: 2
-      spawn-rate: 2
-      run-time: 11s
       run_performance_tests: true
       run_e2e_tests: true
     secrets:
