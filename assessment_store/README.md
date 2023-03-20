@@ -145,7 +145,7 @@ This will also work for the DB within the docker runner. Find the ID of the dock
         docker exec -it <container_id> invoke seed_dev_db
 
 To avoid the interactive prompt, alternatively the fund-round and application count can be provided as arguments
-such as: 
+such as:
 
         invoke seed_dev_db --fundround COFR2W2 --appcount 1
 

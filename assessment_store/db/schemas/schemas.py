@@ -24,7 +24,10 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
 
     workflow_status = Enum(Status)
     language = Enum(Language)
-    flags = Nested("FlagMetadata", many=True) #TODO: Retrieve only latest flag
+    flags = Nested(
+        "FlagMetadata", many=True
+    )  # TODO: Retrieve only latest flag
+
 
 class ScoreMetadata(SQLAlchemyAutoSchema):
     """ScoreMetadata The marshmallow class used to turn SQLAlchemy

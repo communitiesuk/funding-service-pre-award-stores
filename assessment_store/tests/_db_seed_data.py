@@ -12,14 +12,22 @@ def load_json_strings_from_file(filename: str) -> list[str]:
 
 
 def get_dynamic_rows(
-    number_of_apps_per_round, number_of_funds, number_of_rounds, fund_round_config
+    number_of_apps_per_round,
+    number_of_funds,
+    number_of_rounds,
+    fund_round_config,
 ):
     from random import choice, sample
     from string import ascii_uppercase
     from uuid import uuid4
 
     from tests._application_store_json import application_store_json_template
-    funds = [fund_round_config["fund_id"]] if fund_round_config else [uuid4() for _ in range(number_of_funds)]
+
+    funds = (
+        [fund_round_config["fund_id"]]
+        if fund_round_config
+        else [uuid4() for _ in range(number_of_funds)]
+    )
 
     verbs = ["Save", "Restore", "Refurbish", "Rebuild", "Remodel"]
 
@@ -60,7 +68,11 @@ def get_dynamic_rows(
     for count, fund_id in enumerate(funds):
         print("fund id:", fund_id)
 
-        rounds = [fund_round_config["round_id"]] if fund_round_config else [uuid4() for _ in range(number_of_rounds)]
+        rounds = (
+            [fund_round_config["round_id"]]
+            if fund_round_config
+            else [uuid4() for _ in range(number_of_rounds)]
+        )
 
         for round_id in rounds:
             print("round id:", round_id)

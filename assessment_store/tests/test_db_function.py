@@ -14,8 +14,8 @@ from db.models.assessment_record.enums import Status
 from db.models.comment.enums import CommentType
 from db.queries import create_flag_for_application
 from db.queries import find_answer_by_key_runner
-from db.queries import retrieve_flag_for_application
 from db.queries import find_qa_complete_flag_for_applications
+from db.queries import retrieve_flag_for_application
 from db.queries.assessment_records.queries import (
     bulk_update_location_jsonb_blob,
 )
@@ -426,16 +426,17 @@ def test_retrieve_flag_for_application(db_session):
     assert result["user_id"] == second_flag.user_id
     assert result["flag_type"] == second_flag.flag_type.name
 
+
 def test_find_qa_complete_flag_for_applications(db_session):
     """Put QA_COMPLETED flags in 2 out of 3 applications and
     only retrieve the metadata for the 1 with QA_COMPLETED"""
 
     first_application_flagged_flag = Flag(**flag_config[2])
     db_session.add(first_application_flagged_flag)
-    
+
     first_application_qa_complete_flag = Flag(**flag_config[3])
     db_session.add(first_application_qa_complete_flag)
-    
+
     second_application_qa_complete_flag = Flag(**flag_config[4])
     db_session.add(second_application_qa_complete_flag)
 
@@ -444,17 +445,31 @@ def test_find_qa_complete_flag_for_applications(db_session):
 
     db_session.commit()
 
-    result = find_qa_complete_flag_for_applications([
-        first_application_flagged_flag.application_id, 
-        second_application_qa_complete_flag.application_id,
-        third_application_flagged_flag.application_id
-        ])
+    result = find_qa_complete_flag_for_applications(
+        [
+            first_application_flagged_flag.application_id,
+            second_application_qa_complete_flag.application_id,
+            third_application_flagged_flag.application_id,
+        ]
+    )
 
-    assert result[0]['application_id'] == first_application_flagged_flag.application_id
-    assert result[0]['flag_type'] == first_application_flagged_flag.flag_type.name
-    assert result[1]['application_id'] == second_application_qa_complete_flag.application_id
-    assert result[1]['flag_type'] == second_application_qa_complete_flag.flag_type.name
+    assert (
+        result[0]["application_id"]
+        == first_application_flagged_flag.application_id
+    )
+    assert (
+        result[0]["flag_type"] == first_application_flagged_flag.flag_type.name
+    )
+    assert (
+        result[1]["application_id"]
+        == second_application_qa_complete_flag.application_id
+    )
+    assert (
+        result[1]["flag_type"]
+        == second_application_qa_complete_flag.flag_type.name
+    )
     assert len(result) == 2
+
 
 def test_get_latest_flags_for_each(sample_flags):
     result_list = get_latest_flags_for_each()
