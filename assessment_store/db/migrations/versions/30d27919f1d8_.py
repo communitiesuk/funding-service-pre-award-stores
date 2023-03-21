@@ -7,8 +7,6 @@ Create Date: 2023-01-19 10:55:23.151831
 """
 import sqlalchemy as sa
 from alembic import op
-from alembic_utils.pg_extension import PGExtension
-from sqlalchemy import text as sql_text
 
 # revision identifiers, used by Alembic.
 revision = "30d27919f1d8"
