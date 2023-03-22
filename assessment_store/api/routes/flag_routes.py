@@ -1,6 +1,7 @@
 # flake8: noqa
 from db.models.flags.enums import FlagType
-from db.queries.flags.queries import create_flag_for_application, find_qa_complete_flag
+from db.queries.flags.queries import create_flag_for_application
+from db.queries.flags.queries import find_qa_complete_flag
 from db.queries.flags.queries import retrieve_flag_for_application
 from flask import request
 

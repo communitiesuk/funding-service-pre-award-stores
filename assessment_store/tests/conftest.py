@@ -31,11 +31,15 @@ def prep_db(reuse_db=False):
     upgrade()
 
 
-def row_data(apps_per_round, rounds_per_fund, number_of_funds, fund_round_config):
+def row_data(
+    apps_per_round, rounds_per_fund, number_of_funds, fund_round_config
+):
     """row_data A fixture which provides the test row data."""
 
     row_data = list(
-        get_dynamic_rows(apps_per_round, rounds_per_fund, number_of_funds, fund_round_config)
+        get_dynamic_rows(
+            apps_per_round, rounds_per_fund, number_of_funds, fund_round_config
+        )
     )
 
     return row_data
@@ -48,10 +52,9 @@ def seed_database_randomly(apps_per_round, rounds_per_fund, number_of_funds):
 
     bulk_insert_application_record(test_input_data, "COF")
 
+
 def seed_database_for_fund_round(apps_per_round, fund_round_config):
-    test_input_data = row_data(
-        apps_per_round, 1, 1, fund_round_config
-    )
+    test_input_data = row_data(apps_per_round, 1, 1, fund_round_config)
 
     bulk_insert_application_record(test_input_data, "COF")
 

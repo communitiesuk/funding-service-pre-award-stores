@@ -282,10 +282,10 @@ def test_get_assessments_stats(client):
 
     assert response_json == ASSESSMENTS_STATS_RESPONSE
 
-    # Test number of QA_COMPLETE Applications is correct
-    # Add one more QA_COMPLETE flag to another application
-    # and also FLAGGED so we can see that the most recent flag does not interfere
-    # "qa_completed" should return 2
+    # Test number of QA_COMPLETE Applications is correct Add one more
+    # QA_COMPLETE flag to another application and also FLAGGED so we can see
+    # that the most recent flag does not interfere "qa_completed" should
+    # return 2
 
     create_flag_for_application(
         justification="QA Complete Test 1",
@@ -307,7 +307,8 @@ def test_get_assessments_stats(client):
         f"/assessments/get-stats/{fund_id}/{round_id}"
     ).json
 
-    assert response_json['qa_completed'] == 2    
+    assert response_json["qa_completed"] == 2
+
 
 def test_get_application_json(client):
     picked_row = get_random_row(AssessmentRecord)

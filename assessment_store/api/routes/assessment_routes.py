@@ -12,9 +12,6 @@ from api.routes.subcriterias.get_sub_criteria import (
 )
 from db.queries import get_metadata_for_fund_round_id
 from db.queries import retrieve_flags_for_applications
-from db.queries.assessment_records.queries import find_assessor_task_list_state, update_status_to_completed
-from db.queries.flags.queries import get_latest_flags_for_each
-from db.queries.flags.queries import find_qa_complete_flag_for_applications
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.assessment_records.queries import get_application_jsonb_blob
 from db.queries.assessment_records.queries import (
@@ -22,6 +19,7 @@ from db.queries.assessment_records.queries import (
 )
 from db.queries.assessment_records.queries import update_status_to_completed
 from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
+from db.queries.flags.queries import find_qa_complete_flag_for_applications
 from db.queries.flags.queries import get_latest_flags_for_each
 from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
 from flask import current_app
@@ -145,12 +143,14 @@ def assessment_stats_for_fund_round_id(
     assessments = get_metadata_for_fund_round_id(
         fund_id=fund_id, round_id=round_id
     )
-    assessment_ids = [application['application_id'] for application in assessments ]
+    assessment_ids = [
+        application["application_id"] for application in assessments
+    ]
 
-    qa_completed_assessments = [    
+    qa_completed_assessments = [
         flag["application_id"]
         for flag in find_qa_complete_flag_for_applications(assessment_ids)
-    ]    
+    ]
     stopped_assessments = [
         flag["application_id"] for flag in get_latest_flags_for_each("STOPPED")
     ]
