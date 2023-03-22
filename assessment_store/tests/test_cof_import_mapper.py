@@ -5,7 +5,7 @@ from db.queries.assessment_records._helpers import derive_application_values
 
 def test_derive_cof_values_no_location():
     single_application_json = (
-        "tests_no_db/test_data/single_application_no_location.json"
+        "tests/test_data/single_application_no_location.json"
     )
 
     with open(single_application_json, "r") as f:
@@ -36,7 +36,7 @@ def test_derive_cof_values_no_location():
 
 def test_derive_cof_values_location_present_no_error():
     single_application_json = (
-        "tests_no_db/test_data/single_application_no_location.json"
+        "tests/test_data/single_application_no_location.json"
     )
 
     with open(single_application_json, "r") as f:
@@ -62,7 +62,7 @@ def test_derive_cof_values_location_present_no_error():
 
 def test_derive_cof_values_location_present_with_error():
     single_application_json = (
-        "tests_no_db/test_data/single_application_no_location.json"
+        "tests/test_data/single_application_no_location.json"
     )
 
     with open(single_application_json, "r") as f:

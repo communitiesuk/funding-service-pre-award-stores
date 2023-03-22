@@ -32,9 +32,7 @@ from api.routes.subcriterias.get_sub_criteria import (
     ],
 )
 def test_sort_add_another_component_contents(
-    answer_from_form_runner,
-    expected_description,
-    expected_amount,
+    answer_from_form_runner, expected_description, expected_amount, app
 ):
     themes_answers = [
         {

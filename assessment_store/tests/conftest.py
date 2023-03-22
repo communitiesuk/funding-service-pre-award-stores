@@ -1,74 +1,67 @@
+import json
+from uuid import uuid4
+
 import pytest
 from app import create_app
-from config import Config
+from db.models.flags.flags import Flag
 from db.queries import bulk_insert_application_record
-from flask_migrate import upgrade
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy_utils.functions import create_database
-from sqlalchemy_utils.functions import database_exists
-from sqlalchemy_utils.functions import drop_database
-from tests._db_seed_data import get_dynamic_rows
-from tests._db_seed_data import load_json_strings_from_file
 from tests._sql_infos import attach_listeners
-from tests._sql_infos import pytest_terminal_summary  # noqa
+
+# Loads the fixtures in this module in utils to create and
+# clear the unit test DB
+pytest_plugins = ["fsd_utils.fixtures.db_fixtures"]
+with open("tests/test_data/hand-crafted-apps.json", "r") as f:
+    test_input_data = json.load(f)
 
 
-def prep_db(reuse_db=False):
-    """Provide the transactional fixtures with access to the database via a
-    Flask-SQLAlchemy database connection."""
-    no_db = not database_exists(Config.SQLALCHEMY_DATABASE_URI)
-    refresh_db = not reuse_db
-
-    if no_db:
-
-        create_database(Config.SQLALCHEMY_DATABASE_URI)
-
-    elif refresh_db:
-
-        drop_database(Config.SQLALCHEMY_DATABASE_URI)
-        create_database(Config.SQLALCHEMY_DATABASE_URI)
-
-    upgrade()
-
-
-def row_data(
-    apps_per_round, rounds_per_fund, number_of_funds, fund_round_config
+@pytest.fixture(scope="function")
+def seed_application_records(
+    request, app, clear_test_data, enable_preserve_test_data, _db
 ):
-    """row_data A fixture which provides the test row data."""
+    """
+    Inserts test assessment_record data into the unit test DB according
+    to what's supplied using the marker apps_to_insert.
+    Supplies these inserted records back to the requesting test function
+    """
+    marker = request.node.get_closest_marker("apps_to_insert")
+    if marker is None:
+        apps = 1
+    else:
+        apps = marker.args[0]
+    marker = request.node.get_closest_marker("unique_fund_round")
+    if marker is None:
+        unique_fund_round = False
+    else:
+        unique_fund_round = True
 
-    row_data = list(
-        get_dynamic_rows(
-            apps_per_round, rounds_per_fund, number_of_funds, fund_round_config
-        )
-    )
+    inserted_applications = []
 
-    return row_data
+    random_fund_id = str(uuid4())
+    random_round_id = str(uuid4())
 
+    for app in apps:
 
-def seed_database_randomly(apps_per_round, rounds_per_fund, number_of_funds):
-    test_input_data = row_data(
-        apps_per_round, rounds_per_fund, number_of_funds
-    )
+        app_id = str(uuid4())
+        app["id"] = app_id
+        if unique_fund_round:
+            app["fund_id"] = random_fund_id
+            app["round_id"] = random_round_id
+        app_flags = []
+        if "flags" in app:
+            app_flags = app["flags"]
+            app.pop("flags")
+        inserted_application = bulk_insert_application_record(
+            [app], "COF", True
+        )[0]
+        app["flags"] = app_flags
+        inserted_applications.append(inserted_application)
+        for f in app_flags:
+            flag = Flag(application_id=app_id, **f)
+            _db.session.add(flag)
+        _db.session.commit()
 
-    bulk_insert_application_record(test_input_data, "COF")
-
-
-def seed_database_for_fund_round(apps_per_round, fund_round_config):
-    test_input_data = row_data(apps_per_round, 1, 1, fund_round_config)
-
-    bulk_insert_application_record(test_input_data, "COF")
-
-
-def seed_handcrafted_data():
-    test_input_data = load_json_strings_from_file("hand-crafted-apps.json")
-
-    bulk_insert_application_record(test_input_data, "COF")
-
-
-def seed_database_deterministically():
-    test_input_data = load_json_strings_from_file("apps.json")
-
-    bulk_insert_application_record(test_input_data, "COF")
+    # Supplied the rows we inserted for tests to use in their actions
+    yield inserted_applications
 
 
 @pytest.fixture(scope="session")
@@ -78,92 +71,3 @@ def app():
     app = create_app()
 
     yield app
-
-
-@pytest.fixture(scope="session")
-def _db(app, request):
-    db = SQLAlchemy(app)
-
-    apps_per_round = request.config.getoption("apps_per_round")
-    rounds_per_fund = request.config.getoption("rounds_per_fund")
-    number_of_funds = request.config.getoption("number_of_funds")
-    current_run_is_random = request.config.getoption("randomdata")
-
-    with app.app_context():
-
-        # Did this and the last run use fixed test data?
-        prev_run_deterministic = request.config.cache.get(
-            "was_deterministic", False
-        )
-        current_run_deterministic = not current_run_is_random
-        request.config.cache.set(
-            "was_deterministic", current_run_deterministic
-        )
-
-        # Did this and the last run have the same db uri?
-        prev_db_uri = request.config.cache.get("db_uri", False)
-        current_db_uri = Config.SQLALCHEMY_DATABASE_URI
-        request.config.cache.set("db_uri", current_db_uri)
-
-        same_db_uri = prev_db_uri == current_db_uri
-        both_determ = prev_run_deterministic and current_run_deterministic
-
-        # If same data and uri then lets reuse the last test db..
-        # NB: Pytest cleans up changes made during tests.
-        reuse_db = same_db_uri and both_determ
-
-        prep_db(reuse_db)
-        if not reuse_db:
-            if current_run_is_random:
-                seed_database_randomly(
-                    apps_per_round, rounds_per_fund, number_of_funds
-                )
-            else:
-                seed_database_deterministically()
-
-            # small number of records for testing
-            seed_handcrafted_data()
-    return db
-
-
-@pytest.fixture(autouse=True)
-def enable_transactional_tests(db_session):
-    yield
-
-
-def pytest_addoption(parser):
-    parser.addoption(
-        "--apps-per-round",
-        action="store",
-        default=100,
-        help="The amount of rows to use when testing the db.",
-        type=int,
-    )
-    parser.addoption(
-        "--rounds-per-fund",
-        action="store",
-        default=2,
-        help="The amount of rows to use when testing the db.",
-        type=int,
-    )
-    parser.addoption(
-        "--number-of-funds",
-        action="store",
-        default=5,
-        help="The amount of rows to use when testing the db.",
-        type=int,
-    )
-    parser.addoption(
-        "--statementdetails",
-        action="store",
-        default=True,
-        help="The amount of rows to use when testing the db.",
-        type=bool,
-    )
-    parser.addoption(
-        "--randomdata",
-        action="store",
-        default=False,
-        help="Decides if random data is used to seed the application rows..",
-        type=bool,
-    )

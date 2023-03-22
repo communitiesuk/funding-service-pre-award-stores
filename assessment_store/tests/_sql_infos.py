@@ -73,22 +73,8 @@ def attach_listeners():
 def pytest_terminal_summary(terminalreporter):
     terminalreporter.section("Database test information")
 
-    apps_per_round = terminalreporter.config.getoption("apps_per_round")
-    rounds_per_fund = terminalreporter.config.getoption("rounds_per_fund")
-    number_of_funds = terminalreporter.config.getoption("number_of_funds")
-    statement_details = terminalreporter.config.getoption("statementdetails")
-    randomdata = terminalreporter.config.getoption("randomdata")
-
-    rows_created = apps_per_round * rounds_per_fund * number_of_funds
-
     database_url = Config.SQLALCHEMY_DATABASE_URI
     terminalreporter.write_line(f"Database URL: {database_url}")
-    if randomdata:
-        terminalreporter.write_line("Test data created dynamically.")
-        terminalreporter.write_line(f"Test rows created: {rows_created}")
-    else:
-        terminalreporter.write_line("Test data created deterministically.")
-        terminalreporter.write_line("Test rows created: 1500")
 
     terminalreporter.section("SQL Query information")
     query_times = [query["time"] for query in query_info["query_times"]]
@@ -122,30 +108,29 @@ def pytest_terminal_summary(terminalreporter):
             fancy_print(time_string)
             fancy_print(during_string)
 
-    if statement_details:
-        for query in query_info["query_times"]:
+    for query in query_info["query_times"]:
 
-            statement_string = Text(
-                "Statement:", style="bold underline    magenta"
-            )
-            time_string = Text("Time: ", style="bold blue")
-            during_string = Text("During: ", style="bold green")
+        statement_string = Text(
+            "Statement:", style="bold underline    magenta"
+        )
+        time_string = Text("Time: ", style="bold blue")
+        during_string = Text("During: ", style="bold green")
 
-            statement = Syntax(
-                query["statement"],
-                "sql",
-                theme="xcode",
-                dedent=True,
-                background_color="default",
-            )
-            time = Text(f"{query['time']}", style="italic black")
+        statement = Syntax(
+            query["statement"],
+            "sql",
+            theme="xcode",
+            dedent=True,
+            background_color="default",
+        )
+        time = Text(f"{query['time']}", style="italic black")
 
-            time_string.append(time)
+        time_string.append(time)
 
-            during = Text(f"{query['during']}", style="italic black")
-            during_string.append(during)
+        during = Text(f"{query['during']}", style="italic black")
+        during_string.append(during)
 
-            fancy_print(statement_string)
-            fancy_print(statement)
-            fancy_print(time_string)
-            fancy_print(during_string)
+        fancy_print(statement_string)
+        fancy_print(statement)
+        fancy_print(time_string)
+        fancy_print(during_string)

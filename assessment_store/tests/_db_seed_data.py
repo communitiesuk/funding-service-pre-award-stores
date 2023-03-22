@@ -1,16 +1,3 @@
-def load_json_strings_from_file(filename: str) -> list[str]:
-    import json
-
-    with open(f"tests/test_data/{filename}", "r") as f:
-        parsed_json_apps_file = json.load(f)
-
-    list_of_json_strings = [
-        json.dumps(json_object) for json_object in parsed_json_apps_file
-    ]
-
-    return list_of_json_strings
-
-
 def get_dynamic_rows(
     number_of_apps_per_round,
     number_of_funds,

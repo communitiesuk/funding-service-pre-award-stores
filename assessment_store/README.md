@@ -132,8 +132,6 @@ These are the current pipelines running on the repo:
 
 # Testing
 
-The tests within /tests are designed to connect to a real database to run tests that use the DB layer, details below. This takes a long time to setup on a test run, so if your tests don't need a DB put them in /tests_no_db. This folder doesn't pickup /tests/conftest.py so therefore doesn't do the DB setup work and these tests can run in isolation much faster.
-
 ## Seed Postgres DB with mock data
 
 `invoke seed_dev_db`
@@ -164,18 +162,53 @@ To rerun the unit test database creation/seeding process run `pytest --cache-cle
 If you have deleted the unit test database and then get errors where no rows exist, you need to clear the cache as above before running the unit tests again.
 
 ## Transactional tests
-These rely on the module `pytest-flask-sqlalchemy` which has good docs on its github page: https://github.com/jeancochrane/pytest-flask-sqlalchemy
 
-The main parts of this framework are invoked in `conftest.py` with the following fixture definitions:
-- `enable_transactional_tests` - This makes all tests use transactions so we don't need to turn it on for each test individually
-- `_db` - this makes the framework use our `db` variable from `db.db`, overriding anywhere it is used during the tests.
+Test data is created on a per-test basis to prevent test pollution. To create test data for a test, request the `seed_application_records` fixture in your test. That fixture then provides access to the inserted records and will clean up after itself at the end of the test session.
 
-`conftest.py` also seeds data into the test db which enables all the tests to be run individually - no test should rely on another to run before or after it. This seeded data is also rolled back after a test session.
+More details on the fixtures in utils: https://github.com/communitiesuk/funding-service-design-utils/blob/dcc64b0b253a1056ce99e8fe7ea8530406355c96/README.md#fixtures
 
-To make the tests work with a test postgres db in the github pipelines, we pass the following 2 inputs to the shared workflow:
+Basic example:
 
-      postgres_unit_testing: true
-      db_name: fsd_assess_store_test
+    @pytest.mark.apps_to_insert(
+        [
+            {
+                # Assessment_Records data
+                # For convencience a set of these are loaded into the variable test_input_data in conftest.py
+                test_input_data[0]
+            }
+        ]
+    )
+    def test_stuff(seed_application_records):
+      app_id = seed_application_records[0].id
+      # do some testing
+
+## Flags
+If you need your test assessment records to be flagged, you can supply flag config as part of the apps_to_insert data by including
+an array of flag configs under the property `flags`. Some example flag configs are contained in test_data/flags.py
+
+
+    @pytest.mark.apps_to_insert(
+        [
+            test_input_data[0],
+            {**test_input_data[1], "flags": [flag_config[2]]},
+            {**test_input_data[2], "flags": [flag_config[1]]},
+        ]
+    )
+    def test_stuff(seed_application_records):
+        flag = retrieve_flag_for_application(seed_application_records[1].id)
+        assert flag == flag_config[2]
+
+## Unique Fund and Round IDs - same for all applications
+If you need all your test data to use the same fund and round ids, but be different from all other tests, use `unique_fund_round` in your test. This generates a random ID for fund and round and uses this when creating test applications.
+
+    pytest.mark.apps_to_insert([test_input_data[0]])
+    @pytest.mark.unique_fund_round(True)
+    def test_some_reports(
+        seed_application_records
+    ):
+        result = get_by_fund_round(
+            fund_id=seed_application_records[0]["fund_id"], round_id=seed_application_records[0]["round_id"]
+        )
 
 ## Performance Testing
 

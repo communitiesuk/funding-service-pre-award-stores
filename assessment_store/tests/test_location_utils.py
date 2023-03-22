@@ -12,7 +12,7 @@ from scripts.location_utils import write_locations_to_csv
 def test_get_application_form():
 
     single_application_json = (
-        "tests_no_db/test_data/single_application_jsonb_blob.json"
+        "tests/test_data/single_application_jsonb_blob.json"
     )
 
     with open(single_application_json, "r") as f:
@@ -25,9 +25,7 @@ def test_get_application_form():
 def test_get_postcode_from_questions():
     expected = "QQ127QQ"
 
-    test_json_file = (
-        "tests_no_db/test_data/questions_from_single_application.json"
-    )
+    test_json_file = "tests/test_data/questions_from_single_application.json"
 
     with open(test_json_file, "r") as f:
         loaded_test_json = json.load(f)
@@ -39,7 +37,7 @@ def test_get_postcode_from_questions():
 def test_extract_location_data_success():
     postcode = "PL13RE"
 
-    test_json_file = "tests_no_db/test_data/postcodes_io_response.json"
+    test_json_file = "tests/test_data/postcodes_io_response.json"
 
     with open(test_json_file, "r") as f:
         loaded_test_json = json.load(f)
@@ -59,7 +57,7 @@ def test_extract_location_data_success():
 def test_extract_location_data_error():
     postcode = "QQ127QQ"
 
-    test_json_file = "tests_no_db/test_data/postcodes_io_response.json"
+    test_json_file = "tests/test_data/postcodes_io_response.json"
 
     with open(test_json_file, "r") as f:
         loaded_test_json = json.load(f)
