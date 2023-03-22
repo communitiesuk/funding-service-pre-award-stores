@@ -91,8 +91,8 @@ def seed_dev_db(c, fundround=None, appcount=None):
                 fund_round = config[fundround]
                 apps = int(appcount)
                 print(
-                    f"Seeding {apps} applications "
-                    f"for fund_round: '{fundround}'"
+                    f"Seeding {apps} applications for fund_round: "
+                    f"'{fundround}'"
                 )
 
             while choosing:
@@ -109,8 +109,8 @@ def seed_dev_db(c, fundround=None, appcount=None):
                 apps = int(_echo_input("How many applications?"))
                 choosing = (
                     not _echo_input(
-                        f"Would you like to insert {apps} "
-                        f"applications for {fund_round_input}? y/n \n"
+                        f"Would you like to insert {apps} applications for "
+                        f"{fund_round_input}? y/n \n"
                     ).lower()
                     == "y"
                 )
