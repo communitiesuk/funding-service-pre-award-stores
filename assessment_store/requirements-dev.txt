@@ -15,10 +15,6 @@ async-timeout==4.0.2
     # via
     #   -r requirements.txt
     #   redis
-async-timeout==4.0.2
-    # via
-    #   -r requirements.txt
-    #   redis
 attrs==22.1.0
     # via
     #   -r requirements.txt
@@ -143,7 +139,7 @@ flupy==1.2.0
     # via
     #   -r requirements.txt
     #   alembic-utils
-funding-service-design-utils==1.0.26
+funding-service-design-utils==1.0.27
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython

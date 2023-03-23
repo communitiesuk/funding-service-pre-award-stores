@@ -9,7 +9,7 @@ from tests._sql_infos import attach_listeners
 
 # Loads the fixtures in this module in utils to create and
 # clear the unit test DB
-pytest_plugins = ["fsd_utils.fixtures.db_fixtures"]
+pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
 with open("tests/test_data/hand-crafted-apps.json", "r") as f:
     test_input_data = json.load(f)
 
