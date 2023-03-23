@@ -72,8 +72,8 @@ def get_round_data(language):
                 if not Config.FORCE_OPEN
                 else "2024-12-31 11:59:00",
                 "assessment_deadline": "2023-03-30 12:00:00",
-                **shared_cof_r2_data,
                 "prospectus":"",
+                **shared_cof_r2_data,
             },
             overridable_fields,
         ),
@@ -91,9 +91,10 @@ def get_round_data(language):
                 if not Config.FORCE_OPEN
                 else "2024-12-31 11:59:00",
                 "assessment_deadline": "2023-05-05 12:00:00",
-                **shared_cof_r2_data,
                 "prospectus":
                 "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
+                **shared_cof_r2_data,
+               
                 
                 
             },
