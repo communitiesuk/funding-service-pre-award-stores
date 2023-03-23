@@ -11,8 +11,8 @@ def get_fund_data(language):
             "name": "Y Cronfa Perchnogaeth Gymunedol"
             if language == "cy"
             else "Community Ownership Fund",
-            "title": "Gyllid i achub ased yn eich cymuned" 
-            if language =="cy"
+            "title": "Gyllid i achub ased yn eich cymuned"
+            if language == "cy"
             else "Funding to save an asset in your community",
             "short_name": "COF",
             "description": (
