@@ -64,6 +64,9 @@ class RoundDAO:
         for round in round_data:
             self.create(round)
 
+    def get_all(self):
+        return list(self.rounds.values())
+
     def search_by_short_name(self, short_name):
         return next(
             (

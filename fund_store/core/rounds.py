@@ -56,7 +56,7 @@ def get_round(fund_id: str, round_id: str):
     short_name_arg = request.args.get("use_short_name")
     use_short_name = short_name_arg and strtobool(short_name_arg)
     if use_short_name:
-        round_search = round_data.ROUNDS_DAO.search_by_short_name(fund_id)
+        round_search = round_data.ROUNDS_DAO.search_by_short_name(round_id)
     else:
         round_search = round_data.ROUNDS_DAO.get_one(
             fund_id, round_id, language
