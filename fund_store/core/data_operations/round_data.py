@@ -92,7 +92,11 @@ def get_round_data(language):
                 if not Config.FORCE_OPEN
                 else "2024-12-31 11:59:00",
                 "assessment_deadline": "2023-05-05 12:00:00",
-                "instructions": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",  # noqa
+                "instructions": (
+                    "You must have received an invitation to apply. If we did not invite you, first"  # noqa
+                    " <a href='https://www.gov.uk/government/publications/community-ownership-fund-prospectus'>"  # noqa
+                    " express your interest in the fund</a>."  # noqa
+                ),
                 "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",  # noqa
                 **shared_cof_r2_data,
             },
