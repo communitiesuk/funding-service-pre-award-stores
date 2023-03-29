@@ -9,7 +9,7 @@ from core.fund_round_dao import RoundDAO
 shared_cof_r2_data = {
     "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
     "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",  # noqa
-    "privacy_notice": "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/community-ownership-fund-privacy-notice", # noqa
+    "privacy_notice": "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/community-ownership-fund-privacy-notice",  # noqa
     "contact_details": {
         "phone": "",
         "email_address": "COF@levellingup.gov.uk",
