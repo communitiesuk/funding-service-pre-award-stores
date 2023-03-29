@@ -93,6 +93,14 @@ def get_round_data(language):
                 else "2024-12-31 11:59:00",
                 "assessment_deadline": "2023-05-05 12:00:00",
                 "instructions": (
+                    "Mae'n rhaid i chi fod wedi derbyn gwahoddiad i ymgeisio."
+                    " Os na wnaethom eich gwahodd,  <a href="
+                    "'https://www.gov.uk/government/publications/"
+                    "community-ownership-fund-prospectus'>"
+                    "mynegwch eich diddordeb yn y gronfa yn gyntaf</a>."
+                )
+                if language == "cy"
+                else (
                     "You must have received an invitation to apply. If we did not invite you, first"  # noqa
                     " <a href='https://www.gov.uk/government/publications/community-ownership-fund-prospectus'>"  # noqa
                     " express your interest in the fund</a>."  # noqa
