@@ -56,9 +56,7 @@ def override_fields_from_env(round_data: dict, overridable_fields: list):
 
 
 def get_round_data(language):
-
     overridable_fields = ["opens", "deadline", "assessment_deadline"]
-
     return [
         override_fields_from_env(
             {
