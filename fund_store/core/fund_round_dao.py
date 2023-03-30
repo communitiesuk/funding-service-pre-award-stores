@@ -63,3 +63,16 @@ class RoundDAO:
     def load_data(self, round_data):
         for round in round_data:
             self.create(round)
+
+    def get_all(self):
+        return list(self.rounds.values())
+
+    def search_by_short_name(self, short_name):
+        return next(
+            (
+                round
+                for round in self.get_all()
+                if str.upper(round["short_name"]) == str.upper(short_name)
+            ),
+            None,
+        )
