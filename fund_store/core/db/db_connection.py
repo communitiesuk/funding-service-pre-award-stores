@@ -1,4 +1,4 @@
-from core.dummy_dao import dummmy_db_connection
+from core.fund_round_dao import dummmy_db_connection
 
 if True:
     db_connection = dummmy_db_connection()

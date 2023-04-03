@@ -1,58 +1,24 @@
 """
 Python functions to return responses of funds from our GET requests
 """
-import warnings
-from typing import List
-
 from core.data_operations import fund_data
+from distutils.util import strtobool
+from flask import request
 
 
-def search(to_search: dict, word_list: List[str]):
-    """A dummy search function. Very inefficient,
-    testing only please.
-    Args:
-        to_search (dict): A dictionary of funds.
-        word_list (List[str]): A list of words to search for.
-    Returns:
-        _type_: A list of matching funds.
-    """
-    warnings.warn(
-        "Search function used in the fund store shouldn't be used in"
-        " production",
-        DeprecationWarning,
-    )
-    return_list = []
-    for fund_item in to_search:
-        word_found = False
-        for data_point in fund_item:
-            for word in word_list:
-                if word in fund_item[data_point]:
-                    return_list.append(fund_item)
-                    word_found = True
-                    break
-            if word_found:
-                break
-
-    return return_list
-
-
-def get_funds(search_items=None):
-    """python function to return all funds or a filtered list
-        of funds via search function
-
-    :param search_items: List of strings to search for, defaults to None
+def get_funds():
+    """python function to return all funds
     :type search_items: List[str], optional
-    :return: Tuple containing the list of (filtered) funds and status code
+    :return: Tuple containing the list of funds and status code
     :rtype: Tuple
     """
-    list_of_funds = fund_data.FUNDS_DUMMY_DAO.get_all()
-    if search_items is None:
-        if isinstance(list_of_funds, list):
-            return list_of_funds, 200
-        else:
-            return {"code": 404, "message": "No funds exist."}, 404
+    language = request.args.get("language")
+    fund_data.FUNDS_DAO.load_data(fund_data.get_fund_data(language))
+    list_of_funds = fund_data.FUNDS_DAO.get_all()
+    if isinstance(list_of_funds, list):
+        return list_of_funds, 200
     else:
-        return search(list_of_funds, search_items), 200
+        return {"code": 404, "message": "No funds exist."}, 404
 
 
 def get_fund(fund_id: str):
@@ -64,11 +30,20 @@ def get_fund(fund_id: str):
                 fund_id and response code
     :rtype: Tuple
     """
-    fund_search = fund_data.FUNDS_DUMMY_DAO.get_one(fund_id)
+    language = request.args.get("language")
+    fund_data.FUNDS_DAO.load_data(fund_data.get_fund_data(language))
+    short_name_arg = request.args.get("use_short_name")
+    use_short_name = short_name_arg and strtobool(short_name_arg)
+    if use_short_name:
+        fund_search = fund_data.FUNDS_DAO.search_by_short_name(fund_id)
+    else:
+        fund_search = fund_data.FUNDS_DAO.get_one(fund_id, language)
     if isinstance(fund_search, dict):
         return fund_search, 200
     else:
         return {
             "code": 404,
-            "message": f"fund_id : {fund_id} cannot be found.",
+            "message": f"fund_id : {fund_id} cannot be found"
+            if not use_short_name
+            else f"short_name {fund_id} cannot be found",
         }, 404

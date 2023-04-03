@@ -13,16 +13,6 @@ paths:
       summary: Returns list of all funds
       description: Returns list of all funds
       operationId: core.funds.get_funds
-      parameters:
-        - in: query
-          name: search_items
-          style: form
-          schema:
-            type: array
-            items:
-              type: string
-          required: false
-          explode: false
       responses:
         200:
           description: "List all funds."
@@ -33,7 +23,7 @@ paths:
                 items:
                   $ref : 'components.yml#/components/schemas/Fund'
         404:
-          description: "funds page not found."
+          description: "No funds exist"
           content:
               texts/plain:
                 schema:
@@ -53,6 +43,15 @@ paths:
           schema:
             type: string
           required: true
+        - name: language
+          in: query
+          schema:
+            type: string
+        - name: use_short_name
+          in: query
+          schema:
+            type: boolean
+          required: false
       responses:
         200:
           description: "If the round exists then the data is returned."
@@ -76,6 +75,15 @@ paths:
       operationId: core.funds.get_fund
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
+        - name: language
+          in: query
+          schema:
+            type: string
+        - name: use_short_name
+          in: query
+          schema:
+            type: boolean
+          required: false
       responses:
         200:
           description: "If the fund exists then the data is returned."
@@ -103,6 +111,11 @@ paths:
           schema:
             type: string
           required: true
+        - name: use_short_name
+          in: query
+          schema:
+            type: boolean
+          required: false
       responses:
         200:
           description: A list of rounds matching the given fund ID.

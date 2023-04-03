@@ -94,7 +94,7 @@ flask-babel==2.0.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-funding-service-design-utils==1.0.1
+funding-service-design-utils==1.0.23
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython
@@ -179,7 +179,7 @@ pluggy==1.0.0
     # via pytest
 prance==0.21.8.0
     # via -r requirements.txt
-pre-commit==2.19.0
+pre-commit==2.20.0
     # via -r requirements-dev.in
 py==1.11.0
     # via pytest
@@ -265,6 +265,7 @@ requests==2.27.1
     # via
     #   -r requirements.txt
     #   connexion
+    #   funding-service-design-utils
     #   prance
     #   pytest-base-url
     #   pytest-selenium

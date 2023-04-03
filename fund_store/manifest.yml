@@ -10,6 +10,8 @@ applications:
     FLASK_ENV: dev
     # Sentry DSN is OK to be public see: https://docs.sentry.io/product/sentry-basics/dsn-explainer/#dsn-utilization
     SENTRY_DSN: https://5ea1346b1c1b4dd8af0c95435ca77945@o1432034.ingest.sentry.io/4503903486148608
+    GITHUB_SHA: ((GITHUB_SHA))
+    force_opens_R2W3: 2023-01-31 12:00:00
   health-check-http-endpoint: /healthcheck
   health-check-type: http
 
@@ -22,5 +24,6 @@ applications:
     FLASK_ENV: test
     # Sentry DSN is OK to be public see: https://docs.sentry.io/product/sentry-basics/dsn-explainer/#dsn-utilization
     SENTRY_DSN: https://5ea1346b1c1b4dd8af0c95435ca77945@o1432034.ingest.sentry.io/4503903486148608
+    GITHUB_SHA: ((GITHUB_SHA))
   health-check-http-endpoint: /healthcheck
   health-check-type: http

@@ -1,5 +1,4 @@
-"""A dummy DAO implementation. Acts as a template for our
-future implementation.
+"""Simple DAO class that works with static data defined in code.
 """
 
 
@@ -9,8 +8,9 @@ class FundDAO:
     def __init__(self):
         self.funds = {}
 
-    def get_one(self, fund_id):
-        return self.funds.get(fund_id)
+    def get_one(self, fund_id, language):
+        fund = self.funds.get(fund_id, language)
+        return fund
 
     def get_all(self):
         return list(self.funds.values())
@@ -18,9 +18,19 @@ class FundDAO:
     def create(self, data):
         self.funds[data["id"]] = data
 
-    def load_dummy(self, fund_data):
+    def load_data(self, fund_data):
         for fund in fund_data:
             self.create(fund)
+
+    def search_by_short_name(self, short_name):
+        return next(
+            (
+                fund
+                for fund in self.get_all()
+                if str.upper(fund["short_name"]) == str.upper(short_name)
+            ),
+            None,
+        )
 
 
 class RoundDAO:
@@ -29,7 +39,7 @@ class RoundDAO:
     def __init__(self):
         self.rounds = {}
 
-    def get_one(self, fund_id, round_id):
+    def get_one(self, fund_id, round_id, language):
         all_round_list = list(self.rounds.values())
         fund_round_list = [
             round for round in all_round_list if round["fund_id"] == fund_id
@@ -50,6 +60,19 @@ class RoundDAO:
     def create(self, data):
         self.rounds[data["id"]] = data
 
-    def load_dummy(self, round_data):
+    def load_data(self, round_data):
         for round in round_data:
             self.create(round)
+
+    def get_all(self):
+        return list(self.rounds.values())
+
+    def search_by_short_name(self, short_name):
+        return next(
+            (
+                round
+                for round in self.get_all()
+                if str.upper(round["short_name"]) == str.upper(short_name)
+            ),
+            None,
+        )
