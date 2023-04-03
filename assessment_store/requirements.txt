@@ -81,6 +81,8 @@ flupy==1.2.0
     # via alembic-utils
 funding-service-design-utils==1.0.27
     # via -r requirements.in
+greenlet==2.0.2
+    # via sqlalchemy
 gunicorn==20.1.0
     # via funding-service-design-utils
 idna==3.4
@@ -184,7 +186,7 @@ pyyaml==6.0
     #   connexion
     #   funding-service-design-utils
     #   jsonschema-spec
-redis==4.5.2
+redis==4.5.4
     # via
     #   flask-redis
     #   flipper-client
@@ -201,8 +203,6 @@ rich==12.6.0
     # via funding-service-design-utils
 ruamel-yaml==0.17.21
     # via prance
-ruamel-yaml-clib==0.2.7
-    # via ruamel-yaml
 s3transfer==0.6.0
     # via boto3
 semver==2.13.0
@@ -237,8 +237,6 @@ swagger-ui-bundle==0.0.9
     # via -r requirements.in
 thrift==0.16.0
     # via flipper-client
-tomli==2.0.1
-    # via mypy
 typing-extensions==4.4.0
     # via
     #   alembic-utils
