@@ -20,6 +20,7 @@ TEST_ROUND_DATA = [
         "id": "3b1ae9e8-eda4-4910-a5dd-fc144f9a8ba1",
         "title": "English Round 1",
         "fund_id": "fb986cdc-8e02-477a-a7e0-41cf19dd7675",
+        "short_name": "R2W3",
         "assessment_criteria_weighting": [
             {
                 "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",

@@ -3,6 +3,7 @@ Python functions to return responses of rounds from our GET requests
 """
 from core.data_operations import fund_data
 from core.data_operations import round_data
+from core.funds import get_fund
 from distutils.util import strtobool
 from flask import request
 
@@ -56,7 +57,10 @@ def get_round(fund_id: str, round_id: str):
     short_name_arg = request.args.get("use_short_name")
     use_short_name = short_name_arg and strtobool(short_name_arg)
     if use_short_name:
-        round_search = round_data.ROUNDS_DAO.search_by_short_name(round_id)
+        fund = get_fund(fund_id)[0]
+        round_search = round_data.ROUNDS_DAO.search_by_round_short_name(
+            round_id, fund
+        )
     else:
         round_search = round_data.ROUNDS_DAO.get_one(
             fund_id, round_id, language
