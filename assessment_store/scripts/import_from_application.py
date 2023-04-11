@@ -9,7 +9,7 @@ from fsd_utils import CommonConfig  # noqa: E402
 
 
 parser = argparse.ArgumentParser(
-    description="Import applcations from application store."
+    description="Import applications from application store."
 )
 parser.add_argument("--roundid", type=str)
 
@@ -29,5 +29,5 @@ with app.app_context():
     )
     app_store_response_json = requests.get(applications_url).json()
     bulk_insert_application_record(
-        app_store_response_json, application_type="COF", is_json=True
+        app_store_response_json, application_type="COFW3", is_json=True
     )

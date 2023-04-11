@@ -83,6 +83,10 @@ def seed_dev_db(c, fundround=None, appcount=None):
                     "fund_id": CommonConfig.COF_FUND_ID,
                     "round_id": CommonConfig.COF_ROUND_2_ID,
                 },
+                "COFR2W3": {
+                    "fund_id": CommonConfig.COF_FUND_ID,
+                    "round_id": CommonConfig.COF_ROUND_2_W3_ID,
+                },
                 "RANDOM_FUND_ROUND": {"fund_id": uuid4(), "round_id": uuid4()},
             }
 
@@ -107,13 +111,13 @@ def seed_dev_db(c, fundround=None, appcount=None):
                         "Please type the fund-round to seed:"
                         f"fund-rounds available to seed: "
                         f"{new_line} - {f' {new_line} - '.join(config.keys())}"
+                        f"{new_line} > "
                     ),
                 )
-                fund_round_input = str(
-                    _echo_input("Please type the " "fund-round to seed:")
-                )
                 fund_round = config[fund_round_input]
-                apps = int(_echo_input("How many applications?"))
+                apps = int(
+                    _echo_input("How many applications?" f"{new_line} > ")
+                )
                 choosing = (
                     not _echo_input(
                         f"Would you like to insert {apps} applications"

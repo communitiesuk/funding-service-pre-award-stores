@@ -88,7 +88,6 @@ def test_find_qa_complete_flag_for_applications(_db, seed_application_records):
         {**test_input_data[2], "flags": [flag_config[4], flag_config[5]]},
     ]
 )
-@pytest.mark.unique_fund_round(True)
 def test_get_latest_flags_for_each(seed_application_records):
     result_list = get_latest_flags_for_each()
 
@@ -156,7 +155,6 @@ def test_get_latest_flags_for_each_with_type_filter(seed_application_records):
         {**test_input_data[2], "flags": [flag_config[1]]},
     ]
 )
-@pytest.mark.unique_fund_round(True)
 def test_get_most_recent_metadata_statuses_for_fund_round_id(
     _db, status_or_flag, expected_application_count, seed_application_records
 ):

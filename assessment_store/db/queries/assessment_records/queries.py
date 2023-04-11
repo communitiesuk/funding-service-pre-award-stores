@@ -189,6 +189,22 @@ def bulk_insert_application_record(
     return rows
 
 
+def delete_assessment_record(app_id):
+    """
+    Delete the assessment record with the given ID from the database.
+    Returns True if the record was successfully deleted, or False otherwise.
+    """
+    try:
+        assessment_record = AssessmentRecord.query.get(app_id)
+        if assessment_record is not None:
+            db.session.delete(assessment_record)
+            db.session.commit()
+            return True
+    except Exception as e:
+        print(f"Error deleting assessment record: {e}")
+    return False
+
+
 def find_answer_by_key_runner(field_key: str, app_id: str) -> List[tuple]:
     """find_answer_by_key_runner Given an application id `app_id` and a field
     to search for `app_id` we return the matching field object (A json with

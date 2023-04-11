@@ -6,7 +6,5 @@ from jsonschema import validate
 
 
 def test_assessment_mapping_conforms_to_schema():
-    assert (
-        validate(instance=Config.COF_R2W2_ASSESSMENT_MAPPING, schema=schema)
-        is None
-    )
+    for key, value in Config.ASSESSMENT_MAPPING_CONFIG.items():
+        assert validate(instance=value, schema=schema) is None

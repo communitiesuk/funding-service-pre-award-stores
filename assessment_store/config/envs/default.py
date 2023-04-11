@@ -2,7 +2,9 @@
 from os import environ
 from pathlib import Path
 
-from config.mappings import assessment_mapping
+from config.mappings.assessment_mapping_fund_round import (
+    fund_round_to_assessment_mapping,
+)
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
 
@@ -40,6 +42,4 @@ class DefaultConfig:
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    COF_R2W2_ASSESSMENT_MAPPING = (
-        assessment_mapping.cof_r2w2_assessment_mapping
-    )
+    ASSESSMENT_MAPPING_CONFIG = fund_round_to_assessment_mapping

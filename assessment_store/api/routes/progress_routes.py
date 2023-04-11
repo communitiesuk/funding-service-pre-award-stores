@@ -1,6 +1,8 @@
 from typing import List
 
-from config.mappings.mapping_parts.scored_criteria import scored_criteria
+from config.mappings.mapping_parts.cof_r2_scored_criteria import (
+    scored_criteria,
+)
 from db.queries.progress.queries import get_progress_for_app
 from flask import request
 

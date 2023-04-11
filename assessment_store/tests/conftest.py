@@ -5,6 +5,7 @@ import pytest
 from app import create_app
 from db.models.flags.flags import Flag
 from db.queries import bulk_insert_application_record
+from db.queries import delete_assessment_record
 from tests._sql_infos import attach_listeners
 
 # Loads the fixtures in this module in utils to create and
@@ -59,9 +60,18 @@ def seed_application_records(
             flag = Flag(application_id=app_id, **f)
             _db.session.add(flag)
         _db.session.commit()
-
     # Supplied the rows we inserted for tests to use in their actions
     yield inserted_applications
+
+    for app in apps:
+        app_id = app["id"]
+        app_flags = app["flags"]
+        for f in app_flags:
+            flag = Flag.query.filter_by(application_id=app_id, **f).first()
+            if flag:
+                _db.session.delete(flag)
+                _db.session.commit()
+        delete_assessment_record(app_id)
 
 
 @pytest.fixture(scope="session")

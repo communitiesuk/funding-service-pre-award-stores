@@ -11,7 +11,6 @@ from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_mapping,
 )
 from db.queries import get_metadata_for_fund_round_id
-from db.queries import retrieve_flags_for_applications
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.assessment_records.queries import get_application_jsonb_blob
 from db.queries.assessment_records.queries import (
@@ -63,11 +62,12 @@ def sub_criteria(
     current_app.logger.info(
         "Processing request for sub criteria: {sub_criteria_id}."
     )
+    metadata = find_assessor_task_list_state(application_id)
     current_app.logger.info(
-        "Searching asessment mapping for sub criteria: {sub_criteria_id}."
+        "Searching assessment mapping for sub criteria: {sub_criteria_id}."
     )
     sub_criteria_config_from_mapping = return_subcriteria_from_mapping(
-        sub_criteria_id
+        sub_criteria_id, metadata["fund_id"], metadata["round_id"]
     )
     current_app.logger.info(
         "Getting application subcriteria metadata for application: {sub_criteria_id}."
@@ -117,8 +117,10 @@ def get_assessor_task_list_state(application_id: str) -> dict:
 def get_sub_criteria_theme_answers(application_id: str, theme_id: str):
     """Function returns mapped answers from application & Sub_criteria_themes
     with given application_id and theme_id"""
-
-    return map_application_with_sub_criteria_themes(application_id, theme_id)
+    metadata = find_assessor_task_list_state(application_id)
+    return map_application_with_sub_criteria_themes(
+        application_id, theme_id, metadata["fund_id"], metadata["round_id"]
+    )
 
 
 def update_ar_status_to_completed(application_id: str):
