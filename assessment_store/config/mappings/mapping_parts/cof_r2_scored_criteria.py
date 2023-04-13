@@ -95,7 +95,7 @@ scored_criteria = [
                                 "form_name": "community-engagement",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
-                                "question": "[if y] Describe your fundraising activities",
+                                "question": "Describe your fundraising activities",
                                 # Determined by Yes-No JCACTy
                             },
                         ],
