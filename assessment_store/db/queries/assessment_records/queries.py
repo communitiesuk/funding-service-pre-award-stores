@@ -157,7 +157,7 @@ def bulk_insert_application_record(
     try:
         print("Beginning bulk application insert.")
         rows = []
-
+        # Create a list of application ids to track inserted rows
         for single_application_json in application_json_strings:
             if not is_json:
                 single_application_json = json.loads(single_application_json)
@@ -171,16 +171,39 @@ def bulk_insert_application_record(
             }
             print(f"Appending row to insert list, values: '{derived_values}'.")
             rows.append(row)
-
             del single_application_json
 
         stmt = postgres_insert(AssessmentRecord).values(rows)
 
         upsert_rows_stmt = stmt.on_conflict_do_nothing(
             index_elements=[AssessmentRecord.application_id]
+        ).returning(AssessmentRecord.application_id)
+
+        application_ids_to_insert = [row["application_id"] for row in rows]
+        print("\n")
+        print(
+            "Application_ids (i.e. application rows) to insert:"
+            f" {application_ids_to_insert}"
         )
-        print("Attemping bulk insert of all application rows.")
-        db.session.execute(upsert_rows_stmt)
+        print("Attempting bulk insert of all application rows.")
+        result = db.session.execute(upsert_rows_stmt)
+
+        # Get the actual inserted application ids
+        inserted_application_ids = [row.application_id for row in result]
+        print(
+            "Inserted application_ids (i.e. application rows) :"
+            f" {inserted_application_ids}"
+        )
+
+        # Check for conflicts and print out any pre-existing application ids
+        rejected_application_ids = list(
+            set(application_ids_to_insert) - set(inserted_application_ids)
+        )
+        print(
+            "The following application ids already exist in the database:",
+            rejected_application_ids,
+        )
+
     except exc.SQLAlchemyError as e:
         db.session.rollback()
         print(f"Error running bulk insert: '{e}'.")

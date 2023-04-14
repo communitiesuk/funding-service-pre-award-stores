@@ -55,13 +55,23 @@ def retrieve_data_from_postcodes_io(postcodes: list):
     postcodes.io bulk postcode lookup api and then writes the result to the
     specified file
     """
+
+    # Create a JSON object with the postcodes data
+    postcode_json_data = {"postcodes": postcodes}
+
+    # Set the Content-Type header to application/json
+    headers = {"Content-Type": "application/json"}
+
+    # Send a POST request to the API with the JSON object and headers
     result = requests.post(
-        url="http://api.postcodes.io/postcodes", data={"postcodes": postcodes}
+        url="http://api.postcodes.io/postcodes",
+        json=postcode_json_data,
+        headers=headers,
     )
     if result.status_code == 200:
         return result
     else:
-        print(postcodes)
+        print(postcode_json_data)
         print(result.text)
         raise Exception("Unexpected response code from postcodes.io")
 
@@ -115,7 +125,6 @@ def get_all_location_data(just_postcodes) -> dict:
     details
     """
     raw_location_data = retrieve_data_from_postcodes_io(just_postcodes)
-
     postcodes_to_location_data = {}
 
     for postcode_data_item in raw_location_data.json()["result"]:

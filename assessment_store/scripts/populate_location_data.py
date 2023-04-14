@@ -46,10 +46,12 @@ def process_locations(
         postcodes_to_location_data = get_all_location_data(just_postcodes)
 
         if update_db:
+            print("Updating db")
             update_db_with_location_data(
                 application_ids_to_postcodes, postcodes_to_location_data
             )
         if write_csv:
+            print("Writing to csv")
             write_locations_to_csv(
                 application_ids_to_postcodes,
                 postcodes_to_location_data,
