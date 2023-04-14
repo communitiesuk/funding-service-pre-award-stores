@@ -37,6 +37,10 @@ def process_locations(
         application_ids_to_postcodes = {}
 
         # extract the postcode from each application we have
+        print(
+            f"Extracting postcodes from {len(application_ids)}"
+            f" applications for fund_id: {fund_id}, round_id: {round_id}"
+        )
         for id in application_ids:
             app_json = get_application_jsonb_blob(id[0])
             questions = get_application_form(app_json)
@@ -46,7 +50,6 @@ def process_locations(
         postcodes_to_location_data = get_all_location_data(just_postcodes)
 
         if update_db:
-            print("Updating db")
             update_db_with_location_data(
                 application_ids_to_postcodes, postcodes_to_location_data
             )

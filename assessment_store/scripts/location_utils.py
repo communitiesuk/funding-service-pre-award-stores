@@ -124,14 +124,35 @@ def get_all_location_data(just_postcodes) -> dict:
     location data for each one, and returns a map of postcodes to location
     details
     """
-    raw_location_data = retrieve_data_from_postcodes_io(just_postcodes)
+    # postcode.io API postcode query limit
+    print(f"Getting address information for {len(just_postcodes)} postcodes.")
+    max_len = 99
+    just_postcodes_sub_lists = [
+        just_postcodes[i : i + max_len]  # noqa
+        for i in range(0, len(just_postcodes), max_len)
+    ]
+
+    postcode_result_chunks = []
+    for sub_list in just_postcodes_sub_lists:
+        raw_location_data = retrieve_data_from_postcodes_io(sub_list)
+        postcode_result_chunks.append(raw_location_data)
+
     postcodes_to_location_data = {}
-
-    for postcode_data_item in raw_location_data.json()["result"]:
-        postcode = postcode_data_item["query"]
-        location_data = extract_location_data(postcode_data_item)
-        postcodes_to_location_data[postcode] = location_data[postcode]
-
+    fail_count = 0
+    for raw_location_data in postcode_result_chunks:
+        for postcode_data_item in raw_location_data.json()["result"]:
+            postcode = postcode_data_item["query"]
+            location_data = extract_location_data(postcode_data_item)
+            if location_data[postcode]["error"]:
+                print(
+                    "There was a problem extracting address"
+                    f" information for postcode: {postcode}."
+                )
+                fail_count += 1
+            postcodes_to_location_data[postcode] = location_data[postcode]
+    print(
+        f"Failed to retrieve address information for {fail_count} postcodes."
+    )
     return postcodes_to_location_data
 
 
@@ -149,6 +170,10 @@ def update_db_with_location_data(
         }
         for application_id, postcode in application_ids_to_postcodes.items()
     ]
+    print(
+        "Updating assessment records with postcode matched address"
+        " information."
+    )
     bulk_update_location_jsonb_blob(application_ids_to_location_data)
 
 
