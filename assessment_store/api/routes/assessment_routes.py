@@ -104,10 +104,6 @@ def get_assessor_task_list_state(application_id: str) -> dict:
         metadata["fund_id"], metadata["round_id"], score_map, comment_map
     )
 
-    # we don't need to return round_id as it's not relevant to the frontend
-    # (same with fund_id, but we're using that at the moment for fund_name)
-    metadata = {k: v for k, v in metadata.items() if k not in ["round_id"]}
-
     metadata["sections"] = sections
     metadata["criterias"] = criterias
 
@@ -172,7 +168,7 @@ def assessment_stats_for_fund_round_id(
                 [
                     1
                     for assessment in assessments
-                    if assessment["workflow_status"] == "ASSESSING"
+                    if assessment["workflow_status"] == "IN_PROGRESS"
                 ]
             ),
             "not_started": len(
