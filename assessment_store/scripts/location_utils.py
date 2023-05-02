@@ -76,6 +76,23 @@ def retrieve_data_from_postcodes_io(postcodes: list):
         raise Exception("Unexpected response code from postcodes.io")
 
 
+def location_not_found(error: bool = True):
+    """A function that returns a dictionary with default values
+    indicating that a location was not found.
+    Params:
+    error (bool): A boolean value of False means the location was found,
+    while a value of True means the location was not found."""
+
+    return {
+        "error": error,
+        "postcode": "Not found",
+        "country": "Not found",
+        "constituency": "Not found",
+        "region": "Not found",
+        "county": "Not found",
+    }
+
+
 def extract_location_data(json_data_item):
     """
     Takes in a single result from the postcodes.io response and extracts the f
@@ -114,7 +131,7 @@ def extract_location_data(json_data_item):
             }
         }
     else:
-        result = {postcode: {"error": True}}
+        result = {postcode: location_not_found()}
     return result
 
 

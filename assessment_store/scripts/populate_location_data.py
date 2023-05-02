@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 import argparse
 import os
+import sys
 
-from app import app  # noqa: E402
+sys.path.insert(1, ".")
+
+
+# from app import app  # noqa: E402
 from db.queries.assessment_records.queries import (  # noqa: E402
     get_application_jsonb_blob,  # noqa: E402
 )  # noqa: E402
@@ -102,5 +106,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    from app import app
+
     with app.app_context():
         main()
