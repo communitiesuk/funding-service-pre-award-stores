@@ -225,8 +225,6 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,macos,windows
 
-# Visual Studio Code config
-.vscode
 
 # Flask
 flask_session
