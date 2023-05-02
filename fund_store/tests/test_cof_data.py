@@ -38,7 +38,9 @@ def test_get_cof_r2w3_welsh(mocker, monkeypatch):
         CommonConfig.COF_FUND_ID, CommonConfig.COF_ROUND_2_W3_ID
     )
     assert "Cylch 2 Cyfnod Cynnig 3" == result[0]["title"]
-    assert "Monday to Friday" == result[0]["support_availability"]["days"]
+    assert (
+        "Dydd Llun i ddydd Gwener" == result[0]["support_availability"]["days"]
+    )
 
 
 def test_get_cof_r2w2(mocker, monkeypatch):
