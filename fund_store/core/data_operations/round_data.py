@@ -83,10 +83,6 @@ def get_round_data(language):
                     "days": "Dydd Llun i ddydd Gwener"
                     if language == "cy"
                     else "Monday to Friday",
-                    "closed": (
-                        "Easter Sunday, Christmas Day, Boxing Day and New"
-                        " Year’s Day"
-                    ),
                 },
                 **shared_cof_r2_data,
             },
@@ -124,10 +120,6 @@ def get_round_data(language):
                     "days": "Dydd Llun i ddydd Gwener"
                     if language == "cy"
                     else "Monday to Friday",
-                    "closed": (
-                        "Easter Sunday, Christmas Day, Boxing Day and New"
-                        " Year’s Day"
-                    ),
                 },
                 **shared_cof_r2_data,
             },
