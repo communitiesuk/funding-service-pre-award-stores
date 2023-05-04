@@ -36,6 +36,12 @@ def get_postcode_from_questions(form_questions) -> str:
                     postcode = raw_postcode.strip().replace(" ", "").upper()
                     return postcode
 
+            else:
+                print(
+                    "The key 'yEmHpp' for Project information form not found"
+                )
+                return "Not found"
+
 
 def get_all_application_ids_for_fund_round(fund_id, round_id) -> list:
     """
