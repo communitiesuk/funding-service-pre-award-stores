@@ -7,6 +7,7 @@ answer_schema = {
         "properties": {
             "field_id": field_id_schema,
             "form_name": {"type": "string"},
+            "path": {"type": "string"},
             "field_type": {
                 "type": "string",
                 "enum": [
@@ -23,6 +24,7 @@ answer_schema = {
                     "numberField",
                     "checkboxesField",
                     "fileUploadField",
+                    "clientSideFileUploadField",
                 ],
             },
             "presentation_type": {
@@ -61,6 +63,9 @@ answer_schema = {
                     "amount",
                     # covers:
                     # "amount (£) for add-another component question"
+                    "s3bucketPath",
+                    # covers:
+                    # "ClientSideFileUploadField",
                 ],
             },
             "question": {"type": ["string", "array"]},
