@@ -27,20 +27,22 @@ def get_postcode_from_questions(form_questions) -> str:
     supplied list of application form questions.
     Returns the postcode stripped of whitespace and converted to UPPERCASE
     """
+    raw_postcode = ""
     for question in form_questions:
         for field in question["fields"]:
             if field["key"] == "yEmHpp":
                 answer = field["answer"]
                 raw_postcode = answer.split(",")[-1]
                 if raw_postcode:
-                    postcode = raw_postcode.strip().replace(" ", "").upper()
-                    return postcode
+                    raw_postcode = (
+                        raw_postcode.strip().replace(" ", "").upper()
+                    )
 
-            else:
-                print(
-                    "The key 'yEmHpp' for Project information form not found"
-                )
-                return "Not found"
+    if not raw_postcode:
+        raw_postcode = "Not found"
+        print("The key 'yEmHpp' for Project information form not found")
+
+    return raw_postcode
 
 
 def get_all_application_ids_for_fund_round(fund_id, round_id) -> list:
