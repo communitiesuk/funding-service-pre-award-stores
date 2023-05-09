@@ -12,7 +12,7 @@ from db.models.assessment_record.enums import Status
 from db.models.flags import Flag
 from db.models.flags.enums import FlagType
 from db.queries.assessment_records._helpers import derive_application_values
-from db.queries.flags.queries import find_qa_complete_flag
+from db.queries.flags.queries import find_qa_complete_flags
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
 from db.schemas import AssessorTaskListMetadata
@@ -129,14 +129,21 @@ def get_metadata_for_fund_round_id(
             )
 
     assessment_metadatas = db.session.scalars(statement).all()
-
     metadata_serialiser = AssessmentRecordMetadata(
         exclude=("jsonb_blob", "application_json_md5")
     )
 
+    app_ids = {
+        app_metadata.application_id for app_metadata in assessment_metadatas
+    }
+    app_id_is_qa_complete_dict = find_qa_complete_flags(app_ids)
     assessment_metadatas = [
         metadata_serialiser.dump(app_metadata)
-        | find_qa_complete_flag(app_metadata.application_id)
+        | {
+            "is_qa_complete": app_id_is_qa_complete_dict[
+                app_metadata.application_id
+            ]
+        }
         for app_metadata in assessment_metadatas
     ]
 
