@@ -102,14 +102,10 @@ def seed_dev_db(c, fundround=None, appcount=None):
             while choosing:
 
                 new_line = "\n"
-                _echo_print(
-                    f"fund-rounds available to seed: {new_line} -"
-                    " {f' {new_line} - '.join(config.keys())}",
-                )
                 fund_round_input = str(
                     _echo_input(
                         "Please type the fund-round to seed:"
-                        f"fund-rounds available to seed: "
+                        f"\nfund-rounds available to seed: "
                         f"{new_line} - {f' {new_line} - '.join(config.keys())}"
                         f"{new_line} > "
                     ),
@@ -121,7 +117,7 @@ def seed_dev_db(c, fundround=None, appcount=None):
                 choosing = (
                     not _echo_input(
                         f"Would you like to insert {apps} applications"
-                        " for {fund_round_input}? y/n \n"
+                        f" for {fund_round_input}? y/n \n"
                     ).lower()
                     == "y"
                 )

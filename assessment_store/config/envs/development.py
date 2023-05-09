@@ -1,4 +1,6 @@
 """Flask Local Development Environment Configuration."""
+import logging
+
 from config.envs.default import DefaultConfig
 from fsd_utils import CommonConfig
 from fsd_utils import configclass
@@ -10,6 +12,8 @@ class DevelopmentConfig(DefaultConfig):
     SECRET_KEY = "dev"
     SESSION_COOKIE_NAME = CommonConfig.SESSION_COOKIE_NAME
     FLASK_ENV = "development"
+
+    FSD_LOG_LEVEL = logging.INFO
 
     # APIs
     APPLICATION_STORE_API_HOST = CommonConfig.TEST_APPLICATION_STORE_API_HOST

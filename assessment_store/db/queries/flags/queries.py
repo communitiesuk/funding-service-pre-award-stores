@@ -3,6 +3,7 @@
 Joins allowed.
 """
 from typing import Dict
+from typing import Iterable
 
 from db import db
 from db.models import Flag
@@ -45,6 +46,18 @@ def retrieve_flag_for_application(application_id: str) -> dict:
     flag_metadata = metadata_serialiser.dump(flag)
 
     return flag_metadata
+
+
+def find_qa_complete_flags(application_ids: Iterable[str]) -> dict[str, bool]:
+    flags = Flag.query.filter(
+        Flag.application_id.in_(application_ids),
+        Flag.flag_type == "QA_COMPLETED",
+    ).all()
+
+    qa_completed_application_ids = {flag.application_id for flag in flags}
+    return {
+        aid: aid in qa_completed_application_ids for aid in application_ids
+    }
 
 
 def find_qa_complete_flag(application_id):
