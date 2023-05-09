@@ -56,7 +56,8 @@ def find_qa_complete_flags(application_ids: Iterable[str]) -> dict[str, bool]:
 
     qa_completed_application_ids = {flag.application_id for flag in flags}
     return {
-        aid: aid in qa_completed_application_ids for aid in application_ids
+        app_id: app_id in qa_completed_application_ids
+        for app_id in application_ids
     }
 
 

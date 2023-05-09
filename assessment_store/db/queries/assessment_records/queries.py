@@ -129,20 +129,18 @@ def get_metadata_for_fund_round_id(
             )
 
     assessment_metadatas = db.session.scalars(statement).all()
-
     metadata_serialiser = AssessmentRecordMetadata(
         exclude=("jsonb_blob", "application_json_md5")
     )
 
-    application_ids = {
+    app_ids = {
         app_metadata.application_id for app_metadata in assessment_metadatas
     }
-    application_is_qa_complete_dict = find_qa_complete_flags(application_ids)
-
+    app_id_is_qa_complete_dict = find_qa_complete_flags(app_ids)
     assessment_metadatas = [
         metadata_serialiser.dump(app_metadata)
         | {
-            "is_qa_complete": application_is_qa_complete_dict[
+            "is_qa_complete": app_id_is_qa_complete_dict[
                 app_metadata.application_id
             ]
         }
