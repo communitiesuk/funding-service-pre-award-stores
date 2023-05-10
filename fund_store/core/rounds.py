@@ -58,20 +58,13 @@ def get_round(fund_id: str, round_id: str):
     use_short_name = short_name_arg and strtobool(short_name_arg)
     if use_short_name:
         fund = get_fund(fund_id)[0]
-        round_search = round_data.ROUNDS_DAO.search_by_round_short_name(
-            round_id, fund
-        )
+        round_search = round_data.ROUNDS_DAO.search_by_round_short_name(round_id, fund)
     else:
-        round_search = round_data.ROUNDS_DAO.get_one(
-            fund_id, round_id, language
-        )
+        round_search = round_data.ROUNDS_DAO.get_one(fund_id, round_id, language)
     if isinstance(round_search, dict):
         return round_search, 200
     else:
         return {
             "code": 404,
-            "message": (
-                f"round_id : {round_id} in fund_id : {fund_id} cannot be"
-                " found."
-            ),
+            "message": f"round_id : {round_id} in fund_id : {fund_id} cannot be found.",
         }, 404

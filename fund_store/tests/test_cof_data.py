@@ -20,9 +20,7 @@ def test_get_cof_r2w3(mocker, monkeypatch):
         "core.rounds.request",
         MockRequest_en(),
     )
-    result = get_round(
-        CommonConfig.COF_FUND_ID, CommonConfig.COF_ROUND_2_W3_ID
-    )
+    result = get_round(CommonConfig.COF_FUND_ID, CommonConfig.COF_ROUND_2_W3_ID)
 
     assert "Round 2 Window 3" == result[0]["title"]
     assert "Monday to Friday" == result[0]["support_availability"]["days"]
@@ -34,13 +32,9 @@ def test_get_cof_r2w3_welsh(mocker, monkeypatch):
         "core.rounds.request",
         MockRequest_cy(),
     )
-    result = get_round(
-        CommonConfig.COF_FUND_ID, CommonConfig.COF_ROUND_2_W3_ID
-    )
+    result = get_round(CommonConfig.COF_FUND_ID, CommonConfig.COF_ROUND_2_W3_ID)
     assert "Cylch 2 Cyfnod Cynnig 3" == result[0]["title"]
-    assert (
-        "Dydd Llun i ddydd Gwener" == result[0]["support_availability"]["days"]
-    )
+    assert "Dydd Llun i ddydd Gwener" == result[0]["support_availability"]["days"]
 
 
 def test_get_cof_r2w2(mocker, monkeypatch):
@@ -80,21 +74,15 @@ def test_override_fields(monkeypatch):
 
 
 def test_force_open(monkeypatch):
-    monkeypatch.setattr(
-        "core.data_operations.round_data.Config.FORCE_OPEN", "True"
-    )
+    monkeypatch.setattr("core.data_operations.round_data.Config.FORCE_OPEN", "True")
     result = get_round_data("en")
-    assert (
-        "2022-01-01 12:00:00" == result[1]["opens"]
-    ), "opens field not changed"
+    assert "2022-01-01 12:00:00" == result[1]["opens"], "opens field not changed"
     assert "R2W3" == result[1]["short_name"], "other field changed"
 
 
 def test_override_fields_with_force_open(monkeypatch):
     monkeypatch.setenv("force_opens_R2W3", "changed")
-    monkeypatch.setattr(
-        "core.data_operations.round_data.Config.FORCE_OPEN", "True"
-    )
+    monkeypatch.setattr("core.data_operations.round_data.Config.FORCE_OPEN", "True")
     result = get_round_data("en")
     assert "changed" == result[1]["opens"], "opens field not changed"
     assert "R2W3" == result[1]["short_name"], "other field changed"

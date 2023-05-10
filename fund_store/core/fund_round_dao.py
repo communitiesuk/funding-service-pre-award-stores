@@ -70,17 +70,14 @@ class RoundDAO:
     def search_by_round_short_name(self, round_short_name, fund):
 
         fund_round_list = [
-            round
-            for round in self.get_all()
-            if round["fund_id"] == fund.get("id")
+            round for round in self.get_all() if round["fund_id"] == fund.get("id")
         ]
 
         return next(
             (
                 round
                 for round in fund_round_list
-                if str.upper(round["short_name"])
-                == str.upper(round_short_name)
+                if str.upper(round["short_name"]) == str.upper(round_short_name)
             ),
             None,
         )

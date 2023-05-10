@@ -93,18 +93,12 @@ def test_get_fund_by_short_name(client, load_test_data):
     host_url = request.host_url
     expected_data = TEST_FUND_ONE
 
-    url = (
-        host_url
-        + "funds/fb986cdc-8e02-477a-a7e0-41cf19dd7675?use_short_name=false"
-    )
+    url = host_url + "funds/fb986cdc-8e02-477a-a7e0-41cf19dd7675?use_short_name=false"
     api_response_json = client.get(url).json
 
     assert api_response_json == expected_data
 
-    url = (
-        host_url
-        + "funds/fb986cdc-8e02-477a-a7e0-41cf19dd7675?use_short_name=true"
-    )
+    url = host_url + "funds/fb986cdc-8e02-477a-a7e0-41cf19dd7675?use_short_name=true"
     response = client.get(url)
 
     assert 404 == response.status_code
@@ -122,9 +116,7 @@ def test_get_round_by_short_name(client, load_test_data):
     url = host_url + "funds/FUND1/rounds/R2W3?use_short_name=true"
     api_response_json = client.get(url).json
 
-    assert api_response_json.get("short_name") == expected_data[0].get(
-        "short_name"
-    )
+    assert api_response_json.get("short_name") == expected_data[0].get("short_name")
     assert api_response_json.get("fund_id") == expected_data[0].get("fund_id")
     assert api_response_json.get("id") == expected_data[0].get("id")
     assert api_response_json.get("title") == expected_data[0].get("title")
