@@ -135,9 +135,6 @@ flask_session
 .idea
 .run
 
-# VS Code
-.vscode
-
 # Mac files
 .bash_profile
 .DS_Store
