@@ -8,7 +8,7 @@ def get_fund_data(language):
     return [
         {
             "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-            "name": "Y Cronfa Perchnogaeth Gymunedol"
+            "name": "y Gronfa Perchnogaeth Gymunedol"
             if language == "cy"
             else "Community Ownership Fund",
             "title": "gyllid i achub ased yn eich cymuned"
