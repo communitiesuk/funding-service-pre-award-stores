@@ -91,6 +91,8 @@ cryptography==39.0.1
     #   pyjwt
 dataclass-dict-convert==1.7.1
     # via -r requirements.txt
+debugpy==1.6.7
+    # via -r requirements-dev.in
 decorator==5.1.1
     # via
     #   -r requirements.txt

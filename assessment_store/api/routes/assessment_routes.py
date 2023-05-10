@@ -125,7 +125,11 @@ def update_ar_status_to_completed(application_id: str):
 
 
 def assessment_stats_for_fund_round_id(
-    fund_id: str, round_id: str
+    fund_id: str,
+    round_id: str,
+    search_term: str = "",
+    asset_type: str = "ALL",
+    status: str = "ALL",
 ) -> List[Dict]:
     """
     Function used by the endpoint
@@ -139,7 +143,11 @@ def assessment_stats_for_fund_round_id(
     """
     stats = {}
     assessments = get_metadata_for_fund_round_id(
-        fund_id=fund_id, round_id=round_id
+        fund_id=fund_id,
+        round_id=round_id,
+        search_term=search_term,
+        asset_type=asset_type,
+        status=status,
     )
     assessment_ids = [
         application["application_id"] for application in assessments
