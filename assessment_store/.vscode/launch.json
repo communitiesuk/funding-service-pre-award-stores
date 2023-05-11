@@ -1,0 +1,117 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Remote Attach (Outside container)",
+      "type": "python",
+      "request": "attach",
+      "connect": { "host": "localhost", "port": 5685 },
+      "pathMappings": [
+        { "localRoot": "${workspaceFolder}", "remoteRoot": "." }
+      ],
+      "justMyCode": false
+    },
+
+    {
+      "name": "Python: Remote Attach (Inside container)",
+      "type": "python",
+      "request": "attach",
+      "connect": { "host": "localhost", "port": 5678 },
+      "pathMappings": [
+        { "localRoot": "${workspaceFolder}", "remoteRoot": "." }
+      ],
+      "justMyCode": false
+    },
+
+    {
+      "name": "Python: Flask",
+      "type": "python",
+      "request": "launch",
+      "module": "flask",
+      "args": ["run", "--no-reload"],
+      "jinja": true,
+      "justMyCode": false,
+      "envFile": "${workspaceFolder}/.flaskenv"
+    },
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "host": "localhost",
+      "port": 9091,
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.flaskenv",
+      "justMyCode": false,
+  },
+  {
+      "name": "Feed location in assessment-store",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "host": "localhost",
+      "port": 9091,
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.flaskenv",
+      "justMyCode": false,
+      "args": ["--fund_id", "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+      "--round_id", "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+        "--update_db", "True",
+        "--write_csv", "False"]
+  },
+  {
+      "name": "Seed Applications in assessment-store",
+      "type": "python",
+      "request": "launch",
+      "module": "invoke",
+      "console": "integratedTerminal",
+      "host": "localhost",
+      "port": 9091,
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.flaskenv",
+      "justMyCode": false,
+      "args": ["seed_dev_db"]
+  },
+  {
+      "name": "Run Tests: All",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "console": "integratedTerminal",
+  },
+  {
+      "name": "Run Tests: Current File (debug)",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "args": [
+          "-c",
+          "pytest.ini",
+          "${file}"
+      ],
+      "justMyCode": false
+  },
+  {
+      "name": "Run Tests: Current Function (debug)",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "args": [
+          "-c",
+          "pytest.ini",
+          "-k",
+          "test_route_fund_dashboard_shows_flagged"
+      ],
+      "justMyCode": false
+  },
+  ]
+}
