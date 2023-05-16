@@ -1,8 +1,9 @@
+import os
+
 from colored import attr
 from colored import fg
 from colored import stylize
 from invoke import task
-import os
 
 ECHO_STYLE = fg("light_gray") + attr("bold")
 
@@ -10,26 +11,25 @@ ECHO_STYLE = fg("light_gray") + attr("bold")
 @task
 def recreate_local_db(c, database_host="localhost", db_name="fsd_fund_store_1"):
     """Create a clean database for testing"""
-    database_url = os.environ.get("DATABASE_URL", f"postgresql://postgres:postgres@{database_host}:5432/{db_name}")
+    database_url = os.environ.get(
+        "DATABASE_URL", f"postgresql://postgres:postgres@{database_host}:5432/{db_name}"
+    )
 
     # As we assume "db_name" is not yet created. First we need to connect to psql with a database
     # Replace database in database_url with "postgres" db
-    parts = database_url.split('/', 3)
+    parts = database_url.split("/", 3)
     parts[3] = "postgres"
-    database_url = '/'.join(parts)
+    database_url = "/".join(parts)
 
-    c.run(f"psql {database_url} -c \"DROP DATABASE IF EXISTS {db_name} WITH (FORCE);\"")
+    c.run(f'psql {database_url} -c "DROP DATABASE IF EXISTS {db_name} WITH (FORCE);"')
     print(
         stylize(
             f"{db_name} db dropped from {database_host}...",
             ECHO_STYLE,
         )
     )
-    c.run(f"psql {database_url} -c \"CREATE DATABASE {db_name};\"")
-    c.run(
-        f'psql {database_url} -c "create extension if not'
-        ' exists ltree;"'
-    )
+    c.run(f'psql {database_url} -c "CREATE DATABASE {db_name};"')
+    c.run(f'psql {database_url} -c "create extension if not exists ltree;"')
     print(stylize(f"{db_name} db created on {database_host}...", ECHO_STYLE))
 
 
@@ -55,7 +55,9 @@ def init_migr(c, database_host="localhost", db_name="fsd_fund_store_1"):
 
 @task
 def seed_db(c, database_host="localhost", db_name="fsd_fund_store_1"):
-    database_url = os.environ.get("DATABASE_URL", f"postgresql://postgres:postgres@{database_host}:5432/{db_name}")
+    database_url = os.environ.get(
+        "DATABASE_URL", f"postgresql://postgres:postgres@{database_host}:5432/{db_name}"
+    )
     c.run("flask db upgrade")
     print(
         stylize(
@@ -66,9 +68,7 @@ def seed_db(c, database_host="localhost", db_name="fsd_fund_store_1"):
     c.run(f"psql {database_url} -a -f db/cof_sql/fund.sql")
     c.run(f"psql {database_url} -a -f db/cof_sql/rounds.sql")
     c.run(f"psql {database_url} -a -f db/cof_sql/sections.sql")
-    c.run(
-        f"psql {database_url} -a -f db/cof_sql/assessment_fields.sql"
-    )
+    c.run(f"psql {database_url} -a -f db/cof_sql/assessment_fields.sql")
     c.run(f"psql {database_url} -a -f db/cof_sql/section_fields.sql")
     # c.run(
     #     f"psql {database_url} -a -f"
