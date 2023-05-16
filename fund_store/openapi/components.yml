@@ -62,10 +62,6 @@ components:
             type: string
             description: The fund ID, uniquely identifies the fund.
             example: "funding-service-design"
-          assessment_criteria_weighting:
-            $ref: '#/components/schemas/AssessmentCriteriaWeighting'
-            description: assessment criteria weightings for application criteria.
-            example:
           opens:
             type: string
             description: The date of when the round will be open to recieve applications.
@@ -82,7 +78,6 @@ components:
           - id
           - fund_id
           - title
-          - assessment_criteria_weighting
           - opens
           - deadline
           - assessment_deadline

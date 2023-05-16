@@ -12,6 +12,7 @@ jobs:
     with:
       app_name: ${{ github.event.repository.name }}
       api: true
+      postgres_unit_testing: true
       run_performance_tests: true
       run_e2e_tests: true
     secrets:

@@ -1,5 +1,6 @@
 """Flask Local Development Environment Configuration."""
 import logging
+from os import environ
 
 from config.envs.default import DefaultConfig as Config
 from fsd_utils import configclass
@@ -14,3 +15,8 @@ class DevelopmentConfig(Config):
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
+
+    SQLALCHEMY_DATABASE_URI = environ.get(
+        "DATABASE_URL",
+        "postgresql://postgres:postgres@127.0.0.1:5432/fsd_fund_store_1",
+    )

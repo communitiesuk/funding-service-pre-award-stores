@@ -2,24 +2,25 @@
 ---
 applications:
 - name: funding-service-design-fund-store-dev
-  memory: 64M
+  memory: 256M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
-  command: gunicorn wsgi:app -c run/gunicorn/devtest.py
+  command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
   env:
     FLASK_ENV: dev
     # Sentry DSN is OK to be public see: https://docs.sentry.io/product/sentry-basics/dsn-explainer/#dsn-utilization
     SENTRY_DSN: https://5ea1346b1c1b4dd8af0c95435ca77945@o1432034.ingest.sentry.io/4503903486148608
     GITHUB_SHA: ((GITHUB_SHA))
-    force_opens_R2W3: 2023-01-31 12:00:00
   health-check-http-endpoint: /healthcheck
   health-check-type: http
+  services:
+    - funding-service-design-fund-store-dev-db
 
 - name: funding-service-design-fund-store-test
-  memory: 64M
+  memory: 256M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
-  command: gunicorn wsgi:app -c run/gunicorn/devtest.py
+  command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
   env:
     FLASK_ENV: test
     # Sentry DSN is OK to be public see: https://docs.sentry.io/product/sentry-basics/dsn-explainer/#dsn-utilization

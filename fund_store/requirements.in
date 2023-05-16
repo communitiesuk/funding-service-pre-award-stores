@@ -1,19 +1,12 @@
 #-----------------------------------
 #   FSD Utils
 #-----------------------------------
-funding-service-design-utils>=1.0.23,<1.1.0
-requests
-
+funding-service-design-utils>=2.0.1,<2.1.0
 #-----------------------------------
 #   Flask Version
 #-----------------------------------
-Flask==2.1.1
-
-#-----------------------------------
-#   Fund Store
-#-----------------------------------
-python-slugify==6.1.2
-
+flask
+flask-json
 #-----------------------------------
 #   Connexion APIs
 #-----------------------------------
@@ -21,3 +14,16 @@ connexion
 swagger-ui-bundle
 openapi-spec-validator
 prance
+#-----------------------------------
+#   Database
+#-----------------------------------
+SQLAlchemy[mypy]>=2.0.12
+Flask-SQLAlchemy>=3.0.3
+Flask-Migrate
+sqlalchemy-utils>=0.41.1
+sqlalchemy_json
+psycopg2-binary
+marshmallow-sqlalchemy
+
+pytest-mock
+pytest-html>=3.2.0

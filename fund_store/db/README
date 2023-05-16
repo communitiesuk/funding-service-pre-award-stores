@@ -1,0 +1,21 @@
+# Local setup
+
+Tasks to help with dropping and recreating, then repopulating the db during development are in `tasks.py`
+
+1. Set local DATABASE_URL in environment (default in config is `postgresql://postgres:postgres@127.0.0.1:5432/fsd_fund_store_1`)
+1. To recreate the db instance, run
+
+        inv recreate-local-db
+
+    this drops and recreates the DB
+1. To re-initialise the flask db migrations, run
+
+        inv init-migr
+1. Once the initial migration version is created, update that python file (`db/migrations/xxxx_initial_migration.py`) to add required imports:
+
+        import sqlalchemy_utils
+1. To perform the migrations on the db and seed data, run
+
+        inv seed-db
+
+    This runs the migrations and the sql scripts in `db/cof_sql`. Then runs some select statements to show result of inserts.

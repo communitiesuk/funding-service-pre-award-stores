@@ -2,7 +2,7 @@ from core.data_operations.round_data import get_round_data
 from core.data_operations.round_data import override_fields_from_env
 from core.rounds import get_round
 from core.rounds import get_rounds_for_fund
-from fsd_utils.config.commonconfig import CommonConfig
+from fsd_test_utils.test_config.useful_config import UsefulConfig
 
 
 class MockRequest_cy:
@@ -20,7 +20,7 @@ def test_get_cof_r2w3(mocker, monkeypatch):
         "core.rounds.request",
         MockRequest_en(),
     )
-    result = get_round(CommonConfig.COF_FUND_ID, CommonConfig.COF_ROUND_2_W3_ID)
+    result = get_round(UsefulConfig.COF_FUND_ID, UsefulConfig.COF_ROUND_2_W3_ID)
 
     assert "Round 2 Window 3" == result[0]["title"]
     assert "Monday to Friday" == result[0]["support_availability"]["days"]
@@ -32,7 +32,7 @@ def test_get_cof_r2w3_welsh(mocker, monkeypatch):
         "core.rounds.request",
         MockRequest_cy(),
     )
-    result = get_round(CommonConfig.COF_FUND_ID, CommonConfig.COF_ROUND_2_W3_ID)
+    result = get_round(UsefulConfig.COF_FUND_ID, UsefulConfig.COF_ROUND_2_W3_ID)
     assert "Cylch 2 Cyfnod Cynnig 3" == result[0]["title"]
     assert "Dydd Llun i ddydd Gwener" == result[0]["support_availability"]["days"]
 
@@ -43,7 +43,7 @@ def test_get_cof_r2w2(mocker, monkeypatch):
         "core.rounds.request",
         MockRequest_en(),
     )
-    result = get_round(CommonConfig.COF_FUND_ID, CommonConfig.COF_ROUND_2_ID)
+    result = get_round(UsefulConfig.COF_FUND_ID, UsefulConfig.COF_ROUND_2_ID)
     assert "Round 2 Window 2" == result[0]["title"]
     assert "Monday to Friday" == result[0]["support_availability"]["days"]
 
@@ -54,7 +54,7 @@ def test_get_cof(mocker, monkeypatch):
         "core.rounds.request",
         MockRequest_en(),
     )
-    result = get_rounds_for_fund(CommonConfig.COF_FUND_ID)
+    result = get_rounds_for_fund(UsefulConfig.COF_FUND_ID)
     assert 2 == len(result[0])
     assert "Round 2 Window 3" == result[0][1]["title"]
     assert "Round 2 Window 2" == result[0][0]["title"]
