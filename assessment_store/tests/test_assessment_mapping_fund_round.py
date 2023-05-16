@@ -2,7 +2,10 @@ from collections import defaultdict
 
 import pytest
 from api.routes._helpers import transform_to_assessor_task_list_metadata
-from fsd_utils import CommonConfig
+
+COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
+COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
+COF_ROUND_2_W3_ID = "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f"
 
 
 @pytest.mark.skip(reason="used for tdd only")
@@ -17,8 +20,8 @@ def test_transform_to_assessor_task_list_metadata():
     COMMENT_MAP["funding_breakdown"] = True
 
     sections, critera = transform_to_assessor_task_list_metadata(
-        CommonConfig.COF_FUND_ID,
-        CommonConfig.COF_ROUND_2_ID,
+        COF_FUND_ID,
+        COF_ROUND_2_ID,
         SCORE_MAP,
         COMMENT_MAP,
     )

@@ -2,6 +2,7 @@ import copy
 
 from config import Config
 from db.models.assessment_record.enums import Status
+from flask import current_app
 
 
 def _derive_status(
@@ -21,6 +22,8 @@ def _derive_status(
 def transform_to_assessor_task_list_metadata(
     fund_id: str, round_id: str, score_map: dict, comment_map: dict
 ) -> tuple[dict, dict]:
+    current_app.logger.info("Configured fund-rounds:")
+    current_app.logger.info(Config.ASSESSMENT_MAPPING_CONFIG.keys())
     mapping = copy.deepcopy(
         Config.ASSESSMENT_MAPPING_CONFIG[f"{fund_id}:{round_id}"]
     )
