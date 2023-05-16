@@ -2,7 +2,18 @@
 
 Tasks to help with dropping and recreating, then repopulating the db during development are in `tasks.py`
 
-1. Set local DATABASE_URL in environment (default in config is `postgresql://postgres:postgres@127.0.0.1:5432/fsd_fund_store_1`)
+Tasks can be run localy or in the conatiner.
+
+- To run locally set the environment variable `DATABASE_URL`,
+```bash
+export DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/fsd_fund_store_1
+```
+
+- To run the tasks in the container, bash into the container
+```bash
+docker exec -it <container_id> bash
+```
+
 1. To recreate the db instance, run
 
         inv recreate-local-db
