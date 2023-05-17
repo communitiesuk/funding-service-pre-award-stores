@@ -51,86 +51,87 @@ def create_sections(path_prefix, round_id, forms_config):
     # assessment_result = insert_assessment_sections(cof_form_config.COF_ROUND_2_ID, assessment_config)
 
 
-with app.app_context():
+if __name__ == "__main__":
+    with app.app_context():
 
-    # -- load fund and rounds --
-    fund_config = {
-        "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-        "name": "Community Ownership Fund",
-        "title": "funding to save an asset in your community",
-        "short_name": "COF",
-        "description": (
-            "The Community Ownership Fund is a £150 million fund over 4 years"
-            " to support community groups across England, Wales, Scotland and"
-            " Northern Ireland to take ownership of assets which are at risk"
-            " of being lost to the community."
-        ),
-    }
-
-    rounds_config = [
-        {
-            "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-            "title": "Round 2 Window 2",
-            "short_name": "R2W2",
-            "opens": "2022-10-04 12:00:00",
-            "deadline": "2022-12-14 11:59:00",
-            "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-            "assessment_deadline": "2023-03-30 12:00:00",
-            "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
-            "privacy_notice": "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/community-ownership-fund-privacy-notice",
-            "contact_email": "COF@levellingup.gov.uk",
-            "contact_phone": None,
-            "contact_textphone": None,
-            "support_times": "9am to 5pm",
-            "support_days": "Monday to Friday",
-            "instructions": (
-                "You must have received an invitation to apply. If we did not invite"
-                " you, first <a"
-                ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
-                " express your interest in the fund</a>."
+        # -- load fund and rounds --
+        fund_config = {
+            "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+            "name": "Community Ownership Fund",
+            "title": "funding to save an asset in your community",
+            "short_name": "COF",
+            "description": (
+                "The Community Ownership Fund is a £150 million fund over 4 years"
+                " to support community groups across England, Wales, Scotland and"
+                " Northern Ireland to take ownership of assets which are at risk"
+                " of being lost to the community."
             ),
-        },
-        {
-            "id": "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f",
-            "title": "Round 2 Window 3",
-            "short_name": "R2W3",
-            "opens": "2022-10-04 12:00:00",
-            "deadline": "2022-12-14 11:59:00",
-            "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-            "assessment_deadline": "2023-03-30 12:00:00",
-            "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
-            "privacy_notice": "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/community-ownership-fund-privacy-notice",
-            "contact_email": "COF@levellingup.gov.uk",
-            "contact_phone": None,
-            "contact_textphone": None,
-            "support_times": "9am to 5pm",
-            "support_days": "Monday to Friday",
-            "instructions": (
-                "You must have received an invitation to apply. If we did not invite"
-                " you, first <a"
-                ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
-                " express your interest in the fund</a>."
-            ),
-        },
-    ]
+        }
 
-    inserted_fund = insert_fund_data(fund_config)
-    print("Fund inserted:")
-    print(inserted_fund)
-    inserted_rounds = insert_round_data(rounds_config)
-    print("Rounds inserted:")
-    print(inserted_rounds)
+        rounds_config = [
+            {
+                "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+                "title": "Round 2 Window 2",
+                "short_name": "R2W2",
+                "opens": "2022-10-04 12:00:00",
+                "deadline": "2022-12-14 11:59:00",
+                "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+                "assessment_deadline": "2023-03-30 12:00:00",
+                "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
+                "privacy_notice": "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/community-ownership-fund-privacy-notice",
+                "contact_email": "COF@levellingup.gov.uk",
+                "contact_phone": None,
+                "contact_textphone": None,
+                "support_times": "9am to 5pm",
+                "support_days": "Monday to Friday",
+                "instructions": (
+                    "You must have received an invitation to apply. If we did not"
+                    " invite you, first <a"
+                    ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
+                    " express your interest in the fund</a>."
+                ),
+            },
+            {
+                "id": "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f",
+                "title": "Round 2 Window 3",
+                "short_name": "R2W3",
+                "opens": "2022-10-04 12:00:00",
+                "deadline": "2022-12-14 11:59:00",
+                "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+                "assessment_deadline": "2023-03-30 12:00:00",
+                "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
+                "privacy_notice": "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/community-ownership-fund-privacy-notice",
+                "contact_email": "COF@levellingup.gov.uk",
+                "contact_phone": None,
+                "contact_textphone": None,
+                "support_times": "9am to 5pm",
+                "support_days": "Monday to Friday",
+                "instructions": (
+                    "You must have received an invitation to apply. If we did not"
+                    " invite you, first <a"
+                    ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
+                    " express your interest in the fund</a>."
+                ),
+            },
+        ]
 
-    # Do we want to reuse the application sections config?
+        inserted_fund = insert_fund_data(fund_config)
+        print("Fund inserted:")
+        print(inserted_fund)
+        inserted_rounds = insert_round_data(rounds_config)
+        print("Rounds inserted:")
+        print(inserted_rounds)
 
-    # Separate config for r2w2 and r2w3
-    # create_sections("1", cof_form_config.COF_ROUND_2_ID, cof_form_config.COF_R2_ORDERED_FORMS_CONFIG, True)
-    # create_sections("2", cof_form_config.COF_ROUND_2_W3_ID, cof_form_config.COF_R2_ORDERED_FORMS_CONFIG, True)
+        # Do we want to reuse the application sections config?
 
-    # reuse config between r2w2 and r2w3
-    create_sections(
-        "1",
-        cof_form_config.COF_ROUND_2_ID,
-        cof_form_config.COF_R2_ORDERED_FORMS_CONFIG,
-    )
-    create_sections("1", cof_form_config.COF_ROUND_2_W3_ID, None)
+        # Separate config for r2w2 and r2w3
+        # create_sections("1", cof_form_config.COF_ROUND_2_ID, cof_form_config.COF_R2_ORDERED_FORMS_CONFIG, True)
+        # create_sections("2", cof_form_config.COF_ROUND_2_W3_ID, cof_form_config.COF_R2_ORDERED_FORMS_CONFIG, True)
+
+        # reuse config between r2w2 and r2w3
+        create_sections(
+            "1",
+            cof_form_config.COF_ROUND_2_ID,
+            cof_form_config.COF_R2_ORDERED_FORMS_CONFIG,
+        )
+        create_sections("1", cof_form_config.COF_ROUND_2_W3_ID, None)
