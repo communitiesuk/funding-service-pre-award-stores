@@ -50,6 +50,7 @@ def create_sections(path_prefix, round_id, forms_config):
         insert_application_sections(round_id, sorted_application_sections)
     # assessment_result = insert_assessment_sections(cof_form_config.COF_ROUND_2_ID, assessment_config)
 
+
 if __name__ == "__main__":
     with app.app_context():
 
@@ -84,8 +85,8 @@ if __name__ == "__main__":
                 "support_times": "9am to 5pm",
                 "support_days": "Monday to Friday",
                 "instructions": (
-                    "You must have received an invitation to apply. If we did not invite"
-                    " you, first <a"
+                    "You must have received an invitation to apply. If we did not"
+                    " invite you, first <a"
                     ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
                     " express your interest in the fund</a>."
                 ),
@@ -106,8 +107,8 @@ if __name__ == "__main__":
                 "support_times": "9am to 5pm",
                 "support_days": "Monday to Friday",
                 "instructions": (
-                    "You must have received an invitation to apply. If we did not invite"
-                    " you, first <a"
+                    "You must have received an invitation to apply. If we did not"
+                    " invite you, first <a"
                     ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
                     " express your interest in the fund</a>."
                 ),
