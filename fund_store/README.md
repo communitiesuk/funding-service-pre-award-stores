@@ -107,11 +107,11 @@ You can also force all defined rounds to be open by setting the environment vari
 To seed fund & round data to db
 
 ```
-docker exec -ti <fund_store_container_id> scripts/load_cof_r2.py
+docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r2
 
 ```
 ```
-docker exec -ti <fund_store_container_id> scripts/load_cof_r3w1.py
+docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r3w1
 
 ```
 To amend the round dates

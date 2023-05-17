@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # flake8: noqa
-from app import app  # noqa: E402
 from config import Config  # noqa: E402
 from db.queries import insert_application_sections
 from db.queries import insert_assessment_sections
@@ -51,7 +50,7 @@ def create_sections(path_prefix, round_id, forms_config):
     # assessment_result = insert_assessment_sections(cof_form_config.COF_ROUND_2_ID, assessment_config)
 
 
-with app.app_context():
+def main() -> None:
 
     # -- load fund and rounds --
     fund_config = {
@@ -134,3 +133,10 @@ with app.app_context():
         cof_form_config.COF_R2_ORDERED_FORMS_CONFIG,
     )
     create_sections("1", cof_form_config.COF_ROUND_2_W3_ID, None)
+
+
+if __name__ == "__main__":
+    from app import app
+
+    with app.app_context():
+        main()
