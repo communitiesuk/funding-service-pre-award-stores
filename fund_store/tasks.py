@@ -10,25 +10,19 @@ ECHO_STYLE = fg("light_gray") + attr("bold")
 
 
 @task
-def recreate_local_db(c, database_host=None, db_name=None):
+def recreate_local_db(c):
     """Create a clean database for testing"""
 
     # As we assume "db_name" is not yet created. First we need to connect to psql with an existing database
     # Replace database in database_url with "postgres" db
-    if not (database_host and db_name):
-        database_url = os.environ.get("DATABASE_URL")
-        if not database_url:
-            raise Exception(
-                "Please provide args: [database_host, db_name]  or set the var"
-                " 'DATABASE_URL'"
-            )
-        parsed_db_url = urlparse(database_url)
-        database_host = parsed_db_url.hostname
-        db_name = parsed_db_url.path.lstrip("/")
-        parsed_db_url = parsed_db_url._replace(path="/postgres")
-        database_url = parsed_db_url.geturl()
-    else:
-        database_url = f"postgresql://postgres:postgres@{database_host}:5432/postgres"
+    database_url = os.environ.get("DATABASE_URL")
+    if not database_url:
+        raise Exception("Please set the environmental variable 'DATABASE_URL'!")
+    parsed_db_url = urlparse(database_url)
+    database_host = parsed_db_url.hostname
+    db_name = parsed_db_url.path.lstrip("/")
+    parsed_db_url = parsed_db_url._replace(path="/postgres")
+    database_url = parsed_db_url.geturl()
 
     c.run(f'psql {database_url} -c "DROP DATABASE IF EXISTS {db_name} WITH (FORCE);"')
     print(
@@ -63,18 +57,12 @@ def init_migr(c, database_host="localhost", db_name="fsd_fund_store_1"):
 
 
 @task
-def seed_db(c, database_host=None, db_name=None):
+def seed_db(c):
     """Seed the Fund data into the database."""
 
-    if not (database_host and db_name):
-        database_url = os.environ.get("DATABASE_URL")
-        if not database_url:
-            raise Exception(
-                "Please provide args: [database_host, db_name]  or set the var"
-                " 'DATABASE_URL'"
-            )
-    else:
-        database_url = f"postgresql://postgres:postgres@{database_host}:5432/{db_name}"
+    database_url = os.environ.get("DATABASE_URL")
+    if not database_url:
+        raise Exception("Please set the environmental variable 'DATABASE_URL'!")
 
     c.run("flask db upgrade")
     print(

@@ -4,9 +4,9 @@ Tasks to help with dropping and recreating, then repopulating the db during deve
 
 Tasks can be run locally and in container
 
-- To run locally, set the environment variable `DATABASE_URL`,
+- To run locally, make sure `psql` client is installed on your machine(https://www.postgresql.org/download/) & set the environment variable `DATABASE_URL`,
 ```bash
-export DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/fsd_fund_store_1
+export DATABASE_URL=postgresql://postgres:password@127.0.0.1:5432/fund_store
 ```
 
 - To run the tasks in the container, bash into the container
