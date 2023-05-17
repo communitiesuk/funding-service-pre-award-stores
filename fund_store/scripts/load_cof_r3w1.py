@@ -183,15 +183,14 @@ round_config = [
     }
 ]
 
-if __name__ == "__main__":
-    with app.app_context():
-        print("Inserting fund and round data.")
-        insert_fund_data(fund_config)
-        insert_round_data(round_config)
+with app.app_context():
+    print("Inserting fund and round data.")
+    insert_fund_data(fund_config)
+    insert_round_data(round_config)
 
-        print("Inserting base sections config.")
-        insert_application_sections(COF_ROUND_3_WINDOW_1_ID, tree_base_sections)
-        print("Inserting sections.")
-        insert_application_sections(
-            COF_ROUND_3_WINDOW_1_ID, sorted_application_r3w1_sections
-        )
+    print("Inserting base sections config.")
+    insert_application_sections(COF_ROUND_3_WINDOW_1_ID, tree_base_sections)
+    print("Inserting sections.")
+    insert_application_sections(
+        COF_ROUND_3_WINDOW_1_ID, sorted_application_r3w1_sections
+    )
