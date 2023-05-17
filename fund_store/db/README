@@ -2,9 +2,9 @@
 
 Tasks to help with dropping and recreating, then repopulating the db during development are in `tasks.py`
 
-Tasks can be run localy or in the conatiner.
+Tasks can be run locally and in container
 
-- To run locally set the environment variable `DATABASE_URL`,
+- To run locally, set the environment variable `DATABASE_URL`,
 ```bash
 export DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/fsd_fund_store_1
 ```
