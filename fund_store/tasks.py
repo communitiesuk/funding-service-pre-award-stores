@@ -1,10 +1,10 @@
 import os
+from urllib.parse import urlparse
 
 from colored import attr
 from colored import fg
 from colored import stylize
 from invoke import task
-from urllib.parse import urlparse
 
 ECHO_STYLE = fg("light_gray") + attr("bold")
 
@@ -18,10 +18,13 @@ def recreate_local_db(c, database_host=None, db_name=None):
     if not (database_host and db_name):
         database_url = os.environ.get("DATABASE_URL")
         if not database_url:
-            raise Exception("Please provide args: [database_host, db_name]  or set the var 'DATABASE_URL'")
+            raise Exception(
+                "Please provide args: [database_host, db_name]  or set the var"
+                " 'DATABASE_URL'"
+            )
         parsed_db_url = urlparse(database_url)
         database_host = parsed_db_url.hostname
-        db_name = parsed_db_url.path.lstrip('/')
+        db_name = parsed_db_url.path.lstrip("/")
         parsed_db_url = parsed_db_url._replace(path="/postgres")
         database_url = parsed_db_url.geturl()
     else:
@@ -66,7 +69,10 @@ def seed_db(c, database_host=None, db_name=None):
     if not (database_host and db_name):
         database_url = os.environ.get("DATABASE_URL")
         if not database_url:
-            raise Exception("Please provide args: [database_host, db_name]  or set the var 'DATABASE_URL'")
+            raise Exception(
+                "Please provide args: [database_host, db_name]  or set the var"
+                " 'DATABASE_URL'"
+            )
     else:
         database_url = f"postgresql://postgres:postgres@{database_host}:5432/{db_name}"
 
