@@ -1,4 +1,4 @@
-from app import app  # noqa: E402
+#!/usr/bin/env python3
 from db.queries import insert_application_sections
 from db.queries import insert_fund_data
 from db.queries import insert_round_data
@@ -183,15 +183,22 @@ round_config = [
     }
 ]
 
-if __name__ == "__main__":
-    with app.app_context():
-        print("Inserting fund and round data.")
-        insert_fund_data(fund_config)
-        insert_round_data(round_config)
 
-        print("Inserting base sections config.")
-        insert_application_sections(COF_ROUND_3_WINDOW_1_ID, tree_base_sections)
-        print("Inserting sections.")
-        insert_application_sections(
-            COF_ROUND_3_WINDOW_1_ID, sorted_application_r3w1_sections
-        )
+def main() -> None:
+    print("Inserting fund and round data.")
+    insert_fund_data(fund_config)
+    insert_round_data(round_config)
+
+    print("Inserting base sections config.")
+    insert_application_sections(COF_ROUND_3_WINDOW_1_ID, tree_base_sections)
+    print("Inserting sections.")
+    insert_application_sections(
+        COF_ROUND_3_WINDOW_1_ID, sorted_application_r3w1_sections
+    )
+
+
+if __name__ == "__main__":
+    from app import app
+
+    with app.app_context():
+        main()
