@@ -363,15 +363,37 @@ def bulk_update_location_jsonb_blob(application_ids_to_location_data):
         .values(location_json_blob=bindparam("location_data"))
     )
 
-    update_params = [
-        {
-            "app_id": item["application_id"],
-            "location_data": item["location"],
-        }
-        for item in application_ids_to_location_data
-    ]
+    for item in application_ids_to_location_data:
+        existing_location_data = (
+            db.session.query(AssessmentRecord.location_json_blob)
+            .filter_by(application_id=item["application_id"])
+            .scalar()
+        )
 
-    db.session.execute(stmt, update_params)
+        if not existing_location_data:
+            current_app.logger.info("Seeding location data")
+            db.session.execute(
+                stmt,
+                {
+                    "app_id": item["application_id"],
+                    "location_data": item["location"],
+                },
+            )
+
+        elif existing_location_data["error"] is True:
+            current_app.logger.info("Updating location data")
+            db.session.execute(
+                stmt,
+                {
+                    "app_id": item["application_id"],
+                    "location_data": item["location"],
+                },
+            )
+
+        else:
+            current_app.logger.info("Location data already exists")
+            continue
+
     db.session.commit()
 
 

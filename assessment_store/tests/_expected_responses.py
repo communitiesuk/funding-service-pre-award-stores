@@ -155,3 +155,22 @@ ASSESSMENTS_STATS_RESPONSE = {
     "flagged": 0,
     "total": 3,
 }
+
+BULK_UPDATE_LOCATION_JSONB_BLOB = {
+    "existing_location_data": {
+        "error": False,
+        "county": "test_county_123",
+        "country": "test_country_123",
+    },
+    "new_location_data": {
+        "error": False,
+        "county": "test_county_new_123",
+        "country": "test_country_new_123",
+    },
+    "error_true_location_data": {
+        "error": True,
+        "county": "Not found",
+        "country": "Not found",
+    },
+    "none_location_data": None,
+}
