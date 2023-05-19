@@ -92,7 +92,7 @@ sorted_application_r3w1_sections = [
     },
     {
         "section_name": "4.3 Risk",
-        "form_name": "feasibility-cof-r3-w1",
+        "form_name": "risk-cof-r3-w1",
         "tree_path": f"{tree_base_sections[0]['tree_path']}.4.3",
     },
     {
@@ -134,8 +134,8 @@ sorted_application_r3w1_sections = [
         "tree_path": f"{tree_base_sections[0]['tree_path']}.6",
     },
     {
-        "section_name": "6.1 Project qualification",
-        "form_name": "project-information-cof-r3-w1",
+        "section_name": "6.1 Declarations",
+        "form_name": "final-confirmations-cof-r3-w1",
         "tree_path": f"{tree_base_sections[0]['tree_path']}.6.1",
     },
 ]
