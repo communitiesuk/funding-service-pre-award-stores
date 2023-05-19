@@ -161,9 +161,9 @@ round_config = [
         "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
         "title": "Round 3 Window 1",
         "short_name": "R3W1",
-        "opens": "2021-10-04 12:00:00",
-        "deadline": "2023-12-14 11:59:00",
-        "assessment_deadline": "2024-03-30 12:00:00",
+        "opens": "2023-05-31 12:00:00",
+        "deadline": "2023-07-12 11:59:00",
+        "assessment_deadline": "2023-08-09 12:00:00",
         "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
         "privacy_notice": (
             "https://www.gov.uk/government/publications/community-ownership-fund-"

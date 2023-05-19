@@ -60,6 +60,68 @@ Then run gunicorn using the following command:
 
     gunicorn wsgi:app -c run/gunicorn/local.py
 
+### Setting up for database development
+This service is designed to use PostgreSQL as a database, via SqlAlchemy
+When running the service (eg. `flask run`) you need to set the DATABASE_URL environment variable to the URL of the database you want to test with.
+
+Initialise the database:
+
+    flask db init
+
+Then run existing migrations:
+
+    flask db upgrade
+
+Whenever you make changes to database models, please run:
+
+    flask db migrate
+
+This will create the migration files for your changes in /db/migrations.
+Please then commit and push these to github so that the migrations will be run in the pipelines to correctly
+upgrade the deployed db instances with your changes.
+
+# Database on Paas
+Create db service with:
+
+    cf create-service postgres medium-13 fund-store-dev-db
+
+Ensure the following elements are present in your `manifest.yml`. The `run_migrations_paas.py` is what initialises the database, and the `services` element binds the application to the database service.
+
+    command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
+
+    services:
+        - fund-store-dev-db
+
+# Seeding Fund Data
+To seed fund & round data to db
+
+```
+docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r2
+
+```
+```
+docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r3w1
+
+```
+To amend the round dates
+```
+docker exec -ti <fund_store_container_id> scripts/amend_round_dates.py --round_id c603d114-5364-4474-a0c4-c41cbf4d3bbd --assessment_deadline_date "2023-03-30 12:00:00"
+
+```
+```
+docker exec -ti <fund_store_container_id> scripts/amend_round_dates.py --round_id c603d114-5364-4474-a0c4-c41cbf4d3bbd --opens_date "2022-10-04 12:00:00" --deadline_date "2022-12-14 11:59:00" --assessment_deadline_date "2023-03-30 12:00:00"
+
+```
+
+### Create and seed local DB
+- Make sure your local `DATABASE_URL` env var is set to your local postgres db (this doesn't need to actually exist yet), eg:
+
+        DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/fsd_fund_store
+
+- Create and seed using the following scripts:
+
+        python -m scripts.{load_config_script}
+
 # Pipelines
 
 Place brief descriptions of Pipelines here
@@ -88,38 +150,3 @@ into your workflow. You will be notified of any pep8 errors during commits.
 
 In deploy.yml, there are three environment variables called users, spawn-rate and run-time. These are used
 to override the locust config if the performance tests need to run with different configs for fund store.
-
-# Data
-This repo also defines the production data for funds and rounds in JSON format in lieu of a real database. Certain fields can be overridden through environment variables in the following format:
-
-        force_fieldname_roundshortid=value
-
-The fields that can be overridden are: opens, deadline, assessment_deadline. So to override the opening date:
-
-        export force_opens_R2W3=2023-01-01
-
-You can also force all defined rounds to be open by setting the environment variable `FORCE_OPEN`. This has the effect of setting the following values for all rounds:
-
-        `opens = "2022-02-02 12:00:00",
-        deadline = "2024-12-31 11:59:00",`
-
-# Seeding Fund Data
-To seed fund & round data to db
-
-```
-docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r2
-
-```
-```
-docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r3w1
-
-```
-To amend the round dates
-```
-docker exec -ti <fund_store_container_id> scripts/amend_round_dates.py --round_id c603d114-5364-4474-a0c4-c41cbf4d3bbd --assessment_deadline_date "2023-03-30 12:00:00"
-
-```
-```
-docker exec -ti <fund_store_container_id> scripts/amend_round_dates.py --round_id c603d114-5364-4474-a0c4-c41cbf4d3bbd --opens_date "2022-10-04 12:00:00" --deadline_date "2022-12-14 11:59:00" --assessment_deadline_date "2023-03-30 12:00:00"
-
-```
