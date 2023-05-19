@@ -102,3 +102,24 @@ You can also force all defined rounds to be open by setting the environment vari
 
         `opens = "2022-02-02 12:00:00",
         deadline = "2024-12-31 11:59:00",`
+
+# Seeding Fund Data
+To seed fund & round data to db
+
+```
+docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r2
+
+```
+```
+docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r3w1
+
+```
+To amend the round dates
+```
+docker exec -ti <fund_store_container_id> scripts/amend_round_dates.py --round_id c603d114-5364-4474-a0c4-c41cbf4d3bbd --assessment_deadline_date "2023-03-30 12:00:00"
+
+```
+```
+docker exec -ti <fund_store_container_id> scripts/amend_round_dates.py --round_id c603d114-5364-4474-a0c4-c41cbf4d3bbd --opens_date "2022-10-04 12:00:00" --deadline_date "2022-12-14 11:59:00" --assessment_deadline_date "2023-03-30 12:00:00"
+
+```
