@@ -371,7 +371,7 @@ def bulk_update_location_jsonb_blob(application_ids_to_location_data):
         )
 
         if not existing_location_data:
-            current_app.logger.info("Seeding location data")
+            print("Seeding location data")
             db.session.execute(
                 stmt,
                 {
@@ -381,7 +381,7 @@ def bulk_update_location_jsonb_blob(application_ids_to_location_data):
             )
 
         elif existing_location_data["error"] is True:
-            current_app.logger.info("Updating location data")
+            print("Updating location data")
             db.session.execute(
                 stmt,
                 {
@@ -391,7 +391,7 @@ def bulk_update_location_jsonb_blob(application_ids_to_location_data):
             )
 
         else:
-            current_app.logger.info("Location data already exists")
+            print("Location data already exists")
             continue
 
     db.session.commit()
