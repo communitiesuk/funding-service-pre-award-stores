@@ -225,3 +225,39 @@ def write_locations_to_csv(
             writer.writerow(
                 {"application_id": k[1], **postcodes_to_location_data[v]}
             )
+
+
+def export_assessment_data_to_csv(output, filename):
+    """
+    Exports assessment data to a CSV file, splitting the
+    'Score Date Created' column into separate 'Date Created' and
+    'Time Created' columns for improved readability.
+
+    Parameters:
+    - output: List of dictionaries representing the assessment data.
+    - filename: Name of the output CSV file.
+    """
+    fieldnames = [
+        "Short id",
+        "Application ID",
+        "Score Subcriteria",
+        "Score",
+        "Score Justification",
+        "Date Created",
+        "Time Created",
+    ]
+
+    with open(filename, "w", newline="") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        writer.writeheader()
+
+        for row in output:
+            score_date_created = row["Score Date Created"]
+            row["Date Created"] = score_date_created.strftime("%d/%m/%Y")
+            row["Time Created"] = score_date_created.strftime("%H:%M:%S")
+            del row["Score Date Created"]
+
+            writer.writerow(row)
+
+    print(f"Successfully exported to {filename}")
