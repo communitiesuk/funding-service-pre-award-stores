@@ -41,3 +41,7 @@ class Round(BaseModel):
     support_times = Column("support_times", db.String(), nullable=False, unique=False)
     support_days = Column("support_days", db.String(), nullable=False, unique=False)
     instructions = Column("instructions", db.String(), nullable=False, unique=False)
+    feedback_link = Column("feedback_link", db.String(), unique=False)
+    project_name_field_id = Column(
+        "project_name_field_id", db.String(), unique=False, nullable=False
+    )

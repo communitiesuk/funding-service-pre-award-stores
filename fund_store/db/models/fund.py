@@ -8,6 +8,7 @@ from sqlalchemy import Column
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import relationship
+from sqlalchemy.types import Boolean
 
 
 BaseModel: DefaultMeta = db.Model
@@ -26,3 +27,4 @@ class Fund(BaseModel):
     short_name = Column("short_name", db.String(), nullable=False, unique=True)
     description = Column("description", db.String(), nullable=False, unique=False)
     rounds: Mapped[List["Round"]] = relationship("Round")
+    welsh_available = Column("welsh_available", Boolean, default=False, nullable=False)

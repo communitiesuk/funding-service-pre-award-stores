@@ -11,6 +11,7 @@ from sqlalchemy import bindparam
 from sqlalchemy import func
 from sqlalchemy import insert
 from sqlalchemy import select
+from sqlalchemy import update
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.sql import expression
 from sqlalchemy_utils import Ltree
@@ -193,6 +194,7 @@ def insert_fund_data(fund_config):
                 title=bindparam("title"),
                 short_name=bindparam("short_name"),
                 description=bindparam("description"),
+                welsh_available=bindparam("welsh_available"),
             )
         )
         .on_conflict_do_nothing(index_elements=[Fund.id])
@@ -205,6 +207,7 @@ def insert_fund_data(fund_config):
         "title": fund_config["title"],
         "short_name": fund_config["short_name"],
         "description": fund_config["description"],
+        "welsh_available": fund_config["welsh_available"],
     }
 
     result = db.session.execute(stmt, update_params)
@@ -232,6 +235,8 @@ def insert_round_data(round_config):
             support_times=bindparam("support_times"),
             support_days=bindparam("support_days"),
             instructions=bindparam("instructions"),
+            project_name_field_id=bindparam("project_name_field_id"),
+            feedback_link=bindparam("feedback_link"),
         )
     ).returning(Round.id)
 
@@ -252,6 +257,8 @@ def insert_round_data(round_config):
             "support_times": item["support_times"],
             "support_days": item["support_days"],
             "instructions": item["instructions"],
+            "feedback_link": item["feedback_link"],
+            "project_name_field_id": item["project_name_field_id"],
         }
         for item in round_config
     ]
@@ -263,10 +270,22 @@ def insert_round_data(round_config):
     return inserted_round_ids
 
 
-def insert_application_sections(round_id, sorted_application_sections: dict):
-    print(f"Inserting forms config: '{sorted_application_sections}'.")
+def insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, round_id):
+    tree_base_sections = [
+        {
+            "section_name": "Application",
+            "tree_path": APPLICATION_BASE_PATH,
+            "weighting": None,
+        },
+        {
+            "section_name": "Assessment",
+            "tree_path": ASSESSMENT_BASE_PATH,
+            "weighting": None,
+        },
+    ]
     inserted_section_ids = []
-    for section in sorted_application_sections:
+
+    for section in tree_base_sections:
 
         stmt = (
             insert(Section).values(
@@ -288,6 +307,32 @@ def insert_application_sections(round_id, sorted_application_sections: dict):
         inserted_section_id = result[0].id
         inserted_section_ids.append(inserted_section_id)
 
+
+def insert_application_sections(round_id, sorted_application_sections: dict):
+    print(f"Inserting forms config: '{sorted_application_sections}'.")
+    inserted_section_ids = []
+    for section in sorted_application_sections:
+
+        stmt = (
+            insert(Section).values(
+                round_id=bindparam("round_id"),
+                title=bindparam("title"),
+                weighting=bindparam("weighting"),
+                path=bindparam("path"),
+            )
+        ).returning(Section.id)
+
+        update_params = {
+            "round_id": round_id,
+            "title": section["section_name"],
+            "weighting": section.get("weighting", None),
+            "path": Ltree(section["tree_path"]),
+        }
+
+        result = db.session.execute(stmt, update_params).fetchall()
+        inserted_section_id = result[0].id
+        inserted_section_ids.append(inserted_section_id)
+
         if section.get("form_name"):
             form_stmt = insert(FormName).values(
                 section_id=bindparam("section_id"),
@@ -301,6 +346,30 @@ def insert_application_sections(round_id, sorted_application_sections: dict):
     db.session.commit()
     print(f"inserted sections (ids): '{inserted_section_ids}'.")
     return inserted_section_ids
+
+
+def update_application_section_names(round_id, sorted_application_sections: List[dict]):
+
+    for section in sorted_application_sections:
+        section_path = section["tree_path"]
+        split_section_name_list = section["section_name"].lower().split()
+        try:
+            float(split_section_name_list[0])
+            split_section_name_list[1] = split_section_name_list[1].capitalize()
+        except ValueError:
+            split_section_name_list[0] = split_section_name_list[0].capitalize()
+        new_section_name = " ".join(split_section_name_list)
+
+        # Update the section name
+        stmt = (
+            update(Section)
+            .where(Section.round_id == round_id)
+            .where(Section.path == Ltree(section_path))
+            .values(title=new_section_name)
+        )
+        db.session.execute(stmt)
+
+    db.session.commit()
 
 
 def __add__section_fields(field_section_links):

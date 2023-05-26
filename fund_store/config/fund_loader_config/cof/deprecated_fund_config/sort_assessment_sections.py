@@ -1,5 +1,9 @@
-from scripts.deprecated_fund_config.assessment_section_config import scored_sections
-from scripts.deprecated_fund_config.assessment_section_config import unscored_sections
+from config.fund_loader_config.cof.deprecated_fund_config.assessment_section_config import (
+    scored_sections,
+)
+from config.fund_loader_config.cof.deprecated_fund_config.assessment_section_config import (
+    unscored_sections,
+)
 
 
 def map_fields(fields, all_fields):
