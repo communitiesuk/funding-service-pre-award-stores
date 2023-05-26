@@ -127,7 +127,7 @@ cof_r3w1_sections = [
     },
     {
         "section_name": "6.1 Declarations",
-        "form_name": "final-confirmations-cof-r3-w1",
+        "form_name": "declarations-cof-r3-w1",
         "tree_path": f"{APPLICATION_BASE_PATH}.6.1",
     },
 ]
