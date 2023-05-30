@@ -10,7 +10,7 @@ ASSESSMENT_BASE_PATH = ".".join([str(COF_R3W1_BASE_PATH), str(2)])
 
 cof_r3w1_sections = [
     {
-        "section_name": "About your organisation",
+        "section_name": "1. About your organisation",
         "tree_path": f"{APPLICATION_BASE_PATH}.1",
     },
     {
@@ -24,7 +24,7 @@ cof_r3w1_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH}.1.2",
     },
     {
-        "section_name": "About your project",
+        "section_name": "2. About your project",
         "tree_path": f"{APPLICATION_BASE_PATH}.2",
     },
     {
@@ -38,7 +38,7 @@ cof_r3w1_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH}.2.2",
     },
     {
-        "section_name": "Strategic case",
+        "section_name": "3. Strategic case",
         "tree_path": f"{APPLICATION_BASE_PATH}.3",
         "weighting": 53,
     },
@@ -68,7 +68,7 @@ cof_r3w1_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH}.3.5",
     },
     {
-        "section_name": "Management case",
+        "section_name": "4. Management case",
         "tree_path": f"{APPLICATION_BASE_PATH}.4",
         "weighting": 47,
     },
@@ -113,7 +113,7 @@ cof_r3w1_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH}.4.8",
     },
     {
-        "section_name": "Subsidy control and state aid",
+        "section_name": "5. Subsidy control and state aid",
         "tree_path": f"{APPLICATION_BASE_PATH}.5",
     },
     {
@@ -122,7 +122,7 @@ cof_r3w1_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH}.5.1",
     },
     {
-        "section_name": "Check declarations",
+        "section_name": "6. Check declarations",
         "tree_path": f"{APPLICATION_BASE_PATH}.6",
     },
     {
@@ -157,7 +157,10 @@ round_config = [
             ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
             " express your interest in the fund</a>."
         ),
-        "feedback_link": "",
+        "feedback_link": (
+            "https://forms.office.com/Pages/ResponsePage.aspx?id="
+            "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
+        ),
         "project_name_field_id": "apGjFS",
     }
 ]

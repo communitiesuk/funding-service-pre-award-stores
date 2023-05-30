@@ -75,7 +75,7 @@ rounds_config = [
 
 cof_r2_sections = [
     {
-        "section_name": "About your organisation",
+        "section_name": "1. About your organisation",
         "tree_path": f"{APPLICATION_BASE_PATH}.1",
     },
     {
@@ -88,7 +88,10 @@ cof_r2_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH}.1.2",
         "form_name": "applicant-information",
     },
-    {"section_name": "About your project", "tree_path": f"{APPLICATION_BASE_PATH}.2"},
+    {
+        "section_name": "2. About your project",
+        "tree_path": f"{APPLICATION_BASE_PATH}.2",
+    },
     {
         "section_name": "Project Information",
         "tree_path": f"{APPLICATION_BASE_PATH}.2.1",
@@ -100,7 +103,7 @@ cof_r2_sections = [
         "form_name": "asset-information",
     },
     {
-        "section_name": "Strategic case",
+        "section_name": "3. Strategic case",
         "tree_path": f"{APPLICATION_BASE_PATH}.3",
         "weighting": 30,
     },
@@ -125,7 +128,7 @@ cof_r2_sections = [
         "form_name": "environmental-sustainability",
     },
     {
-        "section_name": "Management case",
+        "section_name": "4. Management case",
         "tree_path": f"{APPLICATION_BASE_PATH}.4",
         "weighting": 30,
     },
@@ -170,7 +173,7 @@ cof_r2_sections = [
         "form_name": "upload-business-plan",
     },
     {
-        "section_name": "Potential to deliver community benefits",
+        "section_name": "5. Potential to deliver community benefits",
         "tree_path": f"{APPLICATION_BASE_PATH}.5",
         "weighting": 30,
     },
@@ -180,7 +183,7 @@ cof_r2_sections = [
         "form_name": "community-benefits",
     },
     {
-        "section_name": "Added value to community",
+        "section_name": "6. Added value to community",
         "tree_path": f"{APPLICATION_BASE_PATH}.6",
         "weighting": 10,
     },
@@ -190,7 +193,7 @@ cof_r2_sections = [
         "form_name": "value-to-the-community",
     },
     {
-        "section_name": "Subsidy control / state aid",
+        "section_name": "7. Subsidy control / state aid",
         "tree_path": f"{APPLICATION_BASE_PATH}.7",
     },
     {
@@ -198,7 +201,10 @@ cof_r2_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH}.7.1",
         "form_name": "project-qualification",
     },
-    {"section_name": "Check declarations", "tree_path": f"{APPLICATION_BASE_PATH}.8"},
+    {
+        "section_name": "8. Check declarations",
+        "tree_path": f"{APPLICATION_BASE_PATH}.8",
+    },
     {
         "section_name": "Declarations",
         "tree_path": f"{APPLICATION_BASE_PATH}.8.1",
