@@ -157,7 +157,7 @@ round_config = [
         "fund_id": NIGHT_SHELTER_FUND_ID,
         "title": "Round 2",
         "short_name": "R2",
-        "opens": "2023-05-07 12:00:00",
+        "opens": "2023-06-07 12:00:00",
         "deadline": "2023-07-05 11:59:00",
         "assessment_deadline": "2023-08-09 12:00:00",
         "prospectus": "",

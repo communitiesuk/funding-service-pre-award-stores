@@ -21,7 +21,7 @@ rounds_config = [
         "assessment_deadline": "2023-03-30 12:00:00",
         "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
         "privacy_notice": (
-            "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/",
+            "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/"
             "community-ownership-fund-privacy-notice",
         ),
         "contact_email": "COF@levellingup.gov.uk",
@@ -36,8 +36,8 @@ rounds_config = [
             " express your interest in the fund</a>."
         ),
         "feedback_link": (
-            "https://forms.office.com/Pages/ResponsePage.aspx?id=",
-            "EGg0v32c3kOociSi7zmVqN48ORk8WN5LlJITE3Swt-lURUNCR0dHMjgxWFZOMTMxQzlOTVIxVkQ0Sy4u",
+            "https://forms.office.com/Pages/ResponsePage.aspx?id="
+            "EGg0v32c3kOociSi7zmVqN48ORk8WN5LlJITE3Swt-lURUNCR0dHMjgxWFZOMTMxQzlOTVIxVkQ0Sy4u"
         ),
         "project_name_field_id": "KAgrBz",
     },
@@ -51,8 +51,8 @@ rounds_config = [
         "assessment_deadline": "2023-05-17 12:00:00",
         "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
         "privacy_notice": (
-            "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/",
-            "community-ownership-fund-privacy-notice",
+            "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/"
+            "community-ownership-fund-privacy-notice"
         ),
         "contact_email": "COF@levellingup.gov.uk",
         "contact_phone": None,
@@ -66,8 +66,8 @@ rounds_config = [
             " express your interest in the fund</a>."
         ),
         "feedback_link": (
-            "https://forms.office.com/Pages/ResponsePage.aspx?id=",
-            "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElUREIySU9OWTU4R0RTNjhBUDE1Q1VYVFBEMi4u",
+            "https://forms.office.com/Pages/ResponsePage.aspx?id="
+            "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElUREIySU9OWTU4R0RTNjhBUDE1Q1VYVFBEMi4u"
         ),
         "project_name_field_id": "KAgrBz",
     },
