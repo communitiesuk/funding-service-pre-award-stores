@@ -13,7 +13,7 @@ r2_application_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH}.1",
     },
     {
-        "section_name": "Name you application",
+        "section_name": "Name your application",
         "form_name": "name-your-application-ns",
         "tree_path": f"{APPLICATION_BASE_PATH}.1.1",
     },
@@ -22,7 +22,7 @@ r2_application_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH}.2",
     },
     {
-        "section_name": "1.1 Organisation Information",
+        "section_name": "1.1 Organisation information",
         "form_name": "organisation-information-ns",
         "tree_path": f"{APPLICATION_BASE_PATH}.2.1",
     },
@@ -132,7 +132,7 @@ r2_application_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH}.7.3",
     },
     {
-        "section_name": "7. Check declarations",
+        "section_name": "7. Declarations",
         "tree_path": f"{APPLICATION_BASE_PATH}.8",
     },
     {
