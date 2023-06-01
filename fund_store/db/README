@@ -19,14 +19,7 @@ docker exec -it <container_id> bash
         inv recreate-local-db
 
     this drops and recreates the DB
-1. To re-initialise the flask db migrations, run
 
-        inv init-migr
-1. Once the initial migration version is created, update that python file (`db/migrations/xxxx_initial_migration.py`) to add required imports:
+1. To truncate the data in all tables, not delete the DB itself run
 
-        import sqlalchemy_utils
-1. To perform the migrations on the db and seed data, run
-
-        inv seed-db
-
-    This runs the migrations and the sql scripts in `db/cof_sql`. Then runs some select statements to show result of inserts.
+        inv truncate-data

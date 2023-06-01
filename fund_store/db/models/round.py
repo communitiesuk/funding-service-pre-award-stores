@@ -45,3 +45,6 @@ class Round(BaseModel):
     project_name_field_id = Column(
         "project_name_field_id", db.String(), unique=False, nullable=False
     )
+    application_guidance = Column(
+        "application_guidance", db.String(), nullable=True, unique=False
+    )

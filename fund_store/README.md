@@ -112,6 +112,9 @@ docker exec -ti <fund_store_container_id> python -m scripts.amend_round_dates --
 docker exec -ti <fund_store_container_id> python -m scripts.amend_round_dates --round_id c603d114-5364-4474-a0c4-c41cbf4d3bbd --opens_date "2022-10-04 12:00:00" --deadline_date "2022-12-14 11:59:00" --assessment_deadline_date "2023-03-30 12:00:00"
 
 ```
+To truncate data before re-loading it run
+
+    docker exec -it <fund_store_container_id> inv truncate-data
 
 ### Create and seed local DB
 - Make sure your local `DATABASE_URL` env var is set to your local postgres db (this doesn't need to actually exist yet), eg:

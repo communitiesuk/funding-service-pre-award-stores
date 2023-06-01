@@ -61,7 +61,7 @@ def test_load_application_sections(seed_dynamic_data):
 
 
 @pytest.mark.skip(reason="not implemented assessment loading yet")
-def test_load_assessment_sections(seed_only_fund_and_round_data):
+def test_load_assessment_sections():
     # input config
     assessment_config = return_numerically_sorted_section_for_assessment(
         scored_sections, unscored_sections

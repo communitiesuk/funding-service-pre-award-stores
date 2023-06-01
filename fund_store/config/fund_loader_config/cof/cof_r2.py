@@ -1,3 +1,4 @@
+from config.fund_loader_config.cof.shared import COF_APPLICATION_GUIDANCE
 from config.fund_loader_config.cof.shared import fund_config
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     COF_R2_W2_BASE_PATH,
@@ -40,6 +41,7 @@ rounds_config = [
             "EGg0v32c3kOociSi7zmVqN48ORk8WN5LlJITE3Swt-lURUNCR0dHMjgxWFZOMTMxQzlOTVIxVkQ0Sy4u"
         ),
         "project_name_field_id": "KAgrBz",
+        "application_guidance": COF_APPLICATION_GUIDANCE,
     },
     {
         "id": COF_ROUND_2_WINDOW_3_ID,
@@ -70,6 +72,7 @@ rounds_config = [
             "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElUREIySU9OWTU4R0RTNjhBUDE1Q1VYVFBEMi4u"
         ),
         "project_name_field_id": "KAgrBz",
+        "application_guidance": COF_APPLICATION_GUIDANCE,
     },
 ]
 

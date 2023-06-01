@@ -170,5 +170,6 @@ round_config = [
         "instructions": "",
         "feedback_link": "https://forms.office.com/e/n6J9KPebUy",
         "project_name_field_id": "YVsPtE",
+        "application_guidance": None,
     }
 ]

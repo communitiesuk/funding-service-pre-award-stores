@@ -237,6 +237,7 @@ def insert_round_data(round_config):
             instructions=bindparam("instructions"),
             project_name_field_id=bindparam("project_name_field_id"),
             feedback_link=bindparam("feedback_link"),
+            application_guidance=bindparam("application_guidance"),
         )
     ).returning(Round.id)
 
@@ -259,6 +260,7 @@ def insert_round_data(round_config):
             "instructions": item["instructions"],
             "feedback_link": item["feedback_link"],
             "project_name_field_id": item["project_name_field_id"],
+            "application_guidance": item["application_guidance"],
         }
         for item in round_config
     ]

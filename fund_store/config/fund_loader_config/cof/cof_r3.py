@@ -1,3 +1,4 @@
+from config.fund_loader_config.cof.shared import COF_APPLICATION_GUIDANCE
 from config.fund_loader_config.cof.shared import fund_config
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     COF_R3W1_BASE_PATH,
@@ -138,7 +139,7 @@ round_config = [
         "fund_id": COF_FUND_ID,
         "title": "Round 3 Window 1",
         "short_name": "R3W1",
-        "opens": "2023-05-31 12:00:00",
+        "opens": "2023-05-31 11:00:00",
         "deadline": "2023-07-12 11:59:00",
         "assessment_deadline": "2023-08-09 12:00:00",
         "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
@@ -162,5 +163,6 @@ round_config = [
             "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
         ),
         "project_name_field_id": "apGjFS",
+        "application_guidance": COF_APPLICATION_GUIDANCE,
     }
 ]
