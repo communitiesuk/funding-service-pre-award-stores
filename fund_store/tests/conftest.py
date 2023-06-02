@@ -38,49 +38,49 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
                                 Section(
                                     id=1000,
                                     round_id=round_id_1,
-                                    title="Application",
+                                    title_json={"en": "Application"},
                                     path=Ltree("0.1"),
                                 ),
                                 Section(
                                     id=1001,
                                     round_id=round_id_1,
-                                    title="Middle1",
+                                    title_json={"en": "Middle1"},
                                     path=Ltree("0.1.1"),
                                 ),
                                 Section(
                                     id=1002,
                                     round_id=round_id_1,
-                                    title="Bottom1",
+                                    title_json={"en": "Bottom1"},
                                     path=Ltree("0.1.1.1"),
                                 ),
                                 Section(
                                     id=1003,
                                     round_id=round_id_1,
-                                    title="Middle2",
+                                    title_json={"en": "Middle2"},
                                     path=Ltree("0.1.2"),
                                 ),
                                 Section(
                                     id=1004,
                                     round_id=round_id_1,
-                                    title="Bottom2",
+                                    title_json={"en": "Bottom2"},
                                     path=Ltree("0.1.2.1"),
                                 ),
                                 Section(
                                     id=1005,
                                     round_id=round_id_1,
-                                    title="Assessment",
+                                    title_json={"en": "Assessment"},
                                     path=Ltree("0.2"),
                                 ),
                                 Section(
                                     id=1006,
                                     round_id=round_id_1,
-                                    title="assess section 1",
+                                    title_json={"en": "assess section 1"},
                                     path=Ltree("0.2.1"),
                                 ),
                                 Section(
                                     id=1007,
                                     round_id=round_id_1,
-                                    title="assess section 1 a",
+                                    title_json={"en": "assess section 1 a"},
                                     path=Ltree("0.2.1.1"),
                                 ),
                             ],
@@ -104,10 +104,14 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
         # short_suffix = fund_id[0:4]
         fund_config = {
             "id": fund["id"],
-            "name": f"Unit Test Fund {fund_count}",  # fund['short_name']}",
-            "title": f"Unit test fund title {fund_count}",  # {fund['short_name']}",
+            "name_json": {
+                "en": f"Unit Test Fund {fund_count}"
+            },  # fund['short_name']}",
+            "title_json": {
+                "en": f"Unit test fund title {fund_count}"
+            },  # {fund['short_name']}",
             "short_name": f"FND{fund_count}",  # fund["short_name"],
-            "description": "testing description",
+            "description_json": {"en": "testing description"},
             "welsh_available": True,
         }
         insert_fund_data(fund_config)
@@ -118,7 +122,9 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
             # round_short_suffix = round_id[0:4]
             round_config = {
                 "id": round["id"],
-                "title": f"Unit Test Round {round_count}",  # {round['short_name']}",
+                "title_json": {
+                    "en": f"Unit Test Round {round_count}"
+                },  # {round['short_name']}",
                 "short_name": f"RND{round_count}",  # round["short_name"],
                 "opens": "2023-01-01 12:00:00",
                 "deadline": "2023-12-31 12:00:00",
@@ -169,9 +175,9 @@ def mock_get_fund_round(mocker):
     mock_fund: Fund = Fund(
         id=uuid4(),
         short_name="FND1",
-        name="Fund Name 1",
-        title="Fund 1",
-        description="description text",
+        name_json={"en": "Fund Name 1"},
+        title_json={"en": "Fund 1"},
+        description_json={"en": "description text"},
     )
     round_config = {
         "id": uuid4(),
@@ -188,7 +194,9 @@ def mock_get_fund_round(mocker):
         "support_days": "",
         "support_times": "",
     }
-    mock_round: Round = Round(title="Round 1", short_name="RND1", **round_config)
+    mock_round: Round = Round(
+        title_json={"en": "Round 1"}, short_name="RND1", **round_config
+    )
     mocker.patch("api.routes.get_all_funds", return_value=[mock_fund])
     mocker.patch("api.routes.get_fund_by_id", return_value=mock_fund)
     mocker.patch("api.routes.get_fund_by_short_name", return_value=mock_fund)
@@ -204,20 +212,28 @@ def mock_get_fund_round(mocker):
 def mock_get_sections(mocker):
     mock_sections = Section(
         id=0,
-        title="Top",
+        title_json={"en": "Top"},
         path="0",
         children=[
             Section(
                 id=1,
-                title="Middle",
+                title_json={"en": "Middle"},
                 path="0.1",
-                children=[Section(id=2, title="Bottom", path="0.1.1", children=[])],
+                children=[
+                    Section(
+                        id=2, title_json={"en": "Bottom"}, path="0.1.1", children=[]
+                    )
+                ],
             ),
             Section(
                 id=3,
-                title="Middle2",
+                title_json={"en": "Middle2"},
                 path="0.2",
-                children=[Section(id=4, title="Bottom2", path="0.2.1", children=[])],
+                children=[
+                    Section(
+                        id=4, title_json={"en": "Bottom2"}, path="0.2.1", children=[]
+                    )
+                ],
             ),
         ],
     )

@@ -1,5 +1,9 @@
+import contextlib
+from operator import itemgetter
+
 from db.models.section import Section
 from db.models.section import SectionField
+from marshmallow import post_dump
 from marshmallow.fields import Method
 from marshmallow.fields import String
 from marshmallow_sqlalchemy import auto_field
@@ -17,15 +21,11 @@ class SectionFieldSchema(SQLAlchemyAutoSchema):
     def get_display_type(self, obj):
         return obj.field.display_type
 
-    def get_title(self, obj):
-        return obj.field.title
-
     def get_field_type(self, obj):
         return obj.field.field_type
 
     display_type = Method("get_display_type")
     field_type = Method("get_field_type")
-    title = Method("get_title")
 
 
 class SectionSchema(SQLAlchemyAutoSchema):
@@ -33,13 +33,67 @@ class SectionSchema(SQLAlchemyAutoSchema):
         model = Section
 
     def get_form_name(self, obj):
-        return obj.form_name[0].form_name if obj.form_name else None
+        raise NotImplementedError
+
+    def get_title(
+        self,
+        obj,
+    ):
+        raise NotImplementedError
 
     def get_weighting(self, obj):
         return obj.weighting if obj.weighting else None
 
-    children = Nested("SectionSchema", many=True, allow_none=True)
     path = String()
     fields = Nested("SectionFieldSchema", many=True, allow_none=True)
-    form_name = Method("get_form_name")
     weighting = Method("get_weighting")
+
+
+class LocalizedSectionSchema(SectionSchema):
+    def get_form_name(self, obj, lang_code):
+        with contextlib.suppress(ValueError):
+            (form_name_container,) = obj.form_name
+            return form_name_container.form_name_json[lang_code]
+
+    def get_title(self, obj, lang_code):
+        return obj.title_json.get(lang_code)
+
+    def sort_children(self, data):
+        if data.get("children"):
+            sorted_children = sorted(data["children"], key=itemgetter("path"))
+            data["children"] = sorted_children
+        return data
+
+    @post_dump
+    def sort_children_post_dump(self, data, **kwargs):
+        return self.sort_children(data)
+
+
+class EnglishSectionSchema(LocalizedSectionSchema):
+    def get_form_name(self, obj):
+        return super().get_form_name(obj, "en")
+
+    def get_title(self, obj):
+        return super().get_title(obj, "en")
+
+    children = Nested("EnglishSectionSchema", many=True, allow_none=True)
+    form_name = Method("get_form_name")
+    title = Method("get_title")
+
+
+class WelshSectionSchema(LocalizedSectionSchema):
+    def get_form_name(self, obj):
+        return super().get_form_name(obj, "cy")
+
+    def get_title(self, obj):
+        return super().get_title(obj, "cy")
+
+    children = Nested("WelshSectionSchema", many=True, allow_none=True)
+    form_name = Method("get_form_name")
+    title = Method("get_title")
+
+
+SECTION_SCHEMA_MAP = {
+    "en": EnglishSectionSchema,
+    "cy": WelshSectionSchema,
+}

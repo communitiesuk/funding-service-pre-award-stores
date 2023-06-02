@@ -1,3 +1,4 @@
+import uuid
 from typing import List
 
 from db import db
@@ -11,6 +12,7 @@ from sqlalchemy import bindparam
 from sqlalchemy import func
 from sqlalchemy import insert
 from sqlalchemy import select
+from sqlalchemy import text
 from sqlalchemy import update
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.sql import expression
@@ -93,17 +95,17 @@ def get_application_sections_for_round(
     application_level = db.session.scalar(
         select(Section)
         .filter(Section.round_id == round_id)
-        .filter(Section.title == "Application")
+        .filter(text("section.title_json->>'en' = 'Application'"))
         .join(Round)
         .filter(Round.fund_id == fund_id)
     )
     if not application_level:
         return None
 
-    query = f"{application_level.path}.*{'{1}'}"
+    query = f"{application_level.path}.*{{1}}"
     lquery = expression.cast(query, LQUERY)
     application_sections = db.session.scalars(
-        select(Section).filter(Section.path.lquery(lquery))
+        select(Section).filter(Section.path.lquery(lquery)).order_by(Section.path)
     ).all()
 
     return application_sections
@@ -117,7 +119,7 @@ def get_assessment_sections_for_round(
     assessment_level = db.session.scalar(
         select(Section)
         .filter(Section.round_id == round_id)
-        .filter(Section.title == "Assessment")
+        .filter(text("section.title_json->>'en' = 'Assessment'"))
         .join(Round)
         .filter(Round.fund_id == fund_id)
     )
@@ -143,7 +145,7 @@ def get_assessment_sections_for_round(
         # select(Section).join(Translation, onclause=f"section.title_content_id
         #  = translation.content_id and translation.language='{language}'",
         # isouter=True).filter(Section.path.lquery(lquery))
-        .filter(Section.path.lquery(lquery))
+        .filter(Section.path.lquery(lquery)).order_by(Section.path)
     ).all()
 
     return assessment_sections
@@ -190,23 +192,32 @@ def insert_fund_data(fund_config):
         (
             postgres_insert(Fund).values(
                 id=bindparam("id"),
-                name=bindparam("name"),
-                title=bindparam("title"),
+                name_json=bindparam("name_json"),
+                title_json=bindparam("title_json"),
                 short_name=bindparam("short_name"),
-                description=bindparam("description"),
+                description_json=bindparam("description_json"),
                 welsh_available=bindparam("welsh_available"),
             )
         )
-        .on_conflict_do_nothing(index_elements=[Fund.id])
+        .on_conflict_do_update(
+            index_elements=[Fund.id],
+            set_={
+                "name_json": bindparam("name_json"),
+                "title_json": bindparam("title_json"),
+                "short_name": bindparam("short_name"),
+                "description_json": bindparam("description_json"),
+                "welsh_available": bindparam("welsh_available"),
+            },
+        )
         .returning(Fund.id)
     )
 
     update_params = {
         "id": fund_config["id"],
-        "name": fund_config["name"],
-        "title": fund_config["title"],
+        "name_json": fund_config["name_json"],
+        "title_json": fund_config["title_json"],
         "short_name": fund_config["short_name"],
-        "description": fund_config["description"],
+        "description_json": fund_config["description_json"],
         "welsh_available": fund_config["welsh_available"],
     }
 
@@ -218,140 +229,159 @@ def insert_fund_data(fund_config):
 
 
 def insert_round_data(round_config):
-    stmt = (
-        insert(Round).values(
-            id=bindparam("id"),
-            title=bindparam("title"),
-            short_name=bindparam("short_name"),
-            opens=bindparam("opens"),
-            deadline=bindparam("deadline"),
-            fund_id=bindparam("fund_id"),
-            assessment_deadline=bindparam("assessment_deadline"),
-            prospectus=bindparam("prospectus"),
-            privacy_notice=bindparam("privacy_notice"),
-            contact_email=bindparam("contact_email"),
-            contact_phone=bindparam("contact_phone"),
-            contact_textphone=bindparam("contact_textphone"),
-            support_times=bindparam("support_times"),
-            support_days=bindparam("support_days"),
-            instructions=bindparam("instructions"),
-            project_name_field_id=bindparam("project_name_field_id"),
-            feedback_link=bindparam("feedback_link"),
-            application_guidance=bindparam("application_guidance"),
-        )
-    ).returning(Round.id)
+    # Create dictionary to store updated records
+    updated_rounds = {}
 
-    update_params = [
-        {
-            "id": item["id"],
-            "title": item["title"],
-            "short_name": item["short_name"],
-            "opens": item["opens"],
-            "deadline": item["deadline"],
-            "fund_id": item["fund_id"],
-            "assessment_deadline": item["assessment_deadline"],
-            "prospectus": item["prospectus"],
-            "privacy_notice": item["privacy_notice"],
-            "contact_email": item["contact_email"],
-            "contact_phone": item["contact_phone"],
-            "contact_textphone": item["contact_textphone"],
-            "support_times": item["support_times"],
-            "support_days": item["support_days"],
-            "instructions": item["instructions"],
-            "feedback_link": item["feedback_link"],
-            "project_name_field_id": item["project_name_field_id"],
-            "application_guidance": item["application_guidance"],
-        }
-        for item in round_config
-    ]
+    for item in round_config:
+        # Check if record exist
+        round_record = Round.query.filter_by(id=item["id"]).first()
 
-    result = db.session.execute(stmt, update_params)
-    inserted_round_ids = [row.id for row in result]
+        if round_record is not None:
+            # Update existing round record
+            round_record.title_json = item["title_json"]
+            round_record.short_name = item["short_name"]
+            round_record.opens = item["opens"]
+            round_record.deadline = item["deadline"]
+            round_record.fund_id = item["fund_id"]
+            round_record.assessment_deadline = item["assessment_deadline"]
+            round_record.prospectus = item["prospectus"]
+            round_record.privacy_notice = item["privacy_notice"]
+            round_record.contact_email = item["contact_email"]
+            round_record.contact_phone = item["contact_phone"]
+            round_record.contact_textphone = item["contact_textphone"]
+            round_record.support_times = item["support_times"]
+            round_record.support_days = item["support_days"]
+            round_record.instructions = item["instructions"]
+            round_record.project_name_field_id = item["project_name_field_id"]
+            round_record.feedback_link = item["feedback_link"]
+            round_record.application_guidance = item["application_guidance"]
+
+            updated_rounds[item["id"]] = round_record
+
+        else:
+            # Insert new round record
+            new_round = Round(
+                id=item["id"],
+                title_json=item["title_json"],
+                short_name=item["short_name"],
+                opens=item["opens"],
+                deadline=item["deadline"],
+                fund_id=item["fund_id"],
+                assessment_deadline=item["assessment_deadline"],
+                prospectus=item["prospectus"],
+                privacy_notice=item["privacy_notice"],
+                contact_email=item["contact_email"],
+                contact_phone=item["contact_phone"],
+                contact_textphone=item["contact_textphone"],
+                support_times=item["support_times"],
+                support_days=item["support_days"],
+                instructions=item["instructions"],
+                project_name_field_id=item["project_name_field_id"],
+                feedback_link=item["feedback_link"],
+                application_guidance=item["application_guidance"],
+            )
+            db.session.add(new_round)
+
+            updated_rounds[item["id"]] = new_round
+
     db.session.commit()
-    print(f"Inserted rounds: '{inserted_round_ids}'.")
-    return inserted_round_ids
+    print(f"Inserted rounds: '{updated_rounds}'.")
+    return updated_rounds
 
 
 def insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, round_id):
     tree_base_sections = [
         {
-            "section_name": "Application",
+            "section_name": {"en": "Application", "cy": "Application"},
             "tree_path": APPLICATION_BASE_PATH,
             "weighting": None,
         },
         {
-            "section_name": "Assessment",
+            "section_name": {"en": "Assessment", "cy": "Assessment"},
             "tree_path": ASSESSMENT_BASE_PATH,
             "weighting": None,
         },
     ]
-    inserted_section_ids = []
 
+    updated_sections = {}
     for section in tree_base_sections:
+        section_record = Section.query.filter(
+            Section.path == Ltree(section["tree_path"]),
+            Section.round_id == uuid.UUID(round_id),
+        ).first()
 
-        stmt = (
-            insert(Section).values(
-                round_id=bindparam("round_id"),
-                title=bindparam("title"),
-                weighting=bindparam("weighting"),
-                path=bindparam("path"),
+        if section_record is not None:
+            # Update existing section record
+            section_record.round_id = round_id
+            section_record.title_json = section["section_name"]
+            section_record.weighting = section.get("weighting", None)
+
+            updated_sections[section["tree_path"]] = section_record
+        else:
+            # Insert new section record
+            new_section = Section(
+                round_id=round_id,
+                title_json=section["section_name"],
+                weighting=section.get("weighting", None),
+                path=Ltree(section["tree_path"]),
             )
-        ).returning(Section.id)
+            db.session.add(new_section)
 
-        update_params = {
-            "round_id": round_id,
-            "title": section["section_name"],
-            "weighting": None,
-            "path": Ltree(section["tree_path"]),
-        }
+            updated_sections[section["tree_path"]] = new_section
 
-        result = db.session.execute(stmt, update_params).fetchall()
-        inserted_section_id = result[0].id
-        inserted_section_ids.append(inserted_section_id)
+    db.session.commit()
+    print(f"Inserted sections: '{updated_sections}'.")
+    return updated_sections
 
 
 def insert_application_sections(round_id, sorted_application_sections: dict):
     print(f"Inserting forms config: '{sorted_application_sections}'.")
-    inserted_section_ids = []
+    updated_sections = {}
     for section in sorted_application_sections:
+        section_record = Section.query.filter(
+            Section.path == Ltree(section["tree_path"]),
+            Section.round_id == uuid.UUID(round_id),
+        ).first()
 
-        stmt = (
-            insert(Section).values(
-                round_id=bindparam("round_id"),
-                title=bindparam("title"),
-                weighting=bindparam("weighting"),
-                path=bindparam("path"),
+        if section_record is not None:
+            # Update existing section record
+            section_id = section_record.id
+            section_record.round_id = round_id
+            section_record.title_json = section["section_name"]
+            section_record.weighting = (section.get("weighting", None),)
+
+            updated_sections[section_record.id] = section_record
+        else:
+            # Insert new section record
+            new_section = Section(
+                round_id=round_id,
+                title_json=section["section_name"],
+                weighting=section.get("weighting", None),
+                path=Ltree(section["tree_path"]),
             )
-        ).returning(Section.id)
+            db.session.add(new_section)
+            db.session.commit()
+            section_id = new_section.id
 
-        update_params = {
-            "round_id": round_id,
-            "title": section["section_name"],
-            "weighting": section.get("weighting", None),
-            "path": Ltree(section["tree_path"]),
-        }
+            updated_sections[new_section.id] = new_section
 
-        result = db.session.execute(stmt, update_params).fetchall()
-        inserted_section_id = result[0].id
-        inserted_section_ids.append(inserted_section_id)
+        if section.get("form_name_json"):
+            form_record = FormName.query.filter_by(section_id=section_id).first()
+            if form_record is not None:
+                form_record.form_name_json = section["form_name_json"]
+            else:
+                new_form_record = FormName(
+                    form_name_json=section["form_name_json"], section_id=section_id
+                )
+                db.session.add(new_form_record)
 
-        if section.get("form_name"):
-            form_stmt = insert(FormName).values(
-                section_id=bindparam("section_id"),
-                form_name=bindparam("form_name"),
-            )
-            form_params = {
-                "section_id": inserted_section_id,
-                "form_name": section["form_name"],
-            }
-            db.session.execute(form_stmt, form_params)
     db.session.commit()
-    print(f"inserted sections (ids): '{inserted_section_ids}'.")
-    return inserted_section_ids
+    print(f"inserted sections (ids): '{updated_sections}'.")
+    return updated_sections
 
 
 def update_application_section_names(round_id, sorted_application_sections: List[dict]):
-
+    # TODO : Update this function to work with json objects in sorted_application_sections
     for section in sorted_application_sections:
         section_path = section["tree_path"]
         split_section_name_list = section["section_name"].lower().split()
@@ -367,7 +397,7 @@ def update_application_section_names(round_id, sorted_application_sections: List
             update(Section)
             .where(Section.round_id == round_id)
             .where(Section.path == Ltree(section_path))
-            .values(title=new_section_name)
+            .values(title_json=new_section_name)
         )
         db.session.execute(stmt)
 

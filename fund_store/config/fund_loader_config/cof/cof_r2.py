@@ -14,7 +14,10 @@ ASSESSMENT_BASE_PATH = ".".join([str(COF_R2_W2_BASE_PATH), str(2)])
 rounds_config = [
     {
         "id": COF_ROUND_2_WINDOW_2_ID,
-        "title": "Round 2 Window 2",
+        "title_json": {
+            "en": "Round 2 Window 2",
+            "cy": "Round 2 Window 2",
+        },  # TODO: Provide welsh translation
         "short_name": "R2W2",
         "opens": "2022-10-04 12:00:00",
         "deadline": "2022-12-14 11:59:00",
@@ -45,7 +48,10 @@ rounds_config = [
     },
     {
         "id": COF_ROUND_2_WINDOW_3_ID,
-        "title": "Round 2 Window 3",
+        "title_json": {
+            "en": "Round 2 Window 3",
+            "cy": "Round 2 Window 3",
+        },  # TODO: Provide welsh translation
         "short_name": "R2W3",
         "opens": "2022-10-04 12:00:00",
         "deadline": "2023-04-14 11:59:00",
@@ -78,139 +84,199 @@ rounds_config = [
 
 cof_r2_sections = [
     {
-        "section_name": "1. About your organisation",
+        "section_name": {
+            "en": "1. About your organisation",
+            "cy": "1. Ynglŷn â'ch sefydliad",
+        },
         "tree_path": f"{APPLICATION_BASE_PATH}.1",
     },
     {
-        "section_name": "Organisation Information",
+        "section_name": {
+            "en": "Organisation Information",
+            "cy": "Gwybodaeth am y sefydliad",
+        },
         "tree_path": f"{APPLICATION_BASE_PATH}.1.1",
-        "form_name": "organisation-information",
+        "form_name_json": {
+            "en": "organisation-information",
+            "cy": "gwybodaeth-am-y-sefydliad",
+        },
     },
     {
-        "section_name": "Applicant Information",
+        "section_name": {
+            "en": "Applicant Information",
+            "cy": "Gwybodaeth am yr ymgeisydd",
+        },
         "tree_path": f"{APPLICATION_BASE_PATH}.1.2",
-        "form_name": "applicant-information",
+        "form_name_json": {
+            "en": "applicant-information",
+            "cy": "gwybodaeth-am-y-ymgeisydd",
+        },
     },
     {
-        "section_name": "2. About your project",
+        "section_name": {
+            "en": "2. About your project",
+            "cy": "2. Ynglŷn â'ch prosiect",
+        },
         "tree_path": f"{APPLICATION_BASE_PATH}.2",
     },
     {
-        "section_name": "Project Information",
+        "section_name": {"en": "Project Information", "cy": "Gwybodaeth am y prosiect"},
         "tree_path": f"{APPLICATION_BASE_PATH}.2.1",
-        "form_name": "project-information",
+        "form_name_json": {
+            "en": "project-information",
+            "cy": "gwybodaeth-am-y-prosiect",
+        },
     },
     {
-        "section_name": "Asset Information",
+        "section_name": {"en": "Asset Information", "cy": "Gwybodaeth am yr ased"},
         "tree_path": f"{APPLICATION_BASE_PATH}.2.2",
-        "form_name": "asset-information",
+        "form_name_json": {"en": "asset-information", "cy": "gwybodaeth-am-yr-ased"},
     },
     {
-        "section_name": "3. Strategic case",
+        "section_name": {"en": "3. Strategic case", "cy": "3. Achos strategol"},
         "tree_path": f"{APPLICATION_BASE_PATH}.3",
         "weighting": 30,
     },
     {
-        "section_name": "Community Use",
+        "section_name": {"en": "Community Use", "cy": "Defnydd Cymunedol"},
         "tree_path": f"{APPLICATION_BASE_PATH}.3.1",
-        "form_name": "community-use",
+        "form_name_json": {"en": "community-use", "cy": "defnydd-cymunedol"},
     },
     {
-        "section_name": "Community Engagement",
+        "section_name": {"en": "Community Engagement", "cy": "Ymgysylltu â'r gymuned"},
         "tree_path": f"{APPLICATION_BASE_PATH}.3.2",
-        "form_name": "community-engagement",
+        "form_name_json": {
+            "en": "community-engagement",
+            "cy": "ymgysylltu-a'r-gymuned",
+        },
     },
     {
-        "section_name": "Local Support",
+        "section_name": {"en": "Local Support", "cy": "Cefnogaeth leol"},
         "tree_path": f"{APPLICATION_BASE_PATH}.3.3",
-        "form_name": "local-support",
+        "form_name_json": {"en": "local-support", "cy": "cefnogaeth-leol"},
     },
     {
-        "section_name": "Environmental Sustainability",
+        "section_name": {
+            "en": "Environmental Sustainability",
+            "cy": "Cynaliadwyedd amgylcheddol",
+        },
         "tree_path": f"{APPLICATION_BASE_PATH}.3.4",
-        "form_name": "environmental-sustainability",
+        "form_name_json": {
+            "en": "environmental-sustainability",
+            "cy": "cynaliadwyedd-amgylcheddol",
+        },
     },
     {
-        "section_name": "4. Management case",
+        "section_name": {"en": "4. Management case", "cy": "4. Achos rheoli"},
         "tree_path": f"{APPLICATION_BASE_PATH}.4",
         "weighting": 30,
     },
     {
-        "section_name": "Funding Required",
+        "section_name": {"en": "Funding Required", "cy": "Cyllid sydd ei angen"},
         "tree_path": f"{APPLICATION_BASE_PATH}.4.1",
-        "form_name": "funding-required",
+        "form_name_json": {"en": "funding-required", "cy": "cyllid-sydd-ei-angen"},
     },
     {
-        "section_name": "Feasibility",
+        "section_name": {"en": "Feasibility", "cy": "Dichonoldeb"},
         "tree_path": f"{APPLICATION_BASE_PATH}.4.2",
-        "form_name": "feasibility",
+        "form_name_json": {"en": "feasibility", "cy": "cynhwysiant-ac-integreiddio"},
     },
     {
-        "section_name": "Risk",
+        "section_name": {"en": "Risk", "cy": "Risg"},
         "tree_path": f"{APPLICATION_BASE_PATH}.4.3",
-        "form_name": "risk",
+        "form_name_json": {"en": "risk", "cy": "risg"},
     },
     {
-        "section_name": "Project Costs",
+        "section_name": {"en": "Project Costs", "cy": "Costau'r prosiect"},
         "tree_path": f"{APPLICATION_BASE_PATH}.4.4",
-        "form_name": "project-costs",
+        "form_name_json": {"en": "project-costs", "cy": "costau'r-prosiect"},
     },
     {
-        "section_name": "Skills And Resources",
+        "section_name": {"en": "Skills And Resources", "cy": "Sgiliau ac Adnoddau"},
         "tree_path": f"{APPLICATION_BASE_PATH}.4.5",
-        "form_name": "skills-and-resources",
+        "form_name_json": {"en": "skills-and-resources", "cy": "sgiliau-ac-adnoddau"},
     },
     {
-        "section_name": "Community Representation",
+        "section_name": {
+            "en": "Community Representation",
+            "cy": "Cynrychiolaeth gymunedol",
+        },
         "tree_path": f"{APPLICATION_BASE_PATH}.4.6",
-        "form_name": "community-representation",
+        "form_name_json": {
+            "en": "community-representation",
+            "cy": "cynrychiolaeth-gymunedol",
+        },
     },
     {
-        "section_name": "Inclusiveness And Integration",
+        "section_name": {
+            "en": "Inclusiveness And Integration",
+            "cy": "Cynhwysiant ac Integreiddio",
+        },
         "tree_path": f"{APPLICATION_BASE_PATH}.4.7",
-        "form_name": "inclusiveness-and-integration",
+        "form_name_json": {
+            "en": "inclusiveness-and-integration",
+            "cy": "cynhwysiant-ac-integreiddio",
+        },
     },
     {
-        "section_name": "Upload Business Plan",
+        "section_name": {
+            "en": "Upload Business Plan",
+            "cy": "Lanlwythwch y cynllun busnes",
+        },
         "tree_path": f"{APPLICATION_BASE_PATH}.4.8",
-        "form_name": "upload-business-plan",
+        "form_name_json": {
+            "en": "upload-business-plan",
+            "cy": "lanlwythwch-y-cynllun-busnes",
+        },
     },
     {
-        "section_name": "5. Potential to deliver community benefits",
+        "section_name": {
+            "en": "5. Potential to deliver community benefits",
+            "cy": "5. Potensial i gyflawni buddion cymunedol",
+        },
         "tree_path": f"{APPLICATION_BASE_PATH}.5",
         "weighting": 30,
     },
     {
-        "section_name": "Community Benefits",
+        "section_name": {"en": "Community Benefits", "cy": "Buddion cymunedol"},
         "tree_path": f"{APPLICATION_BASE_PATH}.5.1",
-        "form_name": "community-benefits",
+        "form_name_json": {"en": "community-benefits", "cy": "ymgysylltu-a'r-gymuned"},
     },
     {
-        "section_name": "6. Added value to community",
+        "section_name": {
+            "en": "6. Added value to community",
+            "cy": "6. Gwerth ychwanegol i'r gymuned",
+        },
         "tree_path": f"{APPLICATION_BASE_PATH}.6",
         "weighting": 10,
     },
     {
-        "section_name": "Value To The Community",
+        "section_name": {"en": "Value To The Community", "cy": "Gwerth i'r Gymuned"},
         "tree_path": f"{APPLICATION_BASE_PATH}.6.1",
-        "form_name": "value-to-the-community",
+        "form_name_json": {"en": "value-to-the-community", "cy": "gwerth-i'r-gymuned"},
     },
     {
-        "section_name": "7. Subsidy control / state aid",
+        "section_name": {
+            "en": "7. Subsidy control / state aid",
+            "cy": "7. Rheoli cymorthdaliadau a chymorth gwladwriaethol",
+        },
         "tree_path": f"{APPLICATION_BASE_PATH}.7",
     },
     {
-        "section_name": "Project Qualification",
+        "section_name": {"en": "Project Qualification", "cy": "Cymhwystra'r prosiect"},
         "tree_path": f"{APPLICATION_BASE_PATH}.7.1",
-        "form_name": "project-qualification",
+        "form_name_json": {
+            "en": "project-qualification",
+            "cy": "cymhwystra'r-prosiect",
+        },
     },
     {
-        "section_name": "8. Check declarations",
+        "section_name": {"en": "8. Check declarations", "cy": "8. Gwirio datganiadau"},
         "tree_path": f"{APPLICATION_BASE_PATH}.8",
     },
     {
-        "section_name": "Declarations",
+        "section_name": {"en": "Declarations", "cy": "Datganiadau"},
         "tree_path": f"{APPLICATION_BASE_PATH}.8.1",
-        "form_name": "declarations",
+        "form_name_json": {"en": "declarations", "cy": "datganiadau"},
     },
 ]

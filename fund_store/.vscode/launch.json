@@ -43,6 +43,43 @@
             "justMyCode": true
         },
         {
+            "name": "Upgrade DB",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/fund_store"},
+            "envFile": "${workspaceFolder}/.flaskenv",
+            "args": [
+              "db",
+              "upgrade"
+            ]
+          },
+          {
+            "name": "Downgrade DB",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/fund_store"},
+            "envFile": "${workspaceFolder}/.flaskenv",
+            "args": [
+              "db",
+              "downgrade",
+              "c8404dc10813"
+            ]
+          },
+          {
+            "name": "Prepare DB Migration",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/fund_store"},
+            "envFile": "${workspaceFolder}/.flaskenv",
+            "args": [
+              "db",
+              "migrate"
+            ]
+          },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
@@ -52,6 +89,7 @@
             "port": 9091,
             "cwd": "${workspaceFolder}",
             "env": { "PYTHONPATH":"${workspaceFolder}"},
+            "envFile": "${workspaceFolder}/.flaskenv",
             "justMyCode": false,
         },
         {

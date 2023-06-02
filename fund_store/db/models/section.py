@@ -5,9 +5,9 @@ from sqlalchemy import ForeignKey
 from sqlalchemy import func
 from sqlalchemy import Index
 from sqlalchemy import Integer
+from sqlalchemy import JSON
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import foreign
-from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import remote
 from sqlalchemy_utils import LtreeType
@@ -54,8 +54,14 @@ class Section(BaseModel):
         primary_key=True,
         nullable=False,
     )
-    title = Column("title", db.String(), nullable=False, unique=False)
-    title_content_id = mapped_column(Integer, nullable=True)
+    title_json = Column(
+        "title_json",
+        JSON(none_as_null=True),
+        nullable=False,
+        unique=False,
+    )
+
+    # title_content_id = mapped_column(Integer, nullable=True)
     # title_translations = relationship("Translation", primaryjoin=
     # "Section.title_content_id == Translation.content_id", viewonly=True)
     # title_translations = relationship("Translation",
@@ -93,7 +99,7 @@ class Section(BaseModel):
     form_name = relationship("FormName")
 
     def __str__(self):
-        return self.title
+        return self.title_json.get("en")
 
     def __repr__(self):
-        return "Section({})".format(self.title)
+        return "Section({})".format(self.title_json)

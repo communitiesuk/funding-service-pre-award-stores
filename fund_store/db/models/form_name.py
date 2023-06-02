@@ -3,6 +3,7 @@ from flask_sqlalchemy.model import DefaultMeta
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
+from sqlalchemy import JSON
 
 
 BaseModel: DefaultMeta = db.Model
@@ -16,4 +17,9 @@ class FormName(BaseModel):
         nullable=False,
         primary_key=True,
     )
-    form_name = Column("form_name", db.String(), primary_key=True)
+    form_name_json = Column(
+        "form_name_json",
+        JSON(none_as_null=True),
+        nullable=False,
+        unique=False,
+    )

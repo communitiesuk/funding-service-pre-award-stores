@@ -5,6 +5,7 @@ from flask_sqlalchemy.model import DefaultMeta
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
+from sqlalchemy import JSON
 from sqlalchemy.dialects.postgresql import UUID
 
 
@@ -26,7 +27,9 @@ class Round(BaseModel):
         ForeignKey("fund.id"),
         nullable=False,
     )
-    title = Column("title", db.String(), nullable=False, unique=False)
+    title_json = Column(
+        "title_json", JSON(none_as_null=True), nullable=False, unique=False
+    )
     short_name = Column("short_name", db.String(), nullable=False, unique=True)
     opens = Column("opens", DateTime())
     deadline = Column("deadline", DateTime())
