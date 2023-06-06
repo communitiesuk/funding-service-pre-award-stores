@@ -7,6 +7,16 @@ NIGHT_SHELTER_ROUND_2_ID = "fc7aa604-989e-4364-98a7-d1234271435a"
 APPLICATION_BASE_PATH = ".".join([str(NSTF_R2_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH = ".".join([str(NSTF_R2_BASE_PATH), str(2)])
 
+NIGHT_SHELTER_PROSPECTS_LINK = (
+    "https://www.gov.uk/government/publications"
+    "/night-shelter-transformation-fund-round-2-prospectus"
+)
+NIGHT_SHELTER_APPLICATION_GUIDANCE = (  # TODO: Provide welsh translation
+    "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
+    f" class='govuk-body'><a href='{NIGHT_SHELTER_PROSPECTS_LINK}'>Read the fund's"
+    " prospectus</a> before you apply.</p>"
+)
+
 r2_application_sections = [
     {
         "section_name": {"en": "Before you start", "cy": ""},
@@ -166,7 +176,7 @@ round_config = [
         "opens": "2023-06-07 12:00:00",
         "deadline": "2023-07-05 11:59:00",
         "assessment_deadline": "2023-08-09 12:00:00",
-        "prospectus": "https://www.gov.uk/government/publications/night-shelter-transformation-fund-round-2-prospectus",
+        "prospectus": NIGHT_SHELTER_PROSPECTS_LINK,
         "privacy_notice": "https://www.gov.uk/guidance/night-shelter-transformation-fund-2022-2025-privacy-notice",
         "contact_email": "transformationfund@levellingup.gov.uk",
         "contact_phone": None,
@@ -176,6 +186,6 @@ round_config = [
         "instructions": "",
         "feedback_link": "https://forms.office.com/e/n6J9KPebUy",
         "project_name_field_id": "YVsPtE",
-        "application_guidance": None,
+        "application_guidance": NIGHT_SHELTER_APPLICATION_GUIDANCE,
     }
 ]
