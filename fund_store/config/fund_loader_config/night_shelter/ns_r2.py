@@ -44,7 +44,7 @@ r2_application_sections = [
     {
         "section_name": {"en": "2. Your skills and experience", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.3",
-        "weighting": 10,
+        "weighting": 15,
     },
     {
         "section_name": {"en": "2.1 Staff and volunteers", "cy": ""},
@@ -59,7 +59,7 @@ r2_application_sections = [
     {
         "section_name": {"en": "3. Your proposal", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.4",
-        "weighting": 45,
+        "weighting": 40,
     },
     {
         "section_name": {"en": "3.1 Objectives and activities", "cy": ""},

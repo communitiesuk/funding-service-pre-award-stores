@@ -30,12 +30,14 @@ def test_get_application_sections(seed_dynamic_data):
         seed_dynamic_data["funds"][0]["id"],
         seed_dynamic_data["funds"][0]["rounds"][0]["id"],
     )
-    assert len(sections) == 2
-    first, second = sections
+    assert len(sections) == 3
+    first, second, third = sections
     assert first.title_json == {"en": "Middle1"}
     assert len(first.children) == 1
     assert second.title_json == {"en": "Middle2"}
     assert len(second.children) == 1
+    assert third.title_json == {"en": "skills"}
+    assert len(third.children) == 0
 
 
 def test_get_assessment_sections(seed_dynamic_data):
