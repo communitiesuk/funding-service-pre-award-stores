@@ -174,7 +174,7 @@ round_config = [
         "title_json": {"en": "Round 2", "cy": ""},
         "short_name": "R2",
         "opens": "2023-06-07 12:00:00",
-        "deadline": "2023-07-05 11:59:00",
+        "deadline": "2023-07-07 11:59:00",
         "assessment_deadline": "2023-08-09 12:00:00",
         "prospectus": NIGHT_SHELTER_PROSPECTS_LINK,
         "privacy_notice": "https://www.gov.uk/guidance/night-shelter-transformation-fund-2022-2025-privacy-notice",
