@@ -273,7 +273,7 @@ components:
         justification:
           type: string
           nullable: true
-        section_to_flag:
+        sections_to_flag:
           type: string
           nullable: true
         flag_type:
@@ -297,7 +297,7 @@ components:
         justification:
           type: string
           nullable: true
-        section_to_flag:
+        sections_to_flag:
           type: string
           nullable: true
         flag_type:

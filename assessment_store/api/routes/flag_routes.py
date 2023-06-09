@@ -10,7 +10,7 @@ def post_flag_for_application() -> dict:
     args = request.get_json()
     created_flag = create_flag_for_application(
         justification=args["justification"],
-        section_to_flag=args["section_to_flag"],
+        sections_to_flag=args["sections_to_flag"],
         application_id=args["application_id"],
         user_id=args["user_id"],
         flag_type=FlagType[args["flag_type"]],

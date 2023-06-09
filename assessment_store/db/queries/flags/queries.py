@@ -14,14 +14,14 @@ from sqlalchemy import and_
 
 def create_flag_for_application(
     justification: str,
-    section_to_flag: str,
+    sections_to_flag: str,
     application_id: str,
     user_id: str,
     flag_type: FlagType,
 ) -> Dict:
     flag = Flag(
         justification=justification,
-        section_to_flag=section_to_flag,
+        sections_to_flag=sections_to_flag,
         application_id=application_id,
         user_id=user_id,
         flag_type=flag_type,
