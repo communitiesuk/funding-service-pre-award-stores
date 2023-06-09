@@ -28,7 +28,7 @@ def upgrade():
         )
 
     op.execute(
-        "UPDATE flags SET sections_to_flag = ARRAY(SELECT string_to_array(section_to_flag, ',') FROM flags);"
+        "UPDATE flags SET sections_to_flag = string_to_array(section_to_flag, ',');"
     )
 
     with op.batch_alter_table("flags", schema=None) as batch_op:
