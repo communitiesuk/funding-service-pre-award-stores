@@ -31,9 +31,9 @@ class Round(BaseModel):
         "title_json", JSON(none_as_null=True), nullable=False, unique=False
     )
     short_name = Column("short_name", db.String(), nullable=False, unique=True)
-    opens = Column("opens", DateTime(timezone=True), nullable=False)
-    deadline = Column("deadline", DateTime(timezone=True), nullable=False)
-    assessment_deadline = Column("assessment_deadline", DateTime(timezone=True), nullable=False)
+    opens = Column("opens", DateTime())
+    deadline = Column("deadline", DateTime())
+    assessment_deadline = Column("assessment_deadline", DateTime())
     prospectus = Column("prospectus", db.String(), nullable=False, unique=False)
     privacy_notice = Column("privacy_notice", db.String(), nullable=False, unique=False)
     contact_email = Column("contact_email", db.String(), nullable=True, unique=False)
