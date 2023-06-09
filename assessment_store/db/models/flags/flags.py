@@ -36,7 +36,6 @@ class Flag(db.Model):
 
     justification = db.Column("justification", db.Text(), nullable=True)
 
-    # section_to_flag = db.Column("section_to_flag", ARRAY(db.String(256)), nullable=True)
     sections_to_flag = db.Column(
         "sections_to_flag", ARRAY(db.String(256)), nullable=True
     )
