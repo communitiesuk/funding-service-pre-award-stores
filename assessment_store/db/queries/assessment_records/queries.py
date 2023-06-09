@@ -25,6 +25,7 @@ from sqlalchemy import select
 from sqlalchemy import update
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.orm import defer
+from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import load_only
 
 
@@ -371,7 +372,7 @@ def bulk_update_location_jsonb_blob(application_ids_to_location_data):
         )
 
         if not existing_location_data:
-            current_app.logger.info("Seeding location data")
+            print("Seeding location data")
             db.session.execute(
                 stmt,
                 {
@@ -381,7 +382,7 @@ def bulk_update_location_jsonb_blob(application_ids_to_location_data):
             )
 
         elif existing_location_data["error"] is True:
-            current_app.logger.info("Updating location data")
+            print("Updating location data")
             db.session.execute(
                 stmt,
                 {
@@ -391,7 +392,7 @@ def bulk_update_location_jsonb_blob(application_ids_to_location_data):
             )
 
         else:
-            current_app.logger.info("Location data already exists")
+            print("Location data already exists")
             continue
 
     db.session.commit()
@@ -410,3 +411,46 @@ def update_status_to_completed(application_id):
     )
 
     db.session.commit()
+
+
+def get_assessment_records_by_round_id(round_id):
+    """
+    Retrieves assessment records and scores based on the provided round ID.
+
+    Parameters:
+    - round_id: Short identification code used to query assessment records.
+
+    Returns:
+    - List of dictionaries containing relevant information extracted from assessment records and scores.
+    Each dictionary represents a record and includes the following fields:
+
+        - "Short id": Short identification code of the assessment record.
+        - "Application ID": Identification of the associated application.
+        - "Score Subcriteria": ID of the score subcriteria.
+        - "Score": Score assigned to the subcriteria.
+        - "Score Justification": Justification for the assigned score.
+        - "Score Date Created": Date when the score was created.
+    """
+    # Query assessment records and scores
+    assessment_records = (
+        AssessmentRecord.query.filter(AssessmentRecord.round_id == round_id)
+        .options(joinedload(AssessmentRecord.scores))
+        .all()
+    )
+
+    # Extract relevant information and format the output
+    output = []
+    for record in assessment_records:
+        for score in record.scores:
+            output.append(
+                {
+                    "Short id": record.short_id,
+                    "Application ID": record.application_id,
+                    "Score Subcriteria": score.sub_criteria_id,
+                    "Score": score.score,
+                    "Score Justification": score.justification,
+                    "Score Date Created": score.date_created,
+                }
+            )
+
+    return output
