@@ -1,3 +1,6 @@
+from datetime import datetime
+from datetime import timezone
+
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     NSTF_R2_BASE_PATH,
 )
@@ -6,6 +9,15 @@ NIGHT_SHELTER_FUND_ID = "13b95669-ed98-4840-8652-d6b7a19964db"
 NIGHT_SHELTER_ROUND_2_ID = "fc7aa604-989e-4364-98a7-d1234271435a"
 APPLICATION_BASE_PATH = ".".join([str(NSTF_R2_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH = ".".join([str(NSTF_R2_BASE_PATH), str(2)])
+NS_R2_OPENS_DATE = datetime(
+    2023, 6, 7, 12, 0, 0, tzinfo=timezone.utc
+)  # 2023-06-07 12:00:00
+NS_R2_DEADLINE_DATE = datetime(
+    2023, 7, 7, 11, 59, 0, tzinfo=timezone.utc
+)  # 2023-07-07 11:59:00
+NS_R2_ASSESSMENT_DEADLINE_DATE = datetime(
+    2023, 8, 9, 12, 0, 0, tzinfo=timezone.utc
+)  # 2023-08-09 12:00:00
 
 NIGHT_SHELTER_PROSPECTS_LINK = (
     "https://www.gov.uk/government/publications"
@@ -173,9 +185,9 @@ round_config = [
         "fund_id": NIGHT_SHELTER_FUND_ID,
         "title_json": {"en": "Round 2", "cy": ""},
         "short_name": "R2",
-        "opens": "2023-06-07 12:00:00",
-        "deadline": "2023-07-07 11:59:00",
-        "assessment_deadline": "2023-08-09 12:00:00",
+        "opens": NS_R2_OPENS_DATE,
+        "deadline": NS_R2_DEADLINE_DATE,
+        "assessment_deadline": NS_R2_ASSESSMENT_DEADLINE_DATE,
         "prospectus": NIGHT_SHELTER_PROSPECTS_LINK,
         "privacy_notice": "https://www.gov.uk/guidance/night-shelter-transformation-fund-2022-2025-privacy-notice",
         "contact_email": "transformationfund@levellingup.gov.uk",

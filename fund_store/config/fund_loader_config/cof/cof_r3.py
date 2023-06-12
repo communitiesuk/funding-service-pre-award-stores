@@ -1,3 +1,6 @@
+from datetime import datetime
+from datetime import timezone
+
 from config.fund_loader_config.cof.shared import COF_APPLICATION_GUIDANCE
 from config.fund_loader_config.cof.shared import fund_config
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
@@ -8,6 +11,15 @@ COF_FUND_ID = fund_config["id"]
 COF_ROUND_3_WINDOW_1_ID = "e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762"
 APPLICATION_BASE_PATH = ".".join([str(COF_R3W1_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH = ".".join([str(COF_R3W1_BASE_PATH), str(2)])
+COF_R3_OPENS_DATE = datetime(
+    2023, 5, 31, 11, 0, 0, tzinfo=timezone.utc
+)  # 2023-05-31 11:00:00
+COF_R3_DEADLINE_DATE = datetime(
+    2023, 7, 12, 11, 59, 0, tzinfo=timezone.utc
+)  # 2023-07-12 11:59:00
+COF_R3_ASSESSMENT_DEADLINE_DATE = datetime(
+    2023, 8, 9, 12, 0, 0, tzinfo=timezone.utc
+)  # 2023-08-09 12:00:00
 
 cof_r3w1_sections = [
     {
@@ -241,9 +253,9 @@ round_config = [
         "fund_id": COF_FUND_ID,
         "title_json": {"en": "Round 3 Window 1", "cy": "Round 3 Window 1"},
         "short_name": "R3W1",
-        "opens": "2023-05-31 11:00:00",
-        "deadline": "2023-07-12 11:59:00",
-        "assessment_deadline": "2023-08-09 12:00:00",
+        "opens": COF_R3_OPENS_DATE,
+        "deadline": COF_R3_DEADLINE_DATE,
+        "assessment_deadline": COF_R3_ASSESSMENT_DEADLINE_DATE,
         "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
         "privacy_notice": (
             "https://www.gov.uk/government/publications/community-ownership-fund-"
