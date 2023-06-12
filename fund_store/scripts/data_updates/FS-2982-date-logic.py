@@ -23,9 +23,7 @@ def update_date_format(round_config):
 
 
 def main() -> None:
-    current_app.logger.warning(
-        "Updating date format for NSTF R2, COF R3, COF R2"
-    )
+    current_app.logger.warning("Updating date format for NSTF R2, COF R3, COF R2")
     update_date_format(ns_r2.round_config)
     update_date_format(cof_r3.round_config)
     update_date_format(cof_r2.rounds_config)
