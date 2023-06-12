@@ -45,24 +45,61 @@
       "host": "localhost",
       "port": 9091,
       "cwd": "${workspaceFolder}",
+      "env": { "PYTHONPATH":"${workspaceFolder}"},
       "envFile": "${workspaceFolder}/.flaskenv",
       "justMyCode": false,
   },
   {
-      "name": "Feed location in assessment-store",
+    "name": "Upgrade DB",
+    "type": "python",
+    "request": "launch",
+    "module": "flask",
+    "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
+    "envFile": "${workspaceFolder}/.flaskenv",
+    "args": [
+      "db",
+      "upgrade"
+    ]
+  },
+  {
+    "name": "Downgrade DB",
+    "type": "python",
+    "request": "launch",
+    "module": "flask",
+    "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
+    "envFile": "${workspaceFolder}/.flaskenv",
+    "args": [
+      "db",
+      "downgrade",
+      "30d27919f1d8"
+    ]
+  },
+  {
+    "name": "Prepare DB Migration",
+    "type": "python",
+    "request": "launch",
+    "module": "flask",
+    "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
+    "envFile": "${workspaceFolder}/.flaskenv",
+    "args": [
+      "db",
+      "migrate"
+    ]
+  },
+  {
+      "name": "Import Applications to Assessment",
       "type": "python",
       "request": "launch",
-      "program": "${file}",
+      "program": "${workspaceFolder}/scripts/import_from_application.py",
       "console": "integratedTerminal",
       "host": "localhost",
       "port": 9091,
       "cwd": "${workspaceFolder}",
       "envFile": "${workspaceFolder}/.flaskenv",
+      "env": { "PYTHONPATH":"${workspaceFolder}"},
       "justMyCode": false,
-      "args": ["--fund_id", "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
-      "--round_id", "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-        "--update_db", "True",
-        "--write_csv", "False"]
+      "args": ["--roundid", "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+        "--app_type", "COF"]
   },
   {
       "name": "Seed Applications in assessment-store",
@@ -83,6 +120,7 @@
       "request": "launch",
       "module": "pytest",
       "console": "integratedTerminal",
+      "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
   },
   {
       "name": "Run Tests: Current File (debug)",
@@ -91,6 +129,7 @@
       "module": "pytest",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
+      "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
       "args": [
           "-c",
           "pytest.ini",
