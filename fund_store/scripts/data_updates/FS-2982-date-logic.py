@@ -28,7 +28,7 @@ def main() -> None:
     )
     update_date_format(ns_r2.round_config)
     update_date_format(cof_r3.round_config)
-    update_date_format(cof_r2.round_config)
+    update_date_format(cof_r2.rounds_config)
     current_app.logger.warning("Updates complete")
 
 
