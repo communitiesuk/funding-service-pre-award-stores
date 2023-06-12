@@ -274,7 +274,7 @@ components:
           type: string
           nullable: true
         sections_to_flag:
-          type: string
+          type: array
           nullable: true
         flag_type:
           type: string
@@ -298,7 +298,7 @@ components:
           type: string
           nullable: true
         sections_to_flag:
-          type: string
+          type: array
           nullable: true
         flag_type:
           type: string
