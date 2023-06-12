@@ -2,13 +2,24 @@ from tests._application_store_json import application_store_json_template
 from tests._application_store_json import (
     cofr3w1_application_store_json_template,
 )
+from tests._application_store_json import (
+    nstfr2_application_store_json_template,
+)
 
-mapping_application_store_json = {
+mappings_application_store_json = {
     "COFR2W2": application_store_json_template,
     "COFR2W3": application_store_json_template,
     "COFR3W1": cofr3w1_application_store_json_template,
-    "NSTFR2": cofr3w1_application_store_json_template,
+    "NSTFR2": nstfr2_application_store_json_template,
     "RANDOM_FUND_ROUND": application_store_json_template,
+}
+
+mappings_short_ref = {
+    "COFR2W2": "COF-R2W2",
+    "COFR2W3": "COF-R2W3",
+    "COFR3W1": "COF-R3W1",
+    "NSTFR2": "NSTF-R2",
+    "RANDOM_FUND_ROUND": "RFR",
 }
 
 
@@ -24,9 +35,11 @@ def get_dynamic_rows(
 
     fund_round_short_name = list(fund_round_config_dict.keys())[0]
     fund_round_config = fund_round_config_dict[fund_round_short_name]
-    application_store_json = mapping_application_store_json[
+    application_store_json = mappings_application_store_json[
         fund_round_short_name
     ]
+
+    application_short_ref_prefix = mappings_short_ref[fund_round_short_name]
 
     funds = (
         [fund_round_config["fund_id"]]
@@ -94,7 +107,11 @@ def get_dynamic_rows(
                     f" {choice(adjects)} {picked_place[0]} in {picked_city[0]}"
                 )
 
-                short_ref = "COF-R2W2-" + "".join(sample(ascii_uppercase, 6))
+                short_ref = (
+                    application_short_ref_prefix
+                    + "-"
+                    + "".join(sample(ascii_uppercase, 6))
+                )
 
                 print("Seeding db inc location info")
                 location_json_blob = {

@@ -89,20 +89,28 @@ def seed_dev_db(c, fundround=None, appcount=None):
                 "COFR2W2": {
                     "fund_id": COF_FUND_ID,
                     "round_id": COF_ROUND_2_ID,
+                    "type_of_application": "COF",
                 },
                 "COFR2W3": {
                     "fund_id": COF_FUND_ID,
                     "round_id": COF_ROUND_2_W3_ID,
+                    "type_of_application": "COF",
                 },
                 "COFR3W1": {
                     "fund_id": COF_FUND_ID,
                     "round_id": COF_ROUND_3_W1_ID,
+                    "type_of_application": "COF",
                 },
                 "NSTFR2": {
                     "fund_id": NSTF_FUND_ID,
                     "round_id": NSTF_ROUND_2_ID,
+                    "type_of_application": "NSTF",
                 },
-                "RANDOM_FUND_ROUND": {"fund_id": uuid4(), "round_id": uuid4()},
+                "RANDOM_FUND_ROUND": {
+                    "fund_id": uuid4(),
+                    "round_id": uuid4(),
+                    "type_of_application": "RFR",
+                },
             }
 
             choosing = not bool(fundround and appcount)
