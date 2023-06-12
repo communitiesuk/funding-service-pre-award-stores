@@ -17,13 +17,13 @@ def test_create_flag_for_application(flag_config, seed_application_records):
     result = create_flag_for_application(
         application_id=seed_application_records[0]["application_id"],
         justification=flag.justification,
-        section_to_flag=flag.section_to_flag,
+        sections_to_flag=flag.sections_to_flag,
         user_id=flag.user_id,
         flag_type=flag.flag_type,
     )
 
     assert result["justification"] == flag.justification
-    assert result["section_to_flag"] == flag.section_to_flag
+    assert result["sections_to_flag"] == flag.sections_to_flag
     assert (
         result["application_id"]
         == seed_application_records[0]["application_id"]
@@ -43,7 +43,7 @@ def test_retrieve_flag_for_application(_db, seed_application_records):
     )
 
     assert result["justification"] == "Latest 1"
-    assert result["section_to_flag"] == "Test section 1"
+    assert result["sections_to_flag"][0] == "Test section 1"
     assert (
         result["application_id"]
         == seed_application_records[0]["application_id"]

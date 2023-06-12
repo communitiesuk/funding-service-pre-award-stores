@@ -243,7 +243,7 @@ paths:
               $ref: 'components.yml#/components/schemas/PostFlag'
             example:
               justification: 'justification for flagging'
-              section_to_flag: 'information on the section to flag'
+              sections_to_flag: 'information on the sections to flag'
               flag_type: 'FLAGGED'
               application_id: 'r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd'
               user_id: 'r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd'

@@ -33,7 +33,7 @@ def test_get_assessments_stats(client, seed_application_records):
     # so that one result from the set is flagged as QA_COMPLETED
     create_flag_for_application(
         justification="bob",
-        section_to_flag="Overview",
+        sections_to_flag=["Overview"],
         application_id=applications[0]["application_id"],
         user_id="abc",
         flag_type=FlagType.QA_COMPLETED,
@@ -53,7 +53,7 @@ def test_get_assessments_stats(client, seed_application_records):
 
     create_flag_for_application(
         justification="QA Complete Test 1",
-        section_to_flag="Overview",
+        sections_to_flag=["Overview"],
         application_id=applications[1]["application_id"],
         user_id="abc",
         flag_type=FlagType.QA_COMPLETED,
@@ -61,7 +61,7 @@ def test_get_assessments_stats(client, seed_application_records):
 
     create_flag_for_application(
         justification="QA Complete Test 1",
-        section_to_flag="Overview",
+        sections_to_flag=["Overview"],
         application_id=applications[1]["application_id"],
         user_id="abc",
         flag_type=FlagType.FLAGGED,
@@ -99,7 +99,7 @@ def test_gets_all_apps_for_fund_round(
     # Check application overview returns flags in order of descending
     create_flag_for_application(
         justification="Test 1",
-        section_to_flag="Overview",
+        sections_to_flag=["Overview"],
         application_id=application_id,
         user_id="abc",
         flag_type=FlagType.FLAGGED,
@@ -107,7 +107,7 @@ def test_gets_all_apps_for_fund_round(
 
     create_flag_for_application(
         justification="Test 2",
-        section_to_flag="Overview",
+        sections_to_flag=["Overview"],
         application_id=application_id,
         user_id="abc",
         flag_type=FlagType.RESOLVED,
@@ -115,7 +115,7 @@ def test_gets_all_apps_for_fund_round(
 
     create_flag_for_application(
         justification="Test 3",
-        section_to_flag="Overview",
+        sections_to_flag=["Overview"],
         application_id=application_id,
         user_id="abc",
         flag_type=FlagType.STOPPED,
