@@ -1,14 +1,32 @@
+from tests._application_store_json import application_store_json_template
+from tests._application_store_json import (
+    cofr3w1_application_store_json_template,
+)
+
+mapping_application_store_json = {
+    "COFR2W2": application_store_json_template,
+    "COFR2W3": application_store_json_template,
+    "COFR3W1": cofr3w1_application_store_json_template,
+    "NSTFR2": cofr3w1_application_store_json_template,
+    "RANDOM_FUND_ROUND": application_store_json_template,
+}
+
+
 def get_dynamic_rows(
     number_of_apps_per_round,
     number_of_funds,
     number_of_rounds,
-    fund_round_config,
+    fund_round_config_dict,
 ):
     from random import choice, sample
     from string import ascii_uppercase
     from uuid import uuid4
 
-    from tests._application_store_json import application_store_json_template
+    fund_round_short_name = list(fund_round_config_dict.keys())[0]
+    fund_round_config = fund_round_config_dict[fund_round_short_name]
+    application_store_json = mapping_application_store_json[
+        fund_round_short_name
+    ]
 
     funds = (
         [fund_round_config["fund_id"]]
@@ -89,7 +107,7 @@ def get_dynamic_rows(
                     else "QQ12QQ",
                     "location_constituency": "test-constituency",
                 }
-                yield application_store_json_template.substitute(
+                yield application_store_json.substitute(
                     app_id=app_id,
                     project_name=project_name,
                     short_ref=short_ref,

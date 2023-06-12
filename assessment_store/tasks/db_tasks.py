@@ -8,6 +8,10 @@ from tasks.helper_tasks import _env_var
 COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
 COF_ROUND_2_W3_ID = "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f"
+COF_ROUND_3_W1_ID = "e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762"
+
+NSTF_FUND_ID = "13b95669-ed98-4840-8652-d6b7a19964db"
+NSTF_ROUND_2_ID = "fc7aa604-989e-4364-98a7-d1234271435a"
 
 # Needed for invoke to work on python3.11
 # Remove once invoke has been updated.
@@ -90,6 +94,14 @@ def seed_dev_db(c, fundround=None, appcount=None):
                     "fund_id": COF_FUND_ID,
                     "round_id": COF_ROUND_2_W3_ID,
                 },
+                "COFR3W1": {
+                    "fund_id": COF_FUND_ID,
+                    "round_id": COF_ROUND_3_W1_ID,
+                },
+                "NSTFR2": {
+                    "fund_id": NSTF_FUND_ID,
+                    "round_id": NSTF_ROUND_2_ID,
+                },
                 "RANDOM_FUND_ROUND": {"fund_id": uuid4(), "round_id": uuid4()},
             }
 
@@ -105,7 +117,7 @@ def seed_dev_db(c, fundround=None, appcount=None):
             while choosing:
 
                 new_line = "\n"
-                fund_round_input = str(
+                fundround = str(
                     _echo_input(
                         "Please type the fund-round to seed:"
                         f"\nfund-rounds available to seed: "
@@ -113,14 +125,14 @@ def seed_dev_db(c, fundround=None, appcount=None):
                         f"{new_line} > "
                     ),
                 )
-                fund_round = config[fund_round_input]
+                fund_round = config[fundround]
                 apps = int(
                     _echo_input("How many applications?" f"{new_line} > ")
                 )
                 choosing = (
                     not _echo_input(
                         f"Would you like to insert {apps} applications"
-                        f" for {fund_round_input}? y/n \n"
+                        f" for {fundround}? y/n \n"
                     ).lower()
                     == "y"
                 )
@@ -135,7 +147,7 @@ def seed_dev_db(c, fundround=None, appcount=None):
                 f"Seeding db {Config.SQLALCHEMY_DATABASE_URI} with"
                 f" {apps} test rows."
             )
-            seed_database_for_fund_round(apps, fund_round)
+            seed_database_for_fund_round(apps, {fundround: fund_round})
 
             _echo_print(
                 f"Seeding db {Config.SQLALCHEMY_DATABASE_URI} complete."
