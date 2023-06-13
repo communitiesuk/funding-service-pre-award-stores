@@ -73,6 +73,7 @@ def get_dynamic_rows(
         ("Colchester", "England"),
         ("Exeter", "England", "EX44NT"),
         ("Gloucester", "England"),
+        ("Hasland", "England", "S41 0HX"),
         ("Hereford", "England"),
         ("Aberdeen", "Scotland", "AB11 6LX"),
         ("Dundee", "Scotland"),
@@ -81,6 +82,14 @@ def get_dynamic_rows(
         ("Bangor", "Wales"),
         ("Cardiff", "Wales", "CF10 1EP"),
         ("Newport", "Wales", "NP10 8QQ"),
+        ("Solihull", "England", "B90 3AQ"),
+    ]
+
+    funding = [
+        ("2300", "2300"),
+        ("3000", "1500"),
+        ("5000", "4000"),
+        ("1000", "1000"),
     ]
 
     for count, fund_id in enumerate(funds):
@@ -101,6 +110,7 @@ def get_dynamic_rows(
                 print("application id:", app_id)
                 picked_place = choice(places)
                 picked_city = choice(cities)
+                picked_funding = choice(funding)
 
                 project_name = (
                     f"{choice(verbs)} the"
@@ -130,6 +140,8 @@ def get_dynamic_rows(
                     short_ref=short_ref,
                     round_id=round_id,
                     fund_id=fund_id,
+                    capital_funding=picked_funding[0],
+                    revenue_funding=picked_funding[1],
                     asset_type=picked_place[1],
                     **location_json_blob,
                 )

@@ -611,13 +611,13 @@ application_store_json_template = Template(
                 {
                     "fields": [
                         {
-                            "answer": "2300",
+                            "answer": "$capital_funding",
                             "key": "JzWvhj",
                             "title": "Capital funding",
                             "type": "text"
                         },
                         {
-                            "answer": "2300",
+                            "answer": "$revenue_funding",
                             "key": "jLIgoi",
                             "title": "Revenue funding (optional)",
                             "type": "text"
@@ -945,6 +945,14 @@ cofr3w1_application_store_json_template = Template(
     "last_edited": "2023-06-06T13:38:48.747499",
     "project_name": "$project_name",
     "date_submitted": "2023-06-06T13:38:51.467199",
+    "location_json_blob": {
+        "error": $location_error,
+        "county": "$location_county",
+        "region": "$location_region",
+        "country": "$location_country",
+        "postcode": "$location_postcode",
+        "constituency": "$location_constituency"
+    },
     "forms": [
         {
             "name": "declarations-cof-r3-w1",
@@ -999,13 +1007,13 @@ cofr3w1_application_store_json_template = Template(
                             "key": "ABROnB",
                             "type": "text",
                             "title": "Capital funding",
-                            "answer": "2300"
+                            "answer": "$capital_funding"
                         },
                         {
                             "key": "cLDRvN",
                             "type": "text",
                             "title": "Revenue funding (optional)",
-                            "answer": "2300"
+                            "answer": "$revenue_funding"
                         }
                     ],
                     "status": "COMPLETED",

@@ -21,13 +21,16 @@ def derive_application_values(application_json):
         )
         asset_type = "Not asset type specified."
     try:
-        funding_one = (
-            jsonpath_rw_ext.parse(
-                '$.forms[*].questions[*].fields[?(@.key =="JzWvhj")]'
-            )
-            .find(application_json)[0]
-            .value["answer"]
-        ) or 0
+        funding_values = jsonpath_rw_ext.parse(
+            '$.forms[*].questions[*].fields[?(@.key == "JzWvhj")]'
+        ).find(application_json)
+        if funding_values:
+            funding_one = funding_values[0].value["answer"]
+        else:  # cof r3w1
+            funding_values = jsonpath_rw_ext.parse(
+                '$.forms[*].questions[*].fields[?(@.key == "ABROnB")]'
+            ).find(application_json)
+            funding_one = funding_values[0].value["answer"]
     except Exception:
         print(
             "Could not extract funding_value_one from application: "
@@ -35,13 +38,17 @@ def derive_application_values(application_json):
         )
         funding_one = 0
     try:
-        funding_two = (
-            jsonpath_rw_ext.parse(
-                '$.forms[*].questions[*].fields[?(@.key == "jLIgoi")]'
-            )
-            .find(application_json)[0]
-            .value["answer"]
-        ) or 0
+        funding_values = jsonpath_rw_ext.parse(
+            '$.forms[*].questions[*].fields[?(@.key == "jLIgoi")]'
+        ).find(application_json)
+        if funding_values:
+            funding_two = funding_values[0].value["answer"]
+        else:  # cof r3w1
+            funding_values = jsonpath_rw_ext.parse(
+                '$.forms[*].questions[*].fields[?(@.key == "cLDRvN")]'
+            ).find(application_json)
+            funding_two = funding_values[0].value["answer"]
+
     except Exception:
         print(
             "Could not extract funding_value_two from application: "
