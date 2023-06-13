@@ -49,7 +49,7 @@ def downgrade():
         )
 
     op.execute(
-        "UPDATE flags SET section_to_flag = array_to_string(sections_to_flag, ', ')"
+        "UPDATE flags SET section_to_flag = array_to_string(sections_to_flag, ',')"
     )
 
     with op.batch_alter_table("flags", schema=None) as batch_op:
