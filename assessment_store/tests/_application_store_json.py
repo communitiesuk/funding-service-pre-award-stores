@@ -945,14 +945,6 @@ cofr3w1_application_store_json_template = Template(
     "last_edited": "2023-06-06T13:38:48.747499",
     "project_name": "$project_name",
     "date_submitted": "2023-06-06T13:38:51.467199",
-    "location_json_blob": {
-        "error": $location_error,
-        "county": "$location_county",
-        "region": "$location_region",
-        "country": "$location_country",
-        "postcode": "$location_postcode",
-        "constituency": "$location_constituency"
-    },
     "forms": [
         {
             "name": "declarations-cof-r3-w1",
@@ -2506,25 +2498,25 @@ nstfr2_application_store_json_template = Template(
                             "key": "GRWtfV",
                             "type": "text",
                             "title": "Both revenue and capital",
-                            "answer": "33"
+                            "answer": "$revenue_funding"
                         },
                         {
                             "key": "zvPzXN",
                             "type": "text",
                             "title": "Revenue for 1 April 2024 to 31 March 2025",
-                            "answer": "55"
+                            "answer": "$revenue_funding"
                         },
                         {
                             "key": "QUCvFy",
                             "type": "text",
                             "title": "Capital for 1 April 2023 to 31 March 2024",
-                            "answer": "93"
+                            "answer": "$capital_funding"
                         },
                         {
                             "key": "pppiYl",
                             "type": "text",
                             "title": "Capital for 1 April 2024 to 31 March 2025",
-                            "answer": "39"
+                            "answer": "$capital_funding"
                         }
                     ],
                     "status": "COMPLETED",
