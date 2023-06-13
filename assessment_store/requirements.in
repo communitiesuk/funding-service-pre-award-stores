@@ -14,10 +14,9 @@ Flask
 #   Database
 #-----------------------------------
 SQLAlchemy[mypy]
-# 3 has came out but our testing framework isn't updated to use it yet.
 Flask-SQLAlchemy>=3.0.3
 Flask-Migrate
-psycopg2-binary
+psycopg2-binary==2.9.6
 alembic-utils
 marshmallow-sqlalchemy
 
