@@ -1,6 +1,16 @@
 import jsonpath_rw_ext
 
 
+def get_answer_value(application_json, answer_key):
+    return (
+        jsonpath_rw_ext.parse(
+            f"$.forms[*].questions[*].fields[?(@.key == '{answer_key}')]"
+        )
+        .find(application_json)[0]
+        .value["answer"]
+    )
+
+
 def derive_application_values(application_json):
     # TODO: implement mapping function to match
     #  fund+round fields to derived values
@@ -9,13 +19,7 @@ def derive_application_values(application_json):
     print(f"deriving values for application id: {application_id}.")
     short_ref = application_json["reference"]
     try:
-        asset_type = (
-            jsonpath_rw_ext.parse(
-                '$.forms[*].questions[*].fields[?(@.key == "yaQoxU")]'
-            )
-            .find(application_json)[0]
-            .value["answer"]
-        )
+        asset_type = get_answer_value(application_json, "yaQoxU")
     except Exception:
         print(
             f"Could not extract asset_type from application: {application_id}."
@@ -23,37 +27,13 @@ def derive_application_values(application_json):
         asset_type = "Not asset type specified."
     try:
         if "COF-R2" in short_ref:  # cof r2
-            funding_one = (
-                jsonpath_rw_ext.parse(
-                    '$.forms[*].questions[*].fields[?(@.key == "JzWvhj")]'
-                )
-                .find(application_json)[0]
-                .value["answer"]
-            )
+            funding_one = get_answer_value(application_json, "JzWvhj")
         elif "COF-R3W1" in short_ref:  # cof r3w1
-            funding_one = (
-                jsonpath_rw_ext.parse(
-                    '$.forms[*].questions[*].fields[?(@.key == "ABROnB")]'
-                )
-                .find(application_json)[0]
-                .value["answer"]
-            )
+            funding_one = get_answer_value(application_json, "ABROnB")
         elif "NSTF-R2" in short_ref:  # Night shelter R2
             funding_one = int(
-                float(
-                    jsonpath_rw_ext.parse(
-                        '$.forms[*].questions[*].fields[?(@.key == "QUCvFy")]'
-                    )
-                    .find(application_json)[0]
-                    .value["answer"]
-                )
-                + float(
-                    jsonpath_rw_ext.parse(
-                        '$.forms[*].questions[*].fields[?(@.key == "pppiYl")]'
-                    )
-                    .find(application_json)[0]
-                    .value["answer"]
-                )
+                float(get_answer_value(application_json, "QUCvFy"))
+                + float(get_answer_value(application_json, "pppiYl"))
             )
         else:
             funding_one = 0
@@ -65,37 +45,13 @@ def derive_application_values(application_json):
         funding_one = 0
     try:
         if "COF-R2" in short_ref:  # cof r2
-            funding_two = (
-                jsonpath_rw_ext.parse(
-                    '$.forms[*].questions[*].fields[?(@.key == "jLIgoi")]'
-                )
-                .find(application_json)[0]
-                .value["answer"]
-            )
+            funding_two = get_answer_value(application_json, "jLIgoi")
         elif "COF-R3W1" in short_ref:  # cof r3w1
-            funding_two = (
-                jsonpath_rw_ext.parse(
-                    '$.forms[*].questions[*].fields[?(@.key == "cLDRvN")]'
-                )
-                .find(application_json)[0]
-                .value["answer"]
-            )
+            funding_two = get_answer_value(application_json, "cLDRvN")
         elif "NSTF-R2" in short_ref:  # Night shelter R2
             funding_two = int(
-                float(
-                    jsonpath_rw_ext.parse(
-                        '$.forms[*].questions[*].fields[?(@.key == "GRWtfV")]'
-                    )
-                    .find(application_json)[0]
-                    .value["answer"]
-                )
-                + float(
-                    jsonpath_rw_ext.parse(
-                        '$.forms[*].questions[*].fields[?(@.key == "zvPzXN")]'
-                    )
-                    .find(application_json)[0]
-                    .value["answer"]
-                )
+                float(get_answer_value(application_json, "GRWtfV"))
+                + float(get_answer_value(application_json, "zvPzXN"))
             )
         else:
             funding_two = 0

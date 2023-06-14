@@ -71,7 +71,7 @@
     "args": [
       "db",
       "downgrade",
-      "30d27919f1d8"
+      "30d27919f1d8" // modify the downgrade revision accordingly
     ]
   },
   {
@@ -102,6 +102,7 @@
         "APPLICATION_STORE_API_HOST": "http://localhost:3002"
       },
       "justMyCode": false,
+      // modify the args accordingly
       "args": ["--roundid", "fc7aa604-989e-4364-98a7-d1234271435a",
         "--app_type", "NSTF"]
   },
@@ -134,6 +135,7 @@
       "DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store",
     },
     "justMyCode": false,
+    // modify the args accordingly
     "args": ["--fund_id", "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
       "--round_id", "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
       "--update_db", "True",
