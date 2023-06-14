@@ -5,27 +5,21 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: Remote Attach (Outside container)",
+      "name": "Docker-Runner assessment-store",
       "type": "python",
       "request": "attach",
-      "connect": { "host": "localhost", "port": 5685 },
+      "connect": {
+        "host": "localhost",
+        "port": 5685
+      },
       "pathMappings": [
-        { "localRoot": "${workspaceFolder}", "remoteRoot": "." }
+        {
+          "localRoot": "${workspaceFolder}",
+          "remoteRoot": "."
+        }
       ],
-      "justMyCode": false
+      "justMyCode": true
     },
-
-    {
-      "name": "Python: Remote Attach (Inside container)",
-      "type": "python",
-      "request": "attach",
-      "connect": { "host": "localhost", "port": 5678 },
-      "pathMappings": [
-        { "localRoot": "${workspaceFolder}", "remoteRoot": "." }
-      ],
-      "justMyCode": false
-    },
-
     {
       "name": "Python: Flask",
       "type": "python",
@@ -34,7 +28,7 @@
       "args": ["run", "--no-reload"],
       "jinja": true,
       "justMyCode": false,
-      "envFile": "${workspaceFolder}/.flaskenv"
+      "envFile": "${workspaceFolder}/.env.development",
     },
     {
       "name": "Python: Current File",
@@ -46,7 +40,7 @@
       "port": 9091,
       "cwd": "${workspaceFolder}",
       "env": { "PYTHONPATH":"${workspaceFolder}"},
-      "envFile": "${workspaceFolder}/.flaskenv",
+      "envFile": "${workspaceFolder}/.env.development",
       "justMyCode": false,
   },
   {
@@ -54,8 +48,7 @@
     "type": "python",
     "request": "launch",
     "module": "flask",
-    "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
-    "envFile": "${workspaceFolder}/.flaskenv",
+    "envFile": "${workspaceFolder}/.env.development",
     "args": [
       "db",
       "upgrade"
@@ -66,8 +59,7 @@
     "type": "python",
     "request": "launch",
     "module": "flask",
-    "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
-    "envFile": "${workspaceFolder}/.flaskenv",
+    "envFile": "${workspaceFolder}/.env.development",
     "args": [
       "db",
       "downgrade",
@@ -79,8 +71,7 @@
     "type": "python",
     "request": "launch",
     "module": "flask",
-    "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
-    "envFile": "${workspaceFolder}/.flaskenv",
+    "envFile": "${workspaceFolder}/.env.development",
     "args": [
       "db",
       "migrate"
@@ -95,16 +86,15 @@
       "host": "localhost",
       "port": 9091,
       "cwd": "${workspaceFolder}",
-      "envFile": "${workspaceFolder}/.flaskenv",
+      "envFile": "${workspaceFolder}/.env.development",
       "env": {
         "PYTHONPATH":"${workspaceFolder}",
-        "DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store",
-        "APPLICATION_STORE_API_HOST": "http://localhost:3002"
       },
       "justMyCode": false,
       // modify the args accordingly
-      "args": ["--roundid", "fc7aa604-989e-4364-98a7-d1234271435a",
-        "--app_type", "NSTF"]
+      "args": [
+        "--roundid", "NSTFR2",
+        "--use_short_name", "True"]
   },
   {
       "name": "Seed Applications in assessment-store",
@@ -115,8 +105,7 @@
       "host": "localhost",
       "port": 9091,
       "cwd": "${workspaceFolder}",
-      "envFile": "${workspaceFolder}/.flaskenv",
-      "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
+      "envFile": "${workspaceFolder}/.env.development",
       "justMyCode": false,
       "args": ["seed_dev_db"]
   },
@@ -129,17 +118,18 @@
     "host": "localhost",
     "port": 9091,
     "cwd": "${workspaceFolder}",
-    "envFile": "${workspaceFolder}/.flaskenv",
+    "envFile": "${workspaceFolder}/.env.development",
     "env": {
       "PYTHONPATH":"${workspaceFolder}",
-      "DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store",
     },
     "justMyCode": false,
     // modify the args accordingly
-    "args": ["--fund_id", "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+    "args": [
+      "--fund_id", "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
       "--round_id", "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
       "--update_db", "True",
-      "--write_csv", "False"]
+      "--write_csv", "False"
+    ]
   },
   {
       "name": "Run Tests: All",
@@ -147,7 +137,7 @@
       "request": "launch",
       "module": "pytest",
       "console": "integratedTerminal",
-      "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
+      "envFile": "${workspaceFolder}/.env.development",
   },
   {
       "name": "Run Tests: Current File (debug)",
@@ -156,7 +146,7 @@
       "module": "pytest",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
-      "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
+      "envFile": "${workspaceFolder}/.env.development",
       "args": [
           "-c",
           "pytest.ini",
@@ -171,11 +161,12 @@
       "module": "pytest",
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env.development",
       "args": [
           "-c",
           "pytest.ini",
           "-k",
-          "test_route_fund_dashboard_shows_flagged"
+          "test_route_fund_dashboard_shows_flagged" // modify this accordingly
       ],
       "justMyCode": false
   },
