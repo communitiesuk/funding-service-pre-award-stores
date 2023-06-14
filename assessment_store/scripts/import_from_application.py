@@ -19,19 +19,19 @@ def init_argparse() -> argparse.ArgumentParser:
     parser.add_argument(
         "--roundid",
         type=str,
-        help="Provide round id of a fund or fund-round short name (eg., COFR2, COFR3W1, NSTFR2...)",
+        help="Provide round id of a fund or fund-round short name (eg., COFR2, COFR3W1, NSTFR2...).",
         required=True,
     )
     parser.add_argument(
         "--app_type",
         type=str,
-        help="Provide app type (eg., COF, NSTF...)",
+        help="Provide app type (eg., COF, NSTF...).",
         required=False,
     )
     parser.add_argument(
         "--use_short_name",
         type=bool,
-        help="Set this to true if using shortname in roundid",
+        help="Set this to true if using shortname in roundid.",
         required=False,
         default=False,
     )
