@@ -1,14 +1,45 @@
+from tests._application_store_json import application_store_json_template
+from tests._application_store_json import (
+    cofr3w1_application_store_json_template,
+)
+from tests._application_store_json import (
+    nstfr2_application_store_json_template,
+)
+
+mappings_application_store_json = {
+    "COFR2W2": application_store_json_template,
+    "COFR2W3": application_store_json_template,
+    "COFR3W1": cofr3w1_application_store_json_template,
+    "NSTFR2": nstfr2_application_store_json_template,
+    "RANDOM_FUND_ROUND": application_store_json_template,
+}
+
+mappings_short_ref = {
+    "COFR2W2": "COF-R2W2",
+    "COFR2W3": "COF-R2W3",
+    "COFR3W1": "COF-R3W1",
+    "NSTFR2": "NSTF-R2",
+    "RANDOM_FUND_ROUND": "RFR",
+}
+
+
 def get_dynamic_rows(
     number_of_apps_per_round,
     number_of_funds,
     number_of_rounds,
-    fund_round_config,
+    fund_round_config_dict,
 ):
     from random import choice, sample
     from string import ascii_uppercase
     from uuid import uuid4
 
-    from tests._application_store_json import application_store_json_template
+    fund_round_short_name = list(fund_round_config_dict.keys())[0]
+    fund_round_config = fund_round_config_dict[fund_round_short_name]
+    application_store_json = mappings_application_store_json[
+        fund_round_short_name
+    ]
+
+    application_short_ref_prefix = mappings_short_ref[fund_round_short_name]
 
     funds = (
         [fund_round_config["fund_id"]]
@@ -42,6 +73,7 @@ def get_dynamic_rows(
         ("Colchester", "England"),
         ("Exeter", "England", "EX44NT"),
         ("Gloucester", "England"),
+        ("Hasland", "England", "S41 0HX"),
         ("Hereford", "England"),
         ("Aberdeen", "Scotland", "AB11 6LX"),
         ("Dundee", "Scotland"),
@@ -50,6 +82,14 @@ def get_dynamic_rows(
         ("Bangor", "Wales"),
         ("Cardiff", "Wales", "CF10 1EP"),
         ("Newport", "Wales", "NP10 8QQ"),
+        ("Solihull", "England", "B90 3AQ"),
+    ]
+
+    funding = [
+        ("2300", "2300"),
+        ("3000", "1500"),
+        ("5000", "4000"),
+        ("1000", "1000"),
     ]
 
     for count, fund_id in enumerate(funds):
@@ -70,13 +110,18 @@ def get_dynamic_rows(
                 print("application id:", app_id)
                 picked_place = choice(places)
                 picked_city = choice(cities)
+                picked_funding = choice(funding)
 
                 project_name = (
                     f"{choice(verbs)} the"
                     f" {choice(adjects)} {picked_place[0]} in {picked_city[0]}"
                 )
 
-                short_ref = "COF-R2W2-" + "".join(sample(ascii_uppercase, 6))
+                short_ref = (
+                    application_short_ref_prefix
+                    + "-"
+                    + "".join(sample(ascii_uppercase, 6))
+                )
 
                 print("Seeding db inc location info")
                 location_json_blob = {
@@ -89,12 +134,14 @@ def get_dynamic_rows(
                     else "QQ12QQ",
                     "location_constituency": "test-constituency",
                 }
-                yield application_store_json_template.substitute(
+                yield application_store_json.substitute(
                     app_id=app_id,
                     project_name=project_name,
                     short_ref=short_ref,
                     round_id=round_id,
                     fund_id=fund_id,
+                    capital_funding=picked_funding[0],
+                    revenue_funding=picked_funding[1],
                     asset_type=picked_place[1],
                     **location_json_blob,
                 )

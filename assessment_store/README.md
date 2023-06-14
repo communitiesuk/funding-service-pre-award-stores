@@ -131,6 +131,16 @@ These are the current pipelines running on the repo:
 * NOTE: THIS IS A CUSTOM DEPLOY WORKFLOW AND DOES NOT YET USE THE WORKFLOW TEMPLATE FOR FUNDING SERVICE DESIGN PENDING UPDATE
 
 # Testing
+## Import submitted applications from application_store
+To import the submitted applications of a round into assessment, execute the below command.
+
+    docker exec -it <container_id> python -m scripts.import_from_application --roundid=c603d114-5364-4474-a0c4-c41cbf4d3bbd --app_type=COF
+or with short name set `--use_short_name=True`
+
+    docker exec -it <container_id> python -m scripts.import_from_application --roundid=COFR3W1 --use_short_name=True
+
+If using VsCode, select the launch config "[Import Applications to Assessment](#launch-config-vscode)" to import the application.
+
 
 ## Seed Postgres DB with mock data
 
@@ -146,6 +156,8 @@ To avoid the interactive prompt, alternatively the fund-round and application co
 such as:
 
         invoke seed_dev_db --fundround COFR2W2 --appcount 1
+
+If using VsCode, select the launch config "[Seed Applications in assessment-store](#launch-config-vscode)" to start seeding.
 
 ## Unit & Accessibility Testing
 
@@ -242,3 +254,56 @@ Ensure the following elements are present in your `manifest.yml`. The `run_migra
 
     services:
         - assessment-store-dev-db
+
+# Launch Configurations in VsCode
+<a id="launch-config-vscode"></a>
+If you are using VsCode, we have prepared frequently used scripts in the launch configuration that can be handy for quick development. Below are some launch configurations that you will find in the `launch.json` file.
+
+*Import Applications to Assessment* - import applications for the provided round from application_store to assessment_store. Please provide the `--roundid` & `--app_type` in the arguments as shown below.
+ ```
+ {
+    "name": "Import Applications to Assessment",
+    "type": "python",
+    "request": "launch",
+    "program": "${workspaceFolder}/scripts/import_from_application.py",
+    .
+    .
+    .
+    // modify the args accordingly
+    "args": ["--roundid", "fc7aa604-989e-4364-98a7-d1234271435a",
+    "--app_type", "NSTF"]
+  },
+ ```
+
+*Seed Applications in assessment-store* - Creates the mock assessments data for the provided round in interactive prompt.
+ ```
+ {
+    "name": "Seed Applications in assessment-store",
+    "type": "python",
+    "request": "launch",
+    .
+    .
+    .
+    "justMyCode": false,
+    "args": ["seed_dev_db"]
+},
+ ```
+
+*Feed location in assessment-store* - Populates the location data in the assessment records for the provided round.
+Please provide the `--fund_id`, `--round_id` and any additional arguments as shown below.
+ ```
+  {
+    "name": "Feed location in assessment-store",
+    "type": "python",
+    "request": "launch",
+    "program": "${workspaceFolder}/scripts/populate_location_data.py",
+    .
+    .
+    .
+    // modify the args accordingly
+    "args": ["--fund_id", "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+      "--round_id", "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+      "--update_db", "True",
+      "--write_csv", "False"]
+  },
+ ```

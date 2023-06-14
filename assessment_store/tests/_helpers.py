@@ -105,4 +105,8 @@ def row_data(
 def seed_database_for_fund_round(apps_per_round, fund_round_config):
     test_input_data = row_data(apps_per_round, 1, 1, fund_round_config)
 
-    bulk_insert_application_record(test_input_data, "COF")
+    type_of_application = fund_round_config[next(iter(fund_round_config))][
+        "type_of_application"
+    ]
+
+    bulk_insert_application_record(test_input_data, type_of_application)

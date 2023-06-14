@@ -71,7 +71,7 @@
     "args": [
       "db",
       "downgrade",
-      "30d27919f1d8"
+      "30d27919f1d8" // modify the downgrade revision accordingly
     ]
   },
   {
@@ -96,10 +96,15 @@
       "port": 9091,
       "cwd": "${workspaceFolder}",
       "envFile": "${workspaceFolder}/.flaskenv",
-      "env": { "PYTHONPATH":"${workspaceFolder}"},
+      "env": {
+        "PYTHONPATH":"${workspaceFolder}",
+        "DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store",
+        "APPLICATION_STORE_API_HOST": "http://localhost:3002"
+      },
       "justMyCode": false,
-      "args": ["--roundid", "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-        "--app_type", "COF"]
+      // modify the args accordingly
+      "args": ["--roundid", "fc7aa604-989e-4364-98a7-d1234271435a",
+        "--app_type", "NSTF"]
   },
   {
       "name": "Seed Applications in assessment-store",
@@ -111,8 +116,30 @@
       "port": 9091,
       "cwd": "${workspaceFolder}",
       "envFile": "${workspaceFolder}/.flaskenv",
+      "env": {"DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store"},
       "justMyCode": false,
       "args": ["seed_dev_db"]
+  },
+  {
+    "name": "Feed location in assessment-store",
+    "type": "python",
+    "request": "launch",
+    "program": "${workspaceFolder}/scripts/populate_location_data.py",
+    "console": "integratedTerminal",
+    "host": "localhost",
+    "port": 9091,
+    "cwd": "${workspaceFolder}",
+    "envFile": "${workspaceFolder}/.flaskenv",
+    "env": {
+      "PYTHONPATH":"${workspaceFolder}",
+      "DATABASE_URL":"postgresql://postgres:password@localhost:5432/assessment_store",
+    },
+    "justMyCode": false,
+    // modify the args accordingly
+    "args": ["--fund_id", "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+      "--round_id", "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+      "--update_db", "True",
+      "--write_csv", "False"]
   },
   {
       "name": "Run Tests: All",
