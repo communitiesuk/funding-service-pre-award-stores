@@ -135,7 +135,7 @@ These are the current pipelines running on the repo:
 To import the submitted applications of a round into assessment, execute the below command.
 
     docker exec -it <container_id> python -m scripts.import_from_application --roundid=c603d114-5364-4474-a0c4-c41cbf4d3bbd --app_type=COF
-or using short name
+or with short name set `--use_short_name=True`
 
     docker exec -it <container_id> python -m scripts.import_from_application --roundid=COFR3W1 --use_short_name=True
 
@@ -269,6 +269,7 @@ If you are using VsCode, we have prepared frequently used scripts in the launch 
     .
     .
     .
+    // modify the args accordingly
     "args": ["--roundid", "fc7aa604-989e-4364-98a7-d1234271435a",
     "--app_type", "NSTF"]
   },
@@ -299,6 +300,7 @@ Please provide the `--fund_id`, `--round_id` and any additional arguments as sho
     .
     .
     .
+    // modify the args accordingly
     "args": ["--fund_id", "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
       "--round_id", "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
       "--update_db", "True",
