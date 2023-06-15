@@ -285,6 +285,26 @@ paths:
                 code: 401
                 status: 'error'
                 message: 'Could not save Flag for application'
+  '/flag_data':
+    get:
+      tags:
+        - flags
+      summary: get flag data by flag id
+      description: get flag data by flag id
+      operationId: api.routes.get_flag
+      responses:
+        200:
+          description: SUCCESS - Flags
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Flag'
+      parameters:
+      - name: flag_id
+        in: query
+        schema:
+          type: string
+        required: true
 
   '/sub_criteria_overview/{application_id}/{sub_criteria_id}':
     parameters:
