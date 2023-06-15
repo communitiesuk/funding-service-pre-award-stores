@@ -3,6 +3,7 @@ from db.models.flags.enums import FlagType
 from db.queries.flags.queries import create_flag_for_application
 from db.queries.flags.queries import find_qa_complete_flag
 from db.queries.flags.queries import retrieve_all_flags_for_application
+from db.queries.flags.queries import retrieve_flag
 from db.queries.flags.queries import retrieve_flag_for_application
 from flask import request
 
@@ -24,6 +25,11 @@ def get_latest_flag_for_application(application_id: str) -> list:
     flag = retrieve_flag_for_application(application_id)
     is_qa_complete = find_qa_complete_flag(application_id)
     return flag | is_qa_complete if flag else {}
+
+
+def get_flag(flag_id: str) -> dict:
+    flag = retrieve_flag(flag_id)
+    return flag
 
 
 def get_all_flags_for_application(application_id: str) -> list:
