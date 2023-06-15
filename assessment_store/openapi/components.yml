@@ -265,6 +265,10 @@ components:
           type: string
         progress:
           type: integer
+    FlagList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Flag'
     Flag:
       type: object
       properties:

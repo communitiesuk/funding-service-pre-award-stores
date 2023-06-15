@@ -207,7 +207,26 @@ paths:
                 code: 401
                 status: 'error'
                 message: 'Could not save Score for application sub-criteria'
-
+  '/flags':
+    get:
+      tags:
+        - flags
+      summary: get all flag for an application
+      description: get all flag for an application
+      operationId: api.routes.get_all_flags_for_application
+      responses:
+        200:
+          description: SUCCESS - List of Flags for an Application
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/FlagList'
+      parameters:
+      - name: application_id
+        in: query
+        schema:
+          type: string
+        required: true
   '/flag':
     get:
       tags:

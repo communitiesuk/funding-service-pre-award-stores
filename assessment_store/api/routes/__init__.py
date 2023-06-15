@@ -8,6 +8,7 @@ from .assessment_routes import sub_criteria
 from .assessment_routes import update_ar_status_to_completed
 from .comment_routes import comments_for_application_sub_criteria
 from .comment_routes import post_comments_for_application_sub_criteria
+from .flag_routes import get_all_flags_for_application
 from .flag_routes import get_latest_flag_for_application
 from .flag_routes import post_flag_for_application
 from .progress_routes import get_progress_for_applications
@@ -33,4 +34,5 @@ __all__ = [
     "post_progress_for_applications",
     "update_ar_status_to_completed",
     "get_application_json",
+    "get_all_flags_for_application",
 ]
