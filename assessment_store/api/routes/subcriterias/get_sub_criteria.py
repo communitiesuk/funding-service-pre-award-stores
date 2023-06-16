@@ -1,4 +1,5 @@
 import copy
+from collections import defaultdict
 
 from config import Config
 from db.queries.assessment_records.queries import get_application_jsonb_blob
@@ -83,7 +84,7 @@ def get_application_form(app_json_blob):
     ]
 
 
-def convert_boolean_values(themes_fields: list[dict]) -> list[dict]:
+def convert_boolean_values(themes_fields: list[dict]) -> None:
     """function checks boolean values in themes_answers & replace
     boolean values to string. (False -> "No", True -> "Yes")
     Args:
@@ -91,65 +92,117 @@ def convert_boolean_values(themes_fields: list[dict]) -> list[dict]:
     """
     current_app.logger.info("Converting boolean values to strings")
     for field in themes_fields:
-        if "answer" in field.keys():
-            if field["answer"] is False:
-                field.update(answer="No")
-            if field["answer"] is True:
-                field.update(answer="Yes")
-            else:
-                continue
+        if "answer" not in field.keys():
+            continue
+        elif field["answer"] is False:
+            field.update(answer="No")
+        elif field["answer"] is True:
+            field.update(answer="Yes")
 
 
-def sort_add_another_component_contents(
+# supports the old version of add-another which was
+# not scalable and did not allow the adding of N* fields
+def deprecated_sort_add_another_component_contents(
     themes_fields: list[dict],
-) -> list[dict]:
+) -> None:
     """function checks for special presentation_type "heading"
     in array of themes fields, if exists, adds question-value
     to an answer key for presentation_type "heading" theme and
     looks for presentation_type of "description" and "amount" with
-    same presentation_type "heading"s field_id, retrieve words only
-    from strings of answers for presentation_type "description" theme
-    & numbers only for presentation_type "amount" theme.
+    same presentation_type "heading"s field_id, retrieve words
+    onlyproject-costs from strings of answers for
+    presentation_type "description" theme& numbers only
+    for presentation_type "amount" theme.
 
     Args:
         themes_answers (_type_): array of dict
     """
-    for heading in themes_fields:
+    for field in themes_fields:
         try:
-            if heading["presentation_type"] == "heading":
-                current_app.logger.info(
-                    "mapping add-another component contents"
-                )
-                heading["answer"] = heading["question"]
-                for theme in themes_fields:
-                    if (
-                        heading["field_id"] in theme.values()
-                        and theme["presentation_type"] == "description"
-                    ):
-                        description_answer = [
-                            description.rsplit(": ", 1)[0]
-                            for description in theme["answer"]
-                        ]
-                        theme["answer"] = description_answer
-
-                    if (
-                        heading["field_id"] in theme.values()
-                        and theme["presentation_type"] == "amount"
-                    ):
-                        amount_answer = [
-                            amount.rsplit(": ", 1)[1]
-                            for amount in theme["answer"]
-                        ]
-
-                        theme["answer"] = amount_answer
-
-            else:
+            if field["presentation_type"] != "heading":
                 continue
 
+            field["answer"] = field["question"]
+            for theme in themes_fields:
+                if not field["field_id"] in theme.values():
+                    continue
+
+                if theme["presentation_type"] == "description":
+                    description_answer = [
+                        description.rsplit(": ", 1)[0]
+                        for description in theme["answer"]
+                    ]
+                    theme["answer"] = description_answer
+
+                if theme["presentation_type"] == "amount":
+                    amount_answer = [
+                        amount.rsplit(": ", 1)[1] for amount in theme["answer"]
+                    ]
+                    theme["answer"] = amount_answer
         except (KeyError, IndexError):
             current_app.logger.debug(
-                f"Answer not provided for field_id: {heading['field_id']}"
+                f"Answer not provided for field_id: {field['field_id']}"
             )
+
+
+# All in use children of MultiInputField in cofr3/nstfr2
+# If we use or add new children, we may need to add support
+_MULTI_INPUT_FORMAT_FRONTEND = defaultdict(
+    lambda: "text",
+    {
+        "NumberField": "currency",
+        "MultilineTextField": "html",
+        # the default should handle these, but let's be explicit
+        "RadioField": "text",
+        "TextField": "text",
+        "MonthYearField": "text",
+        "YesNoField": "text",
+    },
+)
+
+_MULTI_INPUT_FRE_FRONTEND_FORMATTERS = {
+    "RadioField": lambda x: x.capitalize(),
+    "YesNoField": lambda x: "Yes" if bool(x) else "No",
+}
+
+
+def format_add_another_component_contents(
+    themes_fields: list[dict],
+) -> list[dict]:
+    for field in themes_fields:
+        if field.get("presentation_type") != "table":
+            continue
+
+        title, table_config = field["question"]
+        field["question"] = title
+
+        component_id_to_answer_list = {}
+        for answer_container in field["answer"]:
+            for component_id, answer in answer_container.items():
+                if component_id not in component_id_to_answer_list:
+                    component_id_to_answer_list[component_id] = []
+                component_id_to_answer_list[component_id].append(answer)
+
+        table = []
+        for component_id, column_config in table_config.items():
+            title = column_config["column_title"]
+            answers = component_id_to_answer_list.get(component_id)
+
+            frontend_format = _MULTI_INPUT_FORMAT_FRONTEND.get(
+                column_config["type"], "text"
+            )
+            pre_frontend_formatter = _MULTI_INPUT_FRE_FRONTEND_FORMATTERS.get(
+                column_config["type"], lambda x: x
+            )
+            formatted_answers = [
+                pre_frontend_formatter(answer) for answer in answers
+            ]
+
+            if formatted_answers:
+                table.append([title, formatted_answers, frontend_format])
+        field["answer"] = table
+
+    return themes_fields
 
 
 def map_grouped_fields_answers(theme: dict, questions: dict) -> tuple:
@@ -208,6 +261,9 @@ def map_application_with_sub_criteria_themes(
             return f"Incorrect theme id -> {theme_id}"
 
     convert_boolean_values(themes_fields)
-    sort_add_another_component_contents(themes_fields)
-    current_app.logger.info("Successfully mapped subcriteria theme contents")
-    return themes_fields
+
+    # Does not sort on the new version of add-another simply pass the object through for display by assessment frontend
+    # the old version of add-another which was not scalable and did not allow the adding of N* fields
+    deprecated_sort_add_another_component_contents(themes_fields)
+
+    return format_add_another_component_contents(themes_fields)

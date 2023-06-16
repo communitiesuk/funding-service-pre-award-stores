@@ -204,6 +204,25 @@ scored_criteria = [
                                 "presentation_type": "amount",
                                 "question": "Amount",
                             },
+                            # {
+                            #     "field_id": "NdFwgy",
+                            #     "form_name": "funding-required",
+                            #     "field_type": "multiInputField",
+                            #     "presentation_type": "table",
+                            #     "question": [
+                            #         "Capital costs",
+                            #         {
+                            #             "kSZqfv": {
+                            #                 "column_title": "Describe the cost",
+                            #                 "type": "TextField",
+                            #             },
+                            #             "zJAnwc": {
+                            #                 "column_title": "Amount in pounds",
+                            #                 "type": "NumberField",
+                            #             },
+                            #         }
+                            #     ],
+                            # },
                             {
                                 "field_id": "NWTKzQ",
                                 "form_name": "funding-required",
@@ -232,6 +251,25 @@ scored_criteria = [
                                 "presentation_type": "amount",
                                 "question": "Amount",
                             },
+                            # {
+                            #     "field_id": "NyudvF",
+                            #     "form_name": "funding-required",
+                            #     "field_type": "multiInputField",
+                            #     "presentation_type": "table",
+                            #     "question": [
+                            #         "Revenue costs",
+                            #         {
+                            #             "TkDxmD": {
+                            #                 "column_title": "Describe the cost",
+                            #                 "type": "TextField",
+                            #             },
+                            #             "zbqnvm": {
+                            #                 "column_title": "Amount in pounds",
+                            #                 "type": "NumberField",
+                            #             },
+                            #         },
+                            #     ],
+                            # },
                             {
                                 "field_id": "DIZZOC",
                                 "form_name": "funding-required",
@@ -260,6 +298,25 @@ scored_criteria = [
                                 "presentation_type": "amount",
                                 "question": "Amount",
                             },
+                            # {
+                            #     "field_id": "abkrwo",
+                            #     "form_name": "funding-required",
+                            #     "field_type": "multiInputField",
+                            #     "presentation_type": "table",
+                            #     "question": [
+                            #         "Secured match funding",
+                            #         {
+                            #             "kietnW": {
+                            #                 "column_title": "Source of secured funding",
+                            #                 "type": "TextField",
+                            #             },
+                            #             "lwrCQz": {
+                            #                 "column_title": "Amount in pounds",
+                            #                 "type": "NumberField",
+                            #             },
+                            #         },
+                            #     ],
+                            # },
                             {
                                 "field_id": "RvbwSX",
                                 "form_name": "funding-required",
@@ -288,6 +345,25 @@ scored_criteria = [
                                 "presentation_type": "amount",
                                 "question": "Amount",
                             },
+                            # {
+                            #     "field_id": "AOLYnV",
+                            #     "form_name": "funding-required",
+                            #     "field_type": "multiInputField",
+                            #     "presentation_type": "table",
+                            #     "question": [
+                            #         "Unsecured match funding",
+                            #         {
+                            #             "FwPOFx": {
+                            #                 "column_title": "Source of unsecured match funding",
+                            #                 "type": "TextField",
+                            #             },
+                            #             "SPGORz": {
+                            #                 "column_title": "Amount in pounds",
+                            #                 "type": "NumberField",
+                            #             },
+                            #         },
+                            #     ],
+                            # },
                             {
                                 "field_id": "fnIdkJ",
                                 "form_name": "funding-required",
@@ -375,6 +451,25 @@ scored_criteria = [
                                 "presentation_type": "amount",
                                 "question": "Amount",
                             },
+                            # {
+                            #     "field_id": "TzOokX",
+                            #     "form_name": "project-costs",
+                            #     "field_type": "multiInputField",
+                            #     "presentation_type": "table",
+                            #     "question": [
+                            #         "Sources of income",
+                            #         {
+                            #             "GpLJDu": {
+                            #                 "column_title": "Source",
+                            #                 "type": "TextField",
+                            #             },
+                            #             "RRzTlc": {
+                            #                 "column_title": "Amount in pounds",
+                            #                 "type": "NumberField",
+                            #             },
+                            #         },
+                            #     ],
+                            # },
                             {
                                 "field_id": "fbFeEx",
                                 "form_name": "project-costs",
@@ -396,6 +491,25 @@ scored_criteria = [
                                 "presentation_type": "amount",
                                 "question": "Amount",
                             },
+                            # {
+                            #     "field_id": "fbFeEx",
+                            #     "form_name": "project-costs",
+                            #     "field_type": "multiInputField",
+                            #     "presentation_type": "table",
+                            #     "question": [
+                            #         "Running costs",
+                            #         {
+                            #             "BZIEKw": {
+                            #                 "column_title": "Running cost",
+                            #                 "type": "TextField",
+                            #             },
+                            #             "XbgRGb": {
+                            #                 "column_title": "Amount in pounds",
+                            #                 "type": "NumberField",
+                            #             },
+                            #         },
+                            #     ],
+                            # },
                         ],
                     },
                 ],
