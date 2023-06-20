@@ -148,7 +148,7 @@ def get_metadata_for_fund_round_id(
         for app_metadata in assessment_metadatas
     ]
 
-    def sort_flags_in_application_records(
+    def sort_flags_in_assessment_records(
         assessment_records, sort_field, sort_order
     ):
         """Sorts flag data in assessment_records in the provided sort order."""
@@ -161,7 +161,7 @@ def get_metadata_for_fund_round_id(
 
         return assessment_records
 
-    assessment_metadatas = sort_flags_in_application_records(
+    assessment_metadatas = sort_flags_in_assessment_records(
         assessment_metadatas, sort_field="date_created", sort_order="asc"
     )
 
