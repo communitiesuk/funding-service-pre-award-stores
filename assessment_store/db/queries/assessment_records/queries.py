@@ -148,6 +148,23 @@ def get_metadata_for_fund_round_id(
         for app_metadata in assessment_metadatas
     ]
 
+    def sort_flags_in_assessment_records(
+        assessment_records, sort_field, sort_order
+    ):
+        """Sorts flag data in assessment_records in the provided sort order."""
+        sort_key = lambda x: x[sort_field]  # noqa E731
+        reverse = sort_order != "asc"
+        for record in assessment_records:
+            record["flags"] = sorted(
+                record["flags"], key=sort_key, reverse=reverse
+            )
+
+        return assessment_records
+
+    assessment_metadatas = sort_flags_in_assessment_records(
+        assessment_metadatas, sort_field="date_created", sort_order="asc"
+    )
+
     return assessment_metadatas
 
 
