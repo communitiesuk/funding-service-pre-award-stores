@@ -1,6 +1,6 @@
 from typing import List
 
-from config.mappings.mapping_parts.cof_r2_scored_criteria import (
+from config.mappings.cof_mapping_parts.cof_r2_scored_criteria import (
     scored_criteria,
 )
 from db.queries.progress.queries import get_progress_for_app

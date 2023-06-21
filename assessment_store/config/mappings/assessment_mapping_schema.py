@@ -25,6 +25,8 @@ answer_schema = {
                     "checkboxesField",
                     "fileUploadField",
                     "clientSideFileUploadField",
+                    "freeTextField",
+                    "monthYearField",
                 ],
             },
             "presentation_type": {
@@ -40,6 +42,9 @@ answer_schema = {
                     # "numberField",
                     # "emailAddressField",
                     # "telephoneNumberField",
+                    # "monthYearField",
+                    "free_text",
+                    # FreeTextField
                     "address",
                     # covers:
                     # "UkAddressField",

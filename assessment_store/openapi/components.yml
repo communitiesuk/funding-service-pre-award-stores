@@ -211,9 +211,10 @@ components:
               - type: string
               - type: array
           answer:
-            oneOf:
+            anyOf:
               - type: string
               - type: array
+              - nullable: true
     Theme:
       type: object
       properties:

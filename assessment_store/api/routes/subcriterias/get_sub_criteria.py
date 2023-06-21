@@ -177,7 +177,8 @@ def format_add_another_component_contents(
         field["question"] = title
 
         component_id_to_answer_list = {}
-        for answer_container in field["answer"]:
+        # In some cases (optional or path based questions) there is no answer provided
+        for answer_container in field.get("answer", []):
             for component_id, answer in answer_container.items():
                 if component_id not in component_id_to_answer_list:
                     component_id_to_answer_list[component_id] = []
@@ -194,9 +195,12 @@ def format_add_another_component_contents(
             pre_frontend_formatter = _MULTI_INPUT_FRE_FRONTEND_FORMATTERS.get(
                 column_config["type"], lambda x: x
             )
-            formatted_answers = [
-                pre_frontend_formatter(answer) for answer in answers
-            ]
+
+            formatted_answers = (
+                [pre_frontend_formatter(answer) for answer in answers]
+                if answers
+                else None
+            )
 
             if formatted_answers:
                 table.append([title, formatted_answers, frontend_format])
@@ -232,7 +236,8 @@ def map_single_field_answer(theme: list, questions: dict) -> str:
                 theme["field_id"] == app_fields["key"]
                 and "answer" in app_fields.keys()
             ):
-                theme["answer"] = app_fields["answer"]
+                # Some fields are optional so will have no answers
+                theme["answer"] = app_fields.get("answer", None)
 
 
 def map_application_with_sub_criteria_themes(
