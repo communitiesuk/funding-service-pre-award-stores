@@ -63,7 +63,7 @@ unscored_sections = [
                                 "presentation_type": "text",
                                 "question": "Does your organisation use any other names?",
                             },
-                                                        {
+                            {
                                 "field_id": "aHIGbK",
                                 "form_name": "organisation-information-cof-r3-w1",
                                 "field_type": "numberField",
@@ -607,7 +607,7 @@ unscored_sections = [
                         ],
                     },
                 ],
-            }
+            },
         ],
     },
 ]

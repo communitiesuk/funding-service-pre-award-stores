@@ -7,17 +7,17 @@ from config.mappings.cof_mapping_parts.cof_r2_scored_criteria import (
 from config.mappings.cof_mapping_parts.cof_r2_unscored_sections import (
     unscored_sections as cof_unscored_sections_r2,
 )
-from config.mappings.nstf_mapping_parts.nstf_r2_scored_criteria import (
-    scored_criteria as nstf_scored_criteria,
-)
-from config.mappings.nstf_mapping_parts.nstf_r2_unscored_sections import (
-    unscored_sections as nstf_unscored_sections,
-)
 from config.mappings.cof_mapping_parts.cof_r3_scored_criteria import (
     scored_criteria as cof_scored_criteria_r3,
 )
 from config.mappings.cof_mapping_parts.cof_r3_unscored_sections import (
     unscored_sections as cof_unscored_sections_r3,
+)
+from config.mappings.nstf_mapping_parts.nstf_r2_scored_criteria import (
+    scored_criteria as nstf_scored_criteria,
+)
+from config.mappings.nstf_mapping_parts.nstf_r2_unscored_sections import (
+    unscored_sections as nstf_unscored_sections,
 )
 
 cof_r2w2_assessment_mapping = {
