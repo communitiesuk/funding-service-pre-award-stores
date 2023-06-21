@@ -1,4 +1,5 @@
 import jsonpath_rw_ext
+import requests
 
 
 def get_answer_value(application_json, answer_key):
@@ -61,6 +62,22 @@ def derive_application_values(application_json):
             + f"{application_id}."
         )
         funding_two = 0
+    try:
+        if "COF-R2" in short_ref:  # cof r2
+            address = get_answer_value(application_json, "yEmHpp")
+        elif "COF-R3W1" in short_ref:  # cof r3w1
+            address = get_answer_value(application_json, "EfdliG")
+        elif "NSTF-R2" in short_ref:  # Night shelter R2
+            address = get_answer_value(application_json, "mhYQzL")
+        else:
+            address = ""
+    except Exception:
+        print(
+            "Could not extract address from application: "
+            + f"{application_id}."
+        )
+        address = ""
+
     derived_values["application_id"] = application_id
     derived_values["project_name"] = application_json["project_name"]
     derived_values["short_id"] = short_ref
@@ -75,7 +92,32 @@ def derive_application_values(application_json):
             "location_json_blob"
         ]
     else:
-        derived_values["location_json_blob"] = {"error": True}
+        try:
+            raw_postcode = (
+                address.split(",")[-1].strip().replace(" ", "").upper()
+            )
+            result = requests.post(
+                url="http://api.postcodes.io/postcodes",
+                json={"postcodes": [raw_postcode]},
+                headers={"Content-Type": "application/json"},
+            ).json()
+            postcode_data = result["result"][0]["result"]
+
+            derived_values["location_json_blob"] = {
+                "error": False,
+                "postcode": result["result"][0]["query"],
+                "county": postcode_data["admin_county"]
+                if postcode_data["admin_county"]
+                else postcode_data["admin_district"],
+                "region": postcode_data["region"]
+                if postcode_data["region"]
+                else postcode_data["european_electoral_region"],
+                "country": postcode_data["country"],
+                "constituency": postcode_data["parliamentary_constituency"],
+            }
+        except Exception as e:
+            print(f"Error: {e}")
+            derived_values["location_json_blob"] = {"error": True}
 
     FIELD_DEFAULT_VALUE = "Not Available"
     if derived_values["location_json_blob"]["error"] is True:

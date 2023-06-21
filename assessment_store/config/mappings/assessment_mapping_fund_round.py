@@ -73,3 +73,10 @@ fund_round_mapping_config = {
         "type_of_application": "RFR",
     },
 }
+
+fund_round_location_mappings = {
+    "COFR2W2": "yEmHpp",
+    "COFR2W3": "yEmHpp",
+    "COFR3W1": "EfdliG",
+    "NSTFR2": "mhYQzL",
+}

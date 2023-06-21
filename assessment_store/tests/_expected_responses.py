@@ -169,8 +169,8 @@ BULK_UPDATE_LOCATION_JSONB_BLOB = {
     },
     "error_true_location_data": {
         "error": True,
-        "county": "Not found",
-        "country": "Not found",
+        "county": "Not Available",
+        "country": "Not Available",
     },
     "none_location_data": None,
 }
