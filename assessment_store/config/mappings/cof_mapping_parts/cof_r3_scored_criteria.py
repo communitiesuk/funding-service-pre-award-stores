@@ -166,7 +166,7 @@ scored_criteria = [
                                 "form_name": "community-benefits-cof-r3-w1",
                                 "field_type": "CheckboxesField",
                                 "presentation_type": "list",
-                                "question": "What community benefits do you expect to deliver with this project?"
+                                "question": "What community benefits do you expect to deliver with this project?",
                             },
                             {
                                 "field_id": "lgfiGB",
@@ -203,8 +203,8 @@ scored_criteria = [
                             },
                         ],
                     },
-                ]
-            }
+                ],
+            },
         ],
     },
     {
@@ -476,9 +476,9 @@ scored_criteria = [
                                 "question": "Tell us how the asset will be accountable to local people, and involve them in its running",
                             },
                         ],
-                    }
+                    },
                 ],
-            }
+            },
         ],
     },
 ]
