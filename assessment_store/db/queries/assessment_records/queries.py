@@ -179,61 +179,56 @@ def bulk_insert_application_record(
     :param application_json_strings: _description_
     :param application_type: _description_
     """
-    try:
-        print("Beginning bulk application insert.")
-        rows = []
-        # Create a list of application ids to track inserted rows
-        for single_application_json in application_json_strings:
-            if not is_json:
-                single_application_json = json.loads(single_application_json)
+    print("Beginning bulk application insert.")
+    rows = []
+    if len(application_json_strings) < 1:
+        print(
+            f"No new submitted applications found for {application_type}. skipping Import..."
+        )
+        return rows
+    print("\n")
+    # Create a list of application ids to track inserted rows
+    for single_application_json in application_json_strings:
+        if not is_json:
+            single_application_json = json.loads(single_application_json)
 
-            derived_values = derive_application_values(single_application_json)
+        derived_values = derive_application_values(single_application_json)
 
-            row = {
-                **derived_values,
-                "jsonb_blob": single_application_json,
-                "type_of_application": application_type,
-            }
-            print(f"Appending row to insert list, values: '{derived_values}'.")
-            rows.append(row)
+        row = {
+            **derived_values,
+            "jsonb_blob": single_application_json,
+            "type_of_application": application_type,
+        }
+        try:
+            stmt = postgres_insert(AssessmentRecord).values([row])
+
+            upsert_rows_stmt = stmt.on_conflict_do_nothing(
+                index_elements=[AssessmentRecord.application_id]
+            ).returning(AssessmentRecord.application_id)
+
+            print(f"Attempting insert of application {row['application_id']}")
+            result = db.session.execute(upsert_rows_stmt)
+
+            # Check if the inserted application is in result
+            inserted_application_ids = [row.application_id for row in result]
+            if not len(inserted_application_ids):
+                print(
+                    f"Application id already exist in the database: {row['application_id']}"
+                )
+            else:
+                rows.append(row)
+            db.session.commit()
             del single_application_json
+        except exc.SQLAlchemyError as e:
+            db.session.rollback()
+            print(
+                f"Error occurred while inserting application {row['application_id']}, error: {e}"
+            )
 
-        stmt = postgres_insert(AssessmentRecord).values(rows)
-
-        upsert_rows_stmt = stmt.on_conflict_do_nothing(
-            index_elements=[AssessmentRecord.application_id]
-        ).returning(AssessmentRecord.application_id)
-
-        application_ids_to_insert = [row["application_id"] for row in rows]
-        print("\n")
-        print(
-            "Application_ids (i.e. application rows) to insert:"
-            f" {application_ids_to_insert}"
-        )
-        print("Attempting bulk insert of all application rows.")
-        result = db.session.execute(upsert_rows_stmt)
-
-        # Get the actual inserted application ids
-        inserted_application_ids = [row.application_id for row in result]
-        print(
-            "Inserted application_ids (i.e. application rows) :"
-            f" {inserted_application_ids}"
-        )
-
-        # Check for conflicts and print out any pre-existing application ids
-        rejected_application_ids = list(
-            set(application_ids_to_insert) - set(inserted_application_ids)
-        )
-        print(
-            "The following application ids already exist in the database:",
-            rejected_application_ids,
-        )
-
-    except exc.SQLAlchemyError as e:
-        db.session.rollback()
-        print(f"Error running bulk insert: '{e}'.")
-        raise (e)
-    db.session.commit()
+    print(
+        "Inserted application_ids (i.e. application rows) :"
+        f" {[row['application_id'] for row in rows]}"
+    )
     return rows
 
 
