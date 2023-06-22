@@ -122,7 +122,7 @@ scored_criteria = [
                             {
                                 "field_id": "zwQHCl",
                                 "form_name": "current-services-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "Which other day provision do you currently provide?",
                             },
@@ -136,7 +136,7 @@ scored_criteria = [
                             {
                                 "field_id": "wViAiU",
                                 "form_name": "current-services-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "What other services are you currently providing?",
                             },
@@ -169,7 +169,7 @@ scored_criteria = [
                             {
                                 "field_id": "bTSizq",
                                 "form_name": "current-services-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "Which other specialist support will your proposal provide?",
                             },
@@ -195,7 +195,7 @@ scored_criteria = [
                             {
                                 "field_id": "pWFwci",
                                 "form_name": "objectives-and-activities-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "Give a brief summary of your proposal, including what you hope to achieve",
                             },
@@ -209,11 +209,11 @@ scored_criteria = [
                                     {
                                         "FbWEBY": {
                                             "column_title": "Objective",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                         "RXrpzV": {
                                             "column_title": "Activities that will help you achieve the objective",
-                                            "type": "MultilineTextField",
+                                            "type": "MultilinetextField",
                                         },
                                     },
                                 ],
@@ -234,7 +234,7 @@ scored_criteria = [
                                     {
                                         "fFIuPP": {
                                             "column_title": "Milestone",
-                                            "type": "MultilineTextField",
+                                            "type": "MultilinetextField",
                                         },
                                         "PrulfI": {
                                             "column_title": "When will you reach this milestone?",
@@ -258,7 +258,7 @@ scored_criteria = [
                             {
                                 "field_id": "nMfGTS",
                                 "form_name": "local-need-and-support-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "Tell us why your proposal is needed in your area",
                             },
@@ -299,7 +299,7 @@ scored_criteria = [
                             {
                                 "field_id": "lOliDH",
                                 "form_name": "proposed-services-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "Tell us how your proposal will transform your existing services",
                             },
@@ -334,7 +334,7 @@ scored_criteria = [
                             {
                                 "field_id": "brLcqY",
                                 "form_name": "proposed-services-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "Which other additional day provision will your proposal provide?",
                             },
@@ -348,7 +348,7 @@ scored_criteria = [
                             {
                                 "field_id": "kPvpzG",
                                 "form_name": "proposed-services-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "Which other services will you use the funding to provide?",
                             },
@@ -381,7 +381,7 @@ scored_criteria = [
                             {
                                 "field_id": "HTGgzg",
                                 "form_name": "proposed-services-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "Who will your proposal provide specialist support to?",
                             },
@@ -400,7 +400,7 @@ scored_criteria = [
                             {
                                 "field_id": "qMRHPz",
                                 "form_name": "working-in-partnership-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "Describe your important local partners and how they will support your proposal",
                             }
@@ -419,7 +419,7 @@ scored_criteria = [
                             {
                                 "field_id": "PEMJEy",
                                 "form_name": "proposal-sustainability-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "How will this funding support the longer-term sustainability of your proposal beyond the funding period?",
                             },
@@ -511,7 +511,7 @@ scored_criteria = [
                                     {
                                         "dmKRCF": {
                                             "column_title": "Risk",
-                                            "type": "MultilineTextField",
+                                            "type": "MultilinetextField",
                                         },
                                         "GVoNOE": {
                                             "column_title": "Likelihood",
@@ -519,7 +519,7 @@ scored_criteria = [
                                         },
                                         "SRHsAx": {
                                             "column_title": "Proposed mitigation",
-                                            "type": "MultilineTextField",
+                                            "type": "MultilinetextField",
                                         },
                                     },
                                 ],
@@ -574,11 +574,11 @@ scored_criteria = [
                                     {
                                         "dpDFgB": {
                                             "column_title": "Item of expenditure",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                         "iZdZrr": {
                                             "column_title": "Amount",
-                                            "type": "NumberField",
+                                            "type": "numberField",
                                         },
                                         "leIxEX": {
                                             "column_title": "Financial year",
@@ -586,7 +586,7 @@ scored_criteria = [
                                         },
                                         "TrTaZQ": {
                                             "column_title": "How the expenditure is calculated (optional)",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                     },
                                 ],
@@ -615,11 +615,11 @@ scored_criteria = [
                                     {
                                         "cpFthG": {
                                             "column_title": "Item of expenditure",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                         "JtBjFp": {
                                             "column_title": "Amount",
-                                            "type": "NumberField",
+                                            "type": "numberField",
                                         },
                                         "mmwzGc": {
                                             "column_title": "Financial year",
@@ -627,7 +627,7 @@ scored_criteria = [
                                         },
                                         "pMffVz": {
                                             "column_title": "How the expenditure is calculated (optional)",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                     },
                                 ],
@@ -683,7 +683,7 @@ scored_criteria = [
                             {
                                 "field_id": "mADkNz",
                                 "form_name": "building-works-ns",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "list",
                                 "question": "Give a brief summary of the advice you received",
                             },
@@ -711,11 +711,11 @@ scored_criteria = [
                                     {
                                         "cbYcqS": {
                                             "column_title": "What is their job role?",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                         "muRwiL": {
                                             "column_title": "Organisation name",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                     },
                                 ],
@@ -744,7 +744,7 @@ scored_criteria = [
                                     {
                                         "CZZYvE": {
                                             "column_title": "Which contractors will you use to carry out this work?",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                     },
                                 ],
@@ -858,11 +858,11 @@ scored_criteria = [
                                     {
                                         "AfAKxk": {
                                             "column_title": "Funding source",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                         "CrcLtW": {
                                             "column_title": "Amount",
-                                            "type": "NumberField",
+                                            "type": "numberField",
                                         },
                                         "ndySbC": {
                                             "column_title": "Financial year",
@@ -874,7 +874,7 @@ scored_criteria = [
                                         },
                                         "sIFBGc": {
                                             "column_title": "Is the funding secured?",
-                                            "type": "YesNoField",
+                                            "type": "yesNoField",
                                         },
                                     },
                                 ],

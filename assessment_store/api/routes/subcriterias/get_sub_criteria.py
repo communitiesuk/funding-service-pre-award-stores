@@ -145,24 +145,24 @@ def deprecated_sort_add_another_component_contents(
             )
 
 
-# All in use children of MultiInputField in cofr3/nstfr2
+# All in use children of multiInputField in cofr3/nstfr2
 # If we use or add new children, we may need to add support
 _MULTI_INPUT_FORMAT_FRONTEND = defaultdict(
     lambda: "text",
     {
-        "NumberField": "currency",
-        "MultilineTextField": "html",
+        "numberField": "currency",
+        "MultilinetextField": "html",
         # the default should handle these, but let's be explicit
         "RadioField": "text",
-        "TextField": "text",
+        "textField": "text",
         "MonthYearField": "text",
-        "YesNoField": "text",
+        "yesNoField": "text",
     },
 )
 
 _MULTI_INPUT_FRE_FRONTEND_FORMATTERS = {
     "RadioField": lambda x: x.capitalize(),
-    "YesNoField": lambda x: "Yes" if bool(x) else "No",
+    "yesNoField": lambda x: "Yes" if bool(x) else "No",
 }
 
 

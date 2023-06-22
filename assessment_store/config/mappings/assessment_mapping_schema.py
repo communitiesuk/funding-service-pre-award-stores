@@ -18,14 +18,14 @@ answer_schema = {
                     "UkAddressField",
                     "websiteField",
                     "multiInputField",
-                    "multilineTextField",
+                    "multilinetextField",
                     "emailAddressField",
-                    "telephoneNumberField",
+                    "telephonenumberField",
                     "numberField",
                     "checkboxesField",
                     "fileUploadField",
                     "clientSideFileUploadField",
-                    "freeTextField",
+                    "freetextField",
                     "monthYearField",
                 ],
             },
@@ -41,17 +41,17 @@ answer_schema = {
                     # "websiteField",
                     # "numberField",
                     # "emailAddressField",
-                    # "telephoneNumberField",
+                    # "telephonenumberField",
                     # "monthYearField",
                     "free_text",
-                    # FreeTextField
+                    # freetextField
                     "address",
                     # covers:
                     # "UkAddressField",
                     "list",
                     # covers:
                     # "multiInputField",
-                    # "multilineTextField",
+                    # "multilinetextField",
                     # "checkboxesField",
                     "file",
                     # covers:
@@ -70,7 +70,7 @@ answer_schema = {
                     # "amount (£) for add-another component question"
                     "s3bucketPath",
                     # covers:
-                    # "ClientSideFileUploadField",
+                    # "clientSideFileUploadField",
                     "table",
                     # covers:
                     # new add-another component with children support

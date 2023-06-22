@@ -38,14 +38,14 @@ unscored_sections = [
                             {
                                 "field_id": "BwbIlM",
                                 "form_name": "organisation-information-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "What is your organisation's main purpose?",
                             },
                             {
                                 "field_id": "RxbebZ",
                                 "form_name": "organisation-information-ns",
-                                "field_type": "freeTextField",
+                                "field_type": "freetextField",
                                 "presentation_type": "free_text",
                                 "question": "What are your organisation's charitable objects?",
                             },
@@ -113,7 +113,7 @@ unscored_sections = [
                                     {
                                         "mrCotx": {
                                             "column_title": "Full name",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                     },
                                 ],
@@ -193,7 +193,7 @@ unscored_sections = [
                             {
                                 "field_id": "DvBqCJ",
                                 "form_name": "applicant-information-ns",
-                                "field_type": "telephoneNumberField",
+                                "field_type": "telephonenumberField",
                                 "presentation_type": "text",
                                 "question": "Lead contact telephone number",
                             },
@@ -228,7 +228,7 @@ unscored_sections = [
                             {
                                 "field_id": "gJlzFS",
                                 "form_name": "applicant-information-ns",
-                                "field_type": "telephoneNumberField",
+                                "field_type": "telephonenumberField",
                                 "presentation_type": "text",
                                 "question": "Authorised signatory telephone number",
                             },
@@ -261,11 +261,11 @@ unscored_sections = [
                                     {
                                         "EFlBMr": {
                                             "column_title": "Partner organisation name",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                         "JFEJVf": {
                                             "column_title": "Tell us about your partnership and how you plan to work together",
-                                            "type": "MultilineTextField",
+                                            "type": "MultilinetextField",
                                         },
                                     },
                                 ],

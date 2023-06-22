@@ -18,14 +18,14 @@ scored_criteria = [
                             {
                                 "field_id": "kxgWTy",
                                 "form_name": "community-use",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Who in the community uses the asset, or has used it in the past, and who benefits from it?",
                             },
                             {
                                 "field_id": "wudRxx",
                                 "form_name": "project-information",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us how the asset is currently being used, or how it has been used before, and why it's important to the community",
                             },
@@ -38,7 +38,7 @@ scored_criteria = [
                             {
                                 "field_id": "TlGjXb",
                                 "form_name": "project-information",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Explain why the asset is at risk of being lost to the community, or why it has already been lost",
                             },
@@ -52,14 +52,14 @@ scored_criteria = [
                             {
                                 "field_id": "GNhrIs",
                                 "form_name": "community-use",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us how losing the asset would affect, or has already affected, people in the community",
                             },
                             {
                                 "field_id": "qsZLjZ",
                                 "form_name": "community-use",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Why will the asset be lost without community intervention?",
                             },
@@ -78,7 +78,7 @@ scored_criteria = [
                             {
                                 "field_id": "HJBgvw",
                                 "form_name": "community-engagement",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us how you have engaged with the community about your intention to take ownership of the asset, and explain how this has shaped your project plans",
                             },
@@ -93,7 +93,7 @@ scored_criteria = [
                             {
                                 "field_id": "dpLyQh",
                                 "form_name": "community-engagement",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Describe your fundraising activities",
                                 # Determined by Yes-No JCACTy
@@ -107,7 +107,7 @@ scored_criteria = [
                             {
                                 "field_id": "NZKHOp",
                                 "form_name": "community-engagement",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us how your project supports any wider local plans",
                             },
@@ -122,7 +122,7 @@ scored_criteria = [
                             {
                                 "field_id": "BFbzux",
                                 "form_name": "local-support",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us more about the local support for your project",
                                 # Determined by Yes-No KqoaJL
@@ -149,7 +149,7 @@ scored_criteria = [
                             {
                                 "field_id": "CvVZJv",
                                 "form_name": "environmental-sustainability",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us how you have considered the environmental sustainability of your project",
                             }
@@ -214,11 +214,11 @@ scored_criteria = [
                             #         {
                             #             "kSZqfv": {
                             #                 "column_title": "Describe the cost",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "zJAnwc": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         }
                             #     ],
@@ -261,11 +261,11 @@ scored_criteria = [
                             #         {
                             #             "TkDxmD": {
                             #                 "column_title": "Describe the cost",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "zbqnvm": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         },
                             #     ],
@@ -308,11 +308,11 @@ scored_criteria = [
                             #         {
                             #             "kietnW": {
                             #                 "column_title": "Source of secured funding",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "lwrCQz": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         },
                             #     ],
@@ -355,11 +355,11 @@ scored_criteria = [
                             #         {
                             #             "FwPOFx": {
                             #                 "column_title": "Source of unsecured match funding",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "SPGORz": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         },
                             #     ],
@@ -393,7 +393,7 @@ scored_criteria = [
                             {
                                 "field_id": "ieRCkI",
                                 "form_name": "feasibility",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us about the feasibility studies you have carried out for your project",
                             },
@@ -426,7 +426,7 @@ scored_criteria = [
                             {
                                 "field_id": "WDDkVB",
                                 "form_name": "project-costs",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Summarise your cash flow for the running of the asset",
                             },
@@ -461,11 +461,11 @@ scored_criteria = [
                             #         {
                             #             "GpLJDu": {
                             #                 "column_title": "Source",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "RRzTlc": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         },
                             #     ],
@@ -501,11 +501,11 @@ scored_criteria = [
                             #         {
                             #             "BZIEKw": {
                             #                 "column_title": "Running cost",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "XbgRGb": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         },
                             #     ],
@@ -532,7 +532,7 @@ scored_criteria = [
                             {
                                 "field_id": ["wxCszQ", "QJFQgi", "DGNWqE"],
                                 "form_name": "organisation-information",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "grouped_fields",
                                 "question": [
                                     "Describe your previous projects",
@@ -549,7 +549,7 @@ scored_criteria = [
                             {
                                 "field_id": "QWveYc",
                                 "form_name": "skills-and-resources",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Describe any experience you have with community assets similar to this",
                             },
@@ -562,14 +562,14 @@ scored_criteria = [
                             {
                                 "field_id": "JnvsPq",
                                 "form_name": "community-representation",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "List the members of your board",
                             },
                             {
                                 "field_id": "yMCivI",
                                 "form_name": "community-representation",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us about your governance and membership structures",
                             },
@@ -589,7 +589,7 @@ scored_criteria = [
                             {
                                 "field_id": "VNjRgZ",
                                 "form_name": "skills-and-resources",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tells us about the roles you'll recruit",
                             },
@@ -608,7 +608,7 @@ scored_criteria = [
                             {
                                 "field_id": "NUZOvS",
                                 "form_name": "community-representation",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Explain how you'll consider the views of the community in the running of the asset",
                             },
@@ -621,21 +621,21 @@ scored_criteria = [
                             {
                                 "field_id": "YbfbSC",
                                 "form_name": "inclusiveness-and-integration",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Describe anything that might prevent people from using the asset or participating in its running",
                             },
                             {
                                 "field_id": "KuhSWw",
                                 "form_name": "inclusiveness-and-integration",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us how you'll make your project accessible and inclusive to everyone in the community",
                             },
                             {
                                 "field_id": "bkJsiO",
                                 "form_name": "inclusiveness-and-integration",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Describe how the project will bring people together from all over the community",
                             },
@@ -661,7 +661,7 @@ scored_criteria = [
                             {
                                 "field_id": "SrtVAs",
                                 "form_name": "inclusiveness_and_integration",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Describe the planned activities or services that will take place at the asset",
                             },
@@ -675,14 +675,14 @@ scored_criteria = [
                             {
                                 "field_id": "gDTsgG",
                                 "form_name": "community_benefits",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us about these benefits in detail, and explain how you'll measure the benefits it'll bring for the community",
                             },
                             {
                                 "field_id": "kYjJFy",
                                 "form_name": "community_benefits",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Explain how you plan to sustain, and potentially expand, these benefits over time",
                             },
@@ -701,7 +701,7 @@ scored_criteria = [
                             {
                                 "field_id": "UbjYqE",
                                 "form_name": "community_benefits",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us how you'll make sure the whole community benefits from the asset",
                             },
@@ -727,14 +727,14 @@ scored_criteria = [
                             {
                                 "field_id": "oOPUXI",
                                 "form_name": "value-to-the-community",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Tell us about your local community as a whole",
                             },
                             {
                                 "field_id": "NKOmNL",
                                 "form_name": "value-to-the-community",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "text",
                                 "question": "Describe any specific challenges your community faces, and how the asset will address these",
                             },

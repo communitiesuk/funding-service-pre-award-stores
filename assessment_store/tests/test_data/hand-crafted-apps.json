@@ -628,7 +628,7 @@
                 "answer": [
                   "Capital Funding : \u00a32300"
                 ],
-                "key": "MultiInputField",
+                "key": "multiInputField",
                 "title": "Capital costs",
                 "type": "text"
               }
@@ -788,7 +788,7 @@
                 "answer": [
                   "Income Test : \u00a32300"
                 ],
-                "key": "MultiInputField",
+                "key": "multiInputField",
                 "title": "Sources of income",
                 "type": "text"
               }
@@ -802,7 +802,7 @@
                 "answer": [
                   "Running Cost Test : \u00a32300"
                 ],
-                "key": "MultiInputField-2",
+                "key": "multiInputField-2",
                 "title": "Running costs",
                 "type": "text"
               }
@@ -1543,7 +1543,7 @@
                 "answer": [
                   "Capital Funding : \u00a32300"
                 ],
-                "key": "MultiInputField",
+                "key": "multiInputField",
                 "title": "Capital costs",
                 "type": "text"
               }
@@ -1703,7 +1703,7 @@
                 "answer": [
                   "Income Test : \u00a32300"
                 ],
-                "key": "MultiInputField",
+                "key": "multiInputField",
                 "title": "Sources of income",
                 "type": "text"
               }
@@ -1717,7 +1717,7 @@
                 "answer": [
                   "Running Cost Test : \u00a32300"
                 ],
-                "key": "MultiInputField-2",
+                "key": "multiInputField-2",
                 "title": "Running costs",
                 "type": "text"
               }
@@ -2466,7 +2466,7 @@
                 "answer": [
                   "Capital Funding : \u00a32300"
                 ],
-                "key": "MultiInputField",
+                "key": "multiInputField",
                 "title": "Capital costs",
                 "type": "text"
               }
@@ -2626,7 +2626,7 @@
                 "answer": [
                   "Income Test : \u00a32300"
                 ],
-                "key": "MultiInputField",
+                "key": "multiInputField",
                 "title": "Sources of income",
                 "type": "text"
               }
@@ -2640,7 +2640,7 @@
                 "answer": [
                   "Running Cost Test : \u00a32300"
                 ],
-                "key": "MultiInputField-2",
+                "key": "multiInputField-2",
                 "title": "Running costs",
                 "type": "text"
               }

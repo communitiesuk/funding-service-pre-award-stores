@@ -140,14 +140,14 @@ unscored_sections = [
                             {
                                 "field_id": "emVGxS",
                                 "form_name": "organisation-information",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "list",
                                 "question": "What is your organisation's main purpose?",
                             },
                             {
                                 "field_id": ["btTtIb", "SkocDi", "CNeeiC"],
                                 "form_name": "organisation-information",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "grouped_fields",
                                 "question": [
                                     "Tell us about your organisation's main activities",
@@ -184,7 +184,7 @@ unscored_sections = [
                             {
                                 "field_id": "IkmvEt",
                                 "form_name": "organisation-information",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "list",
                                 "question": "Tell us about your partnership and how you plan to work together",
                             },
@@ -217,7 +217,7 @@ unscored_sections = [
                             {
                                 "field_id": "lRfhGB",
                                 "form_name": "applicant-information",
-                                "field_type": "telephoneNumberField",
+                                "field_type": "telephonenumberField",
                                 "presentation_type": "text",
                                 "question": "Lead contact telephone number",
                             },
@@ -243,7 +243,7 @@ unscored_sections = [
                             {
                                 "field_id": "IrIYcA",
                                 "form_name": "project-information",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "list",
                                 "question": "Describe your previous project",
                             },
@@ -270,7 +270,7 @@ unscored_sections = [
                             {
                                 "field_id": "GCjCse",
                                 "form_name": "project-information",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "list",
                                 "question": "Give a brief summary of your project, including what you hope to achieve",
                             },
@@ -324,14 +324,14 @@ unscored_sections = [
                             {
                                 "field_id": "uBXptf",
                                 "form_name": "asset-information",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "list",
                                 "question": "Describe the sale process, e.g. an auction, or the terms of your lease if you have rented the asset",
                             },
                             {
                                 "field_id": "nvMmGE",
                                 "form_name": "asset-information",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "list",
                                 "question": "Describe the expected sale process, or the proposed terms of your lease if you are renting the asset",
                             },
@@ -448,7 +448,7 @@ unscored_sections = [
                             {
                                 "field_id": "vKSMwi",
                                 "form_name": "asset-information",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "list",
                                 "question": "Describe the current status of the Community Asset Transfer",
                             },
@@ -566,7 +566,7 @@ unscored_sections = [
                             {
                                 "field_id": "RmMKzM",
                                 "form_name": "project-qualification",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "list",
                                 "question": "Explain how you think a grant from this fund can be provided in compliance with the Subsidy Control Act (2022)",
                             },
@@ -580,7 +580,7 @@ unscored_sections = [
                             {
                                 "field_id": "xPkdRX",
                                 "form_name": "project-qualification",
-                                "field_type": "multilineTextField",
+                                "field_type": "multilinetextField",
                                 "presentation_type": "list",
                                 "question": "Explain how your project will comply with state aid rules",
                             },
