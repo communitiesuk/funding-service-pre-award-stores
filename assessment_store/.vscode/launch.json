@@ -93,8 +93,7 @@
       "justMyCode": false,
       // modify the args accordingly
       "args": [
-        "--roundid", "NSTFR2",
-        "--use_short_name", "True"]
+        "--fundround", "NSTFR2"]
   },
   {
       "name": "Seed Applications in assessment-store",

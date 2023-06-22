@@ -29,15 +29,18 @@ file_locations_csv = local_workspace + "/locations.csv"
 
 
 def process_locations(
-    fundround, update_db: bool, write_csv: bool, csv_location
+    fund_id, round_id, update_db: bool, write_csv: bool, csv_location
 ):
     """
     Runs within the app context to have access to DB etc. Uses the functions
     in `location_utils.py` to extract postcodes, retrieve location details,
     then update the DB with this information
     """
-    fund_id = fund_round_mapping_config[fundround]["fund_id"]
-    round_id = fund_round_mapping_config[fundround]["round_id"]
+    for k, v in fund_round_mapping_config.items():
+        if round_id == v["round_id"] and fund_id == v["fund_id"]:
+            fundround = k
+            break
+
     with app.app_context():
         application_ids = get_all_application_ids_for_fund_round(
             fund_id, round_id
@@ -74,9 +77,15 @@ def process_locations(
 def init_argparse() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "--fund_id", help="Provide fund id of a fund", required=False
+    )
+    parser.add_argument(
+        "--round_id", help="Provide round id of a fund", required=False
+    )
+    parser.add_argument(
         "--fundround",
         help="Provide fund-round short name (eg., COFR2, COFR3W1, NSTFR2...).",
-        required=True,
+        required=False,
     )
     parser.add_argument(
         "--update_db",
@@ -100,8 +109,18 @@ def init_argparse() -> argparse.ArgumentParser:
 def main() -> None:
     parser = init_argparse()
     args = parser.parse_args()
+    if args.fundround:
+        fund_id = fund_round_mapping_config[args.fundround]["fund_id"]
+        round_id = fund_round_mapping_config[args.fundround]["round_id"]
+    elif args.round_id and args.fund_id:
+        fund_id = args.fund_id
+        round_id = args.round_id
+    else:
+        raise Exception("Please provide all the required arguments.")
+
     process_locations(
-        fundround=args.fundround,
+        fund_id=fund_id,
+        round_id=round_id,
         csv_location=args.csv_location,
         write_csv=strtobool(args.write_csv),
         update_db=strtobool(args.update_db),

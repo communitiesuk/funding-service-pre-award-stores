@@ -19,8 +19,8 @@ def init_argparse() -> argparse.ArgumentParser:
     parser.add_argument(
         "--roundid",
         type=str,
-        help="Provide round id of a fund or fund-round short name (eg., COFR2, COFR3W1, NSTFR2...).",
-        required=True,
+        help="Provide round id of the fund.",
+        required=False,
     )
     parser.add_argument(
         "--app_type",
@@ -29,11 +29,9 @@ def init_argparse() -> argparse.ArgumentParser:
         required=False,
     )
     parser.add_argument(
-        "--use_short_name",
-        type=bool,
-        help="Set this to true if using shortname in roundid.",
+        "--fundround",
+        help="Provide fund-round short name (eg., COFR2, COFR3W1, NSTFR2...).",
         required=False,
-        default=False,
     )
     return parser
 
@@ -42,9 +40,9 @@ def main() -> None:
     parser = init_argparse()
     args = parser.parse_args()
 
-    if args.roundid and args.use_short_name:
-        roundid = fund_round_mapping_config[args.roundid]["round_id"]
-        app_type = fund_round_mapping_config[args.roundid][
+    if args.fundround:
+        roundid = fund_round_mapping_config[args.fundround]["round_id"]
+        app_type = fund_round_mapping_config[args.fundround][
             "type_of_application"
         ]
     elif args.roundid and args.app_type:
