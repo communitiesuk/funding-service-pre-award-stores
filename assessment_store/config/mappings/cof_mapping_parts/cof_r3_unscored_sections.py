@@ -390,13 +390,13 @@ unscored_sections = [
                                 "presentation_type": "list",
                                 "question": "Grants from this fund cannot be used to buy the freehold or premium on the lease of a publicly owned asset. Money must only be used for renovation and refurbishment costs",
                             },
-                            # {
-                            #     "field_id": "tTOrEp",
-                            #     "form_name": "asset-information-cof-r3-w1",
-                            #     "field_type": "ClientSideFileUploadField",
-                            #     "presentation_type": "s3bucketPath",
-                            #     "question": "Upload asset valuation or lease agreement",
-                            # },
+                            {
+                                "field_id": "tTOrEp",
+                                "form_name": "asset-information-cof-r3-w1",
+                                "field_type": "ClientSideFileUploadField",
+                                "presentation_type": "s3bucketPath",
+                                "question": "Upload asset valuation or lease agreement",
+                            },
                         ],
                     },
                     {
