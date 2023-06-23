@@ -350,7 +350,7 @@ scored_criteria = [
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload business plan",
-                                "question": "your-business-plan",
+                                "path": "your-business-plan",
                             },
                             {
                                 "field_id": "NPgwcH",
