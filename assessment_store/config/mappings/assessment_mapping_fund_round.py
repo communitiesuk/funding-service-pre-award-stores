@@ -74,9 +74,29 @@ fund_round_mapping_config = {
     },
 }
 
-fund_round_location_mappings = {
-    "COFR2W2": "yEmHpp",
-    "COFR2W3": "yEmHpp",
-    "COFR3W1": "EfdliG",
-    "NSTFR2": "mhYQzL",
+fund_round_data_key_mappings = {
+    "COFR2W2": {
+        "location": "yEmHpp",
+        "asset_type": "yaQoxU",
+        "funding_one": "JzWvhj",
+        "funding_two": "jLIgoi",
+    },
+    "COFR2W3": {
+        "location": "yEmHpp",
+        "asset_type": "yaQoxU",
+        "funding_one": "JzWvhj",
+        "funding_two": "jLIgoi",
+    },
+    "COFR3W1": {
+        "location": "EfdliG",
+        "asset_type": "oXGwlA",
+        "funding_one": "ABROnB",
+        "funding_two": "cLDRvN",
+    },
+    "NSTFR2": {
+        "location": "mhYQzL",
+        "asset_type": None,
+        "funding_one": ["QUCvFy", "pppiYl"],
+        "funding_two": ["GRWtfV", "zvPzXN"],
+    },
 }

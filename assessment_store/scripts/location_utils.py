@@ -2,7 +2,7 @@ import csv
 
 import requests
 from config.mappings.assessment_mapping_fund_round import (
-    fund_round_location_mappings,
+    fund_round_data_key_mappings,
 )
 from db.queries.assessment_records.queries import (
     bulk_update_location_jsonb_blob,
@@ -31,7 +31,7 @@ def get_postcode_from_questions(form_questions, fundround) -> str:
     Returns the postcode stripped of whitespace and converted to UPPERCASE
     """
     raw_postcode = ""
-    location_key = fund_round_location_mappings[fundround]
+    location_key = fund_round_data_key_mappings[fundround]["location"]
     for question in form_questions:
         for field in question["fields"]:
             if field["key"] == location_key:

@@ -210,7 +210,7 @@ def bulk_insert_application_record(
             result = db.session.execute(upsert_rows_stmt)
 
             # Check if the inserted application is in result
-            inserted_application_ids = [row.application_id for row in result]
+            inserted_application_ids = [item.application_id for item in result]
             if not len(inserted_application_ids):
                 print(
                     f"Application id already exist in the database: {row['application_id']}"

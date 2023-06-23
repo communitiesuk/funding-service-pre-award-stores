@@ -64,11 +64,12 @@ def main() -> None:
             f"Preparing query to GET applications, using URL: '{applications_url}'"
         )
         app_store_response_json = requests.get(applications_url).json()
-        bulk_insert_application_record(
+        inserted_rows = bulk_insert_application_record(
             app_store_response_json,
             application_type=app_type,
             is_json=True,
         )
+        return inserted_rows
 
 
 if __name__ == "__main__":

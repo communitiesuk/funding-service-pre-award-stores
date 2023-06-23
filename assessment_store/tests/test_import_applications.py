@@ -1,4 +1,3 @@
-# noqa: E501
 import json
 from argparse import Namespace
 from unittest import mock
@@ -14,7 +13,14 @@ from tests._helpers import row_data
 
 @pytest.fixture(scope="function")
 def mock_request_get_application(request):
-    fundround = request.getfixturevalue("fundround")
+    if "fundround" in request.fixturenames:
+        fundround = request.getfixturevalue("fundround")
+    if "roundid" in request.fixturenames:
+        roundid = request.getfixturevalue("roundid")
+        for k, v in fund_round_mapping_config.items():
+            if v["round_id"] == roundid:
+                fundround = k
+                break
     appcount = request.getfixturevalue("appcount")
     fund_round_config = {fundround: fund_round_mapping_config[fundround]}
     application_json_strings = row_data(appcount, 1, 1, fund_round_config)
@@ -32,45 +38,37 @@ def mock_request_get_application(request):
 
 
 @pytest.fixture(scope="function")
-def mock_args_fundround(request):
-    fundround = request.getfixturevalue("fundround")
-    with mock.patch(
-        "argparse.ArgumentParser.parse_args",
-        return_value=Namespace(fundround=fundround),
-    ) as args:
-        yield args
+def mock_args(request):
+    if "fundround" in request.fixturenames:
+        fundround = request.getfixturevalue("fundround")
+        with mock.patch(
+            "argparse.ArgumentParser.parse_args",
+            return_value=Namespace(fundround=fundround),
+        ) as args:
+            yield args
+    if "roundid" in request.fixturenames:
+        roundid = request.getfixturevalue("roundid")
+        app_type = request.getfixturevalue("app_type")
+        with mock.patch(
+            "argparse.ArgumentParser.parse_args",
+            return_value=Namespace(
+                roundid=roundid, app_type=app_type, fundround=None
+            ),
+        ) as args:
+            yield args
 
 
 @pytest.fixture(scope="function")
-def mock_bulk_insert_application_records(
-    request, mock_request_get_application
-):
+def mock_bulk_insert_application_records(mock_request_get_application):
     application_json_list = mock_request_get_application
     mock_db_session = [
-        Namespace(application_id=app_json["id"])
+        Namespace(
+            application_id=app_json["id"],
+            round_id=app_json["round_id"],
+            short_ref=app_json["reference"],
+        )
         for app_json in application_json_list
-    ]  # mock.Mock()
-    # mock_postgres_insert = mock.Mock()
-    # mock_postgres_insert.return_value = mock_postgres_insert
-    # mock_upsert_rows_stmt = mock.Mock()
-    # mock_upsert_rows_stmt.on_conflict_do_nothing.return_value = mock_upsert_rows_stmt
-    # mock_result = mock.Mock()
-    # # mock_result.__iter__.return_value = iter([AssessmentRecord()])
-
-    # # Calling bulk_insert_application_record with mocked data and checking if duplicated application id is being handled correctly # noqa: E501
-    # with (mock.patch('db.queries.assessment_records.queries.postgres_insert', mock_postgres_insert),
-    #         mock.patch('db.queries.assessment_records.queries.db.session.execute', return_value=mock_db_session),
-    #         mock.patch('db.queries.assessment_records.queries.db.session.commit', return_value=None)
-    #         ):
-    #     #     mock.patch('main.AssessmentRecord', return_value=AssessmentRecord()),
-    #     #     mock.patch('sqlalchemy.engine.ResultProxy', return_value=mock_result)):
-    #     # mock_upsert_rows_stmt.return_value = mock.Mock()
-    #     # mock_upsert_rows_stmt.return_value.returning.return_value = []
-    #     # mock_db_session.return_value = mock.Mock()
-    #     # mock_db_session.return_value.returning.return_value = [Namespace(application_id=app_json['id']) for app_json in application_json_list] # noqa: E501
-    #     # with mock.patch('main.postgres_insert', mock_postgres_insert):
-    #     yield
-
+    ]
     with (
         mock.patch(
             "scripts.import_from_application.bulk_insert_application_record",
@@ -89,25 +87,35 @@ def mock_bulk_insert_application_records(
     ],
 )
 def test_import_application_with_fundround(
-    request,
     fundround,
     appcount,
-    mock_args_fundround,
+    mock_args,
+    mock_request_get_application,
+    mock_bulk_insert_application_records,
+):
+    roundid = fund_round_mapping_config[fundround]["round_id"]
+    inserted_rows = main()
+    assert len(inserted_rows) == appcount
+    assert inserted_rows[0].round_id == roundid
+    short_ref = "".join(inserted_rows[0].short_ref.split("-")[:2])
+    assert short_ref == fundround
+
+
+@pytest.mark.parametrize(
+    "roundid,app_type,appcount",
+    [
+        ("e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762", "COF", 1),
+    ],
+)
+def test_import_application_with_roundid(
+    roundid,
+    app_type,
+    appcount,
+    mock_args,
     mock_request_get_application,
     mock_bulk_insert_application_records,
 ):
     inserted_rows = main()
     assert len(inserted_rows) == appcount
-    assert True
-
-
-# @pytest.mark.parametrize(
-#     "roundid,app_type,appcount",
-#     [
-#         ("e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762", "COF", 1),
-#     ],
-# )
-# def test_import_application_with_roundid(request, roundid, app_type, appcount, mock_args_fundround, mock_request_get_application, mock_bulk_insert_application_records): # noqa: E501
-#     inserted_rows = main()
-#     assert len(inserted_rows) == appcount
-#     assert True
+    assert inserted_rows[0].round_id == roundid
+    assert app_type in inserted_rows[0].short_ref
