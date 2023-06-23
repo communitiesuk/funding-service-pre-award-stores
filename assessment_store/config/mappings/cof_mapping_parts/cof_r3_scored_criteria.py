@@ -122,6 +122,7 @@ scored_criteria = [
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload supporting evidence",
+                                "path": "your-support-for-the-project",
                             },
                             {
                                 "field_id": "EEBFao",
@@ -321,6 +322,7 @@ scored_criteria = [
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Risks to your project (document upload)",
+                                "path": "your-project-risk-register",
                             },
                         ],
                     },
@@ -344,10 +346,11 @@ scored_criteria = [
                             },
                             {
                                 "field_id": "ndpQJk",
-                                "form_name": "operational-costs-cof-r3-w1",
+                                "form_name": "upload-business-plan-cof-r3-w1",
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload business plan",
+                                "question": "your-business-plan",
                             },
                             {
                                 "field_id": "NPgwcH",

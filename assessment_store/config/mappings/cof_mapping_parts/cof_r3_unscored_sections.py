@@ -396,6 +396,7 @@ unscored_sections = [
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload asset valuation or lease agreement",
+                                "path": "the-asset-in-community-ownership",
                             },
                         ],
                     },
@@ -409,6 +410,7 @@ unscored_sections = [
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload public ownership evidence",
+                                "path": "public-ownership-details-and-declarations",
                             },
                         ],
                     },
@@ -510,6 +512,7 @@ unscored_sections = [
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload business plan",
+                                "path": "your-business-plan",
                             },
                         ],
                     }
