@@ -1,6 +1,9 @@
 import csv
 
 import requests
+from config.mappings.assessment_mapping_fund_round import (
+    fund_round_data_key_mappings,
+)
 from db.queries.assessment_records.queries import (
     bulk_update_location_jsonb_blob,
 )
@@ -21,16 +24,17 @@ def get_application_form(app_json_blob):
     ]
 
 
-def get_postcode_from_questions(form_questions) -> str:
+def get_postcode_from_questions(form_questions, fundround) -> str:
     """
     Retrieves the postcode from the 'address of asset' field from the
     supplied list of application form questions.
     Returns the postcode stripped of whitespace and converted to UPPERCASE
     """
     raw_postcode = ""
+    location_key = fund_round_data_key_mappings[fundround]["location"]
     for question in form_questions:
         for field in question["fields"]:
-            if field["key"] == "yEmHpp":
+            if field["key"] == location_key:
                 answer = field["answer"]
                 raw_postcode = answer.split(",")[-1]
                 if raw_postcode:
@@ -39,8 +43,10 @@ def get_postcode_from_questions(form_questions) -> str:
                     )
 
     if not raw_postcode:
-        raw_postcode = "Not found"
-        print("The key 'yEmHpp' for Project information form not found")
+        raw_postcode = "Not Available"
+        print(
+            f"The location key {location_key} is not found in the form_questions!"
+        )
 
     return raw_postcode
 
@@ -93,11 +99,11 @@ def location_not_found(error: bool = True):
 
     return {
         "error": error,
-        "postcode": "Not found",
-        "country": "Not found",
-        "constituency": "Not found",
-        "region": "Not found",
-        "county": "Not found",
+        "postcode": "Not Available",
+        "country": "Not Available",
+        "constituency": "Not Available",
+        "region": "Not Available",
+        "county": "Not Available",
     }
 
 

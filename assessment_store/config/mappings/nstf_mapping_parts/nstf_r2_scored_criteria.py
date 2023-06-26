@@ -145,11 +145,11 @@ scored_criteria = [
                 ],
             },
             {
-                "id": "targeted_criteria-current",
+                "id": "targeted_criteria_current",
                 "name": "Targeted criteria",
                 "themes": [
                     {
-                        "id": "targeted_criteria",
+                        "id": "targeted_criteria_current",
                         "name": "Targeted criteria",
                         "answers": [
                             {
@@ -357,11 +357,11 @@ scored_criteria = [
                 ],
             },
             {
-                "id": "targeted_criteria-proposed",
+                "id": "targeted_criteria_proposed",
                 "name": "Targeted criteria",
                 "themes": [
                     {
-                        "id": "targeted_criteria",
+                        "id": "targeted_criteria_proposed",
                         "name": "Targeted criteria",
                         "answers": [
                             {
@@ -551,18 +551,26 @@ scored_criteria = [
                                 "question": "Which funding are you applying for?",
                             },
                             {
-                                "field_id": "pVBwci",
+                                "field_id": ["pVBwci", "GRWtfV"],
                                 "form_name": "funding-required-ns",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
-                                "question": "How much revenue are you applying for? 1 April 2023 to 31 March 2024",
+                                "branched_field": 1,
+                                "presentation_type": "grouped_fields",
+                                "question": [
+                                    "How much revenue are you applying for? 1 April 2023 to 31 March 2024",
+                                    "How much revenue are you applying for? 1 April 2023 to 31 March 2024",
+                                ],
                             },
                             {
-                                "field_id": "WDouQc",
+                                "field_id": ["zvPzXN", "WDouQc"],
+                                "branched_field": 1,
+                                "presentation_type": "grouped_fields",
                                 "form_name": "funding-required-ns",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
-                                "question": "How much revenue are you applying for? 1 April 2024 to 31 March 2025",
+                                "question": [
+                                    "How much revenue are you applying for? 1 April 2024 to 31 March 2025",
+                                    "How much revenue are you applying for? 1 April 2024 to 31 March 2025",
+                                ],
                             },
                             {
                                 "field_id": "mCbbyN",
@@ -592,18 +600,26 @@ scored_criteria = [
                                 ],
                             },
                             {
-                                "field_id": "SGjmSM",
+                                "field_id": ["SGjmSM", "QUCvFy"],
                                 "form_name": "funding-required-ns",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
-                                "question": "How much capital are you applying for? 1 April 2023 to 31 March 2024",
+                                "branched_field": 1,
+                                "presentation_type": "grouped_fields",
+                                "question": [
+                                    "How much capital are you applying for? 1 April 2023 to 31 March 2024",
+                                    "How much capital are you applying for? 1 April 2023 to 31 March 2024",
+                                ],
                             },
                             {
-                                "field_id": "wTdyhk",
+                                "field_id": ["wTdyhk", "pppiYl"],
                                 "form_name": "funding-required-ns",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
-                                "question": "How much capital are you applying for? 1 April 2024 to 31 March 2025",
+                                "branched_field": 1,
+                                "presentation_type": "grouped_fields",
+                                "question": [
+                                    "How much capital are you applying for? 1 April 2024 to 31 March 2025",
+                                    "How much capital are you applying for? 1 April 2024 to 31 March 2025",
+                                ],
                             },
                             {
                                 "field_id": "XsAoTv",

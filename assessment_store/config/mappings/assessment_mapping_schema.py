@@ -78,6 +78,10 @@ answer_schema = {
                 ],
             },
             "question": {"type": ["string", "array"]},
+            "branched_field": {
+                "type": ["integer"],
+                "optional": True,
+            },
         },
         "additionalProperties": False,
         "minProperties": 4,
