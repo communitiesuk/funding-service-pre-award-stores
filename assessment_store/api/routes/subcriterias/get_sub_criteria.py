@@ -151,7 +151,7 @@ _MULTI_INPUT_FORMAT_FRONTEND = defaultdict(
     lambda: "text",
     {
         "numberField": "currency",
-        "MultilinetextField": "html",
+        "multilineTextField": "html",
         # the default should handle these, but let's be explicit
         "RadioField": "text",
         "textField": "text",

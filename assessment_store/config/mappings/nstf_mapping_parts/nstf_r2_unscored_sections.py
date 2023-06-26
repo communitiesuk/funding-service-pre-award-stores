@@ -24,7 +24,7 @@ unscored_sections = [
                             {
                                 "field_id": "mhYQzL",
                                 "form_name": "organisation-information-ns",
-                                "field_type": "UkAddressField",
+                                "field_type": "ukAddressField",
                                 "presentation_type": "address",
                                 "question": "Organisation address",
                             },
@@ -38,14 +38,14 @@ unscored_sections = [
                             {
                                 "field_id": "BwbIlM",
                                 "form_name": "organisation-information-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "What is your organisation's main purpose?",
                             },
                             {
                                 "field_id": "RxbebZ",
                                 "form_name": "organisation-information-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "What are your organisation's charitable objects?",
                             },
@@ -193,7 +193,7 @@ unscored_sections = [
                             {
                                 "field_id": "DvBqCJ",
                                 "form_name": "applicant-information-ns",
-                                "field_type": "telephonenumberField",
+                                "field_type": "telephoneNumberField",
                                 "presentation_type": "text",
                                 "question": "Lead contact telephone number",
                             },
@@ -228,7 +228,7 @@ unscored_sections = [
                             {
                                 "field_id": "gJlzFS",
                                 "form_name": "applicant-information-ns",
-                                "field_type": "telephonenumberField",
+                                "field_type": "telephoneNumberField",
                                 "presentation_type": "text",
                                 "question": "Authorised signatory telephone number",
                             },
@@ -265,7 +265,7 @@ unscored_sections = [
                                         },
                                         "JFEJVf": {
                                             "column_title": "Tell us about your partnership and how you plan to work together",
-                                            "type": "MultilinetextField",
+                                            "type": "multilineTextField",
                                         },
                                     },
                                 ],

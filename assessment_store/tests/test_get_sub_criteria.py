@@ -94,7 +94,7 @@ def test_deprecated_sort_add_another_component_contents(
                     },
                     "ffffff": {
                         "column_title": "Example multiline text child",
-                        "type": "MultilinetextField",
+                        "type": "multilineTextField",
                     },
                 },
             ],

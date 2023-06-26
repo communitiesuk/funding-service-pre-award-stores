@@ -122,7 +122,7 @@ scored_criteria = [
                             {
                                 "field_id": "zwQHCl",
                                 "form_name": "current-services-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Which other day provision do you currently provide?",
                             },
@@ -136,7 +136,7 @@ scored_criteria = [
                             {
                                 "field_id": "wViAiU",
                                 "form_name": "current-services-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "What other services are you currently providing?",
                             },
@@ -169,7 +169,7 @@ scored_criteria = [
                             {
                                 "field_id": "bTSizq",
                                 "form_name": "current-services-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Which other specialist support will your proposal provide?",
                             },
@@ -195,7 +195,7 @@ scored_criteria = [
                             {
                                 "field_id": "pWFwci",
                                 "form_name": "objectives-and-activities-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Give a brief summary of your proposal, including what you hope to achieve",
                             },
@@ -213,7 +213,7 @@ scored_criteria = [
                                         },
                                         "RXrpzV": {
                                             "column_title": "Activities that will help you achieve the objective",
-                                            "type": "MultilinetextField",
+                                            "type": "multilineTextField",
                                         },
                                     },
                                 ],
@@ -234,7 +234,7 @@ scored_criteria = [
                                     {
                                         "fFIuPP": {
                                             "column_title": "Milestone",
-                                            "type": "MultilinetextField",
+                                            "type": "multilineTextField",
                                         },
                                         "PrulfI": {
                                             "column_title": "When will you reach this milestone?",
@@ -258,7 +258,7 @@ scored_criteria = [
                             {
                                 "field_id": "nMfGTS",
                                 "form_name": "local-need-and-support-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Tell us why your proposal is needed in your area",
                             },
@@ -299,7 +299,7 @@ scored_criteria = [
                             {
                                 "field_id": "lOliDH",
                                 "form_name": "proposed-services-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Tell us how your proposal will transform your existing services",
                             },
@@ -334,7 +334,7 @@ scored_criteria = [
                             {
                                 "field_id": "brLcqY",
                                 "form_name": "proposed-services-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Which other additional day provision will your proposal provide?",
                             },
@@ -348,7 +348,7 @@ scored_criteria = [
                             {
                                 "field_id": "kPvpzG",
                                 "form_name": "proposed-services-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Which other services will you use the funding to provide?",
                             },
@@ -381,7 +381,7 @@ scored_criteria = [
                             {
                                 "field_id": "HTGgzg",
                                 "form_name": "proposed-services-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Who will your proposal provide specialist support to?",
                             },
@@ -400,7 +400,7 @@ scored_criteria = [
                             {
                                 "field_id": "qMRHPz",
                                 "form_name": "working-in-partnership-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Describe your important local partners and how they will support your proposal",
                             }
@@ -419,7 +419,7 @@ scored_criteria = [
                             {
                                 "field_id": "PEMJEy",
                                 "form_name": "proposal-sustainability-ns",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "How will this funding support the longer-term sustainability of your proposal beyond the funding period?",
                             },
@@ -511,7 +511,7 @@ scored_criteria = [
                                     {
                                         "dmKRCF": {
                                             "column_title": "Risk",
-                                            "type": "MultilinetextField",
+                                            "type": "multilineTextField",
                                         },
                                         "GVoNOE": {
                                             "column_title": "Likelihood",
@@ -519,7 +519,7 @@ scored_criteria = [
                                         },
                                         "SRHsAx": {
                                             "column_title": "Proposed mitigation",
-                                            "type": "MultilinetextField",
+                                            "type": "multilineTextField",
                                         },
                                     },
                                 ],
@@ -683,7 +683,7 @@ scored_criteria = [
                             {
                                 "field_id": "mADkNz",
                                 "form_name": "building-works-ns",
-                                "field_type": "multilinetextField",
+                                "field_type": "multilineTextField",
                                 "presentation_type": "list",
                                 "question": "Give a brief summary of the advice you received",
                             },

@@ -94,7 +94,7 @@ unscored_sections = [
                             {
                                 "field_id": "ZQolYb",
                                 "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "UkAddressField",
+                                "field_type": "ukAddressField",
                                 "presentation_type": "address",
                                 "question": "Organisation address",
                             },
@@ -121,14 +121,14 @@ unscored_sections = [
                             {
                                 "field_id": "emVGxS",
                                 "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "What is your organisation's main purpose?",
                             },
                             {
                                 "field_id": "btTtIb",
                                 "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Tell us about your organisation's main activities",
                             },
@@ -155,21 +155,21 @@ unscored_sections = [
                             {
                                 "field_id": "biTJjF",
                                 "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "UkAddressField",
+                                "field_type": "ukAddressField",
                                 "presentation_type": "address",
                                 "question": "Partner organisation address",
                             },
                             {
                                 "field_id": "IkmvEt",
                                 "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Tell us about your partnership and how you plan to work together",
                             },
                             {
                                 "field_id": "HYsezC",
                                 "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Tell us about any partnerships you've formed, and how they'll help the project be successful",
                             },
@@ -209,7 +209,7 @@ unscored_sections = [
                             {
                                 "field_id": "FhBkJQ",
                                 "form_name": "applicant-information-cof-r3-w1",
-                                "field_type": "telephonenumberField",
+                                "field_type": "telephoneNumberField",
                                 "presentation_type": "text",
                                 "question": "Lead contact telephone number",
                             },
@@ -242,7 +242,7 @@ unscored_sections = [
                             {
                                 "field_id": "ACppgI",
                                 "form_name": "project-information-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Describe the project for which you were given funding",
                             },
@@ -269,14 +269,14 @@ unscored_sections = [
                             {
                                 "field_id": "uypCNM",
                                 "form_name": "project-information-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Give a brief summary of your project, including what you hope to achieve",
                             },
                             {
                                 "field_id": "AgeRbd",
                                 "form_name": "project-information-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Tell us about the planned activities and/or services that will take place in the asset",
                             },
@@ -330,14 +330,14 @@ unscored_sections = [
                             {
                                 "field_id": "mbbYPe",
                                 "form_name": "asset-information-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Describe the sale process, or the terms of your lease if you have rented the asset",
                             },
                             {
                                 "field_id": "XPcbJx",
                                 "form_name": "asset-information-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Describe the expected sale process, or the proposed terms of your lease if you are renting the asset",
                             },
@@ -463,7 +463,7 @@ unscored_sections = [
                             {
                                 "field_id": "jkQGyo",
                                 "form_name": "asset-information-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Describe the current status of the Community Asset Transfer",
                             },
@@ -476,7 +476,7 @@ unscored_sections = [
                             {
                                 "field_id": "EfdliG",
                                 "form_name": "project-information-cof-r3-w1",
-                                "field_type": "UkAddressField",
+                                "field_type": "ukAddressField",
                                 "presentation_type": "address",
                                 "question": "Address of the community asset",
                             },
@@ -589,7 +589,7 @@ unscored_sections = [
                             {
                                 "field_id": "Aoectt",
                                 "form_name": "project-qualification-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Explain how you think a grant from this fund can be provided in compliance with the Subsidy Control Act (2022)",
                             },
@@ -603,7 +603,7 @@ unscored_sections = [
                             {
                                 "field_id": "nGupOl",
                                 "form_name": "project-qualification-cof-r3-w1",
-                                "field_type": "freetextField",
+                                "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Explain how your project will comply with state aid rules",
                             },
