@@ -30,7 +30,7 @@ def test_get_postcode_from_questions():
     with open(test_json_file, "r") as f:
         loaded_test_json = json.load(f)
 
-    result = get_postcode_from_questions(loaded_test_json)
+    result = get_postcode_from_questions(loaded_test_json, "COFR2W3")
     assert expected == result, "wrong postcode returned"
 
 

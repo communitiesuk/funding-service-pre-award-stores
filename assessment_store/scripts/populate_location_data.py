@@ -10,6 +10,9 @@ sys.path.insert(1, ".")
 from db.queries.assessment_records.queries import (  # noqa: E402
     get_application_jsonb_blob,  # noqa: E402
 )  # noqa: E402
+from config.mappings.assessment_mapping_fund_round import (  # noqa: E402
+    fund_round_mapping_config,  # noqa: E402
+)  # noqa: E402
 from distutils.util import strtobool  # noqa: E402
 from scripts.location_utils import (  # noqa: E402
     get_all_application_ids_for_fund_round,  # noqa: E402
@@ -33,6 +36,11 @@ def process_locations(
     in `location_utils.py` to extract postcodes, retrieve location details,
     then update the DB with this information
     """
+    for k, v in fund_round_mapping_config.items():
+        if round_id == v["round_id"] and fund_id == v["fund_id"]:
+            fundround = k
+            break
+
     with app.app_context():
         application_ids = get_all_application_ids_for_fund_round(
             fund_id, round_id
@@ -48,7 +56,7 @@ def process_locations(
         for id in application_ids:
             app_json = get_application_jsonb_blob(id[0])
             questions = get_application_form(app_json)
-            postcode = get_postcode_from_questions(questions)
+            postcode = get_postcode_from_questions(questions, fundround)
             application_ids_to_postcodes[id] = postcode
             just_postcodes.append(postcode)
         postcodes_to_location_data = get_all_location_data(just_postcodes)
@@ -69,10 +77,15 @@ def process_locations(
 def init_argparse() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--fund_id", help="Provide fund id of a fund", required=True
+        "--fund_id", help="Provide fund id of a fund", required=False
     )
     parser.add_argument(
-        "--round_id", help="Provide round id of a fund", required=True
+        "--round_id", help="Provide round id of a fund", required=False
+    )
+    parser.add_argument(
+        "--fundround",
+        help="Provide fund-round short name (eg., COFR2, COFR3W1, NSTFR2...).",
+        required=False,
     )
     parser.add_argument(
         "--update_db",
@@ -96,9 +109,18 @@ def init_argparse() -> argparse.ArgumentParser:
 def main() -> None:
     parser = init_argparse()
     args = parser.parse_args()
+    if args.fundround:
+        fund_id = fund_round_mapping_config[args.fundround]["fund_id"]
+        round_id = fund_round_mapping_config[args.fundround]["round_id"]
+    elif args.round_id and args.fund_id:
+        fund_id = args.fund_id
+        round_id = args.round_id
+    else:
+        raise Exception("Please provide all the required arguments.")
+
     process_locations(
-        fund_id=args.fund_id,
-        round_id=args.round_id,
+        fund_id=fund_id,
+        round_id=round_id,
         csv_location=args.csv_location,
         write_csv=strtobool(args.write_csv),
         update_db=strtobool(args.update_db),

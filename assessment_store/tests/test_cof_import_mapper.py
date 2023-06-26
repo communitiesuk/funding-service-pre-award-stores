@@ -1,9 +1,27 @@
 import json
 
+import pytest
 from db.queries.assessment_records._helpers import derive_application_values
 
 
-def test_derive_cof_values_no_location():
+@pytest.fixture(scope="function")
+def mock_data_key_mappings(monkeypatch):
+    fund_round_data_key_mappings = {
+        "TESTREF": {
+            "location": "yEmHpp",
+            "asset_type": "yaQoxU",
+            "funding_one": "JzWvhj",
+            "funding_two": "jLIgoi",
+        }
+    }
+    monkeypatch.setattr(
+        "db.queries.assessment_records._helpers.fund_round_data_key_mappings",
+        fund_round_data_key_mappings,
+    )
+    yield
+
+
+def test_derive_cof_values_no_location(mock_data_key_mappings):
     single_application_json = (
         "tests/test_data/single_application_no_location.json"
     )
@@ -34,21 +52,27 @@ def test_derive_cof_values_no_location():
     ), "wrong county value"
 
 
-def test_derive_cof_values_location_present_no_error():
+@pytest.mark.parametrize(
+    "postcode,expected_country",
+    [
+        ("B90 4RF", "England"),
+        ("EX22 6TA", "England"),
+    ],
+)
+def test_derive_cof_values_location_present_no_error(
+    postcode, expected_country, mock_data_key_mappings
+):
     single_application_json = (
         "tests/test_data/single_application_no_location.json"
     )
 
     with open(single_application_json, "r") as f:
         loaded_test_json = json.load(f)
-    loaded_test_json["location_json_blob"] = {
-        "error": False,
-        "county": "Cornwall",
-        "region": "region",
-        "country": "country",
-        "constituency": "constituency",
-        "postcode": "postcode",
-    }
+        # set mock location in json
+        loaded_test_json["forms"][12]["questions"][2]["fields"][0][
+            "answer"
+        ] = f"Test Address,null, Test Town Or City,null, {postcode}"
+
     derived_fields = derive_application_values(loaded_test_json)
     assert "TEST-REF" == derived_fields["short_id"], "Wrong Short ID"
 
@@ -56,7 +80,7 @@ def test_derive_cof_values_location_present_no_error():
         derived_fields["location_json_blob"]["error"] is False
     ), "wrong error value"
     assert (
-        "Cornwall" == derived_fields["location_json_blob"]["county"]
+        expected_country == derived_fields["location_json_blob"]["country"]
     ), "wrong county value"
 
 
