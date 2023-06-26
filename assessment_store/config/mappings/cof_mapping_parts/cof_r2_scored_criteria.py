@@ -214,11 +214,11 @@ scored_criteria = [
                             #         {
                             #             "kSZqfv": {
                             #                 "column_title": "Describe the cost",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "zJAnwc": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         }
                             #     ],
@@ -261,11 +261,11 @@ scored_criteria = [
                             #         {
                             #             "TkDxmD": {
                             #                 "column_title": "Describe the cost",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "zbqnvm": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         },
                             #     ],
@@ -308,11 +308,11 @@ scored_criteria = [
                             #         {
                             #             "kietnW": {
                             #                 "column_title": "Source of secured funding",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "lwrCQz": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         },
                             #     ],
@@ -355,11 +355,11 @@ scored_criteria = [
                             #         {
                             #             "FwPOFx": {
                             #                 "column_title": "Source of unsecured match funding",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "SPGORz": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         },
                             #     ],
@@ -461,11 +461,11 @@ scored_criteria = [
                             #         {
                             #             "GpLJDu": {
                             #                 "column_title": "Source",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "RRzTlc": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         },
                             #     ],
@@ -501,11 +501,11 @@ scored_criteria = [
                             #         {
                             #             "BZIEKw": {
                             #                 "column_title": "Running cost",
-                            #                 "type": "TextField",
+                            #                 "type": "textField",
                             #             },
                             #             "XbgRGb": {
                             #                 "column_title": "Amount in pounds",
-                            #                 "type": "NumberField",
+                            #                 "type": "numberField",
                             #             },
                             #         },
                             #     ],

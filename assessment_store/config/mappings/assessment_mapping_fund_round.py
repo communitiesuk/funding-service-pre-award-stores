@@ -2,10 +2,16 @@
 from uuid import uuid4
 
 from config.mappings.cof_mapping_parts.cof_r2_scored_criteria import (
-    scored_criteria as cof_scored_criteria,
+    scored_criteria as cof_scored_criteria_r2,
 )
 from config.mappings.cof_mapping_parts.cof_r2_unscored_sections import (
-    unscored_sections as cof_unscored_sections,
+    unscored_sections as cof_unscored_sections_r2,
+)
+from config.mappings.cof_mapping_parts.cof_r3_scored_criteria import (
+    scored_criteria as cof_scored_criteria_r3,
+)
+from config.mappings.cof_mapping_parts.cof_r3_unscored_sections import (
+    unscored_sections as cof_unscored_sections_r3,
 )
 from config.mappings.nstf_mapping_parts.nstf_r2_scored_criteria import (
     scored_criteria as nstf_scored_criteria,
@@ -16,20 +22,26 @@ from config.mappings.nstf_mapping_parts.nstf_r2_unscored_sections import (
 
 cof_r2w2_assessment_mapping = {
     "schema_id": "cof_r2w2_assessment",
-    "unscored_sections": cof_unscored_sections,
-    "scored_criteria": cof_scored_criteria,
+    "unscored_sections": cof_unscored_sections_r2,
+    "scored_criteria": cof_scored_criteria_r2,
 }
 
 cof_r2w3_assessment_mapping = {
     "schema_id": "cof_r2w3_assessment",
-    "unscored_sections": cof_unscored_sections,
-    "scored_criteria": cof_scored_criteria,
+    "unscored_sections": cof_unscored_sections_r2,
+    "scored_criteria": cof_scored_criteria_r2,
 }
 
 nstf_r2_assessment_mapping = {
     "schema_id": "nstf_r2_assessment",
     "unscored_sections": nstf_unscored_sections,
     "scored_criteria": nstf_scored_criteria,
+}
+
+cof_r3w1_assessment_mapping = {
+    "schema_id": "cof_r3w1_assessment",
+    "unscored_sections": cof_unscored_sections_r3,
+    "scored_criteria": cof_scored_criteria_r3,
 }
 
 COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
@@ -44,6 +56,7 @@ fund_round_to_assessment_mapping = {
     f"{COF_FUND_ID}:{COF_ROUND_2_ID}": cof_r2w2_assessment_mapping,
     f"{COF_FUND_ID}:{COF_ROUND_2_W3_ID}": cof_r2w3_assessment_mapping,
     f"{NSTF_FUND_ID}:{NSTF_ROUND_2_ID}": nstf_r2_assessment_mapping,
+    f"{COF_FUND_ID}:{COF_ROUND_3_W1_ID}": cof_r3w1_assessment_mapping,
 }
 
 fund_round_mapping_config = {

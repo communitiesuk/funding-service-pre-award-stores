@@ -74,11 +74,11 @@ def test_deprecated_sort_add_another_component_contents(
                 {
                     "aaaaaa": {
                         "column_title": "Example text child",
-                        "type": "TextField",
+                        "type": "textField",
                     },
                     "bbbbbb": {
                         "column_title": "Example currency child",
-                        "type": "NumberField",
+                        "type": "numberField",
                     },
                     "cccccc": {
                         "column_title": "Example month year child",
@@ -86,7 +86,7 @@ def test_deprecated_sort_add_another_component_contents(
                     },
                     "dddddd": {
                         "column_title": "Example yes no child",
-                        "type": "YesNoField",
+                        "type": "yesNoField",
                     },
                     "eeeeee": {
                         "column_title": "Example radio child",
@@ -94,7 +94,7 @@ def test_deprecated_sort_add_another_component_contents(
                     },
                     "ffffff": {
                         "column_title": "Example multiline text child",
-                        "type": "MultilineTextField",
+                        "type": "multilineTextField",
                     },
                 },
             ],

@@ -24,7 +24,7 @@ unscored_sections = [
                             {
                                 "field_id": "mhYQzL",
                                 "form_name": "organisation-information-ns",
-                                "field_type": "UkAddressField",
+                                "field_type": "ukAddressField",
                                 "presentation_type": "address",
                                 "question": "Organisation address",
                             },
@@ -113,7 +113,7 @@ unscored_sections = [
                                     {
                                         "mrCotx": {
                                             "column_title": "Full name",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                     },
                                 ],
@@ -261,11 +261,11 @@ unscored_sections = [
                                     {
                                         "EFlBMr": {
                                             "column_title": "Partner organisation name",
-                                            "type": "TextField",
+                                            "type": "textField",
                                         },
                                         "JFEJVf": {
                                             "column_title": "Tell us about your partnership and how you plan to work together",
-                                            "type": "MultilineTextField",
+                                            "type": "multilineTextField",
                                         },
                                     },
                                 ],

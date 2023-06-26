@@ -839,7 +839,7 @@
                             "answer": [
                                 "we : £11"
                             ],
-                            "key": "MultiInputField",
+                            "key": "multiInputField",
                             "title": "Sources of income",
                             "type": "text"
                         }
@@ -853,7 +853,7 @@
                             "answer": [
                                 "ew : £21"
                             ],
-                            "key": "MultiInputField-2",
+                            "key": "multiInputField-2",
                             "title": "Running costs",
                             "type": "text"
                         }
@@ -891,7 +891,7 @@
                 "answer": [
                   "Capital Funding : \u00a32300"
                 ],
-                "key": "MultiInputField",
+                "key": "multiInputField",
                 "title": "Capital costs",
                 "type": "text"
               }

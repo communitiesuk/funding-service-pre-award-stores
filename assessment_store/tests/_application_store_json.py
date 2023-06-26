@@ -632,7 +632,7 @@ application_store_json_template = Template(
                             "answer": [
                                 "Capital Funding : £2300"
                             ],
-                            "key": "MultiInputField",
+                            "key": "multiInputField",
                             "title": "Capital costs",
                             "type": "text"
                         }
@@ -792,7 +792,7 @@ application_store_json_template = Template(
                             "answer": [
                                 "Income Test : £2300"
                             ],
-                            "key": "MultiInputField",
+                            "key": "multiInputField",
                             "title": "Sources of income",
                             "type": "text"
                         }
@@ -806,7 +806,7 @@ application_store_json_template = Template(
                             "answer": [
                                 "Running Cost Test : £2300"
                             ],
-                            "key": "MultiInputField-2",
+                            "key": "multiInputField-2",
                             "title": "Running costs",
                             "type": "text"
                         }

@@ -15,7 +15,7 @@ answer_schema = {
                     "yesNoField",
                     "radiosField",
                     "datePartsField",
-                    "UkAddressField",
+                    "ukAddressField",
                     "websiteField",
                     "multiInputField",
                     "multilineTextField",
@@ -44,10 +44,10 @@ answer_schema = {
                     # "telephoneNumberField",
                     # "monthYearField",
                     "free_text",
-                    # FreeTextField
+                    # freeTextField
                     "address",
                     # covers:
-                    # "UkAddressField",
+                    # "ukAddressField",
                     "list",
                     # covers:
                     # "multiInputField",
@@ -70,7 +70,7 @@ answer_schema = {
                     # "amount (£) for add-another component question"
                     "s3bucketPath",
                     # covers:
-                    # "ClientSideFileUploadField",
+                    # "clientSideFileUploadField",
                     "table",
                     # covers:
                     # new add-another component with children support
