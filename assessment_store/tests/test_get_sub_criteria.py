@@ -120,7 +120,11 @@ def test_deprecated_sort_add_another_component_contents(
             [  # expected_nested_table_tuple
                 ["Example text child", ["test1", "test2"], "text"],
                 ["Example currency child", [1, 2], "currency"],
-                ["Example month year child", ["01-2020", "02-2020"], "monthYearField"],
+                [
+                    "Example month year child",
+                    ["01-2020", "02-2020"],
+                    "monthYearField",
+                ],
                 ["Example yes no child", ["Yes", "No"], "text"],
                 ["Example radio child", ["Low", "High"], "text"],
                 [
