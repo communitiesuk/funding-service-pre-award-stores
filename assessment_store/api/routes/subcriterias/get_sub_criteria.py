@@ -206,7 +206,7 @@ def format_add_another_component_contents(
             if frontend_format == "monthYearField":
                 formatted_answers = (
                     [
-                        f"{answer[component_id + '__month']}/"
+                        f"{answer[component_id + '__month']}-"
                         f"{answer[component_id + '__year']}"
                         for answer in answers
                     ]
