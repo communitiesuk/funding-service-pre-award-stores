@@ -192,7 +192,7 @@ def format_add_another_component_contents(
             frontend_format = _MULTI_INPUT_FORMAT_FRONTEND.get(
                 column_config["type"], "text"
             )
-            
+
             pre_frontend_formatter = _MULTI_INPUT_FRE_FRONTEND_FORMATTERS.get(
                 column_config["type"], lambda x: x
             )
@@ -202,13 +202,17 @@ def format_add_another_component_contents(
                 if answers
                 else None
             )
-          
+
             if frontend_format == "monthYearField":
-                formatted_answers = [
-                    f"{answer[component_id + '__month']}/"
-                    f"{answer[component_id + '__year']}"
-                    for answer in answers                    
-                ] if answers else None
+                formatted_answers = (
+                    [
+                        f"{answer[component_id + '__month']}/"
+                        f"{answer[component_id + '__year']}"
+                        for answer in answers
+                    ]
+                    if answers
+                    else None
+                )
 
             if formatted_answers:
                 table.append([title, formatted_answers, frontend_format])
