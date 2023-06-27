@@ -4,12 +4,10 @@ import pytest
 from api.routes.subcriterias.get_sub_criteria import (
     map_application_with_sub_criteria_themes,
 )
-from db.models.assessment_record.assessment_records import AssessmentRecord
 from db.models.flags.enums import FlagType
 from db.queries.flags.queries import create_flag_for_application
 from tests._expected_responses import APPLICATION_METADATA_RESPONSE
 from tests._expected_responses import ASSESSMENTS_STATS_RESPONSE
-from tests._helpers import get_rows_by_filters
 from tests.conftest import test_input_data
 
 from ._expected_responses import subcriteria_themes_and_expected_response
@@ -17,6 +15,8 @@ from ._expected_responses import subcriteria_themes_and_expected_response
 COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
 COF_ROUND_2_W3_ID = "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f"
+NS_FUND_ID = "13b95669-ed98-4840-8652-d6b7a19964db"
+NS_ROUND_2_ID = "fc7aa604-989e-4364-98a7-d1234271435a"
 
 
 @pytest.mark.apps_to_insert(test_input_data)
@@ -137,42 +137,49 @@ def test_gets_all_apps_for_fund_round(
 
 
 @pytest.mark.parametrize(
-    "url, filter",
+    "url, expected_count",
     [
         (
-            "{fund_id}/{round_id}?search_term={short_id}",
-            lambda row: AssessmentRecord.short_id == row["short_id"],
+            f"{COF_FUND_ID}/{COF_ROUND_2_ID}?search_term={test_input_data[0]['reference']}&search_in=short_id",
+            1,
         ),
         (
-            "{fund_id}/{round_id}?search_term={project_name}",
-            lambda row: AssessmentRecord.project_name == row["project_name"],
+            f"{COF_FUND_ID}/{COF_ROUND_2_ID}?search_term=insertion&search_in=project_name",
+            2,
+        ),
+        (f"{COF_FUND_ID}/{COF_ROUND_2_ID}?asset_type=pub", 1),
+        (f"{COF_FUND_ID}/{COF_ROUND_2_ID}?status=NOT_STARTED", 3),
+        (
+            f"{COF_FUND_ID}/{COF_ROUND_2_ID}?search_term={test_input_data[0]['reference']}"
+            + "&search_in=short_id&asset_type=BAD",
+            0,
         ),
         (
-            "{fund_id}/{round_id}?asset_type={asset_type}",
-            lambda row: AssessmentRecord.asset_type == row["asset_type"],
+            f"{COF_FUND_ID}/{COF_ROUND_2_ID}?search_term={test_input_data[0]['reference']}",
+            3,
         ),
         (
-            "{fund_id}/{round_id}?status=NOT_STARTED",
-            lambda row: AssessmentRecord.workflow_status == "NOT_STARTED",
+            f"{NS_FUND_ID}/{NS_ROUND_2_ID}?search_term=shelter&search_in=organisation_name",
+            1,
+        ),
+        (
+            f"{NS_FUND_ID}/{NS_ROUND_2_ID}?search_term=bad_search&search_in=organisation_name",
+            0,
+        ),
+        (f"{NS_FUND_ID}/{NS_ROUND_2_ID}?funding_type=capital", 1),
+        (f"{NS_FUND_ID}/{NS_ROUND_2_ID}?funding_type=revenue", 0),
+        (
+            f"{NS_FUND_ID}/{NS_ROUND_2_ID}?search_term=shelter&search_in=organisation_name&funding_type=revenue",
+            0,
         ),
     ],
 )
 @pytest.mark.apps_to_insert(test_input_data)
-def test_search(url, filter, client, seed_application_records):
+def test_search(url, expected_count, client, seed_application_records):
 
-    application = seed_application_records[0]
+    response_json = client.get("/application_overviews/" + url).json
 
-    filters = [filter(application)]
-
-    rows = get_rows_by_filters(
-        application["fund_id"], application["round_id"], filters
-    )
-
-    response_json = client.get(
-        "/application_overviews/" + url.format(**application)
-    ).json
-
-    assert len(response_json) == len(rows)
+    assert len(response_json) == expected_count
 
 
 @pytest.mark.skip(reason="used for tdd only")

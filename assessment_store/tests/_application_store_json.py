@@ -2398,7 +2398,7 @@ nstfr2_application_store_json_template = Template(
                             "key": "nURkuc",
                             "type": "text",
                             "title": "What is the name of the local authority where your proposal will be based?",
-                            "answer": "Test Local Need And Support NS Form"
+                            "answer": "$local_authority"
                         },
                         {
                             "key": "lFTgWk",
@@ -2485,7 +2485,7 @@ nstfr2_application_store_json_template = Template(
                             "key": "NxVqXd",
                             "type": "list",
                             "title": "What funding are you applying for?",
-                            "answer": "both-revenue-and-capital"
+                            "answer": "$funding_type"
                         }
                     ],
                     "status": "COMPLETED",
@@ -2575,7 +2575,7 @@ nstfr2_application_store_json_template = Template(
                             "key": "opFJRm",
                             "type": "text",
                             "title": "Organisation name",
-                            "answer": "Test organisation name"
+                            "answer": "$org_name"
                         },
                         {
                             "key": "mhYQzL",

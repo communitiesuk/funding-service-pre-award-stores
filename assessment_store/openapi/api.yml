@@ -26,6 +26,22 @@ paths:
       schema:
         type: string
         format: path
+    - name: search_in
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
+    - name: funding_type
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
     - name: search_term
       in: query
       style: form

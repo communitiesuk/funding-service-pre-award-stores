@@ -21,7 +21,9 @@ from sqlalchemy import and_
 from sqlalchemy import bindparam
 from sqlalchemy import exc
 from sqlalchemy import func
+from sqlalchemy import or_
 from sqlalchemy import select
+from sqlalchemy import String
 from sqlalchemy import update
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.orm import defer
@@ -35,6 +37,8 @@ def get_metadata_for_fund_round_id(
     search_term: str = "",
     asset_type: str = "",
     status: str = "",
+    search_in: str = "",
+    funding_type: str = "",
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
     which returns all rows matching the given fund_id and round_id. Has
@@ -55,22 +59,45 @@ def get_metadata_for_fund_round_id(
             AssessmentRecord.round_id == round_id,
         )
     )
-
     if search_term != "":
         current_app.logger.info(
-            f"Performing assessment search on search term: {search_term}."
+            f"Performing assessment search on search term: {search_term} in fields {search_in}"
         )
         search_term = search_term.replace(" ", "%")
-        statement = statement.where(
-            AssessmentRecord.short_id.like(f"%{search_term}%")
-            | AssessmentRecord.project_name.ilike(f"%{search_term}%")
-        )
+
+        filters = []
+        if "short_id" in search_in:
+            filters.append(AssessmentRecord.short_id.ilike(f"%{search_term}%"))
+        if "project_name" in search_in:
+            filters.append(
+                AssessmentRecord.project_name.ilike(f"%{search_term}%")
+            )
+        if "organisation_name" in search_in:
+            filters.append(
+                func.cast(AssessmentRecord.organisation_name, String).ilike(
+                    f"%{search_term}%"
+                )
+            )
+
+        statement = statement.filter(or_(*filters))
 
     if asset_type != "ALL" and asset_type != "":
         current_app.logger.info(
             f"Performing assessment search on asset type: {asset_type}."
         )
         statement = statement.where(AssessmentRecord.asset_type == asset_type)
+
+    if funding_type != "ALL" and funding_type != "":
+        current_app.logger.info(
+            f"Performing assessment search on funding type: {funding_type}."
+        )
+        # TODO SS figure out how to stop double quoting this - it works but is ugly
+        # it's because when we retrieve the json element as funding_type, we get it as a json element, not pure text,
+        # so it has the double quotes from the json so we have to include them in the comparison
+        statement = statement.where(
+            func.cast(AssessmentRecord.funding_type, String)
+            == f'"{funding_type}"'
+        )
 
     match status:
         case FlagType.QA_COMPLETED.name:

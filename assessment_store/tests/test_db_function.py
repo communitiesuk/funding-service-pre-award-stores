@@ -89,7 +89,7 @@ def test_find_assessor_task_list_ui_metadata(seed_application_records):
     assert metadata == {
         "fund_id": seed_application_records[0]["fund_id"],
         "project_name": "Mock that is used to test Assessors Task List",
-        "short_id": "COF-R2W2-JWBTLN",
+        "short_id": seed_application_records[0]["short_id"],
         "round_id": seed_application_records[0]["round_id"],
         "workflow_status": "NOT_STARTED",
         "date_submitted": "2022-10-27T08:32:13.383999",

@@ -17,6 +17,7 @@ from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import TEXT
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import column_property
 from sqlalchemy.orm import relationship
 
 BaseModel: DefaultMeta = db.Model
@@ -73,6 +74,27 @@ class AssessmentRecord(BaseModel):
     flags = relationship("Flag")
 
     location_json_blob = Column("location_json_blob", JSONB, nullable=True)
+
+    # These are defined as column_properties not as hybrid_property due to performance
+    # Using column_property below forces the json parsing to be done on the DB side which is quicker than in python
+    organisation_name = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "opFJRm").answer',
+        )
+    )
+    local_authority = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "nURkuc").answer',
+        )
+    )
+    funding_type = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "NxVqXd").answer',
+        )
+    )
 
 
 Index(

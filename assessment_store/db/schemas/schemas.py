@@ -11,6 +11,7 @@ from marshmallow import Schema
 from marshmallow.fields import Enum
 from marshmallow.fields import Field
 from marshmallow.fields import Nested
+from marshmallow.fields import String
 from marshmallow_sqlalchemy import auto_field
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
@@ -27,6 +28,9 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     flags = Nested(
         "FlagMetadata", many=True
     )  # TODO: Retrieve only latest flag
+    organisation_name = String()
+    funding_type = String()
+    local_authority = String()
 
 
 class ScoreMetadata(SQLAlchemyAutoSchema):

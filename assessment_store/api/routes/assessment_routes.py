@@ -28,8 +28,10 @@ def all_assessments_for_fund_round_id(
     fund_id: str,
     round_id: str,
     search_term: str = "",
+    funding_type: str = "ALL",
     asset_type: str = "ALL",
     status: str = "ALL",
+    search_in: str = "",
 ) -> List[Dict]:
     """all_assessments_for_fund_round_id Function used by the endpoint
     `/application_overviews/{fund_id}/{round_id}`.
@@ -45,6 +47,8 @@ def all_assessments_for_fund_round_id(
         search_term=search_term,
         asset_type=asset_type,
         status=status,
+        search_in=search_in,
+        funding_type=funding_type,
     )
     return app_list
 
