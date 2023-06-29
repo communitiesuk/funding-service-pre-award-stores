@@ -216,7 +216,8 @@ def test_create_flag(_db, seed_application_records):
         "status": FlagStatus.RAISED,
         "allocation": "TEAM_1",
     }
-    create_flag_v2(**flag_data)
+    create_result = create_flag_v2(**flag_data)
+    assert create_result.latest_status == FlagStatus.RAISED
 
     stmt = select(AssessmentRecord).where(
         AssessmentRecord.application_id == app_id

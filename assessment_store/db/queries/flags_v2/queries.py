@@ -38,6 +38,7 @@ def create_flag_for_application(
     )
     db.session.add(assessment_flag)
     db.session.commit()
+    return assessment_flag
 
 
 def add_update_to_assessment_flag(
