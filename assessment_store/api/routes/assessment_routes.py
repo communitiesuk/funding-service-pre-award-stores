@@ -20,8 +20,13 @@ from db.queries.assessment_records.queries import update_status_to_completed
 from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
 from db.queries.flags.queries import find_qa_complete_flag_for_applications
 from db.queries.flags.queries import get_latest_flags_for_each
+from db.queries.flags_v2.queries import add_update_to_assessment_flag
+from db.queries.flags_v2.queries import create_flag_for_application
+from db.queries.flags_v2.queries import get_flags_for_application
 from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
+from db.schemas.schemas import AssessmentFlagSchema
 from flask import current_app
+from flask import request
 
 
 def all_assessments_for_fund_round_id(
@@ -220,3 +225,26 @@ def assessment_stats_for_fund_round_id(
 
 def get_application_json(application_id):
     return get_application_jsonb_blob(application_id)
+
+
+def get_all_flags_v2_for_application(application_id):
+    current_app.logger.info(f"Get all flags for application {application_id}")
+    flags = get_flags_for_application(application_id)
+    flag_schema = AssessmentFlagSchema()
+    return flag_schema.dump(flags, many=True)
+
+
+def create_flag_v2_for_application():
+    create_flag_json = request.json
+    current_app.logger.info(
+        f"Create flag for application {create_flag_json['application_id']}"
+    )
+    created_flag = create_flag_for_application(**create_flag_json)
+    return AssessmentFlagSchema().dump(created_flag)
+
+
+def update_flag_v2_for_application():
+    current_app.logger.info(f"Update flag")
+    update_flag_json = request.json
+    updated_flag = add_update_to_assessment_flag(**update_flag_json)
+    return AssessmentFlagSchema().dump(updated_flag)

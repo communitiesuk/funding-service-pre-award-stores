@@ -4,6 +4,8 @@ from uuid import uuid4
 import pytest
 from app import create_app
 from db.models.flags.flags import Flag
+from db.models.flags_v2.assessment_flag import AssessmentFlag
+from db.models.flags_v2.flag_update import FlagUpdate
 from db.queries import bulk_insert_application_record
 from db.queries import delete_assessment_record
 from tests._sql_infos import attach_listeners
@@ -48,17 +50,36 @@ def seed_application_records(
             app["fund_id"] = random_fund_id
             app["round_id"] = random_round_id
         app_flags = []
+        app_flags_v2 = []
         if "flags" in app:
-            app_flags = app["flags"]
-            app.pop("flags")
+            app_flags = app.pop("flags")
+        app_flags_v2 = []
+        if "flags_v2" in app:
+            app_flags_v2 = app.pop("flags_v2")
         inserted_application = bulk_insert_application_record(
             [app], "COF", True
         )[0]
         app["flags"] = app_flags
+        app["flags_v2"] = app_flags_v2
         inserted_applications.append(inserted_application)
         for f in app_flags:
             flag = Flag(application_id=app_id, **f)
             _db.session.add(flag)
+        for f in app_flags_v2:
+            flag_update = FlagUpdate(
+                justification=f["justification"],
+                user_id=f["user_id"],
+                status=f["status"],
+                allocation=f["allocation"],
+            )
+            assessment_flag = AssessmentFlag(
+                application_id=app_id,
+                sections_to_flag=f["sections_to_flag"],
+                latest_allocation=f["allocation"],
+                latest_status=f["status"],
+                updates=[flag_update],
+            )
+            _db.session.add(assessment_flag)
         _db.session.commit()
     # Supplied the rows we inserted for tests to use in their actions
     yield inserted_applications

@@ -1,14 +1,21 @@
+import json
 import random
+from unittest import mock
+from uuid import uuid4
 
 import pytest
 from api.routes.subcriterias.get_sub_criteria import (
     map_application_with_sub_criteria_themes,
 )
 from db.models.flags.enums import FlagType
+from db.models.flags_v2.assessment_flag import AssessmentFlag
+from db.models.flags_v2.flag_update import FlagStatus
 from db.queries.flags.queries import create_flag_for_application
 from tests._expected_responses import APPLICATION_METADATA_RESPONSE
 from tests._expected_responses import ASSESSMENTS_STATS_RESPONSE
 from tests.conftest import test_input_data
+from tests.test_data.flags import add_flag_update_request_json
+from tests.test_data.flags import create_flag_request_json
 
 from ._expected_responses import subcriteria_themes_and_expected_response
 
@@ -343,3 +350,62 @@ def test_get_application_json(client, seed_application_records):
 
     json_blob = response.json
     assert application_id == json_blob["application_id"]
+
+
+expected_flag = AssessmentFlag(
+    application_id=uuid4(),
+    id=uuid4(),
+    latest_status=FlagStatus.STOPPED,
+    latest_allocation="TEAM_2",
+    sections_to_flag=[],
+    updates=[],
+)
+
+
+def test_get_flags_v2(client, mocker):
+    mocker.patch(
+        "api.routes.assessment_routes.get_flags_for_application",
+        return_value=[expected_flag],
+    )
+    response = client.get("/flags_v2/app_id")
+    assert response.status_code == 200
+    assert len(response.json) == 1
+    assert response.json[0]["id"] == str(expected_flag.id)
+
+
+def test_create_flag_v2(client):
+    request_body = {
+        **create_flag_request_json,
+        "application_id": str(uuid4()),
+    }
+    with mock.patch(
+        "api.routes.assessment_routes.create_flag_for_application",
+        return_value=expected_flag,
+    ) as create_mock:
+        response = client.post(
+            "/flags_v2/",
+            data=json.dumps(request_body),
+            content_type="application/json",
+        )
+        assert response.status_code == 200
+        create_mock.assert_called_with(**request_body)
+        assert response.json["id"] == str(expected_flag.id)
+
+
+def test_update_flag_v2(client):
+    request_body = {
+        **add_flag_update_request_json,
+        "assessment_flag_id": str(uuid4()),
+    }
+    with mock.patch(
+        "api.routes.assessment_routes.add_update_to_assessment_flag",
+        return_value=expected_flag,
+    ) as update_mock:
+        response = client.put(
+            "/flags_v2/",
+            data=json.dumps(request_body),
+            content_type="application/json",
+        )
+        assert response.status_code == 200
+        update_mock.assert_called_once_with(**request_body)
+        assert response.json["id"] == str(expected_flag.id)

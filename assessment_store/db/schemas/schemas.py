@@ -5,6 +5,8 @@ from db.models.assessment_record.enums import Status
 from db.models.comment import Comment
 from db.models.comment.enums import CommentType
 from db.models.flags.enums import FlagType
+from db.models.flags_v2.assessment_flag import AssessmentFlag
+from db.models.flags_v2.flag_update import FlagUpdate
 from db.models.score import Score
 from marshmallow import fields
 from marshmallow import Schema
@@ -31,6 +33,7 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     organisation_name = String()
     funding_type = String()
     local_authority = String()
+    flags_v2 = Nested("AssessmentFlagSchema", many=True)
 
 
 class ScoreMetadata(SQLAlchemyAutoSchema):
@@ -96,3 +99,15 @@ class AssessmentSubCriteriaMetadata(AssessmentRecordMetadata):
 class ProgressSchema(Schema):
     application_id = fields.Str()
     scored_sub_criterias = fields.Int()
+
+
+class AssessmentFlagSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = AssessmentFlag
+
+    updates = Nested("FlagUpdateSchema", many=True)
+
+
+class FlagUpdateSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = FlagUpdate

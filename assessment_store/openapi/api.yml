@@ -678,3 +678,98 @@ paths:
             items:
               type: string
         required: true
+  '/flags_v2/{application_id}':
+    get:
+      tags:
+        - flags_v2
+      summary: get all flags for an application, with updates
+      operationId: api.routes.get_all_flags_v2_for_application
+      parameters:
+      - name: application_id
+        in: path
+        schema:
+          type: string
+        required: true
+      responses:
+        200:
+          description: SUCCESS - Flags for an Application
+          content:
+            application/json:
+              schema:
+                type: array
+  '/flags_v2/':
+    post:
+      tags:
+        - flags_v2
+      summary: create a new flag for an application
+      description: post a flag for an application
+      operationId: api.routes.create_flag_v2_for_application
+      requestBody:
+        description: Flag creation parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              allocation: 'TEAM_1'
+              status: 0
+              sections_to_flag: ['section_1']
+              user_id: '4d9d95c1-d40b-43fb-987a-d5339ec9c0b8'
+              justification: 'some text'
+              application_id: '0b053e71-15f7-4ba8-86d7-3e3b9e4c6fde'
+
+      responses:
+        201:
+          description: SUCCESS - Flag for Application Submitted
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: ERROR - Could not Save Flag
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'Could not save Flag for application'
+    put:
+      tags:
+        - flags_v2
+      summary: update a flag for an application
+      description: put a flag for an application
+      operationId: api.routes.update_flag_v2_for_application
+      requestBody:
+        description: Flag update parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              justification: 'some text'
+              assessment_flag_id: '39085144-1ee3-4a3d-a44d-073162394b14'
+              status: 0
+              allocation: 'TEAM_1'
+              user_id: '3cc94302-7d0a-4b01-a82e-2e8a4696d7f2'
+
+      responses:
+        201:
+          description: SUCCESS - Flag for Application updated
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: ERROR - Could not Save Flag
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'Could not save Flag for application'
