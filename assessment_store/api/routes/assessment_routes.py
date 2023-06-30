@@ -16,6 +16,7 @@ from db.queries.assessment_records.queries import get_application_jsonb_blob
 from db.queries.assessment_records.queries import (
     get_assessment_sub_critera_state,
 )
+from db.queries.assessment_records.queries import get_metadata_for_application
 from db.queries.assessment_records.queries import update_status_to_completed
 from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
 from db.queries.flags.queries import find_qa_complete_flag_for_applications
@@ -29,6 +30,17 @@ from flask import current_app
 from flask import request
 
 
+def assessment_metadata_for_application_id(application_id: str) -> Dict:
+    return get_metadata_for_application(application_id)
+
+
+def _fix_country(country):
+    country = country.strip().casefold()
+    if country == "northernireland":
+        country = "northern ireland"
+    return country
+
+
 def all_assessments_for_fund_round_id(
     fund_id: str,
     round_id: str,
@@ -37,6 +49,7 @@ def all_assessments_for_fund_round_id(
     asset_type: str = "ALL",
     status: str = "ALL",
     search_in: str = "",
+    countries: str = "all",
 ) -> List[Dict]:
     """all_assessments_for_fund_round_id Function used by the endpoint
     `/application_overviews/{fund_id}/{round_id}`.
@@ -45,13 +58,13 @@ def all_assessments_for_fund_round_id(
     :param round_id: The stringified round UUID.
     :return: A list of dictionaries.
     """
-
     app_list = get_metadata_for_fund_round_id(
         fund_id=fund_id,
         round_id=round_id,
         search_term=search_term,
         asset_type=asset_type,
         status=status,
+        countries=[_fix_country(c) for c in countries.split(",") if c],
         search_in=search_in,
         funding_type=funding_type,
     )
