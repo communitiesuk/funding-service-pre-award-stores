@@ -106,6 +106,13 @@ unscored_sections = [
                                 "question": "Is your correspondence address different to the organisation address?",
                             },
                             {
+                                "field_id": "VhkCbM",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "UkAddressField",
+                                "presentation_type": "address",
+                                "question": "Correspondence address",
+                            },
+                            {
                                 "field_id": "FhbaEy",
                                 "form_name": "organisation-information-cof-r3-w1",
                                 "field_type": "websiteField",
