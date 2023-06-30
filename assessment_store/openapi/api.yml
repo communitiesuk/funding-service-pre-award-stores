@@ -66,6 +66,14 @@ paths:
         format: query
       required: false
       explode: true
+    - name: countries
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
     get:
       tags:
         - assessments
@@ -349,6 +357,28 @@ paths:
             application/json:
               schema:
                 $ref: 'components.yml#/components/schemas/SubCriteria'
+
+  '/application/{application_id}/metadata':
+    parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+    get:
+      tags:
+        - assessments
+      summary: Retrieve the metadata for a specific application ID
+      description: Retrieve the metadata for a specific application ID
+      operationId: api.routes.assessment_metadata_for_application_id
+      responses:
+        200:
+          description: SUCCESS - application metadata
+          content:
+            application/json:
+              schema:
+                type: object
 
   '/application/{application_id}/json':
     parameters:
