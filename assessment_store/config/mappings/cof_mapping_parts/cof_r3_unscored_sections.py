@@ -108,7 +108,7 @@ unscored_sections = [
                             {
                                 "field_id": "VhkCbM",
                                 "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "UkAddressField",
+                                "field_type": "ukAddressField",
                                 "presentation_type": "address",
                                 "question": "Correspondence address",
                             },
