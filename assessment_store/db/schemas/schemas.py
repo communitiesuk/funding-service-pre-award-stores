@@ -105,6 +105,7 @@ class AssessmentFlagSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = AssessmentFlag
 
+    application_id = auto_field(dump_only=True)
     updates = Nested("FlagUpdateSchema", many=True)
 
 

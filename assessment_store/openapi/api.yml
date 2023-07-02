@@ -330,6 +330,27 @@ paths:
           type: string
         required: true
 
+  '/flag_data_v2':
+    get:
+      tags:
+        - flags_v2
+      summary: get assessment flag data by flag id
+      description: get assessment flag data by flag id
+      operationId: api.routes.get_flag_v2
+      responses:
+        200:
+          description: SUCCESS - Flags
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: flag_id
+        in: query
+        schema:
+          type: string
+        required: true
+
   '/sub_criteria_overview/{application_id}/{sub_criteria_id}':
     parameters:
     - name: application_id
@@ -416,6 +437,24 @@ paths:
       summary: Update application status to completed
       description: Update application status to completed
       operationId: api.routes.update_ar_status_to_completed
+      responses:
+       204:
+          description: Successfully updated application status to completed.
+
+  '/application/{application_id}/status/qa_complete':
+    parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+    post:
+      tags:
+        - assessments
+      summary: Update application status to qa completed
+      description: Update application status to qa completed
+      operationId: api.routes.update_ar_status_to_qa_completed
       responses:
        204:
           description: Successfully updated application status to completed.

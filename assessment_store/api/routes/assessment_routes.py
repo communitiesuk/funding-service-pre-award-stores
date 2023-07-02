@@ -18,11 +18,13 @@ from db.queries.assessment_records.queries import (
 )
 from db.queries.assessment_records.queries import get_metadata_for_application
 from db.queries.assessment_records.queries import update_status_to_completed
+from db.queries.assessment_records.queries import update_status_to_qa_completed
 from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
 from db.queries.flags.queries import find_qa_complete_flag_for_applications
 from db.queries.flags.queries import get_latest_flags_for_each
 from db.queries.flags_v2.queries import add_update_to_assessment_flag
 from db.queries.flags_v2.queries import create_flag_for_application
+from db.queries.flags_v2.queries import get_flag_by_id
 from db.queries.flags_v2.queries import get_flags_for_application
 from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
 from db.schemas.schemas import AssessmentFlagSchema
@@ -146,6 +148,11 @@ def update_ar_status_to_completed(application_id: str):
     update_status_to_completed(application_id)
 
 
+def update_ar_status_to_qa_completed(application_id: str):
+    """Function updates the status to QA_COMPLETE for the given application_id"""
+    update_status_to_qa_completed(application_id)
+
+
 def assessment_stats_for_fund_round_id(
     fund_id: str,
     round_id: str,
@@ -261,3 +268,10 @@ def update_flag_v2_for_application():
     update_flag_json = request.json
     updated_flag = add_update_to_assessment_flag(**update_flag_json)
     return AssessmentFlagSchema().dump(updated_flag)
+
+
+def get_flag_v2(flag_id: str) -> dict:
+    current_app.logger.info(f"Get flags for id {flag_id}")
+    flags = get_flag_by_id(flag_id)
+    flag_schema = AssessmentFlagSchema()
+    return flag_schema.dump(flags, many=True)
