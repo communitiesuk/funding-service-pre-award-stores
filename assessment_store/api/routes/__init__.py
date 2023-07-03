@@ -10,7 +10,6 @@ from .assessment_routes import get_flag_v2
 from .assessment_routes import get_sub_criteria_theme_answers
 from .assessment_routes import sub_criteria
 from .assessment_routes import update_ar_status_to_completed
-from .assessment_routes import update_ar_status_to_qa_completed
 from .assessment_routes import update_flag_v2_for_application
 from .comment_routes import comments_for_application_sub_criteria
 from .comment_routes import post_comments_for_application_sub_criteria
@@ -41,7 +40,6 @@ __all__ = [
     "assessment_stats_for_fund_round_id",
     "post_progress_for_applications",
     "update_ar_status_to_completed",
-    "update_ar_status_to_qa_completed",
     "get_application_json",
     "get_all_flags_for_application",
     "get_flag",

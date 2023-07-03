@@ -479,21 +479,6 @@ def update_status_to_completed(application_id):
     db.session.commit()
 
 
-def update_status_to_qa_completed(application_id):
-    current_app.logger.info(
-        "Updating application status to COMPLETED"
-        f" for application: {application_id}."
-    )
-    db.session.query(AssessmentRecord).filter(
-        AssessmentRecord.application_id == application_id
-    ).update(
-        {AssessmentRecord.workflow_status: Status.QA_COMPLETED},
-        synchronize_session=False,
-    )
-
-    db.session.commit()
-
-
 def get_assessment_records_by_round_id(round_id):
     """
     Retrieves assessment records and scores based on the provided round ID.
