@@ -63,13 +63,6 @@ scored_criteria = [
                                 "presentation_type": "list",
                                 "question": "Why is the asset at risk of closure?",
                             },
-                            {
-                                "field_id": "TlGjXb",
-                                "form_name": "project-information-cof-r3-w1",
-                                "field_type": "freeTextField",
-                                "presentation_type": "free_text",
-                                "question": "Explain why the asset is at risk of being lost to the community, or why it has already been lost",
-                            },
                         ],
                     },
                 ],
@@ -239,8 +232,20 @@ scored_criteria = [
                                 "field_id": "qQLyXL",
                                 "form_name": "funding-required-cof-r3-w1",
                                 "field_type": "multiInputField",
-                                "presentation_type": "list",
-                                "question": "Capital costs",
+                                "presentation_type": "table",
+                                "question": [
+                                    "Capital costs",
+                                    {
+                                        "GLQlOh": {
+                                            "column_title": "Item of expenditure",
+                                            "type": "textField",
+                                        },
+                                        "JtwkMy": {
+                                            "column_title": "Amount",
+                                            "type": "numberField",
+                                        },
+                                    },
+                                ],
                             },
                             {
                                 "field_id": "DOvZvB",
@@ -356,8 +361,20 @@ scored_criteria = [
                                 "field_id": "NPgwcH",
                                 "form_name": "operational-costs-cof-r3-w1",
                                 "field_type": "multiInputField",
-                                "presentation_type": "list",
-                                "question": "Running costs",
+                                "presentation_type": "table",
+                                "question": [
+                                    "Running costs",
+                                    {
+                                        "IIdfRj": {
+                                            "column_title": "Item of expenditure",
+                                            "type": "textField",
+                                        },
+                                        "wlGQua": {
+                                            "column_title": "Amount",
+                                            "type": "numberField",
+                                        },
+                                    },
+                                ],
                             },
                         ],
                     },
