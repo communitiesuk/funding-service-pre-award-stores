@@ -10,6 +10,7 @@ from api.routes.subcriterias.get_sub_criteria import (
 from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_mapping,
 )
+from db.queries import get_metadata_flagsv2_for_fund_round_id
 from db.queries import get_metadata_for_fund_round_id
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.assessment_records.queries import get_application_jsonb_blob
@@ -23,6 +24,7 @@ from db.queries.flags.queries import find_qa_complete_flag_for_applications
 from db.queries.flags.queries import get_latest_flags_for_each
 from db.queries.flags_v2.queries import add_update_to_assessment_flag
 from db.queries.flags_v2.queries import create_flag_for_application
+from db.queries.flags_v2.queries import get_flag_by_id
 from db.queries.flags_v2.queries import get_flags_for_application
 from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
 from db.schemas.schemas import AssessmentFlagSchema
@@ -59,6 +61,36 @@ def all_assessments_for_fund_round_id(
     :return: A list of dictionaries.
     """
     app_list = get_metadata_for_fund_round_id(
+        fund_id=fund_id,
+        round_id=round_id,
+        search_term=search_term,
+        asset_type=asset_type,
+        status=status,
+        countries=[_fix_country(c) for c in countries.split(",") if c],
+        search_in=search_in,
+        funding_type=funding_type,
+    )
+    return app_list
+
+
+def all_assessments_flagsv2_for_fund_round_id(
+    fund_id: str,
+    round_id: str,
+    search_term: str = "",
+    funding_type: str = "ALL",
+    asset_type: str = "ALL",
+    status: str = "ALL",
+    search_in: str = "",
+    countries: str = "all",
+) -> List[Dict]:
+    """all_assessments_for_fund_round_id Function used by the endpoint
+    `/application_overviews/{fund_id}/{round_id}`.
+
+    :param fund_id: The stringified fund UUID.
+    :param round_id: The stringified round UUID.
+    :return: A list of dictionaries.
+    """
+    app_list = get_metadata_flagsv2_for_fund_round_id(
         fund_id=fund_id,
         round_id=round_id,
         search_term=search_term,
@@ -261,3 +293,10 @@ def update_flag_v2_for_application():
     update_flag_json = request.json
     updated_flag = add_update_to_assessment_flag(**update_flag_json)
     return AssessmentFlagSchema().dump(updated_flag)
+
+
+def get_flag_v2(flag_id: str) -> dict:
+    current_app.logger.info(f"Get flags for id {flag_id}")
+    flags = get_flag_by_id(flag_id)
+    flag_schema = AssessmentFlagSchema()
+    return flag_schema.dump(flags, many=True)

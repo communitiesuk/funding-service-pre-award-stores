@@ -16,6 +16,7 @@ BaseModel: DefaultMeta = db.Model
 class FlagStatus(IntEnum):
     RAISED = 0
     STOPPED = 1
+    QA_COMPLETED = 2
     RESOLVED = 3
 
 

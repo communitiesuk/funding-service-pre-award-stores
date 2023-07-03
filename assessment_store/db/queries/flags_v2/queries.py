@@ -15,6 +15,12 @@ def get_flags_for_application(application_id):
     return results
 
 
+def get_flag_by_id(flag_id):
+    stmt = select(AssessmentFlag).where(AssessmentFlag.id == flag_id)
+    results = db.session.scalars(stmt).all()
+    return results
+
+
 def create_flag_for_application(
     justification: str,
     sections_to_flag: str,
