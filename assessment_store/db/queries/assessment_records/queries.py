@@ -11,8 +11,10 @@ from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record.enums import Status
 from db.models.flags import Flag
 from db.models.flags.enums import FlagType
+from db.models.flags_v2.flag_update import FlagStatus
 from db.queries.assessment_records._helpers import derive_application_values
 from db.queries.flags.queries import find_qa_complete_flags
+from db.queries.flags.queries import find_qa_complete_flagsv2
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
 from db.schemas import AssessorTaskListMetadata
@@ -222,7 +224,6 @@ def get_metadata_for_fund_round_id(
     return assessment_metadatas
 
 
-# TODO: Use flags_v2 here (Ram sharma)
 def get_metadata_flagsv2_for_fund_round_id(
     fund_id: str,
     round_id: str,
@@ -233,11 +234,143 @@ def get_metadata_flagsv2_for_fund_round_id(
     funding_type: str = "",
     countries: List[str] = ["all"],
 ) -> List[Dict]:
-    from db.models.flags_v2 import AssessmentFlag  # noqa F401
-    from db.models.flags_v2 import FlagUpdate  # noqa F401
-    from db.models.flags_v2.flag_update import FlagStatus  # noqa F401
+    """get_metadata_for_fund_round_id Executes a query on assessment records
+    which returns all rows matching the given fund_id and round_id. Has
+    optional parameters of search_term, asset_type and status for filterting.
+    Excludes irrelevant columns such as
+    `db.models.AssessmentRecord.jsonb_blob`.
 
-    return None
+    :param fund_id: The stringified fund UUID.
+    :param round_id: The stringified round UUID.
+    :return: A list of dictionaries.
+    """
+
+    statement = (
+        select(AssessmentRecord)
+        # Dont load json into memory
+        .options(defer(AssessmentRecord.jsonb_blob)).where(
+            AssessmentRecord.fund_id == fund_id,
+            AssessmentRecord.round_id == round_id,
+        )
+    )
+    if search_term != "":
+        current_app.logger.info(
+            f"Performing assessment search on search term: {search_term} in fields {search_in}"
+        )
+        search_term = search_term.replace(" ", "%")
+
+        filters = []
+        if "short_id" in search_in:
+            filters.append(AssessmentRecord.short_id.ilike(f"%{search_term}%"))
+        if "project_name" in search_in:
+            filters.append(
+                AssessmentRecord.project_name.ilike(f"%{search_term}%")
+            )
+        if "organisation_name" in search_in:
+            filters.append(
+                func.cast(AssessmentRecord.organisation_name, String).ilike(
+                    f"%{search_term}%"
+                )
+            )
+
+        statement = statement.filter(or_(*filters))
+
+    if "all" not in countries:
+        current_app.logger.info(
+            f"Performing assessment search on countries: {countries}."
+        )
+        statement = statement.where(
+            AssessmentRecord.location_json_blob["country"].astext.ilike(
+                func.any_(countries)
+            )
+        )
+
+    if asset_type != "ALL" and asset_type != "":
+        current_app.logger.info(
+            f"Performing assessment search on asset type: {asset_type}."
+        )
+        statement = statement.where(AssessmentRecord.asset_type == asset_type)
+
+    if funding_type != "ALL" and funding_type != "":
+        current_app.logger.info(
+            f"Performing assessment search on funding type: {funding_type}."
+        )
+        # TODO SS figure out how to stop double quoting this - it works but is ugly
+        # it's because when we retrieve the json element as funding_type, we get it as a json element, not pure text,
+        # so it has the double quotes from the json so we have to include them in the comparison
+        statement = statement.where(
+            func.cast(AssessmentRecord.funding_type, String)
+            == f'"{funding_type}"'
+        )
+
+    assessment_metadatas = db.session.scalars(statement).all()
+
+    if status != "ALL":
+        filter_assessments = []
+        for assessment in assessment_metadatas:
+            if status == FlagType.QA_COMPLETED.name:
+                for flag in assessment.flags_v2:
+                    if flag.latest_status == FlagStatus.QA_COMPLETED:
+                        filter_assessments.append(assessment)
+            elif status in [
+                Status.NOT_STARTED.name,
+                Status.IN_PROGRESS.name,
+                Status.COMPLETED.name,
+            ]:
+                if assessment.workflow_status in [
+                    Status.NOT_STARTED,
+                    Status.IN_PROGRESS,
+                    Status.COMPLETED,
+                ]:
+                    filter_assessments.append(assessment)
+            elif status in [FlagStatus.STOPPED.name, FlagStatus.RAISED.name]:
+                for flag in assessment.flags_v2:
+                    if flag.latest_status in [
+                        FlagStatus.STOPPED,
+                        FlagStatus.RAISED,
+                    ]:
+                        filter_assessments.append(assessment)
+                        break
+
+        if filter_assessments:
+            assessment_metadatas = filter_assessments
+
+    metadata_serialiser = AssessmentRecordMetadata(
+        exclude=("jsonb_blob", "application_json_md5")
+    )
+
+    app_ids = {
+        app_metadata.application_id for app_metadata in assessment_metadatas
+    }
+    app_id_is_qa_complete_dict = find_qa_complete_flagsv2(app_ids)
+    assessment_metadatas = [
+        metadata_serialiser.dump(app_metadata)
+        | {
+            "is_qa_complete": app_id_is_qa_complete_dict[
+                app_metadata.application_id
+            ]
+        }
+        for app_metadata in assessment_metadatas
+    ]
+
+    def sort_flags_in_assessment_records(
+        assessment_records, sort_field, sort_order
+    ):
+        """Sorts flag data in assessment_records in the provided sort order."""
+        sort_key = lambda x: x[sort_field]  # noqa E731
+        reverse = sort_order != "asc"
+        for record in assessment_records:
+            record["flags"] = sorted(
+                record["flags"], key=sort_key, reverse=reverse
+            )
+
+        return assessment_records
+
+    assessment_metadatas = sort_flags_in_assessment_records(
+        assessment_metadatas, sort_field="date_created", sort_order="asc"
+    )
+
+    return assessment_metadatas
 
 
 def bulk_insert_application_record(

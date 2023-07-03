@@ -10,6 +10,7 @@ from api.routes.subcriterias.get_sub_criteria import (
 from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_mapping,
 )
+from db.queries import get_metadata_flagsv2_for_fund_round_id
 from db.queries import get_metadata_for_fund_round_id
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.assessment_records.queries import get_application_jsonb_blob
@@ -60,6 +61,36 @@ def all_assessments_for_fund_round_id(
     :return: A list of dictionaries.
     """
     app_list = get_metadata_for_fund_round_id(
+        fund_id=fund_id,
+        round_id=round_id,
+        search_term=search_term,
+        asset_type=asset_type,
+        status=status,
+        countries=[_fix_country(c) for c in countries.split(",") if c],
+        search_in=search_in,
+        funding_type=funding_type,
+    )
+    return app_list
+
+
+def all_assessments_flagsv2_for_fund_round_id(
+    fund_id: str,
+    round_id: str,
+    search_term: str = "",
+    funding_type: str = "ALL",
+    asset_type: str = "ALL",
+    status: str = "ALL",
+    search_in: str = "",
+    countries: str = "all",
+) -> List[Dict]:
+    """all_assessments_for_fund_round_id Function used by the endpoint
+    `/application_overviews/{fund_id}/{round_id}`.
+
+    :param fund_id: The stringified fund UUID.
+    :param round_id: The stringified round UUID.
+    :return: A list of dictionaries.
+    """
+    app_list = get_metadata_flagsv2_for_fund_round_id(
         fund_id=fund_id,
         round_id=round_id,
         search_term=search_term,
