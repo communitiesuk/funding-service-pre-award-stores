@@ -222,6 +222,24 @@ def get_metadata_for_fund_round_id(
     return assessment_metadatas
 
 
+# TODO: Use flags_v2 here (Ram sharma)
+def get_metadata_flagsv2_for_fund_round_id(
+    fund_id: str,
+    round_id: str,
+    search_term: str = "",
+    asset_type: str = "",
+    status: str = "",
+    search_in: str = "",
+    funding_type: str = "",
+    countries: List[str] = ["all"],
+) -> List[Dict]:
+    from db.models.flags_v2 import AssessmentFlag  # noqa F401
+    from db.models.flags_v2 import FlagUpdate  # noqa F401
+    from db.models.flags_v2.flag_update import FlagStatus  # noqa F401
+
+    return None
+
+
 def bulk_insert_application_record(
     application_json_strings: List[str], application_type: str, is_json=False
 ) -> List[AssessmentRecord]:
