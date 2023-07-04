@@ -276,6 +276,9 @@ def get_metadata_flagsv2_for_fund_round_id(
         statement = statement.filter(or_(*filters))
 
     if "all" not in countries:
+        countries.append(
+            "Not Available"
+        )  # show countries where location data is not available
         current_app.logger.info(
             f"Performing assessment search on countries: {countries}."
         )

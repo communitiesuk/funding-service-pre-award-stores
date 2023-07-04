@@ -295,8 +295,8 @@ def update_flag_v2_for_application():
     return AssessmentFlagSchema().dump(updated_flag)
 
 
-def get_flag_v2(flag_id: str) -> dict:
+def get_flag_v2(flag_id: str):
     current_app.logger.info(f"Get flags for id {flag_id}")
     flags = get_flag_by_id(flag_id)
     flag_schema = AssessmentFlagSchema()
-    return flag_schema.dump(flags, many=True)
+    return flag_schema.dump(flags, many=True)[0]
