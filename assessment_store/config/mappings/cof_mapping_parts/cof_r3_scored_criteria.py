@@ -8,8 +8,8 @@ scored_criteria = [
         "weighting": 0.53,
         "sub_criteria": [
             {
-                "id": "benefits",
-                "name": "Benefits",
+                "id": "community_use",
+                "name": "Community use",
                 "themes": [
                     {
                         "id": "community_use",
@@ -117,13 +117,6 @@ scored_criteria = [
                                 "question": "Upload supporting evidence",
                                 "path": "your-support-for-the-project",
                             },
-                            {
-                                "field_id": "EEBFao",
-                                "form_name": "local-support",
-                                "field_type": "fileUploadField",
-                                "presentation_type": "file",
-                                "question": "Upload supporting evidence (optional)",
-                            },
                         ],
                     },
                 ],
@@ -148,8 +141,8 @@ scored_criteria = [
                 ],
             },
             {
-                "id": "how_the_community_benefits",
-                "name": "How the community benefits",
+                "id": "benefits",
+                "name": "Benefits",
                 "themes": [
                     {
                         "id": "delivering_and_sustaining_benefits",
@@ -178,12 +171,6 @@ scored_criteria = [
                             },
                         ],
                     },
-                ],
-            },
-            {
-                "id": "how_the_asset_will_be_inclusive",
-                "name": "How the asset will be inclusive",
-                "themes": [
                     {
                         "id": "benefitting_the_whole_community",
                         "name": "Benefitting the whole community",

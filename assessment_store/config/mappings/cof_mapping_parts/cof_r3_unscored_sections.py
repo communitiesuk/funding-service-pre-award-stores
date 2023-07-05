@@ -367,7 +367,7 @@ unscored_sections = [
                                 "form_name": "asset-information-cof-r3-w1",
                                 "field_type": "textField",
                                 "presentation_type": "text",
-                                "question": "Tell us about the person you have spoken to at the relevant public body about the asset",
+                                "question": "Name of contact",
                             },
                             {
                                 "field_id": "SiOmZn",
@@ -518,7 +518,7 @@ unscored_sections = [
                                 "form_name": "upload-business-plan-cof-r3-w1",
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
-                                "question": "Upload business plan",
+                                "question": "Business plan for your project (document upload)",
                                 "path": "your-business-plan",
                             },
                         ],
