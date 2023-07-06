@@ -15,6 +15,17 @@ def get_answer_value(application_json, answer_key):
     )
 
 
+def get_answer_value_add_another(application_json, answer_key, value_key):
+    answers = jsonpath_rw_ext.parse(
+            f"$.forms[*].questions[*].fields[?(@.key == '{answer_key}')]"
+        ).find(application_json)[0].value["answer"]    
+
+    funding_one = 0
+    for answer in answers:
+        funding_one = funding_one + int(float(answer[value_key]))
+    return funding_one
+
+
 def get_location_json_from_postcode(raw_postcode):
     """Make a POST request to the postcodes.io API with the provided
     postcode and extract the location data of postcode."""
@@ -63,20 +74,30 @@ def derive_application_values(application_json):
         asset_type = "No asset type specified."
 
     # search for capital funding
+    funding_field_type = fund_round_data_key_mappings[fund_round_shortname][
+            "field_type"
+        ]
     try:
         funding_one = 0
         funding_one_keys = fund_round_data_key_mappings[fund_round_shortname][
             "funding_one"
         ]
+
         funding_one_keys = (
             [funding_one_keys]
             if isinstance(funding_one_keys, str)
             else funding_one_keys
         )
-        for key in funding_one_keys:
-            funding_one = funding_one + int(
-                float(get_answer_value(application_json, key))
-            )
+        
+        if (funding_field_type == "multiInputField"):
+            funding_one = get_answer_value_add_another(application_json, 
+                                                       funding_one_keys[0],
+                                                       funding_one_keys[1])
+        else:
+            for key in funding_one_keys:
+                funding_one = funding_one + int(
+                    float(get_answer_value(application_json, key))
+                )
 
     except Exception:
         print(
@@ -96,10 +117,15 @@ def derive_application_values(application_json):
             if isinstance(funding_two_keys, str)
             else funding_two_keys
         )
-        for key in funding_two_keys:
-            funding_two = funding_two + int(
-                float(get_answer_value(application_json, key))
-            )
+        if (funding_field_type == "multiInputField"):
+            funding_two = get_answer_value_add_another(application_json, 
+                                                       funding_two_keys[0], 
+                                                       funding_two_keys[1])
+        else:
+            for key in funding_two_keys:
+                funding_two = funding_two + int(
+                    float(get_answer_value(application_json, key))
+                )
     except Exception:
         print(
             "Could not extract funding_value_two from application: "
