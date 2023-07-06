@@ -107,10 +107,10 @@ fund_round_data_key_mappings = {
         "funding_two": "cLDRvN",
     },
     "NSTFR2": {
-        "field_type": 'multiInputField',
+        "field_type": "multiInputField",
         "location": "mhYQzL",
         "asset_type": None,
         "funding_one": ["mCbbyN", "iZdZrr"],
-        "funding_two": ["XsAoTv","JtBjFp"]
+        "funding_two": ["XsAoTv", "JtBjFp"],
     },
 }
