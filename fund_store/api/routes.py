@@ -136,3 +136,40 @@ def get_sections_for_round_assessment(fund_id, round_id):
         return serialiser.dump(sections, many=True)
 
     abort(404)
+
+
+def get_available_flag_allocations(fund_id, round_id):
+    # TODO: Currently teams are hardcoded, move it to database implementation
+    from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_1_ID
+    from config.fund_loader_config.cof.cof_r3 import COF_FUND_ID
+    from config.fund_loader_config.cof.cof_r2 import COF_ROUND_2_WINDOW_2_ID
+    from config.fund_loader_config.cof.cof_r2 import COF_ROUND_2_WINDOW_3_ID
+    from config.fund_loader_config.night_shelter.ns_r2 import NIGHT_SHELTER_ROUND_2_ID
+    from config.fund_loader_config.night_shelter.ns_r2 import NIGHT_SHELTER_FUND_ID
+
+    cof_teams = [
+        {"key": "ASSESSOR", "value": "Assessor"},
+        {"key": "COMMERCIAL_ASSESSOR", "value": "Commercial Assessor"},
+        {"key": "LEAD_ASSESSOR", "value": "Lead Assessor"},
+        {"key": "LEAD_COMMERCIAL_ASSESSOR", "value": "Lead Commercial Assessor"},
+        {"key": "COF_POLICY", "value": "COF Policy"},
+    ]
+
+    nstf_teams = [
+        {"key": "COMMERCIAL", "value": "Commercial"},
+        {"key": "NSTF_TEAM", "value": "NSTF Team"},
+        {"key": "HOUSING_JUSTICE", "value": "Housing Justice"},
+        {"key": "HOMELESS_LINK", "value": "Homeless Link"},
+        {"key": "RS_ADVISORS", "value": "RS Advisors"},
+    ]
+
+    if fund_id == COF_FUND_ID and round_id == COF_ROUND_2_WINDOW_2_ID:
+        return cof_teams
+    elif fund_id == COF_FUND_ID and round_id == COF_ROUND_2_WINDOW_3_ID:
+        return cof_teams
+    elif fund_id == COF_FUND_ID and round_id == COF_ROUND_3_WINDOW_1_ID:
+        return cof_teams
+    elif fund_id == NIGHT_SHELTER_FUND_ID and round_id == NIGHT_SHELTER_ROUND_2_ID:
+        return nstf_teams
+    else:
+        abort(404)

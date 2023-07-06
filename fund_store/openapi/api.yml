@@ -94,6 +94,37 @@ paths:
               application/json:
                 schema:
                   $ref: 'components.yml#/components/schemas/Error'
+  /funds/{fund_id}/rounds/{round_id}/available_flag_allocations:
+    get:
+      tags:
+        - Static values
+      summary: Returns list of all available allocations for flags for this round
+      description: Returns list of all flag allocations
+      operationId: api.routes.get_available_flag_allocations
+      parameters:
+        - in: path
+          name: fund_id
+          schema:
+            type: string
+          required: true
+        - name: round_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "List all available allocations for flags in this round."
+          content:
+            application/json:
+              schema:
+                type: array
+        404:
+          description: "No flag allocations exist"
+          content:
+              texts/plain:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Error'
   /funds/{fund_id}/rounds:
     get:
       tags:
