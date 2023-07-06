@@ -16,9 +16,13 @@ def get_answer_value(application_json, answer_key):
 
 
 def get_answer_value_add_another(application_json, answer_key, value_key):
-    answers = jsonpath_rw_ext.parse(
+    answers = (
+        jsonpath_rw_ext.parse(
             f"$.forms[*].questions[*].fields[?(@.key == '{answer_key}')]"
-        ).find(application_json)[0].value["answer"]    
+        )
+        .find(application_json)[0]
+        .value["answer"]
+    )
 
     funding_one = 0
     for answer in answers:
@@ -86,11 +90,11 @@ def derive_application_values(application_json):
             if isinstance(funding_one_keys, str)
             else funding_one_keys
         )
-        
-        if (funding_field_type == "multiInputField"):
-            funding_one = get_answer_value_add_another(application_json, 
-                                                       funding_one_keys[0],
-                                                       funding_one_keys[1])
+
+        if funding_field_type == "multiInputField":
+            funding_one = get_answer_value_add_another(
+                application_json, funding_one_keys[0], funding_one_keys[1]
+            )
         else:
             for key in funding_one_keys:
                 funding_one = funding_one + int(
@@ -115,10 +119,10 @@ def derive_application_values(application_json):
             if isinstance(funding_two_keys, str)
             else funding_two_keys
         )
-        if (funding_field_type == "multiInputField"):
-            funding_two = get_answer_value_add_another(application_json, 
-                                                       funding_two_keys[0], 
-                                                       funding_two_keys[1])
+        if funding_field_type == "multiInputField":
+            funding_two = get_answer_value_add_another(
+                application_json, funding_two_keys[0], funding_two_keys[1]
+            )
         else:
             for key in funding_two_keys:
                 funding_two = funding_two + int(
