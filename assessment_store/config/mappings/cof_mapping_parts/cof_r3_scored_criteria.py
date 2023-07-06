@@ -114,7 +114,7 @@ scored_criteria = [
                                 "form_name": "local-support-cof-r3-w1",
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
-                                "question": "Upload supporting evidence",
+                                "question": "Upload supporting evidence (optional)",
                                 "path": "your-support-for-the-project",
                             },
                         ],
