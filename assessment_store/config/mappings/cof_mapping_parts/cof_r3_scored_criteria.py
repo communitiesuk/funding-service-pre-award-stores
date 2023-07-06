@@ -122,25 +122,6 @@ scored_criteria = [
                 ],
             },
             {
-                "id": "environmental_sustainability",
-                "name": "Environmental Sustainability",
-                "themes": [
-                    {
-                        "id": "environmental-considerations",
-                        "name": "Environmental considerations",
-                        "answers": [
-                            {
-                                "field_id": "dypuJs",
-                                "form_name": "environmental-sustainability-cof-r3-w1",
-                                "field_type": "freeTextField",
-                                "presentation_type": "free_text",
-                                "question": "Tell us how you have considered the environmental sustainability of your project",
-                            }
-                        ],
-                    }
-                ],
-            },
-            {
                 "id": "benefits",
                 "name": "Benefits",
                 "themes": [
@@ -184,6 +165,25 @@ scored_criteria = [
                             },
                         ],
                     },
+                ],
+            },
+            {
+                "id": "environmental_sustainability",
+                "name": "Environmental sustainability",
+                "themes": [
+                    {
+                        "id": "environmental-considerations",
+                        "name": "Environmental considerations",
+                        "answers": [
+                            {
+                                "field_id": "dypuJs",
+                                "form_name": "environmental-sustainability-cof-r3-w1",
+                                "field_type": "freeTextField",
+                                "presentation_type": "free_text",
+                                "question": "Tell us how you have considered the environmental sustainability of your project",
+                            }
+                        ],
+                    }
                 ],
             },
         ],
@@ -341,8 +341,8 @@ scored_criteria = [
                                 "form_name": "upload-business-plan-cof-r3-w1",
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
-                                "question": "Upload business plan",
-                                "path": "your-business-plan",
+                                "question": "Income sources",
+                                "path": "income-sources",
                             },
                             {
                                 "field_id": "NPgwcH",
@@ -350,7 +350,7 @@ scored_criteria = [
                                 "field_type": "multiInputField",
                                 "presentation_type": "table",
                                 "question": [
-                                    "Running costs",
+                                    "Running costs of the asset",
                                     {
                                         "IIdfRj": {
                                             "column_title": "Item of expenditure",
