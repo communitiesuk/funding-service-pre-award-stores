@@ -74,9 +74,7 @@ def derive_application_values(application_json):
         asset_type = "No asset type specified."
 
     # search for capital funding
-    funding_field_type = fund_round_data_key_mappings[fund_round_shortname][
-            "field_type"
-        ]
+    funding_field_type = fund_round_data_key_mappings.get(fund_round_shortname, {}).get("field_type")
     try:
         funding_one = 0
         funding_one_keys = fund_round_data_key_mappings[fund_round_shortname][
