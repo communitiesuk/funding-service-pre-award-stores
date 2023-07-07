@@ -189,8 +189,8 @@ unscored_sections = [
                 "name": "Application information",
                 "themes": [
                     {
-                        "id": "application_information",
-                        "name": "Application information",
+                        "id": "contact_information",
+                        "name": "Contact information",
                         "answers": [
                             {
                                 "field_id": "SnLGJE",
@@ -381,7 +381,7 @@ unscored_sections = [
                                 "form_name": "asset-information-cof-r3-w1",
                                 "field_type": "textField",
                                 "presentation_type": "text",
-                                "question": "Organisation name",
+                                "question": "Organisation name of contact",
                             },
                             {
                                 "field_id": "MIqglh",
