@@ -12,7 +12,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  DOCKER_IMAGE: funding-service-design-application-store
+  DOCKER_IMAGE: funding-service-design-assessment-store
 
 jobs:
   paketo_build:
