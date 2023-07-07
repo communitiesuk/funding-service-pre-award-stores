@@ -52,7 +52,7 @@ unscored_sections = [
                             {
                                 "field_id": "GlPmCX",
                                 "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "numberField",
+                                "field_type": "textField",
                                 "presentation_type": "text",
                                 "question": "Company registration number",
                             },
@@ -66,7 +66,7 @@ unscored_sections = [
                             {
                                 "field_id": "aHIGbK",
                                 "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "numberField",
+                                "field_type": "textField",
                                 "presentation_type": "text",
                                 "question": "Charity number",
                             },
