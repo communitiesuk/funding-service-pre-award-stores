@@ -441,7 +441,7 @@ scored_criteria = [
                                 "form_name": "skills-and-resources-costs-cof-r3-w1",
                                 "field_type": "freeTextField",
                                 "presentation_type": "free_text",
-                                "question": "Tell us about the roles you'll recruit",
+                                "question": "Roles you’ll recruit to help you run the asset",
                             },
                         ],
                     },
