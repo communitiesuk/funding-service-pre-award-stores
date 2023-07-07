@@ -224,7 +224,7 @@ scored_criteria = [
                                     "Capital costs",
                                     {
                                         "GLQlOh": {
-                                            "column_title": "Item of expenditure",
+                                            "column_title": "Describe the cost",
                                             "type": "textField",
                                         },
                                         "JtwkMy": {
