@@ -43,6 +43,9 @@ answer_schema = {
                     # "emailAddressField",
                     # "telephoneNumberField",
                     # "monthYearField",
+                    "currency",
+                    # covers:
+                    # "numberField", if it's a currency
                     "free_text",
                     # freeTextField
                     "address",
