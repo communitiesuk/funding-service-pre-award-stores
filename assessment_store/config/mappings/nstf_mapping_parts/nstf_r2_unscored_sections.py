@@ -53,7 +53,7 @@ unscored_sections = [
                                 "field_id": "YauUjZ",
                                 "form_name": "organisation-information-ns",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
+                                "presentation_type": "currency",
                                 "question": "What is your organisation's annual turnover? "
                                 "(1 April 2022 to 31 March 2023)",
                             },
@@ -61,7 +61,7 @@ unscored_sections = [
                                 "field_id": "zuCRBk",
                                 "form_name": "organisation-information-ns",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
+                                "presentation_type": "currency",
                                 "question": "What is your organisation's annual turnover? "
                                 "(1 April 2021 to 31 March 2022)",
                             },
