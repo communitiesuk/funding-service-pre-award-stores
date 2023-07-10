@@ -377,7 +377,7 @@ scored_criteria = [
                                     "Running costs of the asset",
                                     {
                                         "IIdfRj": {
-                                            "column_title": "Item of expenditure",
+                                            "column_title": "Running cost",
                                             "type": "textField",
                                         },
                                         "wlGQua": {

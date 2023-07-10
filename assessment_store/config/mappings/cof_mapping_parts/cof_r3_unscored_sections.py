@@ -33,7 +33,21 @@ unscored_sections = [
                                 "form_name": "organisation-information-cof-r3-w1",
                                 "field_type": "textField",
                                 "presentation_type": "text",
-                                "question": "Alternative names of your organisation",
+                                "question": "Alternative names of your organisation - Alternative name 1",
+                            },
+                            {
+                                "field_id": "QgNhXX",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Alternative names of your organisation - Alternative name 2",
+                            },
+                            {
+                                "field_id": "XCcqae",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Alternative names of your organisation - Alternative name 3",
                             },
                             {
                                 "field_id": "GvPSna",
@@ -47,7 +61,7 @@ unscored_sections = [
                                 "form_name": "organisation-information-cof-r3-w1",
                                 "field_type": "radiosField",
                                 "presentation_type": "text",
-                                "question": "Type of organisation",
+                                "question": "What is your organisation type",
                             },
                             {
                                 "field_id": "GlPmCX",
