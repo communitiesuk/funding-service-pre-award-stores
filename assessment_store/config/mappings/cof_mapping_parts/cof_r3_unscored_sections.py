@@ -71,6 +71,20 @@ unscored_sections = [
                                 "question": "What is your organisation type",
                             },
                             {
+                                "field_id": "lajFtB",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "radiosField",
+                                "presentation_type": "text",
+                                "question": "What is your organisation type",
+                            },
+                            {
+                                "field_id": "plmwJv",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "TextField",
+                                "presentation_type": "text",
+                                "question": "What is your organisation type (Other)",
+                            },
+                            {
                                 "field_id": "GlPmCX",
                                 "form_name": "organisation-information-cof-r3-w1",
                                 "field_type": "textField",
