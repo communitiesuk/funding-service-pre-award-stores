@@ -363,7 +363,7 @@ scored_criteria = [
                             {
                                 "field_id": "MSNJQD",
                                 "form_name": "operational-costs-cof-r3-w1",
-                                "field_type": "MultiInputField",
+                                "field_type": "multiInputField",
                                 "presentation_type": "table",
                                 "question": [
                                     "Income sources",
