@@ -57,6 +57,13 @@ unscored_sections = [
                                 "question": "Which regulatory body is your company registered with?",
                             },
                             {
+                                "field_id": "zsbmRx",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "TextField",
+                                "presentation_type": "text",
+                                "question": "Which regulatory body is your company registered with? (Other)",
+                            },
+                            {
                                 "field_id": "lajFtB",
                                 "form_name": "organisation-information-cof-r3-w1",
                                 "field_type": "radiosField",
@@ -132,6 +139,20 @@ unscored_sections = [
                                 "field_type": "websiteField",
                                 "presentation_type": "text",
                                 "question": "Website and social media",
+                            },
+                            {
+                                "field_id": "FcdKlB",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "websiteField",
+                                "presentation_type": "text",
+                                "question": "Website and social media - Link or username 2",
+                            },
+                            {
+                                "field_id": "BzxgDA",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "websiteField",
+                                "presentation_type": "text",
+                                "question": "Website and social media - Link or username 3",
                             },
                         ],
                     },
@@ -445,6 +466,13 @@ unscored_sections = [
                                 "field_type": "radiosField",
                                 "presentation_type": "text",
                                 "question": "Asset type",
+                            },
+                            {
+                                "field_id": "VxBLMN",
+                                "form_name": "asset-information-cof-r3-w1",
+                                "field_type": "radiosField",
+                                "presentation_type": "text",
+                                "question": "How the asset is used - other",
                             },
                             {
                                 "field_id": "wjBFTf",
