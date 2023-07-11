@@ -361,12 +361,23 @@ scored_criteria = [
                                 "question": "If successful, will you use your funding in the next 12 months?",
                             },
                             {
-                                "field_id": "ndpQJk",
-                                "form_name": "upload-business-plan-cof-r3-w1",
-                                "field_type": "clientSideFileUploadField",
-                                "presentation_type": "s3bucketPath",
-                                "question": "Income sources",
-                                "path": "income-sources",
+                                "field_id": "MSNJQD",
+                                "form_name": "operational-costs-cof-r3-w1",
+                                "field_type": "multiInputField",
+                                "presentation_type": "table",
+                                "question": [
+                                    "Income sources",
+                                    {
+                                        "AJEWXD": {
+                                            "column_title": "Source",
+                                            "type": "textField",
+                                        },
+                                        "cHFrIp": {
+                                            "column_title": "Amount",
+                                            "type": "numberField",
+                                        },
+                                    },
+                                ],
                             },
                             {
                                 "field_id": "NPgwcH",
@@ -377,7 +388,7 @@ scored_criteria = [
                                     "Running costs of the asset",
                                     {
                                         "IIdfRj": {
-                                            "column_title": "Item of expenditure",
+                                            "column_title": "Running cost",
                                             "type": "textField",
                                         },
                                         "wlGQua": {
