@@ -1,6 +1,7 @@
 name: Tag-zip release
 permissions:
   contents: write
+  packages: write
 on:
   pull_request:
     types:
