@@ -132,7 +132,7 @@ Then run gunicorn using the following command:
 Example:
 
 ```
-[~/work/repos/funding-service-design-fund-store] pack build paketo-demofsd-app --builder paketobuildpacks/builder:base
+[~/work/repos/funding-service-design-assessment-store] pack build paketo-demofsd-app --builder paketobuildpacks/builder:base
 ***
 Successfully built image paketo-demofsd-app
 ```
@@ -147,9 +147,7 @@ docker run -d -p 8080:8080 --env PORT=8080 --env FLASK_ENV=dev [envs] paketo-dem
 APPLICATION_STORE_API_HOST
 SENTRY_DSN
 GITHUB_SHA
-These can be found from the Terraform at https://github.com/communitiesuk/funding-service-design-terraform-prod/blob/main/apps.tf, search for
-`resource "cloudfoundry_v3_app" "funding-service-design-assessment-store"`
-```
+DATABASE_URL
 
 ```
 docker ps -a
