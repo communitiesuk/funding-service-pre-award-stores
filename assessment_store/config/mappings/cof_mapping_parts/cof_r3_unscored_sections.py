@@ -306,7 +306,7 @@ unscored_sections = [
                                 "field_id": "yuvajR",
                                 "form_name": "project-information-cof-r3-w1",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
+                                "presentation_type": "currency",
                                 "question": "Amount of funding received",
                             },
                         ],
