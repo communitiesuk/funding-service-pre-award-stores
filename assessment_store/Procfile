@@ -1,1 +1,1 @@
-web: gunicorn -c run/gunicorn/devtest.py wsgi:app
+scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
