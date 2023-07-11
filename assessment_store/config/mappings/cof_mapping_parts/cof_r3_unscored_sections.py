@@ -97,7 +97,7 @@ unscored_sections = [
                                 "field_type": "textField",
                                 "presentation_type": "text",
                                 "question": "Company registration number",
-                            },                            
+                            },
                             {
                                 "field_id": "aHIGbK",
                                 "form_name": "organisation-information-cof-r3-w1",
