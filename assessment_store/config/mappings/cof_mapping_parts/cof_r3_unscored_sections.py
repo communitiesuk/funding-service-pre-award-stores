@@ -139,6 +139,27 @@ unscored_sections = [
                                 "presentation_type": "free_text",
                                 "question": "Tell us about your organisation's main activities",
                             },
+                            {
+                                "field_id": "SkocDi",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "freeTextField",
+                                "presentation_type": "free_text",
+                                "question": "Tell us about your organisation's main activities - Activity 2 ",
+                            },
+                            {
+                                "field_id": "CNeeiC",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "freeTextField",
+                                "presentation_type": "free_text",
+                                "question": "Tell us about your organisation's main activities - Activity 3 ",
+                            },
+                            {
+                                "field_id": "BBlCko",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "yesNoField",
+                                "presentation_type": "text",
+                                "question": "Have you delivered projects like this before?",
+                            },
                         ],
                     },
                     {
