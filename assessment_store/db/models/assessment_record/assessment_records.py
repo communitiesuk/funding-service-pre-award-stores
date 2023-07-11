@@ -74,7 +74,7 @@ class AssessmentRecord(BaseModel):
     flags = relationship("Flag")
     flags_v2 = relationship("AssessmentFlag")
 
-    QA_complete = relationship("QaComplete")
+    qa_complete = relationship("QaComplete")
 
     location_json_blob = Column("location_json_blob", JSONB, nullable=True)
 
