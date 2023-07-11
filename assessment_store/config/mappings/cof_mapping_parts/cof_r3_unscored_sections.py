@@ -80,7 +80,7 @@ unscored_sections = [
                             {
                                 "field_id": "plmwJv",
                                 "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "TextField",
+                                "field_type": "textField",
                                 "presentation_type": "text",
                                 "question": "What is your organisation type (Other)",
                             },
