@@ -152,7 +152,7 @@ unscored_sections = [
                                 "field_type": "freeTextField",
                                 "presentation_type": "free_text",
                                 "question": "Tell us about your organisation's main activities - Activity 3 ",
-                            }
+                            },
                         ],
                     },
                     {
