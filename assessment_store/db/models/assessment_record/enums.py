@@ -11,7 +11,6 @@ class Status(Enum):
     COMPLETED = 3
 
 
-
 class Language(Enum):
     """Status The ENUM used by `db.models.AssessmentRecord` to validate the
     possible values for the `language` column."""
