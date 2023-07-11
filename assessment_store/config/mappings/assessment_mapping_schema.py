@@ -79,6 +79,8 @@ answer_schema = {
                     # new add-another component with children support
                     # see https://github.com/communitiesuk/digital-form-builder/pull/161
                     "integer",
+                    # covers:
+                    # numberField (when we have a number input we want as a whole number)
                 ],
             },
             "question": {"type": ["string", "array"]},
