@@ -17,7 +17,7 @@ class FlagStatus(IntEnum):
     # QA_COMPLETE used to be assigned value 2, but this has been removed from being a flag
     # and is now a seperate workflow. Inorder to not lose existing QA complete data, we have
     # not reassigned RESOLVED to value 2 (which would cascaded delete QA_COMPLETE values in
-    # the flag column) but kept it as 3. 
+    # the flag column) but kept it as 3.
     RAISED = 0
     STOPPED = 1
     RESOLVED = 3
