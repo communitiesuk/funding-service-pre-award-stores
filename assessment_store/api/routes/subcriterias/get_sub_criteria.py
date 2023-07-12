@@ -74,6 +74,21 @@ def get_themes_fields(
         return f"Incorrect theme id -> {theme_id}"
 
 
+def get_all_uploaded_document_field_answers(
+    fund_id: str, round_id: str
+) -> list[dict]:
+    sub_criterias = get_all_subcriteria(fund_id, round_id)
+    filtered_answers = [
+        {**answer, "question": f"{theme['name']}, {answer['question']}"}
+        for item in sub_criterias
+        for theme in item["themes"]
+        for answer in theme["answers"]
+        if answer["field_type"]
+        in ["clientSideFileUploadField", "fileUploadField"]
+    ]
+    return filtered_answers
+
+
 def get_application_form(app_json_blob):
     """function return list of all questions from application form"""
 
@@ -255,14 +270,24 @@ def map_single_field_answer(theme: list, questions: dict) -> str:
 def map_application_with_sub_criteria_themes(
     application_id: str, theme_id: str, fund_id: str, round_id: str
 ):
+    themes_fields = get_themes_fields(theme_id, fund_id, round_id)
+    current_app.logger.info("mapping subcriteria contents")
+    return map_application_with_sub_criteria_themes_fields(
+        application_id,
+        theme_id,
+        themes_fields,
+    )
+
+
+def map_application_with_sub_criteria_themes_fields(
+    application_id: str, theme_id: str, themes_fields: list[dict]
+):
     """function maps answers from application with assessor task list
     themes through field ids.
     Args: application_id, theme_id, fund_id, round_id
     Exceptions: returning custom exception along with openapi
     validation detail.
     """
-
-    themes_fields = get_themes_fields(theme_id, fund_id, round_id)
     application_json_blob = get_application_jsonb_blob(application_id)
     questions = get_application_form(application_json_blob)
 

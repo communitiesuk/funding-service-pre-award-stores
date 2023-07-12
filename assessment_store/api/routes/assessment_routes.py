@@ -5,7 +5,13 @@ from typing import List
 from api.models.sub_criteria import SubCriteria
 from api.routes._helpers import transform_to_assessor_task_list_metadata
 from api.routes.subcriterias.get_sub_criteria import (
+    get_all_uploaded_document_field_answers,
+)
+from api.routes.subcriterias.get_sub_criteria import (
     map_application_with_sub_criteria_themes,
+)
+from api.routes.subcriterias.get_sub_criteria import (
+    map_application_with_sub_criteria_themes_fields,
 )
 from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_mapping,
@@ -170,6 +176,16 @@ def get_sub_criteria_theme_answers(application_id: str, theme_id: str):
     metadata = find_assessor_task_list_state(application_id)
     return map_application_with_sub_criteria_themes(
         application_id, theme_id, metadata["fund_id"], metadata["round_id"]
+    )
+
+
+def get_all_uploaded_document_theme_answers(application_id: str):
+    metadata = find_assessor_task_list_state(application_id)
+    field_answers = get_all_uploaded_document_field_answers(
+        metadata["fund_id"], metadata["round_id"]
+    )
+    return map_application_with_sub_criteria_themes_fields(
+        application_id, "all_uploaded_documents", field_answers
     )
 
 
