@@ -29,6 +29,13 @@ unscored_sections = [
                                 "question": "Organisation name",
                             },
                             {
+                                "field_id": "iBCGxY",
+                                "form_name": "organisation-information-cof-r3-w1",
+                                "field_type": "yesNoField",
+                                "presentation_type": "text",
+                                "question": "Does your organisation use any other names?",
+                            },
+                            {
                                 "field_id": "PHFkCs",
                                 "form_name": "organisation-information-cof-r3-w1",
                                 "field_type": "textField",
@@ -83,13 +90,6 @@ unscored_sections = [
                                 "field_type": "textField",
                                 "presentation_type": "text",
                                 "question": "Company registration number",
-                            },
-                            {
-                                "field_id": "iBCGxY",
-                                "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "yesNoField",
-                                "presentation_type": "text",
-                                "question": "Does your organisation use any other names?",
                             },
                             {
                                 "field_id": "aHIGbK",

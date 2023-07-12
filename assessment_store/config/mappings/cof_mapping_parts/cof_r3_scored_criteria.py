@@ -205,14 +205,14 @@ scored_criteria = [
                                 "field_id": "ABROnB",
                                 "form_name": "funding-required-cof-r3-w1",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
+                                "presentation_type": "currency",
                                 "question": "Capital funding",
                             },
                             {
                                 "field_id": "cLDRvN",
                                 "form_name": "funding-required-cof-r3-w1",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
+                                "presentation_type": "currency",
                                 "question": "Revenue funding (optional)",
                             },
                             {
