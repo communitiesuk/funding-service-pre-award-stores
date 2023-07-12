@@ -23,7 +23,7 @@ from .progress_routes import post_progress_for_applications
 from .score_routes import get_score_for_application_sub_criteria
 from .score_routes import post_score_for_application_sub_criteria
 from .qa_complete_routes import post_qa_complete_for_application
-from .qa_complete_routes import get_all_qa_complete_records
+from .qa_complete_routes import qa_complete_record_for_application
 
 
 __all__ = [
@@ -52,5 +52,5 @@ __all__ = [
     "create_flag_v2_for_application",
     "get_flag_v2",
     "post_qa_complete_for_application",
-    "get_all_qa_complete_records",
+    "qa_complete_record_for_application",
 ]

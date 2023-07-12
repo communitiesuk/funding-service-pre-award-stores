@@ -933,7 +933,7 @@ paths:
                 type: object
                 items:
                   $ref: 'components.yml#/components/schemas/QaCompleteRecord'
-        400:
+        401:
           description: ERROR - Could not mark application as QA_COMPLETE
           content:
             application/json:
@@ -943,29 +943,36 @@ paths:
                 code: 401
                 status: 'error'
                 message: 'Could not mark application as QA_COMPLETE'
-  '/qa_complete':
+  '/qa_complete/{application_id}':
     get:
       tags:
         - qa_complete
-      summary: get all qa_complete records
-      description: get all qa_complete records
-      operationId: api.routes.all_qa_complete_records
+      summary: get qa_complete record for application
+      description: get qa_complete record for application
+      operationId: api.routes.qa_complete_record_for_application
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
       responses:
         200:
-          description: SUCCESS - all qa-complete records retreived
+          description: SUCCESS - qa_complete record for application
           content:
             application/json:
               schema:
-                type: array
+                type: object
                 items:
                   $ref: 'components.yml#/components/schemas/QaCompleteRecord'
-        400:
-          description: ERROR - Could not get qa_complete records
+        404:
+          description: ERROR - Could not get qa_complete record
           content:
             application/json:
               schema:
                 $ref: 'components.yml#/components/schemas/Error'
               example:
-                code: 401
+                code: 404
                 status: 'error'
-                message: 'Could not get qa_complete records'
+                message: 'Could not get qa_complete record for application'
