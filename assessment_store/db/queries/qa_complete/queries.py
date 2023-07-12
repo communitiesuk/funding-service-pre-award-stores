@@ -27,10 +27,12 @@ def create_qa_complete_record(
 
 
 def get_all_qa_complete_records() -> Dict:
-    all_qa_complete_records = (
-        QaComplete.query.order_by(QaComplete.date_created.desc())
-        .all()
-    )
+    all_qa_complete_records = QaComplete.query.order_by(
+        QaComplete.date_created.desc()
+    ).all()
     metadata_serialiser = QaCompleteMetadata()
-    qa_complete_metadata_list = [metadata_serialiser.dump(qa_complete_record) for qa_complete_record in all_qa_complete_records]
+    qa_complete_metadata_list = [
+        metadata_serialiser.dump(qa_complete_record)
+        for qa_complete_record in all_qa_complete_records
+    ]
     return qa_complete_metadata_list
