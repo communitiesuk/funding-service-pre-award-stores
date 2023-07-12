@@ -20,10 +20,15 @@ from .flag_routes import get_latest_flag_for_application
 from .flag_routes import post_flag_for_application
 from .progress_routes import get_progress_for_applications
 from .progress_routes import post_progress_for_applications
+from .qa_complete_routes import get_all_qa_complete_records
+from .qa_complete_routes import post_qa_complete_for_application
 from .score_routes import get_score_for_application_sub_criteria
 from .score_routes import post_score_for_application_sub_criteria
+<<<<<<< HEAD
 from .qa_complete_routes import post_qa_complete_for_application
 from .qa_complete_routes import qa_complete_record_for_application
+=======
+>>>>>>> 030b00ca3c6e3d39c8cd6e2cddd396cbf2ffeca1
 
 
 __all__ = [
