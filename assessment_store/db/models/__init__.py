@@ -5,6 +5,7 @@ from db.models.flags import Flag
 from db.models.flags_v2 import AssessmentFlag
 from db.models.flags_v2 import FlagUpdate
 from db.models.score import Score
+from db.models.qa_complete.qa_complete import QaComplete
 
 __all__ = [
     "AssessmentRecord",
@@ -13,4 +14,5 @@ __all__ = [
     "Flag",
     "FlagUpdate",
     "AssessmentFlag",
+    "QaComplete"
 ]
