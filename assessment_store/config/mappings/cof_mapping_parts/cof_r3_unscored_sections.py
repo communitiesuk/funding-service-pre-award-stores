@@ -78,13 +78,6 @@ unscored_sections = [
                                 "question": "What is your organisation type",
                             },
                             {
-                                "field_id": "lajFtB",
-                                "form_name": "organisation-information-cof-r3-w1",
-                                "field_type": "radiosField",
-                                "presentation_type": "text",
-                                "question": "What is your organisation type",
-                            },
-                            {
                                 "field_id": "plmwJv",
                                 "form_name": "organisation-information-cof-r3-w1",
                                 "field_type": "textField",
@@ -500,7 +493,7 @@ unscored_sections = [
                                 "form_name": "asset-information-cof-r3-w1",
                                 "field_type": "radiosField",
                                 "presentation_type": "text",
-                                "question": "How the asset is used - other",
+                                "question": "Asset type (Other)",
                             },
                             {
                                 "field_id": "wjBFTf",
