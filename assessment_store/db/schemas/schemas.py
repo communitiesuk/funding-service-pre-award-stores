@@ -7,6 +7,7 @@ from db.models.comment.enums import CommentType
 from db.models.flags.enums import FlagType
 from db.models.flags_v2.assessment_flag import AssessmentFlag
 from db.models.flags_v2.flag_update import FlagUpdate
+from db.models.qa_complete.qa_complete import QaComplete
 from db.models.score import Score
 from marshmallow import fields
 from marshmallow import Schema
@@ -71,6 +72,18 @@ class FlagMetadata(SQLAlchemyAutoSchema):
         load_instance = True
 
     flag_type = Enum(FlagType)
+    application_id = auto_field(dump_only=True)
+
+
+class QaCompleteMetadata(SQLAlchemyAutoSchema):
+    """QaCompleteMetadata The marshmallow class used to turn SQLAlchemy
+    rows into json for return in http responses."""
+
+    class Meta:
+        model = QaComplete
+        include_relationships = True
+        load_instance = True
+
     application_id = auto_field(dump_only=True)
 
 
