@@ -16,7 +16,7 @@ applications:
   services:
     - assessment-store-dev-db
 - name: funding-service-design-assessment-store-test
-  memory: 128M
+  memory: 512M
   buildpacks:
   - https://github.com/cloudfoundry/python-buildpack.git
   command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
