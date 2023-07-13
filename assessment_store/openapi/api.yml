@@ -932,6 +932,7 @@ paths:
                 code: 401
                 status: 'error'
                 message: 'Could not save Flag for application'
+  
   '/qa_complete/{application_id}/{user_id}':
     post:
       tags:
@@ -952,7 +953,6 @@ paths:
         schema:
           type: string
           format: path
-
       responses:
         201:
           description: SUCCESS - Application updated to QA_COMPLETE
@@ -960,8 +960,6 @@ paths:
             application/json:
               schema:
                 type: object
-                items:
-                  $ref: 'components.yml#/components/schemas/QaCompleteRecord'
         401:
           description: ERROR - Could not mark application as QA_COMPLETE
           content:
@@ -972,6 +970,7 @@ paths:
                 code: 401
                 status: 'error'
                 message: 'Could not mark application as QA_COMPLETE'
+  
   '/qa_complete/{application_id}':
     get:
       tags:
