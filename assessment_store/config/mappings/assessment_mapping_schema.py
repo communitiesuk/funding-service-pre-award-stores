@@ -43,6 +43,9 @@ answer_schema = {
                     # "emailAddressField",
                     # "telephoneNumberField",
                     # "monthYearField",
+                    "currency",
+                    # covers:
+                    # "numberField", if it's a currency
                     "free_text",
                     # freeTextField
                     "address",
@@ -75,6 +78,9 @@ answer_schema = {
                     # covers:
                     # new add-another component with children support
                     # see https://github.com/communitiesuk/digital-form-builder/pull/161
+                    "integer",
+                    # covers:
+                    # numberField (when we have a number input we want as a whole number)
                 ],
             },
             "question": {"type": ["string", "array"]},

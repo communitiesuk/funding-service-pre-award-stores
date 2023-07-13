@@ -480,6 +480,35 @@ paths:
               schema:
                 type: object
 
+  '/application/{application_id}/all_uploaded_documents':
+    parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+    get:
+      tags:
+        - assessments
+      summary: Retrieves data to populate the answers for all uploaded documents
+      description: Retrieves data to populate the answers for all uploaded documents
+      operationId: api.routes.get_all_uploaded_document_theme_answers
+      responses:
+        200:
+          description: SUCCESS - All uploaded documents theme
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: 'components.yml#/components/schemas/Sub_criteria_theme'
+        500:
+          description: "Bad request - Incorrect application_id or theme_id"
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/GeneralError'
+
   '/application/{application_id}/json':
     parameters:
       - name: application_id

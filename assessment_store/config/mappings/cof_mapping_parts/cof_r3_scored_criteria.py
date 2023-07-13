@@ -205,14 +205,14 @@ scored_criteria = [
                                 "field_id": "ABROnB",
                                 "form_name": "funding-required-cof-r3-w1",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
+                                "presentation_type": "currency",
                                 "question": "Capital funding",
                             },
                             {
                                 "field_id": "cLDRvN",
                                 "form_name": "funding-required-cof-r3-w1",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
+                                "presentation_type": "currency",
                                 "question": "Revenue funding (optional)",
                             },
                             {
@@ -224,7 +224,7 @@ scored_criteria = [
                                     "Capital costs",
                                     {
                                         "GLQlOh": {
-                                            "column_title": "Item of expenditure",
+                                            "column_title": "Describe the cost",
                                             "type": "textField",
                                         },
                                         "JtwkMy": {
@@ -245,8 +245,20 @@ scored_criteria = [
                                 "field_id": "MopCmv",
                                 "form_name": "funding-required-cof-r3-w1",
                                 "field_type": "multiInputField",
-                                "presentation_type": "list",
-                                "question": "Secured match funding",
+                                "presentation_type": "table",
+                                "question": [
+                                    "Secured match funding",
+                                    {
+                                        "JKqLWU": {
+                                            "column_title": "Source of secured funding",
+                                            "type": "textField",
+                                        },
+                                        "LVJcDC": {
+                                            "column_title": "Amount",
+                                            "type": "numberField",
+                                        },
+                                    },
+                                ],
                             },
                             {
                                 "field_id": "DmgsiG",
@@ -259,8 +271,20 @@ scored_criteria = [
                                 "field_id": "vEOdBS",
                                 "form_name": "funding-required-cof-r3-w1",
                                 "field_type": "multiInputField",
-                                "presentation_type": "list",
-                                "question": "Unsecured match funding",
+                                "presentation_type": "table",
+                                "question": [
+                                    "Unsecured match funding",
+                                    {
+                                        "iMJdfs": {
+                                            "column_title": "Source of unsecured match funding",
+                                            "type": "textField",
+                                        },
+                                        "THOdae": {
+                                            "column_title": "Amount",
+                                            "type": "numberField",
+                                        },
+                                    },
+                                ],
                             },
                             {
                                 "field_id": "XPDbsl",
@@ -337,12 +361,23 @@ scored_criteria = [
                                 "question": "If successful, will you use your funding in the next 12 months?",
                             },
                             {
-                                "field_id": "ndpQJk",
-                                "form_name": "upload-business-plan-cof-r3-w1",
-                                "field_type": "clientSideFileUploadField",
-                                "presentation_type": "s3bucketPath",
-                                "question": "Income sources",
-                                "path": "income-sources",
+                                "field_id": "MSNJQD",
+                                "form_name": "operational-costs-cof-r3-w1",
+                                "field_type": "multiInputField",
+                                "presentation_type": "table",
+                                "question": [
+                                    "Income sources",
+                                    {
+                                        "AJEWXD": {
+                                            "column_title": "Source",
+                                            "type": "textField",
+                                        },
+                                        "cHFrIp": {
+                                            "column_title": "Amount",
+                                            "type": "numberField",
+                                        },
+                                    },
+                                ],
                             },
                             {
                                 "field_id": "NPgwcH",
@@ -353,7 +388,7 @@ scored_criteria = [
                                     "Running costs of the asset",
                                     {
                                         "IIdfRj": {
-                                            "column_title": "Item of expenditure",
+                                            "column_title": "Running cost",
                                             "type": "textField",
                                         },
                                         "wlGQua": {
@@ -441,7 +476,7 @@ scored_criteria = [
                                 "form_name": "skills-and-resources-costs-cof-r3-w1",
                                 "field_type": "freeTextField",
                                 "presentation_type": "free_text",
-                                "question": "Tell us about the roles you'll recruit",
+                                "question": "Roles you’ll recruit to help you run the asset",
                             },
                         ],
                     },
