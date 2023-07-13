@@ -5,7 +5,9 @@ from tests.conftest import test_input_data
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
-def test_create_qa_complete_record_for_application(_db, seed_application_records):
+def test_create_qa_complete_record_for_application(
+    _db, seed_application_records
+):
     """test_create_scores_for_application_sub_crit Tests we can create
     score records in the scores table in the appropriate format."""
 
@@ -15,7 +17,9 @@ def test_create_qa_complete_record_for_application(_db, seed_application_records
     application_id = picked_row.application_id
     user_id = "test_user"
 
-    qa_complete_record_metadata = create_qa_complete_record(application_id, user_id)
+    qa_complete_record_metadata = create_qa_complete_record(
+        application_id, user_id
+    )
 
     assert len(qa_complete_record_metadata) == 4
     assert qa_complete_record_metadata["date_created"]
