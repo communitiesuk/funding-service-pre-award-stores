@@ -46,5 +46,5 @@ def downgrade():
         "ALTER TABLE assessment_flag ALTER COLUMN latest_status TYPE flagstatus USING latest_status::text::flagstatus"
     )
     op.execute("DROP TYPE flagstatus_old")
-    
+
     # ### end Alembic commands ###
