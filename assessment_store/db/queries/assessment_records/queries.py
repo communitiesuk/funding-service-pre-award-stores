@@ -14,7 +14,6 @@ from db.models.flags.enums import FlagType
 from db.models.flags_v2.flag_update import FlagStatus
 from db.queries.assessment_records._helpers import derive_application_values
 from db.queries.flags.queries import find_qa_complete_flags
-from db.queries.flags.queries import find_qa_complete_flagsv2
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
 from db.schemas import AssessorTaskListMetadata
@@ -312,6 +311,7 @@ def get_metadata_flagsv2_for_fund_round_id(
             all_latest_status = [
                 flag.latest_status for flag in assessment.flags_v2
             ]
+            is_qa_complete = True if assessment.qa_complete else False
 
             if FlagStatus.STOPPED in all_latest_status:
                 display_status = "STOPPED"
@@ -319,7 +319,7 @@ def get_metadata_flagsv2_for_fund_round_id(
                 display_status = "MULTIPLE_FLAGS"
             elif all_latest_status.count(FlagStatus.RAISED) == 1:
                 display_status = "FLAGGED"
-            elif FlagStatus.QA_COMPLETED in all_latest_status:
+            elif is_qa_complete:
                 display_status = "QA_COMPLETED"
             else:
                 display_status = assessment.workflow_status.name
@@ -333,17 +333,9 @@ def get_metadata_flagsv2_for_fund_round_id(
         exclude=("jsonb_blob", "application_json_md5")
     )
 
-    app_ids = {
-        app_metadata.application_id for app_metadata in assessment_metadatas
-    }
-    app_id_is_qa_complete_dict = find_qa_complete_flagsv2(app_ids)
     assessment_metadatas = [
         metadata_serialiser.dump(app_metadata)
-        | {
-            "is_qa_complete": app_id_is_qa_complete_dict[
-                app_metadata.application_id
-            ]
-        }
+        | {"is_qa_complete": True if app_metadata.qa_complete else False}
         for app_metadata in assessment_metadatas
     ]
 
@@ -496,6 +488,7 @@ def find_assessor_task_list_state(application_id: str) -> dict:
                 "fund_id",
                 "round_id",
                 "funding_amount_requested",
+                "qa_complete",
             )
         )
     )
@@ -511,6 +504,7 @@ def find_assessor_task_list_state(application_id: str) -> dict:
             "fund_id",
             "round_id",
             "funding_amount_requested",
+            "qa_complete",
         )
     ).dump(assessment_record)
 

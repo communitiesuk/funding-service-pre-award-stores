@@ -7,7 +7,7 @@ from db.models.comment.enums import CommentType
 from db.models.flags.enums import FlagType
 from db.models.flags_v2.assessment_flag import AssessmentFlag
 from db.models.flags_v2.flag_update import FlagUpdate
-from db.models.qa_complete.qa_complete import QaComplete
+from db.models.qa_complete import QaComplete
 from db.models.score import Score
 from marshmallow import fields
 from marshmallow import Schema
@@ -35,6 +35,7 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     funding_type = String()
     local_authority = String()
     flags_v2 = Nested("AssessmentFlagSchema", many=True)
+    qa_complete = Nested("QaCompleteSchema")
 
 
 class ScoreMetadata(SQLAlchemyAutoSchema):
@@ -125,3 +126,8 @@ class AssessmentFlagSchema(SQLAlchemyAutoSchema):
 class FlagUpdateSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = FlagUpdate
+
+
+class QaCompleteSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = QaComplete
