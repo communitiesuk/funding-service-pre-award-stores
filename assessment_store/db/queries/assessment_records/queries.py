@@ -308,32 +308,26 @@ def get_metadata_flagsv2_for_fund_round_id(
     if status != "ALL":
         filter_assessments = []
         for assessment in assessment_metadatas:
-            if status == FlagType.QA_COMPLETED.name:
-                for flag in assessment.flags_v2:
-                    if flag.latest_status == FlagStatus.QA_COMPLETED:
-                        filter_assessments.append(assessment)
-            elif status in [
-                Status.NOT_STARTED.name,
-                Status.IN_PROGRESS.name,
-                Status.COMPLETED.name,
-            ]:
-                if assessment.workflow_status in [
-                    Status.NOT_STARTED,
-                    Status.IN_PROGRESS,
-                    Status.COMPLETED,
-                ]:
-                    filter_assessments.append(assessment)
-            elif status in [FlagStatus.STOPPED.name, FlagStatus.RAISED.name]:
-                for flag in assessment.flags_v2:
-                    if flag.latest_status in [
-                        FlagStatus.STOPPED,
-                        FlagStatus.RAISED,
-                    ]:
-                        filter_assessments.append(assessment)
-                        break
 
-        if filter_assessments:
-            assessment_metadatas = filter_assessments
+            all_latest_status = [
+                flag.latest_status for flag in assessment.flags_v2
+            ]
+
+            if FlagStatus.STOPPED in all_latest_status:
+                display_status = "STOPPED"
+            elif all_latest_status.count(FlagStatus.RAISED) > 1:
+                display_status = "MULTIPLE_FLAGS"
+            elif all_latest_status.count(FlagStatus.RAISED) == 1:
+                display_status = "FLAGGED"
+            elif FlagStatus.QA_COMPLETED in all_latest_status:
+                display_status = "QA_COMPLETED"
+            else:
+                display_status = assessment.workflow_status.name
+
+            if display_status == status:
+                filter_assessments.append(assessment)
+
+        assessment_metadatas = filter_assessments
 
     metadata_serialiser = AssessmentRecordMetadata(
         exclude=("jsonb_blob", "application_json_md5")
