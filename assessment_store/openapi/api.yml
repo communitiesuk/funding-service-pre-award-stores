@@ -211,7 +211,7 @@ paths:
         - assessments
       summary: Get assessment stats
       description: Get a selection of required metrics
-      operationId: api.routes.assessment_stats_for_fund_round_id
+      operationId: api.routes.assessment_stats_flagsv2_for_fund_round_id
       responses:
         200:
           description: SUCCESS - A collection of assessment metrics

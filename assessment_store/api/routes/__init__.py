@@ -1,6 +1,7 @@
 from .assessment_routes import all_assessments_flagsv2_for_fund_round_id
 from .assessment_routes import all_assessments_for_fund_round_id
 from .assessment_routes import assessment_metadata_for_application_id
+from .assessment_routes import assessment_stats_flagsv2_for_fund_round_id
 from .assessment_routes import assessment_stats_for_fund_round_id
 from .assessment_routes import create_flag_v2_for_application
 from .assessment_routes import get_all_flags_v2_for_application
@@ -44,6 +45,7 @@ __all__ = [
     "post_flag_for_application",
     "get_progress_for_applications",
     "assessment_stats_for_fund_round_id",
+    "assessment_stats_flagsv2_for_fund_round_id",
     "post_progress_for_applications",
     "update_ar_status_to_completed",
     "get_application_json",
