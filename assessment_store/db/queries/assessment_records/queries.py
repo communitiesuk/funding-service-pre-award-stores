@@ -488,7 +488,6 @@ def find_assessor_task_list_state(application_id: str) -> dict:
                 "fund_id",
                 "round_id",
                 "funding_amount_requested",
-                "qa_complete",
             )
         )
     )
@@ -504,7 +503,6 @@ def find_assessor_task_list_state(application_id: str) -> dict:
             "fund_id",
             "round_id",
             "funding_amount_requested",
-            "qa_complete",
         )
     ).dump(assessment_record)
 

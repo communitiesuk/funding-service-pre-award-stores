@@ -33,6 +33,9 @@ from db.queries.flags_v2.queries import add_update_to_assessment_flag
 from db.queries.flags_v2.queries import create_flag_for_application
 from db.queries.flags_v2.queries import get_flag_by_id
 from db.queries.flags_v2.queries import get_flags_for_application
+from db.queries.qa_complete.queries import (
+    get_qa_complete_record_for_application,
+)
 from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
 from db.schemas.schemas import AssessmentFlagSchema
 from flask import current_app
@@ -164,9 +167,11 @@ def get_assessor_task_list_state(application_id: str) -> dict:
     sections, criterias = transform_to_assessor_task_list_metadata(
         metadata["fund_id"], metadata["round_id"], score_map, comment_map
     )
+    qa_complete = get_qa_complete_record_for_application(application_id)
 
     metadata["sections"] = sections
     metadata["criterias"] = criterias
+    metadata["qa_complete"] = qa_complete
 
     return metadata
 

@@ -8,7 +8,6 @@ from db import db
 from db.models.qa_complete.qa_complete import QaComplete
 from db.schemas.schemas import QaCompleteMetadata
 from db.schemas.schemas import QaCompleteSchema
-from sqlalchemy.orm.exc import NoResultFound
 
 
 def create_qa_complete_record(
@@ -29,18 +28,13 @@ def create_qa_complete_record(
 
 
 def get_qa_complete_record_for_application(application_id) -> Dict:
-    try:
-        qa_complete_record_for_application = QaComplete.query.filter(
-            QaComplete.application_id == application_id
-        ).one()
-        metadata_serialiser = QaCompleteMetadata()
-        qa_complete_metadata = metadata_serialiser.dump(
-            qa_complete_record_for_application
-        )
-        return qa_complete_metadata
-    except NoResultFound:
-        return {
-            "code": 404,
-            "message": "Could not get qa_complete record for application",
-            "status": "error",
-        }, 404
+    qa_complete_record_for_application = QaComplete.query.filter(
+        QaComplete.application_id == application_id
+    ).all()
+    metadata_serialiser = QaCompleteMetadata()
+    qa_complete_metadata = metadata_serialiser.dump(
+        qa_complete_record_for_application[0]
+        if qa_complete_record_for_application
+        else []
+    )
+    return qa_complete_metadata
