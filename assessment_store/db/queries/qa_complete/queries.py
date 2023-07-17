@@ -7,7 +7,6 @@ from typing import Dict
 from db import db
 from db.models.qa_complete.qa_complete import QaComplete
 from db.schemas.schemas import QaCompleteMetadata
-from db.schemas.schemas import QaCompleteSchema
 
 
 def create_qa_complete_record(
@@ -21,7 +20,7 @@ def create_qa_complete_record(
     db.session.add(qa_complete_record)
     db.session.commit()
 
-    metadata_serialiser = QaCompleteSchema()
+    metadata_serialiser = QaCompleteMetadata()
     flag_metadata = metadata_serialiser.dump(qa_complete_record)
 
     return flag_metadata
