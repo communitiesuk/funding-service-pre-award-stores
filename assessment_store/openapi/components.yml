@@ -99,6 +99,8 @@ components:
           type: integer
         flagged:
           type: integer
+        multiple_flagged:
+          type: integer
         total:
           type: integer
     Comment:
@@ -315,4 +317,15 @@ components:
         application_id:
           type: string
         user_id:
+          type: string
+    QaCompleteRecord:
+      type: object
+      properties:
+        id:
+          type: string
+        application_id:
+          type: string
+        user_id:
+          type: string
+        date_created:
           type: string
