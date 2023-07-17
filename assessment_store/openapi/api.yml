@@ -954,7 +954,7 @@ paths:
           type: string
           format: path
       responses:
-        201:
+        200:
           description: SUCCESS - Application updated to QA_COMPLETE
           content:
             application/json:
