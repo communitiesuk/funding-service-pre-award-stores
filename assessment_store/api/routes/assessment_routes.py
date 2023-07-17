@@ -312,14 +312,13 @@ def assessment_stats_flagsv2_for_fund_round_id(
         all_latest_status = [
             flag["latest_status"] for flag in assessment["flags_v2"]
         ]
-        is_qa_complete = True if assessment["qa_complete"] else False
         if FlagStatus.STOPPED.name in all_latest_status:
             display_status = "STOPPED"
         elif all_latest_status.count(FlagStatus.RAISED.name) > 1:
             display_status = "MULTIPLE_FLAGS"
         elif all_latest_status.count(FlagStatus.RAISED.name) == 1:
             display_status = "FLAGGED"
-        elif is_qa_complete:
+        elif assessment["is_qa_complete"]:
             display_status = "QA_COMPLETED"
         else:
             display_status = assessment["workflow_status"]
