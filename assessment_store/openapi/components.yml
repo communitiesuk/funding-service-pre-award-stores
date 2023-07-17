@@ -99,6 +99,8 @@ components:
           type: integer
         flagged:
           type: integer
+        multiple_flagged:
+          type: integer
         total:
           type: integer
     Comment:

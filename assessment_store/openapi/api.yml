@@ -220,6 +220,58 @@ paths:
               schema:
                 type: object
                 $ref: 'components.yml#/components/schemas/AssessmentsStats'
+  '/assessments/get-stats_flags_v2/{fund_id}/{round_id}':
+    parameters:
+      - name: fund_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      - name: round_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      - name: search_term
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: asset_type
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: status
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+    get:
+      tags:
+        - assessments
+      summary: Get assessment stats
+      description: Get a selection of required metrics
+      operationId: api.routes.assessment_stats_flagsv2_for_fund_round_id
+      responses:
+        200:
+          description: SUCCESS - A collection of assessment metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: 'components.yml#/components/schemas/AssessmentsStats'
   '/score':
     get:
       tags:
@@ -954,7 +1006,7 @@ paths:
           type: string
           format: path
       responses:
-        201:
+        200:
           description: SUCCESS - Application updated to QA_COMPLETE
           content:
             application/json:

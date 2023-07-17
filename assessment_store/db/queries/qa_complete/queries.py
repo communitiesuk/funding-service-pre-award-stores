@@ -7,7 +7,7 @@ from typing import Dict
 from db import db
 from db.models.qa_complete.qa_complete import QaComplete
 from db.schemas.schemas import QaCompleteMetadata
-from sqlalchemy.orm.exc import NoResultFound
+from db.schemas.schemas import QaCompleteSchema
 
 
 def create_qa_complete_record(
@@ -21,25 +21,20 @@ def create_qa_complete_record(
     db.session.add(qa_complete_record)
     db.session.commit()
 
-    metadata_serialiser = QaCompleteMetadata()
+    metadata_serialiser = QaCompleteSchema()
     flag_metadata = metadata_serialiser.dump(qa_complete_record)
 
     return flag_metadata
 
 
 def get_qa_complete_record_for_application(application_id) -> Dict:
-    try:
-        qa_complete_record_for_application = QaComplete.query.filter(
-            QaComplete.application_id == application_id
-        ).one()
-        metadata_serialiser = QaCompleteMetadata()
-        qa_complete_metadata = metadata_serialiser.dump(
-            qa_complete_record_for_application
-        )
-        return qa_complete_metadata
-    except NoResultFound:
-        return {
-            "code": 404,
-            "message": "Could not get qa_complete record for application",
-            "status": "error",
-        }, 404
+    qa_complete_record_for_application = QaComplete.query.filter(
+        QaComplete.application_id == application_id
+    ).all()
+    metadata_serialiser = QaCompleteMetadata()
+    qa_complete_metadata = metadata_serialiser.dump(
+        qa_complete_record_for_application[0]
+        if qa_complete_record_for_application
+        else []
+    )
+    return qa_complete_metadata

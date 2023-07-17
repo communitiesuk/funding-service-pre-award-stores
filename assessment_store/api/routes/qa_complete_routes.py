@@ -13,7 +13,7 @@ def post_qa_complete_for_application(
     application_workflow_status = application_json.get("workflow_status")
     if (
         application_workflow_status == "COMPLETED"
-        and 404 in get_qa_complete_record_for_application(application_id)
+        and not get_qa_complete_record_for_application(application_id)
     ):
         created_qa_complete_record = create_qa_complete_record(
             application_id=application_id,

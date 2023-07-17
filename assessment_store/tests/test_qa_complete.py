@@ -24,7 +24,7 @@ def test_create_qa_complete_record_for_application(
         application_id, user_id
     )
 
-    assert len(qa_complete_record_metadata) == 4
+    assert len(qa_complete_record_metadata) == 3
     assert qa_complete_record_metadata["date_created"]
     assert qa_complete_record_metadata["user_id"] == "test_user"
 
