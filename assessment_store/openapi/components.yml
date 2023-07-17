@@ -103,6 +103,23 @@ components:
           type: integer
         total:
           type: integer
+    TeamFlagStats:
+      type: array
+      items:
+        type: object
+        properties:
+          team_name:
+            type: string
+            nullable: true
+          raised:
+            type: integer
+            nullable: true
+          stopped:
+            type: integer
+            nullable: true
+          resolved:
+            type: integer
+            nullable: true
     Comment:
       type: object
       properties:

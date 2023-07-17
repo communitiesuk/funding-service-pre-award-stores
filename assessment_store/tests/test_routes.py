@@ -11,6 +11,9 @@ from db.models.flags.enums import FlagType
 from db.models.flags_v2.assessment_flag import AssessmentFlag
 from db.models.flags_v2.flag_update import FlagStatus
 from db.queries.flags.queries import create_flag_for_application
+from db.queries.flags_v2.queries import (
+    create_flag_for_application as create_flag_for_application_v2,
+)
 from tests._expected_responses import APPLICATION_METADATA_RESPONSE
 from tests._expected_responses import ASSESSMENTS_STATS_RESPONSE
 from tests.conftest import test_input_data
@@ -371,6 +374,73 @@ def test_get_flags_v2(client, mocker):
     assert response.status_code == 200
     assert len(response.json) == 1
     assert response.json[0]["id"] == str(expected_flag.id)
+
+
+@pytest.mark.apps_to_insert([test_input_data[0].copy() for x in range(4)])
+def test_get_team_flag_stats(client, seed_application_records):
+    fund_id = seed_application_records[0]["fund_id"]
+    round_id = seed_application_records[0]["round_id"]
+
+    # Get test applications
+    applications = client.get(
+        f"/application_overviews_flags_v2/{fund_id}/{round_id}"
+    ).json
+
+    # Add a RAISED flag for the first application
+    # so that one result from the set is flagged as RAISED
+    # and only one team exists with a flag allocated
+    create_flag_for_application_v2(
+        justification="bob",
+        sections_to_flag=["Overview"],
+        application_id=applications[0]["application_id"],
+        user_id="abc",
+        status="RAISED",
+        allocation="ASSESSOR",
+    )
+
+    response = client.get(
+        f"/assessments/get-team-flag-stats/{fund_id}/{round_id}"
+    )
+
+    assert response.status_code == 200
+    assert len(response.json) == 1
+    assert response.json[0]["team_name"] == "ASSESSOR"
+    assert response.json[0]["raised"] == 1
+
+    # Add a RAISED flag for second application
+    # still only one team exists with a flag allocated
+    # response should still have only one row for one team
+    # 2 raised
+    create_flag_for_application_v2(
+        justification="bob",
+        sections_to_flag=["Overview"],
+        application_id=applications[1]["application_id"],
+        user_id="abc",
+        status="RAISED",
+        allocation="ASSESSOR",
+    )
+
+    # Add a RAISED flag for first application
+    # for a second team response have 2 rows for the two teams
+    create_flag_for_application_v2(
+        justification="bob",
+        sections_to_flag=["Overview"],
+        application_id=applications[1]["application_id"],
+        user_id="abc",
+        status="RAISED",
+        allocation="LEAD_ASSESSOR",
+    )
+
+    response = client.get(
+        f"/assessments/get-team-flag-stats/{fund_id}/{round_id}"
+    )
+
+    assert response.status_code == 200
+    assert len(response.json) == 2
+    assert response.json[0]["team_name"] == "ASSESSOR"
+    assert response.json[0]["raised"] == 2
+    assert response.json[1]["team_name"] == "LEAD_ASSESSOR"
+    assert response.json[1]["raised"] == 1
 
 
 def test_create_flag_v2(client):

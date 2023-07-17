@@ -390,6 +390,60 @@ def assessment_stats_flagsv2_for_fund_round_id(
     return stats
 
 
+def get_team_flag_stats(
+    fund_id: str,
+    round_id: str,
+    search_term: str = "",
+    funding_type: str = "ALL",
+    asset_type: str = "ALL",
+    status: str = "ALL",
+    search_in: str = "",
+    countries: str = "all",
+):
+
+    assessment_overview_flags_v2 = get_metadata_flagsv2_for_fund_round_id(
+        fund_id=fund_id,
+        round_id=round_id,
+        search_term=search_term,
+        asset_type=asset_type,
+        status=status,
+        countries=[_fix_country(c) for c in countries.split(",") if c],
+        search_in=search_in,
+        funding_type=funding_type,
+    )
+
+    def create_team_dict(team_name):
+        return {
+            "team_name": team_name,
+            "raised": 0,
+            "resolved": 0,
+            "stopped": 0,
+        }
+
+    team_flag_stats = []
+
+    for assessment in assessment_overview_flags_v2:
+        for flag in assessment.get("flags_v2", []):
+            latest_status = flag.get("latest_status")
+            allocated_team = flag.get("latest_allocation")
+
+            if allocated_team not in [
+                team["team_name"] for team in team_flag_stats
+            ]:
+                team_flag_stats.append(create_team_dict(allocated_team))
+
+            for team in team_flag_stats:
+                if team["team_name"] == allocated_team:
+                    if latest_status == FlagStatus.RAISED:
+                        team["raised"] += 1
+                    elif latest_status == FlagStatus.STOPPED:
+                        team["stopped"] += 1
+                    elif latest_status == FlagStatus.RESOLVED:
+                        team["resolved"] += 1
+
+    return team_flag_stats
+
+
 def get_application_json(application_id):
     return get_application_jsonb_blob(application_id)
 
