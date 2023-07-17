@@ -35,7 +35,7 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     funding_type = String()
     local_authority = String()
     flags_v2 = Nested("AssessmentFlagSchema", many=True)
-    qa_complete = Nested("QaCompleteSchema")
+    qa_complete = Nested("QaCompleteSchema", many=True)
 
 
 class ScoreMetadata(SQLAlchemyAutoSchema):
