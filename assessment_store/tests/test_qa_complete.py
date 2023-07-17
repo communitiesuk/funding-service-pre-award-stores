@@ -46,6 +46,6 @@ def test_get_qa_complete_record_for_application(_db, seed_application_records):
         application_id
     )
 
-    assert len(qa_complete_record_metadata) == 3
+    assert len(qa_complete_record_metadata) == 4
     assert qa_complete_record_metadata["date_created"]
     assert qa_complete_record_metadata["user_id"] == "test_user"
