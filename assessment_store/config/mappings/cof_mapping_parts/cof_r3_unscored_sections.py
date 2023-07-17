@@ -241,8 +241,8 @@ unscored_sections = [
                 ],
             },
             {
-                "id": "application_information",
-                "name": "Application information",
+                "id": "applicant_information",
+                "name": "Applicant information",
                 "themes": [
                     {
                         "id": "contact_information",
