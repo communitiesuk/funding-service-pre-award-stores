@@ -35,7 +35,7 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     funding_type = String()
     local_authority = String()
     flags_v2 = Nested("AssessmentFlagSchema", many=True)
-    qa_complete = Nested("QaCompleteSchema", many=True)
+    qa_complete = Nested("QaCompleteMetadata", many=True)
 
 
 class ScoreMetadata(SQLAlchemyAutoSchema):
@@ -126,8 +126,3 @@ class AssessmentFlagSchema(SQLAlchemyAutoSchema):
 class FlagUpdateSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = FlagUpdate
-
-
-class QaCompleteSchema(SQLAlchemyAutoSchema):
-    class Meta:
-        model = QaComplete
