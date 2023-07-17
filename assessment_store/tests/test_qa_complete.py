@@ -13,17 +13,14 @@ def test_create_qa_complete_record_for_application(
 ):
     """test_create_qa_complete_record Tests we can create
     qa_complete records in the qa_complete table in the appropriate format."""
-
     picked_row = get_assessment_record(
         seed_application_records[0]["application_id"]
     )
     application_id = picked_row.application_id
     user_id = "test_user"
-
     qa_complete_record_metadata = create_qa_complete_record(
         application_id, user_id
     )
-
     assert len(qa_complete_record_metadata) == 3
     assert qa_complete_record_metadata["date_created"]
     assert qa_complete_record_metadata["user_id"] == "test_user"
@@ -33,19 +30,15 @@ def test_create_qa_complete_record_for_application(
 def test_get_qa_complete_record_for_application(_db, seed_application_records):
     """test_get_qa_complete_record Tests we can get
     qa_complete records in the qa_complete table in the appropriate format."""
-
     picked_row = get_assessment_record(
         seed_application_records[0]["application_id"]
     )
     application_id = picked_row.application_id
     user_id = "test_user"
-
     create_qa_complete_record(application_id, user_id)
-
     qa_complete_record_metadata = get_qa_complete_record_for_application(
         application_id
     )
-
     assert len(qa_complete_record_metadata) == 4
     assert qa_complete_record_metadata["date_created"]
     assert qa_complete_record_metadata["user_id"] == "test_user"
