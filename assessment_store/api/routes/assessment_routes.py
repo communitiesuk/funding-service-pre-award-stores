@@ -376,7 +376,7 @@ def assessment_stats_flagsv2_for_fund_round_id(
                     if determine_display_status(assessment) == "FLAGGED"
                 ]
             ),
-            "mutiple_flagged": len(
+            "multiple_flagged": len(
                 [
                     1
                     for assessment in assessments

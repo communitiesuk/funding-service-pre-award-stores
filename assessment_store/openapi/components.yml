@@ -99,7 +99,7 @@ components:
           type: integer
         flagged:
           type: integer
-        mutiple_flagged:
+        multiple_flagged:
           type: integer
         total:
           type: integer
