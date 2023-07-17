@@ -299,7 +299,7 @@ def assessment_stats_flagsv2_for_fund_round_id(
 ) -> List[Dict]:
     """
     Function used by the endpoint
-    `/assessments/get-stats/{fund_id}/{round_id}`
+    `/assessments/get-stats_flagsv2/{fund_id}/{round_id}`
     that returns a dictionary of metrics about
     assessments for a given fund_id and round_id.
 
@@ -312,11 +312,11 @@ def assessment_stats_flagsv2_for_fund_round_id(
         all_latest_status = [
             flag["latest_status"] for flag in assessment["flags_v2"]
         ]
-        if FlagStatus.STOPPED.name in all_latest_status:
+        if FlagStatus.STOPPED in all_latest_status:
             display_status = "STOPPED"
-        elif all_latest_status.count(FlagStatus.RAISED.name) > 1:
+        elif all_latest_status.count(FlagStatus.RAISED) > 1:
             display_status = "MULTIPLE_FLAGS"
-        elif all_latest_status.count(FlagStatus.RAISED.name) == 1:
+        elif all_latest_status.count(FlagStatus.RAISED) == 1:
             display_status = "FLAGGED"
         elif assessment["is_qa_complete"]:
             display_status = "QA_COMPLETED"
