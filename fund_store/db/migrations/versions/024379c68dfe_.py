@@ -23,11 +23,13 @@ def upgrade():
         batch_op.add_column(sa.Column("guidance_url", sa.String(), nullable=True))
 
     connection = op.get_bind()
+    nstf_guidance_url = "https://mhclg.sharepoint.com.mcas.ms/:w:/s/HomelessnessandRoughSleeping/EZn-Dq3eBvFDtdBqhyEZxUUBj_BP53F9TVyI0imX3NdcPw?e=PtmLwH"  # noqa
+    cof_guidance_url = "https://mhclg.sharepoint.com.mcas.ms/:w:/s/CommunityOwnershipFund/Ecv3iM7U0AtKtyHnzRrQ9dsB0HdMPvHWqAoGn1WrWM7EMA?e=6QpdUT"  # noqa
     connection.execute(
         sqlalchemy.text(
-            """
+            f"""
             UPDATE fund
-            SET guidance_url = 'https://mhclg.sharepoint.com.mcas.ms/:w:/s/HomelessnessandRoughSleeping/EZn-Dq3eBvFDtdBqhyEZxUUBj_BP53F9TVyI0imX3NdcPw?e=PtmLwH'
+            SET guidance_url = '{nstf_guidance_url}'
             WHERE short_name = 'NSTF'
             """
         )
@@ -35,9 +37,9 @@ def upgrade():
 
     connection.execute(
         sqlalchemy.text(
-            """
+            f"""
             UPDATE fund
-            SET guidance_url = 'https://mhclg.sharepoint.com.mcas.ms/:w:/s/CommunityOwnershipFund/Ecv3iM7U0AtKtyHnzRrQ9dsB0HdMPvHWqAoGn1WrWM7EMA?e=6QpdUT'
+            SET guidance_url = '{cof_guidance_url}'
             WHERE short_name = 'COF'
             """
         )
