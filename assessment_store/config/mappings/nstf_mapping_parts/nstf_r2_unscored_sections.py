@@ -92,6 +92,13 @@ unscored_sections = [
                                 "question": "How is your organisation classified?",
                             },
                             {
+                                "field_id": "ETJaFn",
+                                "form_name": "organisation-type-ns",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "If None of these - How is your organisation classified?",
+                            },
+                            {
                                 "field_id": "GnjTGi",
                                 "form_name": "organisation-type-ns",
                                 "field_type": "numberField",
@@ -104,13 +111,6 @@ unscored_sections = [
                                 "field_type": "numberField",
                                 "presentation_type": "text",
                                 "question": "Company registration number (optional)",
-                            },
-                            {
-                                "field_id": "ETJaFn",
-                                "form_name": "organisation-type-ns",
-                                "field_type": "textField",
-                                "presentation_type": "text",
-                                "question": "If none - How is your organisation classified?",
                             },
                             {
                                 "field_id": "ILVEOG",
