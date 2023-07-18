@@ -258,6 +258,30 @@ paths:
           format: query
         required: false
         explode: true
+      - name: search_in
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: funding_type
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: countries
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
     get:
       tags:
         - assessments

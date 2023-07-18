@@ -296,6 +296,9 @@ def assessment_stats_flagsv2_for_fund_round_id(
     search_term: str = "",
     asset_type: str = "ALL",
     status: str = "ALL",
+    search_in: str = "",
+    funding_type: str = "ALL",
+    countries: str = "all",
 ) -> List[Dict]:
     """
     Function used by the endpoint
@@ -331,6 +334,9 @@ def assessment_stats_flagsv2_for_fund_round_id(
         search_term=search_term,
         asset_type=asset_type,
         status=status,
+        search_in=search_in,
+        funding_type=funding_type,
+        countries=[_fix_country(c) for c in countries.split(",") if c],
     )
     stats.update(
         {
