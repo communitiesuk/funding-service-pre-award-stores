@@ -111,7 +111,7 @@ unscored_sections = [
                                 "field_type": "numberField",
                                 "presentation_type": "text",
                                 "question": "Company registration number (optional)",
-                            },                           
+                            },
                             {
                                 "field_id": "ILVEOG",
                                 "form_name": "organisation-type-ns",
