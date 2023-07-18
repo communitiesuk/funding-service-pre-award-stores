@@ -96,7 +96,7 @@ unscored_sections = [
                                 "form_name": "organisation-type-ns",
                                 "field_type": "textField",
                                 "presentation_type": "text",
-                                "question": "If none - How is your organisation classified?",
+                                "question": "If None of these - How is your organisation classified?",
                             },
                             {
                                 "field_id": "GnjTGi",
