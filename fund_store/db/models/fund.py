@@ -41,3 +41,4 @@ class Fund(BaseModel):
         default=False,
         nullable=False,
     )
+    guidance_url = Column("guidance_url", db.String(), nullable=True, unique=False)
