@@ -8,10 +8,13 @@ from typing import List
 
 from db import db
 from db.models.assessment_record import AssessmentRecord
+from db.models.assessment_record import TagAssociation
 from db.models.assessment_record.enums import Status
 from db.models.flags import Flag
 from db.models.flags.enums import FlagType
 from db.models.flags_v2.flag_update import FlagStatus
+from db.models.tag.tag_types import TagType
+from db.models.tag.tags import Tag
 from db.queries.assessment_records._helpers import derive_application_values
 from db.queries.flags.queries import find_qa_complete_flags
 from db.schemas import AssessmentRecordMetadata
@@ -657,3 +660,74 @@ def get_assessment_records_by_round_id(round_id):
             )
 
     return output
+
+
+def associate_assessment_tags(application_id, tags: List):
+    existing_associated_tags = TagAssociation.query.filter(
+        TagAssociation.application_id == application_id,
+        TagAssociation.associated == True,  # noqa: E712
+    ).all()
+
+    # Create a dictionary to quickly lookup existing tags by tag_id
+    existing_associated_tags_dict = {
+        str(tag.tag_id): tag for tag in existing_associated_tags
+    }
+
+    # Iterate over the provided tags and update the tag associations
+    for tag in tags:
+        tag_id = tag.get("id")
+        user_id = tag.get("user_id")
+        associated = True  # Set associated value to True for provided tags
+
+        # Check if the tag already exists in the database
+        if tag_id not in existing_associated_tags_dict:
+            # Create a new tag association
+            new_tag = TagAssociation(
+                application_id=application_id,
+                tag_id=tag.get("id"),
+                associated=associated,
+                user_id=user_id,
+            )
+            db.session.add(new_tag)
+
+    # Dis-associate any existing tags that are not present in the provided list
+    incoming_tag_ids = {tag["id"] for tag in tags}
+    for tag in existing_associated_tags:
+        if str(tag.tag_id) not in incoming_tag_ids:
+            tag.associated = False
+
+    db.session.commit()
+
+    # Return the updated tag associations
+    updated_tags = TagAssociation.query.filter(
+        TagAssociation.application_id == application_id,
+        TagAssociation.associated == True,  # noqa: E712
+    ).all()
+    return updated_tags
+
+
+def select_tags_associated_with_assessment(application_id):
+
+    tag_associations = (
+        db.session.query(
+            Tag.id.label("tag_id"),
+            Tag.value,
+            TagType.purpose,
+            TagType.description,
+            TagAssociation.associated,
+            TagAssociation.user_id,
+            AssessmentRecord.application_id,
+        )
+        .join(
+            AssessmentRecord,
+            TagAssociation.application_id == AssessmentRecord.application_id,
+        )
+        .join(Tag, Tag.id == TagAssociation.tag_id)
+        .join(TagType, Tag.type_id == TagType.id)
+        .filter(AssessmentRecord.application_id == application_id)
+        .filter(TagAssociation.associated == True)  # noqa: E712
+        .all()
+    )
+
+    db.session.commit()
+    return tag_associations

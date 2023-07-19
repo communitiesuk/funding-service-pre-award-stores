@@ -125,9 +125,9 @@ marshmallow==3.19.0
     # via marshmallow-sqlalchemy
 marshmallow-sqlalchemy==0.28.1
     # via -r requirements.in
-mypy==0.991
+mypy==1.4.1
     # via sqlalchemy
-mypy-extensions==0.4.3
+mypy-extensions==1.0.0
     # via mypy
 openapi-schema-validator==0.4.3
     # via openapi-spec-validator
@@ -217,7 +217,7 @@ six==1.16.0
     #   python-dateutil
     #   rfc3339-validator
     #   thrift
-sqlalchemy[mypy]==1.4.44
+sqlalchemy[mypy]==1.4.48
     # via
     #   -r requirements.in
     #   alembic
@@ -229,7 +229,7 @@ sqlalchemy-utils==0.38.3
     # via
     #   -r requirements.in
     #   funding-service-design-utils
-sqlalchemy2-stubs==0.0.2a29
+sqlalchemy2-stubs==0.0.2a34
     # via sqlalchemy
 stringcase==1.2.0
     # via dataclass-dict-convert

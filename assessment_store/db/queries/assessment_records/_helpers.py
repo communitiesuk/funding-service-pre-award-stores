@@ -40,18 +40,22 @@ def get_location_json_from_postcode(raw_postcode):
     ).json()
 
     postcode_data = result["result"][0]["result"]
-    location_data = {
-        "error": False,
-        "postcode": raw_postcode,
-        "county": postcode_data["admin_county"]
-        if postcode_data["admin_county"]
-        else postcode_data["admin_district"],
-        "region": postcode_data["region"]
-        if postcode_data["region"]
-        else postcode_data["european_electoral_region"],
-        "country": postcode_data["country"],
-        "constituency": postcode_data["parliamentary_constituency"],
-    }
+    location_data = (
+        {
+            "error": False,
+            "postcode": raw_postcode,
+            "county": postcode_data["admin_county"]
+            if postcode_data["admin_county"]
+            else postcode_data["admin_district"],
+            "region": postcode_data["region"]
+            if postcode_data["region"]
+            else postcode_data["european_electoral_region"],
+            "country": postcode_data["country"],
+            "constituency": postcode_data["parliamentary_constituency"],
+        }
+        if postcode_data
+        else None
+    )
     return location_data
 
 

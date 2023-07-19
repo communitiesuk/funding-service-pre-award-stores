@@ -27,6 +27,7 @@ from .qa_complete_routes import post_qa_complete_for_application
 from .qa_complete_routes import qa_complete_record_for_application
 from .score_routes import get_score_for_application_sub_criteria
 from .score_routes import post_score_for_application_sub_criteria
+from .tag_routes import get_tags_for_fund_round
 
 
 __all__ = [
@@ -56,6 +57,8 @@ __all__ = [
     "get_all_flags_v2_for_application",
     "update_flag_v2_for_application",
     "create_flag_v2_for_application",
+    "get_tags_for_fund_round",
+    "add_tag_for_fund_round",
     "get_flag_v2",
     "post_qa_complete_for_application",
     "qa_complete_record_for_application",
