@@ -46,9 +46,7 @@ def upgrade():
     )
 
     with op.batch_alter_table("fund", schema=None) as batch_op:
-        batch_op.alter_column(
-            "guidance_url", nullable=False
-        )
+        batch_op.alter_column("guidance_url", nullable=False)
 
     # ### end Alembic commands ###
 
