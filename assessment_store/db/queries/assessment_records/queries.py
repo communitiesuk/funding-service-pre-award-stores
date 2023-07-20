@@ -278,6 +278,21 @@ def get_metadata_flagsv2_for_fund_round_id(
 
         statement = statement.filter(or_(*filters))
 
+    if filter_by_tag and filter_by_tag.casefold() != "all":
+        assessment_records_by_tag_id = (
+            db.session.query(AssessmentRecord)
+            .join(TagAssociation)
+            .filter(TagAssociation.tag_id == filter_by_tag)
+            .filter(TagAssociation.associated == True)  # noqa E712
+            .all()
+        )
+        record_ids_with_tag_id = [
+            record.application_id for record in assessment_records_by_tag_id
+        ]
+        statement = statement.where(
+            AssessmentRecord.application_id.in_(record_ids_with_tag_id)
+        )
+
     if "all" not in countries:
         current_app.logger.info(
             f"Performing assessment search on countries: {countries}."
