@@ -235,6 +235,7 @@ def get_metadata_flagsv2_for_fund_round_id(
     search_in: str = "",
     funding_type: str = "",
     countries: List[str] = ["all"],
+    filter_by_tag: str = "",
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
     which returns all rows matching the given fund_id and round_id. Has

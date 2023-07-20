@@ -98,6 +98,7 @@ def all_assessments_flagsv2_for_fund_round_id(
     status: str = "ALL",
     search_in: str = "",
     countries: str = "all",
+    filter_by_tag: str = "",
 ) -> List[Dict]:
     """all_assessments_for_fund_round_id Function used by the endpoint
     `/application_overviews/{fund_id}/{round_id}`.
@@ -115,6 +116,7 @@ def all_assessments_flagsv2_for_fund_round_id(
         countries=[_fix_country(c) for c in countries.split(",") if c],
         search_in=search_in,
         funding_type=funding_type,
+        filter_by_tag=filter_by_tag,
     )
     return app_list
 

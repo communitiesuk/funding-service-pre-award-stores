@@ -152,6 +152,14 @@ paths:
         format: query
       required: false
       explode: true
+    - name: filter_by_tag
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
     get:
       tags:
         - assessments

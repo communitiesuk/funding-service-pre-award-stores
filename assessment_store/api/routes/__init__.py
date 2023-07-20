@@ -27,6 +27,7 @@ from .qa_complete_routes import post_qa_complete_for_application
 from .qa_complete_routes import qa_complete_record_for_application
 from .score_routes import get_score_for_application_sub_criteria
 from .score_routes import post_score_for_application_sub_criteria
+from .tag_routes import add_tag_for_fund_round
 from .tag_routes import get_tags_for_fund_round
 
 

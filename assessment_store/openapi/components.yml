@@ -369,6 +369,10 @@ components:
             type: string
             description: uuid of tag.
             example: uuif7eaf61b-093e-4464-a4da-b36b849f0a1b
+          type_id:
+            type: string
+            description: uuid of tag id.
+            example: uuif7eaf61b-093e-4464-a4da-b36b849f0a1c
           value:
             type: string
             description: inserted tag key
