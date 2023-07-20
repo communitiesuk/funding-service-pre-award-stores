@@ -13,6 +13,7 @@ from db.models.assessment_record.enums import Status
 from db.models.flags import Flag
 from db.models.flags.enums import FlagType
 from db.models.flags_v2.flag_update import FlagStatus
+from db.models.score import Score
 from db.models.tag.tag_types import TagType
 from db.models.tag.tags import Tag
 from db.queries.assessment_records._helpers import derive_application_values
@@ -31,7 +32,6 @@ from sqlalchemy import String
 from sqlalchemy import update
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.orm import defer
-from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import load_only
 
 
@@ -621,43 +621,58 @@ def update_status_to_completed(application_id):
 
 def get_assessment_records_by_round_id(round_id):
     """
-    Retrieves assessment records and scores based on the provided round ID.
+    Retrieve the latest scores and associated information for each subcriteria
+    of AssessmentRecords matching the given round_id.
 
     Parameters:
-    - round_id: Short identification code used to query assessment records.
+        round_id (UUID): The ID of the round to filter AssessmentRecords.
 
     Returns:
-    - List of dictionaries containing relevant information extracted from assessment records and scores.
-    Each dictionary represents a record and includes the following fields:
-
-        - "Short id": Short identification code of the assessment record.
-        - "Application ID": Identification of the associated application.
-        - "Score Subcriteria": ID of the score subcriteria.
-        - "Score": Score assigned to the subcriteria.
-        - "Score Justification": Justification for the assigned score.
-        - "Score Date Created": Date when the score was created.
+        list: A list of dictionaries, each containing the latest score and its associated
+        information for each subcriteria of the AssessmentRecords that match the given round_id.
     """
-    # Query assessment records and scores
-    assessment_records = (
-        AssessmentRecord.query.filter(AssessmentRecord.round_id == round_id)
-        .options(joinedload(AssessmentRecord.scores))
+    subquery = (
+        db.session.query(
+            Score.application_id,
+            Score.sub_criteria_id,
+            func.max(Score.date_created).label("latest_date_created"),
+        )
+        .group_by(Score.application_id, Score.sub_criteria_id)
+        .subquery()
+    )
+
+    latest_scores = (
+        db.session.query(Score)
+        .join(
+            subquery,
+            and_(
+                Score.application_id == subquery.c.application_id,
+                Score.sub_criteria_id == subquery.c.sub_criteria_id,
+                Score.date_created == subquery.c.latest_date_created,
+            ),
+        )
+        .join(
+            AssessmentRecord,
+            Score.application_id == AssessmentRecord.application_id,
+        )
+        .filter(AssessmentRecord.round_id == round_id)
         .all()
     )
 
-    # Extract relevant information and format the output
     output = []
-    for record in assessment_records:
-        for score in record.scores:
-            output.append(
-                {
-                    "Short id": record.short_id,
-                    "Application ID": record.application_id,
-                    "Score Subcriteria": score.sub_criteria_id,
-                    "Score": score.score,
-                    "Score Justification": score.justification,
-                    "Score Date Created": score.date_created,
-                }
-            )
+    for score in latest_scores:
+        output.append(
+            {
+                "Short id": AssessmentRecord.query.get(
+                    score.application_id
+                ).short_id,
+                "Application ID": score.application_id,
+                "Score Subcriteria": score.sub_criteria_id,
+                "Score": score.score,
+                "Score Justification": score.justification,
+                "Score Date Created": score.date_created,
+            }
+        )
 
     return output
 
