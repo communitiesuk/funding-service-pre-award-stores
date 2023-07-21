@@ -92,7 +92,7 @@ def test_tag_association_disassociation_workflow_is_working_correctly(
     # associate no tags and expect all associated tags to be removed
     associate_assessment_tags(app_id, [])
     actual_tags = get_tags_associated_with_assessment(app_id)
-    assert actual_tags == None  # noqa: E711
+    assert actual_tags == []  # noqa: E711
 
 
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])
@@ -137,7 +137,7 @@ def test_tag_association_history_is_retained_for_reassociated_tags(
     assert len(app.tag_associations) == 1
     # check total associated tags
     tags = get_tags_associated_with_assessment(app_id)
-    assert tags == None  # noqa: E711
+    assert tags == []  # noqa: E711
 
     # associate the single tag again as a different user
     single_tag[0]["user_id"] = "2d8e6a2e-aa22-417f-a138-90569c8b238f"
@@ -158,4 +158,4 @@ def test_tag_association_history_is_retained_for_reassociated_tags(
     assert len(app.tag_associations) == 2
     # check total associated tags
     tags = get_tags_associated_with_assessment(app_id)
-    assert tags == None  # noqa: E711
+    assert tags == []  # noqa: E711

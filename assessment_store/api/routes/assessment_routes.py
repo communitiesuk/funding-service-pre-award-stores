@@ -510,6 +510,7 @@ def get_tags_associated_with_assessment(application_id):
             serialiser.dump(r) for r in associated_tags
         ]
         return serialised_associated_tags
+    return []
 
 
 def get_flag_v2(flag_id: str):
