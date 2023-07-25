@@ -7,6 +7,7 @@ from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy import JSON
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.types import Boolean
 
 
 BaseModel: DefaultMeta = db.Model
@@ -50,4 +51,10 @@ class Round(BaseModel):
     )
     application_guidance = Column(
         "application_guidance", db.String(), nullable=True, unique=False
+    )
+    all_uploaded_documents_section_available = Column(
+        "all_uploaded_documents_section_available",
+        Boolean,
+        default=False,
+        nullable=False,
     )
