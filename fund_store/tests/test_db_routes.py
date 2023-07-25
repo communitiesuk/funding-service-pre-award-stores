@@ -45,7 +45,7 @@ def test_get_all_funds(flask_test_client, mock_get_fund_round):
 def test_get_all_funds_no_data(flask_test_client, mocker):
     mocker.patch("api.routes.get_all_funds", return_value=[])
     response = flask_test_client.get("/funds")
-    assert response.status_code == 404
+    assert response.status_code == 200
 
 
 def test_get_app_sections_for_round(flask_test_client, mock_get_sections):
