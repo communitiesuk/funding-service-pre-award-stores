@@ -3,6 +3,7 @@ from uuid import uuid4
 
 import pytest
 from api.routes.tag_routes import get_tags_for_fund_round
+from db.queries.tags.queries import get_tag_by_id
 from db.queries.tags.queries import insert_tags
 
 # _db.session.remove()
@@ -226,3 +227,21 @@ def test_get_tags(_db, clear_test_data, seed_and_get_tag_types):
             "active",
         ]
     )
+
+
+def test_get_tag(seed_tags):
+    tag_id = seed_tags[0]["id"]
+    fund_id = seed_tags[0]["fund_id"]
+    round_id = seed_tags[0]["round_id"]
+    tag = get_tag_by_id(fund_id, round_id, tag_id)
+    assert tag
+    assert str(tag.id) == tag_id
+    assert tag.value == "Test tag 1"
+
+
+def test_get_tag_bad_id(seed_tags):
+    tag_id = str(uuid4())
+    fund_id = seed_tags[0]["fund_id"]
+    round_id = seed_tags[0]["round_id"]
+    tag = get_tag_by_id(fund_id, round_id, tag_id)
+    assert tag is None

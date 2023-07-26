@@ -4,6 +4,7 @@ from db import db
 from db.models.tag.tag_types import TagType
 from db.models.tag.tags import Tag
 from flask import current_app
+from sqlalchemy.exc import NoResultFound
 
 
 def insert_tags(tags, fund_id, round_id):
@@ -76,6 +77,32 @@ def select_tags_for_fund_round(
         .all()
     )
     return tags
+
+
+def get_tag_by_id(fund_id: str, round_id: str, tag_id: str) -> Tag:
+    try:
+        return (
+            db.session.query(
+                Tag.id,
+                Tag.value,
+                Tag.active,
+                Tag.type_id,
+                Tag.fund_id,
+                Tag.round_id,
+                Tag.creator_user_id,
+                Tag.created_at,
+                TagType.purpose.label("purpose"),
+                TagType.description.label("description"),
+            )
+            .join(TagType, Tag.type_id == TagType.id)
+            .filter(Tag.fund_id == fund_id)
+            .filter(Tag.round_id == round_id)
+            .filter(Tag.id == tag_id)
+            .one()
+        )
+    except NoResultFound as e:
+        current_app.log_exception(e)
+        return None
 
 
 def select_tags_types() -> List[TagType]:

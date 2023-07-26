@@ -10,6 +10,7 @@ from api.routes.subcriterias.get_sub_criteria import (
 from db.models.flags.enums import FlagType
 from db.models.flags_v2.assessment_flag import AssessmentFlag
 from db.models.flags_v2.flag_update import FlagStatus
+from db.models.tag.tags import Tag
 from db.queries.flags.queries import create_flag_for_application
 from db.queries.flags_v2.queries import (
     create_flag_for_application as create_flag_for_application_v2,
@@ -479,3 +480,31 @@ def test_update_flag_v2(client):
         assert response.status_code == 200
         update_mock.assert_called_once_with(**request_body)
         assert response.json["id"] == str(expected_flag.id)
+
+
+def test_get_tag(client, mocker):
+    tag_id = uuid4()
+    mock_tag = Tag(
+        id=tag_id,
+        value="tag value 1",
+        creator_user_id="test-user",
+        active=True,
+        fund_id=uuid4(),
+        round_id=uuid4(),
+        type_id=uuid4(),
+    )
+    with mocker.patch(
+        "api.routes.tag_routes.get_tag_by_id", return_value=mock_tag
+    ):
+        response = client.get("/funds/test-fund/rounds/round-id/tags/tag-id")
+        assert response.status_code == 200
+        assert response.json
+        assert response.json["id"] == str(tag_id)
+
+
+def test_get_tag_none_exists(client, mocker):
+    with mocker.patch(
+        "api.routes.tag_routes.get_tag_by_id", return_value=None
+    ):
+        response = client.get("/funds/test-fund/rounds/round-id/tags/tag-id")
+        assert response.status_code == 404

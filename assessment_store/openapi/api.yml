@@ -1212,7 +1212,42 @@ paths:
                 type: object
                 items:
                   $ref: 'components.yml#/components/schemas/TagAssociation'
-
+  '/funds/{fund_id}/rounds/{round_id}/tags/{tag_id}':
+    get:
+      tags:
+        - tag management
+      summary: Get a specific tag
+      description: Returns the tag
+      operationId: api.routes.tag_routes.get_tag
+      parameters:
+        - in: path
+          name: fund_id
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: round_id
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: tag_id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: A list of tags for the given fund-round.
+          content:
+            application/json:
+              schema:
+                $ref : 'components.yml#/components/schemas/Tag'
+        404:
+          description: "Tags not found for fund-round provided."
+          content:
+            application/json:
+              schema:
+                $ref: "components.yml#/components/schemas/Error"
   '/funds/{fund_id}/rounds/{round_id}/tags':
     get:
       tags:

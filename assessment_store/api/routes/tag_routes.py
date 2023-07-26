@@ -1,4 +1,5 @@
 # flake8: noqa
+from db.queries.tags.queries import get_tag_by_id
 from db.queries.tags.queries import insert_tags
 from db.queries.tags.queries import select_tags_for_fund_round
 from db.queries.tags.queries import select_tags_types
@@ -55,3 +56,10 @@ def add_tag_for_fund_round(fund_id, round_id):
         return serialised_tags
 
     abort(404)
+
+
+def get_tag(fund_id, round_id, tag_id):
+    tag = get_tag_by_id(fund_id, round_id, tag_id)
+    if not tag:
+        return abort(404)
+    return JoinedTagSchema().dump(tag)
