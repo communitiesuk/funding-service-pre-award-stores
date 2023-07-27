@@ -530,9 +530,9 @@ def test_get_application_export(client, seed_application_records, monkeypatch):
     assert len(result) == 4
     assert result[0]["Charity number "] == "Test"
     assert (
-        result[0]["Do you need to do any further feasibility work?"] == False
-    )  # noqa
+        result[0]["Do you need to do any further feasibility work?"] is False
+    )
     assert result[0]["Project name"] == "Save the humble pub in Bangor"
     assert (
         result[0]["Risks to your project (document upload)"] == "sample1.doc"
-    )  # noqa
+    )
