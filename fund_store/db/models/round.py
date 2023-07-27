@@ -51,3 +51,9 @@ class Round(BaseModel):
     application_guidance = Column(
         "application_guidance", db.String(), nullable=True, unique=False
     )
+    application_fields_download_available = Column(
+        "application_fields_download_available",
+        db.Boolean,
+        default=False,
+        nullable=False,
+    )
