@@ -515,7 +515,7 @@ def test_get_tag_none_exists(client, mocker):
 
 @pytest.mark.apps_to_insert([test_input_data[0].copy() for x in range(4)])
 @pytest.mark.unique_fund_round(True)
-def test_get_application_fields_exportt(
+def test_get_application_fields_export(
     client, seed_application_records, monkeypatch
 ):
     fund_id = seed_application_records[0]["fund_id"]
