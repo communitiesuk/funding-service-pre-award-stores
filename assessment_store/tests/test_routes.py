@@ -7,6 +7,9 @@ import pytest
 from api.routes.subcriterias.get_sub_criteria import (
     map_application_with_sub_criteria_themes,
 )
+from config.mappings.assessment_mapping_fund_round import (
+    applicant_info_mapping,
+)
 from db.models.flags.enums import FlagType
 from db.models.flags_v2.assessment_flag import AssessmentFlag
 from db.models.flags_v2.flag_update import FlagStatus
@@ -22,9 +25,6 @@ from tests.test_data.flags import add_flag_update_request_json
 from tests.test_data.flags import create_flag_request_json
 
 from ._expected_responses import subcriteria_themes_and_expected_response
-from config.mappings.assessment_mapping_fund_round import (
-    applicant_info_mapping,
-)
 
 COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
@@ -529,6 +529,10 @@ def test_get_application_export(client, seed_application_records, monkeypatch):
 
     assert len(result) == 4
     assert result[0]["Charity number "] == "Test"
-    assert result[0]["Do you need to do any further feasibility work?"] == False # noqa
+    assert (
+        result[0]["Do you need to do any further feasibility work?"] == False
+    )  # noqa
     assert result[0]["Project name"] == "Save the humble pub in Bangor"
-    assert result[0]["Risks to your project (document upload)"] == "sample1.doc" # noqa
+    assert (
+        result[0]["Risks to your project (document upload)"] == "sample1.doc"
+    )  # noqa
