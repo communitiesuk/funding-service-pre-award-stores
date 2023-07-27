@@ -4,6 +4,7 @@ from .assessment_routes import assessment_metadata_for_application_id
 from .assessment_routes import assessment_stats_flagsv2_for_fund_round_id
 from .assessment_routes import assessment_stats_for_fund_round_id
 from .assessment_routes import create_flag_v2_for_application
+from .assessment_routes import get_all_applications_for_export
 from .assessment_routes import get_all_flags_v2_for_application
 from .assessment_routes import get_all_uploaded_document_theme_answers
 from .assessment_routes import get_application_json
@@ -15,7 +16,6 @@ from .assessment_routes import get_team_flag_stats
 from .assessment_routes import sub_criteria
 from .assessment_routes import update_ar_status_to_completed
 from .assessment_routes import update_flag_v2_for_application
-from .assessment_routes import get_all_applications_for_export
 from .comment_routes import comments_for_application_sub_criteria
 from .comment_routes import post_comments_for_application_sub_criteria
 from .flag_routes import get_all_flags_for_application

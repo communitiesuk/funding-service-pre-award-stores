@@ -25,6 +25,7 @@ from db.queries.assessment_records.queries import get_application_jsonb_blob
 from db.queries.assessment_records.queries import (
     get_assessment_sub_critera_state,
 )
+from db.queries.assessment_records.queries import get_export_application_data
 from db.queries.assessment_records.queries import get_metadata_for_application
 from db.queries.assessment_records.queries import (
     select_tags_associated_with_assessment,
@@ -41,7 +42,6 @@ from db.queries.qa_complete.queries import (
     get_qa_complete_record_for_application,
 )
 from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
-from db.queries.assessment_records.queries import get_export_application_data
 from db.schemas.schemas import AssessmentFlagSchema
 from db.schemas.schemas import JoinedTagAssociationSchema
 from db.schemas.schemas import TagAssociationSchema
