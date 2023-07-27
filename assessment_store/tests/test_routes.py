@@ -22,6 +22,9 @@ from tests.test_data.flags import add_flag_update_request_json
 from tests.test_data.flags import create_flag_request_json
 
 from ._expected_responses import subcriteria_themes_and_expected_response
+from config.mappings.assessment_mapping_fund_round import (
+    applicant_info_mapping,
+)
 
 COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
@@ -508,3 +511,24 @@ def test_get_tag_none_exists(client, mocker):
     ):
         response = client.get("/funds/test-fund/rounds/round-id/tags/tag-id")
         assert response.status_code == 404
+
+
+@pytest.mark.apps_to_insert([test_input_data[0].copy() for x in range(4)])
+@pytest.mark.unique_fund_round(True)
+def test_get_application_export(client, seed_application_records, monkeypatch):
+    fund_id = seed_application_records[0]["fund_id"]
+    round_id = seed_application_records[0]["round_id"]
+
+    monkeypatch.setitem(
+        applicant_info_mapping,
+        f"{fund_id}",
+        {"aHIGbK", "aAeszH", "ozgwXq", "KAgrBz"},
+    )
+
+    result = client.get(f"/application_export/{fund_id}/{round_id}").json
+
+    assert len(result) == 4
+    assert result[0]["Charity number "] == "Test"
+    assert result[0]["Do you need to do any further feasibility work?"] == False # noqa
+    assert result[0]["Project name"] == "Save the humble pub in Bangor"
+    assert result[0]["Risks to your project (document upload)"] == "sample1.doc" # noqa

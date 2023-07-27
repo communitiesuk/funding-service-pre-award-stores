@@ -41,6 +41,7 @@ from db.queries.qa_complete.queries import (
     get_qa_complete_record_for_application,
 )
 from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
+from db.queries.assessment_records.queries import get_export_application_data
 from db.schemas.schemas import AssessmentFlagSchema
 from db.schemas.schemas import JoinedTagAssociationSchema
 from db.schemas.schemas import TagAssociationSchema
@@ -518,3 +519,9 @@ def get_flag_v2(flag_id: str):
     flags = get_flag_by_id(flag_id)
     flag_schema = AssessmentFlagSchema()
     return flag_schema.dump(flags, many=True)[0]
+
+
+def get_all_applications_for_export(fund_id: str, round_id: str) -> List[Dict]:
+    app_list = get_export_application_data(fund_id=fund_id, round_id=round_id)
+
+    return app_list
