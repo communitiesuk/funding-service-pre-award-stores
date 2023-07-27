@@ -1347,7 +1347,7 @@ paths:
       get:
         tags:
           - assessments
-        summary: Search assessments for export
+        summary: Search assessments for export by fields
         description: List all assessments for export
         operationId: api.routes.get_all_applications_for_export
         responses:
