@@ -12,6 +12,7 @@ from db.schemas.round import RoundSchema
 from db.schemas.section import SECTION_SCHEMA_MAP
 from distutils.util import strtobool
 from flask import abort
+from flask import current_app
 from flask import request
 from fsd_utils.locale_selector.get_lang import get_lang
 
@@ -60,7 +61,8 @@ def get_funds():
             fund_data=serialiser.dump(funds, many=True), lang_key=language
         )
 
-    abort(404)
+    current_app.logger.warn("No funds were found, please check this.")
+    return []
 
 
 def get_fund(fund_id):
