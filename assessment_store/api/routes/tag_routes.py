@@ -7,6 +7,7 @@ from db.schemas.schemas import JoinedTagSchema
 from db.schemas.schemas import TagSchema
 from db.schemas.schemas import TagTypeSchema
 from flask import abort
+from flask import current_app
 from flask import request
 
 
@@ -14,12 +15,13 @@ def get_tags_for_fund_round(fund_id, round_id):
 
     tags = select_tags_for_fund_round(fund_id, round_id)
 
-    if tags:
-        serialiser = JoinedTagSchema()
-        serialised_tags = [serialiser.dump(r) for r in tags]
-        return serialised_tags
-
-    abort(404, f"No tags found for fund__round: {fund_id}__{round_id}.")
+    if not tags:
+        current_app.logger.warning(
+            f"No tags found for fund__round: {fund_id}__{round_id}."
+        )
+    serialiser = JoinedTagSchema()
+    serialised_tags = [serialiser.dump(r) for r in tags]
+    return serialised_tags
 
 
 def seed_and_get_tag_types():
