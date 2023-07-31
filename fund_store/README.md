@@ -97,11 +97,8 @@ To seed fund & round data to db
 
 ```
 docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r2
-
-```
-```
 docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r3w1
-
+docker exec -ti <fund_store_container_id> python -m scripts.load_ns_r2
 ```
 To amend the round dates
 ```

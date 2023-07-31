@@ -35,10 +35,4 @@ class Fund(BaseModel):
     )
     rounds: Mapped[List["Round"]] = relationship("Round")
     welsh_available = Column("welsh_available", Boolean, default=False, nullable=False)
-    all_uploaded_documents_section_available = Column(
-        "all_uploaded_documents_section_available",
-        Boolean,
-        default=False,
-        nullable=False,
-    )
     guidance_url = Column("guidance_url", db.String(), nullable=True, unique=False)
