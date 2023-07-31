@@ -3,6 +3,7 @@
 Joins allowed.
 """
 import json
+from collections import OrderedDict
 from typing import Dict
 from typing import List
 
@@ -791,4 +792,17 @@ def get_export_application_data(fund_id: str, round_id: str) -> List[Dict]:
                         applicant_info[field["title"]] = field["answer"]
         finalList.append(applicant_info)
 
+    add_missing_elements_with_empty_values(finalList)
     return finalList
+
+
+# adds miissing elements for use in the csv
+def add_missing_elements_with_empty_values(finalList):
+    missing_keys_order = list(finalList[0].keys())
+
+    for field in finalList:
+        ordered_dict = OrderedDict()
+        for key in missing_keys_order:
+            ordered_dict[key] = field.get(key, "")
+        field.clear()
+        field.update(ordered_dict)
