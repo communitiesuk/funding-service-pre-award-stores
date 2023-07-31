@@ -58,3 +58,9 @@ class Round(BaseModel):
         default=False,
         nullable=False,
     )
+    application_fields_download_available = Column(
+        "application_fields_download_available",
+        db.Boolean,
+        default=False,
+        nullable=False,
+    )
