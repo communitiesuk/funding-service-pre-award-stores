@@ -114,3 +114,18 @@ fund_round_data_key_mappings = {
         "funding_two": ["XsAoTv", "JtBjFp"],
     },
 }
+
+applicant_info_mapping = {
+    "13b95669-ed98-4840-8652-d6b7a19964db": {
+        "SnLGJE",
+        "CDEwxp",
+        "DvBqCJ",
+        "mhYQzL",
+    },
+    "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4": {
+        "SnLGJE",
+        "NlHSBg",
+        "FhBkJQ",
+        "VhkCbM",
+    },
+}

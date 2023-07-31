@@ -241,8 +241,8 @@ unscored_sections = [
                 ],
             },
             {
-                "id": "application_information",
-                "name": "Application information",
+                "id": "applicant_information",
+                "name": "Applicant information",
                 "themes": [
                     {
                         "id": "contact_information",
@@ -489,7 +489,7 @@ unscored_sections = [
                                 "question": "Asset type",
                             },
                             {
-                                "field_id": "VxBLMN",
+                                "field_id": "aJGyCR",
                                 "form_name": "asset-information-cof-r3-w1",
                                 "field_type": "radiosField",
                                 "presentation_type": "text",

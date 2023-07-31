@@ -152,6 +152,14 @@ paths:
         format: query
       required: false
       explode: true
+    - name: filter_by_tag
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
     get:
       tags:
         - assessments
@@ -220,6 +228,158 @@ paths:
               schema:
                 type: object
                 $ref: 'components.yml#/components/schemas/AssessmentsStats'
+  '/assessments/get-stats_flags_v2/{fund_id}/{round_id}':
+    parameters:
+      - name: fund_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      - name: round_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      - name: search_term
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: asset_type
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: status
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: search_in
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: funding_type
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: countries
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+    get:
+      tags:
+        - assessments
+      summary: Get assessment stats
+      description: Get a selection of required metrics
+      operationId: api.routes.assessment_stats_flagsv2_for_fund_round_id
+      responses:
+        200:
+          description: SUCCESS - A collection of assessment metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: 'components.yml#/components/schemas/AssessmentsStats'
+  '/assessments/get-team-flag-stats/{fund_id}/{round_id}':
+    parameters:
+      - name: fund_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      - name: round_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      - name: search_term
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: asset_type
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: status
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: search_in
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: funding_type
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+      - name: countries
+        in: query
+        style: form
+        schema:
+          type: string
+          format: query
+        required: false
+        explode: true
+    get:
+      tags:
+        - assessments
+      summary: Get team flagging stats
+      description: Get a selection of required metrics
+      operationId: api.routes.get_team_flag_stats
+      responses:
+        200:
+          description: SUCCESS - A collection of assessment metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: 'components.yml#/components/schemas/TeamFlagStats'
   '/score':
     get:
       tags:
@@ -530,7 +690,6 @@ paths:
             application/json:
               schema:
                 type: object
-
   '/application/{application_id}/status/complete':
     parameters:
       - name: application_id
@@ -586,7 +745,6 @@ paths:
                   workflow_status:
                     type: string
                     example: "COMPLETED"
-
   '/application_overviews/{application_id}':
     parameters:
     - name: application_id
@@ -609,7 +767,6 @@ paths:
               schema:
                 type: object
                 $ref: 'assessor_task_list.yml#/components/schemas/AssessorTaskListState'
-
   '/sub_criteria_themes/{application_id}/{theme_id}':
     parameters:
     - name: application_id
@@ -774,7 +931,6 @@ paths:
                 type: object
                 items:
                   $ref: 'components.yml#/components/schemas/Comment'
-
   '/progress':
     post:
       tags:
@@ -932,3 +1088,274 @@ paths:
                 code: 401
                 status: 'error'
                 message: 'Could not save Flag for application'
+
+  '/qa_complete/{application_id}/{user_id}':
+    post:
+      tags:
+        - qa_complete
+      summary: create a qa_complete record for an application
+      description: post a qa_complete record for an application
+      operationId: api.routes.post_qa_complete_for_application
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      responses:
+        200:
+          description: SUCCESS - Application updated to QA_COMPLETE
+          content:
+            application/json:
+              schema:
+                type: object
+        401:
+          description: ERROR - Could not mark application as QA_COMPLETE
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Error'
+              example:
+                code: 401
+                status: 'error'
+                message: 'Could not mark application as QA_COMPLETE'
+
+  '/qa_complete/{application_id}':
+    get:
+      tags:
+        - qa_complete
+      summary: get qa_complete record for application
+      description: get qa_complete record for application
+      operationId: api.routes.qa_complete_record_for_application
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      responses:
+        200:
+          description: SUCCESS - qa_complete record for application
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/QaCompleteRecord'
+        404:
+          description: ERROR - Could not get qa_complete record
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Error'
+              example:
+                code: 404
+                status: 'error'
+                message: 'Could not get qa_complete record for application'
+  '/application/{application_id}/tag':
+    get:
+      tags:
+        - tag management
+      summary: Get all active tag associations for an assessment
+      description: returns all active tag associations for an assessment
+      operationId: api.routes.assessment_routes.get_tags_associated_with_assessment
+      parameters:
+        - name: application_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: SUCCESS - A list of assessment tags
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/TagAssociation'
+    put:
+      tags:
+        - tag management
+      summary: Put a list of tags associated with an assessment
+      description: Put a list of tags associated with an assessment
+      operationId: api.routes.assessment_routes.associate_tags_with_assessment
+      parameters:
+        - name: application_id
+          in: path
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Tag association creation parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: 'components.yml#/components/schemas/PostTagAssociation'
+      responses:
+        201:
+          description: SUCCESS - Tag Submitted
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/TagAssociation'
+  '/funds/{fund_id}/rounds/{round_id}/tags/{tag_id}':
+    get:
+      tags:
+        - tag management
+      summary: Get a specific tag
+      description: Returns the tag
+      operationId: api.routes.tag_routes.get_tag
+      parameters:
+        - in: path
+          name: fund_id
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: round_id
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: tag_id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: A list of tags for the given fund-round.
+          content:
+            application/json:
+              schema:
+                $ref : 'components.yml#/components/schemas/Tag'
+        404:
+          description: "Tags not found for fund-round provided."
+          content:
+            application/json:
+              schema:
+                $ref: "components.yml#/components/schemas/Error"
+  '/funds/{fund_id}/rounds/{round_id}/tags':
+    get:
+      tags:
+        - tag management
+      summary: Get all the tags associated with the provided fund ID and a round ID.
+      description: Returns the tags associated with the provided fund ID and a round ID.
+      operationId: api.routes.tag_routes.get_tags_for_fund_round
+      parameters:
+        - in: path
+          name: fund_id
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: round_id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: A list of tags for the given fund-round.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref : 'components.yml#/components/schemas/Tag'
+        404:
+          description: "Tags not found for fund-round provided."
+          content:
+            application/json:
+              schema:
+                $ref: "components.yml#/components/schemas/Error"
+    post:
+      tags:
+        - tag management
+      summary: Post a new tag for a fund round
+      description: Post a new tag for a fund round
+      operationId: api.routes.tag_routes.add_tag_for_fund_round
+      parameters:
+        - in: path
+          name: fund_id
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: round_id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Tag creation parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yml#/components/schemas/PostTag'
+      responses:
+        201:
+          description: SUCCESS - Tag Submitted
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/Tag'
+  '/tag_types':
+    get:
+      tags:
+        - tag management
+      summary: Get all tag types
+      description: returns all tag types
+      operationId: api.routes.tag_routes.seed_and_get_tag_types
+      responses:
+        200:
+          description: SUCCESS - A list of tag types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/TagType'
+  '/application_fields_export/{fund_id}/{round_id}':
+      parameters:
+      - name: fund_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      - name: round_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      get:
+        tags:
+          - assessments
+        summary: Search assessments for export by fields
+        description: List all assessments for export
+        operationId: api.routes.get_application_data_for_export
+        responses:
+          200:
+            description: SUCCESS - A list of assessments information for export
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: 'components.yml#/components/schemas/Assessment'

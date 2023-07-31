@@ -220,13 +220,13 @@ marshmallow==3.19.0
     #   marshmallow-sqlalchemy
 marshmallow-sqlalchemy==0.28.1
     # via -r requirements.txt
-mypy==0.991
+mypy==1.4.1
     # via
     #   -r requirements-dev.in
     #   -r requirements.txt
     #   sqlalchemy
     #   sqlalchemy-stubs
-mypy-extensions==0.4.3
+mypy-extensions==1.0.0
     # via
     #   -r requirements.txt
     #   black
@@ -406,7 +406,7 @@ six==1.16.0
     #   thrift
 smmap==5.0.0
     # via gitdb
-sqlalchemy[mypy]==1.4.44
+sqlalchemy[mypy]==1.4.48
     # via
     #   -r requirements.txt
     #   alembic
@@ -420,7 +420,7 @@ sqlalchemy-utils==0.38.3
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-sqlalchemy2-stubs==0.0.2a29
+sqlalchemy2-stubs==0.0.2a34
     # via
     #   -r requirements.txt
     #   sqlalchemy

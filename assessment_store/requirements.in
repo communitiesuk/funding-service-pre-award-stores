@@ -13,7 +13,7 @@ Flask
 #-----------------------------------
 #   Database
 #-----------------------------------
-SQLAlchemy[mypy]
+SQLAlchemy[mypy]<2.0.0
 Flask-SQLAlchemy>=3.0.3
 Flask-Migrate
 psycopg2-binary==2.9.6

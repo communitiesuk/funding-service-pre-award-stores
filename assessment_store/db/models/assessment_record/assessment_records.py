@@ -7,7 +7,7 @@ files.
 from db import db
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
-from flask_sqlalchemy import DefaultMeta
+from flask_sqlalchemy.model import DefaultMeta
 from sqlalchemy import cast
 from sqlalchemy import Column
 from sqlalchemy import Computed
@@ -73,6 +73,9 @@ class AssessmentRecord(BaseModel):
 
     flags = relationship("Flag")
     flags_v2 = relationship("AssessmentFlag")
+    tag_associations = relationship("TagAssociation")
+
+    qa_complete = relationship("QaComplete")
 
     location_json_blob = Column("location_json_blob", JSONB, nullable=True)
 

@@ -6,15 +6,21 @@ import json
 from typing import Dict
 from typing import List
 
+from config.mappings.assessment_mapping_fund_round import (
+    applicant_info_mapping,
+)
 from db import db
 from db.models.assessment_record import AssessmentRecord
+from db.models.assessment_record import TagAssociation
 from db.models.assessment_record.enums import Status
 from db.models.flags import Flag
 from db.models.flags.enums import FlagType
 from db.models.flags_v2.flag_update import FlagStatus
+from db.models.score import Score
+from db.models.tag.tag_types import TagType
+from db.models.tag.tags import Tag
 from db.queries.assessment_records._helpers import derive_application_values
 from db.queries.flags.queries import find_qa_complete_flags
-from db.queries.flags.queries import find_qa_complete_flagsv2
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
 from db.schemas import AssessorTaskListMetadata
@@ -29,7 +35,6 @@ from sqlalchemy import String
 from sqlalchemy import update
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.orm import defer
-from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import load_only
 
 
@@ -233,6 +238,7 @@ def get_metadata_flagsv2_for_fund_round_id(
     search_in: str = "",
     funding_type: str = "",
     countries: List[str] = ["all"],
+    filter_by_tag: str = "",
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
     which returns all rows matching the given fund_id and round_id. Has
@@ -275,6 +281,21 @@ def get_metadata_flagsv2_for_fund_round_id(
 
         statement = statement.filter(or_(*filters))
 
+    if filter_by_tag and filter_by_tag.casefold() != "all":
+        assessment_records_by_tag_id = (
+            db.session.query(AssessmentRecord)
+            .join(TagAssociation)
+            .filter(TagAssociation.tag_id == filter_by_tag)
+            .filter(TagAssociation.associated == True)  # noqa E712
+            .all()
+        )
+        record_ids_with_tag_id = [
+            record.application_id for record in assessment_records_by_tag_id
+        ]
+        statement = statement.where(
+            AssessmentRecord.application_id.in_(record_ids_with_tag_id)
+        )
+
     if "all" not in countries:
         current_app.logger.info(
             f"Performing assessment search on countries: {countries}."
@@ -308,48 +329,35 @@ def get_metadata_flagsv2_for_fund_round_id(
     if status != "ALL":
         filter_assessments = []
         for assessment in assessment_metadatas:
-            if status == FlagType.QA_COMPLETED.name:
-                for flag in assessment.flags_v2:
-                    if flag.latest_status == FlagStatus.QA_COMPLETED:
-                        filter_assessments.append(assessment)
-            elif status in [
-                Status.NOT_STARTED.name,
-                Status.IN_PROGRESS.name,
-                Status.COMPLETED.name,
-            ]:
-                if assessment.workflow_status in [
-                    Status.NOT_STARTED,
-                    Status.IN_PROGRESS,
-                    Status.COMPLETED,
-                ]:
-                    filter_assessments.append(assessment)
-            elif status in [FlagStatus.STOPPED.name, FlagStatus.RAISED.name]:
-                for flag in assessment.flags_v2:
-                    if flag.latest_status in [
-                        FlagStatus.STOPPED,
-                        FlagStatus.RAISED,
-                    ]:
-                        filter_assessments.append(assessment)
-                        break
 
-        if filter_assessments:
-            assessment_metadatas = filter_assessments
+            all_latest_status = [
+                flag.latest_status for flag in assessment.flags_v2
+            ]
+            is_qa_complete = True if assessment.qa_complete else False
+
+            if FlagStatus.STOPPED in all_latest_status:
+                display_status = "STOPPED"
+            elif all_latest_status.count(FlagStatus.RAISED) > 1:
+                display_status = "MULTIPLE_FLAGS"
+            elif all_latest_status.count(FlagStatus.RAISED) == 1:
+                display_status = "FLAGGED"
+            elif is_qa_complete:
+                display_status = "QA_COMPLETED"
+            else:
+                display_status = assessment.workflow_status.name
+
+            if display_status == status:
+                filter_assessments.append(assessment)
+
+        assessment_metadatas = filter_assessments
 
     metadata_serialiser = AssessmentRecordMetadata(
         exclude=("jsonb_blob", "application_json_md5")
     )
 
-    app_ids = {
-        app_metadata.application_id for app_metadata in assessment_metadatas
-    }
-    app_id_is_qa_complete_dict = find_qa_complete_flagsv2(app_ids)
     assessment_metadatas = [
         metadata_serialiser.dump(app_metadata)
-        | {
-            "is_qa_complete": app_id_is_qa_complete_dict[
-                app_metadata.application_id
-            ]
-        }
+        | {"is_qa_complete": True if app_metadata.qa_complete else False}
         for app_metadata in assessment_metadatas
     ]
 
@@ -632,42 +640,155 @@ def update_status_to_completed(application_id):
 
 def get_assessment_records_by_round_id(round_id):
     """
-    Retrieves assessment records and scores based on the provided round ID.
+    Retrieve the latest scores and associated information for each subcriteria
+    of AssessmentRecords matching the given round_id.
 
     Parameters:
-    - round_id: Short identification code used to query assessment records.
+        round_id (UUID): The ID of the round to filter AssessmentRecords.
 
     Returns:
-    - List of dictionaries containing relevant information extracted from assessment records and scores.
-    Each dictionary represents a record and includes the following fields:
-
-        - "Short id": Short identification code of the assessment record.
-        - "Application ID": Identification of the associated application.
-        - "Score Subcriteria": ID of the score subcriteria.
-        - "Score": Score assigned to the subcriteria.
-        - "Score Justification": Justification for the assigned score.
-        - "Score Date Created": Date when the score was created.
+        list: A list of dictionaries, each containing the latest score and its associated
+        information for each subcriteria of the AssessmentRecords that match the given round_id.
     """
-    # Query assessment records and scores
-    assessment_records = (
-        AssessmentRecord.query.filter(AssessmentRecord.round_id == round_id)
-        .options(joinedload(AssessmentRecord.scores))
+    subquery = (
+        db.session.query(
+            Score.application_id,
+            Score.sub_criteria_id,
+            func.max(Score.date_created).label("latest_date_created"),
+        )
+        .group_by(Score.application_id, Score.sub_criteria_id)
+        .subquery()
+    )
+
+    latest_scores = (
+        db.session.query(Score)
+        .join(
+            subquery,
+            and_(
+                Score.application_id == subquery.c.application_id,
+                Score.sub_criteria_id == subquery.c.sub_criteria_id,
+                Score.date_created == subquery.c.latest_date_created,
+            ),
+        )
+        .join(
+            AssessmentRecord,
+            Score.application_id == AssessmentRecord.application_id,
+        )
+        .filter(AssessmentRecord.round_id == round_id)
         .all()
     )
 
-    # Extract relevant information and format the output
     output = []
-    for record in assessment_records:
-        for score in record.scores:
-            output.append(
-                {
-                    "Short id": record.short_id,
-                    "Application ID": record.application_id,
-                    "Score Subcriteria": score.sub_criteria_id,
-                    "Score": score.score,
-                    "Score Justification": score.justification,
-                    "Score Date Created": score.date_created,
-                }
-            )
+    for score in latest_scores:
+        output.append(
+            {
+                "Short id": AssessmentRecord.query.get(
+                    score.application_id
+                ).short_id,
+                "Application ID": score.application_id,
+                "Score Subcriteria": score.sub_criteria_id,
+                "Score": score.score,
+                "Score Justification": score.justification,
+                "Score Date Created": score.date_created,
+            }
+        )
 
     return output
+
+
+def associate_assessment_tags(application_id, tags: List):
+    existing_associated_tags = TagAssociation.query.filter(
+        TagAssociation.application_id == application_id,
+        TagAssociation.associated == True,  # noqa: E712
+    ).all()
+
+    # Create a dictionary to quickly lookup existing tags by tag_id
+    existing_associated_tags_dict = {
+        str(tag.tag_id): tag for tag in existing_associated_tags
+    }
+
+    # Iterate over the provided tags and update the tag associations
+    for tag in tags:
+        tag_id = tag.get("id")
+        user_id = tag.get("user_id")
+        associated = True  # Set associated value to True for provided tags
+
+        # Check if the tag already exists in the database
+        if tag_id not in existing_associated_tags_dict:
+            # Create a new tag association
+            new_tag = TagAssociation(
+                application_id=application_id,
+                tag_id=tag.get("id"),
+                associated=associated,
+                user_id=user_id,
+            )
+            db.session.add(new_tag)
+
+    # Dis-associate any existing tags that are not present in the provided list
+    incoming_tag_ids = {tag["id"] for tag in tags}
+    for tag in existing_associated_tags:
+        if str(tag.tag_id) not in incoming_tag_ids:
+            tag.associated = False
+
+    db.session.commit()
+
+    # Return the updated tag associations
+    updated_tags = TagAssociation.query.filter(
+        TagAssociation.application_id == application_id,
+        TagAssociation.associated == True,  # noqa: E712
+    ).all()
+    return updated_tags
+
+
+def select_tags_associated_with_assessment(application_id):
+
+    tag_associations = (
+        db.session.query(
+            Tag.id.label("tag_id"),
+            Tag.value,
+            TagType.purpose,
+            TagType.description,
+            TagAssociation.associated,
+            TagAssociation.user_id,
+            AssessmentRecord.application_id,
+        )
+        .join(
+            AssessmentRecord,
+            TagAssociation.application_id == AssessmentRecord.application_id,
+        )
+        .join(Tag, Tag.id == TagAssociation.tag_id)
+        .join(TagType, Tag.type_id == TagType.id)
+        .filter(AssessmentRecord.application_id == application_id)
+        .filter(TagAssociation.associated == True)  # noqa: E712
+        .all()
+    )
+
+    db.session.commit()
+    return tag_associations
+
+
+def get_export_application_data(fund_id: str, round_id: str) -> List[Dict]:
+
+    statement = select(AssessmentRecord).where(
+        AssessmentRecord.fund_id == fund_id,
+        AssessmentRecord.round_id == round_id,
+    )
+
+    assessment_metadatas = db.session.scalars(statement).all()
+
+    finalList = []
+    list_of_fields = applicant_info_mapping[fund_id]
+
+    for assessment in assessment_metadatas:
+        applicant_info = {"AppId": assessment.application_id}
+        forms = assessment.jsonb_blob["forms"]
+        for form in forms:
+            questions = form["questions"]
+            for question in questions:
+                fields = question["fields"]
+                for field in fields:
+                    if field["key"] in list_of_fields:
+                        applicant_info[field["title"]] = field["answer"]
+        finalList.append(applicant_info)
+
+    return finalList

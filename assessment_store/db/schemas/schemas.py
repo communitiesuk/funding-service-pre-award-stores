@@ -2,18 +2,24 @@ from db.models import Flag
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
+from db.models.assessment_record.tag_association import TagAssociation
 from db.models.comment import Comment
 from db.models.comment.enums import CommentType
 from db.models.flags.enums import FlagType
 from db.models.flags_v2.assessment_flag import AssessmentFlag
 from db.models.flags_v2.flag_update import FlagUpdate
+from db.models.qa_complete import QaComplete
 from db.models.score import Score
+from db.models.tag.tag_types import TagType
+from db.models.tag.tags import Tag
 from marshmallow import fields
 from marshmallow import Schema
+from marshmallow.fields import Boolean
 from marshmallow.fields import Enum
 from marshmallow.fields import Field
 from marshmallow.fields import Nested
 from marshmallow.fields import String
+from marshmallow.fields import UUID
 from marshmallow_sqlalchemy import auto_field
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
@@ -34,6 +40,7 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     funding_type = String()
     local_authority = String()
     flags_v2 = Nested("AssessmentFlagSchema", many=True)
+    qa_complete = Nested("QaCompleteMetadata", many=True)
 
 
 class ScoreMetadata(SQLAlchemyAutoSchema):
@@ -71,6 +78,18 @@ class FlagMetadata(SQLAlchemyAutoSchema):
         load_instance = True
 
     flag_type = Enum(FlagType)
+    application_id = auto_field(dump_only=True)
+
+
+class QaCompleteMetadata(SQLAlchemyAutoSchema):
+    """QaCompleteMetadata The marshmallow class used to turn SQLAlchemy
+    rows into json for return in http responses."""
+
+    class Meta:
+        model = QaComplete
+        include_relationships = True
+        load_instance = True
+
     application_id = auto_field(dump_only=True)
 
 
@@ -112,3 +131,42 @@ class AssessmentFlagSchema(SQLAlchemyAutoSchema):
 class FlagUpdateSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = FlagUpdate
+
+
+class TagTypeSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = TagType
+
+
+class TagAssociationSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = TagAssociation
+        fields = ("id", "tag_id", "application_id")
+
+
+class JoinedTagAssociationSchema(SQLAlchemyAutoSchema):
+    tag_id = UUID()
+    type_id = UUID()
+    value = String()
+    purpose = String()
+    associated = Boolean()
+    application_id = UUID()
+    user_id = UUID()
+
+    class Meta:
+        model = None  # Set the model to None since it doesn't directly map to a single model
+
+
+class TagSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Tag
+
+
+class JoinedTagSchema(SQLAlchemyAutoSchema):
+
+    type_id = UUID()
+    purpose = String()
+    description = String()
+
+    class Meta:
+        model = Tag
