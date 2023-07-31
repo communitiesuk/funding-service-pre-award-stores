@@ -126,6 +126,7 @@ applicant_info_mapping = {
         "SnLGJE",
         "NlHSBg",
         "FhBkJQ",
+        "ZQolYb",
         "VhkCbM",
     },
 }
