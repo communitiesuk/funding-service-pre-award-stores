@@ -7,6 +7,9 @@ import pytest
 from api.routes.subcriterias.get_sub_criteria import (
     map_application_with_sub_criteria_themes,
 )
+from config.mappings.assessment_mapping_fund_round import (
+    applicant_info_mapping,
+)
 from db.models.flags.enums import FlagType
 from db.models.flags_v2.assessment_flag import AssessmentFlag
 from db.models.flags_v2.flag_update import FlagStatus
@@ -508,3 +511,32 @@ def test_get_tag_none_exists(client, mocker):
     ):
         response = client.get("/funds/test-fund/rounds/round-id/tags/tag-id")
         assert response.status_code == 404
+
+
+@pytest.mark.apps_to_insert([test_input_data[0].copy() for x in range(4)])
+@pytest.mark.unique_fund_round(True)
+def test_get_application_fields_export(
+    client, seed_application_records, monkeypatch
+):
+    fund_id = seed_application_records[0]["fund_id"]
+    round_id = seed_application_records[0]["round_id"]
+
+    monkeypatch.setitem(
+        applicant_info_mapping,
+        f"{fund_id}",
+        {"aHIGbK", "aAeszH", "ozgwXq", "KAgrBz"},
+    )
+
+    result = client.get(
+        f"/application_fields_export/{fund_id}/{round_id}"
+    ).json  # noqa
+
+    assert len(result) == 4
+    assert result[0]["Charity number "] == "Test"
+    assert (
+        result[0]["Do you need to do any further feasibility work?"] is False
+    )
+    assert result[0]["Project name"] == "Save the humble pub in Bangor"
+    assert (
+        result[0]["Risks to your project (document upload)"] == "sample1.doc"
+    )

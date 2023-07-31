@@ -1330,3 +1330,32 @@ paths:
                 type: array
                 items:
                   $ref: 'components.yml#/components/schemas/TagType'
+  '/application_fields_export/{fund_id}/{round_id}':
+      parameters:
+      - name: fund_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      - name: round_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      get:
+        tags:
+          - assessments
+        summary: Search assessments for export by fields
+        description: List all assessments for export
+        operationId: api.routes.get_application_data_for_export
+        responses:
+          200:
+            description: SUCCESS - A list of assessments information for export
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: 'components.yml#/components/schemas/Assessment'
