@@ -1166,7 +1166,7 @@ paths:
         - tag management
       summary: Get all active tag associations for an assessment
       description: returns all active tag associations for an assessment
-      operationId: api.routes.assessment_routes.get_tags_associated_with_assessment
+      operationId: api.routes.assessment_routes.get_active_tags_associated_with_assessment
       parameters:
         - name: application_id
           in: path
@@ -1237,13 +1237,13 @@ paths:
           required: true
       responses:
         200:
-          description: A list of tags for the given fund-round.
+          description: A tag for the given fund-round and tag_id.
           content:
             application/json:
               schema:
                 $ref : 'components.yml#/components/schemas/Tag'
         404:
-          description: "Tags not found for fund-round provided."
+          description: "Tag not found for fund-round and tag_id provided."
           content:
             application/json:
               schema:
@@ -1266,6 +1266,26 @@ paths:
           schema:
             type: string
           required: true
+        - name: tag_purpose
+          in: query
+          schema:
+            type: string
+          required: false
+        - name: tag_status
+          in: query
+          schema:
+            type: boolean
+          required: false
+        - name: search_term
+          in: query
+          schema:
+            type: string
+          required: false
+        - name: search_in
+          in: query
+          schema:
+            type: string
+          required: false
       responses:
         200:
           description: A list of tags for the given fund-round.
@@ -1314,13 +1334,49 @@ paths:
                 type: object
                 items:
                   $ref: 'components.yml#/components/schemas/Tag'
+    put:
+      tags:
+        - tag management
+      summary: Update a tag for a fund round
+      description: Update a tag for a fund round
+      operationId: api.routes.tag_routes.update_tags_for_fund_round
+      parameters:
+        - in: path
+          name: fund_id
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: round_id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Tag creation parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+               $ref: 'components.yml#/components/schemas/PutTag'
+      responses:
+        200:
+          description: SUCCESS - Tag Updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/Tag'
+
   '/tag_types':
     get:
       tags:
         - tag management
       summary: Get all tag types
       description: returns all tag types
-      operationId: api.routes.tag_routes.seed_and_get_tag_types
+      operationId: api.routes.tag_routes.get_tag_types
       responses:
         200:
           description: SUCCESS - A list of tag types

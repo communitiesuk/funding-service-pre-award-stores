@@ -17,6 +17,7 @@ from marshmallow import Schema
 from marshmallow.fields import Boolean
 from marshmallow.fields import Enum
 from marshmallow.fields import Field
+from marshmallow.fields import Integer
 from marshmallow.fields import Nested
 from marshmallow.fields import String
 from marshmallow.fields import UUID
@@ -167,6 +168,7 @@ class JoinedTagSchema(SQLAlchemyAutoSchema):
     type_id = UUID()
     purpose = String()
     description = String()
+    tag_association_count = Integer()
 
     class Meta:
         model = Tag

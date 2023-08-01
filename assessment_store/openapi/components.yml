@@ -362,6 +362,30 @@ components:
           type: string
           nullable: false
           example: '13b95669-ed98-4840-8652-d6b7a19964db'
+    PutTag:
+      type: object
+      properties:
+        id:
+          type: string
+          nullable: false
+          example: '13b95669-ed98-4840-8652-d6b7a19964db'
+        creator_user_id:
+          type: string
+          nullable: false
+          example: '13b95669-ed98-4840-8652-d6b7a19964db'
+        value:
+          type: string
+          nullable: true
+          description: 'tag string'
+          example: 'Tag string'
+        tag_type_id:
+            type: string
+            nullable: true
+            example: uuif7eaf61b-093e-4464-a4da-b36b849f0a1b
+        active:
+          type: boolean
+          nullable: true
+          example: True
     Tag:
         type: object
         properties:

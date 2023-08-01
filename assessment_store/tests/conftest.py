@@ -115,9 +115,9 @@ def seed_tags(
     clear_test_data,
     enable_preserve_test_data,
     _db,
-    seed_and_get_tag_types,
+    get_tag_types,
 ):
-    tag_type_ids = [t["id"] for t in seed_and_get_tag_types]
+    tag_type_ids = [t["id"] for t in get_tag_types]
     tags_correct_format = [
         {
             "value": "Test tag 1",
@@ -142,7 +142,7 @@ def seed_tags(
 
 
 @pytest.fixture(scope="function")
-def seed_and_get_tag_types(
+def get_tag_types(
     request, app, clear_test_data, enable_preserve_test_data, _db
 ):
 

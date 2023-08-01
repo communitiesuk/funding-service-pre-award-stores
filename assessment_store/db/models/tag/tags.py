@@ -48,6 +48,11 @@ class Tag(BaseModel):
         nullable=False,
     )
     created_at = Column(db.DateTime(timezone=True), server_default=func.now())
+    # last_edited_user_id = Column(
+    #     UUID(as_uuid=True),
+    #     nullable=False,
+    # )
+    # last_edited = Column(db.DateTime(timezone=True), server_default=func.now())
     __table_args__ = (
         Index(
             "tag_value_round_id_ix",

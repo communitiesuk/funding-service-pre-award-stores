@@ -28,7 +28,7 @@ from db.queries.assessment_records.queries import (
 from db.queries.assessment_records.queries import get_export_application_data
 from db.queries.assessment_records.queries import get_metadata_for_application
 from db.queries.assessment_records.queries import (
-    select_tags_associated_with_assessment,
+    select_active_tags_associated_with_assessment,
 )
 from db.queries.assessment_records.queries import update_status_to_completed
 from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
@@ -500,11 +500,13 @@ def associate_tags_with_assessment(application_id):
         return serialised_associated_tags
 
 
-def get_tags_associated_with_assessment(application_id):
+def get_active_tags_associated_with_assessment(application_id):
     current_app.logger.info(
         f"Getting tags associated with assessment with application_id: {application_id}."
     )
-    associated_tags = select_tags_associated_with_assessment(application_id)
+    associated_tags = select_active_tags_associated_with_assessment(
+        application_id
+    )
     if associated_tags:
         serialiser = JoinedTagAssociationSchema()
         serialised_associated_tags = [
