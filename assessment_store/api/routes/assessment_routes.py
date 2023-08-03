@@ -16,6 +16,9 @@ from api.routes.subcriterias.get_sub_criteria import (
 from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_mapping,
 )
+from config.mappings.assessment_mapping_fund_round import (
+    applicant_info_mapping,
+)
 from db.models.flags_v2.flag_update import FlagStatus
 from db.queries import get_metadata_flagsv2_for_fund_round_id
 from db.queries import get_metadata_for_fund_round_id
@@ -25,7 +28,7 @@ from db.queries.assessment_records.queries import get_application_jsonb_blob
 from db.queries.assessment_records.queries import (
     get_assessment_sub_critera_state,
 )
-from db.queries.assessment_records.queries import get_export_application_data
+from db.queries.assessment_records.queries import get_export_data
 from db.queries.assessment_records.queries import get_metadata_for_application
 from db.queries.assessment_records.queries import (
     select_active_tags_associated_with_assessment,
@@ -523,7 +526,14 @@ def get_flag_v2(flag_id: str):
     return flag_schema.dump(flags, many=True)[0]
 
 
-def get_application_data_for_export(fund_id: str, round_id: str) -> List[Dict]:
-    app_list = get_export_application_data(fund_id=fund_id, round_id=round_id)
+def get_application_data_for_export(
+    fund_id: str, round_id: str, report_type: str
+) -> List[Dict]:
+    app_list = get_export_data(
+        fund_id=fund_id,
+        round_id=round_id,
+        report_type=report_type,
+        list_of_fields=applicant_info_mapping[fund_id],
+    )
 
     return app_list

@@ -1386,7 +1386,7 @@ paths:
                 type: array
                 items:
                   $ref: 'components.yml#/components/schemas/TagType'
-  '/application_fields_export/{fund_id}/{round_id}':
+  '/application_fields_export/{fund_id}/{round_id}/{report_type}':
       parameters:
       - name: fund_id
         in: path
@@ -1395,6 +1395,12 @@ paths:
           type: string
           format: path
       - name: round_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      - name: report_type
         in: path
         required: true
         schema:

@@ -117,16 +117,39 @@ fund_round_data_key_mappings = {
 
 applicant_info_mapping = {
     "13b95669-ed98-4840-8652-d6b7a19964db": {
-        "SnLGJE",
-        "CDEwxp",
-        "DvBqCJ",
-        "mhYQzL",
+        "OUTPUT_TRACKER": {
+            "form_fields": {
+                "opFJRm",
+                "fUMWcd",
+                "CDEwxp",
+                "nURkuc",
+                "pVBwci",
+                "WDouQc",
+                "SGjmSM",
+                "wTdyhk",
+                "GRWtfV",
+                "zvPzXN",
+                "QUCvFy",
+                "pppiYl",
+            },
+            "score_fields": {
+                "Application ID",
+                "Score Subcriteria",
+                "Score",
+                "Score Date Created",
+            },
+        }
     },
     "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4": {
-        "SnLGJE",
-        "NlHSBg",
-        "FhBkJQ",
-        "ZQolYb",
-        "VhkCbM",
+        "ASSESSOR_EXPORT": {
+            "form_fields": {
+                "SnLGJE",
+                "NlHSBg",
+                "FhBkJQ",
+                "ZQolYb",
+                "VhkCbM",
+            }
+        },
+        "OUTPUT_TRACKER": {},
     },
 }
