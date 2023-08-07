@@ -10,6 +10,7 @@ from sqlalchemy import Index
 from sqlalchemy import text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.event import listens_for
+from sqlalchemy.orm import relationship
 from sqlalchemy.orm import validates
 
 BaseModel: DefaultMeta = db.Model
@@ -53,6 +54,7 @@ class Tag(BaseModel):
     #     nullable=False,
     # )
     # last_edited = Column(db.DateTime(timezone=True), server_default=func.now())
+    tag_type = relationship("TagType")
     __table_args__ = (
         Index(
             "tag_value_round_id_ix",

@@ -18,6 +18,7 @@ from marshmallow.fields import Boolean
 from marshmallow.fields import Enum
 from marshmallow.fields import Field
 from marshmallow.fields import Integer
+from marshmallow.fields import Method
 from marshmallow.fields import Nested
 from marshmallow.fields import String
 from marshmallow.fields import UUID
@@ -42,6 +43,7 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     local_authority = String()
     flags_v2 = Nested("AssessmentFlagSchema", many=True)
     qa_complete = Nested("QaCompleteMetadata", many=True)
+    tag_associations = Nested("TagAssociationNestedSchema", many=True)
 
 
 class ScoreMetadata(SQLAlchemyAutoSchema):
@@ -145,6 +147,14 @@ class TagAssociationSchema(SQLAlchemyAutoSchema):
         fields = ("id", "tag_id", "application_id")
 
 
+class TagAssociationNestedSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = TagAssociation
+        fields = ("id", "user_id", "associated", "tag")
+
+    tag = Nested("TagNestedSchema")
+
+
 class JoinedTagAssociationSchema(SQLAlchemyAutoSchema):
     tag_id = UUID()
     type_id = UUID()
@@ -161,6 +171,17 @@ class JoinedTagAssociationSchema(SQLAlchemyAutoSchema):
 class TagSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Tag
+
+
+class TagNestedSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Tag
+        fields = ("id", "value", "active", "creator_user_id", "tag_type")
+
+    def get_tag_type(self, obj):
+        return {"id": obj.tag_type.id, "purpose": obj.tag_type.purpose}
+
+    tag_type = Method("get_tag_type")
 
 
 class JoinedTagSchema(SQLAlchemyAutoSchema):
