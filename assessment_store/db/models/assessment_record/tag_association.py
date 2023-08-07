@@ -6,6 +6,7 @@ from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 
 BaseModel: DefaultMeta = db.Model
 
@@ -26,3 +27,4 @@ class TagAssociation(BaseModel):
     created_at = db.Column(
         db.DateTime(timezone=True), server_default=func.now()
     )
+    tag = relationship("Tag")
