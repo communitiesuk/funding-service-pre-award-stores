@@ -123,6 +123,8 @@ def test_get_progress_for_applications(seed_application_records):
 
     application_id_1 = seed_application_records[0]["application_id"]
     application_id_2 = seed_application_records[1]["application_id"]
+    fund_id = seed_application_records[0]["fund_id"]
+    round_id = seed_application_records[0]["round_id"]
     sub_criteria_ids = ["benefits", "engagement"]
 
     score_payload_1 = {
@@ -160,7 +162,7 @@ def test_get_progress_for_applications(seed_application_records):
         ]
     }
     application_progress_list = get_progress_for_applications(
-        [application_id_1, application_id_2]
+        [application_id_1, application_id_2], fund_id, round_id
     )
 
     assert len(application_progress_list) == 2

@@ -931,7 +931,20 @@ paths:
                 type: object
                 items:
                   $ref: 'components.yml#/components/schemas/Comment'
-  '/progress':
+  '/progress/{fund_id}/{round_id}':
+    parameters:
+    - name: fund_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path
+    - name: round_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: path
     post:
       tags:
         - progress
