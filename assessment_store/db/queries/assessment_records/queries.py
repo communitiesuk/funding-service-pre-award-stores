@@ -859,7 +859,7 @@ def get_export_data(
                                 == "Both revenue and capital"
                             ):
                                 applicant_info[
-                                    "Revenue funding 1 April 2023 to 31 March 2024"
+                                    "Revenue for 1 April 2023 to 31 March 2024"
                                 ] = field["answer"]
                             else:
                                 applicant_info[field["title"]] = field[
