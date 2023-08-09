@@ -842,7 +842,7 @@ def get_export_data(
     form_fields = list_of_fields[report_type].get("form_fields", {})
     finalList = []
 
-    current_app.logger.info("FORM FIELDS TO SEARCH." + str(form_fields))
+    current_app.logger.warn("FORM FIELDS TO SEARCH." + str(form_fields))
     if len(form_fields) != 0:
         for assessment in assessment_metadatas:
 
@@ -879,12 +879,12 @@ def get_export_data(
                                     "answer"
                                 ]
             finalList.append(applicant_info)
-        current_app.logger.info(
+        current_app.logger.warn(
             "FINAL LIST BEFORE MISSING ELEMENTS." + str(finalList)
         )
         add_missing_elements_with_empty_values(finalList)
 
-    current_app.logger.info(
+    current_app.logger.warn(
         "FINAL LIST AFTER ADD MISSING ELEMENTS." + str(finalList)
     )
     output = {}
@@ -897,7 +897,7 @@ def get_export_data(
         if len(output) != 0:
             finalList = combine_dicts(finalList, output)
 
-    current_app.logger.info("RETURN FINAL LIST" + str(finalList))
+    current_app.logger.warn("RETURN FINAL LIST" + str(finalList))
     return finalList
 
 
