@@ -4,6 +4,7 @@ Joins allowed.
 """
 import json
 from collections import OrderedDict
+from datetime import datetime
 from typing import Dict
 from typing import List
 
@@ -843,7 +844,18 @@ def get_export_data(
 
     if len(form_fields) != 0:
         for assessment in assessment_metadatas:
-            applicant_info = {"Application ID": assessment.application_id}
+
+            iso_format = "%Y-%m-%dT%H:%M:%S.%f"
+            iso_datetime = datetime.strptime(
+                assessment.jsonb_blob["date_submitted"], iso_format
+            )
+            formatted_date = iso_datetime.strftime("%d/%m/%Y %H:%M:%S")
+
+            applicant_info = {
+                "Application ID": assessment.application_id,
+                "Short ID": assessment.short_id,
+                "Date Submitted": formatted_date,
+            }
             forms = assessment.jsonb_blob["forms"]
             for form in forms:
                 questions = form["questions"]
