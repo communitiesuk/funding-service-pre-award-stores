@@ -1,3 +1,5 @@
+from config.fund_loader_config.logo import DLUHC_LOGO_PNG
+
 fund_config = {
     "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
     "name_json": {
@@ -24,6 +26,9 @@ fund_config = {
         ),
     },
     "welsh_available": True,
+    "owner_organisation_name": "Department for Levelling Up, Housing and Communities",
+    "owner_organisation_shortname": "DLUHC",
+    "owner_organisation_logo_uri": DLUHC_LOGO_PNG,
 }
 
 COF_APPLICATION_GUIDANCE = (  # TODO: Provide welsh translation
