@@ -119,19 +119,51 @@ applicant_info_mapping = {
     "13b95669-ed98-4840-8652-d6b7a19964db": {
         "OUTPUT_TRACKER": {
             "form_fields": {
-                "opFJRm",
-                "fUMWcd",
-                "CDEwxp",
-                "nURkuc",
-                "pVBwci",
-                "WDouQc",
-                "SGjmSM",
-                "wTdyhk",
-                "GRWtfV",
-                "zvPzXN",
-                "QUCvFy",
-                "pppiYl",
-                "AVShTf",
+                "opFJRm": {"en": {"title": "Organisation name"}},
+                "fUMWcd": {"en": {"title": "Name of lead contact"}},
+                "CDEwxp": {"en": {"title": "Lead contact email address"}},
+                "nURkuc": {"en": {"title": "Local Authority"}},
+                "pVBwci": {
+                    "en": {
+                        "title": "Revenue for 1 April 2023 to 31 March 2024"
+                    }
+                },
+                "WDouQc": {
+                    "en": {
+                        "title": "Revenue for 1 April 2024 to 31 March 2025"
+                    }
+                },
+                "SGjmSM": {
+                    "en": {
+                        "title": "Capital for 1 April 2023 to 31 March 2024"
+                    }
+                },
+                "wTdyhk": {
+                    "en": {
+                        "title": "Capital for 1 April 2024 to 31 March 2025"
+                    }
+                },
+                "GRWtfV": {
+                    "en": {
+                        "title": "Revenue for 1 April 2023 to 31 March 2024"
+                    }
+                },
+                "zvPzXN": {
+                    "en": {
+                        "title": "Revenue for 1 April 2024 to 31 March 2025"
+                    }
+                },
+                "QUCvFy": {
+                    "en": {
+                        "title": "Capital for 1 April 2023 to 31 March 2024"
+                    }
+                },
+                "pppiYl": {
+                    "en": {
+                        "title": "Capital for 1 April 2024 to 31 March 2025"
+                    }
+                },
+                "AVShTf": {"en": {"title": "Region"}},
             },
             "score_fields": {
                 "Application ID",
@@ -144,21 +176,36 @@ applicant_info_mapping = {
         },
         "ASSESSOR_EXPORT": {
             "form_fields": {
-                "fUMWcd",
-                "CDEwxp",
-                "DvBqCJ",
-                "mhYQzL",
+                "fUMWcd": {"en": {"title": "Name of lead contact"}},
+                "CDEwxp": {"en": {"title": "Lead contact email address"}},
+                "DvBqCJ": {"en": {"title": "Lead contact telephone number"}},
+                "mhYQzL": {"en": {"title": "Organisation address"}},
             }
         },
     },
     "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4": {
         "ASSESSOR_EXPORT": {
             "form_fields": {
-                "SnLGJE",
-                "NlHSBg",
-                "FhBkJQ",
-                "ZQolYb",
-                "VhkCbM",
+                "SnLGJE": {
+                    "en": {"title": "Name of lead contact"},
+                    "cy": {"title": "Enw'r cyswllt arweiniol"},
+                },
+                "NlHSBg": {
+                    "en": {"title": "Lead contact email address"},
+                    "cy": {"title": "Cyfeiriad e-bost y cyswllt arweiniol"},
+                },
+                "FhBkJQ": {
+                    "en": {"title": "Lead contact telephone number"},
+                    "cy": {"title": "Rhif ffôn y cyswllt arweiniol"},
+                },
+                "ZQolYb": {
+                    "en": {"title": "Organisation address"},
+                    "cy": {"title": "Cyfeiriad y sefydliad"},
+                },
+                "VhkCbM": {
+                    "en": {"title": "Correspondence address"},
+                    "cy": {"title": "Cyfeiriad gohebu"},
+                },
             }
         },
         "OUTPUT_TRACKER": {},

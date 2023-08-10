@@ -306,7 +306,20 @@ def test_get_data(seed_application_records):
         "OUTPUT_TRACKER",
         {
             "OUTPUT_TRACKER": {
-                "form_fields": {"aHIGbK", "aAeszH", "ozgwXq", "KAgrBz"}
+                "form_fields": {
+                    "aHIGbK": {"en": {"title": "Charity number "}},
+                    "aAeszH": {
+                        "en": {
+                            "title": "Do you need to do any further feasibility work?"
+                        }
+                    },
+                    "ozgwXq": {
+                        "en": {
+                            "title": "Risks to your project (document upload)"
+                        }
+                    },
+                    "KAgrBz": {"en": {"title": "Project name"}},
+                }
             }
         },
     )

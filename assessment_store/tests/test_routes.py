@@ -526,7 +526,20 @@ def test_get_application_fields_export(
         f"{fund_id}",
         {
             "ASSESSOR_EXPORT": {
-                "form_fields": {"aHIGbK", "aAeszH", "ozgwXq", "KAgrBz"}
+                "form_fields": {
+                    "aHIGbK": {"en": {"title": "Charity number "}},
+                    "aAeszH": {
+                        "en": {
+                            "title": "Do you need to do any further feasibility work?"
+                        }
+                    },
+                    "ozgwXq": {
+                        "en": {
+                            "title": "Risks to your project (document upload)"
+                        }
+                    },
+                    "KAgrBz": {"en": {"title": "Project name"}},
+                }
             }
         },
     )
