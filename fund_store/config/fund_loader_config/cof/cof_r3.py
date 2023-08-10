@@ -4,24 +4,34 @@ from datetime import timezone
 from config.fund_loader_config.cof.shared import COF_APPLICATION_GUIDANCE
 from config.fund_loader_config.cof.shared import fund_config
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
-    COF_R3W1_BASE_PATH,
+    COF_R3_BASE_PATH,
 )
 
 COF_FUND_ID = fund_config["id"]
 COF_ROUND_3_WINDOW_1_ID = "e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762"
-APPLICATION_BASE_PATH = ".".join([str(COF_R3W1_BASE_PATH), str(1)])
-ASSESSMENT_BASE_PATH = ".".join([str(COF_R3W1_BASE_PATH), str(2)])
-COF_R3_OPENS_DATE = datetime(
+COF_ROUND_3_WINDOW_2_ID = "6af19a5e-9cae-4f00-9194-cf10d2d7c8a7"
+APPLICATION_BASE_PATH = ".".join([str(COF_R3_BASE_PATH), str(1)])
+ASSESSMENT_BASE_PATH = ".".join([str(COF_R3_BASE_PATH), str(2)])
+COF_R3W1_OPENS_DATE = datetime(
     2023, 5, 31, 11, 0, 0, tzinfo=timezone.utc
 )  # 2023-05-31 11:00:00
-COF_R3_DEADLINE_DATE = datetime(
+COF_R3W1_DEADLINE_DATE = datetime(
     2023, 7, 12, 11, 59, 0, tzinfo=timezone.utc
 )  # 2023-07-12 11:59:00
-COF_R3_ASSESSMENT_DEADLINE_DATE = datetime(
+COF_R3W1_ASSESSMENT_DEADLINE_DATE = datetime(
     2023, 8, 9, 12, 0, 0, tzinfo=timezone.utc
 )  # 2023-08-09 12:00:00
+COF_R3W2_OPENS_DATE = datetime(
+    2023, 8, 30, 11, 0, 0, tzinfo=timezone.utc
+)  # 2023-08-30 11:00:00
+COF_R3W2_DEADLINE_DATE = datetime(
+    2023, 10, 11, 11, 59, 0, tzinfo=timezone.utc
+)  # 2023-10-11 11:59:00
+COF_R3W2_ASSESSMENT_DEADLINE_DATE = datetime(
+    2023, 11, 20, 12, 0, 0, tzinfo=timezone.utc
+)  # 2023-11-20 12:00:00
 
-cof_r3w1_sections = [
+cof_r3_sections = [
     {
         "section_name": {
             "en": "1. About your organisation",
@@ -253,7 +263,41 @@ round_config = [
         "fund_id": COF_FUND_ID,
         "title_json": {"en": "Round 3 Window 1", "cy": "Round 3 Window 1"},
         "short_name": "R3W1",
-        "opens": COF_R3_OPENS_DATE,
+        "opens": COF_R3W1_OPENS_DATE,
+        "deadline": COF_R3_DEADLINE_DATE,
+        "assessment_deadline": COF_R3_ASSESSMENT_DEADLINE_DATE,
+        "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
+        "privacy_notice": (
+            "https://www.gov.uk/government/publications/community-ownership-fund-"
+            "privacy-notice/community-ownership-fund-privacy-notice"
+        ),
+        "contact_email": "COF@levellingup.gov.uk",
+        "contact_phone": None,
+        "contact_textphone": None,
+        "support_times": "9am to 5pm",
+        "support_days": "Monday to Friday",
+        "instructions": (
+            "You must have received an invitation to apply. If we did not invite you,"
+            " first <a"
+            ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
+            " express your interest in the fund</a>."
+        ),
+        "feedback_link": (
+            "https://forms.office.com/Pages/ResponsePage.aspx?id="
+            "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
+        ),
+        "project_name_field_id": "apGjFS",
+        "application_guidance": COF_APPLICATION_GUIDANCE,
+    }
+]
+
+round_config_w2 = [
+    {
+        "id": COF_ROUND_3_WINDOW_2_ID,
+        "fund_id": COF_FUND_ID,
+        "title_json": {"en": "Round 3 Window 2", "cy": "Round 3 Window 2"},
+        "short_name": "R3W2",
+        "opens": COF_R3W2_OPENS_DATE,
         "deadline": COF_R3_DEADLINE_DATE,
         "assessment_deadline": COF_R3_ASSESSMENT_DEADLINE_DATE,
         "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
