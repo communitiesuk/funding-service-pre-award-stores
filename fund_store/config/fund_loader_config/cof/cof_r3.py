@@ -264,8 +264,8 @@ round_config = [
         "title_json": {"en": "Round 3 Window 1", "cy": "Round 3 Window 1"},
         "short_name": "R3W1",
         "opens": COF_R3W1_OPENS_DATE,
-        "deadline": COF_R3_DEADLINE_DATE,
-        "assessment_deadline": COF_R3_ASSESSMENT_DEADLINE_DATE,
+        "deadline": COF_R3W1_DEADLINE_DATE,
+        "assessment_deadline": COF_R3W1_ASSESSMENT_DEADLINE_DATE,
         "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
         "privacy_notice": (
             "https://www.gov.uk/government/publications/community-ownership-fund-"
@@ -298,8 +298,8 @@ round_config_w2 = [
         "title_json": {"en": "Round 3 Window 2", "cy": "Round 3 Window 2"},
         "short_name": "R3W2",
         "opens": COF_R3W2_OPENS_DATE,
-        "deadline": COF_R3_DEADLINE_DATE,
-        "assessment_deadline": COF_R3_ASSESSMENT_DEADLINE_DATE,
+        "deadline": COF_R3W2_DEADLINE_DATE,
+        "assessment_deadline": COF_R3W2_ASSESSMENT_DEADLINE_DATE,
         "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
         "privacy_notice": (
             "https://www.gov.uk/government/publications/community-ownership-fund-"
