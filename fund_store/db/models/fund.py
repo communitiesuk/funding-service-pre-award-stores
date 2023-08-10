@@ -36,3 +36,12 @@ class Fund(BaseModel):
     rounds: Mapped[List["Round"]] = relationship("Round")
     welsh_available = Column("welsh_available", Boolean, default=False, nullable=False)
     guidance_url = Column("guidance_url", db.String(), nullable=True, unique=False)
+    owner_organisation_name = Column(
+        "owner_organisation_name", db.String(), nullable=False, unique=False
+    )
+    owner_organisation_shortname = Column(
+        "owner_organisation_shortname", db.String(), nullable=False, unique=False
+    )
+    owner_organisation_logo_uri = Column(
+        "owner_organisation_logo_uri", db.Text(), nullable=True, unique=False
+    )
