@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from db import db
-from db.models.flags_v2.flag_update import FlagStatus
+from db.models.flags.flag_update import FlagStatus
 from flask_sqlalchemy.model import DefaultMeta
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey

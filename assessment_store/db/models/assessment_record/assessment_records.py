@@ -71,8 +71,7 @@ class AssessmentRecord(BaseModel):
 
     comments = relationship("Comment")
 
-    flags = relationship("Flag")
-    flags_v2 = relationship("AssessmentFlag")
+    flags = relationship("AssessmentFlag")
     tag_associations = relationship("TagAssociation")
 
     qa_complete = relationship("QaComplete")

@@ -1,13 +1,11 @@
-from db.models import Flag
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
 from db.models.assessment_record.tag_association import TagAssociation
 from db.models.comment import Comment
 from db.models.comment.enums import CommentType
-from db.models.flags.enums import FlagType
-from db.models.flags_v2.assessment_flag import AssessmentFlag
-from db.models.flags_v2.flag_update import FlagUpdate
+from db.models.flags.assessment_flag import AssessmentFlag
+from db.models.flags.flag_update import FlagUpdate
 from db.models.qa_complete import QaComplete
 from db.models.score import Score
 from db.models.tag.tag_types import TagType
@@ -35,13 +33,10 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
 
     workflow_status = Enum(Status)
     language = Enum(Language)
-    flags = Nested(
-        "FlagMetadata", many=True
-    )  # TODO: Retrieve only latest flag
     organisation_name = String()
     funding_type = String()
     local_authority = String()
-    flags_v2 = Nested("AssessmentFlagSchema", many=True)
+    flags = Nested("AssessmentFlagSchema", many=True)
     qa_complete = Nested("QaCompleteMetadata", many=True)
     tag_associations = Nested("TagAssociationNestedSchema", many=True)
 
@@ -68,19 +63,6 @@ class CommentMetadata(SQLAlchemyAutoSchema):
         load_instance = True
 
     comment_type = Enum(CommentType)
-    application_id = auto_field(dump_only=True)
-
-
-class FlagMetadata(SQLAlchemyAutoSchema):
-    """CommentMetadata The marshmallow class used to turn SQLAlchemy
-    rows into json for return in http responses."""
-
-    class Meta:
-        model = Flag
-        include_relationships = True
-        load_instance = True
-
-    flag_type = Enum(FlagType)
     application_id = auto_field(dump_only=True)
 
 

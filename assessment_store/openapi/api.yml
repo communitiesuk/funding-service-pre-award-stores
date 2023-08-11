@@ -74,6 +74,14 @@ paths:
         format: query
       required: false
       explode: true
+    - name: filter_by_tag
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
     get:
       tags:
         - assessments
@@ -89,146 +97,7 @@ paths:
                 type: array
                 items:
                   $ref: 'components.yml#/components/schemas/Assessment'
-
-  '/application_overviews_flags_v2/{fund_id}/{round_id}':
-    parameters:
-    - name: fund_id
-      in: path
-      required: true
-      schema:
-        type: string
-        format: path
-    - name: round_id
-      in: path
-      required: true
-      schema:
-        type: string
-        format: path
-    - name: search_in
-      in: query
-      style: form
-      schema:
-        type: string
-        format: query
-      required: false
-      explode: true
-    - name: funding_type
-      in: query
-      style: form
-      schema:
-        type: string
-        format: query
-      required: false
-      explode: true
-    - name: search_term
-      in: query
-      style: form
-      schema:
-        type: string
-        format: query
-      required: false
-      explode: true
-    - name: asset_type
-      in: query
-      style: form
-      schema:
-        type: string
-        format: query
-      required: false
-      explode: true
-    - name: status
-      in: query
-      style: form
-      schema:
-        type: string
-        format: query
-      required: false
-      explode: true
-    - name: countries
-      in: query
-      style: form
-      schema:
-        type: string
-        format: query
-      required: false
-      explode: true
-    - name: filter_by_tag
-      in: query
-      style: form
-      schema:
-        type: string
-        format: query
-      required: false
-      explode: true
-    get:
-      tags:
-        - assessments
-      summary: Search assessments
-      description: List all assessments
-      operationId: api.routes.all_assessments_flagsv2_for_fund_round_id
-      responses:
-        200:
-          description: SUCCESS - A list of assessments
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: 'components.yml#/components/schemas/Assessment'
-
   '/assessments/get-stats/{fund_id}/{round_id}':
-    parameters:
-      - name: fund_id
-        in: path
-        required: true
-        schema:
-          type: string
-          format: path
-      - name: round_id
-        in: path
-        required: true
-        schema:
-          type: string
-          format: path
-      - name: search_term
-        in: query
-        style: form
-        schema:
-          type: string
-          format: query
-        required: false
-        explode: true
-      - name: asset_type
-        in: query
-        style: form
-        schema:
-          type: string
-          format: query
-        required: false
-        explode: true
-      - name: status
-        in: query
-        style: form
-        schema:
-          type: string
-          format: query
-        required: false
-        explode: true
-    get:
-      tags:
-        - assessments
-      summary: Get assessment stats
-      description: Get a selection of required metrics
-      operationId: api.routes.assessment_stats_for_fund_round_id
-      responses:
-        200:
-          description: SUCCESS - A collection of assessment metrics
-          content:
-            application/json:
-              schema:
-                type: object
-                $ref: 'components.yml#/components/schemas/AssessmentsStats'
-  '/assessments/get-stats_flags_v2/{fund_id}/{round_id}':
     parameters:
       - name: fund_id
         in: path
@@ -295,7 +164,7 @@ paths:
         - assessments
       summary: Get assessment stats
       description: Get a selection of required metrics
-      operationId: api.routes.assessment_stats_flagsv2_for_fund_round_id
+      operationId: api.routes.assessment_stats_for_fund_round_id
       responses:
         200:
           description: SUCCESS - A collection of assessment metrics
@@ -470,90 +339,12 @@ paths:
                 code: 401
                 status: 'error'
                 message: 'Could not save Score for application sub-criteria'
-  '/flags':
-    get:
-      tags:
-        - flags
-      summary: get all flag for an application
-      description: get all flag for an application
-      operationId: api.routes.get_all_flags_for_application
-      responses:
-        200:
-          description: SUCCESS - List of Flags for an Application
-          content:
-            application/json:
-              schema:
-                $ref: 'components.yml#/components/schemas/FlagList'
-      parameters:
-      - name: application_id
-        in: query
-        schema:
-          type: string
-        required: true
-  '/flag':
-    get:
-      tags:
-        - flags
-      summary: get latest flag for an application
-      description: get latest flag for an application
-      operationId: api.routes.get_latest_flag_for_application
-      responses:
-        200:
-          description: SUCCESS - Flags for an Application
-          content:
-            application/json:
-              schema:
-                $ref: 'components.yml#/components/schemas/Flag'
-      parameters:
-      - name: application_id
-        in: query
-        schema:
-          type: string
-        required: true
-    post:
-      tags:
-        - flags
-      summary: post a flag for an application
-      description: post a flag for an application
-      operationId: api.routes.post_flag_for_application
-      requestBody:
-        description: Flag creation parameters
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: 'components.yml#/components/schemas/PostFlag'
-            example:
-              justification: 'justification for flagging'
-              sections_to_flag: 'information on the sections to flag'
-              flag_type: 'FLAGGED'
-              application_id: 'r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd'
-              user_id: 'r3p1ac33-7412-4991-c4t1-c41cbf4d3bbd'
-      responses:
-        201:
-          description: SUCCESS - Flag for Application Submitted
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
-                  $ref: 'components.yml#/components/schemas/Flag'
-        401:
-          description: ERROR - Could not Save Flag
-          content:
-            application/json:
-              schema:
-                $ref: 'components.yml#/components/schemas/Error'
-              example:
-                code: 401
-                status: 'error'
-                message: 'Could not save Flag for application'
   '/flag_data':
     get:
       tags:
         - flags
-      summary: get flag data by flag id
-      description: get flag data by flag id
+      summary: get assessment flag data by flag id
+      description: get assessment flag data by flag id
       operationId: api.routes.get_flag
       responses:
         200:
@@ -561,27 +352,6 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'components.yml#/components/schemas/Flag'
-      parameters:
-      - name: flag_id
-        in: query
-        schema:
-          type: string
-        required: true
-
-  '/flag_data_v2':
-    get:
-      tags:
-        - flags_v2
-      summary: get assessment flag data by flag id
-      description: get assessment flag data by flag id
-      operationId: api.routes.get_flag_v2
-      responses:
-        200:
-          description: SUCCESS - Flags
-          content:
-            application/json:
-              schema:
                 type: object
       parameters:
       - name: flag_id
@@ -589,7 +359,6 @@ paths:
         schema:
           type: string
         required: true
-
   '/sub_criteria_overview/{application_id}/{sub_criteria_id}':
     parameters:
     - name: application_id
@@ -617,7 +386,6 @@ paths:
             application/json:
               schema:
                 $ref: 'components.yml#/components/schemas/SubCriteria'
-
   '/application/{application_id}/metadata':
     parameters:
       - name: application_id
@@ -1006,12 +774,12 @@ paths:
             items:
               type: string
         required: true
-  '/flags_v2/{application_id}':
+  '/flags/{application_id}':
     get:
       tags:
-        - flags_v2
+        - flags
       summary: get all flags for an application, with updates
-      operationId: api.routes.get_all_flags_v2_for_application
+      operationId: api.routes.get_all_flags_for_application
       parameters:
       - name: application_id
         in: path
@@ -1025,13 +793,13 @@ paths:
             application/json:
               schema:
                 type: array
-  '/flags_v2/':
+  '/flags/':
     post:
       tags:
-        - flags_v2
+        - flags
       summary: create a new flag for an application
       description: post a flag for an application
-      operationId: api.routes.create_flag_v2_for_application
+      operationId: api.routes.create_flag_for_application
       requestBody:
         description: Flag creation parameters
         required: true
@@ -1066,10 +834,10 @@ paths:
                 message: 'Could not save Flag for application'
     put:
       tags:
-        - flags_v2
+        - flags
       summary: update a flag for an application
       description: put a flag for an application
-      operationId: api.routes.update_flag_v2_for_application
+      operationId: api.routes.update_flag_for_application
       requestBody:
         description: Flag update parameters
         required: true
@@ -1179,7 +947,7 @@ paths:
         - tag management
       summary: Get all active tag associations for an assessment
       description: returns all active tag associations for an assessment
-      operationId: api.routes.assessment_routes.get_active_tags_associated_with_assessment
+      operationId: api.routes.tag_routes.get_active_tags_associated_with_assessment
       parameters:
         - name: application_id
           in: path
@@ -1200,7 +968,7 @@ paths:
         - tag management
       summary: Put a list of tags associated with an assessment
       description: Put a list of tags associated with an assessment
-      operationId: api.routes.assessment_routes.associate_tags_with_assessment
+      operationId: api.routes.tag_routes.associate_tags_with_assessment
       parameters:
         - name: application_id
           in: path

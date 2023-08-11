@@ -4,13 +4,15 @@ from uuid import uuid4
 
 import pytest
 from app import create_app
+from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record.tag_association import TagAssociation
-from db.models.flags.flags import Flag
-from db.models.flags_v2.assessment_flag import AssessmentFlag
-from db.models.flags_v2.flag_update import FlagUpdate
+from db.models.comment import Comment
+from db.models.flags.assessment_flag import AssessmentFlag
+from db.models.flags.flag_update import FlagUpdate
+from db.models.qa_complete import QaComplete
+from db.models.score import Score
 from db.models.tag.tag_types import TagType
 from db.queries import bulk_insert_application_record
-from db.queries import delete_assessment_record
 from db.queries.tags.queries import insert_tags
 from db.schemas.schemas import TagSchema
 from db.schemas.schemas import TagTypeSchema
@@ -56,12 +58,8 @@ def seed_application_records(
             app["fund_id"] = random_fund_id
             app["round_id"] = random_round_id
         app_flags = []
-        app_flags_v2 = []
         if "flags" in app:
             app_flags = app.pop("flags")
-        app_flags_v2 = []
-        if "flags_v2" in app:
-            app_flags_v2 = app.pop("flags_v2")
         app_tags = []
         if "app_tags" in app:
             app_tags = app.pop("app_tags")
@@ -69,13 +67,9 @@ def seed_application_records(
             [app], "COF", True
         )[0]
         app["flags"] = app_flags
-        app["flags_v2"] = app_flags_v2
         app["app_tags"] = app_tags
         inserted_applications.append(inserted_application)
         for f in app_flags:
-            flag = Flag(application_id=app_id, **f)
-            _db.session.add(flag)
-        for f in app_flags_v2:
             flag_update = FlagUpdate(
                 justification=f["justification"],
                 user_id=f["user_id"],
@@ -97,15 +91,14 @@ def seed_application_records(
     # Supplied the rows we inserted for tests to use in their actions
     yield inserted_applications
 
-    for app in apps:
-        app_id = app["id"]
-        app_flags = app["flags"]
-        for f in app_flags:
-            flag = Flag.query.filter_by(application_id=app_id, **f).first()
-            if flag:
-                _db.session.delete(flag)
-                _db.session.commit()
-        delete_assessment_record(app_id)
+    FlagUpdate.query.delete()
+    AssessmentFlag.query.delete()
+    TagAssociation.query.delete()
+    Score.query.delete()
+    QaComplete.query.delete()
+    Comment.query.delete()
+    AssessmentRecord.query.delete()
+    _db.session.commit()
 
 
 @pytest.fixture(scope="function")

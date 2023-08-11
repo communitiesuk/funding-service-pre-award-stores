@@ -1,5 +1,5 @@
 import pytest
-from api.routes.assessment_routes import (
+from api.routes.tag_routes import (
     get_active_tags_associated_with_assessment,
 )
 from api.routes.tag_routes import update_tags_for_fund_round
