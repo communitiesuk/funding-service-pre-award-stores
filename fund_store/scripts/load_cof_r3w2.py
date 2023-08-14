@@ -17,7 +17,9 @@ def main() -> None:
 
     print("Inserting base sections config.")
     insert_base_sections(
-        APPLICATION_BASE_PATH_COF_R3_W2, ASSESSMENT_BASE_PATH_COF_R3_W2, COF_ROUND_3_WINDOW_2_ID
+        APPLICATION_BASE_PATH_COF_R3_W2,
+        ASSESSMENT_BASE_PATH_COF_R3_W2,
+        COF_ROUND_3_WINDOW_2_ID,
     )
     print(
         "'insert_application_sections(...)' not required as COFR3W2 shares the same"
