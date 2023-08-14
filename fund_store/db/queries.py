@@ -197,6 +197,9 @@ def insert_fund_data(fund_config):
                 short_name=bindparam("short_name"),
                 description_json=bindparam("description_json"),
                 welsh_available=bindparam("welsh_available"),
+                owner_organisation_name=bindparam("owner_organisation_name"),
+                owner_organisation_shortname=bindparam("owner_organisation_shortname"),
+                owner_organisation_logo_uri=bindparam("owner_organisation_logo_uri"),
             )
         )
         .on_conflict_do_update(
@@ -207,6 +210,11 @@ def insert_fund_data(fund_config):
                 "short_name": bindparam("short_name"),
                 "description_json": bindparam("description_json"),
                 "welsh_available": bindparam("welsh_available"),
+                "owner_organisation_name": bindparam("owner_organisation_name"),
+                "owner_organisation_shortname": bindparam(
+                    "owner_organisation_shortname"
+                ),
+                "owner_organisation_logo_uri": bindparam("owner_organisation_logo_uri"),
             },
         )
         .returning(Fund.id)
@@ -219,6 +227,9 @@ def insert_fund_data(fund_config):
         "short_name": fund_config["short_name"],
         "description_json": fund_config["description_json"],
         "welsh_available": fund_config["welsh_available"],
+        "owner_organisation_name": fund_config["owner_organisation_name"],
+        "owner_organisation_shortname": fund_config["owner_organisation_shortname"],
+        "owner_organisation_logo_uri": fund_config["owner_organisation_logo_uri"],
     }
 
     result = db.session.execute(stmt, update_params)

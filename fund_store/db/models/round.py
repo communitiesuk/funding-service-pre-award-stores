@@ -64,3 +64,9 @@ class Round(BaseModel):
         default=False,
         nullable=False,
     )
+    display_logo_on_pdf_exports = Column(
+        "display_logo_on_pdf_exports",
+        db.Boolean,
+        default=False,
+        nullable=False,
+    )
