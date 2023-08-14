@@ -15,6 +15,9 @@ on:
         type: boolean
         required: false
         default: false
+      deploy_to_dev:
+        type: boolean
+        description: Deploy to dev?
   push:
     paths-ignore:
       - '**/README.md'
