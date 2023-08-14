@@ -1,8 +1,10 @@
 # flake8: noqa
 from config.fund_loader_config.cof.cof_r3 import APPLICATION_BASE_PATH_COF_R3_W2
 from config.fund_loader_config.cof.cof_r3 import ASSESSMENT_BASE_PATH_COF_R3_W2
+from config.fund_loader_config.cof.cof_r3 import cof_r3w2_sections
 from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_2_ID
 from config.fund_loader_config.cof.cof_r3 import round_config_w2
+from db.queries import insert_application_sections
 from db.queries import insert_base_sections
 from db.queries import insert_round_data
 
@@ -21,10 +23,8 @@ def main() -> None:
         ASSESSMENT_BASE_PATH_COF_R3_W2,
         COF_ROUND_3_WINDOW_2_ID,
     )
-    print(
-        "'insert_application_sections(...)' not required as COFR3W2 shares the same"
-        " sections config from COFR3W1."
-    )
+    print("Inserting sections.")
+    insert_application_sections(COF_ROUND_3_WINDOW_2_ID, cof_r3w2_sections)
 
 
 if __name__ == "__main__":
