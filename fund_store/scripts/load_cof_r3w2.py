@@ -2,7 +2,7 @@
 from config.fund_loader_config.cof.cof_r3 import APPLICATION_BASE_PATH
 from config.fund_loader_config.cof.cof_r3 import ASSESSMENT_BASE_PATH
 from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_2_ID
-from config.fund_loader_config.cof.cof_r3 import round_config
+from config.fund_loader_config.cof.cof_r3 import round_config_w2
 from db.queries import insert_base_sections
 from db.queries import insert_round_data
 
@@ -13,7 +13,7 @@ def main() -> None:
         " config from COFR3W1."
     )
     print("Inserting round data.")
-    insert_round_data(round_config)
+    insert_round_data(round_config_w2)
 
     print("Inserting base sections config.")
     insert_base_sections(
