@@ -10,16 +10,13 @@ from api.routes.subcriterias.get_sub_criteria import (
 from config.mappings.assessment_mapping_fund_round import (
     applicant_info_mapping,
 )
-from db.models.flags.enums import FlagType
-from db.models.flags_v2.assessment_flag import AssessmentFlag
-from db.models.flags_v2.flag_update import FlagStatus
+from db.models.flags.assessment_flag import AssessmentFlag
+from db.models.flags.flag_update import FlagStatus
 from db.models.tag.tags import Tag
-from db.queries.flags.queries import create_flag_for_application
-from db.queries.flags_v2.queries import (
-    create_flag_for_application as create_flag_for_application_v2,
-)
+from db.queries.flags.queries import add_flag_for_application
+from db.queries.flags.queries import add_update_to_assessment_flag
+from db.queries.qa_complete.queries import create_qa_complete_record
 from tests._expected_responses import APPLICATION_METADATA_RESPONSE
-from tests._expected_responses import ASSESSMENTS_STATS_RESPONSE
 from tests.conftest import test_input_data
 from tests.test_data.flags import add_flag_update_request_json
 from tests.test_data.flags import create_flag_request_json
@@ -43,49 +40,49 @@ def test_get_assessments_stats(client, seed_application_records):
         f"/application_overviews/{fund_id}/{round_id}"
     ).json
 
-    # Add a QA_COMPLETED flag for the first application
-    # so that one result from the set is flagged as QA_COMPLETED
-    create_flag_for_application(
-        justification="bob",
-        sections_to_flag=["Overview"],
-        application_id=applications[0]["application_id"],
-        user_id="abc",
-        flag_type=FlagType.QA_COMPLETED,
-    )
-
-    response_json = client.get(
+    assessment_stats = client.get(
         f"/assessments/get-stats/{fund_id}/{round_id}"
     ).json
+    assert assessment_stats["qa_completed"] == 0
 
-    assert response_json == ASSESSMENTS_STATS_RESPONSE
+    create_qa_complete_record(applications[0]["application_id"], "usera")
 
-    # Test number of QA_COMPLETE Applications is correct
-    # Add one more QA_COMPLETE flag to another application
-    # and also FLAGGED so we can see that the most recent
-    # flag does not interfere
-    # "qa_completed" should return 2
+    assessment_stats = client.get(
+        f"/assessments/get-stats/{fund_id}/{round_id}"
+    ).json
+    assert assessment_stats["qa_completed"] == 1
 
-    create_flag_for_application(
-        justification="QA Complete Test 1",
+    create_qa_complete_record(applications[1]["application_id"], "usera")
+
+    flag_id = add_flag_for_application(
+        justification="I think things.",
         sections_to_flag=["Overview"],
         application_id=applications[1]["application_id"],
         user_id="abc",
-        flag_type=FlagType.QA_COMPLETED,
-    )
+        status=FlagStatus.RAISED,
+        allocation="Assessor",
+    ).id
 
-    create_flag_for_application(
-        justification="QA Complete Test 1",
-        sections_to_flag=["Overview"],
-        application_id=applications[1]["application_id"],
+    assessment_stats = client.get(
+        f"/assessments/get-stats/{fund_id}/{round_id}"
+    ).json
+    assert assessment_stats["flagged"] == 1
+    assert assessment_stats["qa_completed"] == 1
+
+    add_update_to_assessment_flag(
+        justification="I think things.",
         user_id="abc",
-        flag_type=FlagType.FLAGGED,
+        status=FlagStatus.RESOLVED,
+        allocation="Assessor",
+        assessment_flag_id=flag_id,
     )
 
-    response_json = client.get(
+    assessment_stats = client.get(
         f"/assessments/get-stats/{fund_id}/{round_id}"
     ).json
 
-    assert response_json["qa_completed"] == 2
+    assert assessment_stats["flagged"] == 0
+    assert assessment_stats["qa_completed"] == 2
 
 
 @pytest.mark.apps_to_insert([test_input_data[0].copy() for x in range(4)])
@@ -111,28 +108,31 @@ def test_gets_all_apps_for_fund_round(
     assert len(response_json) == apps_per_round
 
     # Check application overview returns flags in order of descending
-    create_flag_for_application(
+    add_flag_for_application(
         justification="Test 1",
         sections_to_flag=["Overview"],
         application_id=application_id,
         user_id="abc",
-        flag_type=FlagType.FLAGGED,
+        status=FlagStatus.RAISED,
+        allocation="Assessor",
     )
 
-    create_flag_for_application(
+    add_flag_for_application(
         justification="Test 2",
         sections_to_flag=["Overview"],
         application_id=application_id,
         user_id="abc",
-        flag_type=FlagType.RESOLVED,
+        status=FlagStatus.RESOLVED,
+        allocation="Assessor",
     )
 
-    create_flag_for_application(
+    add_flag_for_application(
         justification="Test 3",
         sections_to_flag=["Overview"],
         application_id=application_id,
         user_id="abc",
-        flag_type=FlagType.STOPPED,
+        status=FlagStatus.STOPPED,
+        allocation="Assessor",
     )
 
     response_with_flag_json = client.get(
@@ -146,8 +146,13 @@ def test_gets_all_apps_for_fund_round(
             application_to_check = application
 
     # Check that the last flag in the flag array is the latest flag added
-    assert application_to_check["flags"][-1]["flag_type"] == "STOPPED"
-    assert application_to_check["flags"][-1]["justification"] == "Test 3"
+    assert (
+        application_to_check["flags"][-1]["updates"][0]["status"] == 1
+    )  # 1 = stopped
+    assert (
+        application_to_check["flags"][-1]["updates"][0]["justification"]
+        == "Test 3"
+    )
 
 
 @pytest.mark.parametrize(
@@ -369,12 +374,12 @@ expected_flag = AssessmentFlag(
 )
 
 
-def test_get_flags_v2(client, mocker):
+def test_get_flags(client, mocker):
     mocker.patch(
-        "api.routes.assessment_routes.get_flags_for_application",
+        "api.routes.flag_routes.get_flags_for_application",
         return_value=[expected_flag],
     )
-    response = client.get("/flags_v2/app_id")
+    response = client.get("/flags/app_id")
     assert response.status_code == 200
     assert len(response.json) == 1
     assert response.json[0]["id"] == str(expected_flag.id)
@@ -387,13 +392,13 @@ def test_get_team_flag_stats(client, seed_application_records):
 
     # Get test applications
     applications = client.get(
-        f"/application_overviews_flags_v2/{fund_id}/{round_id}"
+        f"/application_overviews/{fund_id}/{round_id}"
     ).json
 
     # Add a RAISED flag for the first application
     # so that one result from the set is flagged as RAISED
     # and only one team exists with a flag allocated
-    create_flag_for_application_v2(
+    add_flag_for_application(
         justification="bob",
         sections_to_flag=["Overview"],
         application_id=applications[0]["application_id"],
@@ -415,7 +420,7 @@ def test_get_team_flag_stats(client, seed_application_records):
     # still only one team exists with a flag allocated
     # response should still have only one row for one team
     # 2 raised
-    create_flag_for_application_v2(
+    add_flag_for_application(
         justification="bob",
         sections_to_flag=["Overview"],
         application_id=applications[1]["application_id"],
@@ -426,10 +431,10 @@ def test_get_team_flag_stats(client, seed_application_records):
 
     # Add a RAISED flag for first application
     # for a second team response have 2 rows for the two teams
-    create_flag_for_application_v2(
+    add_flag_for_application(
         justification="bob",
         sections_to_flag=["Overview"],
-        application_id=applications[1]["application_id"],
+        application_id=applications[0]["application_id"],
         user_id="abc",
         status="RAISED",
         allocation="LEAD_ASSESSOR",
@@ -447,17 +452,17 @@ def test_get_team_flag_stats(client, seed_application_records):
     assert response.json[1]["raised"] == 1
 
 
-def test_create_flag_v2(client):
+def test_create_flag(client):
     request_body = {
         **create_flag_request_json,
         "application_id": str(uuid4()),
     }
     with mock.patch(
-        "api.routes.assessment_routes.create_flag_for_application",
+        "api.routes.flag_routes.add_flag_for_application",
         return_value=expected_flag,
     ) as create_mock:
         response = client.post(
-            "/flags_v2/",
+            "/flags/",
             data=json.dumps(request_body),
             content_type="application/json",
         )
@@ -466,17 +471,17 @@ def test_create_flag_v2(client):
         assert response.json["id"] == str(expected_flag.id)
 
 
-def test_update_flag_v2(client):
+def test_update_flag(client):
     request_body = {
         **add_flag_update_request_json,
         "assessment_flag_id": str(uuid4()),
     }
     with mock.patch(
-        "api.routes.assessment_routes.add_update_to_assessment_flag",
+        "api.routes.flag_routes.add_update_to_assessment_flag",
         return_value=expected_flag,
     ) as update_mock:
         response = client.put(
-            "/flags_v2/",
+            "/flags/",
             data=json.dumps(request_body),
             content_type="application/json",
         )

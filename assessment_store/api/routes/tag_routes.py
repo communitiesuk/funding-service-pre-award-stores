@@ -1,10 +1,16 @@
 # flake8: noqa
+from db.queries.assessment_records.queries import associate_assessment_tags
+from db.queries.assessment_records.queries import (
+    select_active_tags_associated_with_assessment,
+)
 from db.queries.tags.queries import get_tag_by_id
 from db.queries.tags.queries import insert_tags
 from db.queries.tags.queries import select_tags_for_fund_round
 from db.queries.tags.queries import select_tags_types
 from db.queries.tags.queries import update_tags
+from db.schemas.schemas import JoinedTagAssociationSchema
 from db.schemas.schemas import JoinedTagSchema
+from db.schemas.schemas import TagAssociationSchema
 from db.schemas.schemas import TagSchema
 from db.schemas.schemas import TagTypeSchema
 from flask import abort
@@ -101,3 +107,33 @@ def get_tag(fund_id, round_id, tag_id):
     if not tag:
         return abort(404)
     return JoinedTagSchema().dump(tag)
+
+
+def associate_tags_with_assessment(application_id):
+    args = request.get_json()
+    tags = args
+    current_app.logger.info(f"Associating tag with assessment")
+    associated_tags = associate_assessment_tags(application_id, tags)
+
+    if associated_tags:
+        serialiser = TagAssociationSchema()
+        serialised_associated_tags = [
+            serialiser.dump(r) for r in associated_tags
+        ]
+        return serialised_associated_tags
+
+
+def get_active_tags_associated_with_assessment(application_id):
+    current_app.logger.info(
+        f"Getting tags associated with assessment with application_id: {application_id}."
+    )
+    associated_tags = select_active_tags_associated_with_assessment(
+        application_id
+    )
+    if associated_tags:
+        serialiser = JoinedTagAssociationSchema()
+        serialised_associated_tags = [
+            serialiser.dump(r) for r in associated_tags
+        ]
+        return serialised_associated_tags
+    return []

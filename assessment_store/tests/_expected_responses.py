@@ -146,16 +146,6 @@ subcriteria_themes_and_expected_response = {
     "accessibility_and_inclusivity": "Test",
 }
 
-ASSESSMENTS_STATS_RESPONSE = {
-    "completed": 0,
-    "assessing": 0,
-    "not_started": 3,
-    "qa_completed": 1,
-    "stopped": 0,
-    "flagged": 0,
-    "total": 3,
-}
-
 BULK_UPDATE_LOCATION_JSONB_BLOB = {
     "existing_location_data": {
         "error": False,
