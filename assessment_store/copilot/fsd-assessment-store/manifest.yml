@@ -54,4 +54,3 @@ environments:
   test:
     deployment:
       rolling: 'recreate'
-

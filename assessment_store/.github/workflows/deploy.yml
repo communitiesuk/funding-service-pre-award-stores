@@ -88,4 +88,3 @@ jobs:
     - name: Copilot deploy
       run: |
         copilot deploy --env ${{ inputs.environment || 'test' }}
-
