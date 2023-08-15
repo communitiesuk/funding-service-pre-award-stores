@@ -57,7 +57,7 @@ jobs:
     if: ${{ github.event.inputs.copilot }}
     secrets:
       E2E_PAT: ${{secrets.E2E_PAT}}
-    uses: communitiesuk/funding-design-service-workflows/.github/workflows/pre-deploy.yml@FS-3337-split-aws-deploy
+    uses: communitiesuk/funding-design-service-workflows/.github/workflows/pre-deploy.yml@main
     with:
       db_name: fsd_assess_store_test
       postgres_unit_testing: true
