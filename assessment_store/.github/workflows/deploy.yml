@@ -24,6 +24,7 @@ on:
 
 jobs:
   test_and_deploy:
+    if: ${{ !github.event.inputs.copilot }}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@main
     with:
       app_name: ${{ github.event.repository.name }}
@@ -92,16 +93,49 @@ jobs:
       run: |
         copilot deploy --env ${{ inputs.environment || 'test' }}
   pre_deploy_tests:
-    needs: paketo_build
+    if: ${{ github.event.inputs.copilot }}
+    secrets:
+      E2E_PAT: ${{secrets.E2E_PAT}}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/pre-deploy.yml@FS-3337-split-aws-deploy
-#  test_and_deploy_aws:
-#    uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy-aws.yml@FS-3337-split-aws-deploy
-#    needs: pre_deploy_tests
-#    with:
-#      app_name: ${{ github.event.repository.name }}
-#      api: true
-#      postgres_unit_testing: true
-#      db_name: fsd_assess_store_test
-#      deploy_to_dev: ${{github.event.inputs.deploy_to_dev == 'true'}}
-#      run_performance_tests: true
-#      run_e2e_tests: true
+  copilot
+    if: ${{ github.event.inputs.copilot }}
+    needs: [pre_deploy_tests, paketo_build]
+    concurrency: deploy-${{ inputs.environment || 'test' }}
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment || 'test' }}
+    steps:
+    - name: Git clone the repository
+      uses: actions/checkout@v3
+
+    - name: Get current date
+      id: currentdatetime
+      run: echo "datetime=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/GithubCopilotDeploy
+        role-session-name: FUNDSTORE_COPILOT_${{ steps.currentdatetime.outputs.datetime }}
+        aws-region: eu-west-2
+
+    - name: Install AWS Copilot CLI
+      run: |
+        curl -Lo aws-copilot https://github.com/aws/copilot-cli/releases/latest/download/copilot-linux && chmod +x aws-copilot && sudo mv aws-copilot /usr/local/bin/copilot
+
+    - name: Inject Git SHA into manifest
+      run: |
+        yq -i '.variables.GITHUB_SHA = "${{ github.sha }}"'  copilot/fsd-fund-store/manifest.yml
+
+    - name: Inject replacement image into manifest
+      run: |
+        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ github.ref_name }}"'  copilot/fsd-fund-store/manifest.yml
+
+    - name: Run database migrations
+      run: scripts/migration-task-script.py ${{ inputs.environment || 'test' }}
+
+    - name: Copilot deploy
+      run: |
+        copilot deploy --env ${{ inputs.environment || 'test' }}
