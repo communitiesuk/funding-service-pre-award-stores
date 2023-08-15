@@ -100,7 +100,7 @@ jobs:
     secrets:
       E2E_PAT: ${{secrets.E2E_PAT}}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/pre-deploy.yml@FS-3337-split-aws-deploy
-  copilot
+  copilot:
     #if: ${{ github.event.inputs.copilot }}
     if: ${{ !always() }}
     needs: [pre_deploy_tests, paketo_build]
