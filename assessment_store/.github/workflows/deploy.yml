@@ -10,12 +10,15 @@ on:
         options:
         - test
         - uat
+        default: test
       copilot:
         description: Whether to deploy to AWS?
         type: boolean
         required: false
         default: false
       deploy_to_dev:
+        required: false
+        default: false
         type: boolean
         description: Deploy to CloudFoundry dev?
   push:
@@ -98,7 +101,8 @@ jobs:
       E2E_PAT: ${{secrets.E2E_PAT}}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/pre-deploy.yml@FS-3337-split-aws-deploy
   copilot
-    if: ${{ github.event.inputs.copilot }}
+    #if: ${{ github.event.inputs.copilot }}
+    if: ${{ !always() }}
     needs: [pre_deploy_tests, paketo_build]
     concurrency: deploy-${{ inputs.environment || 'test' }}
     permissions:
@@ -127,11 +131,11 @@ jobs:
 
     - name: Inject Git SHA into manifest
       run: |
-        yq -i '.variables.GITHUB_SHA = "${{ github.sha }}"'  copilot/fsd-fund-store/manifest.yml
+        yq -i '.variables.GITHUB_SHA = "${{ github.sha }}"'  copilot/fsd-assessment-store/manifest.yml
 
     - name: Inject replacement image into manifest
       run: |
-        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ github.ref_name }}"'  copilot/fsd-fund-store/manifest.yml
+        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-assessment-store:${{ github.ref_name }}"'  copilot/fsd-assessment-store/manifest.yml
 
     - name: Run database migrations
       run: scripts/migration-task-script.py ${{ inputs.environment || 'test' }}
