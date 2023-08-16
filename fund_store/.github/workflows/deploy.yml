@@ -11,16 +11,22 @@ on:
         - test
         - uat
       copilot:
-        description: Whether to deploy
+        description: Whether to deploy to AWS?
         type: boolean
         required: false
         default: false
+      deploy_to_dev:
+        required: false
+        default: false
+        type: boolean
+        description: Deploy to CloudFoundry dev?
   push:
     paths-ignore:
       - '**/README.md'
 
 jobs:
   test_and_deploy:
+    if: ${{ !github.event.inputs.copilot }}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@main
     with:
       app_name: ${{ github.event.repository.name }}
@@ -43,9 +49,18 @@ jobs:
       version_to_build: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
       owner: ${{ github.repository_owner }}
       application: funding-design-service-fund-store
-  copilot_build:
+  pre_deploy_tests:
     if: ${{ github.event.inputs.copilot }}
-    needs: [test_and_deploy]
+    secrets:
+      E2E_PAT: ${{secrets.E2E_PAT}}
+    uses: communitiesuk/funding-design-service-workflows/.github/workflows/pre-deploy.yml@main
+    with:
+      # Note - no db-name, so defaults to postgres_db
+      postgres_unit_testing: true
+  copilot_build:
+    if: ${{ !always() }}
+    #if: ${{ github.event.inputs.copilot }}
+    needs: [pre_deploy_tests, paketo_build]
     concurrency: deploy-${{ inputs.environment || 'test' }}
     permissions:
       id-token: write # This is required for requesting the JWT
