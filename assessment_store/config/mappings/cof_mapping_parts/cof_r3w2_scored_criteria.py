@@ -69,7 +69,7 @@ scored_criteria = [
                                 "field_type": "checkboxesField",
                                 "presentation_type": "list",
                                 "question": "Why is the asset at risk of closure?",
-                            }
+                            },
                         ],
                     },
                 ],
