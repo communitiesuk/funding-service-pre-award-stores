@@ -248,6 +248,56 @@ def bulk_insert_application_record(
     return rows
 
 
+def insert_application_record(
+    application_json_string: str, application_type: str, is_json=False
+) -> AssessmentRecord:
+    """insert_application_record Given a json strings and an
+    `application_type` we extract key values from the json
+    strings before inserting them with the remaining values into
+    `db.models.AssessmentRecord`.
+
+    :param application_json_string: _description_
+    :param application_type: _description_
+    """
+    if not is_json:
+        application_json_string = json.loads(application_json_string)
+
+    derived_values = derive_application_values(application_json_string)
+
+    row = {
+        **derived_values,
+        "jsonb_blob": application_json_string,
+        "type_of_application": application_type,
+    }
+    try:
+        stmt = postgres_insert(AssessmentRecord).values([row])
+
+        upsert_rows_stmt = stmt.on_conflict_do_nothing(
+            index_elements=[AssessmentRecord.application_id]
+        ).returning(AssessmentRecord.application_id)
+
+        print(f"Attempting insert of application {row['application_id']}")
+        result = db.session.execute(upsert_rows_stmt)
+
+        # Check if the inserted application is in result
+        inserted_application_ids = [item.application_id for item in result]
+        if not len(inserted_application_ids):
+            print(
+                f"Application id already exist in the database: {row['application_id']}"
+            )
+        else:
+            print(
+                f"Successfully inserted application_id  : {row['application_id']} "
+            )
+        db.session.commit()
+    except exc.SQLAlchemyError as e:
+        db.session.rollback()
+        print(
+            f"Error occurred while inserting application {row['application_id']}, error: {e}"
+        )
+    return row
+
+
 def delete_assessment_record(app_id):
     """
     Delete the assessment record with the given ID from the database.
