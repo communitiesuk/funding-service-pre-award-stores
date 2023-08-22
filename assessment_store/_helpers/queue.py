@@ -1,4 +1,3 @@
-import logging
 import sys
 from datetime import datetime
 from os import getenv
@@ -6,10 +5,6 @@ from uuid import uuid4
 
 import boto3
 from botocore.exceptions import ClientError
-
-
-logger = logging.getLogger("SQS_Recieve")
-logger.setLevel(logging.DEBUG)
 
 _SQS_CLIENT = boto3.client(
     "sqs",
@@ -43,17 +38,17 @@ def unpack_message(msg):
 
 
 # implement submit_message in applicatiopn-store
-def submit_message(message):
+def submit_message(message, DelaySeconds=1):
     response = _SQS_CLIENT.send_message(
         QueueUrl=_SQS_QUEUE_URL,
         MessageBody=message["body"],
-        DelaySeconds=123,
+        DelaySeconds=1,
         MessageAttributes=message["attributes"],
     )
     print(response)
 
 
-def receive_messages(max_number, wait_time):
+def receive_message(max_number, wait_time):
     """
     Receive a batch of messages in a single request from an SQS queue.
 
@@ -78,25 +73,21 @@ def receive_messages(max_number, wait_time):
         if "Messages" in response.keys():
             messages = response["Messages"]
         elif response["ResponseMetadata"]["HTTPStatusCode"] == 200:
-            logger.exception(
-                "No messages available in queue: %s", _SQS_QUEUE_URL
-            )
+            print("No messages available in queue: %s", _SQS_QUEUE_URL)
             return None
 
         for msg in messages:
-            logger.info(
+            print(
                 "Received message: %s: %s", msg["MessageId"], msg["Body"]
             )  # msg["MessageAttributes"]
     except ClientError as error:
-        logger.exception(
-            "Couldn't receive messages from queue: %s", _SQS_QUEUE_URL
-        )
+        print("Couldn't receive messages from queue: %s", _SQS_QUEUE_URL)
         raise error
     else:
         return messages[0]
 
 
-def delete_messages(messages):
+def delete_message(message):
     """
     Delete a batch of messages from a queue in a single request.
 
@@ -107,38 +98,28 @@ def delete_messages(messages):
     """
     try:
         response = _SQS_CLIENT.delete_message(
-            QueueUrl=_SQS_QUEUE_URL, ReceiptHandle=messages["ReceiptHandle"]
+            QueueUrl=_SQS_QUEUE_URL, ReceiptHandle=message["ReceiptHandle"]
         )
 
         if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
-            logger.info(
+            print(
                 "Deleted %s: %s",
-                messages["MessageId"],
-                messages["ReceiptHandle"],
+                message["MessageId"],
+                message["ReceiptHandle"],
             )
         else:
-            logger.warning(
+            print(
                 "Could not delete %s: %s",
-                messages["MessageId"],
-                messages["ReceiptHandle"],
+                message["MessageId"],
+                message["ReceiptHandle"],
             )
     except ClientError:
-        logger.exception(
-            "Couldn't delete messages from queue %s", _SQS_QUEUE_URL
-        )
+        print("Couldn't delete message from queue %s", _SQS_QUEUE_URL)
     else:
         return response
 
 
 def usage_demo():
-    """
-    Shows how to:
-    * Read the lines from this Python file and send the lines in
-      batches of 10 as messages to a queue.
-    * Receive the messages in batches until the queue is empty.
-    * Reassemble the lines of the file and verify they match the original file.
-    """
-
     print("-" * 88)
     print("Welcome to the Amazon Simple Queue Service (Amazon SQS) demo!")
     print("-" * 88)
@@ -172,13 +153,13 @@ def usage_demo():
     )
     more_messages = True
     while more_messages:
-        received_message = receive_messages(batch_size, 2)
+        received_message = receive_message(batch_size, 2)
         print(".", end="")
         sys.stdout.flush()
         if received_message:
             id, body, datetime_str = unpack_message(received_message)
             received_applications.append(body)
-            delete_messages(received_message)
+            delete_message(received_message)
         else:
             more_messages = False
     print("Done.")
