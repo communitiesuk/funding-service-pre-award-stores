@@ -262,6 +262,11 @@ def insert_application_record(
     if not is_json:
         application_json_string = json.loads(application_json_string)
 
+    if not application_type:
+        application_type = "".join(
+            application_json_string["reference"].split("-")[:2]
+        )
+
     derived_values = derive_application_values(application_json_string)
 
     row = {
