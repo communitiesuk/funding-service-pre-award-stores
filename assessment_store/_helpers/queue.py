@@ -38,17 +38,25 @@ def unpack_message(msg):
 
 
 # implement submit_message in applicatiopn-store
-def submit_message(message, DelaySeconds=1):
-    response = _SQS_CLIENT.send_message(
+def submit_message(messages, DelaySeconds=1):
+    entries = [
+        {
+            "Id": str(ind),
+            "MessageBody": msg["body"],
+            "MessageAttributes": msg["attributes"],
+            "DelaySeconds": DelaySeconds,
+        }
+        for ind, msg in enumerate(messages)
+    ]
+    response = _SQS_CLIENT.send_message_batch(
         QueueUrl=_SQS_QUEUE_URL,
-        MessageBody=message["body"],
-        DelaySeconds=1,
-        MessageAttributes=message["attributes"],
+        Entries=entries,
     )
     print(response)
+    return response
 
 
-def receive_message(max_number, wait_time):
+def receive_messages(max_number, visibility_time=1, wait_time=1):
     """
     Receive a batch of messages in a single request from an SQS queue.
 
@@ -67,27 +75,27 @@ def receive_message(max_number, wait_time):
             AttributeNames=["SentTimestamp"],
             MessageAttributeNames=["All"],
             MaxNumberOfMessages=max_number,
-            VisibilityTimeout=0,
+            VisibilityTimeout=visibility_time,
             WaitTimeSeconds=wait_time,
         )
         if "Messages" in response.keys():
             messages = response["Messages"]
         elif response["ResponseMetadata"]["HTTPStatusCode"] == 200:
-            print("No messages available in queue: %s", _SQS_QUEUE_URL)
+            print(f"No more messages available in queue: {_SQS_QUEUE_URL}")
             return None
 
         for msg in messages:
             print(
-                "Received message: %s: %s", msg["MessageId"], msg["Body"]
+                f"Received message: {msg['MessageId']}, {msg['Body']}"
             )  # msg["MessageAttributes"]
     except ClientError as error:
-        print("Couldn't receive messages from queue: %s", _SQS_QUEUE_URL)
+        print(f"Couldn't receive messages from queue: {_SQS_QUEUE_URL}")
         raise error
     else:
-        return messages[0]
+        return messages
 
 
-def delete_message(message):
+def delete_messages(message_receipt_handles):
     """
     Delete a batch of messages from a queue in a single request.
 
@@ -97,24 +105,26 @@ def delete_message(message):
              message deletions.
     """
     try:
-        response = _SQS_CLIENT.delete_message(
-            QueueUrl=_SQS_QUEUE_URL, ReceiptHandle=message["ReceiptHandle"]
+        entries = [
+            {"Id": str(ind), "ReceiptHandle": receipt_handle}
+            for ind, receipt_handle in enumerate(message_receipt_handles)
+        ]
+        response = _SQS_CLIENT.delete_message_batch(
+            QueueUrl=_SQS_QUEUE_URL, Entries=entries
         )
 
-        if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
-            print(
-                "Deleted %s: %s",
-                message["MessageId"],
-                message["ReceiptHandle"],
-            )
-        else:
-            print(
-                "Could not delete %s: %s",
-                message["MessageId"],
-                message["ReceiptHandle"],
-            )
+        if "Successful" in response:
+            for msg_meta in response["Successful"]:
+                print(
+                    f"Deleted {message_receipt_handles[int(msg_meta['Id'])]}"
+                )
+        if "Failed" in response:
+            for msg_meta in response["Failed"]:
+                print(
+                    f"Could not delete {message_receipt_handles[int(msg_meta['Id'])]}"
+                )
     except ClientError:
-        print("Couldn't delete message from queue %s", _SQS_QUEUE_URL)
+        print(f"Couldn't delete message from queue {_SQS_QUEUE_URL}")
     else:
         return response
 
@@ -127,9 +137,14 @@ def usage_demo():
     # Create a dummy application_id_list
     application_id_list = [str(uuid4()) for _ in range(0, 4)]
 
+    # Queue Settings
+    DelaySeconds = 0  # submit queue setting
+    visibility_time = 0
+    wait_time = 0
+
     # Submit the message
     count = 0
-    batch_size = 1
+    batch_size = 2
     received_applications = []
     print(
         f"Sending file application_id_list in batches of {batch_size} as messages."
@@ -142,10 +157,10 @@ def usage_demo():
             )
         ]
         count = count + batch_size
-        submit_message(messages[0])
+        submit_message(messages, DelaySeconds)
         print(".", end="")
         sys.stdout.flush()
-    print(f"Done. Sent {len(application_id_list) - 1} messages.")
+    print(f"Done. Sent {len(application_id_list)} messages.")
 
     # Recieve & delete the message
     print(
@@ -153,13 +168,18 @@ def usage_demo():
     )
     more_messages = True
     while more_messages:
-        received_message = receive_message(batch_size, 2)
+        received_messages = receive_messages(
+            batch_size, visibility_time, wait_time
+        )
         print(".", end="")
         sys.stdout.flush()
-        if received_message:
-            id, body, datetime_str = unpack_message(received_message)
-            received_applications.append(body)
-            delete_message(received_message)
+        message_receipt_handles = []
+        if received_messages:
+            for message in received_messages:
+                id, body, datetime_str = unpack_message(message)
+                received_applications.append(body)
+                message_receipt_handles.append(message["ReceiptHandle"])
+            delete_messages(message_receipt_handles)
         else:
             more_messages = False
     print("Done.")

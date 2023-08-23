@@ -207,6 +207,10 @@ def bulk_insert_application_record(
     for single_application_json in application_json_strings:
         if not is_json:
             single_application_json = json.loads(single_application_json)
+        if not application_type:
+            application_type = "".join(
+                single_application_json["reference"].split("-")[:2]
+            )
 
         derived_values = derive_application_values(single_application_json)
 
@@ -231,8 +235,7 @@ def bulk_insert_application_record(
                 print(
                     f"Application id already exist in the database: {row['application_id']}"
                 )
-            else:
-                rows.append(row)
+            rows.append(row)
             db.session.commit()
             del single_application_json
         except exc.SQLAlchemyError as e:
