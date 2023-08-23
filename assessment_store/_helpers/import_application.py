@@ -8,8 +8,11 @@ from db.queries import bulk_insert_application_record
 
 def import_applications_from_queue():
     batch_size = 1
+    visibility_time = 0
     wait_time = 2
-    application_messages = receive_messages(batch_size, wait_time)
+    application_messages = receive_messages(
+        batch_size, visibility_time, wait_time
+    )
 
     application_json_list = []
     # application_id_list = []

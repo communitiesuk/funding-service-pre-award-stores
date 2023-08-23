@@ -8,8 +8,8 @@ from botocore.exceptions import ClientError
 
 _SQS_CLIENT = boto3.client(
     "sqs",
-    region_name=getenv("AWS_REGION", "eu-west-2"),
-    endpoint_url=getenv("AWS_ENDPOINT_OVERRIDE", "http://localhost:4566"),
+    region_name=getenv("AWS_REGION", None),
+    endpoint_url=getenv("AWS_ENDPOINT_OVERRIDE", None),
 )
 _SQS_QUEUE_URL = _SQS_CLIENT.get_queue_url(
     QueueName=getenv("AWS_SQS_QUEUE_NAME", "fsd-queue"),
