@@ -47,6 +47,22 @@ def create_app() -> Flask:
     health.add_check(FlaskRunningChecker())
     health.add_check(DbChecker(db))
 
+    # # Configurations for Flask-Apscheduler
+    # from flask_apscheduler import APScheduler
+    # scheduler = APScheduler()
+
+    # flask_app.config["SCHEDULER_API_ENABLED"] = True
+    # flask_app.config["JOBS"] = [
+    #     {
+    #         "id": "sqs_process_queues",
+    #         "func": "_helpers:import_applications_from_queue",
+    #         "trigger": "interval",
+    #         "seconds": 60,  # Run the job every 60 seconds
+    #     }
+    # ]
+    # scheduler.init_app(flask_app)
+    # scheduler.start()
+
     return flask_app
 
 

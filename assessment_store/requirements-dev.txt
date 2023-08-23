@@ -11,6 +11,10 @@ alembic==1.9.4
     #   flask-migrate
 alembic-utils==0.8.1
     # via -r requirements.txt
+apscheduler==3.10.4
+    # via
+    #   -r requirements.txt
+    #   flask-apscheduler
 async-timeout==4.0.2
     # via
     #   -r requirements.txt
@@ -77,6 +81,13 @@ clickclick==20.10.2
     # via
     #   -r requirements.txt
     #   connexion
+colorama==0.4.6
+    # via
+    #   -r requirements.txt
+    #   bandit
+    #   build
+    #   click
+    #   pytest
 colored==1.4.4
     # via -r requirements-dev.in
 commonmark==0.9.1
@@ -101,14 +112,13 @@ deepdiff==6.2.3
     # via -r requirements-dev.in
 distlib==0.3.6
     # via virtualenv
-exceptiongroup==1.1.1
-    # via pytest
 filelock==3.8.0
     # via virtualenv
 flask==2.2.3
     # via
     #   -r requirements.txt
     #   connexion
+    #   flask-apscheduler
     #   flask-babel
     #   flask-migrate
     #   flask-redis
@@ -116,6 +126,8 @@ flask==2.2.3
     #   funding-service-design-utils
     #   pytest-flask
     #   sentry-sdk
+flask-apscheduler==1.12.4
+    # via -r requirements.txt
 flask-babel==2.0.0
     # via
     #   -r requirements.txt
@@ -147,6 +159,10 @@ gitdb==4.0.9
     # via gitpython
 gitpython==3.1.29
     # via bandit
+greenlet==2.0.2
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -332,6 +348,7 @@ python-dateutil==2.8.2
     #   -r requirements.txt
     #   botocore
     #   dataclass-dict-convert
+    #   flask-apscheduler
 python-dotenv==0.20.0
     # via
     #   -r requirements.txt
@@ -343,6 +360,7 @@ python-json-logger==2.0.4
 pytz==2022.6
     # via
     #   -r requirements.txt
+    #   apscheduler
     #   babel
     #   flask-babel
     #   funding-service-design-utils
@@ -379,10 +397,6 @@ ruamel-yaml==0.17.21
     # via
     #   -r requirements.txt
     #   prance
-ruamel-yaml-clib==0.2.7
-    # via
-    #   -r requirements.txt
-    #   ruamel-yaml
 s3transfer==0.6.0
     # via
     #   -r requirements.txt
@@ -398,6 +412,7 @@ sentry-sdk[flask]==1.11.1
 six==1.16.0
     # via
     #   -r requirements.txt
+    #   apscheduler
     #   jsonpath-rw
     #   prance
     #   python-consul
@@ -436,14 +451,6 @@ thrift==0.16.0
     # via
     #   -r requirements.txt
     #   flipper-client
-tomli==2.0.1
-    # via
-    #   -r requirements.txt
-    #   black
-    #   build
-    #   mypy
-    #   pep517
-    #   pytest
 typing-extensions==4.4.0
     # via
     #   -r requirements.txt
@@ -453,6 +460,14 @@ typing-extensions==4.4.0
     #   mypy
     #   sqlalchemy-stubs
     #   sqlalchemy2-stubs
+tzdata==2023.3
+    # via
+    #   -r requirements.txt
+    #   tzlocal
+tzlocal==5.0.1
+    # via
+    #   -r requirements.txt
+    #   apscheduler
 urllib3==1.26.12
     # via
     #   -r requirements.txt
