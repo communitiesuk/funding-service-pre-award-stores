@@ -60,9 +60,12 @@ def receive_messages(max_number, visibility_time=1, wait_time=1):
     """
     Receive a batch of messages in a single request from an SQS queue.
 
-    :param queue: The queue from which to receive messages.
     :param max_number: The maximum number of messages to receive. The actual number
                        of messages received might be less.
+    :param visibility_time: The maximum time for message to temporarily invisible to other receivers.
+                            This gives the initial receiver a chance to process the message. If the receiver
+                            successfully processes and deletes the message within the visibility timeout,
+                            the message is removed from the queue.
     :param wait_time: The maximum time to wait (in seconds) before returning. When
                       this number is greater than zero, long polling is used. This
                       can result in reduced costs and fewer false empty responses.
@@ -99,8 +102,7 @@ def delete_messages(message_receipt_handles):
     """
     Delete a batch of messages from a queue in a single request.
 
-    :param queue: The queue from which to delete the messages.
-    :param messages: The list of messages to delete.
+    :param message_receipt_handles: The list of messages handles to delete.
     :return: The response from SQS that contains the list of successful and failed
              message deletions.
     """
@@ -129,11 +131,7 @@ def delete_messages(message_receipt_handles):
         return response
 
 
-def usage_demo():
-    print("-" * 88)
-    print("Welcome to the Amazon Simple Queue Service (Amazon SQS) demo!")
-    print("-" * 88)
-
+def create_dummy_messages(DelaySeconds, batch_size):
     # Create a dummy application_json list
     from tests._helpers import row_data
 
@@ -150,15 +148,8 @@ def usage_demo():
         },
     )
 
-    # Queue Settings
-    DelaySeconds = 0  # submit queue setting
-    visibility_time = 0
-    wait_time = 0
-
     # Submit the message
     count = 0
-    batch_size = 2
-    received_applications = []
     print(
         f"Sending file application_json_list in batches of {batch_size} as messages."
     )
@@ -174,6 +165,19 @@ def usage_demo():
         print(".", end="")
         sys.stdout.flush()
     print(f"Done. Sent {len(application_json_list)} messages.")
+
+    return application_json_list
+
+
+def usage_demo(batch_size, DelaySeconds, visibility_time, wait_time):
+    print("-" * 88)
+    print("Welcome to the Amazon Simple Queue Service (Amazon SQS) demo!")
+    print("-" * 88)
+
+    received_applications = []
+
+    # Create a dummy application_json list
+    application_json_list = create_dummy_messages(DelaySeconds)
 
     # Recieve & delete the message
     print(
@@ -207,11 +211,16 @@ def usage_demo():
     else:
         print("Uh oh, some application id's were missed!")
 
-    # queue.delete()
-
     print("Thanks for watching!")
     print("-" * 88)
 
 
 if __name__ == "__main__":
-    usage_demo()
+    # Queue Settings
+    DelaySeconds = 0
+    visibility_time = 0
+    wait_time = 0
+    batch_size = 2
+
+    # usage_demo(batch_size, DelaySeconds, visibility_time, wait_time)
+    create_dummy_messages(DelaySeconds, batch_size)
