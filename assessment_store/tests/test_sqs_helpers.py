@@ -2,8 +2,8 @@ import json
 
 import pytest
 from _helpers import delete_messages
-from _helpers import import_applications_from_queue
 from _helpers import receive_messages
+from _helpers.import_application import import_applications_from_queue
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config,
 )

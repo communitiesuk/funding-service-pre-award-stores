@@ -134,8 +134,21 @@ def usage_demo():
     print("Welcome to the Amazon Simple Queue Service (Amazon SQS) demo!")
     print("-" * 88)
 
-    # Create a dummy application_id_list
-    application_id_list = [str(uuid4()) for _ in range(0, 4)]
+    # Create a dummy application_json list
+    from tests._helpers import row_data
+
+    application_json_list = row_data(
+        4,
+        1,
+        1,
+        {
+            "NSTFR2": {
+                "fund_id": "13b95669-ed98-4840-8652-d6b7a19964db",
+                "round_id": "fc7aa604-989e-4364-98a7-d1234271435a",
+                "type_of_application": "NSTF",
+            }
+        },
+    )
 
     # Queue Settings
     DelaySeconds = 0  # submit queue setting
@@ -147,20 +160,20 @@ def usage_demo():
     batch_size = 2
     received_applications = []
     print(
-        f"Sending file application_id_list in batches of {batch_size} as messages."
+        f"Sending file application_json_list in batches of {batch_size} as messages."
     )
-    while count < len(application_id_list):
+    while count < len(application_json_list):
         messages = [
-            pack_message(application_id_list[index])
+            pack_message(application_json_list[index])
             for index in range(
-                count, min(count + batch_size, len(application_id_list))
+                count, min(count + batch_size, len(application_json_list))
             )
         ]
         count = count + batch_size
         submit_message(messages, DelaySeconds)
         print(".", end="")
         sys.stdout.flush()
-    print(f"Done. Sent {len(application_id_list)} messages.")
+    print(f"Done. Sent {len(application_json_list)} messages.")
 
     # Recieve & delete the message
     print(
@@ -186,8 +199,8 @@ def usage_demo():
 
     if all(
         [
-            application_id_list[index] == received_applications[index]
-            for index in range(len(application_id_list))
+            application_json_list[index] == received_applications[index]
+            for index in range(len(application_json_list))
         ]
     ):
         print("Successfully reassembled all application id list!")

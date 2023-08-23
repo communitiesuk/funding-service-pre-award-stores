@@ -1,4 +1,4 @@
-from .import_application import import_applications_from_queue  # noqa
+# from .import_application import import_applications_from_queue  # noqa
 from .queue import _SQS_CLIENT  # noqa
 from .queue import _SQS_QUEUE_URL  # noqa
 from .queue import delete_messages  # noqa
