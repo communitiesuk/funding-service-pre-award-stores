@@ -1,12 +1,12 @@
 import json
 
 import pytest
-from _helpers import delete_messages
-from _helpers import receive_messages
 from _helpers.import_application import import_applications_from_queue
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config,
 )
+from services import delete_messages
+from services import receive_messages
 from tests._helpers import row_data
 
 
@@ -28,7 +28,7 @@ def mock_sqs_recieve_message(request, mocker):
         )
 
     mocker.patch(
-        "_helpers._SQS_CLIENT.receive_message",
+        "services._SQS_CLIENT.receive_message",
         return_value={"Messages": messages},
     )
     yield messages
@@ -38,7 +38,7 @@ def mock_sqs_recieve_message(request, mocker):
 def mock_sqs_delete_message(request, mocker):
     appcount = request.node.get_closest_marker("appcount").args[0]
     mocker.patch(
-        "_helpers._SQS_CLIENT.delete_message_batch",
+        "services._SQS_CLIENT.delete_message_batch",
         return_value={
             "Successful": [{"Id": str(count)} for count in range(appcount)],
             "Failed": [],

@@ -1,9 +1,9 @@
 import json
 
-from _helpers import delete_messages
-from _helpers import receive_messages
 from config import Config
 from db.queries import bulk_insert_application_record
+from services import delete_messages
+from services import receive_messages
 
 
 def import_applications_from_queue():
