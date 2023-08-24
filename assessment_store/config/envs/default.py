@@ -47,9 +47,9 @@ class DefaultConfig:
     # ---------------
     # SQS Config
     # ---------------
-    SQS_WAIT_TIME = 0  # max time to wait (in sec) before returning
+    SQS_WAIT_TIME = 2  # max time to wait (in sec) before returning
     SQS_BATCH_SIZE = 1  # MaxNumber Of Messages to process
     SQS_VISIBILITY_TIME = (
-        0  # time for message to temporarily invisible to others (in sec)
+        1  # time for message to temporarily invisible to others (in sec)
     )
     SQS_RECEIVE_MESSAGE_CYCLE_TIME = 60  # Run the job every 'x' seconds
