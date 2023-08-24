@@ -40,7 +40,8 @@ def mock_sqs_delete_message(request, mocker):
     mocker.patch(
         "_helpers._SQS_CLIENT.delete_message_batch",
         return_value={
-            "Successful": [{"Id": str(count)} for count in range(appcount)]
+            "Successful": [{"Id": str(count)} for count in range(appcount)],
+            "Failed": [],
         },
     )
     yield

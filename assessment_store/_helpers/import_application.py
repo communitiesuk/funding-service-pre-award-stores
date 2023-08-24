@@ -2,26 +2,25 @@ import json
 
 from _helpers import delete_messages
 from _helpers import receive_messages
+from config import Config
 from db.queries import bulk_insert_application_record
 
 
 def import_applications_from_queue():
-    batch_size = 1
-    visibility_time = 0
-    wait_time = 0
+    batch_size = Config.SQS_BATCH_SIZE
+    visibility_time = Config.SQS_VISIBILITY_TIME
+    wait_time = Config.SQS_WAIT_TIME
     application_messages = receive_messages(
         batch_size, visibility_time, wait_time
     )
 
     application_json_list = []
-    # application_id_list = []
 
     if application_messages:
         # with app.app_context():
         for message in application_messages:
             application_json = message["Body"]
             # application_attributes = message["MessageAttributes"]["application_attributes"]
-            # application_id_list.append(application_attributes["application_id"])
             if isinstance(application_json, str):
                 application_json = json.loads(application_json)
             application_json_list.append(application_json)

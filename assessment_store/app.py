@@ -58,7 +58,9 @@ def create_app() -> Flask:
             "id": "sqs_process_queues",
             "func": "_helpers.import_application:import_applications_from_queue",
             "trigger": "interval",
-            "seconds": 60,  # Run the job every 60 seconds
+            "seconds": flask_app.config[
+                "SQS_RECEIVE_MESSAGE_CYCLE_TIME"
+            ],  # Run the job every 'x' seconds
         }
     ]
     scheduler.init_app(flask_app)

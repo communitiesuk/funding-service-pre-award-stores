@@ -37,7 +37,6 @@ def unpack_message(msg):
     )
 
 
-# implement submit_message in applicatiopn-store
 def submit_message(messages, DelaySeconds=1):
     entries = [
         {
@@ -131,6 +130,7 @@ def delete_messages(message_receipt_handles):
         return response
 
 
+# TODO: Below function is for testing purpose, delete it later
 def create_dummy_messages(DelaySeconds, batch_size):
     # Create a dummy application_json list
     from tests._helpers import row_data
@@ -169,6 +169,7 @@ def create_dummy_messages(DelaySeconds, batch_size):
     return application_json_list
 
 
+# TODO: Below function is for testing purpose, delete it later
 def usage_demo(batch_size, DelaySeconds, visibility_time, wait_time):
     print("-" * 88)
     print("Welcome to the Amazon Simple Queue Service (Amazon SQS) demo!")
