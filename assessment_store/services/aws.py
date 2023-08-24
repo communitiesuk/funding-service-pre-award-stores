@@ -5,15 +5,19 @@ from uuid import uuid4
 
 import boto3
 from botocore.exceptions import ClientError
+from config import Config
 
 _SQS_CLIENT = boto3.client(
     "sqs",
-    region_name=getenv("AWS_REGION", None),
+    region_name=Config.AWS_REGION,
     endpoint_url=getenv("AWS_ENDPOINT_OVERRIDE", None),
 )
-_SQS_QUEUE_URL = _SQS_CLIENT.get_queue_url(
-    QueueName=getenv("AWS_SQS_QUEUE_NAME", "fsd-queue"),
-)["QueueUrl"]
+_SQS_QUEUE_URL = (
+    Config.AWS_PRIMARY_QUEUE_URL
+    or _SQS_CLIENT.get_queue_url(
+        QueueName=getenv("AWS_SQS_QUEUE_NAME", "fsd-queue"),
+    )["QueueUrl"]
+)
 
 
 def pack_message(msg_body):
