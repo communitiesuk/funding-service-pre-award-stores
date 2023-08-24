@@ -88,8 +88,8 @@ def receive_messages(max_number, visibility_time=1, wait_time=1):
 
         for msg in messages:
             print(
-                f"Received message: {msg['MessageId']}, {msg['Body']}"
-            )  # msg["MessageAttributes"]
+                f"Received message ID: {msg['MessageId']}, Attributes: {msg['MessageAttributes']}"
+            )
     except ClientError as error:
         print(f"Couldn't receive messages from queue: {_SQS_QUEUE_URL}")
         raise error

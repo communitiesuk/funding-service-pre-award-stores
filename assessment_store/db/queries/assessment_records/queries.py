@@ -185,7 +185,9 @@ def get_metadata_for_fund_round_id(
 
 
 def bulk_insert_application_record(
-    application_json_strings: List[str], application_type: str, is_json=False
+    application_json_strings: List[str],
+    application_type: str = "",
+    is_json=False,
 ) -> List[AssessmentRecord]:
     """bulk_insert_application_record Given a list of json strings
     and an `application_type` we extract key values from the json
@@ -198,9 +200,7 @@ def bulk_insert_application_record(
     print("Beginning bulk application insert.")
     rows = []
     if len(application_json_strings) < 1:
-        print(
-            f"No new submitted applications found for {application_type}. skipping Import..."
-        )
+        print("No new submitted applications found. skipping Import...")
         return rows
     print("\n")
     # Create a list of application ids to track inserted rows
@@ -209,7 +209,7 @@ def bulk_insert_application_record(
             single_application_json = json.loads(single_application_json)
         if not application_type:
             application_type = "".join(
-                single_application_json["reference"].split("-")[:2]
+                single_application_json["reference"].split("-")[:1]
             )
 
         derived_values = derive_application_values(single_application_json)
@@ -267,7 +267,7 @@ def insert_application_record(
 
     if not application_type:
         application_type = "".join(
-            application_json_string["reference"].split("-")[:2]
+            application_json_string["reference"].split("-")[:1]
         )
 
     derived_values = derive_application_values(application_json_string)
