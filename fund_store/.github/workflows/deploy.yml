@@ -26,7 +26,7 @@ on:
 
 jobs:
   test_and_deploy:
-    if: ${{ !github.event.inputs.copilot }}
+    if: ${{github.event.inputs.copilot != 'true'}}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@main
     with:
       app_name: ${{ github.event.repository.name }}
@@ -50,7 +50,7 @@ jobs:
       owner: ${{ github.repository_owner }}
       application: funding-design-service-fund-store
   pre_deploy_tests:
-    if: ${{ github.event.inputs.copilot }}
+    if: ${{github.event.inputs.copilot == 'true'}}
     secrets:
       E2E_PAT: ${{secrets.E2E_PAT}}
     uses: communitiesuk/funding-design-service-workflows/.github/workflows/pre-deploy.yml@main
@@ -58,7 +58,7 @@ jobs:
       # Note - no db-name, so defaults to postgres_db
       postgres_unit_testing: true
   copilot_build:
-    if: ${{ github.event.inputs.copilot }}
+    if: ${{github.event.inputs.copilot == 'true'}}
     needs: [pre_deploy_tests, paketo_build]
     concurrency: deploy-${{ inputs.environment || 'test' }}
     permissions:
