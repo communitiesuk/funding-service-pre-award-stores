@@ -50,18 +50,16 @@ class DefaultConfig:
     # ---------------
     if "VCAP_SERVICES" in environ:
         vcap_services = json.loads(environ["VCAP_SERVICES"])
-        if "aws-s3-bucket" in vcap_services:
-            s3_credentials = vcap_services["aws-s3-bucket"][0]["credentials"]
-            AWS_REGION = s3_credentials["aws_region"]
-            AWS_ACCESS_KEY_ID = s3_credentials["aws_access_key_id"]
-            AWS_SECRET_ACCESS_KEY = s3_credentials["aws_secret_access_key"]
-            AWS_BUCKET_NAME = s3_credentials["bucket_name"]
-            AWS_PRIMARY_QUEUE_URL = s3_credentials["primary_queue_url"]
-            AWS_SECONDARY_QUEUE_URL = s3_credentials["secondary_queue_url"]
+        if "aws-sqs-queue" in vcap_services:
+            sqs_credentials = vcap_services["aws-sqs-queue"][0]["credentials"]
+            AWS_REGION = sqs_credentials["aws_region"]
+            AWS_ACCESS_KEY_ID = sqs_credentials["aws_access_key_id"]
+            AWS_SECRET_ACCESS_KEY = sqs_credentials["aws_secret_access_key"]
+            AWS_PRIMARY_QUEUE_URL = sqs_credentials["primary_queue_url"]
+            AWS_SECONDARY_QUEUE_URL = sqs_credentials["secondary_queue_url"]
     else:
         AWS_ACCESS_KEY_ID = environ.get("AWS_ACCESS_KEY_ID")
         AWS_SECRET_ACCESS_KEY = environ.get("AWS_SECRET_ACCESS_KEY")
-        AWS_BUCKET_NAME = environ.get("AWS_BUCKET_NAME")
         AWS_REGION = environ.get("AWS_REGION")
         AWS_PRIMARY_QUEUE_URL = ""
         AWS_SECONDARY_QUEUE_URL = ""
