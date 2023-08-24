@@ -19,11 +19,15 @@ def mock_sqs_recieve_message(request, mocker):
     application_json_strings = row_data(appcount, 1, 1, fund_round_config)
     messages = []
     for ind, application_json in enumerate(application_json_strings):
+        application_json = json.loads(application_json)
         messages.append(
             {
                 "MessageId": str(ind + 1),
-                "Body": json.loads(application_json),
+                "Body": application_json,
                 "ReceiptHandle": str(ind),
+                "MessageAttributes": {
+                    "application_id": {"StringValue": application_json["id"]}
+                },
             }
         )
 
