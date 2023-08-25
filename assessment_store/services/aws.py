@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 from os import getenv
 from uuid import uuid4
@@ -43,21 +44,48 @@ def unpack_message(msg):
 
 
 def submit_message(messages, DelaySeconds=1):
-    entries = [
-        {
-            "Id": str(ind),
-            "MessageBody": msg["body"],
-            "MessageAttributes": msg["attributes"],
-            "DelaySeconds": DelaySeconds,
-        }
-        for ind, msg in enumerate(messages)
-    ]
-    response = _SQS_CLIENT.send_message_batch(
-        QueueUrl=_SQS_QUEUE_URL,
-        Entries=entries,
-    )
-    print(response)
-    return response
+    """
+    Send a batch of messages in a single request to an SQS queue.
+    This request may return overall success even when some messages were not sent.
+    The caller must inspect the Successful and Failed lists in the response and
+    resend any failed messages.
+
+    :param queue: The queue to receive the messages.
+    :param messages: The messages to send to the queue. These are simplified to
+                     contain only the message body and attributes.
+    :return: The response from SQS that contains the list of successful and failed
+             messages.
+    """
+    try:
+        entries = [
+            {
+                "Id": str(ind),
+                "MessageBody": msg["body"],
+                "MessageAttributes": msg["attributes"],
+                "DelaySeconds": DelaySeconds,
+            }
+            for ind, msg in enumerate(messages)
+        ]
+        response = _SQS_CLIENT.send_message_batch(
+            QueueUrl=_SQS_QUEUE_URL,
+            Entries=entries,
+        )
+        if "Successful" in response:
+            for msg_meta in response["Successful"]:
+                logging.info(
+                    f"Message sent to the queue {_SQS_QUEUE_URL}, MessageId: {msg_meta['MessageId']}"
+                )
+        if "Failed" in response:
+            for msg_meta in response["Failed"]:
+                logging.warning(
+                    f"Failed to send messages to queue: {_SQS_QUEUE_URL}, "
+                    f"attributes {messages[int(msg_meta['Id'])]['attributes']}"
+                )
+    except ClientError as error:
+        logging.exception(f"Send messages failed to queue: {_SQS_QUEUE_URL}")
+        raise error
+    else:
+        return response
 
 
 def receive_messages(max_number, visibility_time=1, wait_time=1):
@@ -88,15 +116,19 @@ def receive_messages(max_number, visibility_time=1, wait_time=1):
         if "Messages" in response.keys():
             messages = response["Messages"]
         elif response["ResponseMetadata"]["HTTPStatusCode"] == 200:
-            print(f"No more messages available in queue: {_SQS_QUEUE_URL}")
+            logging.info(
+                f"No more messages available in queue: {_SQS_QUEUE_URL}"
+            )
             return None
 
         for msg in messages:
-            print(
+            logging.info(
                 f"Received message ID: {msg['MessageId']}, Attributes: {msg['MessageAttributes']}"
             )
     except ClientError as error:
-        print(f"Couldn't receive messages from queue: {_SQS_QUEUE_URL}")
+        logging.exception(
+            f"Couldn't receive messages from queue: {_SQS_QUEUE_URL}"
+        )
         raise error
     else:
         return messages
@@ -121,15 +153,17 @@ def delete_messages(message_receipt_handles):
 
         if "Successful" in response:
             for msg_meta in response["Successful"]:
-                print(
+                logging.info(
                     f"Deleted {message_receipt_handles[int(msg_meta['Id'])]}"
                 )
         if "Failed" in response:
             for msg_meta in response["Failed"]:
-                print(
+                logging.warning(
                     f"Could not delete {message_receipt_handles[int(msg_meta['Id'])]}"
                 )
     except ClientError:
-        print(f"Couldn't delete message from queue {_SQS_QUEUE_URL}")
+        logging.exception(
+            f"Couldn't delete message from queue {_SQS_QUEUE_URL}"
+        )
     else:
         return response

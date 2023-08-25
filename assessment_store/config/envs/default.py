@@ -67,9 +67,15 @@ class DefaultConfig:
     # ---------------
     # SQS Config
     # ---------------
-    SQS_WAIT_TIME = 2  # max time to wait (in sec) before returning
-    SQS_BATCH_SIZE = 1  # MaxNumber Of Messages to process
-    SQS_VISIBILITY_TIME = (
-        1  # time for message to temporarily invisible to others (in sec)
-    )
-    SQS_RECEIVE_MESSAGE_CYCLE_TIME = 60  # Run the job every 'x' seconds
+    SQS_WAIT_TIME = int(
+        environ.get("SQS_WAIT_TIME", 2)
+    )  # max time to wait (in sec) before returning
+    SQS_BATCH_SIZE = int(
+        environ.get("SQS_BATCH_SIZE", 1)
+    )  # MaxNumber Of Messages to process
+    SQS_VISIBILITY_TIME = int(
+        environ.get("SQS_VISIBILITY_TIME", 1)
+    )  # time for message to temporarily invisible to others (in sec)
+    SQS_RECEIVE_MESSAGE_CYCLE_TIME = int(
+        environ.get("SQS_RECEIVE_MESSAGE_CYCLE_TIME", 60)
+    )  # Run the job every 'x' seconds
