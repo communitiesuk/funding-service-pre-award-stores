@@ -2,6 +2,7 @@ import json
 
 import pytest
 from _helpers.import_application import import_applications_from_queue
+from config.envs.unit_testing import UnitTestingConfig
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config,
 )
@@ -78,7 +79,9 @@ class TestSQSFunctions(object):
         appcount = request.node.get_closest_marker("appcount").args[0]
 
         # Call the function
-        messages = receive_messages(max_number=2)
+        messages = receive_messages(
+            UnitTestingConfig.AWS_PRIMARY_QUEUE_URL, max_number=2
+        )
 
         # Assertions
         assert len(messages) == appcount
@@ -92,7 +95,9 @@ class TestSQSFunctions(object):
         receipt_handles = [
             "receipt_handle_" + str(count) for count in range(appcount)
         ]
-        response = delete_messages(receipt_handles)
+        response = delete_messages(
+            UnitTestingConfig.AWS_PRIMARY_QUEUE_URL, receipt_handles
+        )
 
         # Assertions
         assert len(response["Successful"]) == appcount

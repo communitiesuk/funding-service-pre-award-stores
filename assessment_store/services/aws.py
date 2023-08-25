@@ -20,6 +20,12 @@ _SQS_QUEUE_URL = (
         QueueName=getenv("AWS_SQS_QUEUE_NAME", "fsd-queue"),
     )["QueueUrl"]
 )
+_DLQ_QUEUE_URL = (
+    Config.AWS_SECONDARY_QUEUE_URL
+    or _SQS_CLIENT.get_queue_url(
+        QueueName=getenv("AWS_DLQ_QUEUE_NAME", "fsd-dlq"),
+    )["QueueUrl"]
+)
 
 
 def pack_message(msg_body):
@@ -43,13 +49,14 @@ def unpack_message(msg):
     )
 
 
-def submit_message(messages, DelaySeconds=1):
+def submit_message(queue_url, messages, DelaySeconds=1):
     """
     Send a batch of messages in a single request to an SQS queue.
     This request may return overall success even when some messages were not sent.
     The caller must inspect the Successful and Failed lists in the response and
     resend any failed messages.
 
+    :param queue_url: SQS Queue url.
     :param queue: The queue to receive the messages.
     :param messages: The messages to send to the queue. These are simplified to
                      contain only the message body and attributes.
@@ -67,7 +74,7 @@ def submit_message(messages, DelaySeconds=1):
             for ind, msg in enumerate(messages)
         ]
         response = _SQS_CLIENT.send_message_batch(
-            QueueUrl=_SQS_QUEUE_URL,
+            QueueUrl=queue_url,
             Entries=entries,
         )
         if "Successful" in response:
@@ -88,10 +95,11 @@ def submit_message(messages, DelaySeconds=1):
         return response
 
 
-def receive_messages(max_number, visibility_time=1, wait_time=1):
+def receive_messages(queue_url, max_number, visibility_time=1, wait_time=1):
     """
     Receive a batch of messages in a single request from an SQS queue.
 
+    :param queue_url: SQS Queue url
     :param max_number: The maximum number of messages to receive. The actual number
                        of messages received might be less.
     :param visibility_time: The maximum time for message to temporarily invisible to other receivers.
@@ -106,8 +114,8 @@ def receive_messages(max_number, visibility_time=1, wait_time=1):
     """
     try:
         response = _SQS_CLIENT.receive_message(
-            QueueUrl=_SQS_QUEUE_URL,
-            AttributeNames=["SentTimestamp"],
+            QueueUrl=queue_url,
+            AttributeNames=["SentTimestamp", "ApproximateReceiveCount"],
             MessageAttributeNames=["All"],
             MaxNumberOfMessages=max_number,
             VisibilityTimeout=visibility_time,
@@ -119,7 +127,7 @@ def receive_messages(max_number, visibility_time=1, wait_time=1):
             logging.info(
                 f"No more messages available in queue: {_SQS_QUEUE_URL}"
             )
-            return None
+            return []
 
         for msg in messages:
             logging.info(
@@ -134,10 +142,11 @@ def receive_messages(max_number, visibility_time=1, wait_time=1):
         return messages
 
 
-def delete_messages(message_receipt_handles):
+def delete_messages(queue_url, message_receipt_handles):
     """
     Delete a batch of messages from a queue in a single request.
 
+    :param queue_url: SQS Queue url
     :param message_receipt_handles: The list of messages handles to delete.
     :return: The response from SQS that contains the list of successful and failed
              message deletions.
@@ -148,7 +157,7 @@ def delete_messages(message_receipt_handles):
             for ind, receipt_handle in enumerate(message_receipt_handles)
         ]
         response = _SQS_CLIENT.delete_message_batch(
-            QueueUrl=_SQS_QUEUE_URL, Entries=entries
+            QueueUrl=queue_url, Entries=entries
         )
 
         if "Successful" in response:

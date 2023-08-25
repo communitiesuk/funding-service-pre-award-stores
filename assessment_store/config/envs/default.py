@@ -63,6 +63,9 @@ class DefaultConfig:
         AWS_REGION = environ.get("AWS_REGION")
         AWS_PRIMARY_QUEUE_URL = ""
         AWS_SECONDARY_QUEUE_URL = ""
+    AWS_DLQ_MAX_RECIEVE_COUNT = int(
+        environ.get("AWS_DLQ_MAX_RECIEVE_COUNT", 3)
+    )
 
     # ---------------
     # SQS Config
