@@ -272,6 +272,7 @@ cof_r3w2_sections = [
             "cy": "1. Ynglŷn â'ch sefydliad",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_R3_W2}.1",
+        "requires_feedback": True,
     },
     {
         "section_name": {
@@ -301,6 +302,7 @@ cof_r3w2_sections = [
             "cy": "2. Ynglŷn â'ch prosiect",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_R3_W2}.2",
+        "requires_feedback": True,
     },
     {
         "section_name": {
@@ -327,6 +329,7 @@ cof_r3w2_sections = [
     {
         "section_name": {"en": "3. Strategic case", "cy": "3. Achos strategol"},
         "tree_path": f"{APPLICATION_BASE_PATH_COF_R3_W2}.3",
+        "requires_feedback": True,
         "weighting": 53,
     },
     {
@@ -382,6 +385,7 @@ cof_r3w2_sections = [
         "section_name": {"en": "4. Management case", "cy": "4. Achos rheoli"},
         "tree_path": f"{APPLICATION_BASE_PATH_COF_R3_W2}.4",
         "weighting": 47,
+        "requires_feedback": True,
     },
     {
         "section_name": {
@@ -556,5 +560,6 @@ round_config_w2 = [
         ),
         "project_name_field_id": "apGjFS",
         "application_guidance": COF_APPLICATION_GUIDANCE,
+        "requires_feedback": True,
     }
 ]

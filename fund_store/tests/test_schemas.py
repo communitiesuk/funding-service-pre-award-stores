@@ -38,6 +38,7 @@ expected_en = {
             "form_name": None,
             "id": 1,
             "path": "1.1",
+            "requires_feedback": None,
             "title": "English Child Section 1",
             "title_json": {
                 "cy": "Welsh Child Section",
@@ -51,6 +52,7 @@ expected_en = {
             "form_name": None,
             "id": 2,
             "path": "1.2",
+            "requires_feedback": None,
             "title": "English Child Section 2",
             "title_json": {
                 "cy": "Welsh Child Section",
@@ -64,6 +66,7 @@ expected_en = {
             "form_name": None,
             "id": 3,
             "path": "1.3",
+            "requires_feedback": None,
             "title": "English Child Section 3",
             "title_json": {
                 "cy": "Welsh Child Section",
@@ -76,6 +79,7 @@ expected_en = {
     "form_name": "English Form Name",
     "id": 1,
     "path": None,
+    "requires_feedback": None,
     "title": "English Title",
     "title_json": {"cy": "Welsh Title", "en": "English Title"},
     "weighting": None,
@@ -89,6 +93,7 @@ expected_cy = {
             "form_name": None,
             "id": 1,
             "path": "1.1",
+            "requires_feedback": None,
             "title": "Welsh Child Section",
             "title_json": {
                 "cy": "Welsh Child Section",
@@ -102,6 +107,7 @@ expected_cy = {
             "form_name": None,
             "id": 2,
             "path": "1.2",
+            "requires_feedback": None,
             "title": "Welsh Child Section",
             "title_json": {
                 "cy": "Welsh Child Section",
@@ -115,6 +121,7 @@ expected_cy = {
             "form_name": None,
             "id": 3,
             "path": "1.3",
+            "requires_feedback": None,
             "title": "Welsh Child Section",
             "title_json": {
                 "cy": "Welsh Child Section",
@@ -127,6 +134,7 @@ expected_cy = {
     "form_name": "Welsh Form Name",
     "id": 1,
     "path": None,
+    "requires_feedback": None,
     "title": "Welsh Title",
     "title_json": {"cy": "Welsh Title", "en": "English Title"},
     "weighting": None,

@@ -60,6 +60,12 @@ class Section(BaseModel):
         nullable=False,
         unique=False,
     )
+    requires_feedback = Column(
+        "requires_feedback",
+        db.Boolean,
+        default=False,
+        nullable=False,
+    )
 
     # title_content_id = mapped_column(Integer, nullable=True)
     # title_translations = relationship("Translation", primaryjoin=

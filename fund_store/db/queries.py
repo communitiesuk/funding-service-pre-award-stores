@@ -266,6 +266,7 @@ def insert_round_data(round_config):
             round_record.project_name_field_id = item["project_name_field_id"]
             round_record.feedback_link = item["feedback_link"]
             round_record.application_guidance = item["application_guidance"]
+            round_record.requires_feedback = item.get("requires_feedback") or False
 
             updated_rounds[item["id"]] = round_record
 
@@ -326,6 +327,7 @@ def insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, round_id):
             section_record.round_id = round_id
             section_record.title_json = section["section_name"]
             section_record.weighting = section.get("weighting", None)
+            section_record.requires_feedback = section.get("requires_feedback") or False
 
             updated_sections[section["tree_path"]] = section_record
         else:
@@ -335,6 +337,7 @@ def insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, round_id):
                 title_json=section["section_name"],
                 weighting=section.get("weighting", None),
                 path=Ltree(section["tree_path"]),
+                requires_feedback=section.get("requires_feedback") or False,
             )
             db.session.add(new_section)
 
@@ -360,6 +363,7 @@ def insert_application_sections(round_id, sorted_application_sections: dict):
             section_record.round_id = round_id
             section_record.title_json = section["section_name"]
             section_record.weighting = (section.get("weighting", None),)
+            section_record.requires_feedback = section.get("requires_feedback") or False
 
             updated_sections[section_record.id] = section_record
         else:
@@ -369,6 +373,7 @@ def insert_application_sections(round_id, sorted_application_sections: dict):
                 title_json=section["section_name"],
                 weighting=section.get("weighting", None),
                 path=Ltree(section["tree_path"]),
+                requires_feedback=section.get("requires_feedback") or False,
             )
             db.session.add(new_section)
             db.session.commit()
