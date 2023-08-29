@@ -1,4 +1,4 @@
-import logging
+#!/usr/bin/env python3
 from datetime import datetime
 from os import getenv
 from uuid import uuid4
@@ -20,12 +20,12 @@ _SQS_QUEUE_URL = (
         QueueName=getenv("AWS_SQS_QUEUE_NAME", "fsd-queue"),
     )["QueueUrl"]
 )
-_DLQ_QUEUE_URL = (
-    Config.AWS_SECONDARY_QUEUE_URL
-    or _SQS_CLIENT.get_queue_url(
-        QueueName=getenv("AWS_DLQ_QUEUE_NAME", "fsd-dlq"),
-    )["QueueUrl"]
-)
+# _DLQ_QUEUE_URL = (
+#     Config.AWS_SECONDARY_QUEUE_URL
+#     or _SQS_CLIENT.get_queue_url(
+#         QueueName=getenv("AWS_DLQ_QUEUE_NAME", "fsd-dlq"),
+#     )["QueueUrl"]
+# )
 
 
 def pack_message(msg_body):
@@ -79,17 +79,17 @@ def submit_message(queue_url, messages, DelaySeconds=1):
         )
         if "Successful" in response:
             for msg_meta in response["Successful"]:
-                logging.info(
+                print(
                     f"Message sent to the queue {_SQS_QUEUE_URL}, MessageId: {msg_meta['MessageId']}"
                 )
         if "Failed" in response:
             for msg_meta in response["Failed"]:
-                logging.warning(
+                print(
                     f"Failed to send messages to queue: {_SQS_QUEUE_URL}, "
                     f"attributes {messages[int(msg_meta['Id'])]['attributes']}"
                 )
     except ClientError as error:
-        logging.exception(f"Send messages failed to queue: {_SQS_QUEUE_URL}")
+        print(f"Send messages failed to queue: {_SQS_QUEUE_URL}")
         raise error
     else:
         return response
@@ -124,18 +124,16 @@ def receive_messages(queue_url, max_number, visibility_time=1, wait_time=1):
         if "Messages" in response.keys():
             messages = response["Messages"]
         elif response["ResponseMetadata"]["HTTPStatusCode"] == 200:
-            logging.info(
-                f"No more messages available in queue: {_SQS_QUEUE_URL}"
-            )
+            print(f"No more messages available in queue: {_SQS_QUEUE_URL}")
             return []
 
         for msg in messages:
-            logging.info(
+            print(
                 f"Received message ID: {msg['MessageId']}, Attributes: {msg['MessageAttributes']}"
             )
-    except ClientError as error:
-        logging.exception(
-            f"Couldn't receive messages from queue: {_SQS_QUEUE_URL}"
+    except Exception as error:
+        print(
+            f"Couldn't receive messages from queue: {_SQS_QUEUE_URL} Error: {error}"
         )
         raise error
     else:
@@ -162,17 +160,22 @@ def delete_messages(queue_url, message_receipt_handles):
 
         if "Successful" in response:
             for msg_meta in response["Successful"]:
-                logging.info(
+                print(
                     f"Deleted {message_receipt_handles[int(msg_meta['Id'])]}"
                 )
         if "Failed" in response:
             for msg_meta in response["Failed"]:
-                logging.warning(
+                print(
                     f"Could not delete {message_receipt_handles[int(msg_meta['Id'])]}"
                 )
     except ClientError:
-        logging.exception(
-            f"Couldn't delete message from queue {_SQS_QUEUE_URL}"
-        )
+        print(f"Couldn't delete message from queue {_SQS_QUEUE_URL}")
     else:
         return response
+
+
+if __name__ == "__main__":
+    import app
+
+    with app.app.app_context():
+        application_messages = receive_messages(_SQS_QUEUE_URL, 1, 1, 2)
