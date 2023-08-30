@@ -1,6 +1,6 @@
-import os
-
 import connexion
+from _helpers.import_application import import_applications_from_queue
+from apscheduler.schedulers.background import BackgroundScheduler
 from connexion.resolver import MethodViewResolver
 from flask import Flask
 from fsd_utils import init_sentry
@@ -50,28 +50,19 @@ def create_app() -> Flask:
     health.add_check(DbChecker(db))
 
     # Configurations for Flask-Apscheduler
-    if (
-        not flask_app.debug or os.environ.get("WERKZEUG_RUN_MAIN") == "true"
-    ):  # run the scheduler only in main process
-        from flask_apscheduler import APScheduler
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(
+        func=import_applications_from_queue,
+        trigger="interval",
+        seconds=flask_app.config["SQS_RECEIVE_MESSAGE_CYCLE_TIME"],
+    )  # Run the job every 'x' seconds
+    scheduler.start()
 
-        scheduler = APScheduler()
-
-        flask_app.config["SCHEDULER_API_ENABLED"] = True
-        flask_app.config["JOBS"] = [
-            {
-                "id": "sqs_process_queues",
-                "func": "_helpers.import_application:import_applications_from_queue",
-                "trigger": "interval",
-                "seconds": flask_app.config[
-                    "SQS_RECEIVE_MESSAGE_CYCLE_TIME"
-                ],  # Run the job every 'x' seconds
-            }
-        ]
-        scheduler.init_app(flask_app)
-        scheduler.start()
-
-    return flask_app
+    try:
+        return flask_app
+    except Exception:
+        # Shut down the scheduler when exiting the app
+        return scheduler.shutdown()
 
 
 app = create_app()
