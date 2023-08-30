@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import json
 
 import app
@@ -63,3 +64,7 @@ def import_applications_from_queue():
 
             # return inserted applications
             return inserted_applications
+
+
+if __name__ == "__main__":
+    import_applications_from_queue()

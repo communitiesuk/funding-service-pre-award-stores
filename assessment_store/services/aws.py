@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from datetime import datetime
 from os import getenv
 from uuid import uuid4
@@ -20,12 +19,6 @@ _SQS_QUEUE_URL = (
         QueueName=getenv("AWS_SQS_QUEUE_NAME", "fsd-queue"),
     )["QueueUrl"]
 )
-# _DLQ_QUEUE_URL = (
-#     Config.AWS_SECONDARY_QUEUE_URL
-#     or _SQS_CLIENT.get_queue_url(
-#         QueueName=getenv("AWS_DLQ_QUEUE_NAME", "fsd-dlq"),
-#     )["QueueUrl"]
-# )
 
 
 def pack_message(msg_body):
@@ -172,10 +165,3 @@ def delete_messages(queue_url, message_receipt_handles):
         print(f"Couldn't delete message from queue {_SQS_QUEUE_URL}")
     else:
         return response
-
-
-if __name__ == "__main__":
-    import app
-
-    with app.app.app_context():
-        application_messages = receive_messages(_SQS_QUEUE_URL, 1, 1, 2)
