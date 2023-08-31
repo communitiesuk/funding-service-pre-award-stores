@@ -131,3 +131,9 @@ Index(
     },
     postgresql_using="gin",
 )
+
+Index(
+    "ix_jsonb_blob_nURkuc",
+    AssessmentRecord.jsonb_blob["nURkuc"],
+    postgresql_using="gin",
+)
