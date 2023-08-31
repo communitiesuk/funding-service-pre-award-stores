@@ -61,9 +61,10 @@ def create_app() -> Flask:
     scheduler.start()
 
     try:
+        # To keep the main thread alive
         return flask_app
     except Exception:
-        # Shut down the scheduler when exiting the app
+        # shutdown if execption occurs when returning app
         return scheduler.shutdown()
 
 
