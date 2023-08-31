@@ -58,6 +58,9 @@ def all_assessments_for_fund_round_id(
     search_in: str = "",
     countries: str = "all",
     filter_by_tag: str = "",
+    country: str = "ALL",
+    region: str = "ALL",
+    local_authority: str = "ALL",
 ) -> List[Dict]:
     """all_assessments_for_fund_round_id Function used by the endpoint
     `/application_overviews/{fund_id}/{round_id}`.
@@ -76,6 +79,9 @@ def all_assessments_for_fund_round_id(
         search_in=search_in,
         funding_type=funding_type,
         filter_by_tag=filter_by_tag,
+        country=country,
+        region=region,
+        local_authority=local_authority,
     )
     return app_list
 

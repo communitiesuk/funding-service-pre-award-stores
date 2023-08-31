@@ -59,6 +59,9 @@ def get_metadata_for_fund_round_id(
     funding_type: str = "",
     countries: List[str] = ["all"],
     filter_by_tag: str = "",
+    country: str = "",
+    region: str = "",
+    local_authority: str = "",
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
     which returns all rows matching the given fund_id and round_id. Has
@@ -131,6 +134,40 @@ def get_metadata_for_fund_round_id(
             f"Performing assessment search on asset type: {asset_type}."
         )
         statement = statement.where(AssessmentRecord.asset_type == asset_type)
+
+    if country != "" and country != "ALL":
+        current_app.logger.info(
+            f"Performing assessment search on country: {country}."
+        )
+        statement = statement.where(
+            AssessmentRecord.location_json_blob["country"].astext == country
+        )
+
+    if region != "" and region != "ALL":
+        current_app.logger.info(
+            f"Performing assessment search on region: {region}."
+        )
+        statement = statement.where(
+            AssessmentRecord.location_json_blob["region"].astext == region
+        )
+
+    if local_authority != "" and local_authority != "ALL":
+        current_app.logger.info(
+            f"Performing assessment search on local_authority: {local_authority}."
+        )
+
+        subquery = (
+            select(AssessmentRecord.application_id).where(
+                func.jsonb_path_exists(
+                    AssessmentRecord.jsonb_blob,
+                    f'$.forms[*].questions[*].fields[*] ? (@.key == "nURkuc" && @.answer == "{local_authority}")',
+                ),
+            )
+        ).subquery()
+
+        statement = statement.where(
+            AssessmentRecord.application_id.in_(subquery)
+        )
 
     if funding_type != "ALL" and funding_type != "":
         current_app.logger.info(
