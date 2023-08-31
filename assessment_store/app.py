@@ -54,8 +54,10 @@ def create_app() -> Flask:
     scheduler.add_job(
         func=import_applications_from_queue,
         trigger="interval",
-        seconds=flask_app.config["SQS_RECEIVE_MESSAGE_CYCLE_TIME"],
-    )  # Run the job every 'x' seconds
+        seconds=flask_app.config[
+            "SQS_RECEIVE_MESSAGE_CYCLE_TIME"
+        ],  # Run the job every 'x' seconds
+    )
     scheduler.start()
 
     try:
