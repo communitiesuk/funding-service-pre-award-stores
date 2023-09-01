@@ -25,3 +25,9 @@ class UnitTestingConfig(DefaultConfig):
     SQLALCHEMY_DATABASE_URI = (
         DefaultConfig.SQLALCHEMY_DATABASE_URI + "_UNIT_TEST"
     )
+
+    AWS_ACCESS_KEY_ID = "test_access_id"
+    AWS_SECRET_ACCESS_KEY = "test_secret_key"
+    AWS_REGION = "eu-west-2"
+    AWS_PRIMARY_QUEUE_URL = "test_primary_url"
+    AWS_SECONDARY_QUEUE_URL = "test_secondary_url"
