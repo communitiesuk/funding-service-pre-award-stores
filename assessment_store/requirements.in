@@ -9,6 +9,7 @@ requests
 #   Flask Version
 #-----------------------------------
 Flask
+flask_apscheduler
 
 #-----------------------------------
 #   Database

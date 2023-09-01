@@ -1,4 +1,5 @@
 """Flask configuration."""
+import json
 from os import environ
 from pathlib import Path
 
@@ -43,3 +44,41 @@ class DefaultConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     ASSESSMENT_MAPPING_CONFIG = fund_round_to_assessment_mapping
+
+    # ---------------
+    # AWS Config
+    # ---------------
+    if "VCAP_SERVICES" in environ:
+        vcap_services = json.loads(environ["VCAP_SERVICES"])
+        if "aws-sqs-queue" in vcap_services:
+            sqs_credentials = vcap_services["aws-sqs-queue"][0]["credentials"]
+            AWS_REGION = sqs_credentials["aws_region"]
+            AWS_ACCESS_KEY_ID = sqs_credentials["aws_access_key_id"]
+            AWS_SECRET_ACCESS_KEY = sqs_credentials["aws_secret_access_key"]
+            AWS_PRIMARY_QUEUE_URL = sqs_credentials["primary_queue_url"]
+            AWS_SECONDARY_QUEUE_URL = sqs_credentials["secondary_queue_url"]
+    else:
+        AWS_ACCESS_KEY_ID = environ.get("AWS_ACCESS_KEY_ID")
+        AWS_SECRET_ACCESS_KEY = environ.get("AWS_SECRET_ACCESS_KEY")
+        AWS_REGION = environ.get("AWS_REGION")
+        AWS_PRIMARY_QUEUE_URL = ""
+        AWS_SECONDARY_QUEUE_URL = ""
+    AWS_DLQ_MAX_RECIEVE_COUNT = int(
+        environ.get("AWS_DLQ_MAX_RECIEVE_COUNT", 3)
+    )
+
+    # ---------------
+    # SQS Config
+    # ---------------
+    SQS_WAIT_TIME = int(
+        environ.get("SQS_WAIT_TIME", 2)
+    )  # max time to wait (in sec) before returning
+    SQS_BATCH_SIZE = int(
+        environ.get("SQS_BATCH_SIZE", 1)
+    )  # MaxNumber Of Messages to process
+    SQS_VISIBILITY_TIME = int(
+        environ.get("SQS_VISIBILITY_TIME", 1)
+    )  # time for message to temporarily invisible to others (in sec)
+    SQS_RECEIVE_MESSAGE_CYCLE_TIME = int(
+        environ.get("SQS_RECEIVE_MESSAGE_CYCLE_TIME", 60)
+    )  # Run the job every 'x' seconds

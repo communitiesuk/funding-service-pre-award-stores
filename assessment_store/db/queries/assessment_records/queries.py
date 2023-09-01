@@ -59,6 +59,9 @@ def get_metadata_for_fund_round_id(
     funding_type: str = "",
     countries: List[str] = ["all"],
     filter_by_tag: str = "",
+    country: str = "",
+    region: str = "",
+    local_authority: str = "",
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
     which returns all rows matching the given fund_id and round_id. Has
@@ -132,6 +135,40 @@ def get_metadata_for_fund_round_id(
         )
         statement = statement.where(AssessmentRecord.asset_type == asset_type)
 
+    if country != "" and country != "ALL":
+        current_app.logger.info(
+            f"Performing assessment search on country: {country}."
+        )
+        statement = statement.where(
+            AssessmentRecord.location_json_blob["country"].astext == country
+        )
+
+    if region != "" and region != "ALL":
+        current_app.logger.info(
+            f"Performing assessment search on region: {region}."
+        )
+        statement = statement.where(
+            AssessmentRecord.location_json_blob["region"].astext == region
+        )
+
+    if local_authority != "" and local_authority != "ALL":
+        current_app.logger.info(
+            f"Performing assessment search on local_authority: {local_authority}."
+        )
+
+        subquery = (
+            select(AssessmentRecord.application_id).where(
+                func.jsonb_path_exists(
+                    AssessmentRecord.jsonb_blob,
+                    f'$.forms[*].questions[*].fields[*] ? (@.key == "nURkuc" && @.answer == "{local_authority}")',
+                ),
+            )
+        ).subquery()
+
+        statement = statement.where(
+            AssessmentRecord.application_id.in_(subquery)
+        )
+
     if funding_type != "ALL" and funding_type != "":
         current_app.logger.info(
             f"Performing assessment search on funding type: {funding_type}."
@@ -185,7 +222,9 @@ def get_metadata_for_fund_round_id(
 
 
 def bulk_insert_application_record(
-    application_json_strings: List[str], application_type: str, is_json=False
+    application_json_strings: List[str],
+    application_type: str = "",
+    is_json=False,
 ) -> List[AssessmentRecord]:
     """bulk_insert_application_record Given a list of json strings
     and an `application_type` we extract key values from the json
@@ -198,15 +237,17 @@ def bulk_insert_application_record(
     print("Beginning bulk application insert.")
     rows = []
     if len(application_json_strings) < 1:
-        print(
-            f"No new submitted applications found for {application_type}. skipping Import..."
-        )
+        print("No new submitted applications found. skipping Import...")
         return rows
     print("\n")
     # Create a list of application ids to track inserted rows
     for single_application_json in application_json_strings:
         if not is_json:
             single_application_json = json.loads(single_application_json)
+        if not application_type:
+            application_type = "".join(
+                single_application_json["reference"].split("-")[:1]
+            )
 
         derived_values = derive_application_values(single_application_json)
 
@@ -231,8 +272,7 @@ def bulk_insert_application_record(
                 print(
                     f"Application id already exist in the database: {row['application_id']}"
                 )
-            else:
-                rows.append(row)
+            rows.append(row)
             db.session.commit()
             del single_application_json
         except exc.SQLAlchemyError as e:
@@ -246,6 +286,61 @@ def bulk_insert_application_record(
         f" {[row['application_id'] for row in rows]}"
     )
     return rows
+
+
+def insert_application_record(
+    application_json_string: str, application_type: str, is_json=False
+) -> AssessmentRecord:
+    """insert_application_record Given a json strings and an
+    `application_type` we extract key values from the json
+    strings before inserting them with the remaining values into
+    `db.models.AssessmentRecord`.
+
+    :param application_json_string: _description_
+    :param application_type: _description_
+    """
+    if not is_json:
+        application_json_string = json.loads(application_json_string)
+
+    if not application_type:
+        application_type = "".join(
+            application_json_string["reference"].split("-")[:1]
+        )
+
+    derived_values = derive_application_values(application_json_string)
+
+    row = {
+        **derived_values,
+        "jsonb_blob": application_json_string,
+        "type_of_application": application_type,
+    }
+    try:
+        stmt = postgres_insert(AssessmentRecord).values([row])
+
+        upsert_rows_stmt = stmt.on_conflict_do_nothing(
+            index_elements=[AssessmentRecord.application_id]
+        ).returning(AssessmentRecord.application_id)
+
+        print(f"Attempting insert of application {row['application_id']}")
+        result = db.session.execute(upsert_rows_stmt)
+
+        # Check if the inserted application is in result
+        inserted_application_ids = [item.application_id for item in result]
+        if not len(inserted_application_ids):
+            print(
+                f"Application id already exist in the database: {row['application_id']}"
+            )
+        else:
+            print(
+                f"Successfully inserted application_id  : {row['application_id']} "
+            )
+        db.session.commit()
+    except exc.SQLAlchemyError as e:
+        db.session.rollback()
+        print(
+            f"Error occurred while inserting application {row['application_id']}, error: {e}"
+        )
+    return row
 
 
 def delete_assessment_record(app_id):
