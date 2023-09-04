@@ -190,14 +190,14 @@ round_config = [
         "deadline": CYP_R1_DEADLINE_DATE,
         "assessment_deadline": CYP_R1_ASSESSMENT_DEADLINE_DATE,
         "prospectus": CYP_PROSPECTS_LINK,
-        "privacy_notice": "https://www.gov.uk/guidance/night-shelter-transformation-fund-2022-2025-privacy-notice",  # tooo
-        "contact_email": "transformationfund@levellingup.gov.uk",  # todo
+        "privacy_notice": "https://www.gov.uk/guidance/night-shelter-transformation-fund-2022-2025-privacy-notice",
+        "contact_email": "transformationfund@levellingup.gov.uk",  # todo <^
         "contact_phone": None,
         "contact_textphone": None,
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
         "instructions": "",
-        "feedback_link": "https://forms.office.com/e/n6J9KPebUy",  # todo
+        "feedback_link": "https://forms.office.com/e/n6J9KPebUy",  # todo <
         "project_name_field_id": "YVsPtE",
         "application_guidance": CYP_APPLICATION_GUIDANCE,
     }
