@@ -27,7 +27,7 @@ on:
 jobs:
   test_and_deploy:
     if: ${{github.event.inputs.copilot != 'true'}}
-    uses: communitiesuk/funding-design-service-workflows/.github/workflows/deploy.yml@main
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/deploy.yml@main
     with:
       app_name: ${{ github.event.repository.name }}
       api: true
@@ -44,16 +44,16 @@ jobs:
   paketo_build:
     permissions:
       packages: write
-    uses: communitiesuk/funding-design-service-workflows/.github/workflows/package.yml@main
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/package.yml@main
     with:
       version_to_build: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
       owner: ${{ github.repository_owner }}
-      application: funding-design-service-fund-store
+      application: funding-service-design-fund-store
   pre_deploy_tests:
     if: ${{github.event.inputs.copilot == 'true'}}
     secrets:
       E2E_PAT: ${{secrets.E2E_PAT}}
-    uses: communitiesuk/funding-design-service-workflows/.github/workflows/pre-deploy.yml@main
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
     with:
       # Note - no db-name, so defaults to postgres_db
       postgres_unit_testing: true
