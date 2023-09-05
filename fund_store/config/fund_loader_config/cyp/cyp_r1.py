@@ -197,7 +197,7 @@ round_config = [
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
         "instructions": "",
-        "feedback_link": "https://forms.office.com/e/n6J9KPebUy",  # todo <
+        "feedback_link": "",
         "project_name_field_id": "YVsPtE",
         "application_guidance": CYP_APPLICATION_GUIDANCE,
     }
