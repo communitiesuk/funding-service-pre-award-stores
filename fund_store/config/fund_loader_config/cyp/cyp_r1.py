@@ -6,8 +6,8 @@ from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
 )
 from config.fund_loader_config.logo import DLUHC_LOGO_PNG
 
-CYP_FUND_ID = "13b95669-ed98-4840-8652-d6b7a19964db"
-CYP_ROUND_1_ID = "fc7aa604-989e-4364-98a7-d1234271435a"
+CYP_FUND_ID = "1baa0f68-4e0a-4b02-9dfe-b5646f089e65"
+CYP_ROUND_1_ID = "888aae3d-7e2c-4523-b9c1-95952b3d1644"
 APPLICATION_BASE_PATH = ".".join([str(CYP_R1_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH = ".".join([str(CYP_R1_BASE_PATH), str(2)])
 CYP_R1_OPENS_DATE = datetime(
