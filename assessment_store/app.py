@@ -49,6 +49,9 @@ def create_app() -> Flask:
     health.add_check(FlaskRunningChecker())
     health.add_check(DbChecker(db))
 
+    # TODO: Flask-Apscheduler is a short-term solution for processing messages
+    # on queue periodically. Will move to SNS trigger after the AWS migration
+
     # Configurations for Flask-Apscheduler
     scheduler = BackgroundScheduler()
     scheduler.add_job(
@@ -61,7 +64,7 @@ def create_app() -> Flask:
     scheduler.start()
 
     try:
-        # To keep the main thread alive
+        # To keep the main thread alive (scheduler to run only on main thread)
         return flask_app
     except Exception:
         # shutdown if execption occurs when returning app
