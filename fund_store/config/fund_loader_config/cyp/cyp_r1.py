@@ -185,7 +185,7 @@ round_config = [
         "id": CYP_ROUND_1_ID,
         "fund_id": CYP_FUND_ID,
         "title_json": {"en": "Round 1", "cy": ""},
-        "short_name": "R2",
+        "short_name": "R1",
         "opens": CYP_R1_OPENS_DATE,
         "deadline": CYP_R1_DEADLINE_DATE,
         "assessment_deadline": CYP_R1_ASSESSMENT_DEADLINE_DATE,
