@@ -2294,7 +2294,11 @@ cofr3w2_application_store_json_template = Template(
                 "answer": [
                   {
                     "UyaAHw": "$revenue_funding",
-                    "hGsUaZ": "Revenue Costs"
+                    "hGsUaZ": "Revenue Costs 1"
+                  },
+                  {
+                    "UyaAHw": "$revenue_funding",
+                    "hGsUaZ": "Revenue Costs 2"
                   }
                 ],
                 "key": "tSKhQQ",
