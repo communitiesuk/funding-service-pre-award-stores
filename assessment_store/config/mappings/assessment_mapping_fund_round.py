@@ -51,7 +51,7 @@ cof_r3w1_assessment_mapping = {
 }
 
 cof_r3w2_assessment_mapping = {
-    "schema_id": "cof_r3w1_assessment",
+    "schema_id": "cof_r3w2_assessment",
     "unscored_sections": cof_unscored_sections_r3w2,
     "scored_criteria": cof_scored_criteria_r3w2,
 }
