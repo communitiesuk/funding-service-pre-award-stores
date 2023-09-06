@@ -3,6 +3,9 @@ from tests._application_store_json import (
     cofr3w1_application_store_json_template,
 )
 from tests._application_store_json import (
+    cofr3w2_application_store_json_template,
+)
+from tests._application_store_json import (
     nstfr2_application_store_json_template,
 )
 
@@ -10,6 +13,7 @@ mappings_application_store_json = {
     "COFR2W2": application_store_json_template,
     "COFR2W3": application_store_json_template,
     "COFR3W1": cofr3w1_application_store_json_template,
+    "COFR3W2": cofr3w2_application_store_json_template,
     "NSTFR2": nstfr2_application_store_json_template,
     "RANDOM_FUND_ROUND": application_store_json_template,
 }
@@ -18,6 +22,7 @@ mappings_short_ref = {
     "COFR2W2": "COF-R2W2",
     "COFR2W3": "COF-R2W3",
     "COFR3W1": "COF-R3W1",
+    "COFR3W2": "COF-R3W2",
     "NSTFR2": "NSTF-R2",
     "RANDOM_FUND_ROUND": "RFR",
 }
