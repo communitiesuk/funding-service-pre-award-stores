@@ -97,7 +97,10 @@ def derive_application_values(application_json):
             else funding_one_keys
         )
 
-        if funding_field_type == "multiInputField":
+        if (
+            funding_field_type == "multiInputField"
+            and len(funding_one_keys) > 1
+        ):
             funding_one = get_answer_value_for_multi_input(
                 application_json, funding_one_keys[0], funding_one_keys[1]
             )
@@ -125,7 +128,10 @@ def derive_application_values(application_json):
             if isinstance(funding_two_keys, str)
             else funding_two_keys
         )
-        if funding_field_type == "multiInputField":
+        if (
+            funding_field_type == "multiInputField"
+            and len(funding_two_keys) > 1
+        ):
             funding_two = get_answer_value_for_multi_input(
                 application_json, funding_two_keys[0], funding_two_keys[1]
             )
