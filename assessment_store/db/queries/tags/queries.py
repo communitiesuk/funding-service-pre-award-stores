@@ -7,6 +7,7 @@ from db.models.tag.tags import Tag
 from flask import current_app
 from sqlalchemy import func
 from sqlalchemy import or_
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.exc import NoResultFound
 
 
@@ -44,6 +45,11 @@ def insert_tags(tags, fund_id, round_id):
 
         try:
             db.session.flush()  # Flush changes to trigger validation
+        except IntegrityError as e:
+            db.session.rollback()
+            current_app.logger.warning(
+                f"Warning inserting tag '{value}': {str(e)}"
+            )
         except Exception as e:
             db.session.rollback()
             current_app.logger.error(
