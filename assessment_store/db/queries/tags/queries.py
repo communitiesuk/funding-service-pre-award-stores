@@ -154,7 +154,6 @@ def select_tags_for_fund_round(
         .join(TagType, Tag.type_id == TagType.id)
         .where(Tag.fund_id == fund_id)
         .where(Tag.round_id == round_id)
-        .where(Tag.active == tag_status)
     )
     if search_term != "":
         current_app.logger.info(
@@ -171,6 +170,9 @@ def select_tags_for_fund_round(
 
     if tag_purpose.upper() != "ALL":
         statement = statement.where(TagType.purpose == tag_purpose.upper())
+
+    if tag_status is not None:
+        statement = statement.where(Tag.active == tag_status)
     tags = statement.all()
 
     return tags
