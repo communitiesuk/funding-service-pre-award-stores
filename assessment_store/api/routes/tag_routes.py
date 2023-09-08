@@ -23,7 +23,7 @@ def get_tags_for_fund_round(
     fund_id,
     round_id,
     tag_purpose: str = "ALL",
-    tag_status: bool = True,
+    tag_status: bool = None,
     search_term: str = "",
     search_in: str = None,
 ):
