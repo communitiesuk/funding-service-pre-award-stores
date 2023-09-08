@@ -76,7 +76,7 @@ r1_application_sections = [
     },
     {
         "section_name": {"en": "4.3 Project milestones", "cy": ""},
-        "form_name_json": {"en": "project-milestones-cyp", "cy": ""},
+        "form_name_json": {"en": "project-milestones-cyp", "cy": " "},
         "tree_path": f"{APPLICATION_BASE_PATH}.4.3",
     },
     {
