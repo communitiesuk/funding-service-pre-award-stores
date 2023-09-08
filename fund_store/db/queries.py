@@ -266,7 +266,16 @@ def insert_round_data(round_config):
             round_record.project_name_field_id = item["project_name_field_id"]
             round_record.feedback_link = item["feedback_link"]
             round_record.application_guidance = item["application_guidance"]
-            round_record.requires_feedback = item.get("requires_feedback") or False
+            round_record.all_uploaded_documents_section_available = item[
+                "all_uploaded_documents_section_available"
+            ]
+            round_record.application_fields_download_available = item[
+                "application_fields_download_available"
+            ]
+            round_record.display_logo_on_pdf_exports = item[
+                "display_logo_on_pdf_exports"
+            ]
+            round_record.requires_feedback = item["requires_feedback"]
 
             updated_rounds[item["id"]] = round_record
 
@@ -291,6 +300,14 @@ def insert_round_data(round_config):
                 project_name_field_id=item["project_name_field_id"],
                 feedback_link=item["feedback_link"],
                 application_guidance=item["application_guidance"],
+                all_uploaded_documents_section_available=item[
+                    "all_uploaded_documents_section_available"
+                ],
+                application_fields_download_available=item[
+                    "application_fields_download_available"
+                ],
+                display_logo_on_pdf_exports=item["display_logo_on_pdf_exports"],
+                requires_feedback=item["requires_feedback"],
             )
             db.session.add(new_round)
 
