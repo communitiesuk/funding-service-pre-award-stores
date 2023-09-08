@@ -48,7 +48,7 @@ def insert_tags(tags, fund_id, round_id):
         except IntegrityError as e:
             db.session.rollback()
             current_app.logger.warning(
-                f"Warning inserting tag '{value}': {str(e)}"
+                f"Tag already exists! '{value}': {str(e)}"
             )
         except Exception as e:
             db.session.rollback()
