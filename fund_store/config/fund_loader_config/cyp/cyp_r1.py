@@ -118,7 +118,7 @@ r1_application_sections = [
     },
     {
         "section_name": {"en": "7.1 Declarations", "cy": ""},
-        "form_name_json": {"en": "declerations-cyp", "cy": ""},
+        "form_name_json": {"en": "declarations-cyp", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.7.1",
     },
 ]
