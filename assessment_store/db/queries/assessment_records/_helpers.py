@@ -155,6 +155,10 @@ def derive_application_values(application_json):
         address = get_answer_value(application_json, address_key)
         raw_postcode = address.split(",")[-1].strip().replace(" ", "").upper()
         location_data = get_location_json_from_postcode(raw_postcode)
+        if not location_data:
+            print(
+                f"Invalid postcode '{raw_postcode}' provided for the application: {application_id}."
+            )
     except Exception:
         print(
             "Could not extract address from application: "
