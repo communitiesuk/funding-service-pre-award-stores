@@ -48,7 +48,11 @@ class DefaultConfig:
     # ---------------
     # AWS Config
     # ---------------
-    if "VCAP_SERVICES" in environ:
+    if "PRIMARY_QUEUE_URL" in environ:
+        AWS_REGION = environ.get("AWS_REGION")
+        AWS_PRIMARY_QUEUE_URL = environ.get("PRIMARY_QUEUE_URL")
+        AWS_SECONDARY_QUEUE_URL = environ.get("DEAD_LETTER_QUEUE_URL")
+    elif "VCAP_SERVICES" in environ:
         vcap_services = json.loads(environ["VCAP_SERVICES"])
         if "aws-sqs-queue" in vcap_services:
             sqs_credentials = vcap_services["aws-sqs-queue"][0]["credentials"]
