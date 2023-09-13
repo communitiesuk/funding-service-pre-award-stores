@@ -7,7 +7,10 @@ from botocore.exceptions import ClientError
 from config import Config
 
 
-if getenv("PRIMARY_QUEUE_URL", "Primary Queue URL Not Set") == "Primary Queue URL Not Set":
+if (
+    getenv("PRIMARY_QUEUE_URL", "Primary Queue URL Not Set")
+    == "Primary Queue URL Not Set"
+):
     _SQS_CLIENT = boto3.client(
         "sqs",
         aws_access_key_id=Config.AWS_ACCESS_KEY_ID,
