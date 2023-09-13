@@ -279,7 +279,7 @@ scored_criteria = [
                                 "form_name": "funding-required-cof-r3-w2",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": "Do you have any match funding identified but not yet secured?",
+                                "question": "Have you identified, but not yet secured, any additional match funding?",
                             },
                             {
                                 "field_id": "vEOdBS",
