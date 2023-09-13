@@ -321,7 +321,7 @@ scored_criteria = [
                                         },
                                         "UyaAHw": {
                                             "column_title": "Amount",
-                                            "type": "currency",
+                                            "type": "numberField",
                                         },
                                     },
                                 ],
