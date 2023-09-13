@@ -2095,6 +2095,19 @@ cofr3w2_application_store_json_template = Template(
             "status": "COMPLETED"
           },
           {
+            "fields": [
+                {
+                    "key": "wjBFTf",
+                    "type": "list",
+                    "title": "Is this a registered Asset of Community Value (ACV)?",
+                    "answer": false
+                }
+            ],
+            "status": "COMPLETED",
+            "category": "wxYZcT",
+            "question": "Assets of community value"
+          },
+          {
             "category": "wxYZcT",
             "fields": [
               {
