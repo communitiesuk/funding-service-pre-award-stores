@@ -159,7 +159,7 @@ round_config = [
         "support_days": "Monday to Friday",
         "instructions": "",
         "feedback_link": "",
-        "project_name_field_id": "YVsPtE",
+        "project_name_field_id": "bsUoNG",
         "application_guidance": CYP_APPLICATION_GUIDANCE,
     }
 ]
