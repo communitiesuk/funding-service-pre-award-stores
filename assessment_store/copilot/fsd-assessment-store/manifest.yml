@@ -45,7 +45,11 @@ network:
 variables:
   # SENTRY_DSN: "https://8092c54bdc3a4b4ba124dea42b836504@o1432034.ingest.sentry.io/4503918903820288"
   FLASK_ENV: ${COPILOT_ENVIRONMENT_NAME}
-  APPLICATION_STORE_API_HOST: http://fsd-application-store.${COPILOT_ENVIRONMENT_NAME}.pre-award.internal
+  APPLICATION_STORE_API_HOST: http://fsd-application-store:8080
+  PRIMARY_QUEUE_URL:
+    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-AssessmentImportQueueURL
+  DEAD_LETTER_QUEUE_URL:
+    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-DeadLetterQueueURL
 
 # You can override any of the values defined above by environment.
 environments:

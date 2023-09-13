@@ -6,13 +6,25 @@ import boto3
 from botocore.exceptions import ClientError
 from config import Config
 
-_SQS_CLIENT = boto3.client(
-    "sqs",
-    aws_access_key_id=Config.AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=Config.AWS_SECRET_ACCESS_KEY,
-    region_name=Config.AWS_REGION,
-    endpoint_url=getenv("AWS_ENDPOINT_OVERRIDE", None),
-)
+
+if (
+    getenv("PRIMARY_QUEUE_URL", "Primary Queue URL Not Set")
+    == "Primary Queue URL Not Set"
+):
+    _SQS_CLIENT = boto3.client(
+        "sqs",
+        aws_access_key_id=Config.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=Config.AWS_SECRET_ACCESS_KEY,
+        region_name=Config.AWS_REGION,
+        endpoint_url=getenv("AWS_ENDPOINT_OVERRIDE", None),
+    )
+else:
+    _SQS_CLIENT = boto3.client(
+        "sqs",
+        region_name=Config.AWS_REGION,
+        endpoint_url=getenv("AWS_ENDPOINT_OVERRIDE", None),
+    )
+
 _SQS_QUEUE_URL = (
     Config.AWS_PRIMARY_QUEUE_URL
     or _SQS_CLIENT.get_queue_url(
