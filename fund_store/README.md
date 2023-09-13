@@ -96,10 +96,31 @@ Ensure the following elements are present in your `manifest.yml`. The `run_migra
 To seed fund & round data to db
 
 ```
-docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r2
-docker exec -ti <fund_store_container_id> python -m scripts.load_cof_r3w1
-docker exec -ti <fund_store_container_id> python -m scripts.load_ns_r2
+docker exec -ti $(docker ps -qf "name=fund-store") python -m scripts.load_cof_r2
+docker exec -ti $(docker ps -qf "name=fund-store") python -m scripts.load_cof_r3w1
+docker exec -ti $(docker ps -qf "name=fund-store") python -m scripts.load_cof_r3w2
+docker exec -ti $(docker ps -qf "name=fund-store") python -m scripts.load_ns_r2
 ```
+
+To find all load modules (from root of project):
+
+```bash
+find ./scripts -type f -name "load_*.py" | xargs -I {} basename {} | sed 's/\.py$//'
+```
+
+To dynamically load all:
+
+```bash
+find ./scripts -type f -name "load_*.py" -exec sh -c 'docker exec -ti $(docker ps -qf "name=fund-store") python -m scripts.$(basename {} .py)' \;
+```
+
+To load on an environment via cloudfoundry (modify appropriately):
+
+```bash
+cf run-task funding-service-design-fund-store[-dev|-test] --command "python -m scripts.load_[...]"
+```
+
+
 To amend the round dates
 ```
 docker exec -ti <fund_store_container_id> python -m scripts.amend_round_dates --round_id c603d114-5364-4474-a0c4-c41cbf4d3bbd --deadline_date "2023-03-30 12:00:00"

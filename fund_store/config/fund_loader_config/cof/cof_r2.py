@@ -57,6 +57,10 @@ rounds_config = [
         ),
         "project_name_field_id": "KAgrBz",
         "application_guidance": COF_APPLICATION_GUIDANCE,
+        "all_uploaded_documents_section_available": True,
+        "application_fields_download_available": False,
+        "display_logo_on_pdf_exports": False,
+        "requires_feedback": False,
     },
     {
         "id": COF_ROUND_2_WINDOW_3_ID,
@@ -91,6 +95,10 @@ rounds_config = [
         ),
         "project_name_field_id": "KAgrBz",
         "application_guidance": COF_APPLICATION_GUIDANCE,
+        "all_uploaded_documents_section_available": True,
+        "application_fields_download_available": False,
+        "display_logo_on_pdf_exports": False,
+        "requires_feedback": False,
     },
 ]
 
