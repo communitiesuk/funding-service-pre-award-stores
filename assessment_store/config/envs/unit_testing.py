@@ -7,7 +7,7 @@ from fsd_utils import configclass
 @configclass
 class UnitTestingConfig(DefaultConfig):
     #  Application Config
-    SECRET_KEY = "dev"
+    SECRET_KEY = "dev"  # pragma: allowlist secret
     SESSION_COOKIE_NAME = CommonConfig.SESSION_COOKIE_NAME
     FLASK_ENV = "unit_test"
 
@@ -27,7 +27,7 @@ class UnitTestingConfig(DefaultConfig):
     )
 
     AWS_ACCESS_KEY_ID = "test_access_id"
-    AWS_SECRET_ACCESS_KEY = "test_secret_key"
+    AWS_SECRET_ACCESS_KEY = "test_secret_key"  # pragma: allowlist secret
     AWS_REGION = "eu-west-2"
     AWS_PRIMARY_QUEUE_URL = "test_primary_url"
     AWS_SECONDARY_QUEUE_URL = "test_secondary_url"
