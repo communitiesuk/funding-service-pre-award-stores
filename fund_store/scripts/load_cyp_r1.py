@@ -5,10 +5,10 @@ from config.fund_loader_config.cyp.cyp_r1 import CYP_ROUND_1_ID
 from config.fund_loader_config.cyp.cyp_r1 import fund_config
 from config.fund_loader_config.cyp.cyp_r1 import r1_application_sections
 from config.fund_loader_config.cyp.cyp_r1 import round_config
-from db.queries import insert_application_sections
 from db.queries import insert_assessment_sections
 from db.queries import insert_base_sections
 from db.queries import insert_fund_data
+from db.queries import insert_or_update_application_sections
 from db.queries import insert_round_data
 
 
