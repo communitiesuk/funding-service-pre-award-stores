@@ -127,7 +127,10 @@ To truncate data before re-loading it run
 ### Create and seed local DB
 - Make sure your local `DATABASE_URL` env var is set to your local postgres db (this doesn't need to actually exist yet), eg:
 
+        ```
+        # pragma: allowlist nextline secret
         DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/fsd_fund_store
+        ```
 
 - Create and seed using the following scripts:
 
