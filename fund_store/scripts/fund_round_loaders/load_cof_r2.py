@@ -7,10 +7,9 @@ from config.fund_loader_config.cof.cof_r2 import COF_ROUND_2_WINDOW_2_ID
 from config.fund_loader_config.cof.cof_r2 import COF_ROUND_2_WINDOW_3_ID
 from config.fund_loader_config.cof.cof_r2 import fund_config
 from config.fund_loader_config.cof.cof_r2 import rounds_config
-from db.queries import insert_application_sections
-from db.queries import insert_assessment_sections
 from db.queries import insert_base_sections
 from db.queries import insert_fund_data
+from db.queries import insert_or_update_application_sections
 from db.queries import insert_round_data
 
 
@@ -32,7 +31,7 @@ def main() -> None:
     )
     print("Inserting sections.")
     # only need to do it for one round as they have identical section sorts
-    insert_application_sections(COF_ROUND_2_WINDOW_2_ID, cof_r2_sections)
+    insert_or_update_application_sections(COF_ROUND_2_WINDOW_2_ID, cof_r2_sections)
 
 
 if __name__ == "__main__":

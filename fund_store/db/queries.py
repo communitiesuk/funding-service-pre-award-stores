@@ -365,7 +365,7 @@ def insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, round_id):
     return updated_sections
 
 
-def insert_application_sections(round_id, sorted_application_sections: dict):
+def insert_or_update_application_sections(round_id, sorted_application_sections: dict):
     print(f"Inserting forms config: '{sorted_application_sections}'.")
     updated_sections = {}
     for section in sorted_application_sections:
@@ -383,6 +383,7 @@ def insert_application_sections(round_id, sorted_application_sections: dict):
             section_record.requires_feedback = section.get("requires_feedback") or False
 
             updated_sections[section_record.id] = section_record
+            print(f"Prepared section UPDATE '{section_record}'.")
         else:
             # Insert new section record
             new_section = Section(
@@ -397,19 +398,22 @@ def insert_application_sections(round_id, sorted_application_sections: dict):
             section_id = new_section.id
 
             updated_sections[new_section.id] = new_section
+            print(f"Prepared section INSERT '{new_section}'.")
 
         if section.get("form_name_json"):
             form_record = FormName.query.filter_by(section_id=section_id).first()
             if form_record is not None:
                 form_record.form_name_json = section["form_name_json"]
+                print(f"Updated form name information to {section['form_name_json']}.")
             else:
                 new_form_record = FormName(
                     form_name_json=section["form_name_json"], section_id=section_id
                 )
                 db.session.add(new_form_record)
-
+                print(f"Inserted form name information: '{new_form_record}'.")
     db.session.commit()
-    print(f"inserted sections (ids): '{updated_sections}'.")
+    print("Section UPDATES and INSERTS committed.")
+
     return updated_sections
 
 

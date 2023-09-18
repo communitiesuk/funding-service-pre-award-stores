@@ -5,10 +5,10 @@ from config.fund_loader_config.night_shelter.ns_r2 import fund_config
 from config.fund_loader_config.night_shelter.ns_r2 import NIGHT_SHELTER_ROUND_2_ID
 from config.fund_loader_config.night_shelter.ns_r2 import r2_application_sections
 from config.fund_loader_config.night_shelter.ns_r2 import round_config
-from db.queries import insert_application_sections
 from db.queries import insert_assessment_sections
 from db.queries import insert_base_sections
 from db.queries import insert_fund_data
+from db.queries import insert_or_update_application_sections
 from db.queries import insert_round_data
 
 
@@ -23,7 +23,9 @@ def main() -> None:
         APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, NIGHT_SHELTER_ROUND_2_ID
     )
     print("Inserting application sections for Night Shelter Round 2.")
-    insert_application_sections(NIGHT_SHELTER_ROUND_2_ID, r2_application_sections)
+    insert_or_update_application_sections(
+        NIGHT_SHELTER_ROUND_2_ID, r2_application_sections
+    )
 
 
 if __name__ == "__main__":
