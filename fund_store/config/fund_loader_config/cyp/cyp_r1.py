@@ -1,0 +1,169 @@
+from datetime import datetime
+from datetime import timezone
+
+from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
+    CYP_R1_BASE_PATH,
+)
+from config.fund_loader_config.logo import DLUHC_LOGO_PNG
+
+CYP_FUND_ID = "1baa0f68-4e0a-4b02-9dfe-b5646f089e65"
+CYP_ROUND_1_ID = "888aae3d-7e2c-4523-b9c1-95952b3d1644"
+APPLICATION_BASE_PATH = ".".join([str(CYP_R1_BASE_PATH), str(1)])
+ASSESSMENT_BASE_PATH = ".".join([str(CYP_R1_BASE_PATH), str(2)])
+CYP_R1_OPENS_DATE = datetime(
+    2023, 9, 22, 12, 0, 0, tzinfo=timezone.utc
+)  # 2023-09-22 12:00:00
+CYP_R1_DEADLINE_DATE = datetime(
+    2023, 10, 31, 11, 59, 0, tzinfo=timezone.utc
+)  # 2023-10-31 11:59:00
+CYP_R1_ASSESSMENT_DEADLINE_DATE = datetime(
+    2023, 12, 24, 12, 0, 0, tzinfo=timezone.utc
+)  # 2023-12-24 12:00:00
+
+CYP_PROSPECTS_LINK = ""
+CYP_APPLICATION_GUIDANCE = (  # TODO: Provide welsh translation
+    "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
+    f" class='govuk-body'><a href='{CYP_PROSPECTS_LINK}'>Read the fund's"
+    " prospectus</a> before you apply.</p>"
+)
+
+r1_application_sections = [
+    {
+        "section_name": {"en": "Before you start", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.1",
+    },
+    {
+        "section_name": {"en": "1.1 Name your application", "cy": ""},
+        "form_name_json": {"en": "application-name-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.1.1",
+    },
+    {
+        "section_name": {"en": "2. About your organisation", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.2",
+    },
+    {
+        "section_name": {"en": "2.1 About your organisation", "cy": ""},
+        "form_name_json": {"en": "organisation-information-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.2.1",
+    },
+    {
+        "section_name": {"en": "2.2 Applicant information", "cy": ""},
+        "form_name_json": {"en": "applicant-information-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.2.2",
+    },
+    {
+        "section_name": {"en": "3. Your skills and experience", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.3",
+    },
+    {
+        "section_name": {"en": "3.1 Your skills and experience", "cy": ""},
+        "form_name_json": {"en": "skills-and-experience-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.3.1",
+    },
+    {
+        "section_name": {"en": "4. Your project", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.4",
+    },
+    {
+        "section_name": {"en": "4.1 Outputs and outcomes", "cy": ""},
+        "form_name_json": {"en": "outputs-and-outcomes-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.4.1",
+    },
+    {
+        "section_name": {"en": "4.2 Existing work", "cy": ""},
+        "form_name_json": {"en": "existing-work-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.4.2",
+    },
+    {
+        "section_name": {"en": "4.3 Project milestones", "cy": ""},
+        "form_name_json": {"en": "project-milestones-cyp", "cy": " "},
+        "tree_path": f"{APPLICATION_BASE_PATH}.4.3",
+    },
+    {
+        "section_name": {"en": "4.4 Objectives and activites", "cy": ""},
+        "form_name_json": {"en": "objectives-and-activities-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.4.4",
+    },
+    {
+        "section_name": {"en": "4.5 Location of activites", "cy": ""},
+        "form_name_json": {"en": "location-of-activities-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.4.5",
+    },
+    {
+        "section_name": {"en": "4.6 Working with fund beneficiaries", "cy": ""},
+        "form_name_json": {"en": "working-with-fund-beneficiaries-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.4.6",
+    },
+    {
+        "section_name": {"en": "5. Risk and deliverability", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.5",
+    },
+    {
+        "section_name": {"en": "5.1 Risk and deliverability", "cy": ""},
+        "form_name_json": {"en": "risk-and-deliverability-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.5.1",
+    },
+    {
+        "section_name": {"en": "6. Value for money", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.6",
+    },
+    {
+        "section_name": {"en": "6.1 Value for money", "cy": ""},
+        "form_name_json": {"en": "value-for-money-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.6.1",
+    },
+    {
+        "section_name": {"en": "7. Declarations", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.7",
+    },
+    {
+        "section_name": {"en": "7.1 Declarations", "cy": ""},
+        "form_name_json": {"en": "declarations-cyp", "cy": ""},
+        "tree_path": f"{APPLICATION_BASE_PATH}.7.1",
+    },
+]
+
+fund_config = {
+    "id": CYP_FUND_ID,
+    "name_json": {
+        "en": "Children and Young People Resettlement Fund",
+        "cy": "",
+    },
+    "title_json": {
+        "en": "funding to resettle children and young people in England",
+        "cy": "",
+    },
+    "short_name": "CYP",
+    "description_json": {"en": "", "cy": ""},
+    "welsh_available": False,
+    "owner_organisation_name": "Department for Levelling Up, Housing and Communities",
+    "owner_organisation_shortname": "DLUHC",
+    "owner_organisation_logo_uri": DLUHC_LOGO_PNG,
+}
+
+round_config = [
+    {
+        "id": CYP_ROUND_1_ID,
+        "fund_id": CYP_FUND_ID,
+        "title_json": {"en": "Round 1", "cy": ""},
+        "short_name": "R1",
+        "opens": CYP_R1_OPENS_DATE,
+        "deadline": CYP_R1_DEADLINE_DATE,
+        "assessment_deadline": CYP_R1_ASSESSMENT_DEADLINE_DATE,
+        "prospectus": CYP_PROSPECTS_LINK,
+        "privacy_notice": "",
+        "contact_email": "cyprfund@levellingup.gov.uk",
+        "contact_phone": None,
+        "contact_textphone": None,
+        "support_times": "9am to 5pm",
+        "support_days": "Monday to Friday",
+        "instructions": "",
+        "feedback_link": "",
+        "project_name_field_id": "bsUoNG",
+        "application_guidance": CYP_APPLICATION_GUIDANCE,
+        "all_uploaded_documents_section_available": False,
+        "application_fields_download_available": False,
+        "display_logo_on_pdf_exports": False,
+        "requires_feedback": False,
+    }
+]
