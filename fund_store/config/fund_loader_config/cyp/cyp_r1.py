@@ -152,7 +152,7 @@ round_config = [
         "assessment_deadline": CYP_R1_ASSESSMENT_DEADLINE_DATE,
         "prospectus": CYP_PROSPECTS_LINK,
         "privacy_notice": "",
-        "contact_email": "",
+        "contact_email": "cyprfund@levellingup.gov.uk",
         "contact_phone": None,
         "contact_textphone": None,
         "support_times": "9am to 5pm",
