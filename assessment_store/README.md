@@ -17,10 +17,11 @@ Built with Flask.
 ## Quickstart / TL;DR
 If on windows: use `python` instead of `python3`, `set` instead of `export`, and `.venv\Scripts\activate` instead of `.venv/bin/activate`.
 
-```
+```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements-dev.txt
 docker container run -e POSTGRES_PASSWORD=postgres -p 5432:5432 --name=assess_store_postgres -e POSTGRES_DB=assess_store_dev postgres
+# pragma: allowlist nextline secret
 export DATABASE_URL='postgresql://postgres:postgres@127.0.0.1:5432/assess_store_dev'
 flask run
 ```
@@ -91,6 +92,7 @@ Enter the virtual environment and install dependencies as described above, then:
 ### Create and seed local DB
 - Make sure your local `DATABASE_URL` env var is set to your local postgres db (this doesn't need to actually exist yet), eg:
 
+        # pragma: allowlist nextline secret
         DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/fsd_assess_store
 
 - Use `tasks\db_tasks.py` to create and seed this DB (follow command prompts for what data to create):
