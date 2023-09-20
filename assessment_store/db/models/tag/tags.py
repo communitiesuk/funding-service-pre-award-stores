@@ -54,7 +54,7 @@ class Tag(BaseModel):
     #     nullable=False,
     # )
     # last_edited = Column(db.DateTime(timezone=True), server_default=func.now())
-    tag_type = relationship("TagType")
+    tag_type = relationship("TagType", lazy="selectin")
     __table_args__ = (
         Index(
             "tag_value_round_id_ix",
