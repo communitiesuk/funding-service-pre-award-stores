@@ -130,7 +130,10 @@ fund_config = {
         "cy": "",
     },
     "title_json": {
-        "en": "funding to resettle children and young people in England",
+        "en": (
+            "funding to support children and young people on pathways to the UK from"
+            " Ukraine, Hong Kong and Afghanistan"
+        ),
         "cy": "",
     },
     "short_name": "CYP",
