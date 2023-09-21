@@ -21,7 +21,7 @@ def main() -> None:
     print("Inserting base sections for CYP Round 1.")
     insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, CYP_ROUND_1_ID)
     print("Inserting application sections for CYP Round 1.")
-    insert_application_sections(CYP_ROUND_1_ID, r1_application_sections)
+    insert_or_update_application_sections(CYP_ROUND_1_ID, r1_application_sections)
 
 
 if __name__ == "__main__":
