@@ -12,10 +12,10 @@ APPLICATION_BASE_PATH = ".".join([str(CYP_R1_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH = ".".join([str(CYP_R1_BASE_PATH), str(2)])
 CYP_R1_OPENS_DATE = datetime(
     2023, 9, 27, 10, 0, 0, tzinfo=timezone.utc
-)  # 2023-09-22 12:00:00
+)  # 2023-09-27 10:00:00
 CYP_R1_DEADLINE_DATE = datetime(
     2023, 11, 1, 11, 59, 0, tzinfo=timezone.utc
-)  # 2023-10-31 11:59:00
+)  # 2023-11-1 11:59:00
 CYP_R1_ASSESSMENT_DEADLINE_DATE = datetime(
     2023, 12, 24, 12, 0, 0, tzinfo=timezone.utc
 )  # 2023-12-24 12:00:00
