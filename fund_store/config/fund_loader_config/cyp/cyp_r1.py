@@ -11,7 +11,7 @@ CYP_ROUND_1_ID = "888aae3d-7e2c-4523-b9c1-95952b3d1644"
 APPLICATION_BASE_PATH = ".".join([str(CYP_R1_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH = ".".join([str(CYP_R1_BASE_PATH), str(2)])
 CYP_R1_OPENS_DATE = datetime(
-    2023, 9, 27, 12, 0, 0, tzinfo=timezone.utc
+    2023, 9, 27, 10, 0, 0, tzinfo=timezone.utc
 )  # 2023-09-22 12:00:00
 CYP_R1_DEADLINE_DATE = datetime(
     2023, 11, 1, 11, 59, 0, tzinfo=timezone.utc
@@ -20,8 +20,8 @@ CYP_R1_ASSESSMENT_DEADLINE_DATE = datetime(
     2023, 12, 24, 12, 0, 0, tzinfo=timezone.utc
 )  # 2023-12-24 12:00:00
 
-CYP_PROSPECTS_LINK = ""
-CYP_APPLICATION_GUIDANCE = (  # TODO: Provide welsh translation
+CYP_PROSPECTS_LINK = "https://www.gov.uk/government/publications/the-children-and-young-peoples-resettlement-fund-prospectus/the-children-and-young-peoples-resettlement-fund-prospectus"  # noqa
+CYP_APPLICATION_GUIDANCE = (
     "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
     f" class='govuk-body'><a href='{CYP_PROSPECTS_LINK}'>Read the fund's"
     " prospectus</a> before you apply.</p>"
