@@ -43,7 +43,7 @@ r1_application_sections = [
     },
     {
         "section_name": {"en": "2.1 About your organisation", "cy": ""},
-        "form_name_json": {"en": "organisation-information-cyp", "cy": ""},
+        "form_name_json": {"en": "about-your-organisation-cyp", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.2.1",
     },
     {
