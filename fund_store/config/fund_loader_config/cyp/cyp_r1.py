@@ -80,12 +80,12 @@ r1_application_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH}.4.3",
     },
     {
-        "section_name": {"en": "4.4 Objectives and activites", "cy": ""},
+        "section_name": {"en": "4.4 Objectives and activities", "cy": ""},
         "form_name_json": {"en": "objectives-and-activities-cyp", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.4.4",
     },
     {
-        "section_name": {"en": "4.5 Location of activites", "cy": ""},
+        "section_name": {"en": "4.5 Location of activities", "cy": ""},
         "form_name_json": {"en": "location-of-activities-cyp", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.4.5",
     },
