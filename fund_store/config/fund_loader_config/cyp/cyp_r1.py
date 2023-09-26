@@ -40,6 +40,7 @@ r1_application_sections = [
     {
         "section_name": {"en": "2. About your organisation", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.2",
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "2.1 About your organisation", "cy": ""},
@@ -54,6 +55,7 @@ r1_application_sections = [
     {
         "section_name": {"en": "3. Your skills and experience", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.3",
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "3.1 Your skills and experience", "cy": ""},
@@ -63,6 +65,7 @@ r1_application_sections = [
     {
         "section_name": {"en": "4. Your project", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.4",
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "4.1 Outputs and outcomes", "cy": ""},
@@ -97,6 +100,7 @@ r1_application_sections = [
     {
         "section_name": {"en": "5. Risk and deliverability", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.5",
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "5.1 Risk and deliverability", "cy": ""},
@@ -106,6 +110,7 @@ r1_application_sections = [
     {
         "section_name": {"en": "6. Value for money", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.6",
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "6.1 Value for money", "cy": ""},
@@ -126,7 +131,7 @@ r1_application_sections = [
 fund_config = {
     "id": CYP_FUND_ID,
     "name_json": {
-        "en": "Children and Young People Resettlement Fund",
+        "en": "The Children and Young People Resettlement Fund",
         "cy": "",
     },
     "title_json": {
@@ -167,6 +172,6 @@ round_config = [
         "all_uploaded_documents_section_available": False,
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
-        "requires_feedback": False,
+        "requires_feedback": True,
     }
 ]
