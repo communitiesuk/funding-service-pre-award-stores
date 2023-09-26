@@ -173,5 +173,6 @@ round_config = [
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
         "requires_feedback": True,
+        "mark_as_complete_enabled": True,
     }
 ]
