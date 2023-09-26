@@ -530,6 +530,7 @@ round_config = [
         "application_fields_download_available": True,
         "display_logo_on_pdf_exports": False,
         "requires_feedback": False,
+        "mark_as_complete_enabled": False,
     }
 ]
 
@@ -568,5 +569,6 @@ round_config_w2 = [
         "application_fields_download_available": True,
         "display_logo_on_pdf_exports": False,
         "requires_feedback": True,
+        "mark_as_complete_enabled": False,
     }
 ]

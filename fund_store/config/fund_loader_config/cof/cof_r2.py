@@ -61,6 +61,7 @@ rounds_config = [
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
         "requires_feedback": False,
+        "mark_as_complete_enabled": False,
     },
     {
         "id": COF_ROUND_2_WINDOW_3_ID,
@@ -99,6 +100,7 @@ rounds_config = [
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
         "requires_feedback": False,
+        "mark_as_complete_enabled": False,
     },
 ]
 
