@@ -23,8 +23,10 @@ CYP_R1_ASSESSMENT_DEADLINE_DATE = datetime(
 CYP_PROSPECTS_LINK = "https://www.gov.uk/government/publications/the-children-and-young-peoples-resettlement-fund-prospectus/the-children-and-young-peoples-resettlement-fund-prospectus"  # noqa
 CYP_APPLICATION_GUIDANCE = (
     "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
-    f" class='govuk-body'><a href='{CYP_PROSPECTS_LINK}'>Read the fund's"
-    " prospectus</a> before you apply.</p>"
+    f" class='govuk-body'><a href='{CYP_PROSPECTS_LINK}'>Read the fund's prospectus</a>"
+    " before you apply.</p><p class='govuk-body'>You can <a"
+    " href='{all_questions_url}'>preview the full list of application"
+    " questions</a>.</p>"
 )
 
 r1_application_sections = [
