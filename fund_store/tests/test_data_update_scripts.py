@@ -1,9 +1,12 @@
 from db.queries import get_application_sections_for_round
+from db.queries import get_fund_by_id
 from db.queries import get_round_by_id
+from db.schemas.fund import FundSchema
 from db.schemas.round import RoundSchema
 from db.schemas.section import SectionSchema
 from scripts.data_updates.FS2910_ns_links import update_rounds_with_links
 from scripts.data_updates.FS2956_ns_weightings import update_section_weightings
+from scripts.data_updates.patch_cyp_name import update_fund_name
 
 
 def test_update_section_weightings(seed_dynamic_data):
@@ -74,3 +77,14 @@ def test_update_links_not_present(seed_dynamic_data):
 
     assert r.privacy_notice == "http://google.com"
     assert r.prospectus == "http://google.com"
+
+
+def test_update_fund_name(seed_dynamic_data):
+    f = get_fund_by_id(seed_dynamic_data["funds"][0]["id"])
+    fund_data = FundSchema().dump(f)
+    fund_data["name_json"] = "new name json"
+
+    update_fund_name(fund_config=fund_data)
+
+    f = get_fund_by_id(seed_dynamic_data["funds"][0]["id"])
+    assert f.name_json == "new name json"

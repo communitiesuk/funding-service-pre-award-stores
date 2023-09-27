@@ -133,7 +133,7 @@ r1_application_sections = [
 fund_config = {
     "id": CYP_FUND_ID,
     "name_json": {
-        "en": "The Children and Young People Resettlement Fund",
+        "en": "The Children and Young People's Resettlement Fund",
         "cy": "",
     },
     "title_json": {
