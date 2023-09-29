@@ -266,6 +266,7 @@ def insert_round_data(round_config):
             round_record.project_name_field_id = item["project_name_field_id"]
             round_record.feedback_link = item["feedback_link"]
             round_record.application_guidance = item["application_guidance"]
+            round_record.guidance_url = item["guidance_url"]
             round_record.all_uploaded_documents_section_available = item[
                 "all_uploaded_documents_section_available"
             ]
@@ -301,6 +302,7 @@ def insert_round_data(round_config):
                 project_name_field_id=item["project_name_field_id"],
                 feedback_link=item["feedback_link"],
                 application_guidance=item["application_guidance"],
+                guidance_url=item["guidance_url"],
                 all_uploaded_documents_section_available=item[
                     "all_uploaded_documents_section_available"
                 ],

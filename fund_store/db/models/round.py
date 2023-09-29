@@ -52,6 +52,7 @@ class Round(BaseModel):
     application_guidance = Column(
         "application_guidance", db.String(), nullable=True, unique=False
     )
+    guidance_url = Column("guidance_url", db.String(), nullable=True, unique=False)
     all_uploaded_documents_section_available = Column(
         "all_uploaded_documents_section_available",
         Boolean,

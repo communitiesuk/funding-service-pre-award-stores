@@ -22,7 +22,6 @@ COF_R2_ASSESSMENT_DEADLINE_DATE = datetime(
     2023, 3, 30, 12, 0, 0, tzinfo=timezone.utc
 )  # 2023-03-30 12:00:00
 
-
 rounds_config = [
     {
         "id": COF_ROUND_2_WINDOW_2_ID,
@@ -57,6 +56,10 @@ rounds_config = [
         ),
         "project_name_field_id": "KAgrBz",
         "application_guidance": COF_APPLICATION_GUIDANCE,
+        "guidance_url": (
+            "https://mhclg.sharepoint.com.mcas.ms/:w:/s/CommunityOwnershipFund"
+            "/Ecv3iM7U0AtKtyHnzRrQ9dsB0HdMPvHWqAoGn1WrWM7EMA?e=6QpdUT"
+        ),
         "all_uploaded_documents_section_available": True,
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
@@ -96,6 +99,10 @@ rounds_config = [
         ),
         "project_name_field_id": "KAgrBz",
         "application_guidance": COF_APPLICATION_GUIDANCE,
+        "guidance_url": (
+            "https://mhclg.sharepoint.com.mcas.ms/:w:/s/CommunityOwnershipFund"
+            "/Ecv3iM7U0AtKtyHnzRrQ9dsB0HdMPvHWqAoGn1WrWM7EMA?e=6QpdUT"
+        ),
         "all_uploaded_documents_section_available": True,
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,

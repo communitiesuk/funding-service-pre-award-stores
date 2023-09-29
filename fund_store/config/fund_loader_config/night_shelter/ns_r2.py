@@ -203,6 +203,10 @@ round_config = [
         "feedback_link": "https://forms.office.com/e/n6J9KPebUy",
         "project_name_field_id": "YVsPtE",
         "application_guidance": NIGHT_SHELTER_APPLICATION_GUIDANCE,
+        "guidance_url": (
+            "https://mhclg.sharepoint.com.mcas.ms/:w:/s/HomelessnessandRoughSleeping/EZn"
+            "-Dq3eBvFDtdBqhyEZxUUBj_BP53F9TVyI0imX3NdcPw?e=PtmLwH"
+        ),
         "all_uploaded_documents_section_available": False,
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
