@@ -11,7 +11,7 @@ DPI_ROUND_2_ID = "0059aad4-5eb5-11ee-8c99-0242ac120002"
 APPLICATION_BASE_PATH = ".".join([str(DPI_R2_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH = ".".join([str(DPI_R2_BASE_PATH), str(2)])
 DPI_R2_OPENS_DATE = datetime(
-    2023, 10, 17, 10, 0, 0, tzinfo=timezone.utc
+    2023, 10, 19, 10, 0, 0, tzinfo=timezone.utc
 )  # 2023-10-17 10:00:00
 DPI_R2_DEADLINE_DATE = datetime(
     2023, 12, 1, 11, 59, 0, tzinfo=timezone.utc
@@ -130,7 +130,7 @@ round_config = [
         "assessment_deadline": DPI_R2_ASSESSMENT_DEADLINE_DATE,
         "prospectus": DPI_PROSPECTS_LINK,
         "privacy_notice": "",  # to be added
-        "contact_email": "digitalplanningteam@levellingup.gov.uk",  # to be added
+        "contact_email": "digitalplanningteam@levellingup.gov.uk",
         "contact_phone": None,
         "contact_textphone": None,
         "support_times": "9am to 5pm",
