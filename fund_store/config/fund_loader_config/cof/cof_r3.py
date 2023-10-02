@@ -526,6 +526,10 @@ round_config = [
         ),
         "project_name_field_id": "apGjFS",
         "application_guidance": COF_APPLICATION_GUIDANCE,
+        "guidance_url": (
+            "https://www.gov.uk/government/publications/community-ownership-fund-round-3-application-form"
+            "-assessment-criteria-guidance"
+        ),
         "all_uploaded_documents_section_available": True,
         "application_fields_download_available": True,
         "display_logo_on_pdf_exports": False,
@@ -565,6 +569,10 @@ round_config_w2 = [
         ),
         "project_name_field_id": "apGjFS",
         "application_guidance": COF_APPLICATION_GUIDANCE,
+        "guidance_url": (
+            "https://www.gov.uk/government/publications/community-ownership-fund-round-3-application-form"
+            "-assessment-criteria-guidance"
+        ),
         "all_uploaded_documents_section_available": True,
         "application_fields_download_available": True,
         "display_logo_on_pdf_exports": False,

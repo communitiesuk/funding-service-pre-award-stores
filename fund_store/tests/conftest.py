@@ -150,6 +150,7 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
                 "project_name_field_id": "abc123",
                 "feedback_link": "www.feedback.link",
                 "application_guidance": "help text",
+                "guidance_url": "guidance link",
                 "all_uploaded_documents_section_available": False,
                 "application_fields_download_available": False,
                 "display_logo_on_pdf_exports": False,
