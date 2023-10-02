@@ -42,6 +42,7 @@ r2_application_sections = [
     {
         "section_name": {"en": "1. About your organisation", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.2",
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "1.1 Organisation information", "cy": ""},
@@ -51,6 +52,7 @@ r2_application_sections = [
     {
         "section_name": {"en": "2. Your skills and experience", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.3",
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "2.1 Your skills and experience", "cy": ""},
@@ -65,6 +67,7 @@ r2_application_sections = [
     {
         "section_name": {"en": "3. About your project", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.4",
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "3.1 Engaging the ODP community", "cy": ""},
@@ -84,6 +87,7 @@ r2_application_sections = [
     {
         "section_name": {"en": "4. Future work", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.5",
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "4.1 Future work", "cy": ""},
