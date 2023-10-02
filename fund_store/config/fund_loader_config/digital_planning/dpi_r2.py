@@ -21,6 +21,7 @@ DPI_R2_ASSESSMENT_DEADLINE_DATE = datetime(
 )  # 2023-01-31 12:00:00
 
 DPI_PROSPECTS_LINK = ""  # noqa
+PRIVACY_NOTICE = ""  # TODO(adamdavies1) to be added
 DPI_APPLICATION_GUIDANCE = (
     "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
     " class='govuk-body'><a href='{DPI_PROSPECTS_LINK}'>Read the fund's prospectus</a>"
@@ -129,7 +130,7 @@ round_config = [
         "deadline": DPI_R2_DEADLINE_DATE,
         "assessment_deadline": DPI_R2_ASSESSMENT_DEADLINE_DATE,
         "prospectus": DPI_PROSPECTS_LINK,
-        "privacy_notice": "",  # TODO(adamdavies1) to be added
+        "privacy_notice": PRIVACY_NOTICE,
         "contact_email": "digitalplanningteam@levellingup.gov.uk",
         "contact_phone": None,
         "contact_textphone": None,
