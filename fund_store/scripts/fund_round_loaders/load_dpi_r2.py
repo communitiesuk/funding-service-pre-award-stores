@@ -13,14 +13,14 @@ from db.queries import insert_round_data
 
 
 def main() -> None:
-    print("Inserting fund data for the CYP fund.")
+    print("Inserting fund data for the DPI fund.")
     insert_fund_data(fund_config)
-    print("Inserting round data for round 1 of the CYP fund.")
+    print("Inserting round data for round 2 of the DPI fund.")
     insert_round_data(round_config)
 
-    print("Inserting base sections for CYP Round 1.")
+    print("Inserting base sections for DPI Round 2.")
     insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, DPI_ROUND_2_ID)
-    print("Inserting application sections for CYP Round 1.")
+    print("Inserting application sections for DPI Round 2.")
     insert_or_update_application_sections(DPI_ROUND_2_ID, r2_application_sections)
 
 
