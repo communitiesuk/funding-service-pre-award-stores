@@ -6,6 +6,7 @@ from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy import JSON
+from sqlalchemy import UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import Boolean
 
@@ -14,6 +15,7 @@ BaseModel: DefaultMeta = db.Model
 
 
 class Round(BaseModel):
+    __table_args__ = (UniqueConstraint("fund_id", "short_name"),)
     id = Column(
         "id",
         UUID(as_uuid=True),
@@ -31,7 +33,7 @@ class Round(BaseModel):
     title_json = Column(
         "title_json", JSON(none_as_null=True), nullable=False, unique=False
     )
-    short_name = Column("short_name", db.String(), nullable=False, unique=True)
+    short_name = Column("short_name", db.String(), nullable=False, unique=False)
     opens = Column("opens", DateTime())
     deadline = Column("deadline", DateTime())
     assessment_deadline = Column("assessment_deadline", DateTime())
