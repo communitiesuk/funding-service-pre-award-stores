@@ -79,7 +79,7 @@ r2_application_sections = [
     },
     {
         "section_name": {"en": "3.3 Dataset information", "cy": ""},
-        "form_name_json": {"en": "dataset-information", "cy": ""},
+        "form_name_json": {"en": "dataset-information-dpi", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.4.3",
     },
     {
