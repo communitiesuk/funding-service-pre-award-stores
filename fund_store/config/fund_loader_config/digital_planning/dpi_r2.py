@@ -24,7 +24,7 @@ DPI_PROSPECTS_LINK = ""  # noqa
 DPI_PRIVACY_NOTICE = ""  # TODO(adamdavies1) to be added
 DPI_APPLICATION_GUIDANCE = (
     "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
-    " class='govuk-body'><a href='{DPI_PROSPECTS_LINK}'>Read the fund's prospectus</a>"
+    f" class='govuk-body'><a href='{DPI_PROSPECTS_LINK}'>Read the fund's prospectus</a>"
     " before you apply.</p><p class='govuk-body'>You can <a"
     " href='{all_questions_url}'>preview the full list of application"
     " questions</a>.</p>"
