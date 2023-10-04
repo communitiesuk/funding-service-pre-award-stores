@@ -11,7 +11,7 @@ DPI_ROUND_2_ID = "0059aad4-5eb5-11ee-8c99-0242ac120002"
 APPLICATION_BASE_PATH = ".".join([str(DPI_R2_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH = ".".join([str(DPI_R2_BASE_PATH), str(2)])
 DPI_R2_OPENS_DATE = datetime(
-    2023, 10, 19, 10, 0, 0, tzinfo=timezone.utc
+    2023, 10, 17, 10, 0, 0, tzinfo=timezone.utc
 )  # 2023-10-17 10:00:00
 DPI_R2_DEADLINE_DATE = datetime(
     2023, 12, 1, 11, 59, 0, tzinfo=timezone.utc
@@ -43,6 +43,7 @@ r2_application_sections = [
     {
         "section_name": {"en": "1. About your organisation", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.2",
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "1.1 Organisation information", "cy": ""},
@@ -52,6 +53,8 @@ r2_application_sections = [
     {
         "section_name": {"en": "2. Your skills and experience", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.3",
+        "weighting": 50,
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "2.1 Your skills and experience", "cy": ""},
@@ -66,6 +69,8 @@ r2_application_sections = [
     {
         "section_name": {"en": "3. About your project", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.4",
+        "weighting": 50,
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "3.1 Engaging the ODP community", "cy": ""},
@@ -85,6 +90,7 @@ r2_application_sections = [
     {
         "section_name": {"en": "4. Future work", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.5",
+        "requires_feedback": True,
     },
     {
         "section_name": {"en": "4.1 Future work", "cy": ""},
@@ -109,7 +115,7 @@ fund_config = {
         "cy": "",
     },
     "title_json": {
-        "en": "funding to adopt modern planning practices",
+        "en": "funding to begin your digital planning improvement journey",
         "cy": "",
     },
     "short_name": "DPI",
@@ -144,7 +150,7 @@ round_config = [
         "all_uploaded_documents_section_available": False,
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
-        "requires_feedback": False,
+        "requires_feedback": True,
         "mark_as_complete_enabled": True,
     }
 ]
