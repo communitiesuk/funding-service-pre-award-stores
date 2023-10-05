@@ -32,6 +32,7 @@ jobs:
       app_name: ${{ github.event.repository.name }}
       api: true
       postgres_unit_testing: true
+      deploy_to_dev: false
       run_performance_tests: true
       run_e2e_tests: true
     secrets:
