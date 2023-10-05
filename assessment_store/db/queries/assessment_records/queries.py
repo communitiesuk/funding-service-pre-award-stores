@@ -39,7 +39,10 @@ def get_metadata_for_application(
     statement = (
         select(AssessmentRecord)
         .options(defer(AssessmentRecord.jsonb_blob))
-        .where(AssessmentRecord.application_id == application_id)
+        .where(
+            AssessmentRecord.application_id == application_id,
+            AssessmentRecord.is_withdrawn == False,  # noqa: E712
+        )
     )
 
     result = db.session.scalar(statement)
@@ -80,6 +83,7 @@ def get_metadata_for_fund_round_id(
         .options(defer(AssessmentRecord.jsonb_blob)).where(
             AssessmentRecord.fund_id == fund_id,
             AssessmentRecord.round_id == round_id,
+            AssessmentRecord.is_withdrawn == False,  # noqa: E712
         )
     )
     if search_term != "":
@@ -107,9 +111,12 @@ def get_metadata_for_fund_round_id(
     if filter_by_tag and filter_by_tag.casefold() != "all":
         assessment_records_by_tag_id = (
             db.session.query(AssessmentRecord)
-            .join(TagAssociation)
-            .filter(TagAssociation.tag_id == filter_by_tag)
             .filter(TagAssociation.associated == True)  # noqa E712
+            .join(TagAssociation)
+            .filter(
+                TagAssociation.tag_id == filter_by_tag,
+                TagAssociation.associated == True,  # noqa E712
+            )
             .all()
         )
         record_ids_with_tag_id = [
@@ -404,7 +411,10 @@ def find_assessor_task_list_state(application_id: str) -> dict:
 
     stmt = (
         select(AssessmentRecord)
-        .where(AssessmentRecord.application_id == application_id)
+        .where(
+            AssessmentRecord.application_id == application_id,
+            AssessmentRecord.is_withdrawn == False,  # noqa: E712
+        )
         .options(
             load_only(
                 "short_id",
@@ -448,7 +458,10 @@ def get_assessment_sub_critera_state(application_id: str) -> dict:
 
     stmt = (
         select(AssessmentRecord)
-        .where(AssessmentRecord.application_id == application_id)
+        .where(
+            AssessmentRecord.application_id == application_id,
+            AssessmentRecord.is_withdrawn == False,  # noqa: E712
+        )
         .options(
             load_only(
                 "funding_amount_requested",
@@ -478,7 +491,10 @@ def get_assessment_sub_critera_state(application_id: str) -> dict:
 def get_application_jsonb_blob(application_id: str) -> dict:
     stmt = (
         select(AssessmentRecord)
-        .where(AssessmentRecord.application_id == application_id)
+        .where(
+            AssessmentRecord.application_id == application_id,
+            AssessmentRecord.is_withdrawn == False,  # noqa: E712
+        )
         .options(load_only("jsonb_blob"))
     )
     application_jsonb_blob = db.session.scalar(stmt)
@@ -597,7 +613,10 @@ def get_assessment_records_by_round_id(
             AssessmentRecord,
             Score.application_id == AssessmentRecord.application_id,
         )
-        .filter(AssessmentRecord.round_id == round_id)
+        .filter(
+            AssessmentRecord.round_id == round_id,
+            AssessmentRecord.is_withdrawn == False,  # noqa: E712
+        )
     )
 
     if language is not None:
@@ -688,9 +707,11 @@ def select_active_tags_associated_with_assessment(application_id):
         )
         .join(Tag, Tag.id == TagAssociation.tag_id)
         .join(TagType, Tag.type_id == TagType.id)
-        .filter(AssessmentRecord.application_id == application_id)
-        .filter(TagAssociation.associated == True)  # noqa: E712
-        .filter(Tag.active == True)  # noqa: E712
+        .filter(
+            AssessmentRecord.application_id == application_id,
+            TagAssociation.associated == True,  # noqa: E712
+            Tag.active == True,  # noqa: E712
+        )
         .all()
     )
 
@@ -705,6 +726,7 @@ def get_assessment_export_data(
         AssessmentRecord.fund_id == fund_id,
         AssessmentRecord.round_id == round_id,
         AssessmentRecord.language == "en",
+        AssessmentRecord.is_withdrawn == False,  # noqa: E712
     )
 
     en_assessment_metadatas = db.session.scalars(en_statement).all()
@@ -713,6 +735,7 @@ def get_assessment_export_data(
         AssessmentRecord.fund_id == fund_id,
         AssessmentRecord.round_id == round_id,
         AssessmentRecord.language == "cy",
+        AssessmentRecord.is_withdrawn == False,  # noqa: E712
     )
 
     cy_assessment_metadatas = db.session.scalars(cy_statement).all()
@@ -746,7 +769,7 @@ def get_export_data(
 
     form_fields = list_of_fields[report_type].get("form_fields", {})
     field_ids = form_fields.keys()
-    finalList = []
+    final_list = []
 
     if len(form_fields) != 0:
         for assessment in assessment_metadatas:
@@ -776,9 +799,8 @@ def get_export_data(
             applicant_info = add_missing_elements_with_empty_values(
                 applicant_info, form_fields, language
             )
-            finalList.append(applicant_info)
+            final_list.append(applicant_info)
 
-    output = {}
     if report_type == "OUTPUT_TRACKER":
         output = get_assessment_records_by_round_id(
             round_id,
@@ -786,9 +808,9 @@ def get_export_data(
             language,
         )
         if len(output) != 0:
-            finalList = combine_dicts(finalList, output)
+            final_list = combine_dicts(final_list, output)
 
-    return finalList
+    return final_list
 
 
 # adds miissing elements for use in the csv

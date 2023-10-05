@@ -19,6 +19,7 @@ from sqlalchemy.dialects.postgresql import TEXT
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import column_property
 from sqlalchemy.orm import relationship
+from sqlalchemy.types import Boolean
 
 BaseModel: DefaultMeta = db.Model
 
@@ -77,6 +78,10 @@ class AssessmentRecord(BaseModel):
     qa_complete = relationship("QaComplete")
 
     location_json_blob = Column("location_json_blob", JSONB, nullable=True)
+
+    is_withdrawn = Column(
+        "is_withdrawn", Boolean, default=False, nullable=False
+    )
 
     # These are defined as column_properties not as hybrid_property due to performance
     # Using column_property below forces the json parsing to be done on the DB side which is quicker than in python
