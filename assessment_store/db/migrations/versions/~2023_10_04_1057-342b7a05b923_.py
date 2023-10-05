@@ -19,6 +19,15 @@ def upgrade():
     with op.batch_alter_table("assessment_records", schema=None) as batch_op:
         batch_op.add_column(
             sa.Column(
+                "is_withdrawn", sa.Boolean(), nullable=True, default=False
+            )
+        )
+
+    op.execute("UPDATE assessment_records SET is_withdrawn = FALSE;")
+
+    with op.batch_alter_table("assessment_records", schema=None) as batch_op:
+        batch_op.alter_column(
+            sa.Column(
                 "is_withdrawn", sa.Boolean(), nullable=False, default=False
             )
         )
