@@ -73,15 +73,12 @@ class Round(BaseModel):
         default=False,
         nullable=False,
     )
-    requires_feedback = Column(
-        "requires_feedback",
-        db.Boolean,
-        default=False,
-        nullable=False,
-    )
     mark_as_complete_enabled = Column(
         "mark_as_complete_enabled",
         db.Boolean,
         default=False,
         nullable=False,
+    )
+    feedback_survey_config = Column(
+        "feedback_survey_config", JSON(none_as_null=True), nullable=True, unique=False
     )

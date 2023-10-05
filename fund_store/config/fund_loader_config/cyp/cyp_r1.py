@@ -175,7 +175,10 @@ round_config = [
         "all_uploaded_documents_section_available": False,
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
-        "requires_feedback": True,
         "mark_as_complete_enabled": True,
+        "feedback_survey_config": {
+            "requires_survey": True,
+            "isSurveyOptional": False,
+        },
     }
 ]

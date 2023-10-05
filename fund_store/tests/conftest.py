@@ -154,8 +154,11 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
                 "all_uploaded_documents_section_available": False,
                 "application_fields_download_available": False,
                 "display_logo_on_pdf_exports": False,
-                "requires_feedback": False,
                 "mark_as_complete_enabled": False,
+                "feedback_survey_config": {
+                    "requires_survey": False,
+                    "isSurveyOptional": True,
+                },
             }
             rounds.append(round_config)
 
