@@ -30,7 +30,7 @@ def upgrade():
             new_feedback_survey_config = feedback_survey_config
         else:
             new_feedback_survey_config = {}
-        new_feedback_survey_config["requires_survey"] = requires_feedback
+        new_feedback_survey_config["requires_section_feedback"] = requires_feedback
         new_feedback_survey_config = json.dumps(new_feedback_survey_config)
         update_query = sa.text(
             f"UPDATE round SET feedback_survey_config = '{new_feedback_survey_config}'"
@@ -57,7 +57,9 @@ def downgrade():
     rounds = connection.execute(query)
     for id, requires_feedback, feedback_survey_config in rounds:
         if feedback_survey_config is not None:
-            requires_feedback = feedback_survey_config.get("requires_survey", False)
+            requires_feedback = feedback_survey_config.get(
+                "requires_section_feedback", False
+            )
         else:
             requires_feedback = False
         new_requires_feedback = json.dumps(requires_feedback)

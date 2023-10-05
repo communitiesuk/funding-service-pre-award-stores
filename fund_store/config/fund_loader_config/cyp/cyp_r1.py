@@ -178,6 +178,7 @@ round_config = [
         "mark_as_complete_enabled": True,
         "feedback_survey_config": {
             "requires_survey": True,
+            "requires_section_feedback": True,
             "isSurveyOptional": False,
         },
     }

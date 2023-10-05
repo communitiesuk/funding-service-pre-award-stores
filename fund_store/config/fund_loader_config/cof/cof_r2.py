@@ -66,6 +66,7 @@ rounds_config = [
         "mark_as_complete_enabled": False,
         "feedback_survey_config": {
             "requires_survey": False,
+            "requires_section_feedback": False,
             "isSurveyOptional": True,
         },
     },
@@ -112,6 +113,7 @@ rounds_config = [
         "mark_as_complete_enabled": False,
         "feedback_survey_config": {
             "requires_survey": False,
+            "requires_section_feedback": False,
             "isSurveyOptional": True,
         },
     },

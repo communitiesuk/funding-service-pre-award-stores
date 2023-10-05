@@ -536,6 +536,7 @@ round_config = [
         "mark_as_complete_enabled": False,
         "feedback_survey_config": {
             "requires_survey": False,
+            "requires_section_feedback": False,
             "isSurveyOptional": True,
         },
     }
@@ -582,6 +583,7 @@ round_config_w2 = [
         "mark_as_complete_enabled": False,
         "feedback_survey_config": {
             "requires_survey": True,
+            "requires_section_feedback": True,
             "isSurveyOptional": False,
         },
     }
