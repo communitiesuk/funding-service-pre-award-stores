@@ -30,15 +30,14 @@ def upgrade():
             new_feedback_survey_config = feedback_survey_config
         else:
             new_feedback_survey_config = {}
-        new_feedback_survey_config["requires_section_feedback"] = requires_feedback
+        new_feedback_survey_config["has_section_feedback"] = requires_feedback
+        new_feedback_survey_config["has_feedback_survey"] = requires_feedback
         if requires_feedback is True:
-            new_feedback_survey_config["requires_survey"] = True
-            new_feedback_survey_config["isSurveyOptional"] = False
-            new_feedback_survey_config["isSectionFeedbackOptional"] = False
+            new_feedback_survey_config["is_section_feedback_optional"] = False
+            new_feedback_survey_config["is_feedback_survey_optional"] = False
         else:
-            new_feedback_survey_config["requires_survey"] = False
-            new_feedback_survey_config["isSurveyOptional"] = True
-            new_feedback_survey_config["isSectionFeedbackOptional"] = True
+            new_feedback_survey_config["is_section_feedback_optional"] = True
+            new_feedback_survey_config["is_feedback_survey_optional"] = True
 
         new_feedback_survey_config = json.dumps(new_feedback_survey_config)
         update_query = sa.text(
@@ -67,7 +66,7 @@ def downgrade():
     for id, requires_feedback, feedback_survey_config in rounds:
         if feedback_survey_config is not None:
             requires_feedback = feedback_survey_config.get(
-                "requires_section_feedback", False
+                "has_section_feedback", False
             )
         else:
             requires_feedback = False

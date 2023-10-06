@@ -152,10 +152,10 @@ round_config = [
         "display_logo_on_pdf_exports": False,
         "mark_as_complete_enabled": True,
         "feedback_survey_config": {
-            "requires_survey": True,
-            "requires_section_feedback": True,
-            "isSurveyOptional": True,
-            "isSectionFeedbackOptional": True,
+            "has_feedback_survey": True,
+            "has_section_feedback": True,
+            "is_feedback_survey_optional": True,
+            "is_section_feedback_optional": True,
         },
     }
 ]

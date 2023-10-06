@@ -65,10 +65,10 @@ rounds_config = [
         "display_logo_on_pdf_exports": False,
         "mark_as_complete_enabled": False,
         "feedback_survey_config": {
-            "requires_survey": False,
-            "requires_section_feedback": False,
-            "isSurveyOptional": True,
-            "isSectionFeedbackOptional": True,
+            "has_feedback_survey": False,
+            "has_section_feedback": False,
+            "is_feedback_survey_optional": True,
+            "is_section_feedback_optional": True,
         },
     },
     {
@@ -113,10 +113,10 @@ rounds_config = [
         "display_logo_on_pdf_exports": False,
         "mark_as_complete_enabled": False,
         "feedback_survey_config": {
-            "requires_survey": False,
-            "requires_section_feedback": False,
-            "isSurveyOptional": True,
-            "isSectionFeedbackOptional": True,
+            "has_feedback_survey": False,
+            "has_section_feedback": False,
+            "is_feedback_survey_optional": True,
+            "is_section_feedback_optional": True,
         },
     },
 ]
