@@ -31,6 +31,13 @@ def upgrade():
         else:
             new_feedback_survey_config = {}
         new_feedback_survey_config["requires_section_feedback"] = requires_feedback
+        if requires_feedback is True:
+            new_feedback_survey_config["requires_survey"] = True
+            new_feedback_survey_config["isSurveyOptional"] = False
+        else:
+            new_feedback_survey_config["requires_survey"] = False
+            new_feedback_survey_config["isSurveyOptional"] = True
+
         new_feedback_survey_config = json.dumps(new_feedback_survey_config)
         update_query = sa.text(
             f"UPDATE round SET feedback_survey_config = '{new_feedback_survey_config}'"
