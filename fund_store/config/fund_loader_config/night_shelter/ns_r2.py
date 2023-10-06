@@ -215,6 +215,7 @@ round_config = [
             "requires_survey": False,
             "requires_section_feedback": False,
             "isSurveyOptional": True,
+            "isSectionFeedbackOptional": True,
         },
     }
 ]

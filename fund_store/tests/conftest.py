@@ -159,6 +159,7 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
                     "requires_survey": False,
                     "requires_section_feedback": False,
                     "isSurveyOptional": True,
+                    "isSectionFeedbackOptional": True,
                 },
             }
             rounds.append(round_config)

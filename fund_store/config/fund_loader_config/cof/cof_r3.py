@@ -538,6 +538,7 @@ round_config = [
             "requires_survey": False,
             "requires_section_feedback": False,
             "isSurveyOptional": True,
+            "isSectionFeedbackOptional": True,
         },
     }
 ]
@@ -585,6 +586,7 @@ round_config_w2 = [
             "requires_survey": True,
             "requires_section_feedback": True,
             "isSurveyOptional": False,
+            "isSectionFeedbackOptional": False,
         },
     }
 ]

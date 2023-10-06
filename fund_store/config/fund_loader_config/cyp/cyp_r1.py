@@ -180,6 +180,7 @@ round_config = [
             "requires_survey": True,
             "requires_section_feedback": True,
             "isSurveyOptional": False,
+            "isSectionFeedbackOptional": False,
         },
     }
 ]

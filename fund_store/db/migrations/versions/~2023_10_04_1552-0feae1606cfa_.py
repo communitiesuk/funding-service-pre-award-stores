@@ -34,9 +34,11 @@ def upgrade():
         if requires_feedback is True:
             new_feedback_survey_config["requires_survey"] = True
             new_feedback_survey_config["isSurveyOptional"] = False
+            new_feedback_survey_config["isSectionFeedbackOptional"] = False
         else:
             new_feedback_survey_config["requires_survey"] = False
             new_feedback_survey_config["isSurveyOptional"] = True
+            new_feedback_survey_config["isSectionFeedbackOptional"] = True
 
         new_feedback_survey_config = json.dumps(new_feedback_survey_config)
         update_query = sa.text(
