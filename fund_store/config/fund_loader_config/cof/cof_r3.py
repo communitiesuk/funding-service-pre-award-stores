@@ -533,8 +533,13 @@ round_config = [
         "all_uploaded_documents_section_available": True,
         "application_fields_download_available": True,
         "display_logo_on_pdf_exports": False,
-        "requires_feedback": False,
         "mark_as_complete_enabled": False,
+        "feedback_survey_config": {
+            "has_feedback_survey": False,
+            "has_section_feedback": False,
+            "is_feedback_survey_optional": True,
+            "is_section_feedback_optional": True,
+        },
     }
 ]
 
@@ -576,7 +581,12 @@ round_config_w2 = [
         "all_uploaded_documents_section_available": True,
         "application_fields_download_available": True,
         "display_logo_on_pdf_exports": False,
-        "requires_feedback": True,
         "mark_as_complete_enabled": False,
+        "feedback_survey_config": {
+            "has_feedback_survey": True,
+            "has_section_feedback": True,
+            "is_feedback_survey_optional": False,
+            "is_section_feedback_optional": False,
+        },
     }
 ]

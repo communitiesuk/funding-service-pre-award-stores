@@ -276,7 +276,7 @@ def insert_round_data(round_config):
             round_record.display_logo_on_pdf_exports = item[
                 "display_logo_on_pdf_exports"
             ]
-            round_record.requires_feedback = item["requires_feedback"]
+            round_record.feedback_survey_config = item["feedback_survey_config"]
             round_record.mark_as_complete_enabled = item["mark_as_complete_enabled"]
 
             updated_rounds[item["id"]] = round_record
@@ -310,7 +310,7 @@ def insert_round_data(round_config):
                     "application_fields_download_available"
                 ],
                 display_logo_on_pdf_exports=item["display_logo_on_pdf_exports"],
-                requires_feedback=item["requires_feedback"],
+                feedback_survey_config=item["feedback_survey_config"],
                 mark_as_complete_enabled=item["mark_as_complete_enabled"],
             )
             db.session.add(new_round)

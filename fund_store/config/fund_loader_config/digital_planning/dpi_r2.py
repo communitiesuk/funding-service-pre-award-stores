@@ -150,7 +150,12 @@ round_config = [
         "all_uploaded_documents_section_available": False,
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
-        "requires_feedback": True,
         "mark_as_complete_enabled": True,
+        "feedback_survey_config": {
+            "has_feedback_survey": True,
+            "has_section_feedback": True,
+            "is_feedback_survey_optional": True,
+            "is_section_feedback_optional": True,
+        },
     }
 ]
