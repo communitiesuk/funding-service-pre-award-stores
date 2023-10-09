@@ -15,7 +15,7 @@ DPI_R2_OPENS_DATE = datetime(
 )  # 2023-10-17 10:00:00
 DPI_R2_DEADLINE_DATE = datetime(
     2023, 12, 1, 11, 59, 0, tzinfo=timezone.utc
-)  # 2023-11-1 11:59:00
+)  # 2023-12-1 11:59:00
 DPI_R2_ASSESSMENT_DEADLINE_DATE = datetime(
     2024, 1, 31, 12, 0, 0, tzinfo=timezone.utc
 )  # 2023-01-31 12:00:00
@@ -118,7 +118,7 @@ fund_config = {
         "en": "funding to begin your digital planning improvement journey",
         "cy": "",
     },
-    "short_name": "DPI",
+    "short_name": "DPIF",
     "description_json": {"en": "", "cy": ""},
     "welsh_available": False,
     "owner_organisation_name": "Department for Levelling Up, Housing and Communities",
