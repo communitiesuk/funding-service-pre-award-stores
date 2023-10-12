@@ -32,7 +32,7 @@ DPI_APPLICATION_GUIDANCE = (
 
 r2_application_sections = [
     {
-        "section_name": {"en": "Before you start", "cy": ""},
+        "section_name": {"en": "1. Before you start", "cy": ""},
         "tree_path": f"{APPLICATION_BASE_PATH}.1",
     },
     {
