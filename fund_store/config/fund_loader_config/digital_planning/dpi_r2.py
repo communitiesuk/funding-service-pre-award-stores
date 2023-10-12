@@ -21,7 +21,7 @@ DPI_R2_ASSESSMENT_DEADLINE_DATE = datetime(
 )  # 2023-01-31 12:00:00
 
 DPI_PROSPECTS_LINK = "https://www.gov.uk/guidance/digital-planning-improvement-fund-privacy-notice"  # noqa
-DPI_PRIVACY_NOTICE = "https://www.localdigital.gov.uk/digital-planning/funding/digital-planning-programme-funding-2023/"  # noqa
+DPI_PRIVACY_NOTICE = "https://www.localdigital.gov.uk/digital-planning/funding/digital-planning-programme-funding-2023"  # noqa
 DPI_APPLICATION_GUIDANCE = (
     "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
     f" class='govuk-body'><a href='{DPI_PROSPECTS_LINK}'>Read the fund's prospectus</a>"
