@@ -5,6 +5,7 @@ import sys
 
 command_to_run = "flask db upgrade"
 environment = sys.argv[1]
+service = sys.argv[2]
 
 try:
     command = subprocess.run(
@@ -13,7 +14,7 @@ try:
             "task",
             "run",
             "--generate-cmd",
-            f"pre-award/{environment}/fsd-account-store",
+            f"pre-award/{environment}/{service}",
         ],
         capture_output=True,
         check=True,

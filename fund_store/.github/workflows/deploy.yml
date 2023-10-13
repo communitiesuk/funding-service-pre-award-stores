@@ -95,8 +95,8 @@ jobs:
         yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ github.ref_name == 'main' && 'latest' || github.ref_name }}"'  copilot/fsd-fund-store/manifest.yml
 
     - name: Run database migrations
-      run: scripts/migration-task-script.py ${{ inputs.environment || 'test' }}
+      run: scripts/migration-task-script.py ${{ inputs.environment || 'test' }} 'fsd-fund-store'
 
     - name: Copilot deploy
       run: |
-        copilot deploy --env ${{ inputs.environment || 'test' }}
+        copilot svc deploy --env ${{ inputs.environment || 'test' }}
