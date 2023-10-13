@@ -86,9 +86,15 @@ class AssessmentRecord(BaseModel):
     # These are defined as column_properties not as hybrid_property due to performance
     # Using column_property below forces the json parsing to be done on the DB side which is quicker than in python
     organisation_name = column_property(
-        func.jsonb_path_query_first(
-            jsonb_blob,
-            '$.forms[*].questions[*].fields[*] ? (@.key == "opFJRm").answer',
+        func.coalesce(
+            func.jsonb_path_query_first(
+                jsonb_blob,
+                '$.forms[*].questions[*].fields[*] ? (@.key == "opFJRm").answer',
+            ),
+            func.jsonb_path_query_first(
+                jsonb_blob,
+                '$.forms[*].questions[*].fields[*] ? (@.key == "JbmcJE").answer',
+            ),
         )
     )
     local_authority = column_property(
@@ -101,6 +107,18 @@ class AssessmentRecord(BaseModel):
         func.jsonb_path_query_first(
             jsonb_blob,
             '$.forms[*].questions[*].fields[*] ? (@.key == "NxVqXd").answer',
+        )
+    )
+    cohort = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "vYYoAC").answer',
+        )
+    )
+    is_project_regional = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "iqqqTk").answer',
         )
     )
 

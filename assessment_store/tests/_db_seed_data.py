@@ -6,24 +6,30 @@ from tests._application_store_json import (
     cofr3w2_application_store_json_template,
 )
 from tests._application_store_json import (
+    cypr1_application_store_json_template,
+)
+from tests._application_store_json import (
     nstfr2_application_store_json_template,
 )
 
+# Put a sample of output data (from application store) for a fund-round here
 mappings_application_store_json = {
     "COFR2W2": application_store_json_template,
     "COFR2W3": application_store_json_template,
     "COFR3W1": cofr3w1_application_store_json_template,
     "COFR3W2": cofr3w2_application_store_json_template,
     "NSTFR2": nstfr2_application_store_json_template,
+    "CYPR1": cypr1_application_store_json_template,
     "RANDOM_FUND_ROUND": application_store_json_template,
 }
 
-mappings_short_ref = {
+mappings_short_name_to_reference_prepend = {
     "COFR2W2": "COF-R2W2",
     "COFR2W3": "COF-R2W3",
     "COFR3W1": "COF-R3W1",
     "COFR3W2": "COF-R3W2",
     "NSTFR2": "NSTF-R2",
+    "CYPR1": "CYP-R1",
     "RANDOM_FUND_ROUND": "RFR",
 }
 
@@ -43,8 +49,9 @@ def get_dynamic_rows(
     application_store_json = mappings_application_store_json[
         fund_round_short_name
     ]
-
-    application_short_ref_prefix = mappings_short_ref[fund_round_short_name]
+    application_short_ref_prefix = mappings_short_name_to_reference_prepend[
+        fund_round_short_name
+    ]
 
     funds = (
         [fund_round_config["fund_id"]]

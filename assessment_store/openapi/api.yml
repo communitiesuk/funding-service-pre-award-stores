@@ -106,6 +106,14 @@ paths:
         format: query
       required: false
       explode: true
+    - name: cohort
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
     get:
       tags:
         - assessments

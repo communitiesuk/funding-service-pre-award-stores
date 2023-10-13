@@ -36,6 +36,8 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     organisation_name = String()
     funding_type = String()
     local_authority = String()
+    cohort = String()
+    is_project_regional = Boolean()
     flags = Nested("AssessmentFlagSchema", many=True)
     qa_complete = Nested("QaCompleteMetadata", many=True)
     tag_associations = Nested("TagAssociationNestedSchema", many=True)

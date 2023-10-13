@@ -3,6 +3,9 @@ import json
 
 import app
 from config import Config
+from config.mappings.assessment_mapping_fund_round import (
+    fund_round_data_key_mappings,
+)
 from db.queries import bulk_insert_application_record
 from flask import current_app
 from services import _SQS_QUEUE_URL
@@ -23,11 +26,23 @@ def import_applications_from_queue():
 
     with app.app.app_context():
         application_json_list = []
+        reciept_handles_to_delete = []
         for message in application_messages:
             application_json = message["Body"]
             if isinstance(application_json, str):
                 application_json = json.loads(application_json)
-            application_json_list.append(application_json)
+            fund_round_shortname = "".join(
+                application_json["reference"].split("-")[:2]
+            )
+            # Check if the import config exists for the application
+            if fund_round_shortname not in fund_round_data_key_mappings.keys():
+                current_app.logger.error(
+                    f"Missing import config for the application: "
+                    f"{message['MessageAttributes']['application_id']['StringValue']}. "
+                )
+                reciept_handles_to_delete.append(message["ReceiptHandle"])
+            else:
+                application_json_list.append(application_json)
 
         # bulk insert the applications
         inserted_applications = bulk_insert_application_record(
@@ -40,7 +55,6 @@ def import_applications_from_queue():
         ]
 
         # delete the messages from queue
-        reciept_handles_to_delete = []
         for message in application_messages:
             if (
                 message["MessageAttributes"]["application_id"]["StringValue"]

@@ -65,6 +65,7 @@ def get_metadata_for_fund_round_id(
     country: str = "",
     region: str = "",
     local_authority: str = "",
+    cohort: str = "",
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records
     which returns all rows matching the given fund_id and round_id. Has
@@ -107,6 +108,13 @@ def get_metadata_for_fund_round_id(
             )
 
         statement = statement.filter(or_(*filters))
+
+    if cohort != "ALL" and cohort != "":
+        statement = statement.filter(
+            or_(
+                func.cast(AssessmentRecord.cohort, String).ilike(f"%{cohort}%")
+            )
+        )
 
     if filter_by_tag and filter_by_tag.casefold() != "all":
         assessment_records_by_tag_id = (
