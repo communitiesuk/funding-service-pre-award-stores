@@ -269,7 +269,7 @@ def bulk_insert_application_record(
         if derived_values["location_json_blob"]["error"]:
             current_app.logger.error(
                 "Location key not found or invalid postcode provided for the "
-                f"application: {derived_values['application_id']}."
+                f"application: {derived_values['short_id']}."
             )
 
         row = {
