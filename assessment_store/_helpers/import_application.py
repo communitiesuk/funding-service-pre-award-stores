@@ -36,9 +36,8 @@ def import_applications_from_queue():
             )
             # Check if the import config exists for the application
             if fund_round_shortname not in fund_round_data_key_mappings.keys():
-                current_app.logger.error(
-                    f"Missing import config for the application: "
-                    f"{message['MessageAttributes']['application_id']['StringValue']}. "
+                current_app.logger.warning(
+                    f"Missing import config for the application: {application_json['reference']}."
                 )
                 reciept_handles_to_delete.append(message["ReceiptHandle"])
             else:
