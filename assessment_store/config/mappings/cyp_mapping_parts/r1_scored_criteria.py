@@ -4,16 +4,16 @@
 scored_criteria = [
     {
         "id": "your-skills-and-experience",
-        "name": "Your skills and experience ",
+        "name": "Your skills and experience",
         "weighting": 0.15,
         "sub_criteria": [
             {
                 "id": "your-skills-and-experience",
-                "name": "Your skills and experience ",
+                "name": "Your skills and experience",
                 "themes": [
                     {
                         "id": "your-skills-and-experience",
-                        "name": "Your skills and experience ",
+                        "name": "Your skills and experience",
                         "answers": [
                             {
                                 "field_id": "HrGXKi",
@@ -73,21 +73,21 @@ scored_criteria = [
                                 "field_id": "tAtJGz",
                                 "form_name": "outputs-and-outcomes-cyp",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
+                                "presentation_type": "integer",
                                 "question": "How many fund recipients from the Ukraine schemes do you expect your project to support with the funding?",
                             },
                             {
                                 "field_id": "tBwdYp",
                                 "form_name": "outputs-and-outcomes-cyp",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
+                                "presentation_type": "integer",
                                 "question": "How many fund recipients from the Hong Kong British National (Overseas) cohort do you expect your project to support with the funding?",
                             },
                             {
                                 "field_id": "rhmmaQ",
                                 "form_name": "outputs-and-outcomes-cyp",
                                 "field_type": "numberField",
-                                "presentation_type": "text",
+                                "presentation_type": "integer",
                                 "question": "How many fund recipients from the Afghan Citizens Resettlement Scheme do you expect your project to support with the funding?",
                             },
                         ],
@@ -96,7 +96,7 @@ scored_criteria = [
             },
             {
                 "id": "outcome",
-                "name": "Outcome ",
+                "name": "Outcome",
                 "themes": [
                     {
                         "id": "outcome",
