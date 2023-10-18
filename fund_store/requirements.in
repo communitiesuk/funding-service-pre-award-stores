@@ -27,3 +27,6 @@ marshmallow-sqlalchemy
 
 pytest-mock
 pytest-html>=3.2.0
+
+airium
+bs4
