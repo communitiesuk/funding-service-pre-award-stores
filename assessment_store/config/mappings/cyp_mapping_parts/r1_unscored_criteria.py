@@ -215,7 +215,7 @@ unscored_sections = [
                                 "form_name": "applicant-information-cyp",
                                 "field_type": "textField",
                                 "presentation_type": "text",
-                                "question": "Alternative name",
+                                "question": "Alternative name (optional)",
                             },
                             {
                                 "field_id": "kbOHaM",
@@ -257,7 +257,7 @@ unscored_sections = [
                                 "form_name": "applicant-information-cyp",
                                 "field_type": "textField",
                                 "presentation_type": "text",
-                                "question": "Alternative name",
+                                "question": "Alternative name (optional)",
                             },
                             {
                                 "field_id": "tikwxM",
