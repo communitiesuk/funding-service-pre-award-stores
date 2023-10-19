@@ -109,25 +109,24 @@ fund_round_data_key_mappings = {
         "funding_two": "cLDRvN",
     },
     "COFR3W2": {
-        "field_type": "multiInputField",
         "location": "EfdliG",
         "asset_type": "oXGwlA",
         "funding_one": "ABROnB",
         "funding_two": ["tSKhQQ", "UyaAHw"],
+        "funding_field_type": "multiInputField",
     },
     "NSTFR2": {
-        "field_type": "multiInputField",
         "location": "mhYQzL",
         "asset_type": None,
         "funding_one": ["mCbbyN", "iZdZrr"],
         "funding_two": ["XsAoTv", "JtBjFp"],
+        "funding_field_type": "multiInputField",
     },
     "CYPR1": {
-        "field_type": "multiInputField",
         "location": "rmBPvK",
         "asset_type": None,
         "funding_one": None,
-        "funding_two": ["qwktzL", "JizgZP"],  # only revenue funding for cyp
+        "funding_two": ["JXKUcj", "OnPeeS"],  # only revenue funding for cyp
     },
 }
 
