@@ -406,6 +406,7 @@ def build_components_from_page(
                         condition_value,
                         list_name=c["list"] if "list" in c else None,
                         form_lists=form_lists,
+                        lang=lang,
                     )
                     text.append(
                         f"If '{condition_text}', go to <strong>{destination}</strong>"
