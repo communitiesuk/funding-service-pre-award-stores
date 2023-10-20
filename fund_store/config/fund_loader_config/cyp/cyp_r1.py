@@ -171,7 +171,12 @@ round_config = [
         "feedback_link": "",
         "project_name_field_id": "bsUoNG",
         "application_guidance": CYP_APPLICATION_GUIDANCE,
-        "guidance_url": "",  # todo, fill in once we have, and re-run import script.
+        "guidance_url": (
+            "https://www.gov.uk/government/publications/"
+            "the-children-and-young-peoples-resettlement-"
+            "fund-prospectus/the-children-and-young-peoples-"
+            "resettlement-fund-prospectus#scoring-criteria"
+        ),
         "all_uploaded_documents_section_available": False,
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
