@@ -218,7 +218,7 @@ scored_criteria = [
                                     "Which local authority areas will you work across?",
                                     {
                                         "kaQUSV": {
-                                            "column_title": "Which local authority areas will you work across?",
+                                            "column_title": "Local authority areas",
                                             "type": "textField",
                                         },
                                     },
