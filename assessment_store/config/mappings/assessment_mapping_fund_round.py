@@ -131,7 +131,7 @@ fund_round_data_key_mappings = {
 }
 
 applicant_info_mapping = {
-    "13b95669-ed98-4840-8652-d6b7a19964db": {
+    NSTF_FUND_ID: {
         "OUTPUT_TRACKER": {
             "form_fields": {
                 "opFJRm": {"en": {"title": "Organisation name"}},
@@ -198,7 +198,7 @@ applicant_info_mapping = {
             }
         },
     },
-    "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4": {
+    COF_FUND_ID: {
         "ASSESSOR_EXPORT": {
             "form_fields": {
                 "SnLGJE": {

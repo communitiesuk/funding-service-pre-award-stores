@@ -201,12 +201,17 @@ def format_add_another_component_contents(
 
         table = []
         for component_id, column_config in table_config.items():
+            frontend_format = None
             title = column_config["column_title"]
             answers = component_id_to_answer_list.get(component_id)
 
-            frontend_format = _MULTI_INPUT_FORMAT_FRONTEND.get(
-                column_config["type"], "text"
-            )
+            # match the field type without case sensitivity
+            for key, value in _MULTI_INPUT_FORMAT_FRONTEND.items():
+                if key.lower() == column_config["type"].lower():
+                    frontend_format = value
+                    break
+            if frontend_format is None:
+                frontend_format = "text"
 
             pre_frontend_formatter = _MULTI_INPUT_FRE_FRONTEND_FORMATTERS.get(
                 column_config["type"], lambda x: x
