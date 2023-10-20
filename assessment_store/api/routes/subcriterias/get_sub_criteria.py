@@ -213,7 +213,14 @@ def format_add_another_component_contents(
             )
 
             formatted_answers = (
-                [pre_frontend_formatter(answer) for answer in answers]
+                [
+                    (
+                        pre_frontend_formatter(answer)
+                        if answer
+                        else "Not Provided"
+                    )
+                    for answer in answers
+                ]
                 if answers
                 else None
             )
@@ -228,6 +235,23 @@ def format_add_another_component_contents(
                     if answers
                     else None
                 )
+
+            # Manual fix for `ukAddressField` if rendered as dict instead of text
+            if column_config["type"] == "ukAddressField" and isinstance(
+                formatted_answers[0], dict
+            ):
+                for ind, answer in enumerate(formatted_answers):
+                    formatted_answers[ind] = (
+                        answer["addressLine1"]
+                        + ", "
+                        + answer.get("addressLine2", "")
+                        + ", "
+                        + answer["postcode"]
+                        + ", "
+                        + answer.get("county")
+                        + ", "
+                        + answer["town"]
+                    ).replace(" ,", "")
 
             if formatted_answers:
                 table.append([title, formatted_answers, frontend_format])
