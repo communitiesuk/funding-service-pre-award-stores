@@ -216,8 +216,8 @@ def format_add_another_component_contents(
                 [
                     (
                         pre_frontend_formatter(answer)
-                        if answer
-                        else "Not Provided"
+                        if (answer is not None or answer != "")
+                        else "Not Provided"  # default if None or empty string provided
                     )
                     for answer in answers
                 ]
@@ -236,22 +236,26 @@ def format_add_another_component_contents(
                     else None
                 )
 
-            # Manual fix for `ukAddressField` if rendered as dict instead of text
-            if column_config["type"] == "ukAddressField" and isinstance(
-                formatted_answers[0], dict
-            ):
+            # Manualy extract `ukAddressField` as text if rendered as dict
+            if column_config["type"] == "ukAddressField":
                 for ind, answer in enumerate(formatted_answers):
-                    formatted_answers[ind] = (
-                        answer["addressLine1"]
-                        + ", "
-                        + answer.get("addressLine2", "")
-                        + ", "
-                        + answer["postcode"]
-                        + ", "
-                        + answer.get("county")
-                        + ", "
-                        + answer["town"]
-                    ).replace(" ,", "")
+                    if isinstance(answer, dict):
+                        try:
+                            formatted_answers[ind] = (
+                                answer["addressLine1"]
+                                + ", "
+                                + answer.get("addressLine2", "")
+                                + ", "
+                                + answer["postcode"]
+                                + ", "
+                                + answer.get("county")
+                                + ", "
+                                + answer["town"]
+                            ).replace(" ,", "")
+                        except Exception:
+                            formatted_answers[ind] = ", ".join(
+                                list(filter(None, answer.values()))
+                            )
 
             if formatted_answers:
                 table.append([title, formatted_answers, frontend_format])
