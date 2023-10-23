@@ -220,9 +220,9 @@ def format_add_another_component_contents(
             formatted_answers = (
                 [
                     (
-                        pre_frontend_formatter(answer)
-                        if (answer is not None or answer != "")
-                        else "Not Provided"  # default if None or empty string provided
+                        "Not Provided"  # default, if None or empty string provided
+                        if (answer is None or answer == "")
+                        else pre_frontend_formatter(answer)
                     )
                     for answer in answers
                 ]
