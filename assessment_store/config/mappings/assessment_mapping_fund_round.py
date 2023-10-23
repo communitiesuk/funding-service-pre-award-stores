@@ -32,7 +32,6 @@ from config.mappings.nstf_mapping_parts.r2_unscored_sections import (
     unscored_sections as nstf_unscored_sections,
 )
 
-
 # FUND AND ROUND CONFIGURATION (Extracted from the fund store)
 COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
@@ -45,7 +44,6 @@ NSTF_ROUND_2_ID = "fc7aa604-989e-4364-98a7-d1234271435a"
 
 CYP_FUND_ID = "1baa0f68-4e0a-4b02-9dfe-b5646f089e65"
 CYP_ROUND_1_ID = "888aae3d-7e2c-4523-b9c1-95952b3d1644"
-
 
 # ASSESSMENT DISPLAY CONFIGURATION
 
@@ -81,7 +79,6 @@ fund_round_to_assessment_mapping = {
         "scored_criteria": cyp_scored_criteria_r1,
     },
 }
-
 
 # Key information for header fields (within JSON)
 # We extract a number of field to display at a higher level
@@ -225,8 +222,27 @@ applicant_info_mapping = {
         },
         "OUTPUT_TRACKER": {},
     },
+    "1baa0f68-4e0a-4b02-9dfe-b5646f089e65": {
+        "ASSESSOR_EXPORT": {
+            "form_fields": {
+                "rKHBnt": {"en": {"title": "Name of lead contact"}},
+                "BKOHaM": {
+                    "en": {"title": "Lead contact email address"},
+                },
+                "CyANDT": {
+                    "en": {"title": "Lead contact telephone number"},
+                },
+                "rmBPvK": {
+                    "en": {"title": "Registered organisation address"},
+                },
+                "smBPvK": {
+                    "en": {"title": "Alternative organisation address"},
+                },
+            }
+        },
+        "OUTPUT_TRACKER": {},
+    },
 }
-
 
 # APPLICATION SEEDING CONFIGURATION
 
