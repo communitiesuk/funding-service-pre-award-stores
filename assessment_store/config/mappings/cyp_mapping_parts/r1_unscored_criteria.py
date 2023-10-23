@@ -124,7 +124,7 @@ unscored_sections = [
                                 "form_name": "about-your-organisation-cyp",
                                 "field_type": "textField",
                                 "presentation_type": "text",
-                                "question": "Company registration number",
+                                "question": "Company registration number (optional)",
                             },
                             {
                                 "field_id": "jeocJE",
@@ -167,11 +167,11 @@ unscored_sections = [
                                             "type": "websiteField",
                                         },
                                         "OghGGr": {
-                                            "column_title": "Website and social media link 2",
+                                            "column_title": "Website and social media link 2 (optional)",
                                             "type": "websiteField",
                                         },
                                         "RphKTp": {
-                                            "column_title": "Website and social media link 3",
+                                            "column_title": "Website and social media link 3 (optional)",
                                             "type": "websiteField",
                                         },
                                     },
