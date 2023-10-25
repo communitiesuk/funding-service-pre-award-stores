@@ -242,7 +242,7 @@ def format_add_another_component_contents(
                 )
 
             # Manualy extract `ukAddressField` as text if rendered as dict
-            if column_config["type"] == "ukAddressField":
+            if column_config["type"] == "ukAddressField" and formatted_answers:
                 for ind, answer in enumerate(formatted_answers):
                     if isinstance(answer, dict):
                         try:
