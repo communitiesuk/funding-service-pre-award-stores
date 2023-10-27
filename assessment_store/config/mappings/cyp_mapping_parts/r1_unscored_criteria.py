@@ -40,14 +40,14 @@ unscored_sections = [
                                 "form_name": "about-your-organisation-cyp",
                                 "field_type": "textField",
                                 "presentation_type": "text",
-                                "question": "Alternative names of your organisation - Alternative name 2",
+                                "question": "Alternative names of your organisation - Alternative name 2 (optional)",
                             },
                             {
                                 "field_id": "DYUbGM",
                                 "form_name": "about-your-organisation-cyp",
                                 "field_type": "textField",
                                 "presentation_type": "text",
-                                "question": "Alternative names of your organisation - Alternative name 3",
+                                "question": "Alternative names of your organisation - Alternative name 3 (optional)",
                             },
                             {
                                 "field_id": "kxgOne",
@@ -61,14 +61,14 @@ unscored_sections = [
                                 "form_name": "about-your-organisation-cyp",
                                 "field_type": "freeTextField",
                                 "presentation_type": "free_text",
-                                "question": "Tell us about your organisation's main activities - Activity 2",
+                                "question": "Tell us about your organisation's main activities - Activity 2 (optional)",
                             },
                             {
                                 "field_id": "kxgThr",
                                 "form_name": "about-your-organisation-cyp",
                                 "field_type": "freeTextField",
                                 "presentation_type": "free_text",
-                                "question": "Tell us about your organisation's main activities - Activity 3",
+                                "question": "Tell us about your organisation's main activities - Activity 3 (optional)",
                             },
                             {
                                 "field_id": "rmBPvK",
