@@ -14,6 +14,8 @@ from scripts.all_questions.read_forms import increment_lowest_in_hierarchy
 from scripts.all_questions.read_forms import remove_lowest_in_hierarchy
 from scripts.all_questions.read_forms import strip_leading_numbers
 
+FIELD_TYPES_WITH_MAX_WORDS = ["freetextfield", "multilinetextfield"]
+
 
 def get_all_child_nexts(page: dict, child_nexts: list, all_pages: dict):
     """Recursively builds a list of everything that could come next from this page,
@@ -298,7 +300,7 @@ def determine_title_and_text_for_component(
             child_title, child_text = determine_title_and_text_for_component(
                 child, include_html_components, form_lists, is_child=True
             )
-            if child["type"].casefold() == "multilinetextfield":
+            if child["type"].casefold() in FIELD_TYPES_WITH_MAX_WORDS:
                 first_column_title = component["options"]["columnTitles"][0].casefold()
                 text.append(
                     f"{child_title} (Max {child['options']['maxWords']} words per"
@@ -325,8 +327,9 @@ def determine_title_and_text_for_component(
         text = []
         extract_from_html(soup, text)
         update_wording_for_multi_input_fields(text)
-        if component["type"].casefold() == "multilinetextfield" and not is_child:
-            text.append(f"(Max {component['options']['maxWords']} words)")
+
+    if component["type"].casefold() in FIELD_TYPES_WITH_MAX_WORDS and not is_child:
+        text.append(f"(Max {component['options']['maxWords']} words)")
 
     if "list" in component:
         # include available options for lists

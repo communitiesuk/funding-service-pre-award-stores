@@ -404,7 +404,8 @@ def test_build_components_bullets_in_hint():
     )
     components = build_components_from_page(page_json, include_html_components=False)
     assert len(components) == 1
-    assert len(components[0]["text"]) == 2
+    assert len(components[0]["text"]) == 3
+    assert components[0]["text"][2] == "(Max 250 words)"
     assert len(components[0]["text"][1]) == 3
 
 
