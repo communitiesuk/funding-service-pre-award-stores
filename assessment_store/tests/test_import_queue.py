@@ -70,20 +70,18 @@ def mock_bulk_insert_application_records(mocker, mock_sqs_recieve_message):
         yield
 
 
-class TestSQSFunctions(object):
-    @pytest.mark.fundround("NSTFR2")
-    @pytest.mark.appcount(3)
-    def test_import_application_queue(
-        self,
-        request,
-        mock_sqs_recieve_message,
-        mock_sqs_delete_message,
-        mock_bulk_insert_application_records,
-    ):
-        appcount = request.node.get_closest_marker("appcount").args[0]
+@pytest.mark.fundround("NSTFR2")
+@pytest.mark.appcount(3)
+def test_import_application_queue(
+    request,
+    mock_sqs_recieve_message,
+    mock_sqs_delete_message,
+    mock_bulk_insert_application_records,
+):
+    appcount = request.node.get_closest_marker("appcount").args[0]
 
-        # Call the function
-        response = import_applications_from_queue()
+    # Call the function
+    response = import_applications_from_queue()
 
-        # Assertions
-        assert len(response) == appcount
+    # Assertions
+    assert len(response) == appcount
