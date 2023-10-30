@@ -152,10 +152,8 @@ flupy==1.2.0
     # via
     #   -r requirements.txt
     #   alembic-utils
-# TODO: update fsd-utils version after below branch is merged
-git+https://github.com/communitiesuk/funding-service-design-utils.git@add-init-file-sqs
-# funding-service-design-utils==2.0.29
-#     # via -r requirements.txt
+funding-service-design-utils==2.0.30
+    # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython
 gitpython==3.1.29
