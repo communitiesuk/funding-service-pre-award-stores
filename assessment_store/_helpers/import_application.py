@@ -8,17 +8,18 @@ from config.mappings.assessment_mapping_fund_round import (
 )
 from db.queries import bulk_insert_application_record
 from flask import current_app
-from services import _SQS_QUEUE_URL
-from services import delete_messages
-from services import receive_messages
+from services import _SQS_CLIENT
 
 
 def import_applications_from_queue():
     batch_size = Config.SQS_BATCH_SIZE
     visibility_time = Config.SQS_VISIBILITY_TIME
     wait_time = Config.SQS_WAIT_TIME
-    application_messages = receive_messages(
-        _SQS_QUEUE_URL, batch_size, visibility_time, wait_time
+    application_messages = _SQS_CLIENT.receive_messages(
+        Config.AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL,
+        batch_size,
+        visibility_time,
+        wait_time,
     )
 
     if not application_messages:
@@ -61,7 +62,10 @@ def import_applications_from_queue():
             ):
                 reciept_handles_to_delete.append(message["ReceiptHandle"])
         if reciept_handles_to_delete:
-            delete_messages(_SQS_QUEUE_URL, reciept_handles_to_delete)
+            _SQS_CLIENT.delete_messages(
+                Config.AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL,
+                reciept_handles_to_delete,
+            )
 
         for message in application_messages:
             receive_count = int(

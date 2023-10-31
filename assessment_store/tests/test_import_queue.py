@@ -2,12 +2,9 @@ import json
 
 import pytest
 from _helpers.import_application import import_applications_from_queue
-from config.envs.unit_testing import UnitTestingConfig
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config,
 )
-from services import delete_messages
-from services import receive_messages
 from tests._helpers import row_data
 
 
@@ -34,8 +31,8 @@ def mock_sqs_recieve_message(request, mocker):
         )
 
     mocker.patch(
-        "services._SQS_CLIENT.receive_message",
-        return_value={"Messages": messages},
+        "_helpers.import_application._SQS_CLIENT.receive_messages",
+        return_value=messages,
     )
     yield messages
 
@@ -44,7 +41,7 @@ def mock_sqs_recieve_message(request, mocker):
 def mock_sqs_delete_message(request, mocker):
     appcount = request.node.get_closest_marker("appcount").args[0]
     mocker.patch(
-        "services._SQS_CLIENT.delete_message_batch",
+        "_helpers.import_application._SQS_CLIENT.delete_messages",
         return_value={
             "Successful": [{"Id": str(count)} for count in range(appcount)],
             "Failed": [],
@@ -73,49 +70,18 @@ def mock_bulk_insert_application_records(mocker, mock_sqs_recieve_message):
         yield
 
 
-class TestSQSFunctions(object):
-    @pytest.mark.fundround("NSTFR2")
-    @pytest.mark.appcount(3)
-    def test_receive_messages(self, request, mock_sqs_recieve_message):
-        appcount = request.node.get_closest_marker("appcount").args[0]
+@pytest.mark.fundround("NSTFR2")
+@pytest.mark.appcount(3)
+def test_import_application_queue(
+    request,
+    mock_sqs_recieve_message,
+    mock_sqs_delete_message,
+    mock_bulk_insert_application_records,
+):
+    appcount = request.node.get_closest_marker("appcount").args[0]
 
-        # Call the function
-        messages = receive_messages(
-            UnitTestingConfig.AWS_PRIMARY_QUEUE_URL, max_number=2
-        )
+    # Call the function
+    response = import_applications_from_queue()
 
-        # Assertions
-        assert len(messages) == appcount
-        assert messages[0]["MessageId"] == "1"
-
-    @pytest.mark.appcount(3)
-    def test_delete_messages(self, request, mock_sqs_delete_message):
-        appcount = request.node.get_closest_marker("appcount").args[0]
-
-        # Call the function
-        receipt_handles = [
-            "receipt_handle_" + str(count) for count in range(appcount)
-        ]
-        response = delete_messages(
-            UnitTestingConfig.AWS_PRIMARY_QUEUE_URL, receipt_handles
-        )
-
-        # Assertions
-        assert len(response["Successful"]) == appcount
-
-    @pytest.mark.fundround("NSTFR2")
-    @pytest.mark.appcount(3)
-    def test_import_application_queue(
-        self,
-        request,
-        mock_sqs_recieve_message,
-        mock_sqs_delete_message,
-        mock_bulk_insert_application_records,
-    ):
-        appcount = request.node.get_closest_marker("appcount").args[0]
-
-        # Call the function
-        response = import_applications_from_queue()
-
-        # Assertions
-        assert len(response) == appcount
+    # Assertions
+    assert len(response) == appcount
