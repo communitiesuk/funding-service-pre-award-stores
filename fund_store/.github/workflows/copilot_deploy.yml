@@ -81,8 +81,9 @@ jobs:
       run: |
         yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ github.ref_name == 'main' && 'latest' || github.ref_name }}"'  copilot/fsd-fund-store/manifest.yml
 
-    - name: Run database migrations
-      run: scripts/migration-task-script.py dev 'fsd-fund-store'
+#Remove once so the deploy has happened first???  Surely not the way...
+#    - name: Run database migrations
+#      run: scripts/migration-task-script.py dev 'fsd-fund-store'
 
     - name: Copilot deploy dev
       id: dev_build
