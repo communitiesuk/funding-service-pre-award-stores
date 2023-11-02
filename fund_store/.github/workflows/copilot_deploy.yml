@@ -51,6 +51,9 @@ jobs:
     needs: [pre_deploy_tests, paketo_build]
     concurrency: deploy-dev
     uses: ./.github/workflows/environment.yml
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
     with:
       workspace: 'dev'
 
@@ -59,6 +62,9 @@ jobs:
     needs: [pre_deploy_tests, paketo_build]
     concurrency: deploy-test
     uses: ./.github/workflows/environment.yml
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
     with:
       workspace: 'test'
 
@@ -68,6 +74,9 @@ jobs:
     needs: [pre_deploy_tests, paketo_build]
     concurrency: deploy-uat
     uses: ./.github/workflows/environment.yml
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
     with:
       workspace: 'uat'
 
@@ -77,6 +86,9 @@ jobs:
     needs: [pre_deploy_tests, paketo_build]
     concurrency: deploy-production
     uses: ./.github/workflows/environment.yml
+    permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
     with:
       workspace: 'production'
 
