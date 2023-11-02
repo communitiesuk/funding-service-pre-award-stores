@@ -803,7 +803,13 @@ def get_export_data(
                             title = form_fields[field["key"]][language][
                                 "title"
                             ]
-                            applicant_info[title] = field["answer"]
+                            answer = field["answer"]
+                            field_type = field["type"]
+                            if (
+                                field_type == "list" and type(answer) != bool
+                            ):  # Adding check for bool since yesno fields are considered lists
+                                answer = format_lists(answer)
+                            applicant_info[title] = answer
             applicant_info = add_missing_elements_with_empty_values(
                 applicant_info, form_fields, language
             )
@@ -832,6 +838,16 @@ def add_missing_elements_with_empty_values(
         if title not in result_data:
             result_data[title] = ""
     return result_data
+
+
+def format_lists(answer):
+    formatted_elements = []
+    indent = " " * 5
+    for index, element in enumerate(answer, start=1):
+        separator = f"{indent}." if index > 1 else "."
+        formatted_elements.append(f"{separator} {element}")
+
+    return "\n".join(formatted_elements)
 
 
 def combine_dicts(applications_list, scores_list):

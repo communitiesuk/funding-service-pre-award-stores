@@ -242,6 +242,35 @@ applicant_info_mapping = {
         },
         "OUTPUT_TRACKER": {},
     },
+    CYP_FUND_ID: {
+        "ASSESSOR_EXPORT": {
+            "form_fields": {
+                "JbmcJE": {"en": {"title": "Organisation name"}},
+                "rmBPvK": {"en": {"title": "Registered organisation address"}},
+                "smBPvK": {
+                    "en": {
+                        "title": "Alternative organisation address (optional)"
+                    }
+                },
+                "jeocJE": {"en": {"title": "registered charity number"}},
+                "JXKUcj": {
+                    "en": {"title": "27 September 2023 to 31 March 2024"}
+                },
+                "OnPeeS": {"en": {"title": "1 April 2024 to 31 March 2025"}},
+                "vYYoAC": {"en": {"title": "Cohort"}},
+                "fHodTO": {
+                    "en": {"title": "What is the main focus of your project?"}
+                },
+                "MADkNZ": {
+                    "en": {
+                        "title": "Give a brief summary of your project, including what you hope to achieve"
+                    }
+                },
+                "tZoOKx": {"en": {"title": "Partner organisation details"}},
+            }
+        },
+        "OUTPUT_TRACKER": {},
+    },
 }
 
 # APPLICATION SEEDING CONFIGURATION
