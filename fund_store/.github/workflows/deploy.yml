@@ -3,18 +3,6 @@ name: Deploy fsd-fund-store to Gov PaaS
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        description:  Which AWS Account to use
-        type: choice
-        required: true
-        options:
-        - test
-        - uat
-      copilot:
-        description: Whether to deploy to AWS?
-        type: boolean
-        required: false
-        default: false
       deploy_to_dev:
         required: false
         default: false
@@ -26,7 +14,6 @@ on:
 
 jobs:
   test_and_deploy:
-    if: ${{github.event.inputs.copilot != 'true'}}
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/deploy.yml@main
     with:
       app_name: ${{ github.event.repository.name }}
