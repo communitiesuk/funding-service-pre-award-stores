@@ -125,13 +125,13 @@ jobs:
       run: |
         yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ github.ref_name == 'main' && 'latest' || github.ref_name }}"'  copilot/fsd-fund-store/manifest.yml
 
-    - name: Run database migrations
-      run: scripts/migration-task-script.py test 'fsd-fund-store'
-
     - name: Copilot deploy test
       id: test_build
       run: |
         copilot svc deploy --env test
+
+    - name: Run database migrations
+      run: scripts/migration-task-script.py test 'fsd-fund-store'
 
   # Can we realistically run E2E at this stage, or just plump for application on the grounds it checks fund-store is operational?
   post_deploy_tests:
