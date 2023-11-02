@@ -24,10 +24,10 @@ on:
   push:
     # Ignore README markdown
     # Only automatically deploy when something in the app or tests folder has changed
-#    paths:
-#      - '!**/README.md'
-#      - 'app/**'
-#      - 'tests/**'
+    paths:
+      - '!**/README.md'
+      - 'app/**'
+      - 'tests/**'
 
 jobs:
   paketo_build:
