@@ -81,14 +81,13 @@ jobs:
       run: |
         yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ github.ref_name == 'main' && 'latest' || github.ref_name }}"'  copilot/fsd-fund-store/manifest.yml
 
-#Remove once so the deploy has happened first???  Surely not the way...
-#    - name: Run database migrations
-#      run: scripts/migration-task-script.py dev 'fsd-fund-store'
-
     - name: Copilot deploy dev
       id: dev_build
       run: |
         copilot svc deploy --env dev
+
+    - name: Run database migrations
+      run: scripts/migration-task-script.py dev 'fsd-fund-store'
 
   copilot_deploy_test:
     if: inputs.environment == 'test' || inputs.environment == ''
