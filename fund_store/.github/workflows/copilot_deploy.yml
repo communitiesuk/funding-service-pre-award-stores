@@ -32,6 +32,7 @@ on:
       - 'requirements-dev.txt'
       - 'requirements.in'
       - 'requirements.txt'
+      - '.github/workflows/copilot_deploy.yml'
 
 jobs:
   paketo_build:
@@ -121,3 +122,4 @@ jobs:
         run_performance_tests: ${{ inputs.run_performance_tests }}
         run_e2e_tests: ${{ inputs.run_e2e_tests }}
         app_name: application
+        environment: ${{ inputs.environment == '' && 'test' || inputs.environment }}
