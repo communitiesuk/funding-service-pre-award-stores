@@ -49,7 +49,7 @@ variables:
   PRIMARY_QUEUE_URL:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-AssessmentImportQueueURL
   DEAD_LETTER_QUEUE_URL:
-    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-DeadLetterQueueURL
+    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-AssessmentImportDeadLetterQueueURL
 
 # You can override any of the values defined above by environment.
 environments:
