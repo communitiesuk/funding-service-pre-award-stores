@@ -53,6 +53,7 @@ jobs:
       version_to_build: ${{ needs.tag_version.outputs.version_to_tag }}
       owner: ${{ github.repository_owner }}
       application: funding-service-design-fund-store
+
   pre_deploy_tests:
     secrets:
       E2E_PAT: ${{secrets.E2E_PAT}}
