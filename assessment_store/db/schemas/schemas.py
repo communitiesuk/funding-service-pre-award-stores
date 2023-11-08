@@ -7,6 +7,7 @@ from db.models.comment.enums import CommentType
 from db.models.flags.assessment_flag import AssessmentFlag
 from db.models.flags.flag_update import FlagUpdate
 from db.models.qa_complete import QaComplete
+from db.models.score import AssessmentRound
 from db.models.score import Score
 from db.models.tag.tag_types import TagType
 from db.models.tag.tags import Tag
@@ -177,3 +178,11 @@ class JoinedTagSchema(SQLAlchemyAutoSchema):
 
     class Meta:
         model = Tag
+
+
+class AssessmentRoundMetadata(SQLAlchemyAutoSchema):
+
+    scoring_system = fields.Function(lambda obj: obj.scoring_system.name)
+
+    class Meta:
+        model = AssessmentRound

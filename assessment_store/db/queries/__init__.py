@@ -8,6 +8,7 @@ from .comments.queries import get_comments_for_application_sub_crit
 from .progress.queries import get_progress_for_app
 from .scores.queries import create_score_for_app_sub_crit
 from .scores.queries import get_scores_for_app_sub_crit
+from .scores.queries import get_scoring_system_for_round_id
 from .tags.queries import insert_tags
 from .tags.queries import select_tags_for_fund_round
 
@@ -24,4 +25,5 @@ __all__ = [
     "create_comment_for_application_sub_crit",
     "get_progress_for_app",
     "delete_assessment_record",
+    "get_scoring_system_for_round_id",
 ]

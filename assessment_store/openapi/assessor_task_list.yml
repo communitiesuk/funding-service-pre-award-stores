@@ -21,7 +21,7 @@ components:
           type: string
         total_criteria_score:
           type: number
-        total_criteria_score_possible:
+        number_of_scored_sub_criteria:
           type: number
         weighting:
           type: number

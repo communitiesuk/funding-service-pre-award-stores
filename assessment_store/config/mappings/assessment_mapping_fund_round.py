@@ -222,7 +222,7 @@ applicant_info_mapping = {
         },
         "OUTPUT_TRACKER": {},
     },
-    "1baa0f68-4e0a-4b02-9dfe-b5646f089e65": {
+    CYP_FUND_ID: {
         "ASSESSOR_EXPORT": {
             "form_fields": {
                 "rKHBnt": {"en": {"title": "Name of lead contact"}},
