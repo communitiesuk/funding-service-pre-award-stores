@@ -48,7 +48,7 @@ def transform_to_assessor_task_list_metadata(
             "total_criteria_score": sum(
                 score_map.get(sc["id"], 0) for sc in c["sub_criteria"]
             ),
-            "total_criteria_score_possible": sum(5 for _ in c["sub_criteria"]),
+            "number_of_scored_sub_criteria": sum(1 for _ in c["sub_criteria"]),
             "weighting": c["weighting"],
             "sub_criterias": [
                 {

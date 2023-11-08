@@ -1232,3 +1232,26 @@ paths:
               application/json:
                 schema:
                   type: object
+  '/scoring-system/{round_id}':
+      parameters:
+      - name: round_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: path
+      get:
+        tags:
+          - scores
+        summary: Return assessment scoring system for a round
+        description: Return assessment scoring system for a round
+        operationId: api.routes.get_scoring_system_for_round
+        responses:
+          200:
+            description: SUCCESS - A list of tag types
+            content:
+              application/json:
+                schema:
+                  type: object
+                  items:
+                    $ref: 'components.yml#/components/schemas/ScoringSystem'

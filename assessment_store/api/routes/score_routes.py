@@ -4,6 +4,7 @@ from typing import List
 
 from db.queries import create_score_for_app_sub_crit
 from db.queries import get_scores_for_app_sub_crit
+from db.queries import get_scoring_system_for_round_id
 from flask import request
 
 
@@ -52,3 +53,9 @@ def post_score_for_application_sub_criteria() -> Dict:
     )
 
     return created_score
+
+
+def get_scoring_system_for_round(round_id):
+
+    scoring_system = get_scoring_system_for_round_id(round_id)
+    return scoring_system
