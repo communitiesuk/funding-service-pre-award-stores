@@ -61,7 +61,6 @@ jobs:
     with:
       # Note - no db-name, so defaults to postgres_db
       postgres_unit_testing: true
-
   copilot_environments_workflow_setup:
     runs-on: ubuntu-latest
     outputs:
