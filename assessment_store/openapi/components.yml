@@ -460,3 +460,14 @@ components:
             type: string
             description: A description of the tag type
             example: "This tag is for these things"
+    ScoringSystem:
+        type: object
+        properties:
+          round_id:
+            type: string
+            description: uuid for round_id
+            example: uuif7eaf61b-093e-4464-a4da-b36b849f0a1b
+          scoring_system:
+            type: string
+            description: scoring system
+            example: OneToFive

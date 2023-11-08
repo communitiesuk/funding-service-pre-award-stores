@@ -26,7 +26,7 @@ APPLICATION_METADATA_RESPONSE = {
                 },
             ],
             "total_criteria_score": 0,
-            "total_criteria_score_possible": 15,
+            "number_of_scored_sub_criteria": 15,
             "weighting": 0.3,
         },
         {
@@ -62,7 +62,7 @@ APPLICATION_METADATA_RESPONSE = {
                 },
             ],
             "total_criteria_score": 0,
-            "total_criteria_score_possible": 20,
+            "number_of_scored_sub_criteria": 20,
             "weighting": 0.3,
         },
         {
@@ -77,7 +77,7 @@ APPLICATION_METADATA_RESPONSE = {
                 }
             ],
             "total_criteria_score": 0,
-            "total_criteria_score_possible": 5,
+            "number_of_scored_sub_criteria": 5,
             "weighting": 0.3,
         },
         {
@@ -92,7 +92,7 @@ APPLICATION_METADATA_RESPONSE = {
                 }
             ],
             "total_criteria_score": 0,
-            "total_criteria_score_possible": 5,
+            "number_of_scored_sub_criteria": 5,
             "weighting": 0.1,
         },
     ],

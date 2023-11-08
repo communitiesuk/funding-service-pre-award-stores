@@ -53,7 +53,7 @@ def test_transform_to_assessor_task_list_metadata():
         {
             "name": "Strategic case",
             "total_criteria_score": 3,
-            "total_criteria_score_possible": 15,
+            "number_of_scored_sub_criteria": 15,
             "weighting": 0.3,
             "sub_criterias": [
                 {
@@ -82,7 +82,7 @@ def test_transform_to_assessor_task_list_metadata():
         {
             "name": "Management case",
             "total_criteria_score": 0,
-            "total_criteria_score_possible": 20,
+            "number_of_scored_sub_criteria": 20,
             "weighting": 0.3,
             "sub_criterias": [
                 {
@@ -118,7 +118,7 @@ def test_transform_to_assessor_task_list_metadata():
         {
             "name": "Potential to deliver community benefit",
             "total_criteria_score": 5,
-            "total_criteria_score_possible": 10,
+            "number_of_scored_sub_criteria": 10,
             "weighting": 0.3,
             "sub_criterias": [
                 {
@@ -140,7 +140,7 @@ def test_transform_to_assessor_task_list_metadata():
         {
             "name": "Added value of the community asset",
             "total_criteria_score": 0,
-            "total_criteria_score_possible": 5,
+            "number_of_scored_sub_criteria": 5,
             "weighting": 0.1,
             "sub_criterias": [
                 {

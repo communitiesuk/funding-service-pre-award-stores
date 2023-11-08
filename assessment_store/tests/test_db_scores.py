@@ -3,6 +3,7 @@ import uuid
 from unittest.mock import MagicMock
 
 import pytest
+from api.routes import get_scoring_system_for_round
 from api.routes.progress_routes import get_progress_for_applications
 from db.models import Score
 from db.queries.scores.queries import create_score_for_app_sub_crit
@@ -241,3 +242,21 @@ def test_get_sub_criteria_to_latest_score_map(_db, seed_application_records):
 
     assert result[sub_criteria_1_id] == 2
     assert result[sub_criteria_2_id] == 5
+
+
+def test_get_scoring_system(seed_scoring_system):
+    """
+    test_get_scoring_system
+    Tests getting a scoring system for a given round_id
+
+    Note: The scoring systems are loaded into the database as part of the migration
+    """
+    test_cases = {
+        "e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762": "OneToFive",
+        "888aae3d-7e2c-4523-b9c1-95952b3d1644": "OneToFive",
+        # Add more test cases as needed
+    }
+    for round_id, scoring_system in test_cases.items():
+        returned_scoring_system = get_scoring_system_for_round(round_id)
+        assert returned_scoring_system["scoring_system"] == scoring_system
+        assert returned_scoring_system["round_id"] == round_id

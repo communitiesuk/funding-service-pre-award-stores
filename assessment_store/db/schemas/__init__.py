@@ -1,4 +1,5 @@
 from .schemas import AssessmentRecordMetadata
+from .schemas import AssessmentRoundMetadata
 from .schemas import AssessmentSubCriteriaMetadata
 from .schemas import AssessorTaskListMetadata
 from .schemas import CommentMetadata
@@ -10,4 +11,5 @@ __all__ = [
     "AssessorTaskListMetadata",
     "AssessmentSubCriteriaMetadata",
     "CommentMetadata",
+    "AssessmentRoundMetadata",
 ]
