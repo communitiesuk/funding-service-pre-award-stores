@@ -474,7 +474,7 @@ tzlocal==5.0.1
     # via
     #   -r requirements.txt
     #   apscheduler
-urllib3==1.26.12
+urllib3==1.26.18
     # via
     #   -r requirements.txt
     #   botocore
