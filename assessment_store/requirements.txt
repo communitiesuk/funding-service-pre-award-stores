@@ -14,8 +14,10 @@ apscheduler==3.10.4
     # via flask-apscheduler
 async-timeout==4.0.2
     # via redis
-attrs==22.1.0
-    # via jsonschema
+attrs==23.1.0
+    # via
+    #   jsonschema
+    #   referencing
 babel==2.11.0
     # via flask-babel
 beautifulsoup4==4.12.2
@@ -113,14 +115,17 @@ jsonpath-rw==1.4.0
     # via jsonpath-rw-ext
 jsonpath-rw-ext==1.2.2
     # via -r requirements.in
-jsonschema==4.17.3
+jsonschema==4.19.2
     # via
     #   connexion
-    #   jsonschema-spec
     #   openapi-schema-validator
     #   openapi-spec-validator
-jsonschema-spec==0.1.2
+jsonschema-path==0.3.1
     # via openapi-spec-validator
+jsonschema-specifications==2023.7.1
+    # via
+    #   jsonschema
+    #   openapi-schema-validator
 lazy-object-proxy==1.8.0
     # via openapi-spec-validator
 mako==1.2.4
@@ -135,9 +140,9 @@ marshmallow==3.19.0
     # via marshmallow-sqlalchemy
 marshmallow-sqlalchemy==0.29.0
     # via -r requirements.in
-openapi-schema-validator==0.4.3
+openapi-schema-validator==0.6.2
     # via openapi-spec-validator
-openapi-spec-validator==0.5.5
+openapi-spec-validator==0.7.1
     # via -r requirements.in
 packaging==21.3
     # via
@@ -148,7 +153,7 @@ packaging==21.3
 parse==1.19.1
     # via alembic-utils
 pathable==0.4.3
-    # via jsonschema-spec
+    # via jsonschema-path
 pbr==5.11.0
     # via jsonpath-rw-ext
 ply==3.11
@@ -169,8 +174,6 @@ pyjwt[crypto]==2.6.0
     #   pyjwt
 pyparsing==3.0.9
     # via packaging
-pyrsistent==0.19.2
-    # via jsonschema
 python-consul==1.1.0
     # via flipper-client
 python-dateutil==2.8.2
@@ -193,22 +196,32 @@ pyyaml==6.0
     #   clickclick
     #   connexion
     #   funding-service-design-utils
-    #   jsonschema-spec
+    #   jsonschema-path
 redis==4.5.4
     # via
     #   flask-redis
     #   flipper-client
+referencing==0.30.2
+    # via
+    #   jsonschema
+    #   jsonschema-path
+    #   jsonschema-specifications
 requests==2.31.0
     # via
     #   -r requirements.in
     #   connexion
     #   funding-service-design-utils
+    #   jsonschema-path
     #   prance
     #   python-consul
 rfc3339-validator==0.1.4
     # via openapi-schema-validator
 rich==12.6.0
     # via funding-service-design-utils
+rpds-py==0.12.0
+    # via
+    #   jsonschema
+    #   referencing
 ruamel-yaml==0.17.21
     # via prance
 ruamel-yaml-clib==0.2.8
@@ -254,7 +267,6 @@ typing-extensions==4.4.0
     # via
     #   alembic-utils
     #   flupy
-    #   jsonschema-spec
     #   sqlalchemy
 tzlocal==5.0.1
     # via apscheduler
