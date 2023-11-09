@@ -15,6 +15,7 @@ from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.assessment_records.queries import get_assessment_export_data
 from db.queries.comments.queries import create_comment_for_application_sub_crit
 from db.queries.comments.queries import get_comments_for_application_sub_crit
+from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
 from db.queries.scores.queries import create_score_for_app_sub_crit
 from tests._expected_responses import BULK_UPDATE_LOCATION_JSONB_BLOB
 from tests._helpers import get_assessment_record
@@ -189,6 +190,30 @@ def test_get_comments(seed_application_records):
         application_id, sub_criteria_id, theme_id="score"
     )
     assert len(comment_metadata_score_theme_id) == 3
+
+
+@pytest.mark.apps_to_insert([test_input_data[0]])
+def test_get_sub_criteria_to_has_comment_map(seed_application_records):
+
+    picked_row: AssessmentRecord = get_assessment_record(
+        seed_application_records[0]["application_id"]
+    )
+    application_id = picked_row.application_id
+    sub_criteria_id = "app-info"
+    theme_id = "theme"
+
+    assessment_payload_1 = {
+        "application_id": application_id,
+        "sub_criteria_id": sub_criteria_id,
+        "comment": "Please provide more information",
+        "comment_type": "COMMENT",
+        "user_id": "test",
+        "theme_id": theme_id,
+    }
+    create_comment_for_application_sub_crit(**assessment_payload_1)
+
+    result = get_sub_criteria_to_has_comment_map(picked_row.application_id)
+    assert result[sub_criteria_id] is True
 
 
 @pytest.mark.parametrize(
