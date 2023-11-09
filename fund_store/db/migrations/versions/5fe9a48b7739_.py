@@ -24,7 +24,6 @@ depends_on = None
 
 
 def upgrade():
-
     # --- form_name table ---
     with op.batch_alter_table("form_name", schema=None) as batch_op:
         batch_op.add_column(

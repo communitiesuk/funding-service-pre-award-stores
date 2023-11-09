@@ -802,10 +802,14 @@ unscored_sections = [
                                 "field_type": "radiosField",
                                 "presentation_type": "grouped_fields",
                                 "question": [
-                                    "Which regulatory body is your company registered"
-                                    " with?",
-                                    "Which regulatory body is your company registered"
-                                    " with?",
+                                    (
+                                        "Which regulatory body is your company"
+                                        " registered with?"
+                                    ),
+                                    (
+                                        "Which regulatory body is your company"
+                                        " registered with?"
+                                    ),
                                 ],
                             },
                             {

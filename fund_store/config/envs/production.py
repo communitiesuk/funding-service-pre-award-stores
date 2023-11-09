@@ -42,7 +42,6 @@ from fsd_utils import configclass
 
 @configclass
 class ProductionConfig(Config):
-
     # TODO: Uncomment the following if using a GovPaaS VcapServices
     #  redis instance for session management
     # # GOV.UK PaaS

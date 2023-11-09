@@ -36,8 +36,10 @@ rounds_config = [
         "assessment_deadline": COF_R2_ASSESSMENT_DEADLINE_DATE,
         "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
         "privacy_notice": (
-            "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/"
-            "community-ownership-fund-privacy-notice",
+            (
+                "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/"
+                "community-ownership-fund-privacy-notice"
+            ),
         ),
         "contact_email": "COF@levellingup.gov.uk",
         "contact_phone": None,

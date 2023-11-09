@@ -390,7 +390,6 @@ def build_components_from_page(
 
         # If there are multiple options for the next page, include text about where to go next
         if c["name"] in components_with_conditions:
-
             for next_config in full_page_json["next"]:
                 if "condition" in next_config and next_config["path"] != "/summary":
                     condition_name = next_config["condition"]

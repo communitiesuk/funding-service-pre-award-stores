@@ -152,7 +152,6 @@ def get_assessment_sections_for_round(
 
 
 def upsert_fields(fields: list):
-
     stmt = (
         (
             postgres_insert(AssessmentField).values(
@@ -495,7 +494,6 @@ def insert_assessment_sections(round_id, assessment_config: list):
     inserted_section_ids = []
     field_section_links = []
     for section in sorted_assessment_sections:
-
         section_params = {
             "round_id": round_id,
             "title": section["section_name"],

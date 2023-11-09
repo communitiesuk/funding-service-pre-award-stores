@@ -5,7 +5,6 @@ from db.queries import update_application_section_names
 
 
 def main() -> None:
-
     print("Updating section names to sentance case.")
     update_application_section_names(COF_ROUND_3_WINDOW_1_ID, cof_r3_sections)
 
