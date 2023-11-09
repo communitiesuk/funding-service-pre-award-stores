@@ -51,7 +51,7 @@ def return_subcriteria_from_mapping(sub_criteria_id, fund_id, round_id):
         raise ValueError(msg)
     else:
         msg = f"sub_criteria: '{sub_criteria_id}' not found."
-        current_app.logger.warn(msg)
+        current_app.logger.warning(msg)
         abort(404, description=msg)
 
 

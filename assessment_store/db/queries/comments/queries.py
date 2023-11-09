@@ -94,7 +94,7 @@ def create_comment_for_application_sub_crit(
 
 def get_sub_criteria_to_has_comment_map(application_id: str) -> dict:
     stmt = (
-        select([Comment.sub_criteria_id])
+        select(Comment.sub_criteria_id)
         .select_from(Comment)
         .where(Comment.application_id == application_id)
         .distinct()
