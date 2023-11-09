@@ -425,13 +425,13 @@ def find_assessor_task_list_state(application_id: str) -> dict:
         )
         .options(
             load_only(
-                "short_id",
-                "project_name",
-                "workflow_status",
-                "jsonb_blob",
-                "fund_id",
-                "round_id",
-                "funding_amount_requested",
+                AssessmentRecord.short_id,
+                AssessmentRecord.project_name,
+                AssessmentRecord.workflow_status,
+                AssessmentRecord.jsonb_blob,
+                AssessmentRecord.fund_id,
+                AssessmentRecord.round_id,
+                AssessmentRecord.funding_amount_requested,
             )
         )
     )
@@ -472,11 +472,11 @@ def get_assessment_sub_critera_state(application_id: str) -> dict:
         )
         .options(
             load_only(
-                "funding_amount_requested",
-                "project_name",
-                "fund_id",
-                "workflow_status",
-                "short_id",
+                AssessmentRecord.funding_amount_requested,
+                AssessmentRecord.project_name,
+                AssessmentRecord.fund_id,
+                AssessmentRecord.workflow_status,
+                AssessmentRecord.short_id,
             )
         )
     )
@@ -503,7 +503,7 @@ def get_application_jsonb_blob(application_id: str) -> dict:
             AssessmentRecord.application_id == application_id,
             AssessmentRecord.is_withdrawn == False,  # noqa: E712
         )
-        .options(load_only("jsonb_blob"))
+        .options(load_only(AssessmentRecord.jsonb_blob))
     )
     application_jsonb_blob = db.session.scalar(stmt)
     application_json = AssessorTaskListMetadata().dump(application_jsonb_blob)

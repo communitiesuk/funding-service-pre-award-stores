@@ -12,6 +12,4 @@ pytest-mock==3.7.0
 pip-tools
 json2html==1.3.0
 colored
-mypy
-sqlalchemy-stubs
 debugpy

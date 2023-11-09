@@ -50,5 +50,5 @@ def update_workflow_status(_, connection, target):
             "WHERE application_id = :application_id "
             "AND workflow_status = 'NOT_STARTED'"
         ),
-        application_id=target.application_id,
+        {"application_id": target.application_id},
     )

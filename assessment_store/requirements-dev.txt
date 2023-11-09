@@ -9,7 +9,7 @@ alembic==1.9.4
     #   -r requirements.txt
     #   alembic-utils
     #   flask-migrate
-alembic-utils==0.8.1
+alembic-utils==0.8.2
     # via -r requirements.txt
 apscheduler==3.10.4
     # via
@@ -131,7 +131,7 @@ flask-babel==2.0.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-flask-migrate==4.0.4
+flask-migrate==4.0.5
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
@@ -158,10 +158,6 @@ gitdb==4.0.9
     # via gitpython
 gitpython==3.1.29
     # via bandit
-greenlet==3.0.1
-    # via
-    #   -r requirements.txt
-    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -234,19 +230,10 @@ marshmallow==3.19.0
     # via
     #   -r requirements.txt
     #   marshmallow-sqlalchemy
-marshmallow-sqlalchemy==0.28.1
+marshmallow-sqlalchemy==0.29.0
     # via -r requirements.txt
-mypy==1.4.1
-    # via
-    #   -r requirements-dev.in
-    #   -r requirements.txt
-    #   sqlalchemy
-    #   sqlalchemy-stubs
 mypy-extensions==1.0.0
-    # via
-    #   -r requirements.txt
-    #   black
-    #   mypy
+    # via black
 nodeenv==1.7.0
     # via pre-commit
 openapi-schema-validator==0.4.3
@@ -268,7 +255,7 @@ packaging==21.3
     #   marshmallow-sqlalchemy
     #   prance
     #   pytest
-parse==1.19.0
+parse==1.19.1
     # via
     #   -r requirements.txt
     #   alembic-utils
@@ -429,7 +416,7 @@ soupsieve==2.5
     # via
     #   -r requirements.txt
     #   beautifulsoup4
-sqlalchemy[mypy]==1.4.48
+sqlalchemy==2.0.23
     # via
     #   -r requirements.txt
     #   alembic
@@ -437,16 +424,10 @@ sqlalchemy[mypy]==1.4.48
     #   flask-sqlalchemy
     #   marshmallow-sqlalchemy
     #   sqlalchemy-utils
-sqlalchemy-stubs==0.4
-    # via -r requirements-dev.in
-sqlalchemy-utils==0.38.3
+sqlalchemy-utils==0.41.1
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-sqlalchemy2-stubs==0.0.2a34
-    # via
-    #   -r requirements.txt
-    #   sqlalchemy
 stevedore==4.1.1
     # via bandit
 stringcase==1.2.0
@@ -461,10 +442,8 @@ thrift==0.16.0
     #   flipper-client
 tomli==2.0.1
     # via
-    #   -r requirements.txt
     #   black
     #   build
-    #   mypy
     #   pep517
     #   pytest
 typing-extensions==4.4.0
@@ -473,9 +452,7 @@ typing-extensions==4.4.0
     #   alembic-utils
     #   flupy
     #   jsonschema-spec
-    #   mypy
-    #   sqlalchemy-stubs
-    #   sqlalchemy2-stubs
+    #   sqlalchemy
 tzlocal==5.0.1
     # via
     #   -r requirements.txt

@@ -42,6 +42,7 @@ class DefaultConfig:
     )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {"future": True}
 
     ASSESSMENT_MAPPING_CONFIG = fund_round_to_assessment_mapping
 

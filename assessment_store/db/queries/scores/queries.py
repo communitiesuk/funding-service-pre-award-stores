@@ -86,7 +86,7 @@ def create_score_for_app_sub_crit(
 
 def get_sub_criteria_to_latest_score_map(application_id: str) -> dict:
     stmt = (
-        select([Score.sub_criteria_id, Score.score])
+        select(Score.sub_criteria_id, Score.score)
         .select_from(Score)
         .join(
             AssessmentRecord,
@@ -108,7 +108,7 @@ def get_sub_criteria_to_latest_score_map(application_id: str) -> dict:
 
 def get_scoring_system_for_round_id(round_id: str) -> dict:
     stmt = select(
-        [AssessmentRound.scoring_system, AssessmentRound.round_id]
+        AssessmentRound.scoring_system, AssessmentRound.round_id
     ).where(AssessmentRound.round_id == round_id)
 
     scoring_system = db.session.execute(stmt).one()

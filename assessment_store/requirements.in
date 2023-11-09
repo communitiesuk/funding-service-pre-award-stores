@@ -14,12 +14,14 @@ flask_apscheduler
 #-----------------------------------
 #   Database
 #-----------------------------------
-SQLAlchemy[mypy]<2.0.0
+
+SQLAlchemy>=2.0.23
 Flask-SQLAlchemy>=3.0.3
-Flask-Migrate
+Flask-Migrate>=4.0.5
+sqlalchemy-utils>=0.41.1
 psycopg2-binary==2.9.6
-alembic-utils
-marshmallow-sqlalchemy
+marshmallow-sqlalchemy>=0.29.0
+alembic-utils>=0.8.1
 
 #-----------------------------------
 #   Connexion APIs
@@ -29,9 +31,7 @@ swagger-ui-bundle
 openapi-spec-validator
 prance
 requests
-SQLAlchemy
 swagger-ui-bundle
-sqlalchemy-utils
 
 dataclass_dict_convert
 jsonpath-rw-ext
