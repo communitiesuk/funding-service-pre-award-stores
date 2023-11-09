@@ -102,10 +102,6 @@ deepdiff==5.8.1
     # via -r requirements-dev.in
 distlib==0.3.4
     # via virtualenv
-exceptiongroup==1.1.1
-    # via
-    #   -r requirements.txt
-    #   pytest
 filelock==3.7.1
     # via virtualenv
 flask==2.2.4
@@ -149,6 +145,10 @@ gitdb==4.0.9
     # via gitpython
 gitpython==3.1.27
     # via bandit
+greenlet==3.0.0
+    # via
+    #   -r requirements.txt
+    #   sqlalchemy
 gunicorn==20.1.0
     # via
     #   -r requirements.txt
@@ -359,10 +359,6 @@ ruamel-yaml==0.17.21
     # via
     #   -r requirements.txt
     #   prance
-ruamel-yaml-clib==0.2.6
-    # via
-    #   -r requirements.txt
-    #   ruamel-yaml
 s3transfer==0.6.0
     # via
     #   -r requirements.txt
@@ -415,20 +411,14 @@ thrift==0.16.0
 toml==0.10.2
     # via pre-commit
 tomli==2.0.1
-    # via
-    #   -r requirements.txt
-    #   black
-    #   build
-    #   mypy
-    #   pep517
-    #   pytest
+    # via pep517
 typing-extensions==4.5.0
     # via
     #   -r requirements.txt
     #   alembic
     #   mypy
     #   sqlalchemy
-urllib3==1.26.12
+urllib3==1.26.18
     # via
     #   -r requirements.txt
     #   botocore
