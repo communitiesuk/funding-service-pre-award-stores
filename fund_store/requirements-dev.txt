@@ -92,7 +92,7 @@ commonmark==0.9.1
     #   rich
 connexion==2.14.2
     # via -r requirements.txt
-cryptography==40.0.2
+cryptography==41.0.4
     # via
     #   -r requirements.txt
     #   pyjwt
