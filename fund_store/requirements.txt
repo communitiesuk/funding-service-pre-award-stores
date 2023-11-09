@@ -30,7 +30,7 @@ bs4==0.0.1
     # via -r requirements.in
 cachetools==5.3.0
     # via flipper-client
-certifi==2022.5.18.1
+certifi==2023.7.22
     # via
     #   requests
     #   sentry-sdk
