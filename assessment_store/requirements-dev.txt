@@ -23,7 +23,6 @@ attrs==22.1.0
     # via
     #   -r requirements.txt
     #   jsonschema
-    #   pytest
 babel==2.11.0
     # via
     #   -r requirements.txt
@@ -319,7 +318,7 @@ pyrsistent==0.19.2
     # via
     #   -r requirements.txt
     #   jsonschema
-pytest==7.2.1
+pytest==7.4.3
     # via
     #   -r requirements-dev.in
     #   pytest-env
