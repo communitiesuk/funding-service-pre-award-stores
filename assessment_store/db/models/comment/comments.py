@@ -8,6 +8,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 
 
 class Comment(db.Model):
@@ -24,8 +25,6 @@ class Comment(db.Model):
         "application_id", UUID, ForeignKey("assessment_records.application_id")
     )
 
-    comment = db.Column("comment", db.Text(), nullable=False)
-
     user_id = db.Column("user_id", db.String(), nullable=False)
 
     date_created = db.Column(
@@ -37,3 +36,5 @@ class Comment(db.Model):
     comment_type = db.Column("comment_type", ENUM(CommentType), nullable=True)
 
     theme_id = db.Column("theme_id", db.String(), nullable=True)
+
+    updates = relationship("CommentsUpdate", lazy="selectin")
