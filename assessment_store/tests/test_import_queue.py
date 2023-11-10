@@ -61,11 +61,9 @@ def mock_bulk_insert_application_records(mocker, mock_sqs_recieve_message):
         }
         for msg in messages
     ]
-    with (
-        mocker.patch(
-            "_helpers.import_application.bulk_insert_application_record",
-            return_value=mock_db_session,
-        )
+    with mocker.patch(
+        "_helpers.import_application.bulk_insert_application_record",
+        return_value=mock_db_session,
     ):
         yield
 

@@ -103,12 +103,10 @@ def test_tag_association_disassociation_workflow_is_working_correctly(
 def test_tag_association_history_is_retained_for_reassociated_tags(
     _db, seed_application_records, seed_tags
 ):
-    """
-    When a tag is associated we record the time and user
-    if this tag is disassociated the associated value of that tag is set to False
-    when another tag is raised for an application for a tag with the same tag_ig,
-    ensure we create a new record for this
-    """
+    """When a tag is associated we record the time and user if this tag is
+    disassociated the associated value of that tag is set to False when another
+    tag is raised for an application for a tag with the same tag_ig, ensure we
+    create a new record for this."""
     app_id = seed_application_records[0]["application_id"]
     new_tags = [
         {"id": tag["id"], "user_id": "5dd2b7d8-12f0-482f-b64b-8809b19baa93"}

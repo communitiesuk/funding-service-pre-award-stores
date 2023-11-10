@@ -1,5 +1,5 @@
-"""Migration of QA_COMPLETED status from assessment_flags
-to a newly created qa_complete table.
+"""Migration of QA_COMPLETED status from assessment_flags to a newly created
+qa_complete table.
 
 Revision ID: ea9b2ccebd34
 Revises: 4bdc171458b2

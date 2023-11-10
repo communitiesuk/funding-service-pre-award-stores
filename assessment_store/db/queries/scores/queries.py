@@ -1,6 +1,7 @@
 """Queries which are performed on the `scores` table.
 
 Joins allowed.
+
 """
 from typing import Dict
 
@@ -16,14 +17,15 @@ from sqlalchemy import select
 def get_scores_for_app_sub_crit(
     application_id: str, sub_criteria_id: str, score_history: bool = False
 ) -> list[dict]:
-    """get_scores_for_app_sub_crit executes a query on scores
-    which returns the most recent score or all scores for the
-    given application_id and sub_criteria_id.
+    """get_scores_for_app_sub_crit executes a query on scores which returns the
+    most recent score or all scores for the given application_id and
+    sub_criteria_id.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :param score_history: Boolean value that reurns all scores if true
     :return: dictionary.
+
     """
 
     stmt = (
@@ -56,9 +58,8 @@ def create_score_for_app_sub_crit(
     sub_criteria_id: str,
     user_id: str,
 ) -> Dict:
-    """create_score_for_app_sub_crit executes a query on scores
-    which creates a justified score for the given application_id and
-    sub_criteria_id.
+    """create_score_for_app_sub_crit executes a query on scores which creates a
+    justified score for the given application_id and sub_criteria_id.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
@@ -67,6 +68,7 @@ def create_score_for_app_sub_crit(
     :param date_created: The date_created.
     :param user_id: The stringified user_id.
     :return: dictionary.
+
     """
     score = Score(
         score=score,

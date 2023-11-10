@@ -1,6 +1,7 @@
 """Queries which are performed on the `assessment_records` table.
 
 Joins allowed.
+
 """
 import json
 from datetime import datetime
@@ -67,15 +68,15 @@ def get_metadata_for_fund_round_id(
     local_authority: str = "",
     cohort: str = "",
 ) -> List[Dict]:
-    """get_metadata_for_fund_round_id Executes a query on assessment records
-    which returns all rows matching the given fund_id and round_id. Has
-    optional parameters of search_term, asset_type and status for filterting.
-    Excludes irrelevant columns such as
-    `db.models.AssessmentRecord.jsonb_blob`.
+    """get_metadata_for_fund_round_id Executes a query on assessment records which
+    returns all rows matching the given fund_id and round_id. Has optional
+    parameters of search_term, asset_type and status for filterting. Excludes
+    irrelevant columns such as `db.models.AssessmentRecord.jsonb_blob`.
 
     :param fund_id: The stringified fund UUID.
     :param round_id: The stringified round UUID.
     :return: A list of dictionaries.
+
     """
 
     statement = (
@@ -201,7 +202,6 @@ def get_metadata_for_fund_round_id(
     if status != "ALL":
         filter_assessments = []
         for assessment in assessment_metadatas:
-
             all_latest_status = [
                 flag.latest_status for flag in assessment.flags
             ]
@@ -241,13 +241,13 @@ def bulk_insert_application_record(
     application_type: str = "",
     is_json=False,
 ) -> List[AssessmentRecord]:
-    """bulk_insert_application_record Given a list of json strings
-    and an `application_type` we extract key values from the json
-    strings before inserting them with the remaining values into
-    `db.models.AssessmentRecord`.
+    """bulk_insert_application_record Given a list of json strings and an
+    `application_type` we extract key values from the json strings before
+    inserting them with the remaining values into `db.models.AssessmentRecord`.
 
     :param application_json_strings: _description_
     :param application_type: _description_
+
     """
     print("Beginning bulk application insert.")
     rows = []
@@ -312,13 +312,13 @@ def bulk_insert_application_record(
 def insert_application_record(
     application_json_string: str, application_type: str, is_json=False
 ) -> AssessmentRecord:
-    """insert_application_record Given a json strings and an
-    `application_type` we extract key values from the json
-    strings before inserting them with the remaining values into
-    `db.models.AssessmentRecord`.
+    """insert_application_record Given a json strings and an `application_type` we
+    extract key values from the json strings before inserting them with the
+    remaining values into `db.models.AssessmentRecord`.
 
     :param application_json_string: _description_
     :param application_type: _description_
+
     """
     if not is_json:
         application_json_string = json.loads(application_json_string)
@@ -365,9 +365,11 @@ def insert_application_record(
 
 
 def delete_assessment_record(app_id):
-    """
-    Delete the assessment record with the given ID from the database.
-    Returns True if the record was successfully deleted, or False otherwise.
+    """Delete the assessment record with the given ID from the database.
+
+    Returns True if the record was successfully deleted, or False
+    otherwise.
+
     """
     try:
         assessment_record = AssessmentRecord.query.get(app_id)
@@ -381,17 +383,18 @@ def delete_assessment_record(app_id):
 
 
 def find_answer_by_key_runner(field_key: str, app_id: str) -> List[tuple]:
-    """find_answer_by_key_runner Given an application id `app_id` and a field
-    to search for `app_id` we return the matching field object (A json with
-    keys {key, answer, title, type}) within an SQLAlchemy result.
+    """find_answer_by_key_runner Given an application id `app_id` and a field to
+    search for `app_id` we return the matching field object (A json with keys
+    {key, answer, title, type}) within an SQLAlchemy result.
 
     :param field_key: The unique key of the field.
     :type field_key: str
     :param app_id: The application id of the queried row.
     :type app_id: str
     :return: The whole field object of the found field. Returned as a
-    SQLAlchemy result.
+        SQLAlchemy result.
     :rtype: List[tuple]
+
     """
 
     return (
@@ -415,6 +418,7 @@ def find_assessor_task_list_state(application_id: str) -> dict:
     :type application_id: str
     :return: The matching row from the `assessment_records` table.
     :rtype: dict
+
     """
 
     stmt = (
@@ -454,14 +458,15 @@ def find_assessor_task_list_state(application_id: str) -> dict:
 
 
 def get_assessment_sub_critera_state(application_id: str) -> dict:
-    """Given an application id `application_id` we return the
-    relevant record from the `assessment_records` table with
-    state related to the assessments sub_criteria context.
+    """Given an application id `application_id` we return the relevant record from
+    the `assessment_records` table with state related to the assessments
+    sub_criteria context.
 
     :param application_id: The application id of the queried row.
     :type application_id: str
     :return: The matching row from the `assessment_records` table.
     :rtype: dict
+
     """
 
     stmt = (
@@ -569,8 +574,7 @@ def update_status_to_completed(application_id):
 def get_assessment_records_by_round_id(
     round_id, selected_fields=None, language=None
 ):  # noqa
-    """
-    Retrieve the latest scores and associated information for each subcriteria
+    """Retrieve the latest scores and associated information for each subcriteria
     of AssessmentRecords matching the given round_id.
 
     Parameters:
@@ -579,6 +583,7 @@ def get_assessment_records_by_round_id(
     Returns:
         list: A list of dictionaries, each containing the latest score and its associated
         information for each subcriteria of the AssessmentRecords that match the given round_id.
+
     """
     default_fields = [
         "Application ID",
@@ -634,7 +639,6 @@ def get_assessment_records_by_round_id(
 
     output = []
     for score in latest_scores:
-
         score_data = {
             "Application ID": score.application_id,
             "Short ID": AssessmentRecord.query.get(
@@ -698,7 +702,6 @@ def associate_assessment_tags(application_id, tags: List):
 
 
 def select_active_tags_associated_with_assessment(application_id):
-
     tag_associations = (
         db.session.query(
             Tag.id.label("tag_id"),
@@ -774,14 +777,12 @@ def get_export_data(
     assessment_metadatas: list,
     language: str,  # noqa
 ) -> List[Dict]:  # noqa
-
     form_fields = list_of_fields[report_type].get("form_fields", {})
     field_ids = form_fields.keys()
     final_list = []
 
     if len(form_fields) != 0:
         for assessment in assessment_metadatas:
-
             iso_format = "%Y-%m-%dT%H:%M:%S.%f"
             iso_datetime = datetime.strptime(
                 assessment.jsonb_blob["date_submitted"], iso_format
@@ -805,8 +806,8 @@ def get_export_data(
                             ]
                             answer = field["answer"]
                             field_type = field["type"]
-                            if (
-                                field_type == "list" and type(answer) != bool
+                            if field_type == "list" and not isinstance(
+                                answer, bool
                             ):  # Adding check for bool since yesno fields are considered lists
                                 answer = format_lists(answer)
                             applicant_info[title] = answer

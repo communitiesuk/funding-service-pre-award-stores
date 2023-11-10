@@ -1,8 +1,9 @@
-"""The module containing all code related to the `assessment_records` table
-within the Postgres db.
+"""The module containing all code related to the `assessment_records` table within
+the Postgres db.
 
 Tangential structures such as triggers and ENUMS are kept in other
 files.
+
 """
 from db import db
 from db.models.assessment_record.enums import Language

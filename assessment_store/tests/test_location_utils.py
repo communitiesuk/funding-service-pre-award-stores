@@ -10,7 +10,6 @@ from scripts.location_utils import write_locations_to_csv
 
 
 def test_get_application_form():
-
     single_application_json = (
         "tests/test_data/single_application_jsonb_blob.json"
     )
@@ -85,7 +84,6 @@ def test_get_all_location_data():
 
 
 def test_write_csv_file():
-
     location = {
         "error": False,
         "county": "test_county",

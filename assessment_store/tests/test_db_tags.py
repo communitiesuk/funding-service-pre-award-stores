@@ -234,7 +234,6 @@ def test_get_tags(_db, clear_test_data, get_tag_types):
 
 
 def test_deactivate_tags(_db, clear_test_data, seed_tags):
-
     seeded_tag = seed_tags[0]
     fund_id_test = seeded_tag["fund_id"]
     round_id_test = seeded_tag["round_id"]

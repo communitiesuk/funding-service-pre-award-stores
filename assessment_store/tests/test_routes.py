@@ -89,9 +89,9 @@ def test_get_assessments_stats(client, seed_application_records):
 def test_gets_all_apps_for_fund_round(
     request, client, seed_application_records
 ):
-    """test_gets_all_apps_for_fund_round Tests that the number of rows returned
-    by filtering by round on `assessment_records` matches the number of
-    applications per round specified by the test data generation process."""
+    """test_gets_all_apps_for_fund_round Tests that the number of rows returned by
+    filtering by round on `assessment_records` matches the number of applications
+    per round specified by the test data generation process."""
 
     picked_row = seed_application_records[0]
 
@@ -141,7 +141,6 @@ def test_gets_all_apps_for_fund_round(
 
     application_to_check = None
     for application in response_with_flag_json:
-
         if application["application_id"] == application_id:
             application_to_check = application
 
@@ -195,7 +194,6 @@ def test_gets_all_apps_for_fund_round(
 )
 @pytest.mark.apps_to_insert(test_input_data)
 def test_search(url, expected_count, client, seed_application_records):
-
     response_json = client.get("/application_overviews/" + url).json
 
     assert len(response_json) == expected_count
@@ -212,8 +210,8 @@ def test_get_application_metadata_for_application_id(client):
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
 def test_get_sub_criteria(client, seed_application_records):
-    """Test to check that sub criteria metadata and ordered themes are returned for
-    a COFR2W2 sub criteria"""
+    """Test to check that sub criteria metadata and ordered themes are returned
+    for a COFR2W2 sub criteria."""
 
     sub_criteria_id = "benefits"
     application_id = seed_application_records[0]["application_id"]
@@ -235,8 +233,8 @@ def test_get_sub_criteria(client, seed_application_records):
 def test_get_sub_criteria_metadata_for_false_sub_criteria_id(
     client, seed_application_records
 ):
-    """Test to check that sub criteria metadata is
-    not retuned for false sub criteria"""
+    """Test to check that sub criteria metadata is not retuned for false sub
+    criteria."""
 
     sub_criteria_id = "does-not-exist"
     application_id = seed_application_records[0]["application_id"]
@@ -253,8 +251,7 @@ def test_get_sub_criteria_metadata_for_false_sub_criteria_id(
 def test_get_sub_criteria_theme_answers_field_id(
     request, client, seed_application_records
 ):
-    """Test to check field_id with given application_id and
-    theme_id"""
+    """Test to check field_id with given application_id and theme_id."""
 
     theme_id = "feasibility"
     application_id = seed_application_records[0]["application_id"]
@@ -268,9 +265,9 @@ def test_get_sub_criteria_theme_answers_field_id(
 def test_update_ar_status_to_completed(
     request, client, seed_application_records
 ):
-    """Test checks that the status code returned by the POST request is 204,
-    which indicates that the request was successful and
-    that the application status was updated to COMPLETED."""
+    """Test checks that the status code returned by the POST request is 204, which
+    indicates that the request was successful and that the application status was
+    updated to COMPLETED."""
 
     application_id = seed_application_records[0]["application_id"]
     response = client.post(f"/application/{application_id}/status/complete")
@@ -282,8 +279,8 @@ def test_update_ar_status_to_completed(
 def test_add_another_presentation_type(
     request, client, seed_application_records
 ):
-    """Test to check presentation_types for add_another component
-    with given application_id and theme_id"""
+    """Test to check presentation_types for add_another component with given
+    application_id and theme_id."""
 
     theme_id = "funding_requested"
     application_id = seed_application_records[0]["application_id"]
@@ -299,9 +296,8 @@ def test_add_another_presentation_type(
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
 def test_incorrect_theme_id(request, client, seed_application_records):
-    """Test to check incorrect theme_id that is expected
-    to return custom error along with the openapi validation
-    error."""
+    """Test to check incorrect theme_id that is expected to return custom error
+    along with the openapi validation error."""
 
     theme_id = "incorrect-theme-id"
     application_id = seed_application_records[0]["application_id"]
@@ -313,11 +309,9 @@ def test_incorrect_theme_id(request, client, seed_application_records):
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
 def test_random_theme_content(seed_application_records):
-    """Test the function with random theme id that maps
-    the application & subcriteria theme and
-    returns subcriteria_theme with an answer from
-    application
-    """
+    """Test the function with random theme id that maps the application &
+    subcriteria theme and returns subcriteria_theme with an answer from
+    application."""
     application_id = seed_application_records[0]["application_id"]
     theme_id, expected_response = random.choice(
         list(subcriteria_themes_and_expected_response.items())
@@ -334,9 +328,10 @@ def test_random_theme_content(seed_application_records):
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
 def test_convert_boolean_values(seed_application_records):
-    """Test the function that convert boolean values to
-    "Yes" and "No".
+    """Test the function that convert boolean values to "Yes" and "No".
+
     Args: application_id, theme_id.
+
     """
 
     theme_id = "local-support"

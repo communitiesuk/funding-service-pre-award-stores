@@ -1,6 +1,5 @@
-"""The module containing all code related to the `comments` table
-within the Postgres db.
-"""
+"""The module containing all code related to the `comments` table within the
+Postgres db."""
 import uuid
 
 from db import db
@@ -12,8 +11,8 @@ from sqlalchemy.dialects.postgresql import UUID
 
 
 class Comment(db.Model):
-    """Comment The sqlalchemy-flask model class used to define the
-    `Comment` table in the Postgres database."""
+    """Comment The sqlalchemy-flask model class used to define the `Comment` table
+    in the Postgres database."""
 
     __tablename__ = "comments"
 

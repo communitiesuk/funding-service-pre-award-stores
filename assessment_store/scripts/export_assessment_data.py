@@ -13,8 +13,7 @@ from scripts.location_utils import export_assessment_data_to_csv  # noqa
 
 
 def process_assessment_data(round_id, write_csv: bool, csv_location):
-    """
-    Processes assessment data for a given fund round.
+    """Processes assessment data for a given fund round.
 
     Parameters:
     - round_id: UUID round_id for the fund.
@@ -29,6 +28,7 @@ def process_assessment_data(round_id, write_csv: bool, csv_location):
     - Score Justification: Justification for the assigned score.
     - Date Created: Date when the score was created.
     - Time Created: Time when the score was created.
+
     """
 
     assessment_data = get_assessment_records_by_round_id(round_id)

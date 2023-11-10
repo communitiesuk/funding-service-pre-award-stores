@@ -1,6 +1,5 @@
-"""The module containing all code related to the `scores` table
-within the Postgres db.
-"""
+"""The module containing all code related to the `scores` table within the
+Postgres db."""
 import uuid
 
 from db import db
@@ -12,8 +11,8 @@ from sqlalchemy.sql import func
 
 
 class Score(db.Model):
-    """Score The sqlalchemy-flask model class used to define the
-    `scores` table in the Postgres database."""
+    """Score The sqlalchemy-flask model class used to define the `scores` table in
+    the Postgres database."""
 
     __tablename__ = "scores"
 
@@ -39,8 +38,8 @@ class Score(db.Model):
 
 
 class AssessmentRound(db.Model):
-    """The sqlalchemy-flask model class used to define the
-    `assessment round` table in the Postgres database."""
+    """The sqlalchemy-flask model class used to define the `assessment round`
+    table in the Postgres database."""
 
     __tablename__ = "assessment_round"
 

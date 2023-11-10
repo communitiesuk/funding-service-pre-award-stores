@@ -69,6 +69,7 @@ def all_assessments_for_fund_round_id(
     :param fund_id: The stringified fund UUID.
     :param round_id: The stringified round UUID.
     :return: A list of dictionaries.
+
     """
     app_list = get_metadata_for_fund_round_id(
         fund_id=fund_id,
@@ -95,8 +96,10 @@ def sub_criteria(
     """Returns metadata and themes for a sub_criteria
     `/sub_criteria_overview/{sub_criteria_id}`.
 
-    :param sub_criteria_id: The stringified sub criteria id (NOT sub critria name).
+    :param sub_criteria_id: The stringified sub criteria id (NOT sub
+        critria name).
     :return: A sub criteria dictionary.
+
     """
     current_app.logger.info(
         "Processing request for sub criteria: {sub_criteria_id}."
@@ -134,6 +137,7 @@ def get_assessor_task_list_state(application_id: str) -> dict:
 
     :param application_id: The stringified application UUID.
     :return: A dictionary.
+
     """
 
     metadata = find_assessor_task_list_state(application_id)
@@ -152,8 +156,8 @@ def get_assessor_task_list_state(application_id: str) -> dict:
 
 
 def get_sub_criteria_theme_answers(application_id: str, theme_id: str):
-    """Function returns mapped answers from application & Sub_criteria_themes
-    with given application_id and theme_id"""
+    """Function returns mapped answers from application & Sub_criteria_themes with
+    given application_id and theme_id."""
     metadata = find_assessor_task_list_state(application_id)
     return map_application_with_sub_criteria_themes(
         application_id, theme_id, metadata["fund_id"], metadata["round_id"]
@@ -171,7 +175,7 @@ def get_all_uploaded_document_theme_answers(application_id: str):
 
 
 def update_ar_status_to_completed(application_id: str):
-    """Function updates the status to COMPLETE for the given application_id"""
+    """Function updates the status to COMPLETE for the given application_id."""
     update_status_to_completed(application_id)
 
 
@@ -185,15 +189,14 @@ def assessment_stats_for_fund_round_id(
     funding_type: str = "ALL",
     countries: str = "all",
 ) -> List[Dict]:
-    """
-    Function used by the endpoint
-    `/assessments/get-stats/{fund_id}/{round_id}`
-    that returns a dictionary of metrics about
-    assessments for a given fund_id and round_id.
+    """Function used by the endpoint `/assessments/get-stats/{fund_id}/{round_id}`
+    that returns a dictionary of metrics about assessments for a given fund_id and
+    round_id.
 
     :param fund_id: The stringified fund UUID.
     :param round_id: The stringified round UUID.
     :return: A list of dictionaries.
+
     """
 
     def determine_display_status(assessment):

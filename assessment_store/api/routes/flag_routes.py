@@ -27,7 +27,6 @@ def get_team_flag_stats(
     search_in: str = "",
     countries: str = "all",
 ):
-
     assessment_overview_flags = get_metadata_for_fund_round_id(
         fund_id=fund_id,
         round_id=round_id,

@@ -8,13 +8,13 @@ from flask import request
 def comments_for_application_sub_criteria(
     application_id: str, sub_criteria_id: str, theme_id: str = None
 ) -> Dict:
-    """comments_for_application_sub_criteria Function
-    used by the get endpoint `/applications/{application_id}/
-    subcriterias/{subcriteria_id}/scores`.
+    """comments_for_application_sub_criteria Function used by the get endpoint
+    `/applications/{application_id}/ subcriterias/{subcriteria_id}/scores`.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :return: A List of dictionaries.
+
     """
 
     comment_metadatas = get_comments_for_application_sub_crit(
@@ -25,13 +25,14 @@ def comments_for_application_sub_criteria(
 
 
 def post_comments_for_application_sub_criteria() -> Dict:
-    """post_comments_for_application_sub_criteria Function
-    used by the post endpoint `/applications/{application_id}/
+    """post_comments_for_application_sub_criteria Function used by the post
+    endpoint `/applications/{application_id}/
     subcriterias/{subcriteria_id}/scores`.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :return: A dictionary.
+
     """
     args = request.get_json()
     application_id = args["application_id"]

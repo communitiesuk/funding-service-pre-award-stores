@@ -31,8 +31,8 @@ def get_answer_value_for_multi_input(application_json, answer_key, value_key):
 
 
 def get_location_json_from_postcode(raw_postcode):
-    """Make a POST request to the postcodes.io API with the provided
-    postcode and extract the location data of postcode."""
+    """Make a POST request to the postcodes.io API with the provided postcode and
+    extract the location data of postcode."""
     result = requests.post(
         url="http://api.postcodes.io/postcodes",
         json={"postcodes": [raw_postcode]},

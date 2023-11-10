@@ -7,3 +7,8 @@ license = "MIT License"
 
 [tool.black]
 line-length = 79
+
+[tool.docformatter]
+recursive = true
+wrap-summaries = 82
+blank = true

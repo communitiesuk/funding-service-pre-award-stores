@@ -31,10 +31,11 @@ with open("tests/test_data/hand-crafted-apps.json", "r") as f:
 def seed_application_records(
     request, app, clear_test_data, enable_preserve_test_data, _db
 ):
-    """
-    Inserts test assessment_record data into the unit test DB according
-    to what's supplied using the marker apps_to_insert.
+    """Inserts test assessment_record data into the unit test DB according to
+    what's supplied using the marker apps_to_insert.
+
     Supplies these inserted records back to the requesting test function
+
     """
     marker = request.node.get_closest_marker("apps_to_insert")
     if marker is None:
@@ -53,7 +54,6 @@ def seed_application_records(
     random_round_id = str(uuid4())
 
     for app in apps:
-
         app_id = str(uuid4())
         app["id"] = app_id
         if unique_fund_round:
@@ -143,12 +143,13 @@ def seed_scoring_system(
     _db,
     clear_test_data,
 ):
-    """
-    Inserts the scoring_systems for each round_id.
-    If this is the first run of the tests (before any data clearing), the
-    default (pre-loaded as part of the db migrations) scoring_system
-    information might still be present. To avoid FK issues we
-    make sure these rows are removed first.
+    """Inserts the scoring_systems for each round_id.
+
+    If this is the first run of the tests (before any data clearing),
+    the default (pre-loaded as part of the db migrations) scoring_system
+    information might still be present. To avoid FK issues we make sure
+    these rows are removed first.
+
     """
     scoring_system_for_rounds = [
         {
@@ -195,7 +196,6 @@ def seed_scoring_system(
 def get_tag_types(
     request, app, clear_test_data, enable_preserve_test_data, _db
 ):
-
     tag_type = TagType(
         id=uuid4(),
         purpose=uuid4(),

@@ -16,21 +16,19 @@ def bootstrap_dev_db(c):
     """Create a clean database for development.
 
     Unit testing makes a seperate db.
+
     """
 
     from sqlalchemy_utils.functions import create_database
     from sqlalchemy_utils.functions import database_exists
 
     with _env_var("FLASK_ENV", "development"):
-
         from app import app
 
         with app.app_context():
-
             from config import Config
 
             if database_exists(Config.SQLALCHEMY_DATABASE_URI):
-
                 _echo_print("Existing database found!\n")
 
             else:
@@ -45,7 +43,6 @@ def bootstrap_dev_db(c):
 
 @task
 def generate_test_data(c):
-
     from tests._db_seed_data import get_dynamic_rows
     import json
 
@@ -64,12 +61,11 @@ def generate_test_data(c):
     }
 )
 def seed_dev_db(c, fundround=None, appcount=None):
-    """Uses the `tests.conftest.seed_database` function to insert test data
-    into your dev database."""
+    """Uses the `tests.conftest.seed_database` function to insert test data into
+    your dev database."""
     from flask_migrate import upgrade
 
     with _env_var("FLASK_ENV", "development"):
-
         from app import app
 
         with app.app_context():
@@ -89,7 +85,6 @@ def seed_dev_db(c, fundround=None, appcount=None):
                 )
 
             while choosing:
-
                 new_line = "\n"
                 fundround = str(
                     _echo_input(

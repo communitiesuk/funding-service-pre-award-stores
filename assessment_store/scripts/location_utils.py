@@ -13,9 +13,7 @@ from db.queries.assessment_records.queries import (
 
 
 def get_application_form(app_json_blob):
-    """
-    Returns list of all questions from application form
-    """
+    """Returns list of all questions from application form."""
 
     return [
         questions
@@ -25,10 +23,12 @@ def get_application_form(app_json_blob):
 
 
 def get_postcode_from_questions(form_questions, fundround) -> str:
-    """
-    Retrieves the postcode from the 'address of asset' field from the
-    supplied list of application form questions.
-    Returns the postcode stripped of whitespace and converted to UPPERCASE
+    """Retrieves the postcode from the 'address of asset' field from the supplied
+    list of application form questions.
+
+    Returns the postcode stripped of whitespace and converted to
+    UPPERCASE
+
     """
     raw_postcode = ""
     location_key = fund_round_data_key_mappings[fundround]["location"]
@@ -52,10 +52,8 @@ def get_postcode_from_questions(form_questions, fundround) -> str:
 
 
 def get_all_application_ids_for_fund_round(fund_id, round_id) -> list:
-    """
-    Returns a list of tuples (application_id, application_short_id) in
-    assessment_store for the given fund and round IDs
-    """
+    """Returns a list of tuples (application_id, application_short_id) in
+    assessment_store for the given fund and round IDs."""
     metadata = get_metadata_for_fund_round_id(fund_id, round_id, "", "", "")
     application_ids = [
         (item["application_id"], item["short_id"]) for item in metadata
@@ -64,11 +62,8 @@ def get_all_application_ids_for_fund_round(fund_id, round_id) -> list:
 
 
 def retrieve_data_from_postcodes_io(postcodes: list):
-    """
-    Takes a list of postcodes and sends it to
-    postcodes.io bulk postcode lookup api and then writes the result to the
-    specified file
-    """
+    """Takes a list of postcodes and sends it to postcodes.io bulk postcode lookup
+    api and then writes the result to the specified file."""
 
     # Create a JSON object with the postcodes data
     postcode_json_data = {"postcodes": postcodes}
@@ -91,11 +86,14 @@ def retrieve_data_from_postcodes_io(postcodes: list):
 
 
 def location_not_found(error: bool = True):
-    """A function that returns a dictionary with default values
-    indicating that a location was not found.
+    """A function that returns a dictionary with default values indicating that a
+    location was not found.
+
     Params:
     error (bool): A boolean value of False means the location was found,
-    while a value of True means the location was not found."""
+    while a value of True means the location was not found.
+
+    """
 
     return {
         "error": error,
@@ -150,11 +148,9 @@ def extract_location_data(json_data_item):
 
 
 def get_all_location_data(just_postcodes) -> dict:
-    """
-    Takes in a list of postcodes then uses the functions above to retrieve
+    """Takes in a list of postcodes then uses the functions above to retrieve
     location data for each one, and returns a map of postcodes to location
-    details
-    """
+    details."""
     # postcode.io API postcode query limit
     print(f"Getting address information for {len(just_postcodes)} postcodes.")
     max_len = 99
@@ -190,10 +186,8 @@ def get_all_location_data(just_postcodes) -> dict:
 def update_db_with_location_data(
     application_ids_to_postcodes, postcodes_to_location_data
 ):
-    """
-    Reformats the data into a map of application_ids to location details and
-    then updates the DB to bulk update the location data
-    """
+    """Reformats the data into a map of application_ids to location details and
+    then updates the DB to bulk update the location data."""
     application_ids_to_location_data = [
         {
             "application_id": application_id[0],
@@ -211,10 +205,7 @@ def update_db_with_location_data(
 def write_locations_to_csv(
     application_ids_to_postcodes, postcodes_to_location_data, file_path
 ):
-
-    """
-    Writes the supplied list of application IDs and location to a CSV file
-    """
+    """Writes the supplied list of application IDs and location to a CSV file."""
     with open(file_path, "w", newline="") as csvfile:
         fieldnames = [
             "application_id",
@@ -234,14 +225,14 @@ def write_locations_to_csv(
 
 
 def export_assessment_data_to_csv(output, filename):
-    """
-    Exports assessment data to a CSV file, splitting the
-    'Score Date Created' column into separate 'Date Created' and
-    'Time Created' columns for improved readability.
+    """Exports assessment data to a CSV file, splitting the 'Score Date Created'
+    column into separate 'Date Created' and 'Time Created' columns for improved
+    readability.
 
     Parameters:
     - output: List of dictionaries representing the assessment data.
     - filename: Name of the output CSV file.
+
     """
     fieldnames = [
         "Short id",

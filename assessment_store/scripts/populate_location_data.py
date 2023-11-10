@@ -31,10 +31,12 @@ file_locations_csv = local_workspace + "/locations.csv"
 def process_locations(
     fund_id, round_id, update_db: bool, write_csv: bool, csv_location
 ):
-    """
-    Runs within the app context to have access to DB etc. Uses the functions
+    """Runs within the app context to have access to DB etc.
+
+    Uses the functions
     in `location_utils.py` to extract postcodes, retrieve location details,
     then update the DB with this information
+
     """
     for k, v in fund_round_mapping_config.items():
         if round_id == v["round_id"] and fund_id == v["fund_id"]:

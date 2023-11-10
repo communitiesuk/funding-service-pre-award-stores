@@ -5,7 +5,6 @@ from fsd_utils import configclass
 
 @configclass
 class DevConfig(DefaultConfig):
-
     SECRET_KEY = "dev"  # pragma: allowlist secret
     SESSION_COOKIE_NAME = "session_cookie"
 

@@ -54,7 +54,6 @@ def add_update_to_assessment_flag(
     allocation: str,
     assessment_flag_id: str,
 ) -> Dict:
-
     stmt = select(AssessmentFlag).where(
         AssessmentFlag.id == assessment_flag_id
     )

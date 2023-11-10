@@ -1,6 +1,7 @@
 """Queries which are performed on the `scores` table.
 
 Joins allowed.
+
 """
 from db import db
 from db.models.score import Score

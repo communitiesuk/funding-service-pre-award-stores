@@ -11,8 +11,7 @@ from sqlalchemy.exc import NoResultFound
 
 
 def insert_tags(tags, fund_id, round_id):
-    """
-    Inserts tags associated with a round.
+    """Inserts tags associated with a round.
 
     Args:
         tags (list): A list of tag dictionaries [{
@@ -25,6 +24,7 @@ def insert_tags(tags, fund_id, round_id):
 
     Returns:
         inserted_tags (list): This method returns a list of inserted tags (the tag id and key)
+
     """
     inserted_tags = []
     for tag_data in tags:
@@ -63,8 +63,7 @@ def insert_tags(tags, fund_id, round_id):
 
 
 def update_tags(tags, fund_id, round_id):
-    """
-    Takes a list of tag updates and applies them to the tag_id specified.
+    """Takes a list of tag updates and applies them to the tag_id specified.
 
     Args:
         tags (list): A list of tag update dictionaries [{
@@ -79,6 +78,7 @@ def update_tags(tags, fund_id, round_id):
 
     Returns:
         updated (list): This method returns a list of updated tags (the tag id and key)
+
     """
     updated_tags = []
 

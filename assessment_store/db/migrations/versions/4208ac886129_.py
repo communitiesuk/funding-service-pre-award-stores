@@ -1,4 +1,4 @@
-"""empty message
+"""Empty message.
 
 Revision ID: 4208ac886129
 Revises: 817e90e9bab4

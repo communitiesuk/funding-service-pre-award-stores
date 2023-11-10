@@ -21,7 +21,6 @@ query_info = {
 def attach_listeners():
     @event.listens_for(db.Session, "do_orm_execute")
     def receive_do_orm_execute(orm_execute_state):
-
         if orm_execute_state.is_select:
             query_info["queries_types"]["selects"] = +1
         if orm_execute_state.is_insert:
@@ -86,7 +85,6 @@ def pytest_terminal_summary(terminalreporter):
         terminalreporter.write_line("Slow queries found!")
 
         for query in query_info["slow_queries"]:
-
             statement_string = Text(
                 "Statement:", style="bold underline magenta"
             )
@@ -109,7 +107,6 @@ def pytest_terminal_summary(terminalreporter):
             fancy_print(during_string)
 
     for query in query_info["query_times"]:
-
         statement_string = Text(
             "Statement:", style="bold underline    magenta"
         )

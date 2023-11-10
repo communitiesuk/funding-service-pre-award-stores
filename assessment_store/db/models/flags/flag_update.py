@@ -20,7 +20,6 @@ class FlagStatus(IntEnum):
 
 
 class FlagUpdate(BaseModel):
-
     __tablename__ = "flag_update"
 
     id = Column("id", UUID(as_uuid=True), default=uuid4, primary_key=True)

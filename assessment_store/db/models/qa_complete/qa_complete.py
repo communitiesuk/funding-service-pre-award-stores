@@ -12,7 +12,6 @@ BaseModel: DefaultMeta = db.Model
 
 
 class QaComplete(BaseModel):
-
     __tablename__ = "qa_complete"
 
     id = Column("id", UUID(as_uuid=True), default=uuid4, primary_key=True)

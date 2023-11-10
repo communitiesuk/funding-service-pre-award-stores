@@ -69,11 +69,9 @@ def mock_bulk_insert_application_records(mock_request_get_application):
         )
         for app_json in application_json_list
     ]
-    with (
-        mock.patch(
-            "scripts.import_from_application.bulk_insert_application_record",
-            return_value=mock_db_session,
-        )
+    with mock.patch(
+        "scripts.import_from_application.bulk_insert_application_record",
+        return_value=mock_db_session,
     ):
         yield
 

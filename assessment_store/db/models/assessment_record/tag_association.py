@@ -12,7 +12,6 @@ BaseModel: DefaultMeta = db.Model
 
 
 class TagAssociation(BaseModel):
-
     __tablename__ = "tag_association"
     id = db.Column(UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     application_id = Column(

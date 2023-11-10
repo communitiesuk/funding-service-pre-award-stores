@@ -1,6 +1,7 @@
 """Queries which are performed on the `flags` table.
 
 Joins allowed.
+
 """
 from typing import Dict
 

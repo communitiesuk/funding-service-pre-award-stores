@@ -58,9 +58,8 @@ def return_subcriteria_from_mapping(sub_criteria_id, fund_id, round_id):
 def get_themes_fields(
     theme_id: str, fund_id: str, round_id: str
 ) -> list[dict]:
-    """function takes a theme_id arg & returns a list
-    of answers with given theme_id.
-    """
+    """Function takes a theme_id arg & returns a list of answers with given
+    theme_id."""
     sub_criterias = get_all_subcriteria(fund_id, round_id)
     try:
         return [
@@ -90,7 +89,7 @@ def get_all_uploaded_document_field_answers(
 
 
 def get_application_form(app_json_blob):
-    """function return list of all questions from application form"""
+    """Function return list of all questions from application form."""
 
     return [
         questions
@@ -100,10 +99,13 @@ def get_application_form(app_json_blob):
 
 
 def convert_boolean_values(themes_fields: list[dict]) -> None:
-    """function checks boolean values in themes_answers & replace
-    boolean values to string. (False -> "No", True -> "Yes")
+    """Function checks boolean values in themes_answers & replace boolean values
+    to string.
+
+    (False -> "No", True -> "Yes")
     Args:
         themes_fields (_type_): array of dict
+
     """
     current_app.logger.info("Converting boolean values to strings")
     for field in themes_fields:
@@ -120,17 +122,16 @@ def convert_boolean_values(themes_fields: list[dict]) -> None:
 def deprecated_sort_add_another_component_contents(
     themes_fields: list[dict],
 ) -> None:
-    """function checks for special presentation_type "heading"
-    in array of themes fields, if exists, adds question-value
-    to an answer key for presentation_type "heading" theme and
-    looks for presentation_type of "description" and "amount" with
-    same presentation_type "heading"s field_id, retrieve words
-    onlyproject-costs from strings of answers for
-    presentation_type "description" theme& numbers only
-    for presentation_type "amount" theme.
+    """Function checks for special presentation_type "heading" in array of themes
+    fields, if exists, adds question-value to an answer key for presentation_type
+    "heading" theme and looks for presentation_type of "description" and "amount"
+    with same presentation_type "heading"s field_id, retrieve words onlyproject-
+    costs from strings of answers for presentation_type "description" theme&
+    numbers only for presentation_type "amount" theme.
 
     Args:
         themes_answers (_type_): array of dict
+
     """
     for field in themes_fields:
         try:
@@ -270,9 +271,9 @@ def format_add_another_component_contents(
 
 
 def map_grouped_fields_answers(theme: dict, questions: dict) -> tuple:
-    """function looks for list of grouped field_ids such as ["JzWvhj", "jLIgoi"],
-    maps them  with question keys and returns a list of answers
-    for given field ids"""
+    """Function looks for list of grouped field_ids such as ["JzWvhj", "jLIgoi"],
+    maps them  with question keys and returns a list of answers for given field
+    ids."""
 
     for question in questions:
         answer_list = tuple(
@@ -288,8 +289,8 @@ def map_grouped_fields_answers(theme: dict, questions: dict) -> tuple:
 
 
 def map_single_field_answer(theme: list, questions: dict) -> str:
-    """function looks for a field_id, maps it with question keys
-    and returns an answer for given field id"""
+    """Function looks for a field_id, maps it with question keys and returns an
+    answer for given field id."""
     for question in questions:
         for app_fields in question["fields"]:
             if (
@@ -315,11 +316,13 @@ def map_application_with_sub_criteria_themes(
 def map_application_with_sub_criteria_themes_fields(
     application_id: str, theme_id: str, themes_fields: list[dict]
 ):
-    """function maps answers from application with assessor task list
-    themes through field ids.
+    """Function maps answers from application with assessor task list themes
+    through field ids.
+
     Args: application_id, theme_id, fund_id, round_id
     Exceptions: returning custom exception along with openapi
     validation detail.
+
     """
     application_json_blob = get_application_jsonb_blob(application_id)
     questions = get_application_form(application_json_blob)

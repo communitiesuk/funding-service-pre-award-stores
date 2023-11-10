@@ -11,14 +11,14 @@ from flask import request
 def get_score_for_application_sub_criteria(
     application_id: str, sub_criteria_id: str, score_history: bool = False
 ) -> List[Dict]:
-    """get_score_for_application_sub_criteria Function
-    used by the get endpoint `/applications/{application_id}/
-    subcriterias/{subcriteria_id}/scores`.
+    """get_score_for_application_sub_criteria Function used by the get endpoint
+    `/applications/{application_id}/ subcriterias/{subcriteria_id}/scores`.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :param score_history: Boolean to return all scores if true
     :return: A List of dictionaries.
+
     """
 
     score_metadata = get_scores_for_app_sub_crit(
@@ -29,13 +29,13 @@ def get_score_for_application_sub_criteria(
 
 
 def post_score_for_application_sub_criteria() -> Dict:
-    """post_score_for_application_sub_criteria Function
-    used by the post endpoint `/applications/{application_id}/
-    subcriterias/{subcriteria_id}/scores`.
+    """post_score_for_application_sub_criteria Function used by the post endpoint
+    `/applications/{application_id}/ subcriterias/{subcriteria_id}/scores`.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :return: A dictionary.
+
     """
     args = request.get_json()
     application_id = args["application_id"]
@@ -56,6 +56,5 @@ def post_score_for_application_sub_criteria() -> Dict:
 
 
 def get_scoring_system_for_round(round_id):
-
     scoring_system = get_scoring_system_for_round_id(round_id)
     return scoring_system

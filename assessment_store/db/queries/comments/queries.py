@@ -1,5 +1,7 @@
 """Queries which are performed on the `scores` table.
+
 Joins allowed.
+
 """
 from collections import defaultdict
 from typing import Dict
@@ -14,14 +16,15 @@ from sqlalchemy import select
 def get_comments_for_application_sub_crit(
     application_id: str, sub_criteria_id: str, theme_id: str = None
 ) -> Dict:
-    """get_comments_for_application_sub_crit executes a query on comments
-    which returns a list of comments for the given application_id and
-    sub_criteria_id.
+    """get_comments_for_application_sub_crit executes a query on comments which
+    returns a list of comments for the given application_id and sub_criteria_id.
+
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
-    :param theme_id: optional theme_id, if not supplied
-    returns all comments for subcriteria
+    :param theme_id: optional theme_id, if not supplied returns all
+        comments for subcriteria
     :return: dictionary.
+
     """
     # TODO: remove 'score' option once
     # frontend updated not to use it as it is not
@@ -64,9 +67,9 @@ def create_comment_for_application_sub_crit(
     user_id: str,
     theme_id: str,
 ) -> Dict:
-    """create_comment_for_application_sub_crit executes a query on comments
-    which creates a comment for the given application_id and
-    sub_criteria_id.
+    """create_comment_for_application_sub_crit executes a query on comments which
+    creates a comment for the given application_id and sub_criteria_id.
+
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :param comment: The comment string.
@@ -74,6 +77,7 @@ def create_comment_for_application_sub_crit(
     :param date_created: The date_created.
     :param user_id: The stringified user_id.
     :return: dictionary.
+
     """
     comment = Comment(
         application_id=application_id,
