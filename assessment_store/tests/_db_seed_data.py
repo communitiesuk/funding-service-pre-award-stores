@@ -9,8 +9,12 @@ from tests._application_store_json import (
     cypr1_application_store_json_template,
 )
 from tests._application_store_json import (
+    dpifr2_application_store_json_template,
+)
+from tests._application_store_json import (
     nstfr2_application_store_json_template,
 )
+
 
 # Put a sample of output data (from application store) for a fund-round here
 mappings_application_store_json = {
@@ -20,6 +24,7 @@ mappings_application_store_json = {
     "COFR3W2": cofr3w2_application_store_json_template,
     "NSTFR2": nstfr2_application_store_json_template,
     "CYPR1": cypr1_application_store_json_template,
+    "DPIFR2": dpifr2_application_store_json_template,
     "RANDOM_FUND_ROUND": application_store_json_template,
 }
 
@@ -30,6 +35,7 @@ mappings_short_name_to_reference_prepend = {
     "COFR3W2": "COF-R3W2",
     "NSTFR2": "NSTF-R2",
     "CYPR1": "CYP-R1",
+    "DPIFR2": "DPIF-R2",
     "RANDOM_FUND_ROUND": "RFR",
 }
 

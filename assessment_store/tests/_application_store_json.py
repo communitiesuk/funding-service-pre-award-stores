@@ -5129,3 +5129,649 @@ cypr1_application_store_json_template = Template(
 }
 """
 )
+
+dpifr2_application_store_json_template = Template(
+    """
+{
+  "id": "$app_id",
+  "status": "SUBMITTED",
+  "fund_id": "$fund_id",
+  "language": "en",
+  "round_id": "$round_id",
+  "reference": "$short_ref",
+  "account_id": "2f82785f-f207-4f80-aed3-be0a17be161a",
+  "round_name": "Round 1",
+  "started_at": "2023-09-26T13:42:54.933640",
+  "last_edited": "2023-09-26T13:51:31.987290",
+  "project_name": "$project_name",
+  "date_submitted": "2023-09-26T13:52:12.186807",
+  "forms": [
+    {
+      "name": "name-your-application",
+      "questions": [
+        {
+          "category": "ScxYon",
+          "fields": [
+            {
+              "answer": "Test Application Name",
+              "key": "JAAhRP",
+              "title": "Name your application",
+              "type": "text"
+            }
+          ],
+          "index": 0,
+          "question": "1.1 Name your application",
+          "status": "COMPLETED"
+        },
+        {
+          "category": null,
+          "fields": [
+            {
+              "answer": true,
+              "key": "markAsComplete",
+              "title": "Do you want to mark this section as complete?",
+              "type": "boolean"
+            }
+          ],
+          "question": "MarkAsComplete",
+          "status": "COMPLETED"
+        }
+      ],
+      "status": "COMPLETED"
+    },
+    {
+      "name": "organisation-information-dpi",
+      "questions": [
+        {
+          "category": "TFJTit",
+          "fields": [
+            {
+              "answer": "$org_name",
+              "key": "nYJiWy",
+              "title": "Organisation name",
+              "type": "text"
+            }
+          ],
+          "index": 0,
+          "question": "Organisation name",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "TFJTit",
+          "fields": [
+            {
+              "answer": "Version 1 Sponsor team",
+              "key": "uYsivE",
+              "title": "Name of project sponsor",
+              "type": "text"
+            },
+            {
+              "answer": "test@test.com",
+              "key": "xgrxxv",
+              "title": "Project sponsor email address",
+              "type": "text"
+            },
+            {
+              "answer": "12345678901",
+              "key": "xbOBdn",
+              "title": "Project sponsor telephone number",
+              "type": "text"
+            }
+          ],
+          "index": 0,
+          "question": "Project sponsor details",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "TFJTit",
+          "fields": [
+            {
+              "answer": "Burt",
+              "key": "cPpwET",
+              "title": "Name of section 151 officer",
+              "type": "text"
+            },
+            {
+              "answer": "burt@reynolds.com",
+              "key": "EMukio",
+              "title": "Section 151 officer email address",
+              "type": "text"
+            },
+            {
+              "answer": "25469874562",
+              "key": "GPxiGe",
+              "title": "Section 151 officer telephone number",
+              "type": "text"
+            }
+          ],
+          "index": 0,
+          "question": "Section 151 officer details",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "TFJTit",
+          "fields": [
+            {
+              "answer": "Gommez Addams",
+              "key": "AYmilW",
+              "title": "Name of lead contact",
+              "type": "text"
+            },
+            {
+              "answer": "Dev",
+              "key": "UjZJtC",
+              "title": "Lead contact job title",
+              "type": "text"
+            },
+            {
+              "answer": "gommez@adams.com",
+              "key": "IRugBv",
+              "title": "Lead contact email address",
+              "type": "text"
+            },
+            {
+              "answer": "5656854682132",
+              "key": "jvfZpA",
+              "title": "Lead contact telephone number",
+              "type": "text"
+            }
+          ],
+          "index": 0,
+          "question": "Lead contact details",
+          "status": "COMPLETED"
+        },
+        {
+          "category": null,
+          "fields": [
+            {
+              "answer": true,
+              "key": "markAsComplete",
+              "title": "Do you want to mark this section as complete?",
+              "type": "boolean"
+            }
+          ],
+          "question": "MarkAsComplete",
+          "status": "COMPLETED"
+        }
+      ],
+      "status": "COMPLETED"
+    },
+    {
+      "name": "declarations-dpi",
+      "questions": [
+        {
+          "category": "HgUinB",
+          "fields": [
+            {
+              "answer": true,
+              "key": "JUgCya",
+              "title": "You have signed the Local Digital Declaration and agree to follow the 5 core principles",
+              "type": "list"
+            },
+            {
+              "answer": true,
+              "key": "vbmqwB",
+              "title": "Your section 151 officer consents to the funds being carried over and spent in the next financial year (March 2024-25) and beyond if deemed necessary in project budget planning",
+              "type": "list"
+            },
+            {
+              "answer": true,
+              "key": "EQffUz",
+              "title": "You agree to let all outputs from this work be published under open licence with a view to any organisation accessing, using or adopting them freely",
+              "type": "list"
+            },
+            {
+              "answer": true,
+              "key": "kPYiQE",
+              "title": "The information you have provided is accurate",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Agree to the final confirmations",
+          "status": "COMPLETED"
+        },
+        {
+          "category": null,
+          "fields": [
+            {
+              "answer": true,
+              "key": "markAsComplete",
+              "title": "Do you want to mark this section as complete?",
+              "type": "boolean"
+            }
+          ],
+          "question": "MarkAsComplete",
+          "status": "COMPLETED"
+        }
+      ],
+      "status": "COMPLETED"
+    },
+    {
+      "name": "your-skills-and-experience-dpi",
+      "questions": [
+        {
+          "category": "akREtH",
+          "fields": [
+            {
+              "answer": true,
+              "key": "rGADMs",
+              "title": "Has your organisation delivered projects like this before?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Has your organisation delivered projects like this before?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "akREtH",
+          "fields": [
+            {
+              "answer": "<p>This is a bunch of test text</p>",
+              "key": "zHgZBx",
+              "title": "Tell us about how your organisation has worked on similar previous projects",
+              "type": "freeText"
+            }
+          ],
+          "index": 0,
+          "question": "Tell us about how your organisation has worked on similar previous projects",
+          "status": "COMPLETED"
+        },
+        {
+          "category": null,
+          "fields": [
+            {
+              "answer": true,
+              "key": "markAsComplete",
+              "title": "Do you want to mark this section as complete?",
+              "type": "boolean"
+            }
+          ],
+          "question": "MarkAsComplete",
+          "status": "COMPLETED"
+        }
+      ],
+      "status": "COMPLETED"
+    },
+    {
+      "name": "roles-and-recruitment-dpi",
+      "questions": [
+        {
+          "category": "nJcRTz",
+          "fields": [
+            {
+              "answer": true,
+              "key": "vuZiab",
+              "title": "Do you have a team in place ready to deliver the project?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Do you have a team in place ready to deliver the project?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "nJcRTz",
+          "fields": [
+            {
+              "answer": "<p>this is&nbsp; some test text</p>",
+              "key": "OPOrME",
+              "title": "Tell us about the shape of the project team",
+              "type": "freeText"
+            }
+          ],
+          "index": 0,
+          "question": "Tell us about the shape of the project team",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "nJcRTz",
+          "fields": [
+            {
+              "answer": true,
+              "key": "gSQPxs",
+              "title": "Will you need to backfill any roles in your organisation?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Will you need to backfill any roles in your organisation?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "nJcRTz",
+          "fields": [
+            {
+              "answer": "10000",
+              "key": "KEnthg",
+              "title": "What is the estimated cost of backfilling roles?",
+              "type": "text"
+            }
+          ],
+          "index": 0,
+          "question": "What is the estimated cost of backfilling roles?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "nJcRTz",
+          "fields": [
+            {
+              "answer": true,
+              "key": "pRqIkv",
+              "title": "Do you know who will lead the day-to-day delivery of the project in your organisation?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Do you know who will lead the day-to-day delivery of the project in your organisation?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "nJcRTz",
+          "fields": [
+            {
+              "answer": "Gommez Addams",
+              "key": "eWmNSY",
+              "title": "Who will lead the day-to-day delivery of the project in your organisation?",
+              "type": "text"
+            }
+          ],
+          "index": 0,
+          "question": "Who will lead the day-to-day delivery of the project in your organisation?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": null,
+          "fields": [
+            {
+              "answer": true,
+              "key": "markAsComplete",
+              "title": "Do you want to mark this section as complete?",
+              "type": "boolean"
+            }
+          ],
+          "question": "MarkAsComplete",
+          "status": "COMPLETED"
+        }
+      ],
+      "status": "COMPLETED"
+    },
+    {
+      "name": "engaging-the-odp-community-dpi",
+      "questions": [
+        {
+          "category": "QiDJsl",
+          "fields": [
+            {
+              "answer": "<p>This is some test text</p>",
+              "key": "mmTkva",
+              "title": "Why do you want to be a part of the ODP (Open Digital Planning) community?",
+              "type": "freeText"
+            }
+          ],
+          "index": 0,
+          "question": "Why do you want to be a part of the ODP (Open Digital Planning) community?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": null,
+          "fields": [
+            {
+              "answer": true,
+              "key": "markAsComplete",
+              "title": "Do you want to mark this section as complete?",
+              "type": "boolean"
+            }
+          ],
+          "question": "MarkAsComplete",
+          "status": "COMPLETED"
+        }
+      ],
+      "status": "COMPLETED"
+    },
+    {
+      "name": "engaging-the-organisation-dpi",
+      "questions": [
+        {
+          "category": "LjAoZK",
+          "fields": [
+            {
+              "answer": "<p>This is some test text</p>",
+              "key": "bpzrMJ",
+              "title": "How will you make sure team members engage with other parts of your organisation?",
+              "type": "freeText"
+            }
+          ],
+          "index": 0,
+          "question": "How will you make sure team members engage with other parts of your organisation?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "LjAoZK",
+          "fields": [
+            {
+              "answer": "<p>Luke, I am your Father&nbsp;</p>",
+              "key": "oFyZJS",
+              "title": "How will you share the progress of the work across your organisation?",
+              "type": "freeText"
+            }
+          ],
+          "index": 0,
+          "question": "How will you share the progress of the work across your organisation?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": null,
+          "fields": [
+            {
+              "answer": true,
+              "key": "markAsComplete",
+              "title": "Do you want to mark this section as complete?",
+              "type": "boolean"
+            }
+          ],
+          "question": "MarkAsComplete",
+          "status": "COMPLETED"
+        }
+      ],
+      "status": "COMPLETED"
+    },
+    {
+      "name": "dataset-information-dpi",
+      "questions": [
+        {
+          "category": "FjGMRE",
+          "fields": [
+            {
+              "answer": true,
+              "key": "BQKLZz",
+              "title": "Does your organisation collect at least one of the datasets?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Does your organisation collect at least one of the datasets?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "FjGMRE",
+          "fields": [
+            {
+              "answer": [
+                "conservation-areas",
+                "article-4-direction",
+                "listed-buildings",
+                "tree-preservation-orders"
+              ],
+              "key": "PfjXKB",
+              "title": "Which datasets have you collected?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Which datasets have you collected?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "FjGMRE",
+          "fields": [
+            {
+              "answer": [
+                "paper",
+                "spreadsheet",
+                "database",
+                "gis-(geographical-information-system)"
+              ],
+              "key": "gBIWQr",
+              "title": "Which format is your dataset in for conservation areas?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Which format is your dataset in for conservation areas?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "FjGMRE",
+          "fields": [
+            {
+              "answer": [
+                "paper",
+                "spreadsheet",
+                "database",
+                "gis-(geographical-information-system)"
+              ],
+              "key": "JootFe",
+              "title": "Which format is your dataset in for article 4 direction?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Which format is your dataset in for article 4 direction?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "FjGMRE",
+          "fields": [
+            {
+              "answer": [
+                "paper",
+                "spreadsheet",
+                "database",
+                "gis-(geographical-information-system)"
+              ],
+              "key": "KmGRXX",
+              "title": "Which format is your dataset in for listed buildings?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Which format is your dataset in for listed buildings?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "FjGMRE",
+          "fields": [
+            {
+              "answer": [
+                "paper",
+                "spreadsheet",
+                "database",
+                "gis-(geographical-information-system)"
+              ],
+              "key": "eptZkL",
+              "title": "Which format is your dataset in for tree preservation orders?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Which format is your dataset in for tree preservation orders?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "FjGMRE",
+          "fields": [
+            {
+              "answer": "0-to-3-months",
+              "key": "WSaPbE",
+              "title": "How long do you think it will take your organisation to publish all 4 datasets?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "How long do you think it will take your organisation to publish all 4 datasets?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": "FjGMRE",
+          "fields": [
+            {
+              "answer": "<p>This is some test text</p>",
+              "key": "kgGPmd",
+              "title": "What are the current known issues and challenges you have with data quality and publication?",
+              "type": "freeText"
+            }
+          ],
+          "index": 0,
+          "question": "What are the current known issues and challenges you have with data quality and publication?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": null,
+          "fields": [
+            {
+              "answer": true,
+              "key": "markAsComplete",
+              "title": "Do you want to mark this section as complete?",
+              "type": "boolean"
+            }
+          ],
+          "question": "MarkAsComplete",
+          "status": "COMPLETED"
+        }
+      ],
+      "status": "COMPLETED"
+    },
+    {
+      "name": "future-work-dpi",
+      "questions": [
+        {
+          "category": "SKgfoO",
+          "fields": [
+            {
+              "answer": [
+                "adopting-planX",
+                "adopting-bops",
+                "working-with-existing-software",
+                "working-with-new-software"
+              ],
+              "key": "DCQllx",
+              "title": "Which software improvements are you interested in working on in the future?",
+              "type": "list"
+            }
+          ],
+          "index": 0,
+          "question": "Which software improvements are you interested in working on in the future?",
+          "status": "COMPLETED"
+        },
+        {
+          "category": null,
+          "fields": [
+            {
+              "answer": true,
+              "key": "markAsComplete",
+              "title": "Do you want to mark this section as complete?",
+              "type": "boolean"
+            }
+          ],
+          "question": "MarkAsComplete",
+          "status": "COMPLETED"
+        }
+      ],
+      "status": "COMPLETED"
+    }
+  ]
+}
+"""
+)

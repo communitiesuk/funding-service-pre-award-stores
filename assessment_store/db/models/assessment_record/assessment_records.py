@@ -96,6 +96,10 @@ class AssessmentRecord(BaseModel):
                 jsonb_blob,
                 '$.forms[*].questions[*].fields[*] ? (@.key == "JbmcJE").answer',
             ),
+            func.jsonb_path_query_first(
+                jsonb_blob,
+                '$.forms[*].questions[*].fields[*] ? (@.key == "nYJiWy").answer',
+            ),
         )
     )
     local_authority = column_property(
@@ -120,6 +124,30 @@ class AssessmentRecord(BaseModel):
         func.jsonb_path_query_first(
             jsonb_blob,
             '$.forms[*].questions[*].fields[*] ? (@.key == "iqqqTk").answer',
+        )
+    )
+    lead_contact_email = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "IRugBv").answer',
+        )
+    )
+    team_in_place = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "vuZiab").answer',
+        )
+    )
+    datasets = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "BQKLZz").answer',
+        )
+    )
+    publish_datasets = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "WSaPbE").answer',
         )
     )
 

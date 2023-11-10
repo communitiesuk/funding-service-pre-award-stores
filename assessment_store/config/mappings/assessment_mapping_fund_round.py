@@ -25,6 +25,12 @@ from config.mappings.cyp_mapping_parts.r1_scored_criteria import (
 from config.mappings.cyp_mapping_parts.r1_unscored_criteria import (
     unscored_sections as cyp_unscored_sections_r1,
 )
+from config.mappings.dpif_mappping_parts.r2_scored_criteria import (
+    scored_criteria as dpif_scored_criteria,
+)
+from config.mappings.dpif_mappping_parts.r2_unscored_criteria import (
+    unscored_sections as dpif_unscored_sections,
+)
 from config.mappings.nstf_mapping_parts.r2_scored_criteria import (
     scored_criteria as nstf_scored_criteria,
 )
@@ -44,6 +50,9 @@ NSTF_ROUND_2_ID = "fc7aa604-989e-4364-98a7-d1234271435a"
 
 CYP_FUND_ID = "1baa0f68-4e0a-4b02-9dfe-b5646f089e65"
 CYP_ROUND_1_ID = "888aae3d-7e2c-4523-b9c1-95952b3d1644"
+
+DPIF_FUND_ID = "f493d512-5eb4-11ee-8c99-0242ac120002"
+DPIF_ROUND_2_ID = "0059aad4-5eb5-11ee-8c99-0242ac120002"
 
 # ASSESSMENT DISPLAY CONFIGURATION
 
@@ -77,6 +86,11 @@ fund_round_to_assessment_mapping = {
         "schema_id": "cyp_r1_assessment",
         "unscored_sections": cyp_unscored_sections_r1,
         "scored_criteria": cyp_scored_criteria_r1,
+    },
+    f"{DPIF_FUND_ID}:{DPIF_ROUND_2_ID}": {
+        "schema_id": "dpif_r2_assessment",
+        "unscored_sections": dpif_unscored_sections,
+        "scored_criteria": dpif_scored_criteria,
     },
 }
 
@@ -124,6 +138,12 @@ fund_round_data_key_mappings = {
         "asset_type": None,
         "funding_one": None,
         "funding_two": ["JXKUcj", "OnPeeS"],  # only revenue funding for cyp
+    },
+    "DPIFR2": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
     },
 }
 
@@ -271,6 +291,10 @@ applicant_info_mapping = {
         },
         "OUTPUT_TRACKER": {},
     },
+    DPIF_FUND_ID: {
+        "ASSESSOR_EXPORT": {},
+        "OUTPUT_TRACKER": {},
+    },
 }
 
 # APPLICATION SEEDING CONFIGURATION
@@ -305,6 +329,11 @@ fund_round_mapping_config = {
         "fund_id": CYP_FUND_ID,
         "round_id": CYP_ROUND_1_ID,
         "type_of_application": "CYP",
+    },
+    "DPIFR2": {
+        "fund_id": DPIF_FUND_ID,
+        "round_id": DPIF_ROUND_2_ID,
+        "type_of_application": "DPIF",
     },
     "RANDOM_FUND_ROUND": {
         "fund_id": uuid4(),
