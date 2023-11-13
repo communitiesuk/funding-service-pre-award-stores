@@ -8,6 +8,7 @@ from db.models import AssessmentRound
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record.tag_association import TagAssociation
 from db.models.comment import Comment
+from db.models.comment import CommentsUpdate
 from db.models.flags.assessment_flag import AssessmentFlag
 from db.models.flags.flag_update import FlagUpdate
 from db.models.qa_complete import QaComplete
@@ -98,6 +99,7 @@ def seed_application_records(
     TagAssociation.query.delete()
     Score.query.delete()
     QaComplete.query.delete()
+    CommentsUpdate.query.delete()
     Comment.query.delete()
     AssessmentRecord.query.delete()
     _db.session.commit()
