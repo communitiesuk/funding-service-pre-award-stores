@@ -8,7 +8,7 @@ pre-commit
 pytest
 pytest-env
 pytest-flask
-pytest-mock==3.7.0
+pytest-mock==3.12.0
 pip-tools
 json2html==1.3.0
 colored

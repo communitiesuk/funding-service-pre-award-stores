@@ -86,12 +86,7 @@ clickclick==20.10.2
     #   -r requirements.txt
     #   connexion
 colorama==0.4.6
-    # via
-    #   -r requirements.txt
-    #   bandit
-    #   build
-    #   click
-    #   pytest
+    # via -r requirements.txt
 colored==1.4.4
     # via -r requirements-dev.in
 commonmark==0.9.1
@@ -319,6 +314,7 @@ pyjwt[crypto]==2.6.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
+    #   pyjwt
 pyparsing==3.0.9
     # via
     #   -r requirements.txt
@@ -333,7 +329,7 @@ pytest-env==0.8.1
     # via -r requirements-dev.in
 pytest-flask==1.2.0
     # via -r requirements-dev.in
-pytest-mock==3.7.0
+pytest-mock==3.12.0
     # via -r requirements-dev.in
 python-consul==1.1.0
     # via
@@ -417,6 +413,7 @@ sentry-sdk[flask]==1.31.0
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
+    #   sentry-sdk
 six==1.16.0
     # via
     #   -r requirements.txt
@@ -464,9 +461,7 @@ typing-extensions==4.4.0
     #   flupy
     #   sqlalchemy
 tzdata==2023.3
-    # via
-    #   -r requirements.txt
-    #   tzlocal
+    # via -r requirements.txt
 tzlocal==5.0.1
     # via
     #   -r requirements.txt
