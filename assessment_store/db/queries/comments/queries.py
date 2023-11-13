@@ -8,6 +8,7 @@ from typing import Dict
 
 from db import db
 from db.models.comment.comments import Comment
+from db.models.comment.comments_update import CommentsUpdate
 from db.schemas import CommentMetadata
 from sqlalchemy import select
 
@@ -79,19 +80,46 @@ def create_comment_for_application_sub_crit(
     :return: dictionary.
 
     """
+    comment_update = CommentsUpdate(comment=comment)
+
     comment = Comment(
         application_id=application_id,
         sub_criteria_id=sub_criteria_id,
-        comment=comment,
         comment_type=comment_type,
         user_id=user_id,
         theme_id=theme_id,
+        updates=[comment_update],
     )
-
     db.session.add(comment)
     db.session.commit()
     metadata_serialiser = CommentMetadata()
     comment_metadata = metadata_serialiser.dump(comment)
+
+    return comment_metadata
+
+
+def update_comment_for_application_sub_crit(
+    comment: str,
+    comment_id: str,
+) -> Dict:
+    """update_comment_for_application_sub_crit executes a query on comments which
+    updates a comment for the given comment id.
+
+    :param comment: The comment string.
+    :param comment_id: The comment id.
+    :return: dictionary.
+
+    """
+    stmt = select(Comment).where(Comment.id == comment_id)
+    comment_to_update = db.session.scalars(stmt).one()
+
+    comment_update = CommentsUpdate(comment_id=comment_id, comment=comment)
+    comment_to_update.updates.append(comment_update)
+
+    db.session.add(comment_to_update)
+    db.session.commit()
+    metadata_serialiser = CommentMetadata()
+    comment_metadata = metadata_serialiser.dump(comment_to_update)
 
     return comment_metadata
 

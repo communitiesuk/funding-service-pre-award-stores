@@ -152,6 +152,13 @@ components:
           type: string
         theme_id:
           type: string
+    PutComment:
+      type: object
+      properties:
+        comment:
+          type: string
+        comment_id:
+          type: string
     ApplicationOverview:
       type: object
       properties:

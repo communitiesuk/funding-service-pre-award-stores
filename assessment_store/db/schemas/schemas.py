@@ -3,6 +3,7 @@ from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
 from db.models.assessment_record.tag_association import TagAssociation
 from db.models.comment import Comment
+from db.models.comment import CommentsUpdate
 from db.models.comment.enums import CommentType
 from db.models.flags.assessment_flag import AssessmentFlag
 from db.models.flags.flag_update import FlagUpdate
@@ -71,6 +72,12 @@ class CommentMetadata(SQLAlchemyAutoSchema):
 
     comment_type = Enum(CommentType)
     application_id = auto_field(dump_only=True)
+    updates = Nested("CommentsUpdateSchema", many=True)
+
+
+class CommentsUpdateSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = CommentsUpdate
 
 
 class QaCompleteMetadata(SQLAlchemyAutoSchema):
