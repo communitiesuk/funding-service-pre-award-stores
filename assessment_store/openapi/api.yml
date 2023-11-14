@@ -666,12 +666,12 @@ paths:
         in: query
         schema:
           type: string
-        required: true
+        required: false
       - name: sub_criteria_id
         in: query
         schema:
           type: string
-        required: true
+        required: false
       - name: theme_id
         in: query
         schema:

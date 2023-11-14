@@ -15,7 +15,10 @@ from sqlalchemy import select
 
 # May need rewrite after testing
 def get_comments_for_application_sub_crit(
-    application_id: str, sub_criteria_id: str, theme_id: str = None
+    application_id: str = None,
+    sub_criteria_id: str = None,
+    theme_id: str = None,
+    comment_id: str = None,
 ) -> Dict:
     """get_comments_for_application_sub_crit executes a query on comments which
     returns a list of comments for the given application_id and sub_criteria_id.
@@ -24,13 +27,18 @@ def get_comments_for_application_sub_crit(
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :param theme_id: optional theme_id, if not supplied returns all
         comments for subcriteria
+    :param comment_id: The stringified comment UUID.
     :return: dictionary.
 
     """
     # TODO: remove 'score' option once
     # frontend updated not to use it as it is not
     # semantically meaningful
-    if not theme_id or theme_id == "score":
+    if comment_id:
+        stmt = select(Comment).where(Comment.id == comment_id)
+    elif (application_id and sub_criteria_id) and (
+        not theme_id or theme_id == "score"
+    ):
         stmt = (
             select(Comment)
             .where(
@@ -39,7 +47,7 @@ def get_comments_for_application_sub_crit(
             )
             .order_by(Comment.date_created.desc())
         )
-    else:
+    elif application_id and sub_criteria_id and theme_id:
         stmt = (
             select(Comment)
             .where(
@@ -49,6 +57,8 @@ def get_comments_for_application_sub_crit(
             )
             .order_by(Comment.date_created.desc())
         )
+    else:
+        stmt = select(Comment)
 
     comment_rows = db.session.scalars(stmt)
     metadata_serialiser = CommentMetadata()

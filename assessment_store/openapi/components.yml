@@ -127,8 +127,6 @@ components:
           type: string
         application_id:
           type: string
-        comment:
-          type: string
         user_id:
           type: string
         date_created:
@@ -137,12 +135,14 @@ components:
           type: string
         comment_type:
           type: string
+        updates:
+            type: array
     PostComment:
       type: object
       properties:
-        application_id:
+        id:
           type: string
-        comment:
+        application_id:
           type: string
         user_id:
           type: string
@@ -152,13 +152,25 @@ components:
           type: string
         theme_id:
           type: string
+        updates:
+          type: array
     PutComment:
       type: object
       properties:
-        comment:
+        id:
           type: string
-        comment_id:
+        application_id:
           type: string
+        user_id:
+          type: string
+        sub_criteria_id:
+          type: string
+        comment_type:
+          type: string
+        theme_id:
+          type: string
+        updates:
+          type: array
     ApplicationOverview:
       type: object
       properties:
