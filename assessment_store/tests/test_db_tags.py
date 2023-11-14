@@ -301,30 +301,59 @@ def test_get_tag(seed_tags):
     assert tag.value == "Test tag 1"
 
 
-@pytest.mark.apps_to_insert([test_input_data[0]])
-def test_get_tag_includes_tag_association_count(
+@pytest.mark.apps_to_insert(test_input_data)
+def test_get_tag_has_correct_tag_association_count(
     seed_application_records, seed_tags
 ):
-    tag_id = seed_tags[0]["id"]
+    """The tag association count should update when a tag is disassociated from an
+    application."""
+    seeded_tags_info = (
+        (seed_tags[0]["id"], seed_tags[0]["value"]),
+        (seed_tags[1]["id"], seed_tags[1]["value"]),
+    )
+    app_1_id = seed_application_records[0]["application_id"]
+    app_2_id = seed_application_records[1]["application_id"]
     fund_id = seed_tags[0]["fund_id"]
     round_id = seed_tags[0]["round_id"]
-    tag = get_tag_by_id(fund_id, round_id, tag_id)
-    assert tag
-    assert str(tag.id) == tag_id
-    assert tag.tag_association_count == 0
-    assert tag.value == "Test tag 1"
 
-    app_id = seed_application_records[0]["application_id"]
-    new_tags = [
+    def check_tags(expected_associated_count):
+        """Compare the seeded tag info with the tag info retrieved from the
+        database."""
+        for seeded_tag in seeded_tags_info:
+            tag = get_tag_by_id(fund_id, round_id, seeded_tag[0])
+
+            # assert we have matched on the correct tag
+            assert tag
+            assert str(tag.id) == seeded_tag[0]
+            assert tag.value == seeded_tag[1]
+
+            # assert the tag association count is correct
+            assert tag.tag_association_count == expected_associated_count
+
+    # There should be no tag associations
+    check_tags(0)
+
+    # generate tag associations
+    new_tag_associations = [
         {"id": tag["id"], "user_id": "1d49a41c-a13e-41ab-a89c-240b3de3fbda"}
         for tag in seed_tags
     ]
-    associate_assessment_tags(app_id, new_tags)
-    tag = get_tag_by_id(fund_id, round_id, tag_id)
-    assert tag
-    assert str(tag.id) == tag_id
-    assert tag.tag_association_count == 1
-    assert tag.value == "Test tag 1"
+
+    # Associate each tag with one application
+    associate_assessment_tags(app_1_id, new_tag_associations)
+    check_tags(1)
+
+    # Associate each tag with another application
+    associate_assessment_tags(app_2_id, new_tag_associations)
+    check_tags(2)
+
+    # Now dis-associate and see change in tag association count (now tags are only associated with app_2)
+    associate_assessment_tags(app_1_id, [])
+    check_tags(1)
+
+    # Disassociate all tags from app_2
+    associate_assessment_tags(app_2_id, [])
+    check_tags(0)
 
 
 def test_get_tag_bad_id(seed_tags):

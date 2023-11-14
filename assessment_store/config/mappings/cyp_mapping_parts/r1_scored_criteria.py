@@ -5,7 +5,7 @@ scored_criteria = [
     {
         "id": "your-skills-and-experience",
         "name": "Your skills and experience",
-        "weighting": 0.15,
+        "weighting": 0.35,
         "sub_criteria": [
             {
                 "id": "your-skills-and-experience",
@@ -312,7 +312,7 @@ scored_criteria = [
     {
         "id": "value-for-money",
         "name": "Value for money",
-        "weighting": 0.40,
+        "weighting": 0.10,
         "sub_criteria": [
             {
                 "id": "value-for-money",
