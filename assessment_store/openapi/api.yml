@@ -666,12 +666,12 @@ paths:
         in: query
         schema:
           type: string
-        required: true
+        required: false
       - name: sub_criteria_id
         in: query
         schema:
           type: string
-        required: true
+        required: false
       - name: theme_id
         in: query
         schema:
@@ -722,6 +722,31 @@ paths:
               sub_criteria_id: 'app-info'
               comment_type: 'COMMENT'
               theme_id: "something"
+      responses:
+        201:
+          description: SUCCESS - Comment for Subcriteria in Application Submitted
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/Comment'
+    put:
+      tags:
+        - comments
+      summary: update a comment for subcriteria in application
+      description: edit a comment for a subcriteria in an application
+      operationId: api.routes.put_comments_for_application_sub_criteria
+      requestBody:
+        description: Comment creation parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'components.yml#/components/schemas/PutComment'
+            example:
+              comment: 'Please provide more information'
+              comment_id: 'abu'
       responses:
         201:
           description: SUCCESS - Comment for Subcriteria in Application Submitted

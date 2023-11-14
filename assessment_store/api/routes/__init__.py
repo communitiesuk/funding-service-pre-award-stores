@@ -11,6 +11,7 @@ from .assessment_routes import sub_criteria
 from .assessment_routes import update_ar_status_to_completed
 from .comment_routes import comments_for_application_sub_criteria
 from .comment_routes import post_comments_for_application_sub_criteria
+from .comment_routes import put_comments_for_application_sub_criteria
 from .flag_routes import create_flag_for_application
 from .flag_routes import get_all_flags_for_application
 from .flag_routes import get_flag
@@ -42,6 +43,7 @@ __all__ = [
     "get_all_uploaded_document_theme_answers",
     "comments_for_application_sub_criteria",
     "post_comments_for_application_sub_criteria",
+    "put_comments_for_application_sub_criteria",
     "get_banner_state",
     "get_progress_for_applications",
     "assessment_stats_for_fund_round_id",

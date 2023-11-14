@@ -8,13 +8,17 @@ from typing import Dict
 
 from db import db
 from db.models.comment.comments import Comment
+from db.models.comment.comments_update import CommentsUpdate
 from db.schemas import CommentMetadata
 from sqlalchemy import select
 
 
 # May need rewrite after testing
 def get_comments_for_application_sub_crit(
-    application_id: str, sub_criteria_id: str, theme_id: str = None
+    application_id: str = None,
+    sub_criteria_id: str = None,
+    theme_id: str = None,
+    comment_id: str = None,
 ) -> Dict:
     """get_comments_for_application_sub_crit executes a query on comments which
     returns a list of comments for the given application_id and sub_criteria_id.
@@ -23,13 +27,18 @@ def get_comments_for_application_sub_crit(
     :param sub_criteria_id: The stringified sub_criteria UUID.
     :param theme_id: optional theme_id, if not supplied returns all
         comments for subcriteria
+    :param comment_id: The stringified comment UUID.
     :return: dictionary.
 
     """
     # TODO: remove 'score' option once
     # frontend updated not to use it as it is not
     # semantically meaningful
-    if not theme_id or theme_id == "score":
+    if comment_id:
+        stmt = select(Comment).where(Comment.id == comment_id)
+    elif (application_id and sub_criteria_id) and (
+        not theme_id or theme_id == "score"
+    ):
         stmt = (
             select(Comment)
             .where(
@@ -38,7 +47,7 @@ def get_comments_for_application_sub_crit(
             )
             .order_by(Comment.date_created.desc())
         )
-    else:
+    elif application_id and sub_criteria_id and theme_id:
         stmt = (
             select(Comment)
             .where(
@@ -48,6 +57,8 @@ def get_comments_for_application_sub_crit(
             )
             .order_by(Comment.date_created.desc())
         )
+    else:
+        stmt = select(Comment)
 
     comment_rows = db.session.scalars(stmt)
     metadata_serialiser = CommentMetadata()
@@ -79,19 +90,46 @@ def create_comment_for_application_sub_crit(
     :return: dictionary.
 
     """
+    comment_update = CommentsUpdate(comment=comment)
+
     comment = Comment(
         application_id=application_id,
         sub_criteria_id=sub_criteria_id,
-        comment=comment,
         comment_type=comment_type,
         user_id=user_id,
         theme_id=theme_id,
+        updates=[comment_update],
     )
-
     db.session.add(comment)
     db.session.commit()
     metadata_serialiser = CommentMetadata()
     comment_metadata = metadata_serialiser.dump(comment)
+
+    return comment_metadata
+
+
+def update_comment_for_application_sub_crit(
+    comment: str,
+    comment_id: str,
+) -> Dict:
+    """update_comment_for_application_sub_crit executes a query on comments which
+    updates a comment for the given comment id.
+
+    :param comment: The comment string.
+    :param comment_id: The comment id.
+    :return: dictionary.
+
+    """
+    stmt = select(Comment).where(Comment.id == comment_id)
+    comment_to_update = db.session.scalars(stmt).one()
+
+    comment_update = CommentsUpdate(comment_id=comment_id, comment=comment)
+    comment_to_update.updates.append(comment_update)
+
+    db.session.add(comment_to_update)
+    db.session.commit()
+    metadata_serialiser = CommentMetadata()
+    comment_metadata = metadata_serialiser.dump(comment_to_update)
 
     return comment_metadata
 
