@@ -5,6 +5,7 @@ from db.models.assessment_record.tag_association import TagAssociation
 from db.models.tag.tag_types import TagType
 from db.models.tag.tags import Tag
 from flask import current_app
+from sqlalchemy import distinct
 from sqlalchemy import func
 from sqlalchemy import or_
 from sqlalchemy.exc import NoResultFound
@@ -180,6 +181,23 @@ def select_tags_for_fund_round(
 
 def get_tag_by_id(fund_id: str, round_id: str, tag_id: str) -> Tag:
     try:
+        # Select each unique tag TO tag_association
+        # return only the latest tag TO tag_association (each association/disassociation is a new record)
+        # filter to match on only the supplied tag_id ^
+        # filter out any tag-tag_association that is not associated
+        subquery = (
+            db.session.query(
+                TagAssociation.tag_id,
+                TagAssociation.application_id,
+                func.max(TagAssociation.created_at).label("max_created_at"),
+            )
+            .group_by(TagAssociation.application_id, TagAssociation.tag_id)
+            .filter(TagAssociation.tag_id == tag_id)
+            .filter(TagAssociation.associated == True)  # noqa
+            .subquery()
+        )
+
+        # Use the subquery in the main query
         return (
             db.session.query(
                 Tag.id,
@@ -192,10 +210,12 @@ def get_tag_by_id(fund_id: str, round_id: str, tag_id: str) -> Tag:
                 Tag.created_at,
                 TagType.purpose.label("purpose"),
                 TagType.description.label("description"),
-                func.count(TagAssociation.id).label("tag_association_count"),
+                func.count(distinct(subquery.c.application_id)).label(
+                    "tag_association_count"
+                ),
             )
             .join(TagType, Tag.type_id == TagType.id)
-            .outerjoin(TagAssociation, Tag.id == TagAssociation.tag_id)
+            .outerjoin(subquery, Tag.id == subquery.c.tag_id)
             .filter(Tag.fund_id == fund_id)
             .filter(Tag.round_id == round_id)
             .filter(Tag.id == tag_id)
