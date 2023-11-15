@@ -27,9 +27,15 @@ def upgrade():
     for comment_id, comment, date_created in comments:
         insert_query = sa.text(
             "INSERT INTO comments_update(id, comment_id, comment, date_created) "
-            f"VALUES ('{str(uuid.uuid4())}', '{comment_id}', '{comment}', '{str(date_created)}') RETURNING id;"
+            "VALUES (:uuid, :comment_id, :comment, :date_created) RETURNING id;"
         )
-        connection.execute(insert_query)
+        params = {
+            "uuid": str(uuid.uuid4()),
+            "comment_id": comment_id,
+            "comment": comment,
+            "date_created": str(date_created),
+        }
+        connection.execute(insert_query, params)
 
     with op.batch_alter_table("comments", schema=None) as batch_op:
         batch_op.drop_column("comment")
@@ -76,10 +82,14 @@ def downgrade():
             val = sorted(val, key=lambda x: x["date_created"])
             if comment_id == i_comment_id:
                 update_query = sa.text(
-                    f"UPDATE comments SET comment = '{val[-1]['comment']}'"
-                    f" WHERE comment_id = '{comment_id}'"
+                    "UPDATE comments SET comment = :comment"
+                    " WHERE comment_id = :comment_id"
                 )
-                connection.execute(update_query)
+                params = {
+                    "comment_id": comment_id,
+                    "comment": val[-1]["comment"],
+                }
+                connection.execute(update_query, params)
                 break
 
     op.alter_column("comments", "comment", nullable=False)
