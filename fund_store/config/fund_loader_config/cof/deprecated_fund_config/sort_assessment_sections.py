@@ -12,7 +12,7 @@ def map_fields(fields, all_fields):
         # check to see if there are grouped fields
         # they should be shown in a single assessment component - grouped
         # therefore give them the same display order
-        if type(field["field_id"]) == list:
+        if type(field["field_id"]) is list:
             for index, grouped_field in enumerate(field["field_id"]):
                 ordered_fields.append(
                     {"form_json_id": grouped_field, "display_order": 10 * (index + 1)}

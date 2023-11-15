@@ -46,6 +46,23 @@
             ]
         },
         {
+            "name": "Recreate local DB",
+            "type": "python",
+            "request": "launch",
+            "module": "invoke",
+            "envFile": "${workspaceFolder}/.env.development",
+            "args": [
+              "recreate-local-db"
+            ]
+        },
+        {
+            "name": "Load all fund rounds",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.load_all_fund_rounds",
+            "envFile": "${workspaceFolder}/.env.development",
+        },
+        {
             "name": "Downgrade DB",
             "type": "python",
             "request": "launch",
@@ -54,7 +71,7 @@
             "args": [
               "db",
               "downgrade",
-              "a0a14c197848" // modify the downgrade revision accordingly
+              "0feae1606cfa" // modify the downgrade revision accordingly
             ]
         },
         {

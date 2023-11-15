@@ -72,6 +72,7 @@ rounds_config = [
             "is_feedback_survey_optional": True,
             "is_section_feedback_optional": True,
         },
+        "eligibility_config": {"has_eligibility": False},
     },
     {
         "id": COF_ROUND_2_WINDOW_3_ID,
@@ -120,6 +121,7 @@ rounds_config = [
             "is_feedback_survey_optional": True,
             "is_section_feedback_optional": True,
         },
+        "eligibility_config": {"has_eligibility": False},
     },
 ]
 
