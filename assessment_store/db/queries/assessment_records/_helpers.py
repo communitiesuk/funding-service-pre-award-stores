@@ -178,7 +178,7 @@ def derive_application_values(application_json):
         derived_values["location_json_blob"] = {
             "error": True
             if fund_round_data_key_mappings[fund_round_shortname]["location"]
-            else False # if location is not mandatory for a fund, then treat error as `False`
+            else False  # if location is not mandatory for a fund, then treat error as `False`
         }
 
         FIELD_DEFAULT_VALUE = "Not Available"
