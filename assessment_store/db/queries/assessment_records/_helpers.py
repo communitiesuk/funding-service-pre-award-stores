@@ -71,15 +71,15 @@ def derive_application_values(application_json):
 
     # search for asset_type
     try:
-        asset_key = fund_round_data_key_mappings[fund_round_shortname][
+        asset_type = "No asset type specified."
+        if asset_key := fund_round_data_key_mappings[fund_round_shortname][
             "asset_type"
-        ]
-        asset_type = get_answer_value(application_json, asset_key)
+        ]:
+            asset_type = get_answer_value(application_json, asset_key)
     except Exception:
         print(
             f"Could not extract asset_type from application: {application_id}."
         )
-        asset_type = "No asset type specified."
 
     # search for capital funding
     funding_field_type = fund_round_data_key_mappings.get(
@@ -87,84 +87,83 @@ def derive_application_values(application_json):
     ).get("funding_field_type")
     try:
         funding_one = 0
-        funding_one_keys = fund_round_data_key_mappings[fund_round_shortname][
-            "funding_one"
-        ]
-
-        funding_one_keys = (
-            [funding_one_keys]
-            if isinstance(funding_one_keys, str)
-            else funding_one_keys
-        )
-
-        if (
-            funding_field_type == "multiInputField"
-            and len(funding_one_keys) > 1
-        ):
-            funding_one = get_answer_value_for_multi_input(
-                application_json, funding_one_keys[0], funding_one_keys[1]
+        if funding_one_keys := fund_round_data_key_mappings[
+            fund_round_shortname
+        ]["funding_one"]:
+            funding_one_keys = (
+                [funding_one_keys]
+                if isinstance(funding_one_keys, str)
+                else funding_one_keys
             )
-        else:
-            for key in funding_one_keys:
-                funding_one = funding_one + int(
-                    float(get_answer_value(application_json, key))
+
+            if (
+                funding_field_type == "multiInputField"
+                and len(funding_one_keys) > 1
+            ):
+                funding_one = get_answer_value_for_multi_input(
+                    application_json, funding_one_keys[0], funding_one_keys[1]
                 )
+            else:
+                for key in funding_one_keys:
+                    funding_one = funding_one + int(
+                        float(get_answer_value(application_json, key))
+                    )
 
     except Exception:
         print(
             "Could not extract funding_value_one from application: "
             + f"{application_id}."
         )
-        funding_one = 0
 
     # search for revenue funding
     try:
         funding_two = 0
-        funding_two_keys = fund_round_data_key_mappings[fund_round_shortname][
-            "funding_two"
-        ]
-        funding_two_keys = (
-            [funding_two_keys]
-            if isinstance(funding_two_keys, str)
-            else funding_two_keys
-        )
-        if (
-            funding_field_type == "multiInputField"
-            and len(funding_two_keys) > 1
-        ):
-            funding_two = get_answer_value_for_multi_input(
-                application_json, funding_two_keys[0], funding_two_keys[1]
+        if funding_two_keys := fund_round_data_key_mappings[
+            fund_round_shortname
+        ]["funding_two"]:
+            funding_two_keys = (
+                [funding_two_keys]
+                if isinstance(funding_two_keys, str)
+                else funding_two_keys
             )
-        else:
-            for key in funding_two_keys:
-                funding_two = funding_two + int(
-                    float(get_answer_value(application_json, key))
+            if (
+                funding_field_type == "multiInputField"
+                and len(funding_two_keys) > 1
+            ):
+                funding_two = get_answer_value_for_multi_input(
+                    application_json, funding_two_keys[0], funding_two_keys[1]
                 )
+            else:
+                for key in funding_two_keys:
+                    funding_two = funding_two + int(
+                        float(get_answer_value(application_json, key))
+                    )
     except Exception:
         print(
             "Could not extract funding_value_two from application: "
             + f"{application_id}."
         )
-        funding_two = 0
 
     # search for location postcode
     try:
-        address_key = fund_round_data_key_mappings[fund_round_shortname][
+        location_data = ""
+        if address_key := fund_round_data_key_mappings[fund_round_shortname][
             "location"
-        ]
-        address = get_answer_value(application_json, address_key)
-        raw_postcode = address.split(",")[-1].strip().replace(" ", "").upper()
-        location_data = get_location_json_from_postcode(raw_postcode)
-        if not location_data:
-            print(
-                f"Invalid postcode '{raw_postcode}' provided for the application: {application_id}."
+        ]:
+            address = get_answer_value(application_json, address_key)
+            raw_postcode = (
+                address.split(",")[-1].strip().replace(" ", "").upper()
             )
+            location_data = get_location_json_from_postcode(raw_postcode)
+            if not location_data:
+                print(
+                    f"Invalid postcode '{raw_postcode}' provided for the application: {application_id}."
+                )
     except Exception:
         print(
             "Could not extract address from application: "
             + f"{application_id}."
         )
-        location_data = ""
 
     derived_values["application_id"] = application_id
     derived_values["project_name"] = application_json["project_name"]
@@ -176,10 +175,13 @@ def derive_application_values(application_json):
     if location_data:
         derived_values["location_json_blob"] = location_data
     else:
-        derived_values["location_json_blob"] = {"error": True}
+        derived_values["location_json_blob"] = {
+            "error": True
+            if fund_round_data_key_mappings[fund_round_shortname]["location"]
+            else False  # if location is not mandatory for a fund, then treat error as `False`
+        }
 
-    FIELD_DEFAULT_VALUE = "Not Available"
-    if derived_values["location_json_blob"]["error"] is True:
+        FIELD_DEFAULT_VALUE = "Not Available"
         derived_values["location_json_blob"]["county"] = FIELD_DEFAULT_VALUE
         derived_values["location_json_blob"]["region"] = FIELD_DEFAULT_VALUE
         derived_values["location_json_blob"]["country"] = FIELD_DEFAULT_VALUE
