@@ -709,34 +709,16 @@ cof_r3w3_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH_COF_R3_W3}.4.8",
     },
     {
-        "section_name": {
-            "en": "5. Subsidy control and state aid",
-            "cy": "5. Rheoli cymorthdaliadau a chymorth gwladwriaethol",
-        },
+        "section_name": {"en": "5. Check declarations", "cy": "5. Gwirio datganiadau"},
         "tree_path": f"{APPLICATION_BASE_PATH_COF_R3_W3}.5",
     },
     {
-        "section_name": {
-            "en": "5.1 Project qualification",
-            "cy": "5.1 Cymhwystra'r prosiect",
-        },
-        "form_name_json": {
-            "en": "project-qualifications-cof",
-            "cy": "cymhwysedd-y-prosiect-cof",
-        },
-        "tree_path": f"{APPLICATION_BASE_PATH_COF_R3_W3}.5.1",
-    },
-    {
-        "section_name": {"en": "6. Check declarations", "cy": "6. Gwirio datganiadau"},
-        "tree_path": f"{APPLICATION_BASE_PATH_COF_R3_W3}.6",
-    },
-    {
-        "section_name": {"en": "6.1 Declarations", "cy": "6.1 Datganiadau"},
+        "section_name": {"en": "5.1 Declarations", "cy": "5.1 Datganiadau"},
         "form_name_json": {
             "en": "declarations-cof",
             "cy": "cadarnhadau-terfynol-cof",
         },
-        "tree_path": f"{APPLICATION_BASE_PATH_COF_R3_W3}.6.1",
+        "tree_path": f"{APPLICATION_BASE_PATH_COF_R3_W3}.5.1",
     },
 ]
 
