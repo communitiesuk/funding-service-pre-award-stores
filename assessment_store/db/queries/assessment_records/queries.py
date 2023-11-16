@@ -21,6 +21,7 @@ from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
 from db.schemas import AssessorTaskListMetadata
 from flask import current_app
+from services.data_services import get_account_name
 from sqlalchemy import and_
 from sqlalchemy import bindparam
 from sqlalchemy import exc
@@ -571,7 +572,7 @@ def update_status_to_completed(application_id):
     db.session.commit()
 
 
-def get_assessment_records_by_round_id(
+def get_assessment_records_score_data_by_round_id(
     round_id, selected_fields=None, language=None
 ):  # noqa
     """Retrieve the latest scores and associated information for each subcriteria
@@ -593,6 +594,7 @@ def get_assessment_records_by_round_id(
         "Score Justification",
         "Score Date",
         "Score Time",
+        "Scorer Name",
     ]
 
     # If selected_fields is not provided, use the default_fields.
@@ -649,6 +651,7 @@ def get_assessment_records_by_round_id(
             "Score Justification": score.justification,
             "Score Date": score.date_created.strftime("%d/%m/%Y"),
             "Score Time": score.date_created.strftime("%H:%M:%S"),
+            "Scorer Name": get_account_name(score.user_id),
         }
 
         selected_score_data = {
@@ -817,18 +820,17 @@ def get_export_data(
             final_list.append(applicant_info)
 
     if report_type == "OUTPUT_TRACKER":
-        output = get_assessment_records_by_round_id(
+        score_info_output = get_assessment_records_score_data_by_round_id(
             round_id,
             list_of_fields[report_type].get("score_fields", None),
             language,
         )
-        if len(output) != 0:
-            final_list = combine_dicts(final_list, output)
+        final_list = combine_dicts(final_list, score_info_output)
 
     return final_list
 
 
-# adds miissing elements for use in the csv
+# adds missing elements for use in the csv
 def add_missing_elements_with_empty_values(
     applicant_info, form_fields, language
 ):
@@ -856,19 +858,18 @@ def combine_dicts(applications_list, scores_list):
 
     if len(applications_list) == 0 and len(scores_list) == 0:
         return combined_list
-    if len(applications_list) == 0:
-        return scores_list
-    if len(scores_list) == 0:
-        return applications_list
 
     for application in applications_list:
         app_id = application["Application ID"]
         matching_scores = [
             score for score in scores_list if score["Application ID"] == app_id
         ]
-
-        for score in matching_scores:
-            combined_element = {**application, **score}
-            combined_list.append(combined_element)
+        if matching_scores:
+            for score in matching_scores:
+                combined_element = {**application, **score}
+                combined_list.append(combined_element)
+        else:
+            application_with_nulls = {**application, "Score": "No scores yet"}
+            combined_list.append(application_with_nulls)
 
     return combined_list

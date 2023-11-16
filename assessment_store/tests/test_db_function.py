@@ -344,7 +344,11 @@ def test_bulk_update_location_json_blob(
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
-def test_get_data(seed_application_records):
+def test_output_tracker_data(seed_application_records, mocker):
+    mocker.patch(
+        "db.queries.assessment_records.queries.get_account_name",
+        return_value="Test user",
+    )
     # TODO expand this test with more scenarios
     picked_row = get_assessment_record(
         seed_application_records[0]["application_id"]
@@ -385,6 +389,18 @@ def test_get_data(seed_application_records):
         },
     )
     # TODO add test data for cy_list
+
+    # default score fields
+    assert data["en_list"][0]["Application ID"] == picked_row.application_id
+    assert data["en_list"][0]["Short ID"] == "COF-R2W2-JWBTLX"
+    assert data["en_list"][0]["Score Subcriteria"] == "app-info"
+    assert data["en_list"][0]["Score"] == 5
+    assert data["en_list"][0]["Score Justification"] == "great"
+    assert len(data["en_list"][0]["Score Date"]) == 10
+    assert len(data["en_list"][0]["Score Time"]) == 8
+    assert data["en_list"][0]["Scorer Name"] == "Test user"
+
+    # custom fields
     assert data["en_list"][0]["Charity number "] == "Test"
     assert (
         data["en_list"][0]["Do you need to do any further feasibility work?"]
@@ -397,5 +413,59 @@ def test_get_data(seed_application_records):
         data["en_list"][0]["Risks to your project (document upload)"]
         == "sample1.doc"
     )
-    assert data["en_list"][0]["Score"] == 5
-    assert data["en_list"][0]["Score Justification"] == "great"
+
+
+@pytest.mark.apps_to_insert([test_input_data[0]])
+def test_output_tracker_with_no_scores_data(seed_application_records, mocker):
+    mocker.patch(
+        "db.queries.assessment_records.queries.get_account_name",
+        return_value="Test user",
+    )
+
+    picked_row = get_assessment_record(
+        seed_application_records[0]["application_id"]
+    )
+
+    data = get_assessment_export_data(
+        picked_row.fund_id,
+        picked_row.round_id,
+        "OUTPUT_TRACKER",
+        {
+            "OUTPUT_TRACKER": {
+                "form_fields": {
+                    "aHIGbK": {"en": {"title": "Charity number "}},
+                    "aAeszH": {
+                        "en": {
+                            "title": "Do you need to do any further feasibility work?"
+                        }
+                    },
+                    "ozgwXq": {
+                        "en": {
+                            "title": "Risks to your project (document upload)"
+                        }
+                    },
+                    "KAgrBz": {"en": {"title": "Project name"}},
+                }
+            }
+        },
+    )
+
+    assert data["en_list"][0]["Score"] == "No scores yet"
+
+    # check the rest of the data is correct
+    assert data["en_list"][0]["Application ID"] == picked_row.application_id
+    assert data["en_list"][0]["Short ID"] == "COF-R2W2-JWBTLX"
+
+    # custom fields
+    assert data["en_list"][0]["Charity number "] == "Test"
+    assert (
+        data["en_list"][0]["Do you need to do any further feasibility work?"]
+        is False
+    )
+    assert (
+        data["en_list"][0]["Project name"] == "Save the humble pub in Bangor"
+    )
+    assert (
+        data["en_list"][0]["Risks to your project (document upload)"]
+        == "sample1.doc"
+    )
