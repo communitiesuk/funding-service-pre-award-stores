@@ -245,26 +245,6 @@ applicant_info_mapping = {
     CYP_FUND_ID: {
         "ASSESSOR_EXPORT": {
             "form_fields": {
-                "rKHBnt": {"en": {"title": "Name of lead contact"}},
-                "BKOHaM": {
-                    "en": {"title": "Lead contact email address"},
-                },
-                "CyANDT": {
-                    "en": {"title": "Lead contact telephone number"},
-                },
-                "rmBPvK": {
-                    "en": {"title": "Registered organisation address"},
-                },
-                "smBPvK": {
-                    "en": {"title": "Alternative organisation address"},
-                },
-            }
-        },
-        "OUTPUT_TRACKER": {},
-    },
-    CYP_FUND_ID: {
-        "ASSESSOR_EXPORT": {
-            "form_fields": {
                 "JbmcJE": {"en": {"title": "Organisation name"}},
                 "rmBPvK": {"en": {"title": "Registered organisation address"}},
                 "smBPvK": {
@@ -289,7 +269,13 @@ applicant_info_mapping = {
                 "tZoOKx": {"en": {"title": "Partner organisation details"}},
             }
         },
-        "OUTPUT_TRACKER": {},
+        "OUTPUT_TRACKER": {
+            "form_fields": {
+                "fHodTO": {
+                    "en": {"title": "What is the main focus of your project?"}
+                }
+            }
+        },
     },
     DPIF_FUND_ID: {
         "ASSESSOR_EXPORT": {},

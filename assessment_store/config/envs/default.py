@@ -32,6 +32,11 @@ class DefaultConfig:
     APPLICATIONS_ENDPOINT = CommonConfig.APPLICATIONS_ENDPOINT
     APPLICATION_ENDPOINT = CommonConfig.APPLICATION_ENDPOINT
 
+    # Account Store
+    ACCOUNT_STORE_API_HOST = CommonConfig.ACCOUNT_STORE_API_HOST
+    ACCOUNTS_ENDPOINT = CommonConfig.ACCOUNTS_ENDPOINT
+    ACCOUNT_ENDPOINT = CommonConfig.ACCOUNT_ENDPOINT
+
     # ---------------
     # Database
     # ---------------

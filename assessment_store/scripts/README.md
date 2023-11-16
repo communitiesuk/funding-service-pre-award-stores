@@ -46,7 +46,7 @@ The process_assessment_data function performs the processing of assessment data 
 - write_csv: A boolean indicating whether to export the data to a CSV file.
 - csv_location: The location to save the CSV file (optional if write_csv is False).
 
-During processing, the function retrieves assessment data for the specified round_id using the get_assessment_records_by_round_id function. It then proceeds to extract the requested data for the round.
+During processing, the function retrieves assessment score data for the specified round_id using the get_assessment_records_score_data_by_round_id function. It then proceeds to extract the requested data for the round.
 
 To run locally
 
