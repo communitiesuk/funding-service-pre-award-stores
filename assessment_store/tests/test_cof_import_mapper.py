@@ -84,7 +84,7 @@ def test_derive_cof_values_location_present_no_error(
     ), "wrong county value"
 
 
-def test_derive_cof_values_location_present_with_error():
+def test_derive_cof_values_location_present_with_error(mock_data_key_mappings):
     single_application_json = (
         "tests/test_data/single_application_no_location.json"
     )
