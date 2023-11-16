@@ -73,7 +73,7 @@ scored_criteria = [
                                 "field_id": "KEnthg",
                                 "form_name": "roles-and-recruitment-dpi",
                                 "field_type": "numberField",
-                                "presentation_type": "integer",
+                                "presentation_type": "currency",
                                 "question": "What is the estimated cost of backfilling roles?",
                             },
                             {
@@ -155,6 +155,13 @@ scored_criteria = [
                         "name": "Dataset information",
                         "answers": [
                             {
+                                "field_id": "BQKLZz",
+                                "form_name": "dataset-information-dpi",
+                                "field_type": "yesNoField",
+                                "presentation_type": "text",
+                                "question": "Does your organisation collect at least one of the datasets?",
+                            },
+                            {
                                 "field_id": "PfjXKB",
                                 "form_name": "dataset-information-dpi",
                                 "field_type": "checkboxesField",
@@ -190,25 +197,18 @@ scored_criteria = [
                                 "question": "Which format is your dataset in for tree preservation orders?",
                             },
                             {
-                                "field_id": "kgGPmd",
-                                "form_name": "dataset-information-dpi",
-                                "field_type": "freeTextField",
-                                "presentation_type": "free_text",
-                                "question": "What are the current known issues and challenges you have with data quality and publication?",
-                            },
-                            {
-                                "field_id": "BQKLZz",
-                                "form_name": "dataset-information-dpi",
-                                "field_type": "yesNoField",
-                                "presentation_type": "text",
-                                "question": "Does your organisation collect at least one of the datasets?",
-                            },
-                            {
                                 "field_id": "WSaPbE",
                                 "form_name": "dataset-information-dpi",
                                 "field_type": "radiosField",
                                 "presentation_type": "text",
                                 "question": "How long do you think it will take your organisation to publish all 4 datasets?",
+                            },
+                            {
+                                "field_id": "kgGPmd",
+                                "form_name": "dataset-information-dpi",
+                                "field_type": "freeTextField",
+                                "presentation_type": "free_text",
+                                "question": "What are the current known issues and challenges you have with data quality and publication?",
                             },
                         ],
                     }
