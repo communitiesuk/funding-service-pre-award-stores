@@ -148,7 +148,10 @@ round_config = [
         "feedback_link": "",
         "project_name_field_id": "JAAhRP",
         "application_guidance": DPI_APPLICATION_GUIDANCE,
-        "guidance_url": "",
+        "guidance_url": (
+            "https://docs.google.com/document/d/1cF5eKphoBWEUe0Zv5HBwv0R3n1svCk16kUFRJhKnIQY"
+            "/edit#heading=h.b0vrhm5gih2k"
+        ),
         "all_uploaded_documents_section_available": False,
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
