@@ -187,5 +187,6 @@ round_config = [
             "is_feedback_survey_optional": False,
             "is_section_feedback_optional": False,
         },
+        "eligibility_config": {"has_eligibility": False},
     }
 ]

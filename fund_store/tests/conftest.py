@@ -161,6 +161,7 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
                     "is_feedback_survey_optional": True,
                     "is_section_feedback_optional": True,
                 },
+                "eligibility_config": {"has_eligibility": False},
             }
             rounds.append(round_config)
 

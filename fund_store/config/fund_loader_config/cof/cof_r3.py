@@ -767,6 +767,7 @@ round_config = [
             "is_feedback_survey_optional": True,
             "is_section_feedback_optional": True,
         },
+        "eligibility_config": {"has_eligibility": False},
     }
 ]
 
@@ -815,6 +816,7 @@ round_config_w2 = [
             "is_feedback_survey_optional": False,
             "is_section_feedback_optional": False,
         },
+        "eligibility_config": {"has_eligibility": False},
     },
 ]
 
@@ -863,5 +865,5 @@ round_config_w3 = [
             "is_feedback_survey_optional": False,
             "is_section_feedback_optional": False,
         },
-    },
+    }
 ]

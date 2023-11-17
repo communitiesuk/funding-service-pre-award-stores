@@ -150,6 +150,10 @@ def get_available_flag_allocations(fund_id, round_id):
     from config.fund_loader_config.night_shelter.ns_r2 import NIGHT_SHELTER_ROUND_2_ID
     from config.fund_loader_config.night_shelter.ns_r2 import NIGHT_SHELTER_FUND_ID
     from config.fund_loader_config.cyp.cyp_r1 import CYP_FUND_ID, CYP_ROUND_1_ID
+    from config.fund_loader_config.digital_planning.dpi_r2 import (
+        DPI_FUND_ID,
+        DPI_ROUND_2_ID,
+    )
 
     cof_teams = [
         {"key": "ASSESSOR", "value": "Assessor"},
@@ -172,6 +176,12 @@ def get_available_flag_allocations(fund_id, round_id):
         {"key": "LEAD_ASSESSOR", "value": "Lead Assessor"},
     ]
 
+    dpif_teams = [
+        {"key": "ELIGIBILITY", "value": "Eligibility"},
+        {"key": "MODERATION", "value": "Moderation"},
+        {"key": "LEAD_ASSESSOR", "value": "Lead Assessor"},
+    ]
+
     if fund_id == COF_FUND_ID and round_id in COF_ROUND_2_WINDOW_2_ID:
         return cof_teams
     elif fund_id == COF_FUND_ID and round_id == COF_ROUND_2_WINDOW_3_ID:
@@ -184,5 +194,7 @@ def get_available_flag_allocations(fund_id, round_id):
         return nstf_teams
     elif fund_id == CYP_FUND_ID and round_id == CYP_ROUND_1_ID:
         return cyp_teams
+    elif fund_id == DPI_FUND_ID and round_id == DPI_ROUND_2_ID:
+        return dpif_teams
     else:
         abort(404)
