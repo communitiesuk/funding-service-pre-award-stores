@@ -46,7 +46,7 @@ COF_R3W2_ASSESSMENT_DEADLINE_DATE = datetime(
     2023, 11, 20, 12, 0, 0, tzinfo=timezone.utc
 )  # 2023-11-20 12:00:00
 COF_R3W3_OPENS_DATE = datetime(
-    2023, 12, 6, 11, 0, 0, tzinfo=timezone.utc
+    2023, 12, 6, 11, 59, 0, tzinfo=timezone.utc
 )  # 2023-08-30 11:00:00
 COF_R3W3_DEADLINE_DATE = datetime(
     2024, 1, 11, 11, 59, 0, tzinfo=timezone.utc
