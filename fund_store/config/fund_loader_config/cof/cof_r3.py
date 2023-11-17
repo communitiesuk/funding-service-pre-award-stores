@@ -49,11 +49,11 @@ COF_R3W3_OPENS_DATE = datetime(
     2023, 12, 6, 11, 0, 0, tzinfo=timezone.utc
 )  # 2023-08-30 11:00:00
 COF_R3W3_DEADLINE_DATE = datetime(
-    2023, 10, 11, 11, 59, 0, tzinfo=timezone.utc
-)  # 2023-10-11 11:59:00
+    2024, 1, 11, 11, 59, 0, tzinfo=timezone.utc
+)  # 2023-10-11 11:59:00  TODO: Still waiting for this info from cof
 COF_R3W3_ASSESSMENT_DEADLINE_DATE = datetime(
-    2023, 11, 20, 12, 0, 0, tzinfo=timezone.utc
-)  # 2023-11-20 12:00:00
+    2024, 1, 20, 12, 0, 0, tzinfo=timezone.utc
+)  # 2023-11-20 12:00:00  TODO Still waiting for this info from cof
 cof_r3_sections = [
     {
         "section_name": {
@@ -865,5 +865,6 @@ round_config_w3 = [
             "is_feedback_survey_optional": False,
             "is_section_feedback_optional": False,
         },
+        "eligibility_config": {"has_eligibility": False},
     }
 ]
