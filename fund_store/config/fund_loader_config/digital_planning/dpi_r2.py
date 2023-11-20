@@ -153,7 +153,7 @@ round_config = [
             "/edit#heading=h.b0vrhm5gih2k"
         ),
         "all_uploaded_documents_section_available": False,
-        "application_fields_download_available": False,
+        "application_fields_download_available": True,
         "display_logo_on_pdf_exports": False,
         "mark_as_complete_enabled": True,
         "feedback_survey_config": {
