@@ -55,8 +55,6 @@ jobs:
       application: funding-service-design-fund-store
 
   pre_deploy_tests:
-    secrets:
-      E2E_PAT: ${{secrets.E2E_PAT}}
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
     with:
       # Note - no db-name, so defaults to postgres_db
@@ -128,6 +126,9 @@ jobs:
     - name: Inject replacement image into manifest
       run: |
         yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-fund-store/manifest.yml
+
+    - name: Run database migrations
+      run: scripts/migration-task-script.py ${{ matrix.value }} fsd-fund-store
 
     - name: Copilot ${{ matrix.value }} deploy
       id: deploy_build
