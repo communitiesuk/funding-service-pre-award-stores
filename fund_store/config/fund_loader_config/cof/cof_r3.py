@@ -858,7 +858,7 @@ round_config_w3 = [
         "all_uploaded_documents_section_available": True,
         "application_fields_download_available": True,
         "display_logo_on_pdf_exports": False,
-        "mark_as_complete_enabled": False,
+        "mark_as_complete_enabled": True,
         "feedback_survey_config": {
             "has_feedback_survey": True,
             "has_section_feedback": True,
