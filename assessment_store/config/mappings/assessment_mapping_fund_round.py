@@ -278,7 +278,37 @@ applicant_info_mapping = {
         },
     },
     DPIF_FUND_ID: {
-        "ASSESSOR_EXPORT": {},
+        "ASSESSOR_EXPORT": {
+            "form_fields": {
+                "nYJiWy": {"en": {"title": "Organisation name"}},
+                "uYsivE": {"en": {"title": "Project sponsor name"}},
+                "xgrxxv": {"en": {"title": "Project sponsor email"}},
+                "cPpwET": {"en": {"title": "Section 151 officer name"}},
+                "EMukio": {"en": {"title": "Section 151 officer email"}},
+                "AYmilW": {"en": {"title": "Lead contact name"}},
+                "IRugBv": {"en": {"title": "Lead contact email"}},
+                "JUgCya": {
+                    "en": {
+                        "title": "You have signed the Local Digital Declaration and agree to follow the 5 core principles"
+                    }
+                },
+                "vbmqwB": {
+                    "en": {
+                        "title": "Your section 151 officer consents to the funds being carried over and spent in the next financial year (March 2024-25) and beyond if deemed necessary in project budget planning"
+                    }
+                },
+                "EQffUz": {
+                    "en": {
+                        "title": "You agree to let all outputs from this work be published under open licence with a view to any organisation accessing, using or adopting them freely"
+                    }
+                },
+                "kPYiQE": {
+                    "en": {
+                        "title": "The information you have provided is accurate"
+                    }
+                },
+            }
+        },
         "OUTPUT_TRACKER": {},
     },
 }
