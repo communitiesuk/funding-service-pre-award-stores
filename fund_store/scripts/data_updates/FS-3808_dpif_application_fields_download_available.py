@@ -5,7 +5,7 @@ from flask import current_app
 from sqlalchemy import update
 
 
-def update_rounds_with_links(rounds):
+def update_application_fields_download_available(rounds):
     for round in rounds:
         current_app.logger.warning(f"\tRound: {round['short_name']} ({round['id']})")
         if round.get("application_fields_download_available"):
@@ -34,7 +34,7 @@ def main() -> None:
     current_app.logger.warning(
         "Updating application_fields_download_available for DPIF R2"
     )
-    update_rounds_with_links(dpi_r2.round_config)
+    update_application_fields_download_available(dpi_r2.round_config)
     current_app.logger.warning("Updates complete")
 
 
