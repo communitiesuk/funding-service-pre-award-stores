@@ -131,7 +131,7 @@ jobs:
 
     - name: Inject replacement image into manifest
       run: |
-        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-fund-store/manifest.yml
+        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-fund-store/manifest.yml
 
     - name: Run database migrations
       run: scripts/migration-task-script.py ${{ matrix.value }} fsd-fund-store
@@ -193,7 +193,7 @@ jobs:
 
     - name: Inject replacement image into manifest
       run: |
-        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-fund-store/manifest.yml
+        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-fund-store/manifest.yml
 
     - name: Run database migrations
       run: scripts/migration-task-script.py ${{ matrix.value }} fsd-fund-store
@@ -268,7 +268,7 @@ jobs:
 
     - name: Inject replacement image into manifest
       run: |
-        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-fund-store/manifest.yml
+        yq -i '.image.location = "ghcr.io/communitiesuk/funding-service-design-fund-store:${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}"'  copilot/fsd-fund-store/manifest.yml
 
     - name: Run database migrations
       run: scripts/migration-task-script.py ${{ matrix.value }} fsd-fund-store
@@ -277,3 +277,4 @@ jobs:
       id: deploy_build
       run: |
         copilot svc deploy --env ${{ matrix.value }} --app pre-award
+
