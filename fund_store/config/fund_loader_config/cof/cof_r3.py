@@ -53,7 +53,7 @@ COF_R3W3_DEADLINE_DATE = datetime(
 )  # 2024-01-31 11:59:00
 COF_R3W3_ASSESSMENT_DEADLINE_DATE = datetime(
     2024, 2, 23, 12, 0, 0, tzinfo=timezone.utc
-)  # 2024-11-23 12:00:00
+)  # 2024-02-23 12:00:00
 cof_r3_sections = [
     {
         "section_name": {
