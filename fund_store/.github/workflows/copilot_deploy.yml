@@ -277,4 +277,3 @@ jobs:
       id: deploy_build
       run: |
         copilot svc deploy --env ${{ matrix.value }} --app pre-award
-
