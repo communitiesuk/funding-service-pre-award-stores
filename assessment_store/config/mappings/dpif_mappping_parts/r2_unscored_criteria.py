@@ -3,8 +3,8 @@
 
 unscored_sections = [
     {
-        "id": "about_your_organisation_and_future_work",
-        "name": "About your organisation and future work",
+        "id": "unscored",
+        "name": "Unscored",
         "sub_criteria": [
             {
                 "id": "about_your_organisation_and_future_work",
