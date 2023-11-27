@@ -47,13 +47,13 @@ COF_R3W2_ASSESSMENT_DEADLINE_DATE = datetime(
 )  # 2023-11-20 12:00:00
 COF_R3W3_OPENS_DATE = datetime(
     2023, 12, 6, 11, 59, 0, tzinfo=timezone.utc
-)  # 2023-08-30 11:00:00
+)  # 2023-12-06 11:59:00
 COF_R3W3_DEADLINE_DATE = datetime(
-    2024, 1, 11, 11, 59, 0, tzinfo=timezone.utc
-)  # 2023-10-11 11:59:00  TODO: Still waiting for this info from cof
+    2024, 1, 31, 11, 59, 0, tzinfo=timezone.utc
+)  # 2024-01-31 11:59:00
 COF_R3W3_ASSESSMENT_DEADLINE_DATE = datetime(
-    2024, 1, 20, 12, 0, 0, tzinfo=timezone.utc
-)  # 2023-11-20 12:00:00  TODO Still waiting for this info from cof
+    2024, 2, 23, 12, 0, 0, tzinfo=timezone.utc
+)  # 2024-11-23 12:00:00
 cof_r3_sections = [
     {
         "section_name": {
