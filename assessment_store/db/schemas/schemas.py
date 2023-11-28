@@ -144,7 +144,7 @@ class TagAssociationSchema(SQLAlchemyAutoSchema):
 class TagAssociationNestedSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = TagAssociation
-        fields = ("id", "user_id", "associated", "tag")
+        fields = ("id", "user_id", "associated", "tag", "created_at")
 
     tag = Nested("TagNestedSchema")
 
@@ -157,6 +157,7 @@ class JoinedTagAssociationSchema(SQLAlchemyAutoSchema):
     associated = Boolean()
     application_id = UUID()
     user_id = UUID()
+    created_at = String()
 
     class Meta:
         model = None  # Set the model to None since it doesn't directly map to a single model

@@ -9,7 +9,9 @@ from flask import request
 
 
 def get_score_for_application_sub_criteria(
-    application_id: str, sub_criteria_id: str, score_history: bool = False
+    application_id: str,
+    sub_criteria_id: str = None,
+    score_history: bool = False,
 ) -> List[Dict]:
     """get_score_for_application_sub_criteria Function used by the get endpoint
     `/applications/{application_id}/ subcriterias/{subcriteria_id}/scores`.

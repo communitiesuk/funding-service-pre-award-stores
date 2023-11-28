@@ -454,6 +454,10 @@ components:
             type: string
             description: inserted tag key
             example: "Tag 1"
+          created_at:
+            type: string
+            description: datetime stamp
+            example: "2023-11-09"
           user:
             type: string
             description: User who associated

@@ -3,6 +3,9 @@ from db.queries.assessment_records.queries import associate_assessment_tags
 from db.queries.assessment_records.queries import (
     select_active_tags_associated_with_assessment,
 )
+from db.queries.assessment_records.queries import (
+    select_all_tags_associated_with_application,
+)
 from db.queries.tags.queries import get_tag_by_id
 from db.queries.tags.queries import insert_tags
 from db.queries.tags.queries import select_tags_for_fund_round
@@ -127,6 +130,22 @@ def get_active_tags_associated_with_assessment(application_id):
         f"Getting tags associated with assessment with application_id: {application_id}."
     )
     associated_tags = select_active_tags_associated_with_assessment(
+        application_id
+    )
+    if associated_tags:
+        serialiser = JoinedTagAssociationSchema()
+        serialised_associated_tags = [
+            serialiser.dump(r) for r in associated_tags
+        ]
+        return serialised_associated_tags
+    return []
+
+
+def get_all_tags_associated_with_application(application_id):
+    current_app.logger.info(
+        f"Getting tags associated with with application_id: {application_id}."
+    )
+    associated_tags = select_all_tags_associated_with_application(
         application_id
     )
     if associated_tags:

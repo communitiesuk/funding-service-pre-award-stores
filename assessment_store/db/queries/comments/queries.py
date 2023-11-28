@@ -47,6 +47,14 @@ def get_comments_for_application_sub_crit(
             )
             .order_by(Comment.date_created.desc())
         )
+
+    if not sub_criteria_id and not theme_id:
+        stmt = (
+            select(Comment)
+            .where(Comment.application_id == application_id)
+            .order_by(Comment.date_created.desc())
+        )
+
     elif application_id and sub_criteria_id and theme_id:
         stmt = (
             select(Comment)

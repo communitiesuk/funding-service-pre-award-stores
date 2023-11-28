@@ -79,14 +79,19 @@ def test_tag_association_disassociation_workflow_is_working_correctly(
     tags = get_active_tags_associated_with_assessment(app_id)
     assert len(tags) == len(new_tags)
 
-    # associate a single tag and expect other tag to be disassociated
-    updated_tags = [new_tags[0]]
+    # associate a single tag and expect other tag to be disassociated with no tag_id
+    updated_tags = [
+        new_tags[0],
+        {"id": "", "user_id": "5dd2b7d8-12f0-482f-b64b-8809b19baa93"},
+    ]
     associate_assessment_tags(app_id, updated_tags)
     actual_tags = get_active_tags_associated_with_assessment(app_id)
-    assert len(actual_tags) == len(updated_tags)
+    assert len(actual_tags) == len(updated_tags) - 1
+
     updated_tag_ids = [tag["id"] for tag in updated_tags]
     actual_tag_ids = [t_a["tag_id"] for t_a in actual_tags]
-    assert set(updated_tag_ids) == set(actual_tag_ids)
+    assert updated_tag_ids[0] == actual_tag_ids[0]
+    assert updated_tag_ids[1] != actual_tag_ids[0]
 
     # associate two tags again
     associate_assessment_tags(app_id, new_tags)
@@ -94,7 +99,9 @@ def test_tag_association_disassociation_workflow_is_working_correctly(
     assert len(actual_tags) == len(new_tags)
 
     # associate no tags and expect all associated tags to be removed
-    associate_assessment_tags(app_id, [])
+    associate_assessment_tags(
+        app_id, [{"id": "", "user_id": "5dd2b7d8-12f0-482f-b64b-8809b19baa93"}]
+    )
     actual_tags = get_active_tags_associated_with_assessment(app_id)
     assert actual_tags == []  # noqa: E711
 
@@ -121,7 +128,7 @@ def test_tag_association_history_is_retained_for_reassociated_tags(
     # check there are no tags associated or disassociated for an app
     assert len(app.tag_associations) == 0
 
-    # associate a single tag
+    # (TAG 1) associate a single tag
     associate_assessment_tags(app_id, single_tag)
     app = _db.session.scalars(stmt).one()
     # check total associated or disassociated tags
@@ -131,33 +138,38 @@ def test_tag_association_history_is_retained_for_reassociated_tags(
     assert len(tags) == 1
     assert tags[0]["user_id"] == "5dd2b7d8-12f0-482f-b64b-8809b19baa93"
 
-    # disassociate the tag
-    associate_assessment_tags(app_id, [])
+    # (TAG 2) disassociate the tag
+    associate_assessment_tags(
+        app_id, [{"id": "", "user_id": "5dd2b7d8-12f0-482f-b64b-8809b19baa93"}]
+    )
     tags = get_active_tags_associated_with_assessment(app_id)
     app = _db.session.scalars(stmt).one()
     # check total associated or disassociated tags
-    assert len(app.tag_associations) == 1
+
+    assert len(app.tag_associations) == 2
     # check total associated tags
     tags = get_active_tags_associated_with_assessment(app_id)
     assert tags == []  # noqa: E711
 
-    # associate the single tag again as a different user
+    # (TAG 3) associate the single tag again as a different user
     single_tag[0]["user_id"] = "2d8e6a2e-aa22-417f-a138-90569c8b238f"
     associate_assessment_tags(app_id, single_tag)
     app = _db.session.scalars(stmt).one()
     # check total associated or disassociated tags
-    assert len(app.tag_associations) == 2
+    assert len(app.tag_associations) == 3
     # check total associated tags
     tags = get_active_tags_associated_with_assessment(app_id)
     assert len(tags) == 1
     assert tags[0]["user_id"] == "2d8e6a2e-aa22-417f-a138-90569c8b238f"
 
-    # disassociate the tag
-    associate_assessment_tags(app_id, [])
+    # (TAG 4) disassociate the tag
+    associate_assessment_tags(
+        app_id, [{"id": "", "user_id": "5dd2b7d8-12f0-482f-b64b-8809b19baa93"}]
+    )
     tags = get_active_tags_associated_with_assessment(app_id)
     app = _db.session.scalars(stmt).one()
     # check total associated or disassociated tags
-    assert len(app.tag_associations) == 2
+    assert len(app.tag_associations) == 4
     # check total associated tags
     tags = get_active_tags_associated_with_assessment(app_id)
     assert tags == []  # noqa: E711

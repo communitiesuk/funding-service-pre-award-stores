@@ -1,8 +1,13 @@
+from collections import defaultdict
+from datetime import datetime
+
 import jsonpath_rw_ext
 import requests
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_data_key_mappings,
 )
+from db.models.assessment_record import TagAssociation
+from flask import current_app
 
 
 def get_answer_value(application_json, answer_key):
@@ -191,3 +196,89 @@ def derive_application_values(application_json):
         derived_values["location_json_blob"]["postcode"] = FIELD_DEFAULT_VALUE
 
     return derived_values
+
+
+def get_most_recent_tags(tag_associations):
+    # Create a dictionary to group tag_associations by tag_id
+    tag_id_dict = {}
+    for tag_assoc in tag_associations:
+        tag_id = tag_assoc["tag"]["id"]
+        tag_id_dict.setdefault(tag_id, []).append(tag_assoc)
+
+    updated_tag_associations = []
+    for assoc_list in tag_id_dict.values():
+        # Sort each group by created_at timestamp to find the most recent entry
+        sorted_tags = sorted(
+            assoc_list,
+            key=lambda x: datetime.strptime(
+                x["created_at"], "%Y-%m-%dT%H:%M:%S.%f%z"
+            ),
+            reverse=True,
+        )
+        # Append the most recent tag association to the updated list
+        updated_tag_associations.append(sorted_tags[0])
+
+    return updated_tag_associations
+
+
+def update_tag_associations(assessment_metadatas):
+    for metadata in assessment_metadatas:
+        # Retrieve tag associations for the current metadata
+        tag_associations = metadata.get("tag_associations", [])
+        if tag_associations:
+            # Update tag_associations for the current metadata with the most recent entries
+            metadata["tag_associations"] = get_most_recent_tags(
+                tag_associations
+            )
+    return assessment_metadatas
+
+
+def get_existing_tags(application_id):
+    """Queries the database for existing tags associated with a specific
+    application, organises them by tag ID, and returns a defaultdict where each
+    tag ID is associated with a list containing tuples of creation timestamps and
+    their corresponding tag instances.
+
+    Example:
+        {'0000000-00000-00000-000001':
+        [(datetime.datetime(2023, 11, 17, 18, 48, 25, tzinfo=datetime.timezone.utc),
+          <TagAssociation db91a66b->), .......
+          ]}
+
+    """
+    existing_tags = TagAssociation.query.filter(
+        TagAssociation.application_id == application_id,
+    ).all()
+    list_existing_tags = defaultdict(list)
+    for existing_tag in existing_tags:
+        tag_id = str(existing_tag.tag_id)
+        list_existing_tags[tag_id].append(
+            (existing_tag.created_at, existing_tag)
+        )
+    return list_existing_tags
+
+
+def filter_tags(incoming_tags, existing_tags):
+    """If an incoming tag ID matches an existing tag ID, it skips that tag;
+    otherwise, it appends the tag list from the existing tags to the filtered tags
+    list."""
+    filtered_tags = []
+    for (
+        existing_tag_id,
+        existing_tag_list,
+    ) in existing_tags.items():
+        _incoming_tag = next(
+            (
+                incoming_tag
+                for incoming_tag in incoming_tags
+                if incoming_tag.get("id") == existing_tag_id
+            ),
+            None,
+        )
+        if _incoming_tag:
+            current_app.logger.info(
+                f"Tag id is already associated: {existing_tag_id}"
+            )
+        else:
+            filtered_tags.append(existing_tag_list)
+    return filtered_tags

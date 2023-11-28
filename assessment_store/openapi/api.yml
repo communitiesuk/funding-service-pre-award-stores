@@ -307,7 +307,7 @@ paths:
         in: query
         schema:
           type: string
-        required: true
+        required: false
       - name: score_history
         in: query
         schema:
@@ -1048,6 +1048,29 @@ paths:
             application/json:
               schema:
                 type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/TagAssociation'
+
+  '/application/{application_id}/tags':
+    get:
+      tags:
+        - tag management
+      summary: Get all tags associated to application_id
+      description: returns all active tag associations for an application
+      operationId: api.routes.tag_routes.get_all_tags_associated_with_application
+      parameters:
+        - name: application_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: SUCCESS - A list of assessment tags
+          content:
+            application/json:
+              schema:
+                type: array
                 items:
                   $ref: 'components.yml#/components/schemas/TagAssociation'
   '/funds/{fund_id}/rounds/{round_id}/tags/{tag_id}':

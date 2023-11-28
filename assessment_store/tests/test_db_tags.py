@@ -348,12 +348,19 @@ def test_get_tag_has_correct_tag_association_count(
     check_tags(2)
 
     # Now dis-associate and see change in tag association count (now tags are only associated with app_2)
-    associate_assessment_tags(app_1_id, [])
-    check_tags(1)
+    # sets existing tag to False
+    associate_assessment_tags(
+        app_1_id,
+        [{"id": "", "user_id": "5dd2b7d8-12f0-482f-b64b-8809b19baa93"}],
+    )
+    check_tags(2)
 
-    # Disassociate all tags from app_2
-    associate_assessment_tags(app_2_id, [])
-    check_tags(0)
+    # Disassociate all tags from app_2 (set existing tag to False)
+    associate_assessment_tags(
+        app_2_id,
+        [{"id": "", "user_id": "5dd2b7d8-12f0-482f-b64b-8809b19baa93"}],
+    )
+    check_tags(2)
 
 
 def test_get_tag_bad_id(seed_tags):

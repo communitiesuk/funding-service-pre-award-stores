@@ -17,6 +17,9 @@ from db.models.score import Score
 from db.models.tag.tag_types import TagType
 from db.models.tag.tags import Tag
 from db.queries.assessment_records._helpers import derive_application_values
+from db.queries.assessment_records._helpers import filter_tags
+from db.queries.assessment_records._helpers import get_existing_tags
+from db.queries.assessment_records._helpers import update_tag_associations
 from db.schemas import AssessmentRecordMetadata
 from db.schemas import AssessmentSubCriteriaMetadata
 from db.schemas import AssessorTaskListMetadata
@@ -24,6 +27,7 @@ from flask import current_app
 from services.data_services import get_account_name
 from sqlalchemy import and_
 from sqlalchemy import bindparam
+from sqlalchemy import desc
 from sqlalchemy import exc
 from sqlalchemy import func
 from sqlalchemy import or_
@@ -31,6 +35,7 @@ from sqlalchemy import select
 from sqlalchemy import String
 from sqlalchemy import update
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
+from sqlalchemy.orm import aliased
 from sqlalchemy.orm import defer
 from sqlalchemy.orm import load_only
 
@@ -234,7 +239,10 @@ def get_metadata_for_fund_round_id(
         for app_metadata in assessment_metadatas
     ]
 
-    return assessment_metadatas
+    assessment_metadatas_with_recent_tags = update_tag_associations(
+        assessment_metadatas
+    )
+    return assessment_metadatas_with_recent_tags
 
 
 def bulk_insert_application_record(
@@ -661,50 +669,181 @@ def get_assessment_records_score_data_by_round_id(
     return output
 
 
+def create_tag(application_id, tag_id, associated, user_id):
+    new_tag = TagAssociation(
+        application_id=application_id,
+        tag_id=tag_id,
+        associated=associated,
+        user_id=user_id,
+    )
+    db.session.add(new_tag)
+
+
 def associate_assessment_tags(application_id, tags: List):
-    existing_associated_tags = TagAssociation.query.filter(
-        TagAssociation.application_id == application_id,
-        TagAssociation.associated == True,  # noqa: E712
-    ).all()
+    _existing_tags = get_existing_tags(application_id)
+    for incoming_tag in tags:
+        incoming_user_id = incoming_tag.get("user_id")
+        incoming_tag_id = incoming_tag.get("id")
 
-    # Create a dictionary to quickly lookup existing tags by tag_id
-    existing_associated_tags_dict = {
-        str(tag.tag_id): tag for tag in existing_associated_tags
-    }
-
-    # Iterate over the provided tags and update the tag associations
-    for tag in tags:
-        tag_id = tag.get("id")
-        user_id = tag.get("user_id")
-        associated = True  # Set associated value to True for provided tags
-
-        # Check if the tag association already exists in the database
-        if tag_id not in existing_associated_tags_dict:
-            new_tag = TagAssociation(
-                application_id=application_id,
-                tag_id=tag_id,
-                associated=associated,
-                user_id=user_id,
+        if incoming_tag_id and not _existing_tags:
+            # If no existing tags are found, create a new tag(s) with incoming tags info.
+            current_app.logger.info(
+                f"Creating new tag(s) for {incoming_tag_id}"
             )
-            db.session.add(new_tag)
+            create_tag(application_id, incoming_tag_id, True, incoming_user_id)
 
-    # Dis-associate any existing tags that are not present in the provided list
-    incoming_tag_ids = {tag["id"] for tag in tags}
-    for tag in existing_associated_tags:
-        if str(tag.tag_id) not in incoming_tag_ids:
-            tag.associated = False
+        if incoming_tag_id and _existing_tags:
+            # Check if the tag already exists, otherwise, create a new associated tag.
+            tag_exists = incoming_tag_id in _existing_tags.keys()
+            if tag_exists:
+                # Find the most recent version of the tag.
+                most_recent_tag = max(
+                    _existing_tags[incoming_tag_id],
+                    key=lambda x: x[0],
+                )[1]
+                # If it's already associated, skip, otherwise, create a new associated tag.
+                if most_recent_tag.associated:
+                    current_app.logger.info(
+                        f"Tag is alreday associated: { most_recent_tag.tag_id}"
+                    )
+                else:
+                    current_app.logger.info(
+                        f"Creating new tag: {incoming_tag_id}"
+                    )
+                    create_tag(
+                        application_id,
+                        incoming_tag_id,
+                        True,
+                        incoming_user_id,
+                    )
+            else:
+                current_app.logger.info(f"Creating new tag: {incoming_tag_id}")
+                create_tag(
+                    application_id, incoming_tag_id, True, incoming_user_id
+                )
 
+        if not incoming_tag_id:
+            filterted_tags = filter_tags(tags, _existing_tags)
+            for filterted_tag in filterted_tags:
+                most_recent_tag = max(filterted_tag, key=lambda x: x[0])[1]
+                if most_recent_tag.associated:
+                    current_app.logger.info(
+                        f"Dis-associating existing associated tag_id: {most_recent_tag.tag_id}"
+                    )
+                    create_tag(
+                        application_id,
+                        most_recent_tag.tag_id,
+                        False,
+                        incoming_user_id,
+                    )
     db.session.commit()
 
-    # Return the updated tag associations
-    updated_tags = TagAssociation.query.filter(
-        TagAssociation.application_id == application_id,
-        TagAssociation.associated == True,  # noqa: E712
-    ).all()
-    return updated_tags
+    # Retrieve all records for a specific application_id
+    subquery = (
+        TagAssociation.query.filter(
+            TagAssociation.application_id == application_id
+        )
+        .order_by(TagAssociation.tag_id, desc(TagAssociation.created_at))
+        .distinct(TagAssociation.tag_id)
+        .subquery()
+    )
+
+    # Use a subquery to get the most recent record for each tag_id
+    alias = aliased(TagAssociation, subquery)
+    recent_records = (
+        db.session.query(alias)
+        .order_by(alias.tag_id, desc(alias.created_at))
+        .distinct(alias.tag_id)
+        .all()
+    )
+
+    # Check if the most recent record for each tag_id has associated set to True
+    associated_tags = [
+        record for record in recent_records if record.associated
+    ]
+    return associated_tags
 
 
 def select_active_tags_associated_with_assessment(application_id):
+    try:
+        # Step 1: Selecting columns and creating aliases
+        query = db.session.query(
+            Tag.id.label("tag_id"),
+            Tag.value,
+            TagType.purpose,
+            TagType.description,
+            TagAssociation.associated,
+            TagAssociation.user_id,
+            AssessmentRecord.application_id,
+            func.max(TagAssociation.created_at).label("_created_at"),
+        )
+
+        # Step 2: Joining tables
+        query = (
+            query.join(
+                AssessmentRecord,
+                TagAssociation.application_id
+                == AssessmentRecord.application_id,
+            )
+            .join(Tag, Tag.id == TagAssociation.tag_id)
+            .join(TagType, Tag.type_id == TagType.id)
+        )
+
+        # Step 3: Filtering by application_id and active tags
+        query = query.filter(
+            AssessmentRecord.application_id == application_id,
+            Tag.active == True,  # noqa: E712
+        )
+
+        # Step 4: Group data based on tags and related info.
+        query = query.group_by(
+            Tag.id,
+            Tag.value,
+            TagType.purpose,
+            TagType.description,
+            TagAssociation.associated,
+            TagAssociation.user_id,
+            AssessmentRecord.application_id,
+        )
+
+        # Step 5: Getting the most recent created_at for each tag_id
+        subquery = (
+            db.session.query(
+                TagAssociation.tag_id,
+                func.max(TagAssociation.created_at).label("_created_at"),
+            )
+            .filter(
+                AssessmentRecord.application_id == application_id,
+                Tag.active == True,  # noqa: E712
+            )
+            .group_by(TagAssociation.tag_id)
+            .subquery()
+        )
+
+        query = query.join(
+            subquery,
+            and_(
+                TagAssociation.tag_id == subquery.c.tag_id,
+                TagAssociation.created_at == subquery.c._created_at,
+            ),
+        )
+
+        # Step 6: Executing the whole query
+        tag_associations = query.all()
+
+        # Step 7: Check if the first record for each tag_id has associated set to True
+        associated_tags = [
+            record for record in tag_associations if record.associated
+        ]
+
+        return associated_tags
+
+    except Exception as e:
+        current_app.logger.error(f"Error: {e}")
+        raise e
+
+
+def select_all_tags_associated_with_application(application_id):
     tag_associations = (
         db.session.query(
             Tag.id.label("tag_id"),
@@ -713,6 +852,7 @@ def select_active_tags_associated_with_assessment(application_id):
             TagType.description,
             TagAssociation.associated,
             TagAssociation.user_id,
+            TagAssociation.created_at,
             AssessmentRecord.application_id,
         )
         .join(
@@ -723,8 +863,6 @@ def select_active_tags_associated_with_assessment(application_id):
         .join(TagType, Tag.type_id == TagType.id)
         .filter(
             AssessmentRecord.application_id == application_id,
-            TagAssociation.associated == True,  # noqa: E712
-            Tag.active == True,  # noqa: E712
         )
         .all()
     )
