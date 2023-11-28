@@ -922,19 +922,19 @@ def get_export_data(
     field_ids = form_fields.keys()
     final_list = []
 
-    if len(form_fields) != 0:
-        for assessment in assessment_metadatas:
-            iso_format = "%Y-%m-%dT%H:%M:%S.%f"
-            iso_datetime = datetime.strptime(
-                assessment.jsonb_blob["date_submitted"], iso_format
-            )
-            formatted_date = iso_datetime.strftime("%d/%m/%Y %H:%M:%S")
+    for assessment in assessment_metadatas:
+        iso_format = "%Y-%m-%dT%H:%M:%S.%f"
+        iso_datetime = datetime.strptime(
+            assessment.jsonb_blob["date_submitted"], iso_format
+        )
+        formatted_date = iso_datetime.strftime("%d/%m/%Y %H:%M:%S")
 
-            applicant_info = {
-                "Application ID": assessment.application_id,
-                "Short ID": assessment.short_id,
-                "Date Submitted": formatted_date,
-            }
+        applicant_info = {
+            "Application ID": assessment.application_id,
+            "Short ID": assessment.short_id,
+            "Date Submitted": formatted_date,
+        }
+        if len(form_fields) != 0:
             forms = assessment.jsonb_blob["forms"]
             for form in forms:
                 questions = form["questions"]
@@ -955,7 +955,7 @@ def get_export_data(
             applicant_info = add_missing_elements_with_empty_values(
                 applicant_info, form_fields, language
             )
-            final_list.append(applicant_info)
+        final_list.append(applicant_info)
 
     if report_type == "OUTPUT_TRACKER":
         score_info_output = get_assessment_records_score_data_by_round_id(
