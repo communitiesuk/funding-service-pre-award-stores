@@ -275,7 +275,6 @@ jobs:
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
       run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
-      app_name: application
       environment: test
 
   uat_deploy:
