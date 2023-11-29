@@ -10,69 +10,46 @@ from db import db
 from db.models.comment.comments import Comment
 from db.models.comment.comments_update import CommentsUpdate
 from db.schemas import CommentMetadata
+from sqlalchemy import and_
 from sqlalchemy import select
 
 
-# May need rewrite after testing
 def get_comments_for_application_sub_crit(
-    application_id: str = None,
+    application_id: str,
     sub_criteria_id: str = None,
     theme_id: str = None,
     comment_id: str = None,
-) -> Dict:
-    """get_comments_for_application_sub_crit executes a query on comments which
-    returns a list of comments for the given application_id and sub_criteria_id.
+) -> list[dict]:
+    """Retrieve comments based on provided criteria.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
-    :param theme_id: optional theme_id, if not supplied returns all
-        comments for subcriteria
+    :param theme_id: Optional theme_id, if not supplied returns all
+        comments for subcriteria.
     :param comment_id: The stringified comment UUID.
-    :return: dictionary.
+    :return: List of dictionaries representing comments.
 
     """
-    # TODO: remove 'score' option once
-    # frontend updated not to use it as it is not
-    # semantically meaningful
+    # Create a base query to retrieve Comment objects ordered by date_created
+    query = db.session.query(Comment).order_by(Comment.date_created.desc())
+
     if comment_id:
-        stmt = select(Comment).where(Comment.id == comment_id)
-    elif (application_id and sub_criteria_id) and (
-        not theme_id or theme_id == "score"
-    ):
-        stmt = (
-            select(Comment)
-            .where(
-                Comment.application_id == application_id,
-                Comment.sub_criteria_id == sub_criteria_id,
-            )
-            .order_by(Comment.date_created.desc())
-        )
+        # Filter the query to retrieve only the comment with the given comment_id
+        query = query.filter(Comment.id == comment_id)
+    elif application_id:
+        filters = [Comment.application_id == application_id]
+        if sub_criteria_id:
+            filters.append(Comment.sub_criteria_id == sub_criteria_id)
+        if theme_id:
+            filters.append(Comment.theme_id == theme_id)
+        # Combine multiple filters using logical AND using the `and_` function from SQLAlchemy
 
-    if not sub_criteria_id and not theme_id:
-        stmt = (
-            select(Comment)
-            .where(Comment.application_id == application_id)
-            .order_by(Comment.date_created.desc())
-        )
+        query = query.filter(and_(*filters))
 
-    elif application_id and sub_criteria_id and theme_id:
-        stmt = (
-            select(Comment)
-            .where(
-                Comment.application_id == application_id,
-                Comment.sub_criteria_id == sub_criteria_id,
-                Comment.theme_id == theme_id,
-            )
-            .order_by(Comment.date_created.desc())
-        )
-    else:
-        stmt = select(Comment)
-
-    comment_rows = db.session.scalars(stmt)
-    metadata_serialiser = CommentMetadata()
-
+    comment_rows = query.all()
+    metadata_serializer = CommentMetadata()
     comment_metadatas = [
-        metadata_serialiser.dump(comment_row) for comment_row in comment_rows
+        metadata_serializer.dump(comment_row) for comment_row in comment_rows
     ]
 
     return comment_metadatas
