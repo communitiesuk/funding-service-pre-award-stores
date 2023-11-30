@@ -7,7 +7,7 @@ from flask import request
 
 
 def comments_for_application_sub_criteria(
-    application_id: str,
+    application_id: str = None,
     sub_criteria_id: str = None,
     theme_id: str = None,
     comment_id: str = None,

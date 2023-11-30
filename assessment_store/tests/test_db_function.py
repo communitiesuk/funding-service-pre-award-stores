@@ -206,7 +206,9 @@ def test_get_comments(seed_application_records):
         "user_id": "test",
         "theme_id": "different theme",
     }
-    create_comment_for_application_sub_crit(**assessment_payload_3)
+    comment_metadata = create_comment_for_application_sub_crit(
+        **assessment_payload_3
+    )
 
     comment_metadata_for_theme = get_comments_for_application_sub_crit(
         application_id, sub_criteria_id, theme_id
@@ -221,6 +223,12 @@ def test_get_comments(seed_application_records):
         application_id, sub_criteria_id, theme_id=None
     )
     assert len(comment_metadata_no_theme) == 3
+
+    # test without application_id
+    comment_metadata_for_comment_id = get_comments_for_application_sub_crit(
+        comment_id=comment_metadata["id"]
+    )
+    assert len(comment_metadata_for_comment_id) == 1
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])

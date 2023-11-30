@@ -15,7 +15,7 @@ from sqlalchemy import select
 
 
 def get_comments_for_application_sub_crit(
-    application_id: str,
+    application_id: str = None,
     sub_criteria_id: str = None,
     theme_id: str = None,
     comment_id: str = None,
