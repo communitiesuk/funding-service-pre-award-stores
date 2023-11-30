@@ -194,11 +194,16 @@ def get_metadata_for_fund_round_id(
         current_app.logger.info(
             f"Performing assessment search on publish_datasets: {publish_datasets}."
         )
-        statement = statement.where(
-            cast(AssessmentRecord.publish_datasets, String).ilike(
-                f"%{publish_datasets}%"
+        if publish_datasets == "None":
+            statement = statement.where(
+                AssessmentRecord.publish_datasets.is_(None)
             )
-        )
+        else:
+            statement = statement.where(
+                cast(AssessmentRecord.publish_datasets, String).ilike(
+                    f"%{publish_datasets}%"
+                )
+            )
 
     if team_in_place != "" and team_in_place != "ALL":
         team_in_place = (
