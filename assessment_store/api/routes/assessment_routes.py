@@ -62,6 +62,9 @@ def all_assessments_for_fund_round_id(
     region: str = "ALL",
     local_authority: str = "ALL",
     cohort: str = "ALL",
+    publish_datasets: str = "ALL",
+    datasets: str = "ALL",
+    team_in_place: str = "ALL",
 ) -> List[Dict]:
     """all_assessments_for_fund_round_id Function used by the endpoint
     `/application_overviews/{fund_id}/{round_id}`.
@@ -85,6 +88,9 @@ def all_assessments_for_fund_round_id(
         region=region,
         local_authority=local_authority,
         cohort=cohort,
+        publish_datasets=publish_datasets,
+        datasets=datasets,
+        team_in_place=team_in_place,
     )
     return app_list
 

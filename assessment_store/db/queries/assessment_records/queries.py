@@ -27,6 +27,7 @@ from flask import current_app
 from services.data_services import get_account_name
 from sqlalchemy import and_
 from sqlalchemy import bindparam
+from sqlalchemy import cast
 from sqlalchemy import desc
 from sqlalchemy import exc
 from sqlalchemy import func
@@ -73,6 +74,9 @@ def get_metadata_for_fund_round_id(
     region: str = "",
     local_authority: str = "",
     cohort: str = "",
+    publish_datasets: str = "",
+    datasets: str = "",
+    team_in_place: str = "",
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records which
     returns all rows matching the given fund_id and round_id. Has optional
@@ -171,6 +175,43 @@ def get_metadata_for_fund_round_id(
         )
         statement = statement.where(
             AssessmentRecord.location_json_blob["region"].astext == region
+        )
+
+    if datasets != "" and datasets != "ALL":
+        datasets = (
+            True
+            if str(datasets).lower() == "yes" or datasets is True
+            else False
+        )
+        current_app.logger.info(
+            f"Performing assessment search on datasets: {datasets}."
+        )
+        statement = statement.where(
+            cast(AssessmentRecord.datasets, String) == str(datasets).lower()
+        )
+
+    if publish_datasets != "" and publish_datasets != "ALL":
+        current_app.logger.info(
+            f"Performing assessment search on publish_datasets: {publish_datasets}."
+        )
+        statement = statement.where(
+            cast(AssessmentRecord.publish_datasets, String).ilike(
+                f"%{publish_datasets}%"
+            )
+        )
+
+    if team_in_place != "" and team_in_place != "ALL":
+        team_in_place = (
+            True
+            if str(team_in_place).lower() == "yes" or team_in_place is True
+            else False
+        )
+        current_app.logger.info(
+            f"Performing assessment search on team_in_place: {team_in_place}."
+        )
+        statement = statement.where(
+            cast(AssessmentRecord.team_in_place, String)
+            == str(team_in_place).lower()
         )
 
     if local_authority != "" and local_authority != "ALL":
