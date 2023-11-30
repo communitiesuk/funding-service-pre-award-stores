@@ -114,6 +114,30 @@ paths:
         format: query
       required: false
       explode: true
+    - name: publish_datasets
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
+    - name: datasets
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
+    - name: team_in_place
+      in: query
+      style: form
+      schema:
+        type: string
+        format: query
+      required: false
+      explode: true
     get:
       tags:
         - assessments
