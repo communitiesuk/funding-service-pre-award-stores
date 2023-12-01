@@ -85,8 +85,6 @@ clickclick==20.10.2
     # via
     #   -r requirements.txt
     #   connexion
-colorama==0.4.6
-    # via -r requirements.txt
 colored==1.4.4
     # via -r requirements-dev.in
 commonmark==0.9.1
@@ -95,7 +93,7 @@ commonmark==0.9.1
     #   rich
 connexion==2.14.2
     # via -r requirements.txt
-cryptography==41.0.4
+cryptography==41.0.6
     # via
     #   -r requirements.txt
     #   pyjwt
@@ -460,8 +458,6 @@ typing-extensions==4.4.0
     #   alembic-utils
     #   flupy
     #   sqlalchemy
-tzdata==2023.3
-    # via -r requirements.txt
 tzlocal==5.0.1
     # via
     #   -r requirements.txt
