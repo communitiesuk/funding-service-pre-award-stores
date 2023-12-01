@@ -105,7 +105,7 @@ decorator==5.1.1
     # via
     #   -r requirements.txt
     #   jsonpath-rw
-deepdiff==6.2.3
+deepdiff==6.7.1
     # via -r requirements-dev.in
 distlib==0.3.6
     # via virtualenv
@@ -249,8 +249,6 @@ openapi-schema-validator==0.6.2
 openapi-spec-validator==0.7.1
     # via -r requirements.txt
 ordered-set==4.1.0
-    # via deepdiff
-orjson==3.8.6
     # via deepdiff
 packaging==21.3
     # via
