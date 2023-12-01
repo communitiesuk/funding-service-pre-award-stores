@@ -67,7 +67,7 @@ flask==2.2.5
     #   sentry-sdk
 flask-babel==2.0.0
     # via funding-service-design-utils
-flask-json==0.3.5
+flask-json==0.4.0
     # via -r requirements.in
 flask-migrate==4.0.4
     # via
