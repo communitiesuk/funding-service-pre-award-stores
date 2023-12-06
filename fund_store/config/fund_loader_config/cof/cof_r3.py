@@ -842,7 +842,8 @@ round_config_w3 = [
         "instructions": (
             "You must have received an invitation to apply. If we did not invite you,"
             " first <a"
-            ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
+            ' href="https://www.gov.uk/guidance/community-ownership-fund-round-3-how-'
+            'to-express-your-interest-in-applying">'
             " express your interest in the fund</a>."
         ),
         "feedback_link": (
