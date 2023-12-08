@@ -69,7 +69,7 @@ flask==2.2.5
     #   flask-sqlalchemy
     #   funding-service-design-utils
     #   sentry-sdk
-flask-apscheduler==1.12.4
+flask-apscheduler==1.13.1
     # via -r requirements.in
 flask-babel==2.0.0
     # via funding-service-design-utils

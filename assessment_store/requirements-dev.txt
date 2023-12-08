@@ -123,7 +123,7 @@ flask==2.2.5
     #   funding-service-design-utils
     #   pytest-flask
     #   sentry-sdk
-flask-apscheduler==1.12.4
+flask-apscheduler==1.13.1
     # via -r requirements.txt
 flask-babel==2.0.0
     # via
