@@ -444,7 +444,7 @@ stringcase==1.2.0
     # via
     #   -r requirements.txt
     #   dataclass-dict-convert
-swagger-ui-bundle==0.0.9
+swagger-ui-bundle==1.1.0
     # via -r requirements.txt
 thrift==0.16.0
     # via
