@@ -607,7 +607,7 @@ cof_r3w3_sections = [
     {
         "section_name": {
             "en": "3.4 Community benefits",
-            "cy": "3.4 Buddion i'r gymuned",
+            "cy": "3.4 Buddion cymunedol",
         },
         "form_name_json": {
             "en": "community-benefits-cof",
@@ -667,7 +667,7 @@ cof_r3w3_sections = [
     {
         "section_name": {
             "en": "4.5 Skills and resources",
-            "cy": "4.5 Sgiliau ac Adnoddau",
+            "cy": "4.5 Sgiliau ac adnoddau",
         },
         "form_name_json": {
             "en": "skills-and-resources-cof",
@@ -689,7 +689,7 @@ cof_r3w3_sections = [
     {
         "section_name": {
             "en": "4.7 Inclusiveness and integration",
-            "cy": "4.7 Cynhwysiant ac Integreiddio",
+            "cy": "4.7 Cynhwysiant ac integreiddio",
         },
         "form_name_json": {
             "en": "inclusiveness-and-integration-cof",
