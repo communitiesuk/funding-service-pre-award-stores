@@ -196,7 +196,6 @@ GITHUB_SHA
 
 Place brief descriptions of Pipelines here
 
-* Deploy to Gov PaaS - This is a simple pipeline to demonstrate capabilities. Builds, tests and deploys a simple python application to the PaaS for evaluation in Dev and Test Only.
 * Tag to Release - This is a simple pipeline that will create the tag required and push an image, built with Paketo, to the GHCR with that tag
 
 # Testing
