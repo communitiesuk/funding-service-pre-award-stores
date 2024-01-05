@@ -6,6 +6,9 @@ from tests._application_store_json import (
     cofr3w2_application_store_json_template,
 )
 from tests._application_store_json import (
+    cofr3w3_application_store_json_template,
+)
+from tests._application_store_json import (
     cypr1_application_store_json_template,
 )
 from tests._application_store_json import (
@@ -22,6 +25,7 @@ mappings_application_store_json = {
     "COFR2W3": application_store_json_template,
     "COFR3W1": cofr3w1_application_store_json_template,
     "COFR3W2": cofr3w2_application_store_json_template,
+    "COFR3W3": cofr3w3_application_store_json_template,
     "NSTFR2": nstfr2_application_store_json_template,
     "CYPR1": cypr1_application_store_json_template,
     "DPIFR2": dpifr2_application_store_json_template,
@@ -33,6 +37,7 @@ mappings_short_name_to_reference_prepend = {
     "COFR2W3": "COF-R2W3",
     "COFR3W1": "COF-R3W1",
     "COFR3W2": "COF-R3W2",
+    "COFR3W3": "COF-R3W3",
     "NSTFR2": "NSTF-R2",
     "CYPR1": "CYP-R1",
     "DPIFR2": "DPIF-R2",
