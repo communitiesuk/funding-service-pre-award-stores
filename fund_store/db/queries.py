@@ -422,11 +422,18 @@ def insert_or_update_application_sections(round_id, sorted_application_sections:
     return updated_sections
 
 
-def update_application_section_names(round_id, sorted_application_sections: List[dict]):
+def update_application_section_names(
+    round_id, sorted_application_sections: List[dict], language_code=None
+):
     # TODO : Update this function to work with json objects in sorted_application_sections
     for section in sorted_application_sections:
         section_path = section["tree_path"]
-        split_section_name_list = section["section_name"].lower().split()
+        if language_code is None:
+            split_section_name_list = section["section_name"].lower().split()
+        else:
+            split_section_name_list = (
+                section["section_name"][language_code].lower().split()
+            )
         try:
             float(split_section_name_list[0])
             split_section_name_list[1] = split_section_name_list[1].capitalize()
@@ -435,12 +442,22 @@ def update_application_section_names(round_id, sorted_application_sections: List
         new_section_name = " ".join(split_section_name_list)
 
         # Update the section name
-        stmt = (
-            update(Section)
-            .where(Section.round_id == round_id)
-            .where(Section.path == Ltree(section_path))
-            .values(title_json=new_section_name)
-        )
+        stmt = ""
+        if language_code is None:
+            stmt = (
+                update(Section)
+                .where(Section.round_id == round_id)
+                .where(Section.path == Ltree(section_path))
+                .values(title_json=new_section_name)
+            )
+        else:
+            section["section_name"][language_code] = new_section_name
+            stmt = (
+                update(Section)
+                .where(Section.round_id == round_id)
+                .where(Section.path == Ltree(section_path))
+                .values(title_json=section["section_name"])
+            )
         db.session.execute(stmt)
 
     db.session.commit()
