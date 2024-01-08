@@ -423,9 +423,7 @@ def insert_or_update_application_sections(round_id, sorted_application_sections:
 
 
 def update_application_section_names(
-    round_id,
-    sorted_application_sections: List[dict],
-    language_code=None
+    round_id, sorted_application_sections: List[dict], language_code=None
 ):
     # TODO : Update this function to work with json objects in sorted_application_sections
     for section in sorted_application_sections:
@@ -433,7 +431,9 @@ def update_application_section_names(
         if language_code is None:
             split_section_name_list = section["section_name"].lower().split()
         else:
-            split_section_name_list = section["section_name"][language_code].lower().split()
+            split_section_name_list = (
+                section["section_name"][language_code].lower().split()
+            )
         try:
             float(split_section_name_list[0])
             split_section_name_list[1] = split_section_name_list[1].capitalize()
