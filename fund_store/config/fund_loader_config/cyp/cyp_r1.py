@@ -158,6 +158,7 @@ round_config = [
         "title_json": {"en": "Round 1", "cy": ""},
         "short_name": "R1",
         "opens": CYP_R1_OPENS_DATE,
+        "assessment_start": None,
         "deadline": CYP_R1_DEADLINE_DATE,
         "application_reminder_sent": True,
         "reminder_date": None,

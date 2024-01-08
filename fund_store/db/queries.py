@@ -251,6 +251,7 @@ def insert_round_data(round_config):
             round_record.title_json = item["title_json"]
             round_record.short_name = item["short_name"]
             round_record.opens = item["opens"]
+            round_record.assessment_start = item["assessment_start"]
             round_record.deadline = item["deadline"]
             round_record.application_reminder_sent = item["application_reminder_sent"]
             round_record.reminder_date = item["reminder_date"]
@@ -290,6 +291,7 @@ def insert_round_data(round_config):
                 title_json=item["title_json"],
                 short_name=item["short_name"],
                 opens=item["opens"],
+                assessment_start=item["assessment_start"],
                 deadline=item["deadline"],
                 application_reminder_sent=item["application_reminder_sent"],
                 reminder_date=item["reminder_date"],

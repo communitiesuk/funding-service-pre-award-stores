@@ -31,6 +31,7 @@ rounds_config = [
         },  # TODO: Provide welsh translation
         "short_name": "R2W2",
         "opens": COF_R2_OPENS_DATE,
+        "assessment_start": None,
         "deadline": COF_R2_DEADLINE_DATE,
         "application_reminder_sent": True,
         "reminder_date": None,
@@ -84,6 +85,7 @@ rounds_config = [
         },  # TODO: Provide welsh translation
         "short_name": "R2W3",
         "opens": "2022-10-04 12:00:00",
+        "assessment_start": None,
         "deadline": "2023-04-14 11:59:00",
         "application_reminder_sent": True,
         "reminder_date": None,

@@ -36,6 +36,7 @@ class Round(BaseModel):
     short_name = Column("short_name", db.String(), nullable=False, unique=False)
     opens = Column("opens", DateTime())
     deadline = Column("deadline", DateTime())
+    assessment_start = Column("assessment_start", DateTime())
     application_reminder_sent = Column(
         "application_reminder_sent",
         db.Boolean,
