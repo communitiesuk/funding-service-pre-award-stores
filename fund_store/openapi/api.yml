@@ -94,6 +94,37 @@ paths:
               application/json:
                 schema:
                   $ref: 'components.yml#/components/schemas/Error'
+  /funds/{round_id}/application_reminder_status:
+    put:
+      tags:
+        - Rounds
+      summary: Updates the application reminder sent status to True
+      description: Updates the application reminder sent status to True
+      operationId: api.routes.update_application_reminder_sent_status
+      parameters:
+        - name: round_id
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: status
+          in: query
+          schema:
+            type: boolean
+            enum:
+              - true
+          required: true
+      responses:
+        200:
+          description: Updated the application reminder sent status to True
+
+        400:
+          description: "Invalid round ID is supplied"
+          content:
+                texts/plain:
+                  schema:
+                    $ref: 'components.yml#/components/schemas/Error'
+
   /funds/{fund_id}/rounds/{round_id}/available_flag_allocations:
     get:
       tags:

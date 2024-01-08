@@ -1,3 +1,5 @@
+from db import db
+from db.models import Round
 from db.queries import get_all_funds
 from db.queries import get_application_sections_for_round
 from db.queries import get_assessment_sections_for_round
@@ -13,6 +15,7 @@ from db.schemas.section import SECTION_SCHEMA_MAP
 from distutils.util import strtobool
 from flask import abort
 from flask import current_app
+from flask import jsonify
 from flask import request
 from fsd_utils.locale_selector.get_lang import get_lang
 
@@ -198,3 +201,54 @@ def get_available_flag_allocations(fund_id, round_id):
         return dpif_teams
     else:
         abort(404)
+
+
+def update_application_reminder_sent_status(round_id):
+    try:
+        status = request.args.get("status")
+        round_instance = Round.query.filter_by(id=round_id).first()
+        reminder_status = round_instance.application_reminder_sent
+        if not round_instance:
+            return jsonify({"message": "Round ID not found"}), 404
+
+        if status.lower() == "true" and reminder_status is False:
+            round_instance.application_reminder_sent = True
+            db.session.commit()
+            current_app.logger.info(
+                {
+                    "application_reminder_sent status has been updated to True for"
+                    f" round {round_id}"
+                }
+            ), 200
+            return (
+                jsonify(
+                    {
+                        "message": (
+                            "application_reminder_sent status has been updated to True"
+                            f" for round {round_id}"
+                        )
+                    }
+                ),
+                200,
+            )
+        else:
+            return (
+                jsonify({"message": "application_reminder_sent Status should be True"}),
+                400,
+            )
+
+    except Exception as e:
+        current_app.logger.error(
+            f"The application_reminder_sent status could not be updated {e}"
+        ), 400
+        return (
+            jsonify(
+                {
+                    "message": (
+                        "The application_reminder_sent status could not be updated for"
+                        f" round_id {round_id}"
+                    )
+                }
+            ),
+            400,
+        )

@@ -252,6 +252,8 @@ def insert_round_data(round_config):
             round_record.short_name = item["short_name"]
             round_record.opens = item["opens"]
             round_record.deadline = item["deadline"]
+            round_record.application_reminder_sent = item["application_reminder_sent"]
+            round_record.reminder_date = item["reminder_date"]
             round_record.fund_id = item["fund_id"]
             round_record.assessment_deadline = item["assessment_deadline"]
             round_record.prospectus = item["prospectus"]
@@ -289,6 +291,8 @@ def insert_round_data(round_config):
                 short_name=item["short_name"],
                 opens=item["opens"],
                 deadline=item["deadline"],
+                application_reminder_sent=item["application_reminder_sent"],
+                reminder_date=item["reminder_date"],
                 fund_id=item["fund_id"],
                 assessment_deadline=item["assessment_deadline"],
                 prospectus=item["prospectus"],
