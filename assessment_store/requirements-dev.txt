@@ -150,7 +150,7 @@ flupy==1.2.0
     # via
     #   -r requirements.txt
     #   alembic-utils
-funding-service-design-utils==2.0.30
+funding-service-design-utils==2.0.34
     # via -r requirements.txt
 gitdb==4.0.9
     # via gitpython
