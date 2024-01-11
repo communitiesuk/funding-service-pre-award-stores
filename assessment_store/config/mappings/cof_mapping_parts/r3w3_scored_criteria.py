@@ -238,6 +238,14 @@ scored_criteria = [
                                             "column_title": "Amount",
                                             "type": "numberField",
                                         },
+                                        "LeTLDo": {
+                                            "column_title": "Grant cost coverage",
+                                            "type": "numberField",
+                                        },
+                                        "pHZDWT": {
+                                            "column_title": "Match funding usage amount",
+                                            "type": "numberField",
+                                        },
                                     },
                                 ],
                             },
