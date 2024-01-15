@@ -57,6 +57,8 @@ environments:
   test:
     deployment:
       rolling: 'recreate'
+    cpu: 1024
+    memory: 2048
   uat:
     count:
       range: 2-4
