@@ -432,14 +432,14 @@ scored_criteria = [
                                 "form_name": "organisation-information-cof",
                                 "field_type": "freeTextField",
                                 "presentation_type": "free_text",
-                                "question": "Describe your previous projects - Project 2",
+                                "question": "Describe your previous projects - Project 2 (optional)",
                             },
                             {
                                 "field_id": "DGNWqE",
                                 "form_name": "organisation-information-cof",
                                 "field_type": "freeTextField",
                                 "presentation_type": "free_text",
-                                "question": "Describe your previous projects - Project 3",
+                                "question": "Describe your previous projects - Project 3 (optional)",
                             },
                             {
                                 "field_id": "XXGyzn",
