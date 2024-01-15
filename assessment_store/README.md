@@ -24,55 +24,6 @@ General instructions for local db development are available here: [Local databas
 ## DB Helper Scripts
 This repository uses `invoke` to provide scripts for creating and seeding the local database in [tasks](tasks\TASKS.md)
 
-## Quickstart / TL;DR
-If on windows: use `python` instead of `python3`, `set` instead of `export`, and `.venv\Scripts\activate` instead of `.venv/bin/activate`.
-
-```bash
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements-dev.txt
-docker container run -e POSTGRES_PASSWORD=postgres -p 5432:5432 --name=assess_store_postgres -e POSTGRES_DB=assess_store_dev postgres
-# pragma: allowlist nextline secret
-export DATABASE_URL='postgresql://postgres:postgres@127.0.0.1:5432/assess_store_dev'
-flask run
-```
-
-## How to use
-Enter the virtual environment and setup the db as described above, then:
-## How to run locally
-Enter the virtual environment and install dependencies as described above, then:
-
-### Create and seed local DB
-- Make sure your local `DATABASE_URL` env var is set to your local postgres db (this doesn't need to actually exist yet), eg:
-
-        # pragma: allowlist nextline secret
-        DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/fsd_assess_store
-
-- Use `tasks\db_tasks.py` to create and seed this DB (follow command prompts for what data to create):
-
-        invoke create_seeded_db
-
-### Run Flask
-
-Run:
-
-    flask run
-
-A local dev server will be created on
-
-    http://localhost:5000
-
-Flask environment variables are configurable in `.flaskenv`
-
-## Paketo
-Paketo is used to build the docker image which gets deployed to our test and production environments. Details available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-paketo.md)
-
-`envs` needs to include values for each of (set with `--env <varname>=<value>`):
-APPLICATION_STORE_API_HOST
-SENTRY_DSN
-GITHUB_SHA
-DATABASE_URL
-
-# Configuration
 
 # Testing
 ## Import submitted applications from application_store
@@ -111,7 +62,7 @@ If using VsCode, select the launch config "[Seed Applications in assessment-stor
 4. Activate your virtual env: `source .venv/bin/activate`
 5. Run pytest
 
-NB : pytest will create a database with a unique name to use just for unit tests. Changes to this db from tests does not persist. Caching is enable so that sequential pytest invocations will reuse the database with the test data. **Again, only the seeded data is reused since changes due to unit tests are not persisted.**
+NB : pytest will create a database with a unique name to use just for unit tests. Changes to this db from tests does not persist. Caching is enabled so that sequential pytest invocations will reuse the database with the test data. **Again, only the seeded data is reused since changes due to unit tests are not persisted.**
 
 To rerun the unit test database creation/seeding process run `pytest --cache-clear`. This is the same as deleting the `.pytest_cache` directory.
 
@@ -166,9 +117,7 @@ If you need all your test data to use the same fund and round ids, but be differ
             fund_id=seed_application_records[0]["fund_id"], round_id=seed_application_records[0]["round_id"]
         )
 
-## Performance Testing
 
-Performance tests are stored in a separate repository which is then run in the pipeline. If you want to run the performance tests yourself follow the steps in the README for the performance test repo located [here](https://github.com/communitiesuk/funding-service-design-performance-tests/blob/main/README.md)
 
 ## Testing FAQS
 
@@ -177,10 +126,10 @@ You've deleted your unit test db or done something manually, so pytest's cache i
 Run `pytest --cache-clear` to fix your problem.
 
 # Launch Configurations in VsCode
-<a id="launch-config-vscode"></a>
 If you are using VsCode, we have prepared frequently used scripts in the launch configuration that can be handy for quick development. Below are some launch configurations that you will find in the `launch.json` file.
 
-*Import Applications to Assessment* - import applications for the provided round from application_store to assessment_store. Please provide the `--roundid` & `--app_type` in the arguments as shown below.
+## Import Applications to Assessment
+Import applications for the provided round from application_store to assessment_store. Please provide the `--roundid` & `--app_type` in the arguments as shown below.
  ```
  {
     "name": "Import Applications to Assessment",
@@ -195,7 +144,8 @@ If you are using VsCode, we have prepared frequently used scripts in the launch 
   },
  ```
 
-*Seed Applications in assessment-store* - Creates the mock assessments data for the provided round in interactive prompt.
+## Seed Applications in assessment-store
+Creates the mock assessments data for the provided round in interactive prompt.
  ```
  {
     "name": "Seed Applications in assessment-store",
@@ -229,6 +179,16 @@ Please provide the `--fund_id`, `--round_id` and any additional arguments as sho
 
 # Builds and Deploys
 Details on how our pipelines work and the release process is available [here](https://dluhcdigital.atlassian.net/wiki/spaces/FS/pages/73695505/How+do+we+deploy+our+code+to+prod)
+
+## Paketo
+Paketo is used to build the docker image which gets deployed to our test and production environments. Details available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-paketo.md)
+
+`envs` needs to include values for each of (set with `--env <varname>=<value>`):
+APPLICATION_STORE_API_HOST
+SENTRY_DSN
+GITHUB_SHA
+DATABASE_URL
+
 ## Copilot
 Copilot is used for infrastructure deployment. Instructions are available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-copilot.md), with the following values for the assessment store:
 - service-name: fsd-assessment-store
