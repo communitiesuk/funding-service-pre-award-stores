@@ -4,15 +4,25 @@
 ![Funding Service Design Assessment Store Deploy](https://github.com/communitiesuk/funding-service-design-assessment-store/actions/workflows/deploy.yml/badge.svg)
 [![CodeQL](https://github.com/communitiesuk/funding-service-design-assessment-store/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/communitiesuk/funding-service-design-assessment-store/actions/workflows/codeql-analysis.yml)
 
-Repo for the DLUHC Funding Service Design Assessment Store.
+This repository offers an API and corresponding model implementation for streamlined storage and retrieval of assessment-related data, covering aspects like tagging, scoring, flagging, and sub-criteria.
 
-Built with Flask.
+[Developer setup guide](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-setup.md)
 
-## Prerequisites
-- python ^= 3.10
-- postgres or (docker if running postgres in docker).
+This service depends on:
+- A postgres database
+- [Account Store](https://github.com/communitiesuk/funding-service-design-account-store)
+- [Application Store](https://github.com/communitiesuk/funding-service-design-application-store)
+- SQS Queue
 
-# Getting started
+# IDE Setup
+[Python IDE Setup](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-ide-setup.md)
+
+# Data
+## Local DB Setup
+General instructions for local db development are available here: [Local database development](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-db-development.md)
+
+## DB Helper Scripts
+This repository uses `invoke` to provide scripts for creating and seeding the local database in [tasks](tasks\TASKS.md)
 
 ## Quickstart / TL;DR
 If on windows: use `python` instead of `python3`, `set` instead of `export`, and `.venv\Scripts\activate` instead of `.venv/bin/activate`.
@@ -25,64 +35,6 @@ docker container run -e POSTGRES_PASSWORD=postgres -p 5432:5432 --name=assess_st
 export DATABASE_URL='postgresql://postgres:postgres@127.0.0.1:5432/assess_store_dev'
 flask run
 ```
-
-## Installation
-
-- Clone the repository
-
-### Create a Virtual environment
-
-    python3 -m venv .venv
-
-### Enter the virtual environment
-
-...either macOS using bash:
-
-    source .venv/bin/activate
-
-...or if on Windows using Command Prompt:
-
-    .venv\Scripts\activate.bat
-
-### Install dependencies
-From the top-level directory enter the command to install pip and the dependencies of the project
-
-    python3 -m pip install --upgrade pip && pip install -r requirements-dev.txt
-
-NOTE: The psycopg2 package (required for PostgreSQL) can sometimes have difficulty installing on certain environments
-related to libssl.
-If you experience difficulties on macOS this might be required:
-
-    export LDFLAGS="-L/usr/local/opt/openssl/lib"
-
-or see other resolutions on [StackOverflow](https://stackoverflow.com/questions/11365619/psycopg2-installation-error-library-not-loaded-libssl-dylib)
-
-To update requirements please manually add the dependencies in the .in files (not the requirements.txt files)
-Then run:
-
-    pip-compile requirements.in
-
-    pip-compile requirements-dev.in
-
-### Setting up for database development
-This service is designed to use PostgreSQL as a database, via SqlAlchemy
-When running the service (eg. `flask run`) you need to set the DATABASE_URL environment variable to the URL of the database you want to test with.
-
-Initialise the database:
-
-    flask db init
-
-Then run existing migrations:
-
-    flask db upgrade
-
-Whenever you make changes to database models, please run:
-
-    flask db migrate
-
-This will create the migration files for your changes in /db/migrations.
-Please then commit and push these to github so that the migrations will be run in the pipelines to correctly
-upgrade the deployed db instances with your changes.
 
 ## How to use
 Enter the virtual environment and setup the db as described above, then:
@@ -111,51 +63,14 @@ A local dev server will be created on
 
 Flask environment variables are configurable in `.flaskenv`
 
-### Run with Gunicorn
-
-In deployed environments the service is run with gunicorn. You can run the service locally with gunicorn to test
-
-First set the FLASK_ENV environment you wish to test eg:
-
-    export FLASK_ENV=dev
-
-Then run gunicorn using the following command:
-
-    gunicorn wsgi:app -c run/gunicorn/local.py
-
-### Build with Paketo
-
-[Pack](https://buildpacks.io/docs/tools/pack/cli/pack_build/)
-
-[Paketo buildpacks](https://paketo.io/)
-
-```pack build <name your image> --builder paketobuildpacks/builder:base```
-
-Example:
-
-```
-[~/work/repos/funding-service-design-assessment-store] pack build paketo-demofsd-app --builder paketobuildpacks/builder:base
-***
-Successfully built image paketo-demofsd-app
-```
-
-You can then use that image with docker to run a container
-
-```
-docker run -d -p 8080:8080 --env PORT=8080 --env FLASK_ENV=dev [envs] paketo-demofsd-app
-```
+## Paketo
+Paketo is used to build the docker image which gets deployed to our test and production environments. Details available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-paketo.md)
 
 `envs` needs to include values for each of (set with `--env <varname>=<value>`):
 APPLICATION_STORE_API_HOST
 SENTRY_DSN
 GITHUB_SHA
 DATABASE_URL
-
-```
-docker ps -a
-CONTAINER ID   IMAGE                       COMMAND                  CREATED          STATUS                    PORTS                    NAMES
-42633142c619   paketo-demofsd-app          "/cnb/process/web"       8 seconds ago    Up 7 seconds              0.0.0.0:8080->8080/tcp   peaceful_knuth
-```
 
 # Configuration
 
@@ -261,29 +176,6 @@ Performance tests are stored in a separate repository which is then run in the p
 You've deleted your unit test db or done something manually, so pytest's cache is confused.
 Run `pytest --cache-clear` to fix your problem.
 
-
-# Extras
-
-This repo comes with a .pre-commit-config.yaml, if you wish to use this do
-the following while in your virtual environment:
-
-    pre-commit install
-
-Once the above is done you will have autoformatting and pep8 compliance built
-into your workflow. You will be notified of any pep8 errors during commits.
-
-# Database on Paas
-Create db service with:
-
-    cf create-service postgres medium-13 assessment-store-dev-db
-
-Ensure the following elements are present in your `manifest.yml`. The `run_migrations_paas.py` is what initialises the database, and the `services` element binds the application to the database service.
-
-    command: scripts/run_migrations_paas.py && gunicorn wsgi:app -c run/gunicorn/devtest.py
-
-    services:
-        - assessment-store-dev-db
-
 # Launch Configurations in VsCode
 <a id="launch-config-vscode"></a>
 If you are using VsCode, we have prepared frequently used scripts in the launch configuration that can be handy for quick development. Below are some launch configurations that you will find in the `launch.json` file.
@@ -335,21 +227,9 @@ Please provide the `--fund_id`, `--round_id` and any additional arguments as sho
   },
  ```
 
-## Copilot Initialisation
-
-Copilot is the deployment of the infrastructure configuration, which is all stored under the copilot folder. The manifest files have been pre-generated by running through various initialisation steps that create the manifest files by prompting a series of questions, but do not _deploy_ the infrastructure.
-
-For each AWS account, these commands will need to be run _once_ to initialise the environment:
-
-`copilot app init pre-award` - this links the pre-award app with the current service, and associates the next commands with the service. Essentially, this provides context for the service to run under
-
-```
-copilot init \
-    --name fsd-assessment-store \
-    --app pre-award \
-    --type 'Backend Service' \
-    --image 'ghcr.io/communitiesuk/funding-service-design-assessment-store:latest' \
-    --port 80
-```
-
-This will initalise this service, using the current created image
+# Builds and Deploys
+Details on how our pipelines work and the release process is available [here](https://dluhcdigital.atlassian.net/wiki/spaces/FS/pages/73695505/How+do+we+deploy+our+code+to+prod)
+## Copilot
+Copilot is used for infrastructure deployment. Instructions are available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-copilot.md), with the following values for the assessment store:
+- service-name: fsd-assessment-store
+- image-name: funding-service-design-assessment-store
