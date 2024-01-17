@@ -434,6 +434,13 @@ unscored_sections = [
                                 "question": "When you buy or lease a publicly owned asset, the public authority cannot transfer statutory services or duties to the community group.",
                             },
                             {
+                                "field_id": "JdEmqn",
+                                "form_name": "asset-information-cof-r3-w2",
+                                "field_type": "checkboxesField",
+                                "presentation_type": "list",
+                                "question": "Grants from this fund cannot be used to buy the freehold or premium on the lease of a publicly owned asset. Money must only be used for renovation and refurbishment costs",
+                            },
+                            {
                                 "field_id": "mZwrmI",
                                 "form_name": "asset-information-cof",
                                 "field_type": "yesNoField",
