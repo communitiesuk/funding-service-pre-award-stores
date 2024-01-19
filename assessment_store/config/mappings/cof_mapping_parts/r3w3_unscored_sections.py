@@ -427,6 +427,20 @@ unscored_sections = [
                                 "question": "Tell us about the person you have spoken to at the relevant public body about the asset",
                             },
                             {
+                                "field_id": "SiOmZn",
+                                "form_name": "asset-information-cof",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Job title of contact",
+                            },
+                            {
+                                "field_id": "XXVXuj",
+                                "form_name": "asset-information-cof",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Organisation name",
+                            },
+                            {
                                 "field_id": "MIqglh",
                                 "form_name": "asset-information-cof",
                                 "field_type": "checkboxesField",
