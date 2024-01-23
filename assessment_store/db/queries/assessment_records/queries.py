@@ -991,7 +991,14 @@ def get_export_data(
                             title = form_fields[field["key"]][language][
                                 "title"
                             ]
-                            answer = field["answer"]
+
+                            # filter 'null' values from the address field
+                            # TODO: Remove this filter after FS-4021
+                            if "organisation address" in title.lower():
+                                answer = field["answer"].replace(" null,", "")
+                            else:
+                                answer = field["answer"]
+
                             field_type = field["type"]
                             if field_type == "list" and not isinstance(
                                 answer, bool
