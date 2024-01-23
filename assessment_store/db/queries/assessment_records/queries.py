@@ -8,6 +8,7 @@ from datetime import datetime
 from typing import Dict
 from typing import List
 
+from bs4 import BeautifulSoup
 from db import db
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record import TagAssociation
@@ -991,8 +992,23 @@ def get_export_data(
                             title = form_fields[field["key"]][language][
                                 "title"
                             ]
-                            answer = field["answer"]
+
+                            # filter 'null' values from the address field
+                            # TODO: Remove this filter after FS-4021
+                            if "organisation address" in title.lower():
+                                answer = field["answer"].replace(" null,", "")
+                            else:
+                                answer = field["answer"]
+
                             field_type = field["type"]
+                            if (
+                                field_type == "freeText"
+                            ):  # for `freeText` type, extract the plain text
+                                answer = BeautifulSoup(
+                                    answer, "html.parser"
+                                ).get_text(
+                                    strip=True
+                                )  # Extract text, strip extra whitespace
                             if field_type == "list" and not isinstance(
                                 answer, bool
                             ):  # Adding check for bool since yesno fields are considered lists
