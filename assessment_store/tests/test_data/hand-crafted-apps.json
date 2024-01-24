@@ -912,7 +912,8 @@
     "round_id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
     "round_name": "Round 2 Window 2",
     "started_at": "2022-10-27T08:28:55.699864",
-    "status": "SUBMITTED"
+    "status": "SUBMITTED",
+    "language": "en"
   },
   {
     "account_id": "cbf981cf-5238-4d3e-84e9-b9c183789a91",
@@ -1828,6 +1829,7 @@
     "round_name": "Round 2 Window 2",
     "started_at": "2022-10-27T08:28:55.699864",
     "status": "SUBMITTED",
+    "language": "en",
     "location_json_blob": {
       "error": false,
       "county": "test-county",
@@ -2751,6 +2753,7 @@
     "round_name": "Round 2 Window 2",
     "started_at": "2022-10-27T08:28:55.699864",
     "status": "SUBMITTED",
+    "language": "en",
     "location_json_blob": {
       "error": false,
       "county": "test-county",
