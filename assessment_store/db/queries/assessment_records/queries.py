@@ -992,17 +992,22 @@ def get_export_data(
                             title = form_fields[field["key"]][language][
                                 "title"
                             ]
+                            field_type = form_fields[field["key"]][
+                                language
+                            ].get("field_type", field["type"])
 
                             # filter 'null' values from the address field
                             # TODO: Remove this filter after FS-4021
-                            if "organisation address" in title.lower():
+                            if (
+                                field["answer"]
+                                and field_type == "ukAddressField"
+                            ):
                                 answer = field["answer"].replace(" null,", "")
                             else:
                                 answer = field["answer"]
 
-                            field_type = field["type"]
                             if (
-                                field_type == "freeText"
+                                answer and field_type == "freeText"
                             ):  # for `freeText` type, extract the plain text
                                 answer = BeautifulSoup(
                                     answer, "html.parser"
