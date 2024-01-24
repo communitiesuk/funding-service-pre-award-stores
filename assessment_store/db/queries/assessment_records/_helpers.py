@@ -177,6 +177,7 @@ def derive_application_values(application_json):
     derived_values["round_id"] = application_json["round_id"]
     derived_values["funding_amount_requested"] = funding_one + funding_two
     derived_values["asset_type"] = asset_type
+    derived_values["language"] = application_json["language"]
     if location_data:
         derived_values["location_json_blob"] = location_data
     else:
