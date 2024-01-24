@@ -84,7 +84,7 @@ jobs:
   ind_deploy:
     needs: [ pre_deploy_tests, paketo_build, tag_version, copilot_environments_workflow_setup ]
     if: ${{ needs.copilot_environments_workflow_setup.outputs.ind_deploy != '' }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@BAU_standardise_deploy
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@BAU_standardise_deploy 
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
