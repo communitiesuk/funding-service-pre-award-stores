@@ -1002,7 +1002,14 @@ def get_export_data(
                                 field["answer"]
                                 and field_type == "ukAddressField"
                             ):
-                                answer = field["answer"].replace(" null,", "")
+                                address_parts = field["answer"].split(", ")
+                                answer = ", ".join(
+                                    [
+                                        part
+                                        for part in address_parts
+                                        if part != "null"
+                                    ]
+                                )
                             else:
                                 answer = field["answer"]
 
