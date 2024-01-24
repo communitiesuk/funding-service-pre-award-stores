@@ -230,7 +230,12 @@ applicant_info_mapping = {
                 "fUMWcd": {"en": {"title": "Name of lead contact"}},
                 "CDEwxp": {"en": {"title": "Lead contact email address"}},
                 "DvBqCJ": {"en": {"title": "Lead contact telephone number"}},
-                "mhYQzL": {"en": {"title": "Organisation address"}},
+                "mhYQzL": {
+                    "en": {
+                        "title": "Organisation address",
+                        "field_type": "ukAddressField",
+                    }
+                },
             }
         },
     },
@@ -250,12 +255,24 @@ applicant_info_mapping = {
                     "cy": {"title": "Rhif ffôn y cyswllt arweiniol"},
                 },
                 "ZQolYb": {
-                    "en": {"title": "Organisation address"},
-                    "cy": {"title": "Cyfeiriad y sefydliad"},
+                    "en": {
+                        "title": "Organisation address",
+                        "field_type": "ukAddressField",
+                    },
+                    "cy": {
+                        "title": "Cyfeiriad y sefydliad",
+                        "field_type": "ukAddressField",
+                    },
                 },
                 "VhkCbM": {
-                    "en": {"title": "Correspondence address"},
-                    "cy": {"title": "Cyfeiriad gohebu"},
+                    "en": {
+                        "title": "Correspondence address",
+                        "field_type": "ukAddressField",
+                    },
+                    "cy": {
+                        "title": "Cyfeiriad gohebu",
+                        "field_type": "ukAddressField",
+                    },
                 },
             }
         },
@@ -265,10 +282,16 @@ applicant_info_mapping = {
         "ASSESSOR_EXPORT": {
             "form_fields": {
                 "JbmcJE": {"en": {"title": "Organisation name"}},
-                "rmBPvK": {"en": {"title": "Registered organisation address"}},
+                "rmBPvK": {
+                    "en": {
+                        "title": "Registered organisation address",
+                        "field_type": "ukAddressField",
+                    }
+                },
                 "smBPvK": {
                     "en": {
-                        "title": "Alternative organisation address (optional)"
+                        "title": "Alternative organisation address (optional)",
+                        "field_type": "ukAddressField",
                     }
                 },
                 "jeocJE": {"en": {"title": "registered charity number"}},
