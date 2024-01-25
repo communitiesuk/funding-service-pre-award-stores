@@ -18,7 +18,7 @@ on:
         description: Run performance tests
       run_e2e_tests:
         required: false
-        default: true
+        default: false
         type: boolean
         description: Run e2e tests
   push:
@@ -92,6 +92,20 @@ jobs:
       app_name: 'fund-store'
       version: ${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}
       db_name: fsd-fund-store
+
+  post_ind_deploy_tests:
+    needs: [ ind_deploy, copilot_environments_workflow_setup ]
+    concurrency:
+      group: 'fsd-preaward-test-${{ needs.copilot_environments_workflow_setup.outputs.ind_deploy }}'
+      cancel-in-progress: false
+    secrets:
+      FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
+      FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
+    with:
+      run_performance_tests: ${{ inputs.run_performance_tests || true }}
+      run_e2e_tests: ${{ inputs.run_e2e_tests || false }}
+      environment: ${{ needs.copilot_environments_workflow_setup.outputs.ind_deploy }}
 
   dev_deploy:
     needs: [ pre_deploy_tests, paketo_build, tag_version, copilot_environments_workflow_setup ]
