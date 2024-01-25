@@ -13,12 +13,12 @@ on:
         - prod
       run_performance_tests:
         required: false
-        default: false
+        default: true
         type: boolean
         description: Run performance tests
       run_e2e_tests:
         required: false
-        default: false
+        default: true
         type: boolean
         description: Run e2e tests
   push:
@@ -94,6 +94,7 @@ jobs:
       db_name: fsd-fund-store
 
   post_ind_deploy_tests:
+    if: ${{ needs.copilot_environments_workflow_setup.outputs.ind_deploy != 'prod' }} # NEVER run this on production
     needs: [ ind_deploy, copilot_environments_workflow_setup ]
     concurrency:
       group: 'fsd-preaward-test-${{ needs.copilot_environments_workflow_setup.outputs.ind_deploy }}'
