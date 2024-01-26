@@ -81,7 +81,7 @@ jobs:
   ind_deploy:
     needs: [ pre_deploy_tests, paketo_build, tag_version ]
     if: ${{ inputs.environment != '' }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
@@ -107,7 +107,7 @@ jobs:
   dev_deploy:
     needs: [ pre_deploy_tests, paketo_build, tag_version, copilot_environments_workflow_setup ]
     if: ${{ needs.copilot_environments_workflow_setup.outputs.test_deploy == 'yes' }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
@@ -133,7 +133,7 @@ jobs:
   test_deploy:
     needs: [ post_dev_deploy_tests, paketo_build, tag_version, copilot_environments_workflow_setup ]
     if: ${{ needs.copilot_environments_workflow_setup.outputs.test_deploy == 'yes' }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
@@ -159,7 +159,7 @@ jobs:
   uat_deploy:
     needs: [ post_test_deploy_tests, paketo_build, tag_version, copilot_environments_workflow_setup ]
     if: ${{ needs.copilot_environments_workflow_setup.outputs.prod_deploy == 'yes' }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
@@ -185,7 +185,7 @@ jobs:
   prod_deploy:
     needs: [ post_uat_deploy_tests, paketo_build, tag_version, copilot_environments_workflow_setup ]
     if: ${{ needs.copilot_environments_workflow_setup.outputs.prod_deploy == 'yes' }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
