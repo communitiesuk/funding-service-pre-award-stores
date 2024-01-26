@@ -75,7 +75,7 @@ jobs:
             echo "test_deploy=yes">> $GITHUB_OUTPUT
             echo "prod_deploy=yes">> $GITHUB_OUTPUT
           elif [ "${{ inputs.environment }}" == "" ]; then
-            echo "prod_deploy=yes">> $GITHUB_OUTPUT
+            echo "test_deploy=yes">> $GITHUB_OUTPUT
           fi
 
   ind_deploy:
