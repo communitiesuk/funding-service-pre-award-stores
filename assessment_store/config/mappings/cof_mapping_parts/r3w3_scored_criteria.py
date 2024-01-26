@@ -118,11 +118,17 @@ scored_criteria = [
                             },
                             {
                                 "field_id": "bDWjTN",
-                                "form_name": "local-support-cof",
+                                "form_name": {
+                                    "en": "local-support-cof",
+                                    "cy": "cefnogaeth-leol-cof",
+                                },
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload supporting evidence (optional)",
-                                "path": "your-support-for-the-project",
+                                "path": {
+                                    "en": "your-support-for-the-project",
+                                    "cy": "eich-cefnogaeth-ar-gyfer-y-prosiect",
+                                },
                             },
                         ],
                     },
@@ -382,11 +388,17 @@ scored_criteria = [
                         "answers": [
                             {
                                 "field_id": "EODncR",
-                                "form_name": "risk-cof",
+                                "form_name": {
+                                    "en": "risk-cof",
+                                    "cy": "risg-cof",
+                                },
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Risks to your project (document upload)",
-                                "path": "your-project-risk-register",
+                                "path": {
+                                    "en": "your-project-risk-register",
+                                    "cy": "cofrestr-risg-eich-prosiect",
+                                },
                             },
                         ],
                     },

@@ -7,7 +7,7 @@ from flask import abort
 from flask import current_app
 
 
-def get_all_subcriteria(fund_id, round_id):
+def get_all_subcriteria(fund_id, round_id, language):
     sub_criterias = []
     display_config = copy.deepcopy(
         Config.ASSESSMENT_MAPPING_CONFIG[f"{fund_id}:{round_id}"]
@@ -16,18 +16,33 @@ def get_all_subcriteria(fund_id, round_id):
         display_config["scored_criteria"] + display_config["unscored_sections"]
     ):
         for sub_criteria in section["sub_criteria"]:
+            for theme in sub_criteria["themes"]:
+                for answer in theme["answers"]:
+                    answer["form_name"] = (
+                        answer["form_name"][language]
+                        if isinstance(answer["form_name"], dict)
+                        else answer["form_name"]
+                    )
+                    if "path" in answer:
+                        answer["path"] = (
+                            answer["path"][language]
+                            if isinstance(answer["path"], dict)
+                            else answer["path"]
+                        )
             sub_criterias.append(sub_criteria)
     return sub_criterias
 
 
-def return_subcriteria_from_mapping(sub_criteria_id, fund_id, round_id):
+def return_subcriteria_from_mapping(
+    sub_criteria_id, fund_id, round_id, language
+):
     current_app.logger.info(
         f"Finding sub criteria data in config for: {sub_criteria_id}"
     )
     display_config = copy.deepcopy(
         Config.ASSESSMENT_MAPPING_CONFIG[f"{fund_id}:{round_id}"]
     )
-    sub_criterias = get_all_subcriteria(fund_id, round_id)
+    sub_criterias = get_all_subcriteria(fund_id, round_id, language)
     matching_sub_criteria = list(
         filter(
             lambda sub_criteria: sub_criteria["id"] == sub_criteria_id,
@@ -56,11 +71,11 @@ def return_subcriteria_from_mapping(sub_criteria_id, fund_id, round_id):
 
 
 def get_themes_fields(
-    theme_id: str, fund_id: str, round_id: str
+    theme_id: str, fund_id: str, round_id: str, language: str
 ) -> list[dict]:
     """Function takes a theme_id arg & returns a list of answers with given
     theme_id."""
-    sub_criterias = get_all_subcriteria(fund_id, round_id)
+    sub_criterias = get_all_subcriteria(fund_id, round_id, language)
     try:
         return [
             theme.get("answers")
@@ -74,11 +89,17 @@ def get_themes_fields(
 
 
 def get_all_uploaded_document_field_answers(
-    fund_id: str, round_id: str
+    fund_id: str,
+    round_id: str,
+    language: str,
 ) -> list[dict]:
-    sub_criterias = get_all_subcriteria(fund_id, round_id)
+    sub_criterias = get_all_subcriteria(fund_id, round_id, language)
     filtered_answers = [
-        {**answer, "question": f"{theme['name']}, {answer['question']}"}
+        {
+            **answer,
+            "question": f"{theme['name']}, {answer['question']}",
+            "form_name": answer["form_name"],
+        }
         for item in sub_criterias
         for theme in item["themes"]
         for answer in theme["answers"]
@@ -302,9 +323,13 @@ def map_single_field_answer(theme: list, questions: dict) -> str:
 
 
 def map_application_with_sub_criteria_themes(
-    application_id: str, theme_id: str, fund_id: str, round_id: str
+    application_id: str,
+    theme_id: str,
+    fund_id: str,
+    round_id: str,
+    language: str,
 ):
-    themes_fields = get_themes_fields(theme_id, fund_id, round_id)
+    themes_fields = get_themes_fields(theme_id, fund_id, round_id, language)
     current_app.logger.info("mapping subcriteria contents")
     return map_application_with_sub_criteria_themes_fields(
         application_id,

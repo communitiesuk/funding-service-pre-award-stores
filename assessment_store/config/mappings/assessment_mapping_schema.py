@@ -6,8 +6,8 @@ answer_schema = {
         "type": "object",
         "properties": {
             "field_id": field_id_schema,
-            "form_name": {"type": "string"},
-            "path": {"type": "string"},
+            "form_name": {"anyOf": [{"type": "string"}, {"type": "object"}]},
+            "path": {"anyOf": [{"type": "string"}, {"type": "object"}]},
             "field_type": {
                 "type": "string",
                 "enum": [

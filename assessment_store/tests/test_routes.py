@@ -321,6 +321,7 @@ def test_random_theme_content(seed_application_records):
         theme_id,
         COF_FUND_ID,
         COF_ROUND_2_W3_ID,
+        "en",
     )
 
     assert result[0]["answer"] == expected_response
@@ -338,10 +339,7 @@ def test_convert_boolean_values(seed_application_records):
     application_id = seed_application_records[0]["application_id"]
 
     results = map_application_with_sub_criteria_themes(
-        application_id,
-        theme_id,
-        COF_FUND_ID,
-        COF_ROUND_2_W3_ID,
+        application_id, theme_id, COF_FUND_ID, COF_ROUND_2_W3_ID, "en,"
     )
 
     assert [

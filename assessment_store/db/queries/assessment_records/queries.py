@@ -492,6 +492,7 @@ def find_assessor_task_list_state(application_id: str) -> dict:
                 AssessmentRecord.fund_id,
                 AssessmentRecord.round_id,
                 AssessmentRecord.funding_amount_requested,
+                AssessmentRecord.language,
             )
         )
     )
@@ -507,6 +508,7 @@ def find_assessor_task_list_state(application_id: str) -> dict:
             "fund_id",
             "round_id",
             "funding_amount_requested",
+            "language",
         )
     ).dump(assessment_record)
 

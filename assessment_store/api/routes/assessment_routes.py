@@ -115,7 +115,10 @@ def sub_criteria(
         "Searching assessment mapping for sub criteria: {sub_criteria_id}."
     )
     sub_criteria_config_from_mapping = return_subcriteria_from_mapping(
-        sub_criteria_id, metadata["fund_id"], metadata["round_id"]
+        sub_criteria_id,
+        metadata["fund_id"],
+        metadata["round_id"],
+        metadata["language"],
     )
     current_app.logger.info(
         "Getting application subcriteria metadata for application: {sub_criteria_id}."
@@ -166,14 +169,18 @@ def get_sub_criteria_theme_answers(application_id: str, theme_id: str):
     given application_id and theme_id."""
     metadata = find_assessor_task_list_state(application_id)
     return map_application_with_sub_criteria_themes(
-        application_id, theme_id, metadata["fund_id"], metadata["round_id"]
+        application_id,
+        theme_id,
+        metadata["fund_id"],
+        metadata["round_id"],
+        metadata["language"],
     )
 
 
 def get_all_uploaded_document_theme_answers(application_id: str):
     metadata = find_assessor_task_list_state(application_id)
     field_answers = get_all_uploaded_document_field_answers(
-        metadata["fund_id"], metadata["round_id"]
+        metadata["fund_id"], metadata["round_id"], metadata["language"]
     )
     return map_application_with_sub_criteria_themes_fields(
         application_id, "all_uploaded_documents", field_answers

@@ -371,11 +371,17 @@ unscored_sections = [
                             },
                             {
                                 "field_id": "tTOrEp",
-                                "form_name": "asset-information-cof",
+                                "form_name": {
+                                    "en": "asset-information-cof",
+                                    "cy": "gwybodaeth-am-yr-ased-cof",
+                                },
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload asset valuation or lease agreement",
-                                "path": "upload-asset-valuation-or-lease-agreement",
+                                "path": {
+                                    "en": "upload-asset-valuation-or-lease-agreement",
+                                    "cy": "lanlwytho-arâd-gwerthiant-neu-gytundeb-leol",
+                                },
                             },
                             {
                                 "field_id": "wAUFqr",
@@ -504,11 +510,17 @@ unscored_sections = [
                         "answers": [
                             {
                                 "field_id": "RFTloT",
-                                "form_name": "asset-information-cof",
+                                "form_name": {
+                                    "en": "asset-information-cof",
+                                    "cy": "gwybodaeth-am-yr-ased-cof",
+                                },
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload public ownership evidence",
-                                "path": "public-ownership-details-and-declarations",
+                                "path": {
+                                    "en": "public-ownership-details-and-declarations",
+                                    "cy": "manylion-ac-hysbysiadau-perchenogaeth-cyhoeddus",
+                                },
                             },
                         ],
                     },
@@ -592,11 +604,17 @@ unscored_sections = [
                         "answers": [
                             {
                                 "field_id": "ndpQJk",
-                                "form_name": "upload-business-plan-cof",
+                                "form_name": {
+                                    "en": "upload-business-plan-cof",
+                                    "cy": "lanlwythwch-y-cynllun-busnes-cof",
+                                },
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Business plan for your project (document upload)",
-                                "path": "your-business-plan",
+                                "path": {
+                                    "en": "your-business-plan",
+                                    "cy": "eich-cynllun-busnes",
+                                },
                             },
                         ],
                     }
