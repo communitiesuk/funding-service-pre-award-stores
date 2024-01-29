@@ -61,7 +61,7 @@ jobs:
       postgres_unit_testing: true
 
   paketo_build:
-    needs: [ tag_version ]
+    needs: [ setup ]
     concurrency: build-fund-store-pack
     permissions:
       packages: write
