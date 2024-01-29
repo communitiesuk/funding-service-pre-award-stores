@@ -112,7 +112,8 @@ jobs:
       db_name: fsd-fund-store
 
   post_test_deploy_tests:
-    needs: test_deploy
+    needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, paketo_build, setup ]
+    if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'test') && (! contains(needs.*.result, 'failure') ) && (! contains(needs.*.result, 'cancelled') )}}
     concurrency:
       group: 'fsd-preaward-test-test'
       cancel-in-progress: false
@@ -138,7 +139,8 @@ jobs:
       db_name: fsd-fund-store
 
   post_uat_deploy_tests:
-    needs: uat_deploy
+    needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, post_test_deploy_tests, uat_deploy, paketo_build, setup ]
+    if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'uat') && (! contains(needs.*.result, 'failure') ) && (! contains(needs.*.result, 'cancelled') )}}
     concurrency:
       group: 'fsd-preaward-test-uat'
       cancel-in-progress: false
