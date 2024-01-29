@@ -153,3 +153,5 @@ Outputs:
   fsdfundstoreclusterSecurityGroup:
     Description: "The security group to attach to the workload."
     Value: !Ref fsdfundstoreclusterSecurityGroup
+    Export:
+      Name: fsdfundstoreclusterSecurityGroup
