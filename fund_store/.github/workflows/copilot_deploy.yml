@@ -37,14 +37,22 @@ on:
       - '.github/workflows/copilot_deploy.yml'
 
 jobs:
-  tag_version:
+  setup:
     runs-on: ubuntu-latest
     outputs:
-      version_to_tag: ${{ steps.fund_store_tagging.outputs.tag_value }}
+      jobs_to_run: ${{ steps.determine-jobs.outputs.job_list }}
     steps:
-      - id: fund_store_tagging
+      - id: determine-jobs
         run: |
-          echo "tag_value=$(echo '${{ github.ref }}' | sed -e 's,.*/\(.*\),\1,')" >> $GITHUB_OUTPUT
+          if [ "${{ inputs.environment }}" != '' ]; then
+            export jobs='["${{ inputs.environment }}"]'
+          elif [ "${{ github.ref }}" == 'refs/heads/main' ]; then
+            export jobs='["dev", "test", "uat", "prod"]'
+          else
+            export jobs='["dev", "test"]'
+          fi
+          echo "job_list=$(jq -cn --argjson keys "$jobs" '$keys')" >> $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
 
   pre_deploy_tests:
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
@@ -63,50 +71,9 @@ jobs:
       owner: ${{ github.repository_owner }}
       application: funding-service-design-fund-store
 
-  copilot_environments_workflow_setup:
-    runs-on: ubuntu-latest
-    outputs:
-      test_deploy: ${{ steps.copilot_env_list.outputs.test_deploy }}
-      prod_deploy: ${{ steps.copilot_env_list.outputs.prod_deploy }}
-    steps:
-      - id: copilot_env_list
-        run: |
-          if [ "${{ github.ref }}" == 'refs/heads/main' ]; then
-            echo "test_deploy=yes">> $GITHUB_OUTPUT
-            echo "prod_deploy=yes">> $GITHUB_OUTPUT
-          elif [ "${{ inputs.environment }}" == "" ]; then
-            echo "test_deploy=yes">> $GITHUB_OUTPUT
-          fi
-
-  ind_deploy:
-    needs: [ pre_deploy_tests, paketo_build, tag_version ]
-    if: ${{ inputs.environment != '' }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
-    secrets:
-      AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
-    with:
-      environment: ${{ inputs.environment }}
-      app_name: 'fund-store'
-      version: ${{ github.ref_name == 'main' && 'latest' || needs.tag_version.outputs.version_to_tag }}
-      db_name: fsd-fund-store
-
-  post_ind_deploy_tests:
-    needs: ind_deploy
-    concurrency:
-      group: 'fsd-preaward-test-${{ inputs.environment }}'
-      cancel-in-progress: false
-    secrets:
-      FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
-      FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
-    with:
-      run_performance_tests: ${{ inputs.run_performance_tests || true }}
-      run_e2e_tests: ${{ inputs.run_e2e_tests || false }}
-      environment: ${{ inputs.environment }}
-
   dev_deploy:
-    needs: [ pre_deploy_tests, paketo_build, tag_version, copilot_environments_workflow_setup ]
-    if: ${{ needs.copilot_environments_workflow_setup.outputs.test_deploy == 'yes' }}
+    needs: [ pre_deploy_tests, paketo_build, setup ]
+    if: ${{ contains(fromJSON(needs.setup.outputs.jobs_to_run), 'dev') }}
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
@@ -131,8 +98,8 @@ jobs:
       environment: dev
 
   test_deploy:
-    needs: [ post_dev_deploy_tests, paketo_build, tag_version, copilot_environments_workflow_setup ]
-    if: ${{ needs.copilot_environments_workflow_setup.outputs.test_deploy == 'yes' }}
+    needs: [ post_dev_deploy_tests, paketo_build, setup ]
+    if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'test') && (needs.post_dev_deploy_tests.result == 'success' || needs.post_dev_deploy_tests.result == 'skipped') && needs.paketo_build.result == 'success' }}
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
@@ -157,8 +124,8 @@ jobs:
       environment: test
 
   uat_deploy:
-    needs: [ post_test_deploy_tests, paketo_build, tag_version, copilot_environments_workflow_setup ]
-    if: ${{ needs.copilot_environments_workflow_setup.outputs.prod_deploy == 'yes' }}
+    needs: [ post_test_deploy_tests, paketo_build, setup ]
+    if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'uat') && (needs.post_test_deploy_tests.result == 'success' || needs.post_test_deploy_tests.result == 'skipped') && needs.paketo_build.result == 'success' }}
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
@@ -183,8 +150,8 @@ jobs:
       environment: uat
 
   prod_deploy:
-    needs: [ post_uat_deploy_tests, paketo_build, tag_version, copilot_environments_workflow_setup ]
-    if: ${{ needs.copilot_environments_workflow_setup.outputs.prod_deploy == 'yes' }}
+    needs: [ post_uat_deploy_tests, paketo_build, setup ]
+    if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'prod') && (needs.post_uat_deploy_tests.result == 'success' || needs.post_uat_deploy_tests.result == 'skipped') && needs.paketo_build.result == 'success' }}
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
