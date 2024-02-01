@@ -106,8 +106,8 @@ jobs:
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
-      environment: 'test'
-      app_name: 'fund-store'
+      environment: test
+      app_name: fund-store
       version: sha-${{ github.sha }}
       db_name: fsd-fund-store
 
@@ -133,8 +133,8 @@ jobs:
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
-      environment: 'uat'
-      app_name: 'fund-store'
+      environment: uat
+      app_name: fund-store
       version: sha-${{ github.sha }}
       db_name: fsd-fund-store
 
@@ -160,7 +160,7 @@ jobs:
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
-      environment: 'prod'
-      app_name: 'fund-store'
+      environment: prod
+      app_name: fund-store
       version: sha-${{ github.sha }}
       db_name: fsd-fund-store
