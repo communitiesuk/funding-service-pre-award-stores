@@ -18,9 +18,14 @@ on:
         default: false
         type: boolean
         description: Run performance tests
-      run_e2e_tests:
+      run_e2e_tests_assessment:
         required: false
         default: true
+        type: boolean
+        description: Run e2e tests
+      run_e2e_tests_application:
+        required: false
+        default: false
         type: boolean
         description: Run e2e tests
   push:
@@ -97,7 +102,8 @@ jobs:
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || true }}
-      run_e2e_tests: ${{ inputs.run_e2e_tests || false }}
+      run_e2e_tests_assessment: ${{ inputs.run_e2e_tests || false }}
+      run_e2e_tests_application: ${{ inputs.run_e2e_tests || false }}
       environment: dev
 
   test_deploy:
@@ -123,7 +129,8 @@ jobs:
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
-      run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
+      run_e2e_tests_assessment: ${{ inputs.run_e2e_tests || true }}
+      run_e2e_tests_application: ${{ inputs.run_e2e_tests || false }}
       environment: test
 
   uat_deploy:
@@ -149,7 +156,8 @@ jobs:
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
-      run_e2e_tests: ${{ inputs.run_e2e_tests || true }}
+      run_e2e_tests_assessment: ${{ inputs.run_e2e_tests || true }}
+      run_e2e_tests_application: ${{ inputs.run_e2e_tests || false }}
       environment: uat
 
   prod_deploy:
