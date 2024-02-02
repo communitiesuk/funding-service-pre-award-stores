@@ -109,6 +109,7 @@ Resources:
       DBSubnetGroupName: !Ref fsdassessmentstoreclusterDBSubnetGroup
       Port: 5432
       StorageEncrypted: true
+      BackupRetentionPeriod: 8
       VpcSecurityGroupIds:
         - !Ref fsdassessmentstoreclusterDBClusterSecurityGroup
       ServerlessV2ScalingConfiguration:
