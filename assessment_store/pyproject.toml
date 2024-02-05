@@ -6,9 +6,13 @@ authors = ["Version One", "HM Government, Department of Levelling Up, Housing an
 license = "MIT License"
 
 [tool.black]
-line-length = 79
+line-length = 120
 
 [tool.docformatter]
 recursive = true
 wrap-summaries = 82
 blank = true
+
+[tool.flake8]
+max-line-length = 120
+count = true
