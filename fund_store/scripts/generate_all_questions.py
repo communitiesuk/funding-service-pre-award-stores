@@ -105,12 +105,7 @@ def print_html(sections: dict) -> str:
         for anchor, details in sections.items():
             if anchor == "assessment_display_info":
                 continue
-            air.hr(
-                klass=(
-                    "govuk-section-break govuk-section-break--l"
-                    " govuk-section-break--visible"
-                )
-            )
+            air.hr(klass="govuk-section-break govuk-section-break--l govuk-section-break--visible")
 
             # Print each section header, with anchor
             with air.h2(klass="govuk-heading-l", id=anchor):
@@ -157,10 +152,7 @@ def print_html(sections: dict) -> str:
 @click.option(
     "--output_location",
     default="../funding-service-design-frontend/app/templates/all_questions/",
-    help=(
-        "Folder to write output html to (language code will be appended as an"
-        " intermediate path)"
-    ),
+    help="Folder to write output html to (language code will be appended as an intermediate path)",
     prompt=True,
 )
 @click.option(
@@ -194,16 +186,10 @@ def generate_all_questions(
     with app.app_context():
         round = get_round_by_short_name(fund_short_code, round_short_code)
         if not round:
-            raise NameError(
-                f"Round {round_short_code} does not exist in fund {fund_short_code}"
-            )
-        sections: list[Section] = get_application_sections_for_round(
-            round.fund_id, round.id
-        )
+            raise NameError(f"Round {round_short_code} does not exist in fund {fund_short_code}")
+        sections: list[Section] = get_application_sections_for_round(round.fund_id, round.id)
 
-        path_to_form_jsons = find_forms_dir(
-            forms_dir, fund_short_code, round_short_code, lang
-        )
+        path_to_form_jsons = find_forms_dir(forms_dir, fund_short_code, round_short_code, lang)
 
         section_map = generate_print_data_for_sections(
             sections=sections,

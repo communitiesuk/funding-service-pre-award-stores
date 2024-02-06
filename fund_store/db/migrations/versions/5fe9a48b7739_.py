@@ -26,16 +26,13 @@ depends_on = None
 def upgrade():
     # --- form_name table ---
     with op.batch_alter_table("form_name", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column("form_name_json", sa.JSON(none_as_null=True), nullable=True)
-        )
+        batch_op.add_column(sa.Column("form_name_json", sa.JSON(none_as_null=True), nullable=True))
 
     query = sqlalchemy.text("SELECT section_id, form_name FROM form_name")
     form_name_entries = op.get_bind().execute(query)
     for section_id, form_name in form_name_entries:
         op.execute(
-            f'UPDATE form_name SET form_name_json = \'{{"en": "{form_name}"}}\' '
-            f"WHERE section_id = '{section_id}'"
+            f"UPDATE form_name SET form_name_json = '{{\"en\": \"{form_name}\"}}' WHERE section_id = '{section_id}'"
         )
 
     with op.batch_alter_table("form_name", schema=None) as batch_op:
@@ -44,17 +41,12 @@ def upgrade():
 
     # --- section table ---
     with op.batch_alter_table("section", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column("title_json", sa.JSON(none_as_null=True), nullable=True)
-        )
+        batch_op.add_column(sa.Column("title_json", sa.JSON(none_as_null=True), nullable=True))
 
     query = sqlalchemy.text("SELECT id, title FROM section")
     section_entries = op.get_bind().execute(query)
     for entry_id, title in section_entries:
-        op.execute(
-            f'UPDATE section SET title_json = \'{{"en": "{title}"}}\' '
-            f"WHERE id = '{entry_id}'"
-        )
+        op.execute(f"UPDATE section SET title_json = '{{\"en\": \"{title}\"}}' WHERE id = '{entry_id}'")
 
     with op.batch_alter_table("section", schema=None) as batch_op:
         batch_op.alter_column("title_json", nullable=False)
@@ -65,14 +57,8 @@ def upgrade():
 def downgrade():
     # --- section table ---
     with op.batch_alter_table("section", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column("title", sa.VARCHAR(), autoincrement=False, nullable=True)
-        )
-        batch_op.add_column(
-            sa.Column(
-                "title_content_id", sa.INTEGER(), autoincrement=False, nullable=True
-            )
-        )
+        batch_op.add_column(sa.Column("title", sa.VARCHAR(), autoincrement=False, nullable=True))
+        batch_op.add_column(sa.Column("title_content_id", sa.INTEGER(), autoincrement=False, nullable=True))
 
     query = sqlalchemy.text("SELECT id, title_json FROM section")
     section_entries = op.get_bind().execute(query)
@@ -86,18 +72,13 @@ def downgrade():
 
     # --- form_name table ---
     with op.batch_alter_table("form_name", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column("form_name", sa.VARCHAR(), autoincrement=False, nullable=True)
-        )
+        batch_op.add_column(sa.Column("form_name", sa.VARCHAR(), autoincrement=False, nullable=True))
 
     query = sqlalchemy.text("SELECT section_id, form_name_json FROM form_name")
     form_name_entries = op.get_bind().execute(query)
     for section_id, form_name_json in form_name_entries:
         form_name = form_name_json["en"]
-        op.execute(
-            f"UPDATE form_name SET form_name = '{form_name}' "
-            f"WHERE section_id = '{section_id}'"
-        )
+        op.execute(f"UPDATE form_name SET form_name = '{form_name}' WHERE section_id = '{section_id}'")
 
     with op.batch_alter_table("form_name", schema=None) as batch_op:
         batch_op.alter_column("form_name", nullable=False)

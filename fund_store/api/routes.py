@@ -24,9 +24,7 @@ def filter_fund_by_lang(fund_data, lang_key: str = "en"):
     def filter_fund(data):
         data["name"] = data["name_json"].get(lang_key) or data["name_json"]["en"]
         data["title"] = data["title_json"].get(lang_key) or data["title_json"]["en"]
-        data["description"] = (
-            data["description_json"].get(lang_key) or data["description_json"]["en"]
-        )
+        data["description"] = data["description_json"].get(lang_key) or data["description_json"]["en"]
         return data
 
     if isinstance(fund_data, dict):
@@ -60,9 +58,7 @@ def get_funds():
 
     if funds:
         serialiser = FundSchema()
-        return filter_fund_by_lang(
-            fund_data=serialiser.dump(funds, many=True), lang_key=language
-        )
+        return filter_fund_by_lang(fund_data=serialiser.dump(funds, many=True), lang_key=language)
 
     current_app.logger.warn("No funds were found, please check this.")
     return []
@@ -96,9 +92,7 @@ def get_round(fund_id, round_id):
         round = get_round_by_id(fund_id, round_id)
     if round:
         serialiser = RoundSchema()
-        return filter_round_by_lang(
-            round_data=serialiser.dump(round), lang_key=language
-        )
+        return filter_round_by_lang(round_data=serialiser.dump(round), lang_key=language)
 
     abort(404)
 
@@ -218,20 +212,10 @@ def update_application_reminder_sent_status(round_id):
             round_instance.application_reminder_sent = True
             db.session.commit()
             current_app.logger.info(
-                {
-                    "application_reminder_sent status has been updated to True for"
-                    f" round {round_id}"
-                }
+                {f"application_reminder_sent status has been updated to True for round {round_id}"}
             ), 200
             return (
-                jsonify(
-                    {
-                        "message": (
-                            "application_reminder_sent status has been updated to True"
-                            f" for round {round_id}"
-                        )
-                    }
-                ),
+                jsonify({"message": f"application_reminder_sent status has been updated to True for round {round_id}"}),
                 200,
             )
         else:
@@ -241,17 +225,8 @@ def update_application_reminder_sent_status(round_id):
             )
 
     except Exception as e:
-        current_app.logger.error(
-            f"The application_reminder_sent status could not be updated {e}"
-        ), 400
+        current_app.logger.error(f"The application_reminder_sent status could not be updated {e}"), 400
         return (
-            jsonify(
-                {
-                    "message": (
-                        "The application_reminder_sent status could not be updated for"
-                        f" round_id {round_id}"
-                    )
-                }
-            ),
+            jsonify({"message": f"The application_reminder_sent status could not be updated for round_id {round_id}"}),
             400,
         )

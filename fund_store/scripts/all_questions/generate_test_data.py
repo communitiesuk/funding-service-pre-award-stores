@@ -46,13 +46,9 @@ def generate_test_data(target_test_files: [], in_path: str, out_folder: str):
     for file in target_test_files:
         cutdown_data = {"start_page": file["start_page"], "all_pages": []}
         for p in file["pages"]:
-            cutdown_data["all_pages"].append(
-                next(page for page in all_data["all_pages"] if page["path"] == p)
-            )
+            cutdown_data["all_pages"].append(next(page for page in all_data["all_pages"] if page["path"] == p))
 
-        last_page = next(
-            p for p in cutdown_data["all_pages"] if p["path"] == file["end_page"]
-        )
+        last_page = next(p for p in cutdown_data["all_pages"] if p["path"] == file["end_page"])
         last_page["next_paths"] = []
         last_page["all_possible_after"] = []
 

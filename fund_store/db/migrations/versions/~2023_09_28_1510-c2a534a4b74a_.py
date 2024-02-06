@@ -63,6 +63,4 @@ def downgrade():
         batch_op.drop_column("guidance_url")
 
     with op.batch_alter_table("fund", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column("guidance_url", sa.VARCHAR(), autoincrement=False, nullable=True)
-        )
+        batch_op.add_column(sa.Column("guidance_url", sa.VARCHAR(), autoincrement=False, nullable=True))

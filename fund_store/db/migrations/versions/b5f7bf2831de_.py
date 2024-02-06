@@ -78,9 +78,7 @@ def upgrade():
 
         welsh_form_name = english_form_name_to_welsh_form_name.get(english_form_name)
         if not welsh_form_name:
-            raise Exception(
-                f"Could not find welsh form name for {form_name_json['en']}"
-            )
+            raise Exception(f"Could not find welsh form name for {form_name_json['en']}")
 
         welsh_form_name = welsh_form_name.replace("'", "''")
 
@@ -96,9 +94,7 @@ def upgrade():
 
 def downgrade():
     connection = op.get_bind()
-    query = sqlalchemy.text(
-        "SELECT form_name_json FROM form_name WHERE form_name_json->>'cy' IS NOT NULL"
-    )
+    query = sqlalchemy.text("SELECT form_name_json FROM form_name WHERE form_name_json->>'cy' IS NOT NULL")
     form_name_entries = connection.execute(query)
 
     for form_name_json, *_ in form_name_entries:

@@ -18,9 +18,7 @@ def test_update_section_weightings(seed_dynamic_data):
     for s in sections:
         if "skill" in s.title_json["en"]:
             section_to_update = s
-    assert (
-        section_to_update is not None
-    ), "Unable to find expected test data before updates"
+    assert section_to_update is not None, "Unable to find expected test data before updates"
 
     section_data = SectionSchema().dump(section_to_update)
     section_data["tree_path"] = section_to_update.path

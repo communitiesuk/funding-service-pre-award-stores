@@ -41,8 +41,7 @@ def upgrade():
 
         new_feedback_survey_config = json.dumps(new_feedback_survey_config)
         update_query = sa.text(
-            f"UPDATE round SET feedback_survey_config = '{new_feedback_survey_config}'"
-            f" WHERE id = '{id}'"
+            f"UPDATE round SET feedback_survey_config = '{new_feedback_survey_config}' WHERE id = '{id}'"
         )
         connection.execute(update_query)
 
@@ -65,16 +64,11 @@ def downgrade():
     rounds = connection.execute(query)
     for id, requires_feedback, feedback_survey_config in rounds:
         if feedback_survey_config is not None:
-            requires_feedback = feedback_survey_config.get(
-                "has_section_feedback", False
-            )
+            requires_feedback = feedback_survey_config.get("has_section_feedback", False)
         else:
             requires_feedback = False
         new_requires_feedback = json.dumps(requires_feedback)
-        update_query = sa.text(
-            f"UPDATE round SET requires_feedback = '{new_requires_feedback}' WHERE id ="
-            f" '{id}'"
-        )
+        update_query = sa.text(f"UPDATE round SET requires_feedback = '{new_requires_feedback}' WHERE id = '{id}'")
         connection.execute(update_query)
 
     # ### end Alembic commands ###

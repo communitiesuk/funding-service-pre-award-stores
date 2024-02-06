@@ -86,9 +86,7 @@ class Section(BaseModel):
     )
     path = Column(LtreeType, nullable=False)
     __table_args__ = (Index("ix_sections_path", path, postgresql_using="gist"),)
-    fields = relationship(
-        "SectionField", order_by=SectionField.display_order, viewonly=True
-    )
+    fields = relationship("SectionField", order_by=SectionField.display_order, viewonly=True)
     # fields = relationship(
     #     "AssessmentField",
     #     secondary=section_field_table,

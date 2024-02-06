@@ -44,9 +44,7 @@ def get_all_possible_previous(page_path: str, results: list, all_pages: dict):
     """
 
     # TODO write tests
-    direct_prev = [
-        prev["path"] for prev in all_pages if page_path in prev["next_paths"]
-    ]
+    direct_prev = [prev["path"] for prev in all_pages if page_path in prev["next_paths"]]
     results.update(direct_prev)
     for prev in direct_prev:
         get_all_possible_previous(prev, results, all_pages)
@@ -101,61 +99,43 @@ def generate_metadata(full_form_data: dict) -> dict:
     metadata = copy.deepcopy(cutdown)
     for p in metadata["all_pages"]:
         # everything that could come immediately before this page
-        p["all_direct_previous"] = [
-            prev["path"]
-            for prev in cutdown["all_pages"]
-            if p["path"] in prev["next_paths"]
-        ]
+        p["all_direct_previous"] = [prev["path"] for prev in cutdown["all_pages"] if p["path"] in prev["next_paths"]]
 
         # all the immediate next paths of the direct previous (aka siblings)
         direct_next_of_direct_previous = set()
         for direct_prev in p["all_direct_previous"]:
-            prev_page = next(
-                prev for prev in cutdown["all_pages"] if prev["path"] == direct_prev
-            )
+            prev_page = next(prev for prev in cutdown["all_pages"] if prev["path"] == direct_prev)
             direct_next_of_direct_previous.update(prev_page["next_paths"])
         p["direct_next_of_direct_previous"] = list(direct_next_of_direct_previous)
 
         # get all the descendents (possible next anywhere after) of the siblings
         all_possible_next_of_siblings = set()
         for sibling in p["direct_next_of_direct_previous"]:
-            sibling_page = next(
-                page for page in cutdown["all_pages"] if page["path"] == sibling
-            )
-            get_all_child_nexts(
-                sibling_page, all_possible_next_of_siblings, cutdown["all_pages"]
-            )
+            sibling_page = next(page for page in cutdown["all_pages"] if page["path"] == sibling)
+            get_all_child_nexts(sibling_page, all_possible_next_of_siblings, cutdown["all_pages"])
         p["all_possible_next_of_siblings"] = list(all_possible_next_of_siblings)
 
         # everything that could come anywhere before this page
         all_possible_previous = set()
-        get_all_possible_previous(
-            p["path"], all_possible_previous, cutdown["all_pages"]
-        )
+        get_all_possible_previous(p["path"], all_possible_previous, cutdown["all_pages"])
         p["all_possible_previous"] = list(all_possible_previous)
 
         # get everything that is directly after all the possible previous to this page
         all_possible_previous_direct_next = set()
         for prev in p["all_possible_previous"]:
-            prev_page = next(
-                page for page in cutdown["all_pages"] if page["path"] == prev
-            )
+            prev_page = next(page for page in cutdown["all_pages"] if page["path"] == prev)
             all_possible_previous_direct_next.update(prev_page["next_paths"])
         p["all_possible_previous_direct_next"] = list(all_possible_previous_direct_next)
 
         # everything that could come after this page
         all_possible_after = set()
-        get_all_child_nexts(
-            page=p, child_nexts=all_possible_after, all_pages=cutdown["all_pages"]
-        )
+        get_all_child_nexts(page=p, child_nexts=all_possible_after, all_pages=cutdown["all_pages"])
         p["all_possible_after"] = list(all_possible_after)
 
     return metadata
 
 
-def build_hierarchy_levels_for_page(
-    page: dict, results: dict, idx: int, all_pages: dict, start_page: bool = False
-):
+def build_hierarchy_levels_for_page(page: dict, results: dict, idx: int, all_pages: dict, start_page: bool = False):
     """Recursively builds up a dict containing the path of each page, and it's level in the hierarchy of the page
     Format of results:
     ```
@@ -302,10 +282,7 @@ def determine_title_and_text_for_component(
             )
             if child["type"].casefold() in FIELD_TYPES_WITH_MAX_WORDS:
                 first_column_title = component["options"]["columnTitles"][0].casefold()
-                text.append(
-                    f"{child_title} (Max {child['options']['maxWords']} words per"
-                    f" {first_column_title})"
-                )
+                text.append(f"{child_title} (Max {child['options']['maxWords']} words per {first_column_title})")
             else:
                 text.append(child_title)
             text.extend(child_text)
@@ -314,10 +291,7 @@ def determine_title_and_text_for_component(
     elif (
         include_html_components
         and ("type" in component)
-        and (
-            component["type"].casefold() == "html"
-            or component["type"].casefold() == "para"
-        )
+        and (component["type"].casefold() == "html" or component["type"].casefold() == "para")
     ) or ("hint" in component):
         # If there is hint or content text, extract it from the html in the hint field
         soup = BeautifulSoup(
@@ -334,9 +308,7 @@ def determine_title_and_text_for_component(
     if "list" in component:
         # include available options for lists
         list_id = component["list"]
-        list_items = next(
-            list["items"] for list in form_lists if list["name"] == list_id
-        )
+        list_items = next(list["items"] for list in form_lists if list["name"] == list_id)
         list_display = [item["text"] for item in list_items]
         text.append(list_display)
     return title, text
@@ -376,9 +348,7 @@ def build_components_from_page(
     # Find out which components in this page determine, through conditions, where we go next
     components_with_conditions = []
     for condition in form_conditions:
-        components_with_conditions.extend(
-            [value["field"]["name"] for value in condition["value"]["conditions"]]
-        )
+        components_with_conditions.extend([value["field"]["name"] for value in condition["value"]["conditions"]])
 
     components = []
     for c in full_page_json["components"]:
@@ -393,16 +363,10 @@ def build_components_from_page(
             for next_config in full_page_json["next"]:
                 if "condition" in next_config and next_config["path"] != "/summary":
                     condition_name = next_config["condition"]
-                    condition_config = next(
-                        fc for fc in form_conditions if fc["name"] == condition_name
-                    )
-                    destination = index_of_printed_headers[next_config["path"]][
-                        "heading_number"
-                    ]
+                    condition_config = next(fc for fc in form_conditions if fc["name"] == condition_name)
+                    destination = index_of_printed_headers[next_config["path"]]["heading_number"]
                     condition_value = next(
-                        cc
-                        for cc in condition_config["value"]["conditions"]
-                        if cc["field"]["name"] == c["name"]
+                        cc for cc in condition_config["value"]["conditions"] if cc["field"]["name"] == c["name"]
                     )["value"]["value"]
                     condition_text = determine_display_value_for_condition(
                         condition_value,
@@ -413,18 +377,13 @@ def build_components_from_page(
                     text.append(
                         f"If '{condition_text}', go to <strong>{destination}</strong>"
                         if lang == "en"
-                        else (
-                            f"Os '{condition_text}', ewch i"
-                            f" <strong>{destination}</strong>"
-                        )
+                        else (f"Os '{condition_text}', ewch i <strong>{destination}</strong>")
                     )
 
         component = {
             "title": title,
             "text": text,
-            "hide_title": c["options"]["hideTitle"]
-            if "hideTitle" in c["options"]
-            else False,
+            "hide_title": c["options"]["hideTitle"] if "hideTitle" in c["options"] else False,
         }
         components.append(component)
     return components
@@ -477,16 +436,11 @@ def generate_print_headings_for_page(
 
     # If we are going up a level in the hierarchy, and this isn't the last branch
     # that goes there, don't do it yet
-    all_siblings = set(
-        prev for prev in page["direct_next_of_direct_previous"] if prev != page_path
-    )
+    all_siblings = set(prev for prev in page["direct_next_of_direct_previous"] if prev != page_path)
     if pages_to_do.intersection(all_siblings) and hierarchy_difference < 0:
         return
 
-    if (
-        pages_to_do.intersection(page["all_direct_previous"])
-        and hierarchy_difference < 0
-    ):
+    if pages_to_do.intersection(page["all_direct_previous"]) and hierarchy_difference < 0:
         return
 
     # Work out the heading number for this page
@@ -512,14 +466,8 @@ def generate_print_headings_for_page(
     # Go through and do the same for all the pages after this one
     sibling_tracker = 0
     for next_page_path in page["next_paths"]:
-        next_page = next(
-            p for p in form_metadata["all_pages"] if p["path"] == next_page_path
-        )
-        next_form_json_page = next(
-            p
-            for p in form_metadata["full_json"]["pages"]
-            if p["path"] == next_page_path
-        )
+        next_page = next(p for p in form_metadata["all_pages"] if p["path"] == next_page_path)
+        next_form_json_page = next(p for p in form_metadata["full_json"]["pages"] if p["path"] == next_page_path)
         generate_print_headings_for_page(
             page=next_page,
             form_metadata=form_metadata,
@@ -536,9 +484,7 @@ def generate_print_headings_for_page(
         sibling_tracker += 1
 
 
-def generate_print_data_for_form(
-    section_idx: int, form_metadata: dict, form_idx: int, lang: str = "en"
-):
+def generate_print_data_for_form(section_idx: int, form_metadata: dict, form_idx: int, lang: str = "en"):
     """Uses `generate_print_headings_for_page()` and `build_components_from_page()`
     to gather everything that needs to be printed for this form
 
@@ -560,17 +506,11 @@ def generate_print_data_for_form(
         ```
     """
     # Create a list of all the required pages for printing
-    pages_to_do = set(
-        p["path"] for p in form_metadata["all_pages"] if p["path"] != "/summary"
-    )
+    pages_to_do = set(p["path"] for p in form_metadata["all_pages"] if p["path"] != "/summary")
     start_page_path = form_metadata["start_page"]
     index = form_metadata["index"]
-    start_page_metadata = next(
-        p for p in form_metadata["all_pages"] if p["path"] == start_page_path
-    )
-    start_page_json = next(
-        p for p in form_metadata["full_json"]["pages"] if p["path"] == start_page_path
-    )
+    start_page_metadata = next(p for p in form_metadata["all_pages"] if p["path"] == start_page_path)
+    start_page_json = next(p for p in form_metadata["full_json"]["pages"] if p["path"] == start_page_path)
 
     current_hierarchy_level = 0
     index_of_printed_headers = {}
@@ -592,14 +532,10 @@ def generate_print_data_for_form(
 
     # For each page, generate the list of components to print
     for page_path in index_of_printed_headers.keys():
-        full_json_page = next(
-            p for p in form_metadata["full_json"]["pages"] if p["path"] == page_path
-        )
+        full_json_page = next(p for p in form_metadata["full_json"]["pages"] if p["path"] == page_path)
         component_display = build_components_from_page(
             full_page_json=full_json_page,
-            include_html_components=(
-                not determine_if_just_html_page(full_json_page["components"])
-            ),
+            include_html_components=(not determine_if_just_html_page(full_json_page["components"])),
             form_lists=form_metadata["full_json"]["lists"],
             form_conditions=form_metadata["full_json"]["conditions"],
             index_of_printed_headers=index_of_printed_headers,
@@ -624,9 +560,7 @@ form_json_to_assessment_display_types = {
 }
 
 
-def generate_assessment_display_info_for_fields(
-    form_json: dict, form_name: str
-) -> list:
+def generate_assessment_display_info_for_fields(form_json: dict, form_name: str) -> list:
     """Generates a list of the fields and their display types for use in assessment config
 
     Args:
@@ -656,9 +590,7 @@ def generate_assessment_display_info_for_fields(
                     "field_id": component["name"],
                     "form_name": form_name,
                     "field_type": component["type"],
-                    "presentation_type": form_json_to_assessment_display_types.get(
-                        component["type"].lower(), None
-                    ),
+                    "presentation_type": form_json_to_assessment_display_types.get(component["type"].lower(), None),
                     "question": question,
                 }
             )
@@ -705,19 +637,13 @@ def generate_print_data_for_sections(
             path_to_form = os.path.join(path_to_form_jsons, f"{form_name}.json")
             # Some forms live in the generic folder rather than fund-round specific
             if not os.path.exists(path_to_form):
-                path_to_form = os.path.join(
-                    path_to_form_jsons, "..", "generic", f"{form_name}.json"
-                )
+                path_to_form = os.path.join(path_to_form_jsons, "..", "generic", f"{form_name}.json")
             with open(path_to_form, "r") as f:
                 form_data = json.load(f)
                 form_metadata = generate_metadata(form_data)
                 form_index = {}
 
-                first_page = next(
-                    p
-                    for p in form_metadata["all_pages"]
-                    if p["path"] == form_metadata["start_page"]
-                )
+                first_page = next(p for p in form_metadata["all_pages"] if p["path"] == form_metadata["start_page"])
 
                 # Work out what hierarchy level each page is on
                 build_hierarchy_levels_for_page(
@@ -741,10 +667,8 @@ def generate_print_data_for_sections(
                 )
 
                 if include_assessment_field_details:
-                    assessment_field_details = (
-                        generate_assessment_display_info_for_fields(
-                            form_json=form_data, form_name=form_name
-                        )
+                    assessment_field_details = generate_assessment_display_info_for_fields(
+                        form_json=form_data, form_name=form_name
                     )
                     assessment_display_info[form_name] = assessment_field_details
 

@@ -46,19 +46,13 @@ english_title_to_welsh_title = {
         "4.6 Community Representation": "4.6 Cynrychiolaeth gymunedol",
         "4.7 Inclusiveness And Integration": "4.7 Cynhwysiant ac Integreiddio",
         "4.8 Upload business plan": "4.8 Lanlwythwch y cynllun busnes",
-        "5. Potential to deliver community benefits": (
-            "5. Potensial i gyflawni buddion cymunedol"
-        ),
-        "5. Subsidy control and state aid": (
-            "5. Rheoli cymorthdaliadau a chymorth gwladwriaethol"
-        ),
+        "5. Potential to deliver community benefits": "5. Potensial i gyflawni buddion cymunedol",
+        "5. Subsidy control and state aid": "5. Rheoli cymorthdaliadau a chymorth gwladwriaethol",
         "5.1 Project qualification": "5.1 Cymhwystra'r prosiect",
         "6. Added value to community": "6. Gwerth ychwanegol i'r gymuned",
         "6. Check declarations": "6. Gwirio datganiadau",
         "6.1 Declarations": "6.1 Datganiadau",
-        "7. Subsidy control / state aid": (
-            "7. Rheoli cymorthdaliadau a chymorth gwladwriaethol"
-        ),
+        "7. Subsidy control / state aid": "7. Rheoli cymorthdaliadau a chymorth gwladwriaethol",
         "8. Check declarations": "8. Gwirio datganiadau",
         "About your organisation": "Ynglŷn â'ch sefydliad",
         "About your project": "Ynglŷn â'ch prosiect",
@@ -85,18 +79,14 @@ english_title_to_welsh_title = {
         "Operational costs": "Costau gweithredol",
         "Organisation Information": "Gwybodaeth am y sefydliad",
         "Organisation information": "Gwybodaeth am y sefydliad",
-        "Potential to deliver community benefits": (
-            "Potensial i gyflawni buddion cymunedol"
-        ),
+        "Potential to deliver community benefits": "Potensial i gyflawni buddion cymunedol",
         "Project Costs": "Costau'r prosiect",
         "Project Information": "Gwybodaeth am y prosiect",
         "Project Qualification": "Cymhwystra'r prosiect",
         "Risk": "Risg",
         "Skills And Resources": "Sgiliau ac Adnoddau",
         "Strategic case": "Achos strategol",
-        "Subsidy control / state aid": (
-            "Rheoli cymorthdaliadau a chymorth gwladwriaethol"
-        ),
+        "Subsidy control / state aid": "Rheoli cymorthdaliadau a chymorth gwladwriaethol",
         "Upload Business Plan": "Lanlwythwch y cynllun busnes",
         "Value To The Community": "Gwerth i'r Gymuned",
     }.items()
@@ -114,9 +104,7 @@ def upgrade():
 
     for title_json, *_ in section_entries:
         original_english_title = title_json["en"]
-        welsh_title = english_title_to_welsh_title.get(
-            original_english_title.casefold()
-        )
+        welsh_title = english_title_to_welsh_title.get(original_english_title.casefold())
         if not welsh_title:
             raise Exception(f"Could not find welsh title for {original_english_title}")
 
@@ -135,9 +123,7 @@ def upgrade():
 
 def downgrade():
     connection = op.get_bind()
-    query = sqlalchemy.text(
-        "SELECT title_json FROM section WHERE title_json->>'cy' IS NOT NULL"
-    )
+    query = sqlalchemy.text("SELECT title_json FROM section WHERE title_json->>'cy' IS NOT NULL")
     section_entries = connection.execute(query)
 
     for title_json, *_ in section_entries:
