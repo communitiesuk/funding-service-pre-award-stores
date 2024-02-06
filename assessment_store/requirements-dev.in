@@ -13,3 +13,4 @@ pip-tools
 json2html==1.3.0
 colored
 debugpy
+Flake8-pyproject
