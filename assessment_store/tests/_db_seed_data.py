@@ -57,18 +57,10 @@ def get_dynamic_rows(
 
     fund_round_short_name = list(fund_round_config_dict.keys())[0]
     fund_round_config = fund_round_config_dict[fund_round_short_name]
-    application_store_json = mappings_application_store_json[
-        fund_round_short_name
-    ]
-    application_short_ref_prefix = mappings_short_name_to_reference_prepend[
-        fund_round_short_name
-    ]
+    application_store_json = mappings_application_store_json[fund_round_short_name]
+    application_short_ref_prefix = mappings_short_name_to_reference_prepend[fund_round_short_name]
 
-    funds = (
-        [fund_round_config["fund_id"]]
-        if fund_round_config
-        else [uuid4() for _ in range(number_of_funds)]
-    )
+    funds = [fund_round_config["fund_id"]] if fund_round_config else [uuid4() for _ in range(number_of_funds)]
 
     verbs = ["Save", "Restore", "Refurbish", "Rebuild", "Remodel"]
 
@@ -124,11 +116,7 @@ def get_dynamic_rows(
     for count, fund_id in enumerate(funds):
         print("fund id:", fund_id)
 
-        rounds = (
-            [fund_round_config["round_id"]]
-            if fund_round_config
-            else [uuid4() for _ in range(number_of_rounds)]
-        )
+        rounds = [fund_round_config["round_id"]] if fund_round_config else [uuid4() for _ in range(number_of_rounds)]
 
         for round_id in rounds:
             print("round id:", round_id)
@@ -144,16 +132,9 @@ def get_dynamic_rows(
                 funding_type = choice(funding_types)
                 org_name = choice(org_names)
 
-                project_name = (
-                    f"{choice(verbs)} the"
-                    f" {choice(adjects)} {picked_place[0]} in {picked_city[0]}"
-                )
+                project_name = f"{choice(verbs)} the" f" {choice(adjects)} {picked_place[0]} in {picked_city[0]}"
 
-                short_ref = (
-                    application_short_ref_prefix
-                    + "-"
-                    + "".join(sample(ascii_uppercase, 6))
-                )
+                short_ref = application_short_ref_prefix + "-" + "".join(sample(ascii_uppercase, 6))
 
                 print("Seeding db inc location info")
                 location_json_blob = {
@@ -161,9 +142,7 @@ def get_dynamic_rows(
                     "location_county": "test-county",
                     "location_region": picked_city[1],
                     "location_country": picked_city[1],
-                    "location_postcode": picked_city[2]
-                    if len(picked_city) > 2
-                    else "QQ12QQ",
+                    "location_postcode": picked_city[2] if len(picked_city) > 2 else "QQ12QQ",
                     "location_constituency": "test-constituency",
                 }
                 yield application_store_json.substitute(

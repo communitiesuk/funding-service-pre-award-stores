@@ -8,9 +8,7 @@ from sqlalchemy import select
 
 
 def get_flags_for_application(application_id):
-    stmt = select(AssessmentFlag).where(
-        AssessmentFlag.application_id == application_id
-    )
+    stmt = select(AssessmentFlag).where(AssessmentFlag.application_id == application_id)
     results = db.session.scalars(stmt).all()
     return results
 
@@ -54,9 +52,7 @@ def add_update_to_assessment_flag(
     allocation: str,
     assessment_flag_id: str,
 ) -> Dict:
-    stmt = select(AssessmentFlag).where(
-        AssessmentFlag.id == assessment_flag_id
-    )
+    stmt = select(AssessmentFlag).where(AssessmentFlag.id == assessment_flag_id)
 
     assessment_flag = db.session.scalars(stmt).one()
 

@@ -30,9 +30,7 @@ def get_tags_for_fund_round(
     search_term: str = "",
     search_in: str = None,
 ):
-    tags = select_tags_for_fund_round(
-        fund_id, round_id, tag_purpose, tag_status, search_term, search_in
-    )
+    tags = select_tags_for_fund_round(fund_id, round_id, tag_purpose, tag_status, search_term, search_in)
 
     if tags:
         serialiser = JoinedTagSchema()
@@ -119,39 +117,25 @@ def associate_tags_with_assessment(application_id):
 
     if associated_tags:
         serialiser = TagAssociationSchema()
-        serialised_associated_tags = [
-            serialiser.dump(r) for r in associated_tags
-        ]
+        serialised_associated_tags = [serialiser.dump(r) for r in associated_tags]
         return serialised_associated_tags
 
 
 def get_active_tags_associated_with_assessment(application_id):
-    current_app.logger.info(
-        f"Getting tags associated with assessment with application_id: {application_id}."
-    )
-    associated_tags = select_active_tags_associated_with_assessment(
-        application_id
-    )
+    current_app.logger.info(f"Getting tags associated with assessment with application_id: {application_id}.")
+    associated_tags = select_active_tags_associated_with_assessment(application_id)
     if associated_tags:
         serialiser = JoinedTagAssociationSchema()
-        serialised_associated_tags = [
-            serialiser.dump(r) for r in associated_tags
-        ]
+        serialised_associated_tags = [serialiser.dump(r) for r in associated_tags]
         return serialised_associated_tags
     return []
 
 
 def get_all_tags_associated_with_application(application_id):
-    current_app.logger.info(
-        f"Getting tags associated with with application_id: {application_id}."
-    )
-    associated_tags = select_all_tags_associated_with_application(
-        application_id
-    )
+    current_app.logger.info(f"Getting tags associated with with application_id: {application_id}.")
+    associated_tags = select_all_tags_associated_with_application(application_id)
     if associated_tags:
         serialiser = JoinedTagAssociationSchema()
-        serialised_associated_tags = [
-            serialiser.dump(r) for r in associated_tags
-        ]
+        serialised_associated_tags = [serialiser.dump(r) for r in associated_tags]
         return serialised_associated_tags
     return []

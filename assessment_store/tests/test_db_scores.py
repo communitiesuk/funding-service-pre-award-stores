@@ -18,9 +18,7 @@ def test_create_scores_for_application_sub_crit(_db, seed_application_records):
     """test_create_scores_for_application_sub_crit Tests we can create score
     records in the scores table in the appropriate format."""
 
-    picked_row = get_assessment_record(
-        seed_application_records[0]["application_id"]
-    )
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
 
@@ -43,9 +41,7 @@ def test_get_latest_score_for_application_sub_crit(seed_application_records):
     """test_get_latest_score_for_application_sub_crit Tests we can add score
     records in the scores table and return the most recently created."""
 
-    picked_row = get_assessment_record(
-        seed_application_records[0]["application_id"]
-    )
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
 
@@ -58,18 +54,12 @@ def test_get_latest_score_for_application_sub_crit(seed_application_records):
     }
     create_score_metadata = create_score_for_app_sub_crit(**assessment_payload)
 
-    score_metadata = get_scores_for_app_sub_crit(
-        application_id, sub_criteria_id
-    )
+    score_metadata = get_scores_for_app_sub_crit(application_id, sub_criteria_id)
     latest_score_metadata = score_metadata[0]
 
-    assert latest_score_metadata["date_created"] == create_score_metadata.get(
-        "date_created"
-    )
+    assert latest_score_metadata["date_created"] == create_score_metadata.get("date_created")
     assert latest_score_metadata["score"] == create_score_metadata.get("score")
-    assert latest_score_metadata["justification"] == create_score_metadata.get(
-        "justification"
-    )
+    assert latest_score_metadata["justification"] == create_score_metadata.get("justification")
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
@@ -77,9 +67,7 @@ def test_get_score_history(seed_application_records):
     """test_get_score_history Tests we can get all score records in the scores
     table."""
 
-    picked_row = get_assessment_record(
-        seed_application_records[0]["application_id"]
-    )
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
 
@@ -90,9 +78,7 @@ def test_get_score_history(seed_application_records):
         "justification": "bang average",
         "user_id": "test",
     }
-    create_score_metadata_1 = create_score_for_app_sub_crit(
-        **assessment_payload_1
-    )
+    create_score_metadata_1 = create_score_for_app_sub_crit(**assessment_payload_1)
 
     assessment_payload_2 = {
         "application_id": application_id,
@@ -101,20 +87,13 @@ def test_get_score_history(seed_application_records):
         "justification": "great",
         "user_id": "test",
     }
-    create_score_metadata_2 = create_score_for_app_sub_crit(
-        **assessment_payload_2
-    )
+    create_score_metadata_2 = create_score_for_app_sub_crit(**assessment_payload_2)
 
-    score_metadata = get_scores_for_app_sub_crit(
-        application_id, sub_criteria_id, True
-    )
+    score_metadata = get_scores_for_app_sub_crit(application_id, sub_criteria_id, True)
 
     assert len(score_metadata) == 2
     assert score_metadata[0]["score"] == create_score_metadata_2["score"]
-    assert (
-        score_metadata[1]["justification"]
-        == create_score_metadata_1["justification"]
-    )
+    assert score_metadata[1]["justification"] == create_score_metadata_1["justification"]
 
 
 @pytest.mark.apps_to_insert(test_input_data)
@@ -162,9 +141,7 @@ def test_get_progress_for_applications(seed_application_records):
             application_id_2,
         ]
     }
-    application_progress_list = get_progress_for_applications(
-        [application_id_1, application_id_2], fund_id, round_id
-    )
+    application_progress_list = get_progress_for_applications([application_id_1, application_id_2], fund_id, round_id)
 
     assert len(application_progress_list) == 2
     for application in application_progress_list:

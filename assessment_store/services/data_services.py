@@ -9,9 +9,7 @@ from flask import current_app
 def get_data(endpoint: str, payload: Dict = None):
     try:
         if payload:
-            current_app.logger.info(
-                f"Fetching data from '{endpoint}', with payload: {payload}."
-            )
+            current_app.logger.info(f"Fetching data from '{endpoint}', with payload: {payload}.")
             response = requests.get(endpoint, payload)
         else:
             current_app.logger.info(f"Fetching data from '{endpoint}'.")
@@ -22,14 +20,9 @@ def get_data(endpoint: str, payload: Dict = None):
             else:
                 return response.content
         elif response.status_code == 204:
-            current_app.logger.warn(
-                "Request successful but no resources returned for endpoint"
-                f" '{endpoint}'."
-            )
+            current_app.logger.warn("Request successful but no resources returned for endpoint" f" '{endpoint}'.")
         else:
-            current_app.logger.error(
-                f"Could not get data for endpoint '{endpoint}' "
-            )
+            current_app.logger.error(f"Could not get data for endpoint '{endpoint}' ")
     except requests.exceptions.RequestException as e:
         stack_trace = traceback.format_exc()
         current_app.logger.error(f"{e}\n{stack_trace}")

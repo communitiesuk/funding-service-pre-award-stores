@@ -5,15 +5,11 @@ from db.models.assessment_record.enums import Status
 from flask import current_app
 
 
-def _derive_status(
-    score_map: dict, comment_map: dict, sub_criteria_id: str
-) -> str:
+def _derive_status(score_map: dict, comment_map: dict, sub_criteria_id: str) -> str:
     if sub_criteria_id in score_map:
         return Status.COMPLETED.name  # if we've scored, we've completed
     if sub_criteria_id in comment_map:
-        return (
-            Status.IN_PROGRESS.name
-        )  # if we've commented, but not scored, we're in progress
+        return Status.IN_PROGRESS.name  # if we've commented, but not scored, we're in progress
 
     # if we haven't commented or scored, we're not started
     return Status.NOT_STARTED.name
@@ -24,9 +20,7 @@ def transform_to_assessor_task_list_metadata(
 ) -> tuple[dict, dict]:
     current_app.logger.info("Configured fund-rounds:")
     current_app.logger.info(Config.ASSESSMENT_MAPPING_CONFIG.keys())
-    mapping = copy.deepcopy(
-        Config.ASSESSMENT_MAPPING_CONFIG[f"{fund_id}:{round_id}"]
-    )
+    mapping = copy.deepcopy(Config.ASSESSMENT_MAPPING_CONFIG[f"{fund_id}:{round_id}"])
 
     sections = [
         {
@@ -45,9 +39,7 @@ def transform_to_assessor_task_list_metadata(
     criterias = [
         {
             "name": c["name"],
-            "total_criteria_score": sum(
-                score_map.get(sc["id"], 0) for sc in c["sub_criteria"]
-            ),
+            "total_criteria_score": sum(score_map.get(sc["id"], 0) for sc in c["sub_criteria"]),
             "number_of_scored_sub_criteria": sum(1 for _ in c["sub_criteria"]),
             "weighting": c["weighting"],
             "sub_criterias": [

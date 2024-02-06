@@ -32,9 +32,7 @@ def import_applications_from_queue():
             application_json = message["Body"]
             if isinstance(application_json, str):
                 application_json = json.loads(application_json)
-            fund_round_shortname = "".join(
-                application_json["reference"].split("-")[:2]
-            )
+            fund_round_shortname = "".join(application_json["reference"].split("-")[:2])
             # Check if the import config exists for the application
             if fund_round_shortname not in fund_round_data_key_mappings.keys():
                 current_app.logger.warning(
@@ -49,17 +47,11 @@ def import_applications_from_queue():
             application_json_list,
             is_json=True,
         )
-        insert_application_ids = [
-            application["application_id"]
-            for application in inserted_applications
-        ]
+        insert_application_ids = [application["application_id"] for application in inserted_applications]
 
         # delete the messages from queue
         for message in application_messages:
-            if (
-                message["MessageAttributes"]["application_id"]["StringValue"]
-                in insert_application_ids
-            ):
+            if message["MessageAttributes"]["application_id"]["StringValue"] in insert_application_ids:
                 reciept_handles_to_delete.append(message["ReceiptHandle"])
         if reciept_handles_to_delete:
             _SQS_CLIENT.delete_messages(
@@ -68,9 +60,7 @@ def import_applications_from_queue():
             )
 
         for message in application_messages:
-            receive_count = int(
-                message["Attributes"]["ApproximateReceiveCount"]
-            )
+            receive_count = int(message["Attributes"]["ApproximateReceiveCount"])
             if receive_count == Config.AWS_DLQ_MAX_RECIEVE_COUNT:
                 current_app.logger.error(
                     f"Failed to import application with id: "

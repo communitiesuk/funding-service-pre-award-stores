@@ -25,9 +25,7 @@ def upgrade():
     qa_complete = op.create_table(
         "qa_complete",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
-        sa.Column(
-            "application_id", postgresql.UUID(as_uuid=True), nullable=True
-        ),
+        sa.Column("application_id", postgresql.UUID(as_uuid=True), nullable=True),
         sa.Column("user_id", sa.String(), nullable=False),
         sa.Column(
             "date_created",
@@ -45,14 +43,10 @@ def upgrade():
 
     # Retrive qa completed info from flag_update & assessment_flag tables
     flag_updates = op.get_bind().execute(
-        sa.text(
-            "SELECT id, assessment_flag_id, user_id, date_created FROM flag_update WHERE status='QA_COMPLETED';"
-        )
+        sa.text("SELECT id, assessment_flag_id, user_id, date_created FROM flag_update WHERE status='QA_COMPLETED';")
     )
     flags = op.get_bind().execute(
-        sa.text(
-            "SELECT id, application_id FROM assessment_flag WHERE latest_status='QA_COMPLETED';"
-        )
+        sa.text("SELECT id, application_id FROM assessment_flag WHERE latest_status='QA_COMPLETED';")
     )
     qa_complete_dict = {}
     for id, assessment_flag_id, user_id, date_created in flag_updates:
@@ -63,9 +57,7 @@ def upgrade():
         }
 
     for id, application_id in flags:
-        qa_complete_dict[str(id)] = qa_complete_dict[str(id)] | {
-            "application_id": application_id
-        }
+        qa_complete_dict[str(id)] = qa_complete_dict[str(id)] | {"application_id": application_id}
 
     # Migrate qa info from existing assessment_flag & flag_update tables to newly created 'qa_complete' table
     if qa_complete_dict:
@@ -87,15 +79,9 @@ def upgrade():
             delete_id_list_flag_update += f"'{value['flag_update_id']}',"
             delete_id_list_assessment_flag += f"'{key}',"
 
+        op.get_bind().execute(sa.text(f"DELETE FROM flag_update WHERE id in ({delete_id_list_flag_update[:-1]});"))
         op.get_bind().execute(
-            sa.text(
-                f"DELETE FROM flag_update WHERE id in ({delete_id_list_flag_update[:-1]});"
-            )
-        )
-        op.get_bind().execute(
-            sa.text(
-                f"DELETE FROM assessment_flag WHERE id in ({delete_id_list_assessment_flag[:-1]});"
-            )
+            sa.text(f"DELETE FROM assessment_flag WHERE id in ({delete_id_list_assessment_flag[:-1]});")
         )
 
     # ### end Alembic commands ###
@@ -106,9 +92,7 @@ def downgrade():
 
     # Retrive qa complete info from qa_complete table
     qa_complete_records = op.get_bind().execute(
-        sa.text(
-            "SELECT id,application_id,user_id,date_created FROM qa_complete;"
-        )
+        sa.text("SELECT id,application_id,user_id,date_created FROM qa_complete;")
     )
     qa_complete_dict = {}
     for id, application_id, user_id, date_created in qa_complete_records:

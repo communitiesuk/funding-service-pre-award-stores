@@ -13,9 +13,7 @@ def get_progress_for_app(application_ids=None):
     subq = (
         db.session.query(
             Score.application_id,
-            func.count(func.distinct(Score.sub_criteria_id)).label(
-                "scored_sub_criterias"
-            ),
+            func.count(func.distinct(Score.sub_criteria_id)).label("scored_sub_criterias"),
         )
         .group_by(Score.application_id)
         .subquery()
@@ -30,9 +28,7 @@ def get_progress_for_app(application_ids=None):
     metadata_serialiser = ProgressSchema()
 
     progress_metadatas = [
-        metadata_serialiser.dump(
-            {"application_id": app_id, "scored_sub_criterias": score_count}
-        )
+        metadata_serialiser.dump({"application_id": app_id, "scored_sub_criterias": score_count})
         for app_id, score_count in results
     ]
 

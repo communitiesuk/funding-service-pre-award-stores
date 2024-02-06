@@ -47,9 +47,7 @@ def insert_tags(tags, fund_id, round_id):
             db.session.flush()  # Flush changes to trigger validation
         except Exception as e:
             db.session.rollback()
-            current_app.logger.error(
-                f"Error inserting tag '{value}': {str(e)}"
-            )
+            current_app.logger.error(f"Error inserting tag '{value}': {str(e)}")
             raise ValueError(f"Error inserting tag '{value}': {str(e)}")
 
         inserted_tags.append(tag)
@@ -102,17 +100,9 @@ def update_tags(tags, fund_id, round_id):
 
             # Update the existing tag's attributes
             tag.value = tag_value if tag_value is not None else tag.value
-            tag.creator_user_id = (
-                creator_user_id
-                if creator_user_id is not None
-                else tag.creator_user_id
-            )
-            tag.type_id = (
-                tag_type_id if tag_type_id is not None else tag.type_id
-            )
-            tag.active = (
-                active_status if active_status is not None else tag.active
-            )
+            tag.creator_user_id = creator_user_id if creator_user_id is not None else tag.creator_user_id
+            tag.type_id = tag_type_id if tag_type_id is not None else tag.type_id
+            tag.active = active_status if active_status is not None else tag.active
 
         except NoResultFound:
             # If the tag doesn't exist, raise an error
@@ -157,9 +147,7 @@ def select_tags_for_fund_round(
         .where(Tag.round_id == round_id)
     )
     if search_term != "":
-        current_app.logger.info(
-            f"Performing tag search on search term: {search_term} in fields {search_in}"
-        )
+        current_app.logger.info(f"Performing tag search on search term: {search_term} in fields {search_in}")
         # using % for sql LIKE search
         search_term = search_term.replace(" ", "%")
 
@@ -210,9 +198,7 @@ def get_tag_by_id(fund_id: str, round_id: str, tag_id: str) -> Tag:
                 Tag.created_at,
                 TagType.purpose.label("purpose"),
                 TagType.description.label("description"),
-                func.count(distinct(subquery.c.application_id)).label(
-                    "tag_association_count"
-                ),
+                func.count(distinct(subquery.c.application_id)).label("tag_association_count"),
             )
             .join(TagType, Tag.type_id == TagType.id)
             .outerjoin(subquery, Tag.id == subquery.c.tag_id)

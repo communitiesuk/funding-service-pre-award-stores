@@ -29,12 +29,8 @@ def downgrade():
 
     op.create_table(
         "flags",
-        sa.Column(
-            "flag_id", postgresql.UUID(), autoincrement=False, nullable=False
-        ),
-        sa.Column(
-            "justification", sa.TEXT(), autoincrement=False, nullable=True
-        ),
+        sa.Column("flag_id", postgresql.UUID(), autoincrement=False, nullable=False),
+        sa.Column("justification", sa.TEXT(), autoincrement=False, nullable=True),
         sa.Column(
             "flag_type",
             postgresql.ENUM(
@@ -60,9 +56,7 @@ def downgrade():
             autoincrement=False,
             nullable=True,
         ),
-        sa.Column(
-            "user_id", sa.VARCHAR(), autoincrement=False, nullable=False
-        ),
+        sa.Column("user_id", sa.VARCHAR(), autoincrement=False, nullable=False),
         sa.Column(
             "sections_to_flag",
             postgresql.ARRAY(sa.VARCHAR(length=256)),

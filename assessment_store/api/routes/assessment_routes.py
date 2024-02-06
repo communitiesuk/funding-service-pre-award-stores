@@ -107,25 +107,17 @@ def sub_criteria(
     :return: A sub criteria dictionary.
 
     """
-    current_app.logger.info(
-        "Processing request for sub criteria: {sub_criteria_id}."
-    )
+    current_app.logger.info("Processing request for sub criteria: {sub_criteria_id}.")
     metadata = find_assessor_task_list_state(application_id)
-    current_app.logger.info(
-        "Searching assessment mapping for sub criteria: {sub_criteria_id}."
-    )
+    current_app.logger.info("Searching assessment mapping for sub criteria: {sub_criteria_id}.")
     sub_criteria_config_from_mapping = return_subcriteria_from_mapping(
         sub_criteria_id,
         metadata["fund_id"],
         metadata["round_id"],
         metadata["language"],
     )
-    current_app.logger.info(
-        "Getting application subcriteria metadata for application: {sub_criteria_id}."
-    )
-    application_metadata_for_subcriteria = get_assessment_sub_critera_state(
-        application_id
-    )
+    current_app.logger.info("Getting application subcriteria metadata for application: {sub_criteria_id}.")
+    application_metadata_for_subcriteria = get_assessment_sub_critera_state(application_id)
     sub_criteria = SubCriteria.from_filtered_dict(
         {
             **sub_criteria_config_from_mapping,
@@ -182,9 +174,7 @@ def get_all_uploaded_document_theme_answers(application_id: str):
     field_answers = get_all_uploaded_document_field_answers(
         metadata["fund_id"], metadata["round_id"], metadata["language"]
     )
-    return map_application_with_sub_criteria_themes_fields(
-        application_id, "all_uploaded_documents", field_answers
-    )
+    return map_application_with_sub_criteria_themes_fields(application_id, "all_uploaded_documents", field_answers)
 
 
 def update_ar_status_to_completed(application_id: str):
@@ -213,9 +203,7 @@ def assessment_stats_for_fund_round_id(
     """
 
     def determine_display_status(assessment):
-        all_latest_status = [
-            flag["latest_status"] for flag in assessment["flags"]
-        ]
+        all_latest_status = [flag["latest_status"] for flag in assessment["flags"]]
         if FlagStatus.STOPPED in all_latest_status:
             display_status = "STOPPED"
         elif all_latest_status.count(FlagStatus.RAISED) > 1:
@@ -241,54 +229,20 @@ def assessment_stats_for_fund_round_id(
     )
     stats.update(
         {
-            "completed": len(
-                [
-                    1
-                    for assessment in assessments
-                    if determine_display_status(assessment) == "COMPLETED"
-                ]
-            ),
+            "completed": len([1 for assessment in assessments if determine_display_status(assessment) == "COMPLETED"]),
             "assessing": len(
-                [
-                    1
-                    for assessment in assessments
-                    if determine_display_status(assessment) == "IN_PROGRESS"
-                ]
+                [1 for assessment in assessments if determine_display_status(assessment) == "IN_PROGRESS"]
             ),
             "not_started": len(
-                [
-                    1
-                    for assessment in assessments
-                    if determine_display_status(assessment) == "NOT_STARTED"
-                ]
+                [1 for assessment in assessments if determine_display_status(assessment) == "NOT_STARTED"]
             ),
             "qa_completed": len(
-                [
-                    1
-                    for assessment in assessments
-                    if determine_display_status(assessment) == "QA_COMPLETED"
-                ]
+                [1 for assessment in assessments if determine_display_status(assessment) == "QA_COMPLETED"]
             ),
-            "stopped": len(
-                [
-                    1
-                    for assessment in assessments
-                    if determine_display_status(assessment) == "STOPPED"
-                ]
-            ),
-            "flagged": len(
-                [
-                    1
-                    for assessment in assessments
-                    if determine_display_status(assessment) == "FLAGGED"
-                ]
-            ),
+            "stopped": len([1 for assessment in assessments if determine_display_status(assessment) == "STOPPED"]),
+            "flagged": len([1 for assessment in assessments if determine_display_status(assessment) == "FLAGGED"]),
             "multiple_flagged": len(
-                [
-                    1
-                    for assessment in assessments
-                    if determine_display_status(assessment) == "MULTIPLE_FLAGS"
-                ]
+                [1 for assessment in assessments if determine_display_status(assessment) == "MULTIPLE_FLAGS"]
             ),
             "total": len(assessments),
         }
@@ -301,9 +255,7 @@ def get_application_json(application_id):
     return get_application_jsonb_blob(application_id)
 
 
-def get_application_data_for_export(
-    fund_id: str, round_id: str, report_type: str
-) -> List[Dict]:
+def get_application_data_for_export(fund_id: str, round_id: str, report_type: str) -> List[Dict]:
     app_list = get_assessment_export_data(
         fund_id=fund_id,
         round_id=round_id,

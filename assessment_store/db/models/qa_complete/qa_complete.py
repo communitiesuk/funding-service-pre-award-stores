@@ -21,6 +21,4 @@ class QaComplete(BaseModel):
         ForeignKey("assessment_records.application_id"),
     )
     user_id = Column("user_id", String, nullable=False)
-    date_created = Column(
-        "date_created", db.DateTime(), server_default=func.now()
-    )
+    date_created = Column("date_created", db.DateTime(), server_default=func.now())

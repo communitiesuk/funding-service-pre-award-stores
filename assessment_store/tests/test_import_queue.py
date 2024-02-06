@@ -23,9 +23,7 @@ def mock_sqs_recieve_message(request, mocker):
                 "MessageId": str(ind + 1),
                 "Body": application_json,
                 "ReceiptHandle": str(ind),
-                "MessageAttributes": {
-                    "application_id": {"StringValue": application_json["id"]}
-                },
+                "MessageAttributes": {"application_id": {"StringValue": application_json["id"]}},
                 "Attributes": {"ApproximateReceiveCount": 1},
             }
         )

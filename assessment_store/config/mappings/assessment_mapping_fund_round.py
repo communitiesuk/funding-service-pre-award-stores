@@ -174,46 +174,14 @@ applicant_info_mapping = {
                 "fUMWcd": {"en": {"title": "Name of lead contact"}},
                 "CDEwxp": {"en": {"title": "Lead contact email address"}},
                 "nURkuc": {"en": {"title": "Local Authority"}},
-                "pVBwci": {
-                    "en": {
-                        "title": "Revenue for 1 April 2023 to 31 March 2024"
-                    }
-                },
-                "WDouQc": {
-                    "en": {
-                        "title": "Revenue for 1 April 2024 to 31 March 2025"
-                    }
-                },
-                "SGjmSM": {
-                    "en": {
-                        "title": "Capital for 1 April 2023 to 31 March 2024"
-                    }
-                },
-                "wTdyhk": {
-                    "en": {
-                        "title": "Capital for 1 April 2024 to 31 March 2025"
-                    }
-                },
-                "GRWtfV": {
-                    "en": {
-                        "title": "Revenue for 1 April 2023 to 31 March 2024"
-                    }
-                },
-                "zvPzXN": {
-                    "en": {
-                        "title": "Revenue for 1 April 2024 to 31 March 2025"
-                    }
-                },
-                "QUCvFy": {
-                    "en": {
-                        "title": "Capital for 1 April 2023 to 31 March 2024"
-                    }
-                },
-                "pppiYl": {
-                    "en": {
-                        "title": "Capital for 1 April 2024 to 31 March 2025"
-                    }
-                },
+                "pVBwci": {"en": {"title": "Revenue for 1 April 2023 to 31 March 2024"}},
+                "WDouQc": {"en": {"title": "Revenue for 1 April 2024 to 31 March 2025"}},
+                "SGjmSM": {"en": {"title": "Capital for 1 April 2023 to 31 March 2024"}},
+                "wTdyhk": {"en": {"title": "Capital for 1 April 2024 to 31 March 2025"}},
+                "GRWtfV": {"en": {"title": "Revenue for 1 April 2023 to 31 March 2024"}},
+                "zvPzXN": {"en": {"title": "Revenue for 1 April 2024 to 31 March 2025"}},
+                "QUCvFy": {"en": {"title": "Capital for 1 April 2023 to 31 March 2024"}},
+                "pppiYl": {"en": {"title": "Capital for 1 April 2024 to 31 March 2025"}},
                 "AVShTf": {"en": {"title": "Region"}},
             },
             "score_fields": {
@@ -295,29 +263,15 @@ applicant_info_mapping = {
                     }
                 },
                 "jeocJE": {"en": {"title": "registered charity number"}},
-                "JXKUcj": {
-                    "en": {"title": "27 September 2023 to 31 March 2024"}
-                },
+                "JXKUcj": {"en": {"title": "27 September 2023 to 31 March 2024"}},
                 "OnPeeS": {"en": {"title": "1 April 2024 to 31 March 2025"}},
                 "vYYoAC": {"en": {"title": "Cohort"}},
-                "fHodTO": {
-                    "en": {"title": "What is the main focus of your project?"}
-                },
-                "MADkNZ": {
-                    "en": {
-                        "title": "Give a brief summary of your project, including what you hope to achieve"
-                    }
-                },
+                "fHodTO": {"en": {"title": "What is the main focus of your project?"}},
+                "MADkNZ": {"en": {"title": "Give a brief summary of your project, including what you hope to achieve"}},
                 "tZoOKx": {"en": {"title": "Partner organisation details"}},
             }
         },
-        "OUTPUT_TRACKER": {
-            "form_fields": {
-                "fHodTO": {
-                    "en": {"title": "What is the main focus of your project?"}
-                }
-            }
-        },
+        "OUTPUT_TRACKER": {"form_fields": {"fHodTO": {"en": {"title": "What is the main focus of your project?"}}}},
     },
     DPIF_FUND_ID: {
         "ASSESSOR_EXPORT": {
@@ -344,11 +298,7 @@ applicant_info_mapping = {
                         "title": "You agree to let all outputs from this work be published under open licence with a view to any organisation accessing, using or adopting them freely"
                     }
                 },
-                "kPYiQE": {
-                    "en": {
-                        "title": "The information you have provided is accurate"
-                    }
-                },
+                "kPYiQE": {"en": {"title": "The information you have provided is accurate"}},
             }
         },
         "OUTPUT_TRACKER": {},

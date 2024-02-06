@@ -41,9 +41,7 @@ class DefaultConfig:
     # Database
     # ---------------
 
-    SQLALCHEMY_DATABASE_URI = environ["DATABASE_URL"].replace(
-        "postgres://", "postgresql://"
-    )
+    SQLALCHEMY_DATABASE_URI = environ["DATABASE_URL"].replace("postgres://", "postgresql://")
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {"future": True}
@@ -56,9 +54,7 @@ class DefaultConfig:
     if "PRIMARY_QUEUE_URL" in environ:
         AWS_REGION = environ.get("AWS_REGION")
         AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = environ.get("PRIMARY_QUEUE_URL")
-        AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = environ.get(
-            "DEAD_LETTER_QUEUE_URL"
-        )
+        AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = environ.get("DEAD_LETTER_QUEUE_URL")
     elif "VCAP_SERVICES" in environ:
         vcap_services = json.loads(environ["VCAP_SERVICES"])
         if "aws-sqs-queue" in vcap_services:
@@ -66,35 +62,21 @@ class DefaultConfig:
             AWS_REGION = sqs_credentials["aws_region"]
             AWS_ACCESS_KEY_ID = sqs_credentials["aws_access_key_id"]
             AWS_SECRET_ACCESS_KEY = sqs_credentials["aws_secret_access_key"]
-            AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = sqs_credentials[
-                "primary_queue_url"
-            ]
-            AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = sqs_credentials[
-                "secondary_queue_url"
-            ]
+            AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = sqs_credentials["primary_queue_url"]
+            AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = sqs_credentials["secondary_queue_url"]
     else:
         AWS_ACCESS_KEY_ID = environ.get("AWS_ACCESS_KEY_ID")
         AWS_SECRET_ACCESS_KEY = environ.get("AWS_SECRET_ACCESS_KEY")
         AWS_REGION = environ.get("AWS_REGION")
-        AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = environ.get(
-            "AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL"
-        )
-        AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = environ.get(
-            "AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL"
-        )
-    AWS_DLQ_MAX_RECIEVE_COUNT = int(
-        environ.get("AWS_DLQ_MAX_RECIEVE_COUNT", 3)
-    )
+        AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = environ.get("AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL")
+        AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = environ.get("AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL")
+    AWS_DLQ_MAX_RECIEVE_COUNT = int(environ.get("AWS_DLQ_MAX_RECIEVE_COUNT", 3))
 
     # ---------------
     # SQS Config
     # ---------------
-    SQS_WAIT_TIME = int(
-        environ.get("SQS_WAIT_TIME", 2)
-    )  # max time to wait (in sec) before returning
-    SQS_BATCH_SIZE = int(
-        environ.get("SQS_BATCH_SIZE", 1)
-    )  # MaxNumber Of Messages to process
+    SQS_WAIT_TIME = int(environ.get("SQS_WAIT_TIME", 2))  # max time to wait (in sec) before returning
+    SQS_BATCH_SIZE = int(environ.get("SQS_BATCH_SIZE", 1))  # MaxNumber Of Messages to process
     SQS_VISIBILITY_TIME = int(
         environ.get("SQS_VISIBILITY_TIME", 1)
     )  # time for message to temporarily invisible to others (in sec)

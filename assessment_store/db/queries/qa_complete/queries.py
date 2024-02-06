@@ -28,13 +28,9 @@ def create_qa_complete_record(
 
 
 def get_qa_complete_record_for_application(application_id) -> Dict:
-    qa_complete_record_for_application = QaComplete.query.filter(
-        QaComplete.application_id == application_id
-    ).all()
+    qa_complete_record_for_application = QaComplete.query.filter(QaComplete.application_id == application_id).all()
     metadata_serialiser = QaCompleteMetadata()
     qa_complete_metadata = metadata_serialiser.dump(
-        qa_complete_record_for_application[0]
-        if qa_complete_record_for_application
-        else []
+        qa_complete_record_for_application[0] if qa_complete_record_for_application else []
     )
     return qa_complete_metadata

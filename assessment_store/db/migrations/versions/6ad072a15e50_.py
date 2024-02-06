@@ -21,14 +21,10 @@ def upgrade():
     op.create_table(
         "assessment_flag",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
-        sa.Column(
-            "application_id", postgresql.UUID(as_uuid=True), nullable=True
-        ),
+        sa.Column("application_id", postgresql.UUID(as_uuid=True), nullable=True),
         sa.Column(
             "latest_status",
-            postgresql.ENUM(
-                "RAISED", "STOPPED", "RESOLVED", name="flagstatus"
-            ),
+            postgresql.ENUM("RAISED", "STOPPED", "RESOLVED", name="flagstatus"),
             nullable=True,
         ),
         sa.Column("latest_allocation", sa.String(), nullable=True),
@@ -47,9 +43,7 @@ def upgrade():
     op.create_table(
         "flag_update",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
-        sa.Column(
-            "assessment_flag_id", postgresql.UUID(as_uuid=True), nullable=True
-        ),
+        sa.Column("assessment_flag_id", postgresql.UUID(as_uuid=True), nullable=True),
         sa.Column("user_id", sa.String(), nullable=False),
         sa.Column(
             "date_created",
@@ -60,9 +54,7 @@ def upgrade():
         sa.Column("justification", sa.String(), nullable=True),
         sa.Column(
             "status",
-            postgresql.ENUM(
-                "RAISED", "STOPPED", "RESOLVED", name="flagstatus"
-            ),
+            postgresql.ENUM("RAISED", "STOPPED", "RESOLVED", name="flagstatus"),
             nullable=True,
         ),
         sa.Column("allocation", sa.String(), nullable=True),

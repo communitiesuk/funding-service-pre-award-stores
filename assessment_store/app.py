@@ -16,9 +16,7 @@ def create_app() -> Flask:
     connexion_options = {
         "swagger_url": "/",
     }
-    connexion_app = connexion.FlaskApp(
-        __name__, specification_dir="openapi/", options=connexion_options
-    )
+    connexion_app = connexion.FlaskApp(__name__, specification_dir="openapi/", options=connexion_options)
     connexion_app.add_api(
         get_bundled_specs("/openapi/api.yml"),
         validate_responses=True,
@@ -57,9 +55,7 @@ def create_app() -> Flask:
     scheduler.add_job(
         func=import_applications_from_queue,
         trigger="interval",
-        seconds=flask_app.config[
-            "SQS_RECEIVE_MESSAGE_CYCLE_TIME"
-        ],  # Run the job every 'x' seconds
+        seconds=flask_app.config["SQS_RECEIVE_MESSAGE_CYCLE_TIME"],  # Run the job every 'x' seconds
     )
     scheduler.start()
 

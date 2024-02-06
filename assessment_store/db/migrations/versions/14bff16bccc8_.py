@@ -27,9 +27,7 @@ def upgrade():
             )
         )
 
-    op.execute(
-        "UPDATE flags SET sections_to_flag = string_to_array(section_to_flag, ',');"
-    )
+    op.execute("UPDATE flags SET sections_to_flag = string_to_array(section_to_flag, ',');")
 
     with op.batch_alter_table("flags", schema=None) as batch_op:
         batch_op.drop_column("section_to_flag")
@@ -48,9 +46,7 @@ def downgrade():
             )
         )
 
-    op.execute(
-        "UPDATE flags SET section_to_flag = array_to_string(sections_to_flag, ',')"
-    )
+    op.execute("UPDATE flags SET section_to_flag = array_to_string(sections_to_flag, ',')")
 
     with op.batch_alter_table("flags", schema=None) as batch_op:
         batch_op.drop_column("sections_to_flag")

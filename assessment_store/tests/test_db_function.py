@@ -53,9 +53,7 @@ def test_jsonb_blob_immutable(_db, seed_application_records):
 
     """
 
-    picked_row = get_assessment_record(
-        seed_application_records[0]["application_id"]
-    )
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
     picked_row.jsonb_blob = {"application": "deleted :( oops"}
 
     try:
@@ -72,9 +70,7 @@ def test_non_blob_columns_mutable(_db, seed_application_records):
     immutable by accident when making the json blob immutable."""
 
     try:
-        picked_row = get_assessment_record(
-            seed_application_records[0]["application_id"]
-        )
+        picked_row = get_assessment_record(seed_application_records[0]["application_id"])
         picked_row.workflow_status = "IN_PROGRESS"
         _db.session.commit()
     except sqlalchemy.exc.InternalError:
@@ -88,9 +84,7 @@ def test_find_assessor_task_list_ui_metadata(seed_application_records):
     """test_find_assessor_task_list_ui_metadata Tests that the correct metadata is
     returned for the assessor task list UI."""
 
-    metadata = find_assessor_task_list_state(
-        seed_application_records[0]["application_id"]
-    )
+    metadata = find_assessor_task_list_state(seed_application_records[0]["application_id"])
     assert metadata == {
         "fund_id": seed_application_records[0]["fund_id"],
         "project_name": "Mock that is used to test Assessors Task List",
@@ -108,9 +102,7 @@ def test_post_comment(seed_application_records):
     """test_post_comment tests we can create comment records in the comments
     table."""
 
-    picked_row = get_assessment_record(
-        seed_application_records[0]["application_id"]
-    )
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
 
@@ -122,9 +114,7 @@ def test_post_comment(seed_application_records):
         "user_id": "test",
         "theme_id": "something",
     }
-    comment_metadata = create_comment_for_application_sub_crit(
-        **assessment_payload
-    )
+    comment_metadata = create_comment_for_application_sub_crit(**assessment_payload)
 
     assert len(comment_metadata) == 8
     assert comment_metadata["user_id"] == "test"
@@ -136,9 +126,7 @@ def test_put_comment(seed_application_records):
     """test_put_comment tests we can create comment records in the comments
     table."""
 
-    picked_row = get_assessment_record(
-        seed_application_records[0]["application_id"]
-    )
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
     application_id = picked_row.application_id
     sub_criteria_id = "test-app-info"
 
@@ -150,9 +138,7 @@ def test_put_comment(seed_application_records):
         "user_id": "test",
         "theme_id": "something",
     }
-    comment_metadata = create_comment_for_application_sub_crit(
-        **assessment_payload
-    )
+    comment_metadata = create_comment_for_application_sub_crit(**assessment_payload)
 
     assert len(comment_metadata) == 8
     assert comment_metadata["user_id"] == "test"
@@ -172,9 +158,7 @@ def test_get_comments(seed_application_records):
     """test_get_comments tests we can get all comment records in the comments
     table filtered by application_id, subcriteria_id and theme_id."""
 
-    picked_row = get_assessment_record(
-        seed_application_records[0]["application_id"]
-    )
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
     theme_id = "theme"
@@ -207,36 +191,23 @@ def test_get_comments(seed_application_records):
         "user_id": "test",
         "theme_id": "different theme",
     }
-    comment_metadata = create_comment_for_application_sub_crit(
-        **assessment_payload_3
-    )
+    comment_metadata = create_comment_for_application_sub_crit(**assessment_payload_3)
 
-    comment_metadata_for_theme = get_comments_for_application_sub_crit(
-        application_id, sub_criteria_id, theme_id
-    )
+    comment_metadata_for_theme = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id)
     assert len(comment_metadata_for_theme) == 2
-    assert (
-        comment_metadata_for_theme[0]["theme_id"]
-        == comment_metadata_for_theme[1]["theme_id"]
-    )
+    assert comment_metadata_for_theme[0]["theme_id"] == comment_metadata_for_theme[1]["theme_id"]
 
-    comment_metadata_no_theme = get_comments_for_application_sub_crit(
-        application_id, sub_criteria_id, theme_id=None
-    )
+    comment_metadata_no_theme = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id=None)
     assert len(comment_metadata_no_theme) == 3
 
     # test without application_id
-    comment_metadata_for_comment_id = get_comments_for_application_sub_crit(
-        comment_id=comment_metadata["id"]
-    )
+    comment_metadata_for_comment_id = get_comments_for_application_sub_crit(comment_id=comment_metadata["id"])
     assert len(comment_metadata_for_comment_id) == 1
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
 def test_get_sub_criteria_to_has_comment_map(seed_application_records):
-    picked_row: AssessmentRecord = get_assessment_record(
-        seed_application_records[0]["application_id"]
-    )
+    picked_row: AssessmentRecord = get_assessment_record(seed_application_records[0]["application_id"])
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
     theme_id = "theme"
@@ -275,14 +246,10 @@ def test_get_sub_criteria_to_has_comment_map(seed_application_records):
     ],
 )
 @pytest.mark.apps_to_insert(test_input_data)
-def test_update_workflow_status_on_insert(
-    _db, insertion_object, seed_application_records
-):
+def test_update_workflow_status_on_insert(_db, insertion_object, seed_application_records):
     application_id = seed_application_records[0]["application_id"]
     assessment_record = (
-        _db.session.query(AssessmentRecord)
-        .where(AssessmentRecord.application_id == application_id)
-        .first()
+        _db.session.query(AssessmentRecord).where(AssessmentRecord.application_id == application_id).first()
     )
 
     assert assessment_record.workflow_status == Status.NOT_STARTED
@@ -325,23 +292,19 @@ def test_bulk_update_location_json_blob(
     application_id = seed_application_records[0]["application_id"]
 
     # Update existing location data to the AssessmentRecord table
-    _db.session.query(AssessmentRecord).filter_by(
-        application_id=application_id
-    ).update({AssessmentRecord.location_json_blob: existing_location_data})
+    _db.session.query(AssessmentRecord).filter_by(application_id=application_id).update(
+        {AssessmentRecord.location_json_blob: existing_location_data}
+    )
     _db.session.commit()
 
     # Overwrite the existing location data with new location data
     # using function "bulk_update_location_jsonb_blob" and
     # Check the AssessmentRecord table returns the expected data.
 
-    application_ids_to_location_data = [
-        {"application_id": application_id, "location": new_location_data}
-    ]
+    application_ids_to_location_data = [{"application_id": application_id, "location": new_location_data}]
     bulk_update_location_jsonb_blob(application_ids_to_location_data)
     assessment_record = (
-        _db.session.query(AssessmentRecord)
-        .where(AssessmentRecord.application_id == application_id)
-        .first()
+        _db.session.query(AssessmentRecord).where(AssessmentRecord.application_id == application_id).first()
     )
     assert assessment_record.location_json_blob == expected_data
 
@@ -353,9 +316,7 @@ def test_output_tracker_data(seed_application_records, mocker):
         return_value="Test user",
     )
     # TODO expand this test with more scenarios
-    picked_row = get_assessment_record(
-        seed_application_records[0]["application_id"]
-    )
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
     application_id = picked_row.application_id
     sub_criteria_id = "app-info"
 
@@ -376,16 +337,8 @@ def test_output_tracker_data(seed_application_records, mocker):
             "OUTPUT_TRACKER": {
                 "form_fields": {
                     "aHIGbK": {"en": {"title": "Charity number "}},
-                    "aAeszH": {
-                        "en": {
-                            "title": "Do you need to do any further feasibility work?"
-                        }
-                    },
-                    "ozgwXq": {
-                        "en": {
-                            "title": "Risks to your project (document upload)"
-                        }
-                    },
+                    "aAeszH": {"en": {"title": "Do you need to do any further feasibility work?"}},
+                    "ozgwXq": {"en": {"title": "Risks to your project (document upload)"}},
                     "KAgrBz": {"en": {"title": "Project name"}},
                 }
             }
@@ -405,17 +358,9 @@ def test_output_tracker_data(seed_application_records, mocker):
 
     # custom fields
     assert data["en_list"][0]["Charity number "] == "Test"
-    assert (
-        data["en_list"][0]["Do you need to do any further feasibility work?"]
-        is False
-    )
-    assert (
-        data["en_list"][0]["Project name"] == "Save the humble pub in Bangor"
-    )
-    assert (
-        data["en_list"][0]["Risks to your project (document upload)"]
-        == "sample1.doc"
-    )
+    assert data["en_list"][0]["Do you need to do any further feasibility work?"] is False
+    assert data["en_list"][0]["Project name"] == "Save the humble pub in Bangor"
+    assert data["en_list"][0]["Risks to your project (document upload)"] == "sample1.doc"
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
@@ -425,9 +370,7 @@ def test_output_tracker_with_no_scores_data(seed_application_records, mocker):
         return_value="Test user",
     )
 
-    picked_row = get_assessment_record(
-        seed_application_records[0]["application_id"]
-    )
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
 
     data = get_assessment_export_data(
         picked_row.fund_id,
@@ -437,16 +380,8 @@ def test_output_tracker_with_no_scores_data(seed_application_records, mocker):
             "OUTPUT_TRACKER": {
                 "form_fields": {
                     "aHIGbK": {"en": {"title": "Charity number "}},
-                    "aAeszH": {
-                        "en": {
-                            "title": "Do you need to do any further feasibility work?"
-                        }
-                    },
-                    "ozgwXq": {
-                        "en": {
-                            "title": "Risks to your project (document upload)"
-                        }
-                    },
+                    "aAeszH": {"en": {"title": "Do you need to do any further feasibility work?"}},
+                    "ozgwXq": {"en": {"title": "Risks to your project (document upload)"}},
                     "KAgrBz": {"en": {"title": "Project name"}},
                 }
             }
@@ -461,14 +396,6 @@ def test_output_tracker_with_no_scores_data(seed_application_records, mocker):
 
     # custom fields
     assert data["en_list"][0]["Charity number "] == "Test"
-    assert (
-        data["en_list"][0]["Do you need to do any further feasibility work?"]
-        is False
-    )
-    assert (
-        data["en_list"][0]["Project name"] == "Save the humble pub in Bangor"
-    )
-    assert (
-        data["en_list"][0]["Risks to your project (document upload)"]
-        == "sample1.doc"
-    )
+    assert data["en_list"][0]["Do you need to do any further feasibility work?"] is False
+    assert data["en_list"][0]["Project name"] == "Save the humble pub in Bangor"
+    assert data["en_list"][0]["Risks to your project (document upload)"] == "sample1.doc"

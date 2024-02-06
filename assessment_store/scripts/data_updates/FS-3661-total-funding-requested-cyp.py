@@ -15,9 +15,7 @@ def update_funding_amount_requested_for_cyp():
 
     select_assessment_records_for_round_stmt = select(
         AssessmentRecord.application_id, AssessmentRecord.jsonb_blob
-    ).where(
-        AssessmentRecord.round_id == "888aae3d-7e2c-4523-b9c1-95952b3d1644"
-    )
+    ).where(AssessmentRecord.round_id == "888aae3d-7e2c-4523-b9c1-95952b3d1644")
 
     cyp_records = db.session.execute(select_assessment_records_for_round_stmt)
 
@@ -28,9 +26,7 @@ def update_funding_amount_requested_for_cyp():
             total_funding = total_funding + int(
                 float(
                     (
-                        jsonpath_rw_ext.parse(
-                            f"$.forms[*].questions[*].fields[?(@.key == '{key}')]"
-                        )
+                        jsonpath_rw_ext.parse(f"$.forms[*].questions[*].fields[?(@.key == '{key}')]")
                         .find(jsonb_blob)[0]
                         .value["answer"]
                     )
@@ -38,9 +34,7 @@ def update_funding_amount_requested_for_cyp():
             )
 
         new_funding_amount_requested = total_funding
-        current_app.logger.info(
-            f"New funding amount requested: {new_funding_amount_requested}"
-        )
+        current_app.logger.info(f"New funding amount requested: {new_funding_amount_requested}")
         update_statement = (
             update(AssessmentRecord)
             .values(funding_amount_requested=new_funding_amount_requested)
@@ -53,9 +47,7 @@ def update_funding_amount_requested_for_cyp():
 def main() -> None:
     current_app.logger.warning("Updating funding_amount_requested for CYP R1")
     update_funding_amount_requested_for_cyp()
-    current_app.logger.warning(
-        "Update of funding_amount_requested for CYP R1 COMPLETE"
-    )
+    current_app.logger.warning("Update of funding_amount_requested for CYP R1 COMPLETE")
 
 
 if __name__ == "__main__":

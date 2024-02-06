@@ -22,9 +22,7 @@ class UnitTestingConfig(DefaultConfig):
 
     WARN_IF_QUERIES_OVER_MS = 5
 
-    SQLALCHEMY_DATABASE_URI = (
-        DefaultConfig.SQLALCHEMY_DATABASE_URI + "_UNIT_TEST"
-    )
+    SQLALCHEMY_DATABASE_URI = DefaultConfig.SQLALCHEMY_DATABASE_URI + "_UNIT_TEST"
 
     AWS_ACCESS_KEY_ID = "test_access_id"
     AWS_SECRET_ACCESS_KEY = "test_secret_key"  # pragma: allowlist secret

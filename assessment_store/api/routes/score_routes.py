@@ -23,9 +23,7 @@ def get_score_for_application_sub_criteria(
 
     """
 
-    score_metadata = get_scores_for_app_sub_crit(
-        application_id, sub_criteria_id, score_history
-    )
+    score_metadata = get_scores_for_app_sub_crit(application_id, sub_criteria_id, score_history)
 
     return score_metadata
 

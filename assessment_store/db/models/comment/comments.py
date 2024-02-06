@@ -17,19 +17,13 @@ class Comment(db.Model):
 
     __tablename__ = "comments"
 
-    id = db.Column(
-        "comment_id", UUID(as_uuid=True), default=uuid.uuid4, primary_key=True
-    )
+    id = db.Column("comment_id", UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
 
-    application_id = db.Column(
-        "application_id", UUID, ForeignKey("assessment_records.application_id")
-    )
+    application_id = db.Column("application_id", UUID, ForeignKey("assessment_records.application_id"))
 
     user_id = db.Column("user_id", db.String(), nullable=False)
 
-    date_created = db.Column(
-        "date_created", db.DateTime(), server_default=func.now()
-    )
+    date_created = db.Column("date_created", db.DateTime(), server_default=func.now())
 
     sub_criteria_id = db.Column("sub_criteria_id", db.String(), nullable=True)
 

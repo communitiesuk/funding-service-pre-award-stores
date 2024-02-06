@@ -10,9 +10,7 @@ from scripts.location_utils import write_locations_to_csv
 
 
 def test_get_application_form():
-    single_application_json = (
-        "tests/test_data/single_application_jsonb_blob.json"
-    )
+    single_application_json = "tests/test_data/single_application_jsonb_blob.json"
 
     with open(single_application_json, "r") as f:
         loaded_test_json = json.load(f)
@@ -97,12 +95,8 @@ def test_write_csv_file():
 
     postcodes_to_location_data = {"QQ121EE": location}
 
-    target_file = (
-        os.path.abspath(os.path.join(os.getcwd(), os.pardir)) + "/test_csv.csv"
-    )
-    write_locations_to_csv(
-        application_ids_to_postcodes, postcodes_to_location_data, target_file
-    )
+    target_file = os.path.abspath(os.path.join(os.getcwd(), os.pardir)) + "/test_csv.csv"
+    write_locations_to_csv(application_ids_to_postcodes, postcodes_to_location_data, target_file)
     print("CSV file written to" + target_file)
 
     with open(target_file, "r", newline="") as csvfile:

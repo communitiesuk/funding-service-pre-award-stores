@@ -9,39 +9,25 @@ from flask import current_app
 
 def get_all_subcriteria(fund_id, round_id, language):
     sub_criterias = []
-    display_config = copy.deepcopy(
-        Config.ASSESSMENT_MAPPING_CONFIG[f"{fund_id}:{round_id}"]
-    )
-    for section in (
-        display_config["scored_criteria"] + display_config["unscored_sections"]
-    ):
+    display_config = copy.deepcopy(Config.ASSESSMENT_MAPPING_CONFIG[f"{fund_id}:{round_id}"])
+    for section in display_config["scored_criteria"] + display_config["unscored_sections"]:
         for sub_criteria in section["sub_criteria"]:
             for theme in sub_criteria["themes"]:
                 for answer in theme["answers"]:
                     answer["form_name"] = (
-                        answer["form_name"][language]
-                        if isinstance(answer["form_name"], dict)
-                        else answer["form_name"]
+                        answer["form_name"][language] if isinstance(answer["form_name"], dict) else answer["form_name"]
                     )
                     if "path" in answer:
                         answer["path"] = (
-                            answer["path"][language]
-                            if isinstance(answer["path"], dict)
-                            else answer["path"]
+                            answer["path"][language] if isinstance(answer["path"], dict) else answer["path"]
                         )
             sub_criterias.append(sub_criteria)
     return sub_criterias
 
 
-def return_subcriteria_from_mapping(
-    sub_criteria_id, fund_id, round_id, language
-):
-    current_app.logger.info(
-        f"Finding sub criteria data in config for: {sub_criteria_id}"
-    )
-    display_config = copy.deepcopy(
-        Config.ASSESSMENT_MAPPING_CONFIG[f"{fund_id}:{round_id}"]
-    )
+def return_subcriteria_from_mapping(sub_criteria_id, fund_id, round_id, language):
+    current_app.logger.info(f"Finding sub criteria data in config for: {sub_criteria_id}")
+    display_config = copy.deepcopy(Config.ASSESSMENT_MAPPING_CONFIG[f"{fund_id}:{round_id}"])
     sub_criterias = get_all_subcriteria(fund_id, round_id, language)
     matching_sub_criteria = list(
         filter(
@@ -70,9 +56,7 @@ def return_subcriteria_from_mapping(
         abort(404, description=msg)
 
 
-def get_themes_fields(
-    theme_id: str, fund_id: str, round_id: str, language: str
-) -> list[dict]:
+def get_themes_fields(theme_id: str, fund_id: str, round_id: str, language: str) -> list[dict]:
     """Function takes a theme_id arg & returns a list of answers with given
     theme_id."""
     sub_criterias = get_all_subcriteria(fund_id, round_id, language)
@@ -103,8 +87,7 @@ def get_all_uploaded_document_field_answers(
         for item in sub_criterias
         for theme in item["themes"]
         for answer in theme["answers"]
-        if answer["field_type"]
-        in ["clientSideFileUploadField", "fileUploadField"]
+        if answer["field_type"] in ["clientSideFileUploadField", "fileUploadField"]
     ]
     return filtered_answers
 
@@ -112,11 +95,7 @@ def get_all_uploaded_document_field_answers(
 def get_application_form(app_json_blob):
     """Function return list of all questions from application form."""
 
-    return [
-        questions
-        for forms in app_json_blob["jsonb_blob"]["forms"]
-        for questions in forms["questions"]
-    ]
+    return [questions for forms in app_json_blob["jsonb_blob"]["forms"] for questions in forms["questions"]]
 
 
 def convert_boolean_values(themes_fields: list[dict]) -> None:
@@ -165,21 +144,14 @@ def deprecated_sort_add_another_component_contents(
                     continue
 
                 if theme["presentation_type"] == "description":
-                    description_answer = [
-                        description.rsplit(": ", 1)[0]
-                        for description in theme["answer"]
-                    ]
+                    description_answer = [description.rsplit(": ", 1)[0] for description in theme["answer"]]
                     theme["answer"] = description_answer
 
                 if theme["presentation_type"] == "amount":
-                    amount_answer = [
-                        amount.rsplit(": ", 1)[1] for amount in theme["answer"]
-                    ]
+                    amount_answer = [amount.rsplit(": ", 1)[1] for amount in theme["answer"]]
                     theme["answer"] = amount_answer
         except (KeyError, IndexError):
-            current_app.logger.debug(
-                f"Answer not provided for field_id: {field['field_id']}"
-            )
+            current_app.logger.debug(f"Answer not provided for field_id: {field['field_id']}")
 
 
 # All in use children of multiInputField in cofr3/nstfr2
@@ -235,9 +207,7 @@ def format_add_another_component_contents(
             if frontend_format is None:
                 frontend_format = "text"
 
-            pre_frontend_formatter = _MULTI_INPUT_FRE_FRONTEND_FORMATTERS.get(
-                column_config["type"], lambda x: x
-            )
+            pre_frontend_formatter = _MULTI_INPUT_FRE_FRONTEND_FORMATTERS.get(column_config["type"], lambda x: x)
 
             formatted_answers = (
                 [
@@ -254,11 +224,7 @@ def format_add_another_component_contents(
 
             if frontend_format == "monthYearField":
                 formatted_answers = (
-                    [
-                        f"{answer[component_id + '__month']}-"
-                        f"{answer[component_id + '__year']}"
-                        for answer in answers
-                    ]
+                    [f"{answer[component_id + '__month']}-" f"{answer[component_id + '__year']}" for answer in answers]
                     if answers
                     else None
                 )
@@ -280,9 +246,7 @@ def format_add_another_component_contents(
                                 + answer["town"]
                             ).replace(" ,", "")
                         except Exception:
-                            formatted_answers[ind] = ", ".join(
-                                list(filter(None, answer.values()))
-                            )
+                            formatted_answers[ind] = ", ".join(list(filter(None, answer.values())))
 
             if formatted_answers:
                 table.append([title, formatted_answers, frontend_format])
@@ -314,10 +278,7 @@ def map_single_field_answer(theme: list, questions: dict) -> str:
     answer for given field id."""
     for question in questions:
         for app_fields in question["fields"]:
-            if (
-                theme["field_id"] == app_fields["key"]
-                and "answer" in app_fields.keys()
-            ):
+            if theme["field_id"] == app_fields["key"] and "answer" in app_fields.keys():
                 # Some fields are optional so will have no answers
                 theme["answer"] = app_fields.get("answer", None)
 
@@ -338,9 +299,7 @@ def map_application_with_sub_criteria_themes(
     )
 
 
-def map_application_with_sub_criteria_themes_fields(
-    application_id: str, theme_id: str, themes_fields: list[dict]
-):
+def map_application_with_sub_criteria_themes_fields(application_id: str, theme_id: str, themes_fields: list[dict]):
     """Function maps answers from application with assessor task list themes
     through field ids.
 

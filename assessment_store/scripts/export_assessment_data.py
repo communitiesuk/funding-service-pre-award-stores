@@ -84,8 +84,7 @@ def init_argparse() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--write_csv",
-        help="Whether to write location data to a CSV - "
-        + "if yes, include param --csv_location",
+        help="Whether to write location data to a CSV - " + "if yes, include param --csv_location",
         required=True,
     )
     parser.add_argument(

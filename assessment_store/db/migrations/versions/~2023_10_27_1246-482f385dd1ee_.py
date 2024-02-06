@@ -23,9 +23,7 @@ def upgrade():
         sa.Column("round_id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column(
             "scoring_system",
-            postgresql.ENUM(
-                "OneToFive", "ZeroToThree", name="scoring_system_enum"
-            ),
+            postgresql.ENUM("OneToFive", "ZeroToThree", name="scoring_system_enum"),
             nullable=False,
         ),
         sa.PrimaryKeyConstraint("round_id", name=op.f("pk_scoring_system")),

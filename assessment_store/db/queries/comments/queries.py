@@ -48,9 +48,7 @@ def get_comments_for_application_sub_crit(
 
     comment_rows = query.all()
     metadata_serializer = CommentMetadata()
-    comment_metadatas = [
-        metadata_serializer.dump(comment_row) for comment_row in comment_rows
-    ]
+    comment_metadatas = [metadata_serializer.dump(comment_row) for comment_row in comment_rows]
 
     return comment_metadatas
 
@@ -121,10 +119,7 @@ def update_comment_for_application_sub_crit(
 
 def get_sub_criteria_to_has_comment_map(application_id: str) -> dict:
     stmt = (
-        select(Comment.sub_criteria_id)
-        .select_from(Comment)
-        .where(Comment.application_id == application_id)
-        .distinct()
+        select(Comment.sub_criteria_id).select_from(Comment).where(Comment.application_id == application_id).distinct()
     )
 
     result = db.session.execute(stmt).fetchall()

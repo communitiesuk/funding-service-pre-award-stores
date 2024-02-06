@@ -12,9 +12,7 @@ from flask import current_app
 
 def get_answer_value(application_json, answer_key):
     return (
-        jsonpath_rw_ext.parse(
-            f"$.forms[*].questions[*].fields[?(@.key == '{answer_key}')]"
-        )
+        jsonpath_rw_ext.parse(f"$.forms[*].questions[*].fields[?(@.key == '{answer_key}')]")
         .find(application_json)[0]
         .value["answer"]
     )
@@ -22,9 +20,7 @@ def get_answer_value(application_json, answer_key):
 
 def get_answer_value_for_multi_input(application_json, answer_key, value_key):
     answers = (
-        jsonpath_rw_ext.parse(
-            f"$.forms[*].questions[*].fields[?(@.key == '{answer_key}')]"
-        )
+        jsonpath_rw_ext.parse(f"$.forms[*].questions[*].fields[?(@.key == '{answer_key}')]")
         .find(application_json)[0]
         .value["answer"]
     )
@@ -70,105 +66,60 @@ def derive_application_values(application_json):
     derived_values = {}
     application_id = application_json["id"]
     print(f"deriving values for application id: {application_id}.")
-    fund_round_shortname = "".join(
-        application_json["reference"].split("-")[:2]
-    )
+    fund_round_shortname = "".join(application_json["reference"].split("-")[:2])
 
     # search for asset_type
     try:
         asset_type = "No asset type specified."
-        if asset_key := fund_round_data_key_mappings[fund_round_shortname][
-            "asset_type"
-        ]:
+        if asset_key := fund_round_data_key_mappings[fund_round_shortname]["asset_type"]:
             asset_type = get_answer_value(application_json, asset_key)
     except Exception:
-        print(
-            f"Could not extract asset_type from application: {application_id}."
-        )
+        print(f"Could not extract asset_type from application: {application_id}.")
 
     # search for capital funding
-    funding_field_type = fund_round_data_key_mappings.get(
-        fund_round_shortname, {}
-    ).get("funding_field_type")
+    funding_field_type = fund_round_data_key_mappings.get(fund_round_shortname, {}).get("funding_field_type")
     try:
         funding_one = 0
-        if funding_one_keys := fund_round_data_key_mappings[
-            fund_round_shortname
-        ]["funding_one"]:
-            funding_one_keys = (
-                [funding_one_keys]
-                if isinstance(funding_one_keys, str)
-                else funding_one_keys
-            )
+        if funding_one_keys := fund_round_data_key_mappings[fund_round_shortname]["funding_one"]:
+            funding_one_keys = [funding_one_keys] if isinstance(funding_one_keys, str) else funding_one_keys
 
-            if (
-                funding_field_type == "multiInputField"
-                and len(funding_one_keys) > 1
-            ):
+            if funding_field_type == "multiInputField" and len(funding_one_keys) > 1:
                 funding_one = get_answer_value_for_multi_input(
                     application_json, funding_one_keys[0], funding_one_keys[1]
                 )
             else:
                 for key in funding_one_keys:
-                    funding_one = funding_one + int(
-                        float(get_answer_value(application_json, key))
-                    )
+                    funding_one = funding_one + int(float(get_answer_value(application_json, key)))
 
     except Exception:
-        print(
-            "Could not extract funding_value_one from application: "
-            + f"{application_id}."
-        )
+        print("Could not extract funding_value_one from application: " + f"{application_id}.")
 
     # search for revenue funding
     try:
         funding_two = 0
-        if funding_two_keys := fund_round_data_key_mappings[
-            fund_round_shortname
-        ]["funding_two"]:
-            funding_two_keys = (
-                [funding_two_keys]
-                if isinstance(funding_two_keys, str)
-                else funding_two_keys
-            )
-            if (
-                funding_field_type == "multiInputField"
-                and len(funding_two_keys) > 1
-            ):
+        if funding_two_keys := fund_round_data_key_mappings[fund_round_shortname]["funding_two"]:
+            funding_two_keys = [funding_two_keys] if isinstance(funding_two_keys, str) else funding_two_keys
+            if funding_field_type == "multiInputField" and len(funding_two_keys) > 1:
                 funding_two = get_answer_value_for_multi_input(
                     application_json, funding_two_keys[0], funding_two_keys[1]
                 )
             else:
                 for key in funding_two_keys:
-                    funding_two = funding_two + int(
-                        float(get_answer_value(application_json, key))
-                    )
+                    funding_two = funding_two + int(float(get_answer_value(application_json, key)))
     except Exception:
-        print(
-            "Could not extract funding_value_two from application: "
-            + f"{application_id}."
-        )
+        print("Could not extract funding_value_two from application: " + f"{application_id}.")
 
     # search for location postcode
     try:
         location_data = ""
-        if address_key := fund_round_data_key_mappings[fund_round_shortname][
-            "location"
-        ]:
+        if address_key := fund_round_data_key_mappings[fund_round_shortname]["location"]:
             address = get_answer_value(application_json, address_key)
-            raw_postcode = (
-                address.split(",")[-1].strip().replace(" ", "").upper()
-            )
+            raw_postcode = address.split(",")[-1].strip().replace(" ", "").upper()
             location_data = get_location_json_from_postcode(raw_postcode)
             if not location_data:
-                print(
-                    f"Invalid postcode '{raw_postcode}' provided for the application: {application_id}."
-                )
+                print(f"Invalid postcode '{raw_postcode}' provided for the application: {application_id}.")
     except Exception:
-        print(
-            "Could not extract address from application: "
-            + f"{application_id}."
-        )
+        print("Could not extract address from application: " + f"{application_id}.")
 
     derived_values["application_id"] = application_id
     derived_values["project_name"] = application_json["project_name"]
@@ -191,9 +142,7 @@ def derive_application_values(application_json):
         derived_values["location_json_blob"]["county"] = FIELD_DEFAULT_VALUE
         derived_values["location_json_blob"]["region"] = FIELD_DEFAULT_VALUE
         derived_values["location_json_blob"]["country"] = FIELD_DEFAULT_VALUE
-        derived_values["location_json_blob"][
-            "constituency"
-        ] = FIELD_DEFAULT_VALUE
+        derived_values["location_json_blob"]["constituency"] = FIELD_DEFAULT_VALUE
         derived_values["location_json_blob"]["postcode"] = FIELD_DEFAULT_VALUE
 
     return derived_values
@@ -211,9 +160,7 @@ def get_most_recent_tags(tag_associations):
         # Sort each group by created_at timestamp to find the most recent entry
         sorted_tags = sorted(
             assoc_list,
-            key=lambda x: datetime.strptime(
-                x["created_at"], "%Y-%m-%dT%H:%M:%S.%f%z"
-            ),
+            key=lambda x: datetime.strptime(x["created_at"], "%Y-%m-%dT%H:%M:%S.%f%z"),
             reverse=True,
         )
         # Append the most recent tag association to the updated list
@@ -228,9 +175,7 @@ def update_tag_associations(assessment_metadatas):
         tag_associations = metadata.get("tag_associations", [])
         if tag_associations:
             # Update tag_associations for the current metadata with the most recent entries
-            metadata["tag_associations"] = get_most_recent_tags(
-                tag_associations
-            )
+            metadata["tag_associations"] = get_most_recent_tags(tag_associations)
     return assessment_metadatas
 
 
@@ -253,9 +198,7 @@ def get_existing_tags(application_id):
     list_existing_tags = defaultdict(list)
     for existing_tag in existing_tags:
         tag_id = str(existing_tag.tag_id)
-        list_existing_tags[tag_id].append(
-            (existing_tag.created_at, existing_tag)
-        )
+        list_existing_tags[tag_id].append((existing_tag.created_at, existing_tag))
     return list_existing_tags
 
 
@@ -269,17 +212,11 @@ def filter_tags(incoming_tags, existing_tags):
         existing_tag_list,
     ) in existing_tags.items():
         _incoming_tag = next(
-            (
-                incoming_tag
-                for incoming_tag in incoming_tags
-                if incoming_tag.get("id") == existing_tag_id
-            ),
+            (incoming_tag for incoming_tag in incoming_tags if incoming_tag.get("id") == existing_tag_id),
             None,
         )
         if _incoming_tag:
-            current_app.logger.info(
-                f"Tag id is already associated: {existing_tag_id}"
-            )
+            current_app.logger.info(f"Tag id is already associated: {existing_tag_id}")
         else:
             filtered_tags.append(existing_tag_list)
     return filtered_tags

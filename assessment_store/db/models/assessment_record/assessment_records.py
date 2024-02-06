@@ -35,17 +35,11 @@ class AssessmentRecord(BaseModel):
 
     short_id = Column("short_id", db.String(255), nullable=False)
 
-    type_of_application = Column(
-        "type_of_application", db.String(255), index=True, nullable=False
-    )
+    type_of_application = Column("type_of_application", db.String(255), index=True, nullable=False)
 
-    project_name = Column(
-        "project_name", db.String(255), index=True, nullable=False
-    )
+    project_name = Column("project_name", db.String(255), index=True, nullable=False)
 
-    funding_amount_requested = Column(
-        "funding_amount_requested", db.Float(), index=True, nullable=False
-    )
+    funding_amount_requested = Column("funding_amount_requested", db.Float(), index=True, nullable=False)
 
     round_id = Column("round_id", UUID, index=True, nullable=False)
 
@@ -53,13 +47,9 @@ class AssessmentRecord(BaseModel):
 
     language = Column("language", ENUM(Language), default="en")
 
-    workflow_status = Column(
-        "workflow_status", ENUM(Status), index=True, default="NOT_STARTED"
-    )
+    workflow_status = Column("workflow_status", ENUM(Status), index=True, default="NOT_STARTED")
 
-    asset_type = Column(
-        "asset_type", db.String(255), index=True, nullable=False
-    )
+    asset_type = Column("asset_type", db.String(255), index=True, nullable=False)
 
     jsonb_blob = Column("jsonb_blob", JSONB, nullable=False)
 
@@ -80,9 +70,7 @@ class AssessmentRecord(BaseModel):
 
     location_json_blob = Column("location_json_blob", JSONB, nullable=True)
 
-    is_withdrawn = Column(
-        "is_withdrawn", Boolean, default=False, nullable=False
-    )
+    is_withdrawn = Column("is_withdrawn", Boolean, default=False, nullable=False)
 
     # These are defined as column_properties not as hybrid_property due to performance
     # Using column_property below forces the json parsing to be done on the DB side which is quicker than in python
