@@ -93,7 +93,7 @@ jobs:
   post_dev_deploy_tests:
     needs: dev_deploy
     concurrency:
-      group: 'fsd-preaward-test-dev'
+      group: 'fsd-preaward-dev'
       cancel-in-progress: false
     secrets:
       FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
@@ -121,7 +121,7 @@ jobs:
     needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, paketo_build, setup ]
     if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'test') && (! contains(needs.*.result, 'failure') ) && (! contains(needs.*.result, 'cancelled') )}}
     concurrency:
-      group: 'fsd-preaward-test-test'
+      group: 'fsd-preaward-test'
       cancel-in-progress: false
     secrets:
       FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
@@ -149,7 +149,7 @@ jobs:
     needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, post_test_deploy_tests, uat_deploy, paketo_build, setup ]
     if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'uat') && (! contains(needs.*.result, 'failure') ) && (! contains(needs.*.result, 'cancelled') )}}
     concurrency:
-      group: 'fsd-preaward-test-uat'
+      group: 'fsd-preaward-uat'
       cancel-in-progress: false
     secrets:
       FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
