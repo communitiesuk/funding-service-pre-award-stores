@@ -28,15 +28,9 @@ depends_on = None
 def upgrade():
     # --- fund table ---
     with op.batch_alter_table("fund", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column("name_json", sa.JSON(none_as_null=True), nullable=True)
-        )
-        batch_op.add_column(
-            sa.Column("title_json", sa.JSON(none_as_null=True), nullable=True)
-        )
-        batch_op.add_column(
-            sa.Column("description_json", sa.JSON(none_as_null=True), nullable=True)
-        )
+        batch_op.add_column(sa.Column("name_json", sa.JSON(none_as_null=True), nullable=True))
+        batch_op.add_column(sa.Column("title_json", sa.JSON(none_as_null=True), nullable=True))
+        batch_op.add_column(sa.Column("description_json", sa.JSON(none_as_null=True), nullable=True))
 
     query = sqlalchemy.text("SELECT id, name, title, description FROM fund")
     fund_entries = op.get_bind().execute(query)
@@ -58,17 +52,12 @@ def upgrade():
 
     # --- round table ---
     with op.batch_alter_table("round", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column("title_json", sa.JSON(none_as_null=True), nullable=True)
-        )
+        batch_op.add_column(sa.Column("title_json", sa.JSON(none_as_null=True), nullable=True))
 
     query = sqlalchemy.text("SELECT id, title FROM round")
     round_entries = op.get_bind().execute(query)
     for entry_id, title in round_entries:
-        op.execute(
-            f'UPDATE round SET title_json = \'{{"en": "{title}"}}\' '
-            f"WHERE id = '{entry_id}'"
-        )
+        op.execute(f"UPDATE round SET title_json = '{{\"en\": \"{title}\"}}' WHERE id = '{entry_id}'")
 
     with op.batch_alter_table("round", schema=None) as batch_op:
         batch_op.alter_column("title_json", nullable=False)
@@ -78,9 +67,7 @@ def upgrade():
 def downgrade():
     # --- round table ---
     with op.batch_alter_table("round", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column("title", sa.VARCHAR(), autoincrement=False, nullable=True)
-        )
+        batch_op.add_column(sa.Column("title", sa.VARCHAR(), autoincrement=False, nullable=True))
 
     query = sqlalchemy.text("SELECT id, title_json FROM round")
     round_entries = op.get_bind().execute(query)
@@ -94,29 +81,18 @@ def downgrade():
 
     # --- fund table ---
     with op.batch_alter_table("fund", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column("name", sa.VARCHAR(), autoincrement=False, nullable=True)
-        )
-        batch_op.add_column(
-            sa.Column("title", sa.VARCHAR(), autoincrement=False, nullable=True)
-        )
-        batch_op.add_column(
-            sa.Column("description", sa.VARCHAR(), autoincrement=False, nullable=True)
-        )
+        batch_op.add_column(sa.Column("name", sa.VARCHAR(), autoincrement=False, nullable=True))
+        batch_op.add_column(sa.Column("title", sa.VARCHAR(), autoincrement=False, nullable=True))
+        batch_op.add_column(sa.Column("description", sa.VARCHAR(), autoincrement=False, nullable=True))
 
-    query = sqlalchemy.text(
-        "SELECT id, name_json, title_json, description_json FROM fund"
-    )
+    query = sqlalchemy.text("SELECT id, name_json, title_json, description_json FROM fund")
     fund_entries = op.get_bind().execute(query)
     for entry_id, name_json, title_json, description_json in fund_entries:
         name = name_json["en"]
         title = title_json["en"]
         description = description_json["en"]
         op.execute(
-            f"UPDATE fund SET name = '{name}', "
-            f"title = '{title}', "
-            f"description = '{description}' "
-            f"WHERE id = '{entry_id}'"
+            f"UPDATE fund SET name = '{name}', title = '{title}', description = '{description}' WHERE id = '{entry_id}'"
         )
 
     with op.batch_alter_table("fund", schema=None) as batch_op:

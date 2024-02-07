@@ -35,9 +35,7 @@ def get_fund_by_id(
 def get_fund_by_short_name(
     fund_short_name: str,
 ) -> Fund:
-    fund = db.session.scalar(
-        select(Fund).filter(func.lower(Fund.short_name) == func.lower(fund_short_name))
-    )
+    fund = db.session.scalar(select(Fund).filter(func.lower(Fund.short_name) == func.lower(fund_short_name)))
     return fund
 
 
@@ -45,9 +43,7 @@ def get_round_by_id(
     fund_id: str,
     round_id: str,
 ) -> Round:
-    round = db.session.scalars(
-        select(Round).filter(Round.id == round_id).filter(Round.fund_id == fund_id)
-    ).one()
+    round = db.session.scalars(select(Round).filter(Round.id == round_id).filter(Round.fund_id == fund_id)).one()
     return round
 
 
@@ -75,17 +71,13 @@ def get_rounds_for_fund_by_short_name(
     fund_short_name,
 ):
     rounds = db.session.scalars(
-        select(Round)
-        .join(Fund)
-        .filter(func.lower(Fund.short_name) == func.lower(fund_short_name))
+        select(Round).join(Fund).filter(func.lower(Fund.short_name) == func.lower(fund_short_name))
     ).all()
     return rounds
 
 
 def get_sections_for_round(round_id) -> List[Section]:
-    return db.session.scalars(
-        select(Section).filter(Section.round_id == round_id).order_by(Section.path)
-    ).all()
+    return db.session.scalars(select(Section).filter(Section.round_id == round_id).order_by(Section.path)).all()
 
 
 def get_application_sections_for_round(
@@ -210,9 +202,7 @@ def insert_fund_data(fund_config):
                 "description_json": bindparam("description_json"),
                 "welsh_available": bindparam("welsh_available"),
                 "owner_organisation_name": bindparam("owner_organisation_name"),
-                "owner_organisation_shortname": bindparam(
-                    "owner_organisation_shortname"
-                ),
+                "owner_organisation_shortname": bindparam("owner_organisation_shortname"),
                 "owner_organisation_logo_uri": bindparam("owner_organisation_logo_uri"),
             },
         )
@@ -269,15 +259,9 @@ def insert_round_data(round_config):
             round_record.feedback_link = item["feedback_link"]
             round_record.application_guidance = item["application_guidance"]
             round_record.guidance_url = item["guidance_url"]
-            round_record.all_uploaded_documents_section_available = item[
-                "all_uploaded_documents_section_available"
-            ]
-            round_record.application_fields_download_available = item[
-                "application_fields_download_available"
-            ]
-            round_record.display_logo_on_pdf_exports = item[
-                "display_logo_on_pdf_exports"
-            ]
+            round_record.all_uploaded_documents_section_available = item["all_uploaded_documents_section_available"]
+            round_record.application_fields_download_available = item["application_fields_download_available"]
+            round_record.display_logo_on_pdf_exports = item["display_logo_on_pdf_exports"]
             round_record.feedback_survey_config = item["feedback_survey_config"]
             round_record.mark_as_complete_enabled = item["mark_as_complete_enabled"]
             round_record.eligibility_config = item["eligibility_config"]
@@ -309,12 +293,8 @@ def insert_round_data(round_config):
                 feedback_link=item["feedback_link"],
                 application_guidance=item["application_guidance"],
                 guidance_url=item["guidance_url"],
-                all_uploaded_documents_section_available=item[
-                    "all_uploaded_documents_section_available"
-                ],
-                application_fields_download_available=item[
-                    "application_fields_download_available"
-                ],
+                all_uploaded_documents_section_available=item["all_uploaded_documents_section_available"],
+                application_fields_download_available=item["application_fields_download_available"],
                 display_logo_on_pdf_exports=item["display_logo_on_pdf_exports"],
                 feedback_survey_config=item["feedback_survey_config"],
                 mark_as_complete_enabled=item["mark_as_complete_enabled"],
@@ -417,9 +397,7 @@ def insert_or_update_application_sections(round_id, sorted_application_sections:
                 form_record.form_name_json = section["form_name_json"]
                 print(f"Updated form name information to {section['form_name_json']}.")
             else:
-                new_form_record = FormName(
-                    form_name_json=section["form_name_json"], section_id=section_id
-                )
+                new_form_record = FormName(form_name_json=section["form_name_json"], section_id=section_id)
                 db.session.add(new_form_record)
                 print(f"Inserted form name information: '{new_form_record}'.")
     db.session.commit()
@@ -428,18 +406,14 @@ def insert_or_update_application_sections(round_id, sorted_application_sections:
     return updated_sections
 
 
-def update_application_section_names(
-    round_id, sorted_application_sections: List[dict], language_code=None
-):
+def update_application_section_names(round_id, sorted_application_sections: List[dict], language_code=None):
     # TODO : Update this function to work with json objects in sorted_application_sections
     for section in sorted_application_sections:
         section_path = section["tree_path"]
         if language_code is None:
             split_section_name_list = section["section_name"].lower().split()
         else:
-            split_section_name_list = (
-                section["section_name"][language_code].lower().split()
-            )
+            split_section_name_list = section["section_name"][language_code].lower().split()
         try:
             float(split_section_name_list[0])
             split_section_name_list[1] = split_section_name_list[1].capitalize()
@@ -495,16 +469,13 @@ def __add__section_fields(field_section_links):
         for section_link in field_section_links
     ]
 
-    inserted_field_section_result = db.session.execute(
-        stmt, field_section_params
-    ).fetchall()
+    inserted_field_section_result = db.session.execute(stmt, field_section_params).fetchall()
     return inserted_field_section_result
 
 
 def insert_assessment_sections(round_id, assessment_config: list):
     sorted_assessment_sections = (
-        assessment_config["sorted_scored_sections"]
-        + assessment_config["sorted_unscored_sections"]
+        assessment_config["sorted_scored_sections"] + assessment_config["sorted_unscored_sections"]
     )
 
     stmt = (
@@ -525,9 +496,7 @@ def insert_assessment_sections(round_id, assessment_config: list):
             "weighting": None,
             "path": Ltree(section["tree_path"]),
         }
-        inserted_assessment_section_result = db.session.execute(
-            stmt, section_params
-        ).fetchall()
+        inserted_assessment_section_result = db.session.execute(stmt, section_params).fetchall()
         inserted_section_id = inserted_assessment_section_result[0][0]
         inserted_section_ids.append(inserted_section_id)
         if "fields" in section:

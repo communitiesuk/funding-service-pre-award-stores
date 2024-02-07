@@ -12,9 +12,7 @@ def update_rounds_with_application_guidance(rounds):
         if round.get("application_guidance"):
             current_app.logger.info("\t\tUpdating application_guidance")
             stmt = (
-                update(Round)
-                .where(Round.id == round["id"])
-                .values(application_guidance=round["application_guidance"])
+                update(Round).where(Round.id == round["id"]).values(application_guidance=round["application_guidance"])
             )
 
             db.session.execute(stmt)

@@ -7,15 +7,9 @@ from sqlalchemy_utils import Ltree
 
 
 def update_section_weightings(section):
-    current_app.logger.warning(
-        f"\tSection: {section['tree_path']} ({section['section_name']['en']})"
-    )
+    current_app.logger.warning(f"\tSection: {section['tree_path']} ({section['section_name']['en']})")
     current_app.logger.warning("\t\tUpdating weighting")
-    stmt = (
-        update(Section)
-        .where(Section.path == Ltree(section["tree_path"]))
-        .values(weighting=section["weighting"])
-    )
+    stmt = update(Section).where(Section.path == Ltree(section["tree_path"])).values(weighting=section["weighting"])
 
     db.session.execute(stmt)
     db.session.commit()

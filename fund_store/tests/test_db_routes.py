@@ -50,8 +50,7 @@ def test_get_all_funds_no_data(flask_test_client, mocker):
 
 def test_get_app_sections_for_round(flask_test_client, mock_get_sections):
     response = flask_test_client.get(
-        f"/funds/{UsefulConfig.COF_FUND_ID}/rounds/"
-        f"{UsefulConfig.COF_ROUND_2_ID}/sections/application"
+        f"/funds/{UsefulConfig.COF_FUND_ID}/rounds/{UsefulConfig.COF_ROUND_2_ID}/sections/application"
     )
     assert response.status_code == 200
     result = response.json
@@ -60,8 +59,7 @@ def test_get_app_sections_for_round(flask_test_client, mock_get_sections):
 
 def test_get_assess_sections_for_round(flask_test_client, mock_get_sections):
     response = flask_test_client.get(
-        f"/funds/{UsefulConfig.COF_FUND_ID}/rounds/"
-        f"{UsefulConfig.COF_ROUND_2_ID}/sections/assessment"
+        f"/funds/{UsefulConfig.COF_FUND_ID}/rounds/{UsefulConfig.COF_ROUND_2_ID}/sections/assessment"
     )
     assert response.status_code == 200
     result = response.json

@@ -12,26 +12,14 @@ DLUHC_LOGO_PNG = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAC0AAAANgCAYAAAC
 
 def upgrade():
     with op.batch_alter_table("fund", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column("owner_organisation_name", sa.String(), nullable=True)
-        )
-        batch_op.add_column(
-            sa.Column("owner_organisation_shortname", sa.String(), nullable=True)
-        )
-        batch_op.add_column(
-            sa.Column("owner_organisation_logo_uri", sa.Text(), nullable=True)
-        )
+        batch_op.add_column(sa.Column("owner_organisation_name", sa.String(), nullable=True))
+        batch_op.add_column(sa.Column("owner_organisation_shortname", sa.String(), nullable=True))
+        batch_op.add_column(sa.Column("owner_organisation_logo_uri", sa.Text(), nullable=True))
 
     with op.batch_alter_table("round", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column("display_logo_on_pdf_exports", sa.Boolean(), nullable=True)
-        )
+        batch_op.add_column(sa.Column("display_logo_on_pdf_exports", sa.Boolean(), nullable=True))
 
-    op.execute(
-        "UPDATE fund "
-        f"SET owner_organisation_logo_uri = '{DLUHC_LOGO_PNG}' "
-        "WHERE short_name IN ('COF', 'NSTF')"
-    )
+    op.execute(f"UPDATE fund SET owner_organisation_logo_uri = '{DLUHC_LOGO_PNG}' WHERE short_name IN ('COF', 'NSTF')")
     op.execute(
         "UPDATE fund SET owner_organisation_name = 'Department for Levelling Up,"
         " Housing and Communities', owner_organisation_shortname = 'DLUHC' WHERE"
