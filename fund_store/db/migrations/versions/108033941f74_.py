@@ -18,11 +18,7 @@ depends_on = None
 
 def upgrade():
     with op.batch_alter_table("fund", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column(
-                "all_uploaded_documents_section_available", sa.Boolean(), nullable=True
-            )
-        )
+        batch_op.add_column(sa.Column("all_uploaded_documents_section_available", sa.Boolean(), nullable=True))
 
     connection = op.get_bind()
     connection.execute(
@@ -45,9 +41,7 @@ def upgrade():
     )
 
     with op.batch_alter_table("fund", schema=None) as batch_op:
-        batch_op.alter_column(
-            "all_uploaded_documents_section_available", nullable=False
-        )
+        batch_op.alter_column("all_uploaded_documents_section_available", nullable=False)
 
 
 def downgrade():

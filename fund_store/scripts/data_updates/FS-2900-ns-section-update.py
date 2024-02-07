@@ -9,8 +9,7 @@ def update_section_titles(section_config):
     if len(section_config) > 0:
         for section in section_config:
             current_app.logger.info(
-                f"\t\tUpdating section title from {section['old_title']} to"
-                f" {section['new_title']}."
+                f"\t\tUpdating section title from {section['old_title']} to {section['new_title']}."
             )
             stmt = (
                 update(Section)

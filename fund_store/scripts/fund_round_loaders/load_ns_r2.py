@@ -19,13 +19,9 @@ def main() -> None:
     insert_round_data(round_config)
 
     print("Inserting base sections for Night Shelter Round 2.")
-    insert_base_sections(
-        APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, NIGHT_SHELTER_ROUND_2_ID
-    )
+    insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, NIGHT_SHELTER_ROUND_2_ID)
     print("Inserting application sections for Night Shelter Round 2.")
-    insert_or_update_application_sections(
-        NIGHT_SHELTER_ROUND_2_ID, r2_application_sections
-    )
+    insert_or_update_application_sections(NIGHT_SHELTER_ROUND_2_ID, r2_application_sections)
 
 
 if __name__ == "__main__":

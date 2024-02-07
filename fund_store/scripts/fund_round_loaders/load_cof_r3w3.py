@@ -10,10 +10,7 @@ from db.queries import insert_round_data
 
 
 def main() -> None:
-    print(
-        "'insert_fund_config(...)' not required as COFR3W3 shares the same fund"
-        " config from COFR3w1."
-    )
+    print("'insert_fund_config(...)' not required as COFR3W3 shares the same fund config from COFR3w1.")
     print("Inserting round data.")
     insert_round_data(round_config_w3)
 

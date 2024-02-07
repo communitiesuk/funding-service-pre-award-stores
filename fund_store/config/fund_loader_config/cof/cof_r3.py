@@ -34,48 +34,20 @@ ASSESSMENT_BASE_PATH_COF_R3_W3 = ".".join([str(COF_R3_W3_BASE_PATH), str(2)])
 APPLICATION_BASE_PATH_COF_EOI = ".".join([str(COF_EOI_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH_COF_EOI = ".".join([str(COF_EOI_BASE_PATH), str(2)])
 
-COF_R3W1_OPENS_DATE = datetime(
-    2023, 5, 31, 11, 0, 0, tzinfo=timezone.utc
-)  # 2023-05-31 11:00:00
-COF_R3W1_DEADLINE_DATE = datetime(
-    2023, 7, 12, 11, 59, 0, tzinfo=timezone.utc
-)  # 2023-07-12 11:59:00
-COF_R3W1_ASSESSMENT_DEADLINE_DATE = datetime(
-    2023, 8, 9, 12, 0, 0, tzinfo=timezone.utc
-)  # 2023-08-09 12:00:00
-COF_R3W2_OPENS_DATE = datetime(
-    2023, 8, 30, 11, 0, 0, tzinfo=timezone.utc
-)  # 2023-08-30 11:00:00
-COF_R3W2_DEADLINE_DATE = datetime(
-    2023, 10, 11, 11, 59, 0, tzinfo=timezone.utc
-)  # 2023-10-11 11:59:00
-COF_R3W2_ASSESSMENT_DEADLINE_DATE = datetime(
-    2023, 11, 20, 12, 0, 0, tzinfo=timezone.utc
-)  # 2023-11-20 12:00:00
-COF_R3W3_OPENS_DATE = datetime(
-    2023, 12, 6, 11, 00, 0, tzinfo=timezone.utc
-)  # 2023-12-06 11:00:00
-COF_R3W3_SEND_REMINDER_DATE = datetime(
-    2024, 1, 29, 11, 59, 0, tzinfo=timezone.utc
-)  # 2024-01-29 11:59:00
-COF_R3W3_DEADLINE_DATE = datetime(
-    2024, 1, 31, 11, 59, 0, tzinfo=timezone.utc
-)  # 2024-01-31 11:59:00
-COF_R3W3_ASSESSMENT_DEADLINE_DATE = datetime(
-    2024, 2, 23, 12, 0, 0, tzinfo=timezone.utc
-)  # 2024-02-23 12:00:00
-COF_EOI_OPENS_DATE = datetime(
-    2024, 3, 6, 11, 00, 0, tzinfo=timezone.utc
-)  # 2023-12-06 11:00:00
-COF_EOI_DEADLINE_DATE = datetime(
-    2124, 3, 6, 11, 59, 0, tzinfo=timezone.utc
-)  # 2124-03-06 11:59:00
-COF_EOI_ASSESSMENT_DEADLINE_DATE = datetime(
-    2124, 3, 6, 12, 0, 0, tzinfo=timezone.utc
-)  # 2124-03-06 12:00:00
-COF_EOI_SEND_REMINDER_DATE = datetime(
-    2024, 3, 1, 11, 59, 0, tzinfo=timezone.utc
-)  # 2024-03-1 11:59:00
+COF_R3W1_OPENS_DATE = datetime(2023, 5, 31, 11, 0, 0, tzinfo=timezone.utc)  # 2023-05-31 11:00:00
+COF_R3W1_DEADLINE_DATE = datetime(2023, 7, 12, 11, 59, 0, tzinfo=timezone.utc)  # 2023-07-12 11:59:00
+COF_R3W1_ASSESSMENT_DEADLINE_DATE = datetime(2023, 8, 9, 12, 0, 0, tzinfo=timezone.utc)  # 2023-08-09 12:00:00
+COF_R3W2_OPENS_DATE = datetime(2023, 8, 30, 11, 0, 0, tzinfo=timezone.utc)  # 2023-08-30 11:00:00
+COF_R3W2_DEADLINE_DATE = datetime(2023, 10, 11, 11, 59, 0, tzinfo=timezone.utc)  # 2023-10-11 11:59:00
+COF_R3W2_ASSESSMENT_DEADLINE_DATE = datetime(2023, 11, 20, 12, 0, 0, tzinfo=timezone.utc)  # 2023-11-20 12:00:00
+COF_R3W3_OPENS_DATE = datetime(2023, 12, 6, 11, 00, 0, tzinfo=timezone.utc)  # 2023-12-06 11:00:00
+COF_R3W3_SEND_REMINDER_DATE = datetime(2024, 1, 29, 11, 59, 0, tzinfo=timezone.utc)  # 2024-01-29 11:59:00
+COF_R3W3_DEADLINE_DATE = datetime(2024, 1, 31, 11, 59, 0, tzinfo=timezone.utc)  # 2024-01-31 11:59:00
+COF_R3W3_ASSESSMENT_DEADLINE_DATE = datetime(2024, 2, 23, 12, 0, 0, tzinfo=timezone.utc)  # 2024-02-23 12:00:00
+COF_EOI_OPENS_DATE = datetime(2024, 3, 6, 11, 00, 0, tzinfo=timezone.utc)  # 2023-12-06 11:00:00
+COF_EOI_DEADLINE_DATE = datetime(2124, 3, 6, 11, 59, 0, tzinfo=timezone.utc)  # 2124-03-06 11:59:00
+COF_EOI_ASSESSMENT_DEADLINE_DATE = datetime(2124, 3, 6, 12, 0, 0, tzinfo=timezone.utc)  # 2124-03-06 12:00:00
+COF_EOI_SEND_REMINDER_DATE = datetime(2024, 3, 1, 11, 59, 0, tzinfo=timezone.utc)  # 2024-03-1 11:59:00
 
 cof_r3_sections = [
     {

@@ -12,15 +12,9 @@ COF_ROUND_2_WINDOW_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
 COF_ROUND_2_WINDOW_3_ID = "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f"
 APPLICATION_BASE_PATH = ".".join([str(COF_R2_W2_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH = ".".join([str(COF_R2_W2_BASE_PATH), str(2)])
-COF_R2_OPENS_DATE = datetime(
-    2022, 10, 4, 12, 0, 0, tzinfo=timezone.utc
-)  # 2022-10-04 12:00:00
-COF_R2_DEADLINE_DATE = datetime(
-    2022, 12, 14, 11, 59, 0, tzinfo=timezone.utc
-)  # 2022-12-14 11:59:00
-COF_R2_ASSESSMENT_DEADLINE_DATE = datetime(
-    2023, 3, 30, 12, 0, 0, tzinfo=timezone.utc
-)  # 2023-03-30 12:00:00
+COF_R2_OPENS_DATE = datetime(2022, 10, 4, 12, 0, 0, tzinfo=timezone.utc)  # 2022-10-04 12:00:00
+COF_R2_DEADLINE_DATE = datetime(2022, 12, 14, 11, 59, 0, tzinfo=timezone.utc)  # 2022-12-14 11:59:00
+COF_R2_ASSESSMENT_DEADLINE_DATE = datetime(2023, 3, 30, 12, 0, 0, tzinfo=timezone.utc)  # 2023-03-30 12:00:00
 
 rounds_config = [
     {

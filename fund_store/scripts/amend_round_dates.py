@@ -15,9 +15,7 @@ def update_round_dates(round_id, new_open_date, new_deadline, new_assessment_dea
         round_to_update.deadline = datetime.strptime(new_deadline, "%Y-%m-%d %H:%M:%S")
 
     if new_assessment_deadline:
-        round_to_update.assessment_deadline = datetime.strptime(
-            new_assessment_deadline, "%Y-%m-%d %H:%M:%S"
-        )
+        round_to_update.assessment_deadline = datetime.strptime(new_assessment_deadline, "%Y-%m-%d %H:%M:%S")
 
     if new_open_date or new_deadline or new_assessment_deadline:
         db.session.commit()
@@ -28,9 +26,7 @@ def init_argparse() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument("--round_id", help="Provide round id of a fund", required=True)
     parser.add_argument("--opens_date", help="Provide Round open date", required=False)
-    parser.add_argument(
-        "--deadline_date", help="Provide Round deadline date", required=False
-    )
+    parser.add_argument("--deadline_date", help="Provide Round deadline date", required=False)
     parser.add_argument(
         "--assessment_deadline_date",
         help="Provide Assessment deadline for the round",
@@ -44,9 +40,7 @@ def main() -> None:
     args = parser.parse_args()
     round_id = args.round_id
 
-    update_round_dates(
-        round_id, args.opens_date, args.deadline_date, args.assessment_deadline_date
-    )
+    update_round_dates(round_id, args.opens_date, args.deadline_date, args.assessment_deadline_date)
 
 
 if __name__ == "__main__":

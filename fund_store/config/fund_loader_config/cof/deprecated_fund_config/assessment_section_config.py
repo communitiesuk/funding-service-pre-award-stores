@@ -75,10 +75,7 @@ scored_sections = [
                                 "form_name": "community-use",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Why will the asset be lost without community"
-                                    " intervention?"
-                                ),
+                                "question": "Why will the asset be lost without community intervention?",
                             },
                         ],
                     },
@@ -109,9 +106,7 @@ scored_sections = [
                                 "form_name": "community-engagement",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Have you done any fundraising in the community?"
-                                ),
+                                "question": "Have you done any fundraising in the community?",
                                 # Yes-No determines dpLyQh
                             },
                             {
@@ -133,20 +128,14 @@ scored_sections = [
                                 "form_name": "community-engagement",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Tell us how your project supports any wider local"
-                                    " plans"
-                                ),
+                                "question": "Tell us how your project supports any wider local plans",
                             },
                             {
                                 "field_id": "KqoaJL",
                                 "form_name": "local-support",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Are you confident there is local support for your"
-                                    " project?"
-                                ),
+                                "question": "Are you confident there is local support for your project?",
                                 # Yes-No determines KqoaJL
                             },
                             {
@@ -154,10 +143,7 @@ scored_sections = [
                                 "form_name": "local-support",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Tell us more about the local support for your"
-                                    " project"
-                                ),
+                                "question": "Tell us more about the local support for your project",
                                 # Determined by Yes-No KqoaJL
                             },
                             {
@@ -185,8 +171,7 @@ scored_sections = [
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
                                 "question": (
-                                    "Tell us how you have considered the environmental"
-                                    " sustainability of your project"
+                                    "Tell us how you have considered the environmental sustainability of your project"
                                 ),
                             }
                         ],
@@ -245,10 +230,7 @@ scored_sections = [
                                 "form_name": "funding-required",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Are you applying for revenue funding from the"
-                                    " Community Ownership Fund?"
-                                ),
+                                "question": "Are you applying for revenue funding from the Community Ownership Fund?",
                             },
                             {
                                 "field_id": "NyudvF",
@@ -304,10 +286,7 @@ scored_sections = [
                                 "form_name": "funding-required",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Do you have any match funding identified but not"
-                                    " yet secured?"
-                                ),
+                                "question": "Do you have any match funding identified but not yet secured?",
                             },
                             {
                                 "field_id": "AOLYnV",
@@ -342,10 +321,7 @@ scored_sections = [
                                 "form_name": "funding-required",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "If successful, will you use your funding in the"
-                                    " next 12 months? (Y/N)"
-                                ),
+                                "question": "If successful, will you use your funding in the next 12 months? (Y/N)",
                             },
                         ],
                     }
@@ -365,8 +341,7 @@ scored_sections = [
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
                                 "question": (
-                                    "Tell us about the feasibility studies you have"
-                                    " carried out for your project"
+                                    "Tell us about the feasibility studies you have carried out for your project"
                                 ),
                             },
                             {
@@ -374,9 +349,7 @@ scored_sections = [
                                 "form_name": "feasibility",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Do you need to do any further feasibility work?"
-                                ),
+                                "question": "Do you need to do any further feasibility work?",
                             },
                         ],
                     },
@@ -402,10 +375,7 @@ scored_sections = [
                                 "form_name": "project-costs",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Summarise your cash flow for the running of the"
-                                    " asset"
-                                ),
+                                "question": "Summarise your cash flow for the running of the asset",
                             },
                             {
                                 "field_id": "TzOokX",
@@ -466,10 +436,7 @@ scored_sections = [
                                 "form_name": "organisation-information",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Have you delivered projects like this before?"
-                                    " (Y/N)"
-                                ),
+                                "question": "Have you delivered projects like this before? (Y/N)",
                             },
                             {
                                 "field_id": ["wxCszQ", "QJFQgi", "DGNWqE"],
@@ -486,20 +453,14 @@ scored_sections = [
                                 "form_name": "skills-and-resources",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Do you have experience of managing a community"
-                                    " asset?"
-                                ),
+                                "question": "Do you have experience of managing a community asset?",
                             },
                             {
                                 "field_id": "QWveYc",
                                 "form_name": "skills-and-resources",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Describe any experience you have with community"
-                                    " assets similar to this"
-                                ),
+                                "question": "Describe any experience you have with community assets similar to this",
                             },
                         ],
                     },
@@ -519,10 +480,7 @@ scored_sections = [
                                 "form_name": "community-representation",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Tell us about your governance and membership"
-                                    " structures"
-                                ),
+                                "question": "Tell us about your governance and membership structures",
                             },
                         ],
                     },
@@ -535,10 +493,7 @@ scored_sections = [
                                 "form_name": "skills-and-resources",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Do you have plans to recruit people to help you"
-                                    " manage the asset?"
-                                ),
+                                "question": "Do you have plans to recruit people to help you manage the asset?",
                             },
                             {
                                 "field_id": "VNjRgZ",
@@ -565,8 +520,7 @@ scored_sections = [
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
                                 "question": (
-                                    "Explain how you'll consider the views of the"
-                                    " community in the running of the asset"
+                                    "Explain how you'll consider the views of the community in the running of the asset"
                                 ),
                             },
                         ],
@@ -601,8 +555,7 @@ scored_sections = [
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
                                 "question": (
-                                    "Describe how the project will bring people"
-                                    " together from all over the community"
+                                    "Describe how the project will bring people together from all over the community"
                                 ),
                             },
                         ],
@@ -630,8 +583,7 @@ scored_sections = [
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
                                 "question": (
-                                    "Describe the planned activities or services that"
-                                    " will take place at the asset"
+                                    "Describe the planned activities or services that will take place at the asset"
                                 ),
                             },
                             {
@@ -639,10 +591,7 @@ scored_sections = [
                                 "form_name": "community_benefits",
                                 "field_type": "checkboxesField",
                                 "presentation_type": "list",
-                                "question": (
-                                    "What community benefits do you expect to deliver"
-                                    " with this project?"
-                                ),
+                                "question": "What community benefits do you expect to deliver with this project?",
                             },
                             {
                                 "field_id": "gDTsgG",
@@ -661,8 +610,7 @@ scored_sections = [
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
                                 "question": (
-                                    "Explain how you plan to sustain, and potentially"
-                                    " expand, these benefits over time"
+                                    "Explain how you plan to sustain, and potentially expand, these benefits over time"
                                 ),
                             },
                         ],
@@ -682,10 +630,7 @@ scored_sections = [
                                 "form_name": "community_benefits",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Tell us how you'll make sure the whole community"
-                                    " benefits from the asset"
-                                ),
+                                "question": "Tell us how you'll make sure the whole community benefits from the asset",
                             },
                         ],
                     },
@@ -711,9 +656,7 @@ scored_sections = [
                                 "form_name": "value-to-the-community",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Tell us about your local community as a whole"
-                                ),
+                                "question": "Tell us about your local community as a whole",
                             },
                             {
                                 "field_id": "NKOmNL",
@@ -765,9 +708,7 @@ unscored_sections = [
                                 "form_name": "organisation-information",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Does your organisation use any other names"
-                                ),
+                                "question": "Does your organisation use any other names",
                             },
                             {
                                 "field_id": ["PHFkCs", "QgNhXX", "XCcqae"],
@@ -802,14 +743,8 @@ unscored_sections = [
                                 "field_type": "radiosField",
                                 "presentation_type": "grouped_fields",
                                 "question": [
-                                    (
-                                        "Which regulatory body is your company"
-                                        " registered with?"
-                                    ),
-                                    (
-                                        "Which regulatory body is your company"
-                                        " registered with?"
-                                    ),
+                                    "Which regulatory body is your company registered with?",
+                                    "Which regulatory body is your company registered with?",
                                 ],
                             },
                             {
@@ -824,10 +759,7 @@ unscored_sections = [
                                 "form_name": "organisation-information",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Is your organisation a trading subsidiary of a"
-                                    " parent company?"
-                                ),
+                                "question": "Is your organisation a trading subsidiary of a parent company?",
                             },
                             {
                                 "field_id": "MPNlZx",
@@ -855,10 +787,7 @@ unscored_sections = [
                                 "form_name": "organisation-information",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Is your correspondence address different to the"
-                                    " organisation address?"
-                                ),
+                                "question": "Is your correspondence address different to the organisation address?",
                             },
                             {
                                 "field_id": "VhkCbM",
@@ -911,10 +840,7 @@ unscored_sections = [
                                 "form_name": "organisation-information",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Is your application a joint bid in partnership"
-                                    " with other organisations?"
-                                ),
+                                "question": "Is your application a joint bid in partnership with other organisations?",
                             },
                             {
                                 "field_id": "APSjeB",
@@ -935,10 +861,7 @@ unscored_sections = [
                                 "form_name": "organisation-information",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "list",
-                                "question": (
-                                    "Tell us about your partnership and how you plan to"
-                                    " work together"
-                                ),
+                                "question": "Tell us about your partnership and how you plan to work together",
                             },
                         ],
                     },
@@ -990,10 +913,7 @@ unscored_sections = [
                                 "form_name": "project-information",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Have you been given funding through the Community"
-                                    " Ownership Fund before?"
-                                ),
+                                "question": "Have you been given funding through the Community Ownership Fund before?",
                             },
                             {
                                 "field_id": "IrIYcA",
@@ -1027,10 +947,7 @@ unscored_sections = [
                                 "form_name": "project-information",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "list",
-                                "question": (
-                                    "Give a brief summary of your project, including"
-                                    " what you hope to achieve"
-                                ),
+                                "question": "Give a brief summary of your project, including what you hope to achieve",
                             },
                         ],
                     },
@@ -1056,9 +973,7 @@ unscored_sections = [
                                 "form_name": "asset-information",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Do you know who currently owns your asset?"
-                                ),
+                                "question": "Do you know who currently owns your asset?",
                             },
                             {
                                 "field_id": "ymlmrX",
@@ -1079,9 +994,7 @@ unscored_sections = [
                                 "form_name": "asset-information",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Have you already completed the purchase or lease?"
-                                ),
+                                "question": "Have you already completed the purchase or lease?",
                             },
                             {
                                 "field_id": "uBXptf",
@@ -1193,29 +1106,21 @@ unscored_sections = [
                                 "form_name": "asset-information",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Is this a registered Asset of Community Value?"
-                                ),
+                                "question": "Is this a registered Asset of Community Value?",
                             },
                             {
                                 "field_id": "MLwpjP",
                                 "form_name": "asset-information",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Will you purchase the asset within the appropriate"
-                                    " time frame?"
-                                ),
+                                "question": "Will you purchase the asset within the appropriate time frame?",
                             },
                             {
                                 "field_id": "VwxiGn",
                                 "form_name": "asset-information",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Is the asset listed for disposal, or part of a"
-                                    " Community Asset Transfer?"
-                                ),
+                                "question": "Is the asset listed for disposal, or part of a Community Asset Transfer?",
                             },
                             {
                                 "field_id": "bkbGIE",
@@ -1236,10 +1141,7 @@ unscored_sections = [
                                 "form_name": "asset-information",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "list",
-                                "question": (
-                                    "Describe the current status of the Community Asset"
-                                    " Transfer"
-                                ),
+                                "question": "Describe the current status of the Community Asset Transfer",
                             },
                         ],
                     },
@@ -1266,9 +1168,7 @@ unscored_sections = [
                                 "form_name": "project-information",
                                 "field_type": "textField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "In which local council area is your asset?"
-                                ),
+                                "question": "In which local council area is your asset?",
                             },
                         ],
                     },
@@ -1369,10 +1269,7 @@ unscored_sections = [
                                 "form_name": "project-qualification",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Does your project meet the definition of a"
-                                    " subsidy?"
-                                ),
+                                "question": "Does your project meet the definition of a subsidy?",
                             },
                             {
                                 "field_id": "RmMKzM",
@@ -1390,19 +1287,14 @@ unscored_sections = [
                                 "form_name": "project-qualification",
                                 "field_type": "yesNoField",
                                 "presentation_type": "text",
-                                "question": (
-                                    "Is your project based in Northern Ireland?"
-                                ),
+                                "question": "Is your project based in Northern Ireland?",
                             },
                             {
                                 "field_id": "xPkdRX",
                                 "form_name": "project-qualification",
                                 "field_type": "multilineTextField",
                                 "presentation_type": "list",
-                                "question": (
-                                    "Explain how your project will comply with state"
-                                    " aid rules"
-                                ),
+                                "question": "Explain how your project will comply with state aid rules",
                             },
                         ],
                     }
