@@ -4,6 +4,9 @@ from datetime import timezone
 from config.fund_loader_config.cof.shared import COF_APPLICATION_GUIDANCE
 from config.fund_loader_config.cof.shared import fund_config
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
+    COF_EOI_BASE_PATH,
+)
+from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     COF_R3_W1_BASE_PATH,
 )
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
@@ -17,6 +20,7 @@ COF_FUND_ID = fund_config["id"]
 COF_ROUND_3_WINDOW_1_ID = "e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762"
 COF_ROUND_3_WINDOW_2_ID = "6af19a5e-9cae-4f00-9194-cf10d2d7c8a7"
 COF_ROUND_3_WINDOW_3_ID = "4efc3263-aefe-4071-b5f4-0910abec12d2"
+COF_EOI_ROUND_ID = "19e81b86-15b2-4c9b-bde9-925300b603f3"
 
 APPLICATION_BASE_PATH_COF_R3_W1 = ".".join([str(COF_R3_W1_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH_COF_R3_W1 = ".".join([str(COF_R3_W1_BASE_PATH), str(2)])
@@ -26,6 +30,9 @@ ASSESSMENT_BASE_PATH_COF_R3_W2 = ".".join([str(COF_R3_W2_BASE_PATH), str(2)])
 
 APPLICATION_BASE_PATH_COF_R3_W3 = ".".join([str(COF_R3_W3_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH_COF_R3_W3 = ".".join([str(COF_R3_W3_BASE_PATH), str(2)])
+
+APPLICATION_BASE_PATH_COF_EOI = ".".join([str(COF_EOI_BASE_PATH), str(1)])
+ASSESSMENT_BASE_PATH_COF_EOI = ".".join([str(COF_EOI_BASE_PATH), str(2)])
 
 COF_R3W1_OPENS_DATE = datetime(2023, 5, 31, 11, 0, 0, tzinfo=timezone.utc)  # 2023-05-31 11:00:00
 COF_R3W1_DEADLINE_DATE = datetime(2023, 7, 12, 11, 59, 0, tzinfo=timezone.utc)  # 2023-07-12 11:59:00
@@ -37,6 +44,11 @@ COF_R3W3_OPENS_DATE = datetime(2023, 12, 6, 11, 00, 0, tzinfo=timezone.utc)  # 2
 COF_R3W3_SEND_REMINDER_DATE = datetime(2024, 1, 29, 11, 59, 0, tzinfo=timezone.utc)  # 2024-01-29 11:59:00
 COF_R3W3_DEADLINE_DATE = datetime(2024, 1, 31, 11, 59, 0, tzinfo=timezone.utc)  # 2024-01-31 11:59:00
 COF_R3W3_ASSESSMENT_DEADLINE_DATE = datetime(2024, 2, 23, 12, 0, 0, tzinfo=timezone.utc)  # 2024-02-23 12:00:00
+COF_EOI_OPENS_DATE = datetime(2024, 3, 6, 11, 00, 0, tzinfo=timezone.utc)  # 2023-12-06 11:00:00
+COF_EOI_DEADLINE_DATE = datetime(2124, 3, 6, 11, 59, 0, tzinfo=timezone.utc)  # 2124-03-06 11:59:00
+COF_EOI_ASSESSMENT_DEADLINE_DATE = datetime(2124, 3, 6, 12, 0, 0, tzinfo=timezone.utc)  # 2124-03-06 12:00:00
+COF_EOI_SEND_REMINDER_DATE = datetime(2024, 3, 1, 11, 59, 0, tzinfo=timezone.utc)  # 2024-03-1 11:59:00
+
 cof_r3_sections = [
     {
         "section_name": {
@@ -705,6 +717,71 @@ cof_r3w3_sections = [
     },
 ]
 
+cof_eoi_sections = [
+    {
+        "section_name": {
+            "en": "1. Expression of interest",
+            "cy": "",
+        },
+        "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1",
+    },
+    {
+        "section_name": {
+            "en": "1.1 Organisation details",
+            "cy": "",
+        },
+        "form_name_json": {
+            "en": "cof-eoi-details",
+            "cy": "",
+        },
+        "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.1",
+    },
+    {
+        "section_name": {
+            "en": "1.2 About your asset",
+            "cy": "",
+        },
+        "form_name_json": {
+            "en": "cof-eoi-asset",
+            "cy": "",
+        },
+        "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.2",
+    },
+    {
+        "section_name": {
+            "en": "1.3 Your funding request",
+            "cy": "",
+        },
+        "form_name_json": {
+            "en": "cof-eoi-funding",
+            "cy": "",
+        },
+        "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.3",
+    },
+    {
+        "section_name": {
+            "en": "1.4 Development support provider",
+            "cy": "",
+        },
+        "form_name_json": {
+            "en": "cof-eoi-support",
+            "cy": "",
+        },
+        "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.4",
+    },
+    {
+        "section_name": {
+            "en": "1.5 Declaration",
+            "cy": "",
+        },
+        "form_name_json": {
+            "en": "cof-eoi-declatation",
+            "cy": "",
+        },
+        "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.5",
+    },
+]
+
 round_config = [
     {
         "id": COF_ROUND_3_WINDOW_1_ID,
@@ -855,6 +932,58 @@ round_config_w3 = [
         "feedback_survey_config": {
             "has_feedback_survey": True,
             "has_section_feedback": True,
+            "is_feedback_survey_optional": False,
+            "is_section_feedback_optional": False,
+        },
+        "eligibility_config": {"has_eligibility": False},
+    }
+]
+
+round_config_eoi = [
+    {
+        "id": COF_EOI_ROUND_ID,
+        "fund_id": COF_FUND_ID,
+        "title_json": {"en": "EOI", "cy": "EOI"},
+        "short_name": "EOI",
+        "opens": COF_EOI_OPENS_DATE,
+        "assessment_start": None,
+        "deadline": COF_EOI_DEADLINE_DATE,
+        "application_reminder_sent": False,
+        "reminder_date": COF_EOI_SEND_REMINDER_DATE,
+        "assessment_deadline": COF_EOI_ASSESSMENT_DEADLINE_DATE,
+        "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
+        "privacy_notice": (
+            "https://www.gov.uk/government/publications/community-ownership-fund-"
+            "privacy-notice/community-ownership-fund-privacy-notice"
+        ),
+        "contact_email": "COF@levellingup.gov.uk",
+        "contact_phone": None,
+        "contact_textphone": None,
+        "support_times": "9am to 5pm",
+        "support_days": "Monday to Friday",
+        "instructions": (
+            "You must complete this Expression of Interest (EOI) form if you"
+            " areinterested in applying for the Community Ownership Fund (COF). <a"
+            ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus"'
+            " Read the fund's prospectus before you start.</a>."
+        ),
+        "feedback_link": (
+            "https://forms.office.com/Pages/ResponsePage.aspx?id="
+            "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
+        ),
+        "project_name_field_id": "",
+        "application_guidance": COF_APPLICATION_GUIDANCE,
+        "guidance_url": (
+            "https://www.gov.uk/government/publications/community-ownership-fund-round-3-application-form"
+            "-assessment-criteria-guidance"
+        ),
+        "all_uploaded_documents_section_available": True,
+        "application_fields_download_available": True,
+        "display_logo_on_pdf_exports": False,
+        "mark_as_complete_enabled": True,
+        "feedback_survey_config": {
+            "has_feedback_survey": False,
+            "has_section_feedback": False,
             "is_feedback_survey_optional": False,
             "is_section_feedback_optional": False,
         },
