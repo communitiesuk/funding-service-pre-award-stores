@@ -30,9 +30,7 @@ class Round(BaseModel):
         ForeignKey("fund.id"),
         nullable=False,
     )
-    title_json = Column(
-        "title_json", JSON(none_as_null=True), nullable=False, unique=False
-    )
+    title_json = Column("title_json", JSON(none_as_null=True), nullable=False, unique=False)
     short_name = Column("short_name", db.String(), nullable=False, unique=False)
     opens = Column("opens", DateTime())
     deadline = Column("deadline", DateTime())
@@ -49,19 +47,13 @@ class Round(BaseModel):
     privacy_notice = Column("privacy_notice", db.String(), nullable=False, unique=False)
     contact_email = Column("contact_email", db.String(), nullable=True, unique=False)
     contact_phone = Column("contact_phone", db.String(), nullable=True, unique=False)
-    contact_textphone = Column(
-        "contact_textphone", db.String(), nullable=True, unique=False
-    )
+    contact_textphone = Column("contact_textphone", db.String(), nullable=True, unique=False)
     support_times = Column("support_times", db.String(), nullable=False, unique=False)
     support_days = Column("support_days", db.String(), nullable=False, unique=False)
     instructions = Column("instructions", db.String(), nullable=False, unique=False)
     feedback_link = Column("feedback_link", db.String(), unique=False)
-    project_name_field_id = Column(
-        "project_name_field_id", db.String(), unique=False, nullable=False
-    )
-    application_guidance = Column(
-        "application_guidance", db.String(), nullable=True, unique=False
-    )
+    project_name_field_id = Column("project_name_field_id", db.String(), unique=False, nullable=False)
+    application_guidance = Column("application_guidance", db.String(), nullable=True, unique=False)
     guidance_url = Column("guidance_url", db.String(), nullable=True, unique=False)
     all_uploaded_documents_section_available = Column(
         "all_uploaded_documents_section_available",
@@ -87,9 +79,5 @@ class Round(BaseModel):
         default=False,
         nullable=False,
     )
-    feedback_survey_config = Column(
-        "feedback_survey_config", JSON(none_as_null=True), nullable=True, unique=False
-    )
-    eligibility_config = Column(
-        "eligibility_config", JSON(none_as_null=True), nullable=True, unique=False
-    )
+    feedback_survey_config = Column("feedback_survey_config", JSON(none_as_null=True), nullable=True, unique=False)
+    eligibility_config = Column("eligibility_config", JSON(none_as_null=True), nullable=True, unique=False)

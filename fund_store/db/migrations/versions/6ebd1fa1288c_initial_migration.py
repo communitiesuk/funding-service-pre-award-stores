@@ -56,9 +56,7 @@ def upgrade():
         sa.Column("support_times", sa.String(), nullable=False),
         sa.Column("support_days", sa.String(), nullable=False),
         sa.Column("instructions", sa.String(), nullable=False),
-        sa.ForeignKeyConstraint(
-            ["fund_id"], ["fund.id"], name=op.f("fk_round_fund_id_fund")
-        ),
+        sa.ForeignKeyConstraint(["fund_id"], ["fund.id"], name=op.f("fk_round_fund_id_fund")),
         sa.PrimaryKeyConstraint("id", name=op.f("pk_round")),
         sa.UniqueConstraint("short_name", name=op.f("uq_round_short_name")),
     )
@@ -70,15 +68,11 @@ def upgrade():
         sa.Column("round_id", sa.UUID(), nullable=False),
         sa.Column("weighting", sa.Integer(), nullable=True),
         sa.Column("path", sqlalchemy_utils.types.ltree.LtreeType(), nullable=False),
-        sa.ForeignKeyConstraint(
-            ["round_id"], ["round.id"], name=op.f("fk_section_round_id_round")
-        ),
+        sa.ForeignKeyConstraint(["round_id"], ["round.id"], name=op.f("fk_section_round_id_round")),
         sa.PrimaryKeyConstraint("id", name=op.f("pk_section")),
     )
     with op.batch_alter_table("section", schema=None) as batch_op:
-        batch_op.create_index(
-            "ix_sections_path", ["path"], unique=False, postgresql_using="gist"
-        )
+        batch_op.create_index("ix_sections_path", ["path"], unique=False, postgresql_using="gist")
 
     op.create_table(
         "section_field",
@@ -95,9 +89,7 @@ def upgrade():
             ["section.id"],
             name=op.f("fk_section_field_section_id_section"),
         ),
-        sa.PrimaryKeyConstraint(
-            "section_id", "field_id", name=op.f("pk_section_field")
-        ),
+        sa.PrimaryKeyConstraint("section_id", "field_id", name=op.f("pk_section_field")),
     )
     # ### end Alembic commands ###
 

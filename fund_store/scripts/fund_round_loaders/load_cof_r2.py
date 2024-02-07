@@ -23,12 +23,8 @@ def main() -> None:
 
     print("Inserting base sections config.")
     # Insert base sections
-    insert_base_sections(
-        APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, COF_ROUND_2_WINDOW_2_ID
-    )
-    insert_base_sections(
-        APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, COF_ROUND_2_WINDOW_3_ID
-    )
+    insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, COF_ROUND_2_WINDOW_2_ID)
+    insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, COF_ROUND_2_WINDOW_3_ID)
     print("Inserting sections.")
     # only need to do it for one round as they have identical section sorts
     insert_or_update_application_sections(COF_ROUND_2_WINDOW_2_ID, cof_r2_sections)

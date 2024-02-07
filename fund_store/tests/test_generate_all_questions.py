@@ -50,19 +50,13 @@ def test_generate_test_data():
 
 
 def test_generate_index_org_info_cof_r3w2():
-    with open(
-        os.path.join(TEST_METADATA_FOLDER, "metadata_org_info_cof_r3w2.json"), "r"
-    ) as f:
+    with open(os.path.join(TEST_METADATA_FOLDER, "metadata_org_info_cof_r3w2.json"), "r") as f:
         form_data = json.load(f)
 
     results = {}
 
-    first_page = next(
-        p for p in form_data["all_pages"] if p["path"] == form_data["start_page"]
-    )
-    build_hierarchy_levels_for_page(
-        first_page, results, 1, form_data["all_pages"], start_page=True
-    )
+    first_page = next(p for p in form_data["all_pages"] if p["path"] == form_data["start_page"])
+    build_hierarchy_levels_for_page(first_page, results, 1, form_data["all_pages"], start_page=True)
 
     assert len(results) == 18
     org_details_level = results["/organisation-names"]
@@ -71,9 +65,7 @@ def test_generate_index_org_info_cof_r3w2():
     assert results["/previous-projects-similar-to-this-one"] == org_details_level + 1
 
     assert results["/how-your-organisation-is-classified"] == org_details_level
-    assert (
-        results["/how-your-organisation-is-classified-other"] == org_details_level + 1
-    )
+    assert results["/how-your-organisation-is-classified-other"] == org_details_level + 1
     # TODO why does this fail assert results["/registration-details"] == org_details_level
     assert results["/trading-subsidiaries"] == org_details_level
     assert results["/parent-organisation-details"] == org_details_level + 1
@@ -85,16 +77,12 @@ def test_generate_index_org_info_cof_r3w2():
 
 
 def test_generate_index_applicant_ns():
-    with open(
-        os.path.join(TEST_METADATA_FOLDER, "metadata_applicant_ns.json"), "r"
-    ) as f:
+    with open(os.path.join(TEST_METADATA_FOLDER, "metadata_applicant_ns.json"), "r") as f:
         form_data = json.load(f)
 
     results = {}
 
-    first_page = next(
-        p for p in form_data["all_pages"] if p["path"] == form_data["start_page"]
-    )
+    first_page = next(p for p in form_data["all_pages"] if p["path"] == form_data["start_page"])
     build_hierarchy_levels_for_page(first_page, results, 1, form_data["all_pages"])
 
     assert len(results) == 4
@@ -110,9 +98,7 @@ def test_generate_index_risk_cyp():
 
     results = {}
 
-    first_page = next(
-        p for p in form_data["all_pages"] if p["path"] == form_data["start_page"]
-    )
+    first_page = next(p for p in form_data["all_pages"] if p["path"] == form_data["start_page"])
     build_hierarchy_levels_for_page(first_page, results, 1, form_data["all_pages"])
 
     assert len(results) == 5
@@ -122,16 +108,12 @@ def test_generate_index_risk_cyp():
 
 
 def test_generate_index_name_app_cyp():
-    with open(
-        os.path.join(TEST_METADATA_FOLDER, "metadata_name_app_cyp.json"), "r"
-    ) as f:
+    with open(os.path.join(TEST_METADATA_FOLDER, "metadata_name_app_cyp.json"), "r") as f:
         form_data = json.load(f)
 
     results = {}
 
-    first_page = next(
-        p for p in form_data["all_pages"] if p["path"] == form_data["start_page"]
-    )
+    first_page = next(p for p in form_data["all_pages"] if p["path"] == form_data["start_page"])
     build_hierarchy_levels_for_page(first_page, results, 1, form_data["all_pages"])
 
     assert len(results) == 2
@@ -140,16 +122,12 @@ def test_generate_index_name_app_cyp():
 
 
 def test_generate_index_branch_out_multi_pages_back_to_parent_sibling():
-    with open(
-        os.path.join(TEST_METADATA_FOLDER, "joint_bid_out_and_back.json"), "r"
-    ) as f:
+    with open(os.path.join(TEST_METADATA_FOLDER, "joint_bid_out_and_back.json"), "r") as f:
         form_data = json.load(f)
 
     results = {}
 
-    first_page = next(
-        p for p in form_data["all_pages"] if p["path"] == form_data["start_page"]
-    )
+    first_page = next(p for p in form_data["all_pages"] if p["path"] == form_data["start_page"])
     build_hierarchy_levels_for_page(first_page, results, 1, form_data["all_pages"])
 
     assert len(results) == 5
@@ -161,16 +139,12 @@ def test_generate_index_branch_out_multi_pages_back_to_parent_sibling():
 
 
 def test_generate_index_branch_out_all_back_to_new():
-    with open(
-        os.path.join(TEST_METADATA_FOLDER, "how_is_org_classified.json"), "r"
-    ) as f:
+    with open(os.path.join(TEST_METADATA_FOLDER, "how_is_org_classified.json"), "r") as f:
         form_data = json.load(f)
 
     results = {}
 
-    first_page = next(
-        p for p in form_data["all_pages"] if p["path"] == form_data["start_page"]
-    )
+    first_page = next(p for p in form_data["all_pages"] if p["path"] == form_data["start_page"])
     build_hierarchy_levels_for_page(first_page, results, 1, form_data["all_pages"])
 
     assert len(results) == 5
@@ -182,53 +156,35 @@ def test_generate_index_branch_out_all_back_to_new():
 
 
 def test_generate_index_simple_branch():
-    with open(
-        os.path.join(TEST_METADATA_FOLDER, "start_to_main_activites.json"), "r"
-    ) as f:
+    with open(os.path.join(TEST_METADATA_FOLDER, "start_to_main_activites.json"), "r") as f:
         form_data = json.load(f)
 
     results = {}
 
-    first_page = next(
-        p for p in form_data["all_pages"] if p["path"] == form_data["start_page"]
-    )
+    first_page = next(p for p in form_data["all_pages"] if p["path"] == form_data["start_page"])
     build_hierarchy_levels_for_page(first_page, results, 1, form_data["all_pages"])
 
     assert len(results) == 4
     org_details_level = results["/organisation-details"]
     assert results["/alternative-organisation-name"] == org_details_level + 1
-    assert (
-        results["/tell-us-about-your-organisations-main-activities"]
-        == org_details_level
-    )
+    assert results["/tell-us-about-your-organisations-main-activities"] == org_details_level
 
 
 def test_generate_index_about_your_org_cyp():
-    with open(
-        os.path.join(TEST_METADATA_FOLDER, "metadata_about_your_org_cyp.json"), "r"
-    ) as f:
+    with open(os.path.join(TEST_METADATA_FOLDER, "metadata_about_your_org_cyp.json"), "r") as f:
         form_data = json.load(f)
 
     results = {}
 
-    first_page = next(
-        p for p in form_data["all_pages"] if p["path"] == form_data["start_page"]
-    )
-    build_hierarchy_levels_for_page(
-        first_page, results, 1, form_data["all_pages"], start_page=True
-    )
+    first_page = next(p for p in form_data["all_pages"] if p["path"] == form_data["start_page"])
+    build_hierarchy_levels_for_page(first_page, results, 1, form_data["all_pages"], start_page=True)
 
     assert len(results) == 16
     org_details_level = results["/organisation-details"]
     assert results["/alternative-organisation-name"] == org_details_level + 1
-    assert (
-        results["/tell-us-about-your-organisations-main-activities"]
-        == org_details_level
-    )
+    assert results["/tell-us-about-your-organisations-main-activities"] == org_details_level
     assert results["/how-is-your-organisation-classified"] == org_details_level
-    assert (
-        results["/how-is-your-organisation-classified-other"] == org_details_level + 1
-    )
+    assert results["/how-is-your-organisation-classified-other"] == org_details_level + 1
     assert results["/organisation-address"] == org_details_level
 
 
@@ -335,9 +291,7 @@ def test_generate_component_display_name_your_app():
         "r",
     ) as f:
         form_json = json.load(f)
-    page_json = next(
-        p for p in form_json["pages"] if p["path"] == "/11-name-your-application"
-    )
+    page_json = next(p for p in form_json["pages"] if p["path"] == "/11-name-your-application")
     components = build_components_from_page(page_json, include_html_components=True)
     assert len(components) == 1
     assert components[0]["title"] == "Name your application"
@@ -351,9 +305,7 @@ def test_build_components_empty_text_and_title():
         form_json = json.load(f)
 
     # Test intro has no text
-    page_json = next(
-        p for p in form_json["pages"] if p["path"] == "/intro-about-your-organisation"
-    )
+    page_json = next(p for p in form_json["pages"] if p["path"] == "/intro-about-your-organisation")
     components = build_components_from_page(page_json, include_html_components=False)
     assert len(components) == 0
 
@@ -366,11 +318,7 @@ def test_build_components_include_options_from_radios_and_branching_text():
         form_json = json.load(f)
 
     # Test if for all options in how classified
-    page_json = next(
-        p
-        for p in form_json["pages"]
-        if p["path"] == "/how-is-your-organisation-classified"
-    )
+    page_json = next(p for p in form_json["pages"] if p["path"] == "/how-is-your-organisation-classified")
     components = build_components_from_page(
         page_json,
         include_html_components=False,
@@ -399,9 +347,7 @@ def test_build_components_bullets_in_hint():
     ) as f:
         form_json = json.load(f)
 
-    page_json = next(
-        p for p in form_json["pages"] if p["path"] == "/similar-previous-projects"
-    )
+    page_json = next(p for p in form_json["pages"] if p["path"] == "/similar-previous-projects")
     components = build_components_from_page(page_json, include_html_components=False)
     assert len(components) == 1
     assert len(components[0]["text"]) == 3
@@ -410,13 +356,9 @@ def test_build_components_bullets_in_hint():
 
 
 def test_build_components_multi_input():
-    with open(
-        os.path.join(TEST_FORMS_FOLDER, "risk-and-deliverability-cyp.json"), "r"
-    ) as f:
+    with open(os.path.join(TEST_FORMS_FOLDER, "risk-and-deliverability-cyp.json"), "r") as f:
         form_json = json.load(f)
-    page_json = next(
-        p for p in form_json["pages"] if p["path"] == "/risks-to-the-project"
-    )
+    page_json = next(p for p in form_json["pages"] if p["path"] == "/risks-to-the-project")
     components = build_components_from_page(
         page_json,
         include_html_components=True,

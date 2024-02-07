@@ -8,9 +8,7 @@ from db.schemas.section import WelshSectionSchema
 section = Section(
     id=1,
     title_json={"en": "English Title", "cy": "Welsh Title"},
-    form_name=[
-        FormName(form_name_json={"en": "English Form Name", "cy": "Welsh Form Name"})
-    ],
+    form_name=[FormName(form_name_json={"en": "English Form Name", "cy": "Welsh Form Name"})],
     children=[
         Section(
             id=1,

@@ -48,12 +48,8 @@ def test_load_application_sections(clear_test_data):
     insert_fund_data(fund_config)
     insert_round_data(rounds_config)
 
-    base_sections = insert_base_sections(
-        APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, COF_ROUND_2_WINDOW_2_ID
-    )
-    application_sections = insert_or_update_application_sections(
-        COF_ROUND_2_WINDOW_2_ID, cof_r2_sections
-    )
+    base_sections = insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, COF_ROUND_2_WINDOW_2_ID)
+    application_sections = insert_or_update_application_sections(COF_ROUND_2_WINDOW_2_ID, cof_r2_sections)
     assert len(base_sections) == 2
     assert len(application_sections) == 28
 

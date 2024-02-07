@@ -14,7 +14,5 @@ class Translation(BaseModel):
         primary_key=True,
         nullable=False,
     )
-    language = Column(
-        "language", db.String(), nullable=False, unique=False, primary_key=True
-    )
+    language = Column("language", db.String(), nullable=False, unique=False, primary_key=True)
     text = Column("text", db.String(), nullable=False, unique=False)

@@ -25,6 +25,4 @@ class DefaultConfig(object):
     FORCE_OPEN = strtobool(getenv("FORCE_OPEN", "False"))
 
     # Database
-    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL", "").replace(
-        "postgres://", "postgresql://"
-    )
+    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL", "").replace("postgres://", "postgresql://")
