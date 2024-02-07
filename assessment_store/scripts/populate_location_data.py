@@ -28,9 +28,7 @@ local_workspace = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 file_locations_csv = local_workspace + "/locations.csv"
 
 
-def process_locations(
-    fund_id, round_id, update_db: bool, write_csv: bool, csv_location
-):
+def process_locations(fund_id, round_id, update_db: bool, write_csv: bool, csv_location):
     """Runs within the app context to have access to DB etc.
 
     Uses the functions
@@ -44,9 +42,7 @@ def process_locations(
             break
 
     with app.app_context():
-        application_ids = get_all_application_ids_for_fund_round(
-            fund_id, round_id
-        )
+        application_ids = get_all_application_ids_for_fund_round(fund_id, round_id)
         just_postcodes = []
         application_ids_to_postcodes = {}
 
@@ -64,9 +60,7 @@ def process_locations(
         postcodes_to_location_data = get_all_location_data(just_postcodes)
 
         if update_db:
-            update_db_with_location_data(
-                application_ids_to_postcodes, postcodes_to_location_data
-            )
+            update_db_with_location_data(application_ids_to_postcodes, postcodes_to_location_data)
         if write_csv:
             print("Writing to csv")
             write_locations_to_csv(
@@ -78,12 +72,8 @@ def process_locations(
 
 def init_argparse() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--fund_id", help="Provide fund id of a fund", required=False
-    )
-    parser.add_argument(
-        "--round_id", help="Provide round id of a fund", required=False
-    )
+    parser.add_argument("--fund_id", help="Provide fund id of a fund", required=False)
+    parser.add_argument("--round_id", help="Provide round id of a fund", required=False)
     parser.add_argument(
         "--fundround",
         help="Provide fund-round short name (eg., COFR2, COFR3W1, NSTFR2...).",
@@ -96,8 +86,7 @@ def init_argparse() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--write_csv",
-        help="Whether to write location data to a CSV - "
-        + "if yes, include param --csv_location",
+        help="Whether to write location data to a CSV - " + "if yes, include param --csv_location",
         required=True,
     )
     parser.add_argument(

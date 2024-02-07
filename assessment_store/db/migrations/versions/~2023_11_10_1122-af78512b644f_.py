@@ -60,31 +60,22 @@ def downgrade():
     # migrate latest comments data form `comments_update` table to `comments` table
     connection = op.get_bind()
     comments_query = sa.text("SELECT comment_id, date_created FROM comments")
-    comments_update_query = sa.text(
-        "SELECT id, comment_id, comment, date_created FROM comments_update"
-    )
+    comments_update_query = sa.text("SELECT id, comment_id, comment, date_created FROM comments_update")
     comments = connection.execute(comments_query)
     comments_update = connection.execute(comments_update_query)
     comments_update_dict = {}
     for id, comment_id, comment, date_created in comments_update:
         if comments_update_dict.get(comment_id):
-            comments_update_dict[comment_id].append(
-                {"id": id, "comment": comment, "date_created": date_created}
-            )
+            comments_update_dict[comment_id].append({"id": id, "comment": comment, "date_created": date_created})
 
         else:
-            comments_update_dict[comment_id] = [
-                {"id": id, "comment": comment, "date_created": date_created}
-            ]
+            comments_update_dict[comment_id] = [{"id": id, "comment": comment, "date_created": date_created}]
 
     for comment_id, date_created in comments:
         for i_comment_id, val in comments_update_dict.items():
             val = sorted(val, key=lambda x: x["date_created"])
             if comment_id == i_comment_id:
-                update_query = sa.text(
-                    "UPDATE comments SET comment = :comment"
-                    " WHERE comment_id = :comment_id"
-                )
+                update_query = sa.text("UPDATE comments SET comment = :comment" " WHERE comment_id = :comment_id")
                 params = {
                     "comment_id": comment_id,
                     "comment": val[-1]["comment"],

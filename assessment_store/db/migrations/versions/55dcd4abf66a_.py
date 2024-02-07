@@ -36,9 +36,7 @@ def upgrade():
         sa.Column("type_id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column("fund_id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column("round_id", postgresql.UUID(as_uuid=True), nullable=False),
-        sa.Column(
-            "creator_user_id", postgresql.UUID(as_uuid=True), nullable=False
-        ),
+        sa.Column("creator_user_id", postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column(
             "created_at",
             sa.DateTime(timezone=True),
@@ -53,18 +51,12 @@ def upgrade():
         sa.PrimaryKeyConstraint("id", name=op.f("pk_tags")),
     )
 
-    op.execute(
-        sa.text(
-            "CREATE UNIQUE INDEX value_round_id_unique_idx ON tags (lower(value), round_id)"
-        )
-    )
+    op.execute(sa.text("CREATE UNIQUE INDEX value_round_id_unique_idx ON tags (lower(value), round_id)"))
 
     op.create_table(
         "tag_association",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),
-        sa.Column(
-            "application_id", postgresql.UUID(as_uuid=True), nullable=True
-        ),
+        sa.Column("application_id", postgresql.UUID(as_uuid=True), nullable=True),
         sa.Column("associated", sa.Boolean(), nullable=False),
         sa.Column("tag_id", postgresql.UUID(as_uuid=True), nullable=True),
         sa.Column("user_id", sa.String(length=255), nullable=True),

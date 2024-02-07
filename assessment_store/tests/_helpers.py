@@ -15,9 +15,7 @@ from tests._db_seed_data import get_dynamic_rows
 @contextmanager
 def no_gather_sql():
     @event.listens_for(Engine, "before_cursor_execute", retval=True)
-    def mark_as_ignore(
-        conn, cursor, statement, parameters, context, executemany
-    ):
+    def mark_as_ignore(conn, cursor, statement, parameters, context, executemany):
         statement = statement + " --IGNORE"
         return statement, parameters
 
@@ -40,12 +38,7 @@ def get_random_row(table):
     primary_key_column = getattr(table, primary_key_name)
     return (
         db.session.query(table)
-        .offset(
-            func.floor(
-                func.random()
-                * db.session.query(func.count(primary_key_column))
-            )
-        )
+        .offset(func.floor(func.random() * db.session.query(func.count(primary_key_column))))
         .limit(1)
         .one()
     )
@@ -91,16 +84,10 @@ def get_assessment_record(application_id):
     return db.session.scalars(stmt).one()
 
 
-def row_data(
-    apps_per_round, rounds_per_fund, number_of_funds, fund_round_config
-):
+def row_data(apps_per_round, rounds_per_fund, number_of_funds, fund_round_config):
     """row_data A fixture which provides the test row data."""
 
-    row_data = list(
-        get_dynamic_rows(
-            apps_per_round, rounds_per_fund, number_of_funds, fund_round_config
-        )
-    )
+    row_data = list(get_dynamic_rows(apps_per_round, rounds_per_fund, number_of_funds, fund_round_config))
 
     return row_data
 
@@ -108,8 +95,6 @@ def row_data(
 def seed_database_for_fund_round(apps_per_round, fund_round_config):
     test_input_data = row_data(apps_per_round, 1, 1, fund_round_config)
 
-    type_of_application = fund_round_config[next(iter(fund_round_config))][
-        "type_of_application"
-    ]
+    type_of_application = fund_round_config[next(iter(fund_round_config))]["type_of_application"]
 
     bulk_insert_application_record(test_input_data, type_of_application)

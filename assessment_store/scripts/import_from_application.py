@@ -13,9 +13,7 @@ from fsd_utils import CommonConfig  # noqa: E402
 
 
 def init_argparse() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Import applications from application store."
-    )
+    parser = argparse.ArgumentParser(description="Import applications from application store.")
     parser.add_argument(
         "--roundid",
         type=str,
@@ -42,9 +40,7 @@ def main() -> None:
 
     if args.fundround:
         roundid = fund_round_mapping_config[args.fundround]["round_id"]
-        app_type = fund_round_mapping_config[args.fundround][
-            "type_of_application"
-        ]
+        app_type = fund_round_mapping_config[args.fundround]["type_of_application"]
     elif args.roundid and args.app_type:
         roundid = args.roundid
         app_type = args.app_type
@@ -59,9 +55,7 @@ def main() -> None:
             + f"&round_id={roundid}"
             + "&forms=true"
         )
-        print(
-            f"Preparing query to GET applications, using URL: '{applications_url}'"
-        )
+        print(f"Preparing query to GET applications, using URL: '{applications_url}'")
         app_store_response_json = requests.get(applications_url).json()
         inserted_rows = bulk_insert_application_record(
             app_store_response_json,

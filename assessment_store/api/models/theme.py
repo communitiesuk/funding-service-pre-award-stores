@@ -14,17 +14,9 @@ class Theme:
     answers: List[Answer]
 
     def __post_init__(self):
-        self.answers = [
-            Answer.from_filtered_dict(answer) for answer in self.answers
-        ]
+        self.answers = [Answer.from_filtered_dict(answer) for answer in self.answers]
 
     @classmethod
     def from_filtered_dict(cls, d: dict):
         # Filter unknown fields from JSON dictionary
-        return cls(
-            **{
-                k: v
-                for k, v in d.items()
-                if k in inspect.signature(cls).parameters
-            }
-        )
+        return cls(**{k: v for k, v in d.items() if k in inspect.signature(cls).parameters})

@@ -23,9 +23,7 @@ def comments_for_application_sub_criteria(
 
     """
 
-    comment_metadatas = get_comments_for_application_sub_crit(
-        application_id, sub_criteria_id, theme_id, comment_id
-    )
+    comment_metadatas = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id, comment_id)
 
     return comment_metadatas
 

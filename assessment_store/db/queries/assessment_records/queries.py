@@ -55,9 +55,7 @@ def get_metadata_for_application(
     )
 
     result = db.session.scalar(statement)
-    metadata_serializer = AssessmentRecordMetadata(
-        exclude=("jsonb_blob", "application_json_md5")
-    )
+    metadata_serializer = AssessmentRecordMetadata(exclude=("jsonb_blob", "application_json_md5"))
     return metadata_serializer.dump(result)
 
 
@@ -100,33 +98,21 @@ def get_metadata_for_fund_round_id(
         )
     )
     if search_term != "":
-        current_app.logger.info(
-            f"Performing assessment search on search term: {search_term} in fields {search_in}"
-        )
+        current_app.logger.info(f"Performing assessment search on search term: {search_term} in fields {search_in}")
         search_term = search_term.replace(" ", "%")
 
         filters = []
         if "short_id" in search_in:
             filters.append(AssessmentRecord.short_id.ilike(f"%{search_term}%"))
         if "project_name" in search_in:
-            filters.append(
-                AssessmentRecord.project_name.ilike(f"%{search_term}%")
-            )
+            filters.append(AssessmentRecord.project_name.ilike(f"%{search_term}%"))
         if "organisation_name" in search_in:
-            filters.append(
-                func.cast(AssessmentRecord.organisation_name, String).ilike(
-                    f"%{search_term}%"
-                )
-            )
+            filters.append(func.cast(AssessmentRecord.organisation_name, String).ilike(f"%{search_term}%"))
 
         statement = statement.filter(or_(*filters))
 
     if cohort != "ALL" and cohort != "":
-        statement = statement.filter(
-            or_(
-                func.cast(AssessmentRecord.cohort, String).ilike(f"%{cohort}%")
-            )
-        )
+        statement = statement.filter(or_(func.cast(AssessmentRecord.cohort, String).ilike(f"%{cohort}%")))
 
     if filter_by_tag and filter_by_tag.casefold() != "all":
         assessment_records_by_tag_id = (
@@ -139,91 +125,44 @@ def get_metadata_for_fund_round_id(
             )
             .all()
         )
-        record_ids_with_tag_id = [
-            record.application_id for record in assessment_records_by_tag_id
-        ]
-        statement = statement.where(
-            AssessmentRecord.application_id.in_(record_ids_with_tag_id)
-        )
+        record_ids_with_tag_id = [record.application_id for record in assessment_records_by_tag_id]
+        statement = statement.where(AssessmentRecord.application_id.in_(record_ids_with_tag_id))
 
     if "all" not in countries:
-        current_app.logger.info(
-            f"Performing assessment search on countries: {countries}."
-        )
-        statement = statement.where(
-            AssessmentRecord.location_json_blob["country"].astext.ilike(
-                func.any_(countries)
-            )
-        )
+        current_app.logger.info(f"Performing assessment search on countries: {countries}.")
+        statement = statement.where(AssessmentRecord.location_json_blob["country"].astext.ilike(func.any_(countries)))
 
     if asset_type != "ALL" and asset_type != "":
-        current_app.logger.info(
-            f"Performing assessment search on asset type: {asset_type}."
-        )
+        current_app.logger.info(f"Performing assessment search on asset type: {asset_type}.")
         statement = statement.where(AssessmentRecord.asset_type == asset_type)
 
     if country != "" and country != "ALL":
-        current_app.logger.info(
-            f"Performing assessment search on country: {country}."
-        )
-        statement = statement.where(
-            AssessmentRecord.location_json_blob["country"].astext == country
-        )
+        current_app.logger.info(f"Performing assessment search on country: {country}.")
+        statement = statement.where(AssessmentRecord.location_json_blob["country"].astext == country)
 
     if region != "" and region != "ALL":
-        current_app.logger.info(
-            f"Performing assessment search on region: {region}."
-        )
-        statement = statement.where(
-            AssessmentRecord.location_json_blob["region"].astext == region
-        )
+        current_app.logger.info(f"Performing assessment search on region: {region}.")
+        statement = statement.where(AssessmentRecord.location_json_blob["region"].astext == region)
 
     if datasets != "" and datasets != "ALL":
-        datasets = (
-            True
-            if str(datasets).lower() == "yes" or datasets is True
-            else False
-        )
-        current_app.logger.info(
-            f"Performing assessment search on datasets: {datasets}."
-        )
-        statement = statement.where(
-            cast(AssessmentRecord.datasets, String) == str(datasets).lower()
-        )
+        datasets = True if str(datasets).lower() == "yes" or datasets is True else False
+        current_app.logger.info(f"Performing assessment search on datasets: {datasets}.")
+        statement = statement.where(cast(AssessmentRecord.datasets, String) == str(datasets).lower())
 
     if publish_datasets != "" and publish_datasets != "ALL":
-        current_app.logger.info(
-            f"Performing assessment search on publish_datasets: {publish_datasets}."
-        )
+        current_app.logger.info(f"Performing assessment search on publish_datasets: {publish_datasets}.")
         if publish_datasets == "None":
-            statement = statement.where(
-                AssessmentRecord.publish_datasets.is_(None)
-            )
+            statement = statement.where(AssessmentRecord.publish_datasets.is_(None))
         else:
-            statement = statement.where(
-                cast(AssessmentRecord.publish_datasets, String).ilike(
-                    f"%{publish_datasets}%"
-                )
-            )
+            statement = statement.where(cast(AssessmentRecord.publish_datasets, String).ilike(f"%{publish_datasets}%"))
 
     if team_in_place != "" and team_in_place != "ALL":
-        team_in_place = (
-            True
-            if str(team_in_place).lower() == "yes" or team_in_place is True
-            else False
-        )
-        current_app.logger.info(
-            f"Performing assessment search on team_in_place: {team_in_place}."
-        )
-        statement = statement.where(
-            cast(AssessmentRecord.team_in_place, String)
-            == str(team_in_place).lower()
-        )
+        team_in_place = True if str(team_in_place).lower() == "yes" or team_in_place is True else False
+        current_app.logger.info(f"Performing assessment search on team_in_place: {team_in_place}.")
+        statement = statement.where(cast(AssessmentRecord.team_in_place, String) == str(team_in_place).lower())
 
     if local_authority != "" and local_authority != "ALL":
-        current_app.logger.info(
-            f"Performing assessment search on local_authority: {local_authority}."
-        )
+        current_app.logger.info(f"Performing assessment search on local_authority: {local_authority}.")
 
         subquery = (
             select(AssessmentRecord.application_id).where(
@@ -234,30 +173,21 @@ def get_metadata_for_fund_round_id(
             )
         ).subquery()
 
-        statement = statement.where(
-            AssessmentRecord.application_id.in_(subquery)
-        )
+        statement = statement.where(AssessmentRecord.application_id.in_(subquery))
 
     if funding_type != "ALL" and funding_type != "":
-        current_app.logger.info(
-            f"Performing assessment search on funding type: {funding_type}."
-        )
+        current_app.logger.info(f"Performing assessment search on funding type: {funding_type}.")
         # TODO SS figure out how to stop double quoting this - it works but is ugly
         # it's because when we retrieve the json element as funding_type, we get it as a json element, not pure text,
         # so it has the double quotes from the json so we have to include them in the comparison
-        statement = statement.where(
-            func.cast(AssessmentRecord.funding_type, String)
-            == f'"{funding_type}"'
-        )
+        statement = statement.where(func.cast(AssessmentRecord.funding_type, String) == f'"{funding_type}"')
 
     assessment_metadatas = db.session.scalars(statement).all()
 
     if status != "ALL":
         filter_assessments = []
         for assessment in assessment_metadatas:
-            all_latest_status = [
-                flag.latest_status for flag in assessment.flags
-            ]
+            all_latest_status = [flag.latest_status for flag in assessment.flags]
             is_qa_complete = True if assessment.qa_complete else False
 
             if FlagStatus.STOPPED in all_latest_status:
@@ -276,19 +206,14 @@ def get_metadata_for_fund_round_id(
 
         assessment_metadatas = filter_assessments
 
-    metadata_serialiser = AssessmentRecordMetadata(
-        exclude=("jsonb_blob", "application_json_md5")
-    )
+    metadata_serialiser = AssessmentRecordMetadata(exclude=("jsonb_blob", "application_json_md5"))
 
     assessment_metadatas = [
-        metadata_serialiser.dump(app_metadata)
-        | {"is_qa_complete": True if app_metadata.qa_complete else False}
+        metadata_serialiser.dump(app_metadata) | {"is_qa_complete": True if app_metadata.qa_complete else False}
         for app_metadata in assessment_metadatas
     ]
 
-    assessment_metadatas_with_recent_tags = update_tag_associations(
-        assessment_metadatas
-    )
+    assessment_metadatas_with_recent_tags = update_tag_associations(assessment_metadatas)
     return assessment_metadatas_with_recent_tags
 
 
@@ -316,9 +241,7 @@ def bulk_insert_application_record(
         if not is_json:
             single_application_json = json.loads(single_application_json)
         if not application_type:
-            application_type = "".join(
-                single_application_json["reference"].split("-")[:1]
-            )
+            application_type = "".join(single_application_json["reference"].split("-")[:1])
 
         derived_values = derive_application_values(single_application_json)
 
@@ -336,9 +259,9 @@ def bulk_insert_application_record(
         try:
             stmt = postgres_insert(AssessmentRecord).values([row])
 
-            upsert_rows_stmt = stmt.on_conflict_do_nothing(
-                index_elements=[AssessmentRecord.application_id]
-            ).returning(AssessmentRecord.application_id)
+            upsert_rows_stmt = stmt.on_conflict_do_nothing(index_elements=[AssessmentRecord.application_id]).returning(
+                AssessmentRecord.application_id
+            )
 
             print(f"Attempting insert of application {row['application_id']}")
             result = db.session.execute(upsert_rows_stmt)
@@ -346,28 +269,19 @@ def bulk_insert_application_record(
             # Check if the inserted application is in result
             inserted_application_ids = [item.application_id for item in result]
             if not len(inserted_application_ids):
-                print(
-                    f"Application id already exist in the database: {row['application_id']}"
-                )
+                print(f"Application id already exist in the database: {row['application_id']}")
             rows.append(row)
             db.session.commit()
             del single_application_json
         except exc.SQLAlchemyError as e:
             db.session.rollback()
-            print(
-                f"Error occurred while inserting application {row['application_id']}, error: {e}"
-            )
+            print(f"Error occurred while inserting application {row['application_id']}, error: {e}")
 
-    print(
-        "Inserted application_ids (i.e. application rows) :"
-        f" {[row['application_id'] for row in rows]}"
-    )
+    print("Inserted application_ids (i.e. application rows) :" f" {[row['application_id'] for row in rows]}")
     return rows
 
 
-def insert_application_record(
-    application_json_string: str, application_type: str, is_json=False
-) -> AssessmentRecord:
+def insert_application_record(application_json_string: str, application_type: str, is_json=False) -> AssessmentRecord:
     """insert_application_record Given a json strings and an `application_type` we
     extract key values from the json strings before inserting them with the
     remaining values into `db.models.AssessmentRecord`.
@@ -380,9 +294,7 @@ def insert_application_record(
         application_json_string = json.loads(application_json_string)
 
     if not application_type:
-        application_type = "".join(
-            application_json_string["reference"].split("-")[:1]
-        )
+        application_type = "".join(application_json_string["reference"].split("-")[:1])
 
     derived_values = derive_application_values(application_json_string)
 
@@ -394,9 +306,9 @@ def insert_application_record(
     try:
         stmt = postgres_insert(AssessmentRecord).values([row])
 
-        upsert_rows_stmt = stmt.on_conflict_do_nothing(
-            index_elements=[AssessmentRecord.application_id]
-        ).returning(AssessmentRecord.application_id)
+        upsert_rows_stmt = stmt.on_conflict_do_nothing(index_elements=[AssessmentRecord.application_id]).returning(
+            AssessmentRecord.application_id
+        )
 
         print(f"Attempting insert of application {row['application_id']}")
         result = db.session.execute(upsert_rows_stmt)
@@ -404,19 +316,13 @@ def insert_application_record(
         # Check if the inserted application is in result
         inserted_application_ids = [item.application_id for item in result]
         if not len(inserted_application_ids):
-            print(
-                f"Application id already exist in the database: {row['application_id']}"
-            )
+            print(f"Application id already exist in the database: {row['application_id']}")
         else:
-            print(
-                f"Successfully inserted application_id  : {row['application_id']} "
-            )
+            print(f"Successfully inserted application_id  : {row['application_id']} ")
         db.session.commit()
     except exc.SQLAlchemyError as e:
         db.session.rollback()
-        print(
-            f"Error occurred while inserting application {row['application_id']}, error: {e}"
-        )
+        print(f"Error occurred while inserting application {row['application_id']}, error: {e}")
     return row
 
 
@@ -457,8 +363,7 @@ def find_answer_by_key_runner(field_key: str, app_id: str) -> List[tuple]:
         db.session.query(
             func.jsonb_path_query_first(
                 AssessmentRecord.jsonb_blob,
-                "$.forms[*].questions[*].fields[*] ? (@.key =="
-                f' "{field_key}")',
+                "$.forms[*].questions[*].fields[*] ? (@.key ==" f' "{field_key}")',
             )
         )
         .filter(AssessmentRecord.application_id == app_id)
@@ -615,13 +520,8 @@ def bulk_update_location_jsonb_blob(application_ids_to_location_data):
 
 
 def update_status_to_completed(application_id):
-    current_app.logger.info(
-        "Updating application status to COMPLETED"
-        f" for application: {application_id}."
-    )
-    db.session.query(AssessmentRecord).filter(
-        AssessmentRecord.application_id == application_id
-    ).update(
+    current_app.logger.info("Updating application status to COMPLETED" f" for application: {application_id}.")
+    db.session.query(AssessmentRecord).filter(AssessmentRecord.application_id == application_id).update(
         {AssessmentRecord.workflow_status: Status.COMPLETED},
         synchronize_session=False,
     )
@@ -629,9 +529,7 @@ def update_status_to_completed(application_id):
     db.session.commit()
 
 
-def get_assessment_records_score_data_by_round_id(
-    round_id, selected_fields=None, language=None
-):  # noqa
+def get_assessment_records_score_data_by_round_id(round_id, selected_fields=None, language=None):  # noqa
     """Retrieve the latest scores and associated information for each subcriteria
     of AssessmentRecords matching the given round_id.
 
@@ -658,9 +556,7 @@ def get_assessment_records_score_data_by_round_id(
     if selected_fields is None:
         selected_fields = default_fields
 
-    selected_fields = [
-        field for field in selected_fields if field in default_fields
-    ]
+    selected_fields = [field for field in selected_fields if field in default_fields]
     subquery = (
         db.session.query(
             Score.application_id,
@@ -700,9 +596,7 @@ def get_assessment_records_score_data_by_round_id(
     for score in latest_scores:
         score_data = {
             "Application ID": score.application_id,
-            "Short ID": AssessmentRecord.query.get(
-                score.application_id
-            ).short_id,
+            "Short ID": AssessmentRecord.query.get(score.application_id).short_id,
             "Score Subcriteria": score.sub_criteria_id,
             "Score": score.score,
             "Score Justification": score.justification,
@@ -711,9 +605,7 @@ def get_assessment_records_score_data_by_round_id(
             "Scorer Name": get_account_name(score.user_id),
         }
 
-        selected_score_data = {
-            field: score_data[field] for field in selected_fields
-        }
+        selected_score_data = {field: score_data[field] for field in selected_fields}
         output.append(selected_score_data)
     return output
 
@@ -736,9 +628,7 @@ def associate_assessment_tags(application_id, tags: List):
 
         if incoming_tag_id and not _existing_tags:
             # If no existing tags are found, create a new tag(s) with incoming tags info.
-            current_app.logger.info(
-                f"Creating new tag(s) for {incoming_tag_id}"
-            )
+            current_app.logger.info(f"Creating new tag(s) for {incoming_tag_id}")
             create_tag(application_id, incoming_tag_id, True, incoming_user_id)
 
         if incoming_tag_id and _existing_tags:
@@ -752,13 +642,9 @@ def associate_assessment_tags(application_id, tags: List):
                 )[1]
                 # If it's already associated, skip, otherwise, create a new associated tag.
                 if most_recent_tag.associated:
-                    current_app.logger.info(
-                        f"Tag is alreday associated: { most_recent_tag.tag_id}"
-                    )
+                    current_app.logger.info(f"Tag is alreday associated: { most_recent_tag.tag_id}")
                 else:
-                    current_app.logger.info(
-                        f"Creating new tag: {incoming_tag_id}"
-                    )
+                    current_app.logger.info(f"Creating new tag: {incoming_tag_id}")
                     create_tag(
                         application_id,
                         incoming_tag_id,
@@ -767,18 +653,14 @@ def associate_assessment_tags(application_id, tags: List):
                     )
             else:
                 current_app.logger.info(f"Creating new tag: {incoming_tag_id}")
-                create_tag(
-                    application_id, incoming_tag_id, True, incoming_user_id
-                )
+                create_tag(application_id, incoming_tag_id, True, incoming_user_id)
 
         if not incoming_tag_id:
             filterted_tags = filter_tags(tags, _existing_tags)
             for filterted_tag in filterted_tags:
                 most_recent_tag = max(filterted_tag, key=lambda x: x[0])[1]
                 if most_recent_tag.associated:
-                    current_app.logger.info(
-                        f"Dis-associating existing associated tag_id: {most_recent_tag.tag_id}"
-                    )
+                    current_app.logger.info(f"Dis-associating existing associated tag_id: {most_recent_tag.tag_id}")
                     create_tag(
                         application_id,
                         most_recent_tag.tag_id,
@@ -789,9 +671,7 @@ def associate_assessment_tags(application_id, tags: List):
 
     # Retrieve all records for a specific application_id
     subquery = (
-        TagAssociation.query.filter(
-            TagAssociation.application_id == application_id
-        )
+        TagAssociation.query.filter(TagAssociation.application_id == application_id)
         .order_by(TagAssociation.tag_id, desc(TagAssociation.created_at))
         .distinct(TagAssociation.tag_id)
         .subquery()
@@ -799,17 +679,10 @@ def associate_assessment_tags(application_id, tags: List):
 
     # Use a subquery to get the most recent record for each tag_id
     alias = aliased(TagAssociation, subquery)
-    recent_records = (
-        db.session.query(alias)
-        .order_by(alias.tag_id, desc(alias.created_at))
-        .distinct(alias.tag_id)
-        .all()
-    )
+    recent_records = db.session.query(alias).order_by(alias.tag_id, desc(alias.created_at)).distinct(alias.tag_id).all()
 
     # Check if the most recent record for each tag_id has associated set to True
-    associated_tags = [
-        record for record in recent_records if record.associated
-    ]
+    associated_tags = [record for record in recent_records if record.associated]
     return associated_tags
 
 
@@ -831,8 +704,7 @@ def select_active_tags_associated_with_assessment(application_id):
         query = (
             query.join(
                 AssessmentRecord,
-                TagAssociation.application_id
-                == AssessmentRecord.application_id,
+                TagAssociation.application_id == AssessmentRecord.application_id,
             )
             .join(Tag, Tag.id == TagAssociation.tag_id)
             .join(TagType, Tag.type_id == TagType.id)
@@ -881,9 +753,7 @@ def select_active_tags_associated_with_assessment(application_id):
         tag_associations = query.all()
 
         # Step 7: Check if the first record for each tag_id has associated set to True
-        associated_tags = [
-            record for record in tag_associations if record.associated
-        ]
+        associated_tags = [record for record in tag_associations if record.associated]
 
         return associated_tags
 
@@ -920,9 +790,7 @@ def select_all_tags_associated_with_application(application_id):
     return tag_associations
 
 
-def get_assessment_export_data(
-    fund_id: str, round_id: str, report_type: str, list_of_fields: dict
-):
+def get_assessment_export_data(fund_id: str, round_id: str, report_type: str, list_of_fields: dict):
     en_statement = select(AssessmentRecord).where(
         AssessmentRecord.fund_id == fund_id,
         AssessmentRecord.round_id == round_id,
@@ -973,9 +841,7 @@ def get_export_data(
 
     for assessment in assessment_metadatas:
         iso_format = "%Y-%m-%dT%H:%M:%S.%f"
-        iso_datetime = datetime.strptime(
-            assessment.jsonb_blob["date_submitted"], iso_format
-        )
+        iso_datetime = datetime.strptime(assessment.jsonb_blob["date_submitted"], iso_format)
         formatted_date = iso_datetime.strftime("%d/%m/%Y %H:%M:%S")
 
         applicant_info = {
@@ -991,36 +857,19 @@ def get_export_data(
                     fields = question["fields"]
                     for field in fields:
                         if field["key"] in field_ids:
-                            title = form_fields[field["key"]][language][
-                                "title"
-                            ]
-                            field_type = form_fields[field["key"]][
-                                language
-                            ].get("field_type", field["type"])
+                            title = form_fields[field["key"]][language]["title"]
+                            field_type = form_fields[field["key"]][language].get("field_type", field["type"])
 
                             # filter 'null' values from the address field
                             # TODO: Remove this filter after FS-4021
-                            if (
-                                field["answer"]
-                                and field_type == "ukAddressField"
-                            ):
+                            if field["answer"] and field_type == "ukAddressField":
                                 address_parts = field["answer"].split(", ")
-                                answer = ", ".join(
-                                    [
-                                        part
-                                        for part in address_parts
-                                        if part != "null"
-                                    ]
-                                )
+                                answer = ", ".join([part for part in address_parts if part != "null"])
                             else:
                                 answer = field["answer"]
 
-                            if (
-                                answer and field_type == "freeText"
-                            ):  # for `freeText` type, extract the plain text
-                                answer = BeautifulSoup(
-                                    answer, "html.parser"
-                                ).get_text(
+                            if answer and field_type == "freeText":  # for `freeText` type, extract the plain text
+                                answer = BeautifulSoup(answer, "html.parser").get_text(
                                     strip=True
                                 )  # Extract text, strip extra whitespace
                             if field_type == "list" and not isinstance(
@@ -1028,9 +877,7 @@ def get_export_data(
                             ):  # Adding check for bool since yesno fields are considered lists
                                 answer = format_lists(answer)
                             applicant_info[title] = answer
-            applicant_info = add_missing_elements_with_empty_values(
-                applicant_info, form_fields, language
-            )
+            applicant_info = add_missing_elements_with_empty_values(applicant_info, form_fields, language)
         final_list.append(applicant_info)
 
     if report_type == "OUTPUT_TRACKER":
@@ -1045,9 +892,7 @@ def get_export_data(
 
 
 # adds missing elements for use in the csv
-def add_missing_elements_with_empty_values(
-    applicant_info, form_fields, language
-):
+def add_missing_elements_with_empty_values(applicant_info, form_fields, language):
     result_data = applicant_info.copy()
 
     for key, value in form_fields.items():
@@ -1075,9 +920,7 @@ def combine_dicts(applications_list, scores_list):
 
     for application in applications_list:
         app_id = application["Application ID"]
-        matching_scores = [
-            score for score in scores_list if score["Application ID"] == app_id
-        ]
+        matching_scores = [score for score in scores_list if score["Application ID"] == app_id]
         if matching_scores:
             for score in matching_scores:
                 combined_element = {**application, **score}

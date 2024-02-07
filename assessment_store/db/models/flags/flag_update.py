@@ -29,9 +29,7 @@ class FlagUpdate(BaseModel):
         ForeignKey("assessment_flag.id"),
     )
     user_id = Column("user_id", String, nullable=False)
-    date_created = Column(
-        "date_created", db.DateTime(), server_default=func.now()
-    )
+    date_created = Column("date_created", db.DateTime(), server_default=func.now())
     justification = Column("justification", String)
     status = Column("status", ENUM(FlagStatus))
     allocation = Column("allocation", String)

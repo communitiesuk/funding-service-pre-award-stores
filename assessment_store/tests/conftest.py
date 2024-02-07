@@ -29,9 +29,7 @@ with open("tests/test_data/hand-crafted-apps.json", "r") as f:
 
 
 @pytest.fixture(scope="function")
-def seed_application_records(
-    request, app, clear_test_data, enable_preserve_test_data, _db
-):
+def seed_application_records(request, app, clear_test_data, enable_preserve_test_data, _db):
     """Inserts test assessment_record data into the unit test DB according to
     what's supplied using the marker apps_to_insert.
 
@@ -66,9 +64,7 @@ def seed_application_records(
         app_tags = []
         if "app_tags" in app:
             app_tags = app.pop("app_tags")
-        inserted_application = bulk_insert_application_record(
-            [app], "COF", True
-        )[0]
+        inserted_application = bulk_insert_application_record([app], "COF", True)[0]
         app["flags"] = app_flags
         app["app_tags"] = app_tags
         inserted_applications.append(inserted_application)
@@ -130,9 +126,7 @@ def seed_tags(
 
     fund_id_test = str(uuid4())
     round_id_test = str(uuid4())
-    inserted_tags = insert_tags(
-        tags_correct_format, fund_id_test, round_id_test
-    )
+    inserted_tags = insert_tags(tags_correct_format, fund_id_test, round_id_test)
     serialiser = TagSchema()
     serialised_associated_tags = [serialiser.dump(r) for r in inserted_tags]
     yield serialised_associated_tags
@@ -188,16 +182,12 @@ def seed_scoring_system(
     _db.session.commit()
 
     for scoring_system in scoring_system_for_rounds:
-        insert_scoring_system_for_round_id(
-            scoring_system["round_id"], scoring_system["scoring_system"]
-        )
+        insert_scoring_system_for_round_id(scoring_system["round_id"], scoring_system["scoring_system"])
     yield
 
 
 @pytest.fixture(scope="function")
-def get_tag_types(
-    request, app, clear_test_data, enable_preserve_test_data, _db
-):
+def get_tag_types(request, app, clear_test_data, enable_preserve_test_data, _db):
     tag_type = TagType(
         id=uuid4(),
         purpose=uuid4(),

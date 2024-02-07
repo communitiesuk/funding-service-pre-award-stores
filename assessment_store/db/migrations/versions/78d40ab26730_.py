@@ -24,16 +24,12 @@ def upgrade():
         sa.Column("section_to_flag", sa.Text(), nullable=False),
         sa.Column(
             "flag_type",
-            postgresql.ENUM(
-                "FLAGGED", "STOPPED", "QA_COMPLETED", name="flagtype"
-            ),
+            postgresql.ENUM("FLAGGED", "STOPPED", "QA_COMPLETED", name="flagtype"),
             nullable=False,
         ),
         sa.Column(
             "resolution_reason",
-            postgresql.ENUM(
-                "QUERY_RESOLVED", "STOP_ASSESSMENT", name="resolutiontype"
-            ),
+            postgresql.ENUM("QUERY_RESOLVED", "STOP_ASSESSMENT", name="resolutiontype"),
             nullable=True,
         ),
         sa.Column("application_id", postgresql.UUID(), nullable=True),

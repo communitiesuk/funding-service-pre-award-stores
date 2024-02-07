@@ -24,15 +24,10 @@ def mock_request_get_application(request):
     appcount = request.getfixturevalue("appcount")
     fund_round_config = {fundround: fund_round_mapping_config[fundround]}
     application_json_strings = row_data(appcount, 1, 1, fund_round_config)
-    application_json_list = [
-        json.loads(application_json)
-        for application_json in application_json_strings
-    ]
+    application_json_list = [json.loads(application_json) for application_json in application_json_strings]
     with (
         mock.patch("requests.get", return_value=Response()),
-        mock.patch(
-            "requests.Response.json", return_value=application_json_list
-        ),
+        mock.patch("requests.Response.json", return_value=application_json_list),
     ):
         yield application_json_list
 
@@ -51,9 +46,7 @@ def mock_args(request):
         app_type = request.getfixturevalue("app_type")
         with mock.patch(
             "argparse.ArgumentParser.parse_args",
-            return_value=Namespace(
-                roundid=roundid, app_type=app_type, fundround=None
-            ),
+            return_value=Namespace(roundid=roundid, app_type=app_type, fundround=None),
         ) as args:
             yield args
 

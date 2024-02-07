@@ -15,11 +15,7 @@ from db.queries.assessment_records.queries import (
 def get_application_form(app_json_blob):
     """Returns list of all questions from application form."""
 
-    return [
-        questions
-        for forms in app_json_blob["jsonb_blob"]["forms"]
-        for questions in forms["questions"]
-    ]
+    return [questions for forms in app_json_blob["jsonb_blob"]["forms"] for questions in forms["questions"]]
 
 
 def get_postcode_from_questions(form_questions, fundround) -> str:
@@ -38,15 +34,11 @@ def get_postcode_from_questions(form_questions, fundround) -> str:
                 answer = field["answer"]
                 raw_postcode = answer.split(",")[-1]
                 if raw_postcode:
-                    raw_postcode = (
-                        raw_postcode.strip().replace(" ", "").upper()
-                    )
+                    raw_postcode = raw_postcode.strip().replace(" ", "").upper()
 
     if not raw_postcode:
         raw_postcode = "Not Available"
-        print(
-            f"The location key {location_key} is not found in the form_questions!"
-        )
+        print(f"The location key {location_key} is not found in the form_questions!")
 
     return raw_postcode
 
@@ -55,9 +47,7 @@ def get_all_application_ids_for_fund_round(fund_id, round_id) -> list:
     """Returns a list of tuples (application_id, application_short_id) in
     assessment_store for the given fund and round IDs."""
     metadata = get_metadata_for_fund_round_id(fund_id, round_id, "", "", "")
-    application_ids = [
-        (item["application_id"], item["short_id"]) for item in metadata
-    ]
+    application_ids = [(item["application_id"], item["short_id"]) for item in metadata]
     return application_ids
 
 
@@ -122,16 +112,8 @@ def extract_location_data(json_data_item):
     details = json_data_item["result"]
     postcode = json_data_item["query"]
     if details:
-        region = (
-            details["region"]
-            if details["region"]
-            else details["european_electoral_region"]
-        )
-        county = (
-            details["admin_county"]
-            if details["admin_county"]
-            else details["admin_district"]
-        )
+        region = details["region"] if details["region"] else details["european_electoral_region"]
+        county = details["admin_county"] if details["admin_county"] else details["admin_district"]
         result = {
             postcode: {
                 "error": False,
@@ -154,10 +136,7 @@ def get_all_location_data(just_postcodes) -> dict:
     # postcode.io API postcode query limit
     print(f"Getting address information for {len(just_postcodes)} postcodes.")
     max_len = 99
-    just_postcodes_sub_lists = [
-        just_postcodes[i : i + max_len]  # noqa
-        for i in range(0, len(just_postcodes), max_len)
-    ]
+    just_postcodes_sub_lists = [just_postcodes[i : i + max_len] for i in range(0, len(just_postcodes), max_len)]  # noqa
 
     postcode_result_chunks = []
     for sub_list in just_postcodes_sub_lists:
@@ -171,21 +150,14 @@ def get_all_location_data(just_postcodes) -> dict:
             postcode = postcode_data_item["query"]
             location_data = extract_location_data(postcode_data_item)
             if location_data[postcode]["error"]:
-                print(
-                    "There was a problem extracting address"
-                    f" information for postcode: {postcode}."
-                )
+                print("There was a problem extracting address" f" information for postcode: {postcode}.")
                 fail_count += 1
             postcodes_to_location_data[postcode] = location_data[postcode]
-    print(
-        f"Failed to retrieve address information for {fail_count} postcodes."
-    )
+    print(f"Failed to retrieve address information for {fail_count} postcodes.")
     return postcodes_to_location_data
 
 
-def update_db_with_location_data(
-    application_ids_to_postcodes, postcodes_to_location_data
-):
+def update_db_with_location_data(application_ids_to_postcodes, postcodes_to_location_data):
     """Reformats the data into a map of application_ids to location details and
     then updates the DB to bulk update the location data."""
     application_ids_to_location_data = [
@@ -195,16 +167,11 @@ def update_db_with_location_data(
         }
         for application_id, postcode in application_ids_to_postcodes.items()
     ]
-    print(
-        "Updating assessment records with postcode matched address"
-        " information."
-    )
+    print("Updating assessment records with postcode matched address" " information.")
     bulk_update_location_jsonb_blob(application_ids_to_location_data)
 
 
-def write_locations_to_csv(
-    application_ids_to_postcodes, postcodes_to_location_data, file_path
-):
+def write_locations_to_csv(application_ids_to_postcodes, postcodes_to_location_data, file_path):
     """Writes the supplied list of application IDs and location to a CSV file."""
     with open(file_path, "w", newline="") as csvfile:
         fieldnames = [
@@ -219,6 +186,4 @@ def write_locations_to_csv(
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         for k, v in application_ids_to_postcodes.items():
-            writer.writerow(
-                {"application_id": k[1], **postcodes_to_location_data[v]}
-            )
+            writer.writerow({"application_id": k[1], **postcodes_to_location_data[v]})

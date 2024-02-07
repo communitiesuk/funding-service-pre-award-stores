@@ -20,9 +20,7 @@ from tests.test_data.flags import flag_config
 def test_create_flag(_db, seed_application_records):
     app_id = seed_application_records[0]["application_id"]
 
-    stmt = select(AssessmentRecord).where(
-        AssessmentRecord.application_id == app_id
-    )
+    stmt = select(AssessmentRecord).where(AssessmentRecord.application_id == app_id)
     results = _db.session.scalars(stmt).all()
 
     assert len(results) == 1
@@ -40,24 +38,18 @@ def test_create_flag(_db, seed_application_records):
     create_result = add_flag_for_application(**flag_data)
     assert create_result.latest_status == FlagStatus.RAISED
 
-    stmt = select(AssessmentRecord).where(
-        AssessmentRecord.application_id == app_id
-    )
+    stmt = select(AssessmentRecord).where(AssessmentRecord.application_id == app_id)
     results = _db.session.scalars(stmt).all()
 
     assert len(results) == 1
     assert len(results[0].flags) == 1
 
 
-@pytest.mark.apps_to_insert(
-    [{**test_input_data[0], "flags": [flag_config[0]]}]
-)
+@pytest.mark.apps_to_insert([{**test_input_data[0], "flags": [flag_config[0]]}])
 def test_add_flag_update(_db, seed_application_records):
     app_id = seed_application_records[0]["application_id"]
 
-    stmt = select(AssessmentRecord).where(
-        AssessmentRecord.application_id == app_id
-    )
+    stmt = select(AssessmentRecord).where(AssessmentRecord.application_id == app_id)
     results = _db.session.scalars(stmt).all()
 
     assert len(results) == 1
@@ -69,14 +61,9 @@ def test_add_flag_update(_db, seed_application_records):
         **add_flag_update_request_json,
         assessment_flag_id=results[0].flags[0].id,
     )
-    assert (
-        updated_flag.latest_allocation
-        == add_flag_update_request_json["allocation"]
-    )
+    assert updated_flag.latest_allocation == add_flag_update_request_json["allocation"]
 
-    stmt = select(AssessmentRecord).where(
-        AssessmentRecord.application_id == app_id
-    )
+    stmt = select(AssessmentRecord).where(AssessmentRecord.application_id == app_id)
     results = _db.session.scalars(stmt).all()
 
     assert len(results) == 1
@@ -86,9 +73,7 @@ def test_add_flag_update(_db, seed_application_records):
     assert results[0].flags[0].latest_allocation == "TEAM_2"
 
 
-@pytest.mark.apps_to_insert(
-    [{**test_input_data[0], "flags": [flag_config[0]]}]
-)
+@pytest.mark.apps_to_insert([{**test_input_data[0], "flags": [flag_config[0]]}])
 def test_get_flags_for_application(_db, seed_application_records):
     app_id = seed_application_records[0]["application_id"]
     result = get_flags_for_application(app_id)
@@ -145,12 +130,8 @@ def test_get_most_recent_metadata_statuses_for_fund_round_id(
         get_metadata_for_fund_round_id,
     )
 
-    app_1 = get_assessment_record(
-        seed_application_records[0]["application_id"]
-    )
-    app_2 = get_assessment_record(
-        seed_application_records[1]["application_id"]
-    )
+    app_1 = get_assessment_record(seed_application_records[0]["application_id"])
+    app_2 = get_assessment_record(seed_application_records[1]["application_id"])
     app_1.workflow_status = Status.IN_PROGRESS
     app_2.workflow_status = Status.COMPLETED
     _db.session.add_all([app_1, app_2])

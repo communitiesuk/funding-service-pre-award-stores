@@ -55,9 +55,7 @@ def get_scores_for_app_sub_crit(
 
     metadata_serialiser = ScoreMetadata()
 
-    score_metadatas = [
-        metadata_serialiser.dump(score_row) for score_row in score_rows
-    ]
+    score_metadatas = [metadata_serialiser.dump(score_row) for score_row in score_rows]
 
     return score_metadatas
 
@@ -120,9 +118,7 @@ def get_sub_criteria_to_latest_score_map(application_id: str) -> dict:
 
 
 def get_scoring_system_for_round_id(round_id: str) -> dict:
-    stmt = select(
-        AssessmentRound.scoring_system, AssessmentRound.round_id
-    ).where(AssessmentRound.round_id == round_id)
+    stmt = select(AssessmentRound.scoring_system, AssessmentRound.round_id).where(AssessmentRound.round_id == round_id)
 
     scoring_system = db.session.execute(stmt).one()
     metadata_serialiser = AssessmentRoundMetadata()
@@ -131,9 +127,7 @@ def get_scoring_system_for_round_id(round_id: str) -> dict:
     return processed_scoring_system
 
 
-def insert_scoring_system_for_round_id(
-    round_id: str, scoring_system: str
-) -> dict:
+def insert_scoring_system_for_round_id(round_id: str, scoring_system: str) -> dict:
     scoring_system = AssessmentRound(
         round_id=round_id,
         scoring_system=scoring_system,

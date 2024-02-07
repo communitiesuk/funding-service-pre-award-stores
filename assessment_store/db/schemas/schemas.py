@@ -97,9 +97,7 @@ class AssessorTaskListMetadata(AssessmentRecordMetadata):
     into json for return in http responses."""
 
     short_id = auto_field(data_key="short_id")
-    date_submitted = Field(
-        data_key="date_submitted", attribute="jsonb_blob.date_submitted"
-    )
+    date_submitted = Field(data_key="date_submitted", attribute="jsonb_blob.date_submitted")
 
 
 class AssessmentSubCriteriaMetadata(AssessmentRecordMetadata):

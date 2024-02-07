@@ -42,7 +42,5 @@ class AssessmentFlag(BaseModel):
     )
     latest_status = Column("latest_status", ENUM(FlagStatus))
     latest_allocation = Column("latest_allocation", String)
-    sections_to_flag = db.Column(
-        "sections_to_flag", ARRAY(db.String(256)), nullable=True
-    )
+    sections_to_flag = db.Column("sections_to_flag", ARRAY(db.String(256)), nullable=True)
     updates = relationship("FlagUpdate", lazy="selectin")

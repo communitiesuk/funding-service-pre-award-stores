@@ -6,12 +6,11 @@ repos:
     language_version: python3
     args:
       - --target-version=py310
-- repo: https://github.com/PyCQA/flake8
-  rev: 6.1.0
-  hooks:
-  - id: flake8
-    args:
-      - --max-line-length=120
+-   repo: https://github.com/PyCQA/flake8
+    rev: 7.0.0
+    hooks:
+    - id: flake8
+      additional_dependencies: [Flake8-pyproject]
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.5.0
   hooks:

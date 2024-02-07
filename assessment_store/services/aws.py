@@ -4,10 +4,7 @@ from config import Config
 from fsd_utils.services.aws import SQSClient
 
 
-if (
-    getenv("PRIMARY_QUEUE_URL", "Primary Queue URL Not Set")
-    == "Primary Queue URL Not Set"
-):
+if getenv("PRIMARY_QUEUE_URL", "Primary Queue URL Not Set") == "Primary Queue URL Not Set":
     _SQS_CLIENT = SQSClient(
         aws_access_key_id=Config.AWS_ACCESS_KEY_ID,
         aws_secret_access_key=Config.AWS_SECRET_ACCESS_KEY,

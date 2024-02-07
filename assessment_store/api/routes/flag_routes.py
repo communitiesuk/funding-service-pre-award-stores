@@ -53,9 +53,7 @@ def get_team_flag_stats(
             latest_status = flag.get("latest_status")
             allocated_team = flag.get("latest_allocation")
 
-            if allocated_team not in [
-                team["team_name"] for team in team_flag_stats
-            ]:
+            if allocated_team not in [team["team_name"] for team in team_flag_stats]:
                 team_flag_stats.append(create_team_dict(allocated_team))
 
             for team in team_flag_stats:
@@ -86,9 +84,7 @@ def get_all_flags_for_application(application_id):
 
 def create_flag_for_application():
     create_flag_json = request.json
-    current_app.logger.info(
-        f"Create flag for application {create_flag_json['application_id']}"
-    )
+    current_app.logger.info(f"Create flag for application {create_flag_json['application_id']}")
     created_flag = add_flag_for_application(**create_flag_json)
     return AssessmentFlagSchema().dump(created_flag)
 

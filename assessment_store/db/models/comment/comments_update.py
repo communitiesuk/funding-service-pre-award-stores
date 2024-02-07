@@ -24,6 +24,4 @@ class CommentsUpdate(db.Model):
 
     comment = Column("comment", db.Text(), nullable=False)
 
-    date_created = Column(
-        "date_created", db.DateTime(), server_default=func.now()
-    )
+    date_created = Column("date_created", db.DateTime(), server_default=func.now())
