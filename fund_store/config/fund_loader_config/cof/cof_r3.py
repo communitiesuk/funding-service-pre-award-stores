@@ -20,7 +20,7 @@ COF_FUND_ID = fund_config["id"]
 COF_ROUND_3_WINDOW_1_ID = "e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762"
 COF_ROUND_3_WINDOW_2_ID = "6af19a5e-9cae-4f00-9194-cf10d2d7c8a7"
 COF_ROUND_3_WINDOW_3_ID = "4efc3263-aefe-4071-b5f4-0910abec12d2"
-COF_EOI_ROUND_id = "19e81b86-15b2-4c9b-bde9-925300b603f3"
+COF_EOI_ROUND_ID = "19e81b86-15b2-4c9b-bde9-925300b603f3"
 
 APPLICATION_BASE_PATH_COF_R3_W1 = ".".join([str(COF_R3_W1_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH_COF_R3_W1 = ".".join([str(COF_R3_W1_BASE_PATH), str(2)])
@@ -941,7 +941,7 @@ round_config_w3 = [
 
 round_config_eoi = [
     {
-        "id": COF_EOI_ROUND_id,
+        "id": COF_EOI_ROUND_ID,
         "fund_id": COF_FUND_ID,
         "title_json": {"en": "EOI", "cy": "EOI"},
         "short_name": "EOI",
