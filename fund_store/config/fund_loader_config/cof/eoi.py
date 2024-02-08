@@ -2,6 +2,7 @@ from datetime import datetime
 from datetime import timezone
 
 from config.fund_loader_config.cof.shared import COF_APPLICATION_GUIDANCE
+from config.fund_loader_config.cof.shared import fund_config
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     COF_EOI_BASE_PATH,
 )
@@ -30,20 +31,7 @@ fund_config = {
         "cy": "",
     },
     "short_name": "COF-EOI",
-    "description_json": {
-        "en": (
-            "The Community Ownership Fund is a £150 million fund over 4 years"
-            " to support community groups across England, Wales, Scotland and"
-            " Northern Ireland to take ownership of assets which are at risk"
-            " of being lost to the community."
-        ),
-        "cy": (  # TODO: Provide welsh translation
-            "The Community Ownership Fund is a £150 million fund over 4 years"
-            " to support community groups across England, Wales, Scotland and"
-            " Northern Ireland to take ownership of assets which are at risk"
-            " of being lost to the community."
-        ),
-    },
+    "description_json": fund_config["description_json"],
     "welsh_available": True,
     "owner_organisation_name": "Department for Levelling Up, Housing and Communities",
     "owner_organisation_shortname": "DLUHC",
@@ -119,7 +107,7 @@ round_config_eoi = [
     {
         "id": COF_EOI_ROUND_ID,
         "fund_id": COF_FUND_ID,
-        "title_json": {"en": "EOI", "cy": "EOI"},
+        "title_json": {"en": "Expression of interest", "cy": ""},
         "short_name": "R1",
         "opens": COF_EOI_OPENS_DATE,
         "assessment_start": None,
