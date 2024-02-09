@@ -28,8 +28,6 @@ babel==2.11.0
     # via
     #   -r requirements.txt
     #   flask-babel
-bandit==1.7.4
-    # via -r requirements-dev.in
 beautifulsoup4==4.12.2
     # via
     #   -r requirements.txt
@@ -87,7 +85,6 @@ clickclick==20.10.2
     #   connexion
 colorama==0.4.6
     # via
-    #   bandit
     #   build
     #   click
     #   pytest
@@ -162,10 +159,6 @@ flupy==1.2.0
     #   alembic-utils
 funding-service-design-utils==2.0.34
     # via -r requirements.txt
-gitdb==4.0.9
-    # via gitpython
-gitpython==3.1.37
-    # via bandit
 greenlet==3.0.1
     # via
     #   -r requirements.txt
@@ -370,7 +363,6 @@ pytz==2022.6
 pyyaml==6.0
     # via
     #   -r requirements.txt
-    #   bandit
     #   clickclick
     #   connexion
     #   funding-service-design-utils
@@ -452,8 +444,6 @@ sqlalchemy-utils==0.41.1
     # via
     #   -r requirements.txt
     #   funding-service-design-utils
-stevedore==4.1.1
-    # via bandit
 stringcase==1.2.0
     # via
     #   -r requirements.txt
