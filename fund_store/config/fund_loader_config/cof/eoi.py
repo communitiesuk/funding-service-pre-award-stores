@@ -2,7 +2,7 @@ from datetime import datetime
 from datetime import timezone
 
 from config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA
-from config.fund_loader_config.cof.shared import COF_APPLICATION_GUIDANCE
+from config.fund_loader_config.cof.shared import EOI_APPLICATION_GUIDANCE
 from config.fund_loader_config.cof.shared import fund_config
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     COF_EOI_BASE_PATH,
@@ -28,7 +28,7 @@ fund_config = {
         "cy": "Y Cronfa Perchnogaeth Gymunedol",
     },
     "title_json": {
-        "en": "an expression of interest in applying for Community",
+        "en": "expression of interest in applying for Community Ownership Fund",
         "cy": "",
     },
     "short_name": "COF-EOI",
@@ -137,7 +137,7 @@ round_config_eoi = [
             "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
         ),
         "project_name_field_id": "",
-        "application_guidance": COF_APPLICATION_GUIDANCE,
+        "application_guidance": EOI_APPLICATION_GUIDANCE,
         "guidance_url": (
             "https://www.gov.uk/government/publications/community-ownership-fund-round-3-application-form"
             "-assessment-criteria-guidance"
