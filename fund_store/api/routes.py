@@ -81,8 +81,7 @@ def get_fund(fund_id):
     abort(404)
 
 
-def get_round(fund_id, round_id):
-    language = request.args.get("language", "en").replace("?", "")
+def get_round_from_db(fund_id, round_id) -> Round:
     short_name_arg = request.args.get("use_short_name")
     use_short_name = short_name_arg and strtobool(short_name_arg)
 
@@ -90,10 +89,23 @@ def get_round(fund_id, round_id):
         round = get_round_by_short_name(fund_id, round_id)
     else:
         round = get_round_by_id(fund_id, round_id)
+    return round
+
+
+def get_round(fund_id, round_id):
+    round = get_round_from_db(fund_id, round_id)
+    language = request.args.get("language", "en").replace("?", "")
     if round:
         serialiser = RoundSchema()
         return filter_round_by_lang(round_data=serialiser.dump(round), lang_key=language)
 
+    abort(404)
+
+
+def get_eoi_deicision_schema_for_round(fund_id, round_id):
+    round = get_round_from_db(fund_id=fund_id, round_id=round_id)
+    if round:
+        return round.eoi_decision_schema or {}
     abort(404)
 
 

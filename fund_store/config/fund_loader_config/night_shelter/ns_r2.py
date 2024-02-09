@@ -214,5 +214,6 @@ round_config = [
             "is_section_feedback_optional": True,
         },
         "eligibility_config": {"has_eligibility": False},
+        "eoi_decision_schema": None,
     }
 ]

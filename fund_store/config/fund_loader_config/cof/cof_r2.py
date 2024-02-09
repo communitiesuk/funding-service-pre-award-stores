@@ -70,6 +70,7 @@ rounds_config = [
             "is_section_feedback_optional": True,
         },
         "eligibility_config": {"has_eligibility": False},
+        "eoi_decision_schema": None,
     },
     {
         "id": COF_ROUND_2_WINDOW_3_ID,
@@ -122,6 +123,7 @@ rounds_config = [
             "is_section_feedback_optional": True,
         },
         "eligibility_config": {"has_eligibility": False},
+        "eoi_decision_schema": None,
     },
 ]
 

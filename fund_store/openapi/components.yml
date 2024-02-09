@@ -81,6 +81,8 @@ components:
           - opens
           - deadline
           - assessment_deadline
+    EoiDecisionSchema:
+        type: object
     Error:
       type: object
       properties:

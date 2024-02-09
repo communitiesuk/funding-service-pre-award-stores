@@ -43,7 +43,7 @@ paths:
         - name: use_short_name
           in: query
           schema:
-            type: string
+            type: boolean
           required: false
       responses:
         200:
@@ -88,6 +88,42 @@ paths:
             application/json:
               schema:
                 $ref: 'components.yml#/components/schemas/Round'
+        404:
+          description: "Round not found from given fund id and round id."
+          content:
+              application/json:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Error'
+  /funds/{fund_id}/rounds/{round_id}/eoi_decision_schema:
+    get:
+      tags:
+        - Rounds
+      summary: Returns the EOI decision schema for the specified round
+      description: Given a fund ID and a round ID we return the relavant round data.
+      operationId: api.routes.get_eoi_deicision_schema_for_round
+      parameters:
+        - $ref: "components.yml#/components/parameters/fund_id"
+        - name: round_id
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: language
+          in: query
+          schema:
+            type: string
+        - name: use_short_name
+          in: query
+          schema:
+            type: boolean
+          required: false
+      responses:
+        200:
+          description: "If the round exists then the data is returned."
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/EoiDecisionSchema'
         404:
           description: "Round not found from given fund id and round id."
           content:

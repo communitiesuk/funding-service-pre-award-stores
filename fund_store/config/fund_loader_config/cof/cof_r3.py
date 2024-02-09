@@ -37,6 +37,7 @@ COF_R3W3_OPENS_DATE = datetime(2023, 12, 6, 11, 00, 0, tzinfo=timezone.utc)  # 2
 COF_R3W3_SEND_REMINDER_DATE = datetime(2024, 1, 29, 11, 59, 0, tzinfo=timezone.utc)  # 2024-01-29 11:59:00
 COF_R3W3_DEADLINE_DATE = datetime(2024, 1, 31, 11, 59, 0, tzinfo=timezone.utc)  # 2024-01-31 11:59:00
 COF_R3W3_ASSESSMENT_DEADLINE_DATE = datetime(2024, 2, 23, 12, 0, 0, tzinfo=timezone.utc)  # 2024-02-23 12:00:00
+
 COF_EOI_OPENS_DATE = datetime(2024, 3, 6, 11, 00, 0, tzinfo=timezone.utc)  # 2023-12-06 11:00:00
 COF_EOI_DEADLINE_DATE = datetime(2124, 3, 6, 11, 59, 0, tzinfo=timezone.utc)  # 2124-03-06 11:59:00
 COF_EOI_ASSESSMENT_DEADLINE_DATE = datetime(2124, 3, 6, 12, 0, 0, tzinfo=timezone.utc)  # 2124-03-06 12:00:00
@@ -759,6 +760,7 @@ round_config = [
             "is_section_feedback_optional": True,
         },
         "eligibility_config": {"has_eligibility": False},
+        "eoi_decision_schema": None,
     }
 ]
 
@@ -811,6 +813,7 @@ round_config_w2 = [
             "is_section_feedback_optional": False,
         },
         "eligibility_config": {"has_eligibility": False},
+        "eoi_decision_schema": None,
     },
 ]
 
@@ -864,5 +867,6 @@ round_config_w3 = [
             "is_section_feedback_optional": False,
         },
         "eligibility_config": {"has_eligibility": False},
+        "eoi_decision_schema": None,
     }
 ]
