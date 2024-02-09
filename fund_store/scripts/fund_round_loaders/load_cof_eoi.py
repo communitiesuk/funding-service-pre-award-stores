@@ -1,10 +1,10 @@
 # flake8: noqa
-from config.fund_loader_config.cof.cof_r3 import APPLICATION_BASE_PATH_COF_EOI
-from config.fund_loader_config.cof.cof_r3 import ASSESSMENT_BASE_PATH_COF_EOI
-from config.fund_loader_config.cof.cof_r3 import COF_EOI_ROUND_ID
-from config.fund_loader_config.cof.cof_r3 import cof_eoi_sections
-from config.fund_loader_config.cof.cof_r3 import fund_config
-from config.fund_loader_config.cof.cof_r3 import round_config_eoi
+from config.fund_loader_config.cof.eoi import APPLICATION_BASE_PATH_COF_EOI
+from config.fund_loader_config.cof.eoi import ASSESSMENT_BASE_PATH_COF_EOI
+from config.fund_loader_config.cof.eoi import COF_EOI_ROUND_ID
+from config.fund_loader_config.cof.eoi import cof_eoi_sections
+from config.fund_loader_config.cof.eoi import fund_config
+from config.fund_loader_config.cof.eoi import round_config_eoi
 from db.queries import insert_base_sections
 from db.queries import insert_fund_data
 from db.queries import insert_or_update_application_sections
