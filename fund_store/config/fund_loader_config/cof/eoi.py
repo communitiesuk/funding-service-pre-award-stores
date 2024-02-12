@@ -46,6 +46,7 @@ cof_eoi_sections = [
             "cy": "",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1",
+        "requires_feedback": True,
     },
     {
         "section_name": {
@@ -148,7 +149,7 @@ round_config_eoi = [
         "mark_as_complete_enabled": False,
         "feedback_survey_config": {
             "has_feedback_survey": False,
-            "has_section_feedback": False,
+            "has_section_feedback": True,
             "is_feedback_survey_optional": False,
             "is_section_feedback_optional": False,
         },
