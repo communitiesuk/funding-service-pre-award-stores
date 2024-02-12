@@ -98,7 +98,7 @@ cof_eoi_sections = [
             "cy": "",
         },
         "form_name_json": {
-            "en": "cof-eoi-declatation",
+            "en": "cof-eoi-declaration",
             "cy": "",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.5",
