@@ -151,7 +151,7 @@ round_config_eoi = [
             "has_feedback_survey": False,
             "has_section_feedback": True,
             "is_feedback_survey_optional": False,
-            "is_section_feedback_optional": False,
+            "is_section_feedback_optional": True,
         },
         "eligibility_config": {"has_eligibility": False},
         "eoi_decision_schema": COF_R3_EOI_SCHEMA,
