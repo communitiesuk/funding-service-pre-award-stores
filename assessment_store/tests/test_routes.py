@@ -38,12 +38,14 @@ def test_get_assessments_stats(client, seed_application_records):
     # Get test applications
     applications = client.get(f"/application_overviews/{fund_id}/{round_id}").json
 
-    assessment_stats = client.get(f"/assessments/get-stats/{fund_id}/{round_id}").json
+    request = client.post(f"/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
+    assessment_stats = request.json.get(round_id)
     assert assessment_stats["qa_completed"] == 0
 
     create_qa_complete_record(applications[0]["application_id"], "usera")
 
-    assessment_stats = client.get(f"/assessments/get-stats/{fund_id}/{round_id}").json
+    request = client.post(f"/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
+    assessment_stats = request.json.get(round_id)
     assert assessment_stats["qa_completed"] == 1
 
     create_qa_complete_record(applications[1]["application_id"], "usera")
@@ -57,7 +59,8 @@ def test_get_assessments_stats(client, seed_application_records):
         allocation="Assessor",
     ).id
 
-    assessment_stats = client.get(f"/assessments/get-stats/{fund_id}/{round_id}").json
+    request = client.post(f"/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
+    assessment_stats = request.json.get(round_id)
     assert assessment_stats["flagged"] == 1
     assert assessment_stats["qa_completed"] == 1
 
@@ -69,7 +72,8 @@ def test_get_assessments_stats(client, seed_application_records):
         assessment_flag_id=flag_id,
     )
 
-    assessment_stats = client.get(f"/assessments/get-stats/{fund_id}/{round_id}").json
+    request = client.post(f"/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
+    assessment_stats = request.json.get(round_id)
 
     assert assessment_stats["flagged"] == 0
     assert assessment_stats["qa_completed"] == 2

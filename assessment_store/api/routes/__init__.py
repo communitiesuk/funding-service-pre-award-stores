@@ -1,6 +1,7 @@
 from .assessment_routes import all_assessments_for_fund_round_id
 from .assessment_routes import assessment_metadata_for_application_id
 from .assessment_routes import assessment_stats_for_fund_round_id
+from .assessment_routes import assessment_stats_for_multiple_round_ids
 from .assessment_routes import get_all_uploaded_document_theme_answers
 from .assessment_routes import get_application_data_for_export
 from .assessment_routes import get_application_json
@@ -47,6 +48,7 @@ __all__ = [
     "get_banner_state",
     "get_progress_for_applications",
     "assessment_stats_for_fund_round_id",
+    "assessment_stats_for_multiple_round_ids",
     "post_progress_for_applications",
     "update_ar_status_to_completed",
     "get_application_json",

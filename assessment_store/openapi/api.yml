@@ -153,82 +153,88 @@ paths:
                 type: array
                 items:
                   $ref: 'components.yml#/components/schemas/Assessment'
-  '/assessments/get-stats/{fund_id}/{round_id}':
-    parameters:
-      - name: fund_id
-        in: path
+  '/assessments/get-stats/{fund_id}':
+    post:
+      parameters:
+        - name: fund_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: path
+        - name: search_term
+          in: query
+          style: form
+          schema:
+            type: string
+            format: query
+          required: false
+          explode: true
+        - name: asset_type
+          in: query
+          style: form
+          schema:
+            type: string
+            format: query
+          required: false
+          explode: true
+        - name: status
+          in: query
+          style: form
+          schema:
+            type: string
+            format: query
+          required: false
+          explode: true
+        - name: search_in
+          in: query
+          style: form
+          schema:
+            type: string
+            format: query
+          required: false
+          explode: true
+        - name: funding_type
+          in: query
+          style: form
+          schema:
+            type: string
+            format: query
+          required: false
+          explode: true
+        - name: countries
+          in: query
+          style: form
+          schema:
+            type: string
+            format: query
+          required: false
+          explode: true
+      requestBody:
         required: true
-        schema:
-          type: string
-          format: path
-      - name: round_id
-        in: path
-        required: true
-        schema:
-          type: string
-          format: path
-      - name: search_term
-        in: query
-        style: form
-        schema:
-          type: string
-          format: query
-        required: false
-        explode: true
-      - name: asset_type
-        in: query
-        style: form
-        schema:
-          type: string
-          format: query
-        required: false
-        explode: true
-      - name: status
-        in: query
-        style: form
-        schema:
-          type: string
-          format: query
-        required: false
-        explode: true
-      - name: search_in
-        in: query
-        style: form
-        schema:
-          type: string
-          format: query
-        required: false
-        explode: true
-      - name: funding_type
-        in: query
-        style: form
-        schema:
-          type: string
-          format: query
-        required: false
-        explode: true
-      - name: countries
-        in: query
-        style: form
-        schema:
-          type: string
-          format: query
-        required: false
-        explode: true
-    get:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                round_ids:
+                  type: array
+                  items:
+                    type: string
       tags:
         - assessments
-      summary: Get assessment stats
-      description: Get a selection of required metrics
-      operationId: api.routes.assessment_stats_for_fund_round_id
+      summary: Get assessment stats for multiple rounds
+      description: Get a selection of required metrics for multiple rounds
+      operationId: api.routes.assessment_stats_for_multiple_round_ids
       responses:
         200:
-          description: SUCCESS - A collection of assessment metrics
+          description: SUCCESS - A mapping of round_id to a collection of assessment metrics
           content:
             application/json:
               schema:
                 type: object
-                $ref: 'components.yml#/components/schemas/AssessmentsStats'
+                additionalProperties:
+                  $ref: 'components.yml#/components/schemas/AssessmentsStats'
   '/assessments/get-team-flag-stats/{fund_id}/{round_id}':
     parameters:
       - name: fund_id

@@ -35,6 +35,7 @@ from db.queries.qa_complete.queries import (
 )
 from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
 from flask import current_app
+from flask import request
 
 
 def assessment_metadata_for_application_id(application_id: str) -> Dict:
@@ -180,6 +181,31 @@ def get_all_uploaded_document_theme_answers(application_id: str):
 def update_ar_status_to_completed(application_id: str):
     """Function updates the status to COMPLETE for the given application_id."""
     update_status_to_completed(application_id)
+
+
+def assessment_stats_for_multiple_round_ids(
+    fund_id: str,
+    search_term: str = "",
+    asset_type: str = "ALL",
+    status: str = "ALL",
+    search_in: str = "",
+    funding_type: str = "ALL",
+    countries: str = "all",
+):
+    round_ids = request.get_json().get("round_ids") or []
+    return {
+        round_id: assessment_stats_for_fund_round_id(
+            fund_id,
+            round_id,
+            search_term,
+            asset_type,
+            status,
+            search_in,
+            funding_type,
+            countries,
+        )
+        for round_id in round_ids
+    }
 
 
 def assessment_stats_for_fund_round_id(
