@@ -88,6 +88,10 @@ class AssessmentRecord(BaseModel):
                 jsonb_blob,
                 '$.forms[*].questions[*].fields[*] ? (@.key == "nYJiWy").answer',
             ),
+            func.jsonb_path_query_first(
+                jsonb_blob,
+                '$.forms[*].questions[*].fields[*] ? (@.key == "SMRWjl").answer',
+            ),
         )
     )
     local_authority = column_property(
@@ -136,6 +140,12 @@ class AssessmentRecord(BaseModel):
         func.jsonb_path_query_first(
             jsonb_blob,
             '$.forms[*].questions[*].fields[*] ? (@.key == "WSaPbE").answer',
+        )
+    )
+    lead_contact_email = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "NQoGIm").answer',
         )
     )
 

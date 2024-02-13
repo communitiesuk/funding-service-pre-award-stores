@@ -1,6 +1,9 @@
 # flake8: noqa
 from uuid import uuid4
 
+from config.mappings.cof_mapping_parts.eoi_unscored_sections import (
+    unscored_sections as cof_unscored_sections_eoi,
+)
 from config.mappings.cof_mapping_parts.r2_scored_criteria import (
     scored_criteria as cof_scored_criteria_r2,
 )
@@ -51,6 +54,8 @@ COF_ROUND_2_W3_ID = "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f"
 COF_ROUND_3_W1_ID = "e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762"
 COF_ROUND_3_W2_ID = "6af19a5e-9cae-4f00-9194-cf10d2d7c8a7"
 COF_ROUND_3_W3_ID = "4efc3263-aefe-4071-b5f4-0910abec12d2"
+COF_EOI_FUND_ID = "54c11ec2-0b16-46bb-80d2-f210e47a8791"
+COF_EOI_ROUND_ID = "6a47c649-7bac-4583-baed-9c4e7a35c8b3"
 
 NSTF_FUND_ID = "13b95669-ed98-4840-8652-d6b7a19964db"
 NSTF_ROUND_2_ID = "fc7aa604-989e-4364-98a7-d1234271435a"
@@ -93,6 +98,11 @@ fund_round_to_assessment_mapping = {
         "schema_id": "cof_r3w3_assessment",
         "unscored_sections": cof_unscored_sections_r3w3,
         "scored_criteria": cof_scored_criteria_r3w3,
+    },
+    f"{COF_EOI_FUND_ID}:{COF_EOI_ROUND_ID}": {
+        "schema_id": "cof_eoi_assessment",
+        "unscored_sections": cof_unscored_sections_eoi,
+        "scored_criteria": [],
     },
     f"{CYP_FUND_ID}:{CYP_ROUND_1_ID}": {
         "schema_id": "cyp_r1_assessment",
@@ -144,6 +154,12 @@ fund_round_data_key_mappings = {
         "funding_one": "ABROnB",
         "funding_two": ["tSKhQQ", "UyaAHw"],
         "funding_field_type": "multiInputField",
+    },
+    "COFEOI": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
     },
     "NSTFR2": {
         "location": "mhYQzL",
@@ -246,6 +262,7 @@ applicant_info_mapping = {
         },
         "OUTPUT_TRACKER": {},
     },
+    COF_EOI_FUND_ID: {},
     CYP_FUND_ID: {
         "ASSESSOR_EXPORT": {
             "form_fields": {
@@ -332,6 +349,11 @@ fund_round_mapping_config = {
         "fund_id": COF_FUND_ID,
         "round_id": COF_ROUND_3_W3_ID,
         "type_of_application": "COF",
+    },
+    "COFEOI": {
+        "fund_id": COF_EOI_FUND_ID,
+        "round_id": COF_EOI_ROUND_ID,
+        "type_of_application": "COF-EOI",
     },
     "NSTFR2": {
         "fund_id": NSTF_FUND_ID,

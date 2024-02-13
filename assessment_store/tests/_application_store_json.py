@@ -7096,3 +7096,443 @@ dpifr2_application_store_json_template = Template(
 }
 """
 )
+
+cof_eoi_application_store_json_template = Template(
+    """
+    {
+    "id": "$app_id",
+    "language": "en",
+    "fund_id": "$fund_id",
+    "last_edited": "2024-02-12T13:41:23.369370",
+    "project_name": null,
+    "reference": "$short_ref",
+    "round_id": "$round_id",
+    "round_name": "Expression of interest",
+    "started_at": "2024-02-12T13:34:42.569005",
+    "status": "SUBMITTED",
+    "account_id": "1e8884e2-b043-427f-ba09-7ec2ca409ef0",
+    "date_submitted": "2024-02-12T13:41:26.297195",
+    "forms": [
+      {
+    "name": "cof-eoi-details",
+    "questions": [
+        {
+            "category": "eAEGhH",
+            "fields": [
+                {
+                    "answer": "Test Org",
+                    "key": "SMRWjl",
+                    "title": "Organisation name",
+                    "type": "text"
+                },
+                {
+                    "answer": true,
+                    "key": "SxkwhF",
+                    "title": "Does your organisation have any alternative names?",
+                    "type": "list"
+                }
+            ],
+            "question": "Organisation names",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "eAEGhH",
+            "fields": [
+                {
+                    "answer": "Test org alt",
+                    "key": "qkNYMP",
+                    "title": "Alternative name 1",
+                    "type": "text"
+                },
+                {
+                    "answer": null,
+                    "key": "mVxvon",
+                    "title": "Alternative name 2",
+                    "type": "text"
+                },
+                {
+                    "answer": null,
+                    "key": "DaIVVm",
+                    "title": "Alternative name 3",
+                    "type": "text"
+                }
+            ],
+            "question": "Alternative names of your organisation",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "eAEGhH",
+            "fields": [
+                {
+                    "answer": "001 cemetery lane, null, Chelmsford, null, ss12ss",
+                    "key": "OpeSdM",
+                    "title": "Organisation address",
+                    "type": "text"
+                }
+            ],
+            "question": "Organisation address",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "eAEGhH",
+            "fields": [
+                {
+                    "answer": "Charitable incorporated organisation",
+                    "key": "uYiLsv",
+                    "title": "Organisation classification",
+                    "type": "list"
+                }
+            ],
+            "question": "How your organisation is classified",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "eAEGhH",
+            "fields": [
+                {
+                    "answer": true,
+                    "key": "NcQSbU",
+                    "title": "Is your organisation subject to any insolvency actions?",
+                    "type": "list"
+                }
+            ],
+            "question": "Is your organisation subject to any insolvency actions?",
+            "status": "COMPLETED"
+        }
+    ],
+    "status": "COMPLETED"
+},
+{
+    "name": "cof-eoi-support",
+    "questions": [
+        {
+            "category": "IEwDfr",
+            "fields": [
+                {
+                    "answer": true,
+                    "key": "iXmKyq",
+                    "title": "Do you wish to be contacted by the development support provider, if eligible for in-depth support?",
+                    "type": "list"
+                }
+            ],
+            "question": "Do you wish to be contacted by the development support provider, if eligible for in-depth support?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "IEwDfr",
+            "fields": [
+                {
+                    "answer": "<p>Test main things</p>",
+                    "key": "ObIBSx",
+                    "title": "What are the main things you feel you need support with to submit a good COF application?",
+                    "type": "freeText"
+                }
+            ],
+            "question": "What are the main things you feel you need support with to submit a good COF application?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "IEwDfr",
+            "fields": [
+                {
+                    "answer": "<p>Test Describe</p>",
+                    "key": "MxzEYq",
+                    "title": "Describe your project and its aims",
+                    "type": "freeText"
+                }
+            ],
+            "question": "Describe your project and its aims",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "IEwDfr",
+            "fields": [
+                {
+                    "answer": "Test name lead",
+                    "key": "xWnVof",
+                    "title": "Name of lead contact",
+                    "type": "text"
+                },
+                {
+                    "answer": "a@a.com",
+                    "key": "NQoGIm",
+                    "title": "Lead contact email address",
+                    "type": "text"
+                },
+                {
+                    "answer": "1515665",
+                    "key": "srxZmv",
+                    "title": "Lead contact telephone number",
+                    "type": "text"
+                }
+            ],
+            "question": "Lead contact details",
+            "status": "COMPLETED"
+        }
+    ],
+    "status": "COMPLETED"
+},
+{
+    "name": "cof-eoi-declaration",
+    "questions": [
+        {
+            "fields": [
+                {
+                    "answer": "confirm",
+                    "key": "YRDRQa",
+                    "title": "I confirm",
+                    "type": "list"
+                }
+            ],
+            "question": "Declaration",
+            "status": "COMPLETED"
+        }
+    ],
+    "status": "COMPLETED"
+},
+{
+    "name": "cof-eoi-funding",
+    "questions": [
+        {
+            "category": "seZPbt",
+            "fields": [
+                {
+                    "answer": [
+                        "Renovate a leasehold"
+                    ],
+                    "key": "aocRmv",
+                    "title": "What do you plan to use COF's funding for?",
+                    "type": "list"
+                }
+            ],
+            "question": "What do you plan to use COF's funding for?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "seZPbt",
+            "fields": [
+                {
+                    "answer": true,
+                    "key": "foQgiy",
+                    "title": "Will the leasehold have at least 15 years when your organisation submits a full application?",
+                    "type": "list"
+                }
+            ],
+            "question": "Will the leasehold have at least 15 years when your organisation submits a full application?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "seZPbt",
+            "fields": [
+                {
+                    "answer": "75678678",
+                    "key": "fZAMFv",
+                    "title": "How much capital funding are you requesting from COF?",
+                    "type": "text"
+                }
+            ],
+            "question": "How much capital funding are you requesting from COF?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "seZPbt",
+            "fields": [
+                {
+                    "answer": true,
+                    "key": "oblxxv",
+                    "title": "Do you plan to request any revenue funding?",
+                    "type": "list"
+                }
+            ],
+            "question": "Do you plan to request any revenue funding?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "seZPbt",
+            "fields": [
+                {
+                    "answer": true,
+                    "key": "eOWKoO",
+                    "title": "Do you plan to secure match funding?",
+                    "type": "list"
+                }
+            ],
+            "question": "Do you plan to secure match funding? (either cash or in-kind)",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "seZPbt",
+            "fields": [
+                {
+                    "answer": [
+                        "Community share offer"
+                    ],
+                    "key": "BykoQQ",
+                    "title": "In-kind match funding",
+                    "type": "list"
+                },
+                {
+                    "answer": [
+                        "Fundraising in your community"
+                    ],
+                    "key": "qgytim",
+                    "title": "Cash match funding",
+                    "type": "list"
+                },
+                {
+                    "answer": [
+                        "Not sure"
+                    ],
+                    "key": "daJkaD",
+                    "title": "Or",
+                    "type": "list"
+                }
+            ],
+            "question": "Where do you plan to source match funding?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "seZPbt",
+            "fields": [
+                {
+                    "answer": true,
+                    "key": "yZxdeJ",
+                    "title": "Does your project include an element of housing?",
+                    "type": "list"
+                }
+            ],
+            "question": "Does your project include an element of housing?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "seZPbt",
+            "fields": [
+                {
+                    "answer": "Yes",
+                    "key": "UORyaF",
+                    "title": "Will you need planning permission for your project?",
+                    "type": "list"
+                }
+            ],
+            "question": "Will you need planning permission for your project?",
+            "status": "COMPLETED"
+        }
+    ],
+    "status": "COMPLETED"
+},
+{
+    "name": "cof-eoi-asset",
+    "questions": [
+        {
+            "category": "McpePG",
+            "fields": [
+                {
+                    "answer": true,
+                    "key": "eEaDGz",
+                    "title": "Does your organisation plan both to receive the funding and run the project?",
+                    "type": "list"
+                }
+            ],
+            "question": "Does your organisation plan both to receive the funding and run the project?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "McpePG",
+            "fields": [
+                {
+                    "answer": "Community centre",
+                    "key": "Ihjjyi",
+                    "title": "Type of asset",
+                    "type": "list"
+                }
+            ],
+            "question": "Type of asset",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "McpePG",
+            "fields": [
+                {
+                    "answer": true,
+                    "key": "zurxox",
+                    "title": "Is the asset based in the UK?",
+                    "type": "list"
+                }
+            ],
+            "question": "Is the asset based in the UK?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "McpePG",
+            "fields": [
+                {
+                    "answer": "002 That way, test, Test town, null, aa59dd",
+                    "key": "dnqIdW",
+                    "title": "Address of the asset",
+                    "type": "text"
+                }
+            ],
+            "question": "Address of the asset",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "McpePG",
+            "fields": [
+                {
+                    "answer": true,
+                    "key": "lLQmNb",
+                    "title": "Is the asset at risk?",
+                    "type": "list"
+                }
+            ],
+            "question": "Is the asset at risk?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "McpePG",
+            "fields": [
+                {
+                    "answer": [
+                        "Closure or end of lease"
+                    ],
+                    "key": "ilMbMH",
+                    "title": "What is the risk to the asset?",
+                    "type": "list"
+                }
+            ],
+            "question": "What is the risk to the asset?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "McpePG",
+            "fields": [
+                {
+                    "answer": true,
+                    "key": "fBhSNc",
+                    "title": "Has the asset ever been used by or had significance to the community?",
+                    "type": "list"
+                }
+            ],
+            "question": "Has the asset ever been used by or had significance to the community?",
+            "status": "COMPLETED"
+        },
+        {
+            "category": "McpePG",
+            "fields": [
+                {
+                    "answer": true,
+                    "key": "cPcZos",
+                    "title": "Do you already own the asset?",
+                    "type": "list"
+                }
+            ],
+            "question": "Do you already own the asset?",
+            "status": "COMPLETED"
+        }
+    ],
+    "status": "COMPLETED"
+}
+  ]
+  }
+"""
+)
