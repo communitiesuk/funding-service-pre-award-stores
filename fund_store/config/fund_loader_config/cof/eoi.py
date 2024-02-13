@@ -28,7 +28,7 @@ fund_config = {
         "cy": "Y Cronfa Perchnogaeth Gymunedol",
     },
     "title_json": {
-        "en": "expression of interest in applying for Community Ownership Fund",
+        "en": "expression of interest in applying for the Community Ownership Fund",
         "cy": "",
     },
     "short_name": "COF-EOI",
@@ -129,9 +129,9 @@ round_config_eoi = [
         "support_days": "Monday to Friday",
         "instructions": (
             "You must complete this Expression of Interest (EOI) form if you"
-            " areinterested in applying for the Community Ownership Fund (COF). <a"
+            " are interested in applying for the Community Ownership Fund (COF). <a"
             ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus"'
-            " Read the fund's prospectus before you start.</a>."
+            " Read the fund's prospectus before you start.</a>"
         ),
         "feedback_link": (
             "https://forms.office.com/Pages/ResponsePage.aspx?id="
