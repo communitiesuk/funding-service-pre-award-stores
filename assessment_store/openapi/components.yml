@@ -233,26 +233,6 @@ components:
           oneOf:
             - type: string
             - type: array
-    Sub_criteria_theme:
-      type: array
-      items:
-        type: object
-        properties:
-          presentation_type:
-            type: string
-          question:
-            oneOf:
-              - type: string
-              - type: array
-          field_id:
-            oneOf:
-              - type: string
-              - type: array
-          answer:
-            anyOf:
-              - type: string
-              - type: array
-              - nullable: true
     Theme:
       type: object
       properties:

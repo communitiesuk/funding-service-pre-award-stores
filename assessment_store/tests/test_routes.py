@@ -1,12 +1,8 @@
 import json
-import random
 from unittest import mock
 from uuid import uuid4
 
 import pytest
-from api.routes.subcriterias.get_sub_criteria import (
-    map_application_with_sub_criteria_themes,
-)
 from config.mappings.assessment_mapping_fund_round import (
     applicant_info_mapping,
 )
@@ -21,7 +17,6 @@ from tests.conftest import test_input_data
 from tests.test_data.flags import add_flag_update_request_json
 from tests.test_data.flags import create_flag_request_json
 
-from ._expected_responses import subcriteria_themes_and_expected_response
 
 COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
@@ -223,18 +218,6 @@ def test_get_sub_criteria_metadata_for_false_sub_criteria_id(client, seed_applic
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
-def test_get_sub_criteria_theme_answers_field_id(request, client, seed_application_records):
-    """Test to check field_id with given application_id and theme_id."""
-
-    theme_id = "feasibility"
-    application_id = seed_application_records[0]["application_id"]
-
-    response = client.get(f"/sub_criteria_themes/{application_id}/{theme_id}")
-
-    assert response.json[0]["field_id"] == "ieRCkI"
-
-
-@pytest.mark.apps_to_insert([test_input_data[0]])
 def test_update_ar_status_to_completed(request, client, seed_application_records):
     """Test checks that the status code returned by the POST request is 204, which
     indicates that the request was successful and that the application status was
@@ -244,70 +227,6 @@ def test_update_ar_status_to_completed(request, client, seed_application_records
     response = client.post(f"/application/{application_id}/status/complete")
 
     assert response.status_code == 204
-
-
-@pytest.mark.apps_to_insert([test_input_data[0]])
-def test_add_another_presentation_type(request, client, seed_application_records):
-    """Test to check presentation_types for add_another component with given
-    application_id and theme_id."""
-
-    theme_id = "funding_requested"
-    application_id = seed_application_records[0]["application_id"]
-
-    response = client.get(f"/sub_criteria_themes/{application_id}/{theme_id}")
-
-    assert response.status_code == 200
-    assert response.json[0]["presentation_type"] == "grouped_fields"
-    assert response.json[1]["presentation_type"] == "heading"
-    assert response.json[2]["presentation_type"] == "description"
-    assert response.json[3]["presentation_type"] == "amount"
-
-
-@pytest.mark.apps_to_insert([test_input_data[0]])
-def test_incorrect_theme_id(request, client, seed_application_records):
-    """Test to check incorrect theme_id that is expected to return custom error
-    along with the openapi validation error."""
-
-    theme_id = "incorrect-theme-id"
-    application_id = seed_application_records[0]["application_id"]
-
-    response = client.get(f"/sub_criteria_themes/{application_id}/{theme_id}")
-
-    assert "Incorrect theme id" in response.json["detail"]
-
-
-@pytest.mark.apps_to_insert([test_input_data[0]])
-def test_random_theme_content(seed_application_records):
-    """Test the function with random theme id that maps the application &
-    subcriteria theme and returns subcriteria_theme with an answer from
-    application."""
-    application_id = seed_application_records[0]["application_id"]
-    theme_id, expected_response = random.choice(list(subcriteria_themes_and_expected_response.items()))
-    result = map_application_with_sub_criteria_themes(
-        application_id,
-        theme_id,
-        COF_FUND_ID,
-        COF_ROUND_2_W3_ID,
-        "en",
-    )
-
-    assert result[0]["answer"] == expected_response
-
-
-@pytest.mark.apps_to_insert([test_input_data[0]])
-def test_convert_boolean_values(seed_application_records):
-    """Test the function that convert boolean values to "Yes" and "No".
-
-    Args: application_id, theme_id.
-
-    """
-
-    theme_id = "local-support"
-    application_id = seed_application_records[0]["application_id"]
-
-    results = map_application_with_sub_criteria_themes(application_id, theme_id, COF_FUND_ID, COF_ROUND_2_W3_ID, "en,")
-
-    assert [value["answer"] for value in results if value["field_id"] == "KqoaJL"][0] == "No"
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])

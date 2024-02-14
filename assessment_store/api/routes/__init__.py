@@ -2,12 +2,11 @@ from .assessment_routes import all_assessments_for_fund_round_id
 from .assessment_routes import assessment_metadata_for_application_id
 from .assessment_routes import assessment_stats_for_fund_round_id
 from .assessment_routes import assessment_stats_for_multiple_round_ids
-from .assessment_routes import get_all_uploaded_document_theme_answers
 from .assessment_routes import get_application_data_for_export
 from .assessment_routes import get_application_json
+from .assessment_routes import get_application_json_and_sub_criterias
 from .assessment_routes import get_assessor_task_list_state
 from .assessment_routes import get_banner_state
-from .assessment_routes import get_sub_criteria_theme_answers
 from .assessment_routes import sub_criteria
 from .assessment_routes import update_ar_status_to_completed
 from .comment_routes import comments_for_application_sub_criteria
@@ -40,8 +39,7 @@ __all__ = [
     "get_scoring_system_for_round",
     "get_assessor_task_list_state",
     "sub_criteria",
-    "get_sub_criteria_theme_answers",
-    "get_all_uploaded_document_theme_answers",
+    "get_application_json_and_sub_criterias",
     "comments_for_application_sub_criteria",
     "post_comments_for_application_sub_criteria",
     "put_comments_for_application_sub_criteria",
