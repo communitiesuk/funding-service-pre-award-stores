@@ -134,12 +134,13 @@ COF_R3_EOI_SCHEMA = {
             "answerValue": False,
             "result": Eoi_Decision.PASS_WITH_CAVEATS,
             "caveat": (
-                "<p>Consider requesting revenue funding: We encourage all organisations"
+                "Consider requesting revenue funding: We encourage all organisations"
                 " to apply for revenue funding to help cover the initial running costs"
-                " of your project.</p><p>When you apply, you'll need to show us how you"
-                " plan to use any revenue funding. <a"
-                " href='https://www.gov.uk/government/publications/community-ownership-fund-prospectus/community-ownership-fund-prospectus--3#funding-available'>See"  # noqa:E501
-                " Section 9 of the COF prospectus for more guidance</a>.</p>"
+                " of your project. When you apply, you'll need to show us how you"
+                " plan to use any revenue funding."
+                " See [Section 9 of the COF prospectus for more"
+                " guidance](https://www.gov.uk/government/publications/community-"
+                "ownership-fund-prospectus/community-ownership-fund-prospectus--3#funding-available)."
             ),
         },
     ],
