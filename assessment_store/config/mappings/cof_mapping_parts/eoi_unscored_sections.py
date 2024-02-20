@@ -188,20 +188,6 @@ unscored_sections = [
                                 "question": "Where do you plan to source match funding?",
                             },
                             {
-                                "field_id": "qgytim",
-                                "form_name": "cof-eoi-funding",
-                                "field_type": "checkboxesField",
-                                "presentation_type": "list",
-                                "question": "Cash match funding",
-                            },
-                            {
-                                "field_id": "daJkaD",
-                                "form_name": "cof-eoi-funding",
-                                "field_type": "checkboxesField",
-                                "presentation_type": "list",
-                                "question": "Or",
-                            },
-                            {
                                 "field_id": "yZxdeJ",
                                 "form_name": "cof-eoi-funding",
                                 "field_type": "yesNoField",
