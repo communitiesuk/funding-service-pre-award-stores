@@ -51,10 +51,10 @@ def test_eoi_schema_throws_no_errors_with_all_forms():
             [COF_R3_EOI_SCHEMA["XuAyrs"][1]["caveat"]],
         ),
         (
-            "nbLaHH",
-            True,
+            "BykoQQ",
+            ["none"],
             Eoi_Decision.PASS_WITH_CAVEATS,
-            [COF_R3_EOI_SCHEMA["nbLaHH"][0]["caveat"]],
+            [COF_R3_EOI_SCHEMA["BykoQQ"][0]["caveat"]],
         ),
         (
             "oblxxv",
