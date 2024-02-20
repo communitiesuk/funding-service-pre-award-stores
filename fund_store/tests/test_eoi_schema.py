@@ -2,6 +2,7 @@ import json
 
 import pytest
 from config.fund_loader_config.cof.eoi_r1_schema import COF_PLANNING_PERMISSION_CAVEAT
+from config.fund_loader_config.cof.eoi_r1_schema import COF_PLANNING_PERMISSION_IF_NEEDED_CAVEAT
 from config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA
 from config.fund_loader_config.cof.eoi_r1_schema import COF_SECURE_MATCH_FUNDING_CAVEAT
 from fsd_utils import Eoi_Decision
@@ -95,7 +96,7 @@ def test_eoi_schema_throws_no_errors_with_all_forms():
             "UORyaF",
             "Not sure",
             Eoi_Decision.PASS_WITH_CAVEATS,
-            [COF_PLANNING_PERMISSION_CAVEAT],
+            [COF_PLANNING_PERMISSION_IF_NEEDED_CAVEAT],
         ),
         (
             "jICagT",
