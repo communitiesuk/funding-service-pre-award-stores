@@ -24,7 +24,7 @@ COF_EOI_SEND_REMINDER_DATE = datetime(2024, 3, 1, 11, 59, 0, tzinfo=timezone.utc
 fund_config = {
     "id": COF_FUND_ID,
     "name_json": {
-        "en": "Community Ownership Fund",
+        "en": "Community Ownership Fund - Expression of Interest",
         "cy": "Y Cronfa Perchnogaeth Gymunedol",
     },
     "title_json": {
