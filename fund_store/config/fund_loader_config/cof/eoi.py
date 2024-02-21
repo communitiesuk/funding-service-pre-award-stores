@@ -137,7 +137,7 @@ round_config_eoi = [
             "https://forms.office.com/Pages/ResponsePage.aspx?id="
             "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
         ),
-        "project_name_field_id": "",
+        "project_name_field_id": "SMRWjl",
         "application_guidance": EOI_APPLICATION_GUIDANCE,
         "guidance_url": (
             "https://www.gov.uk/government/publications/community-ownership-fund-round-3-application-form"
