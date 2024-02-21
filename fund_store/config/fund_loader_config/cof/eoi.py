@@ -83,7 +83,7 @@ cof_eoi_sections = [
     },
     {
         "section_name": {
-            "en": "1.4 Development support provider",
+            "en": "1.4 Development support provider (not scored)",
             "cy": "",
         },
         "form_name_json": {

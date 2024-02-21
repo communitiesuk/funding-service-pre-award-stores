@@ -109,9 +109,9 @@ COF_R3_EOI_SCHEMA = {
             "caveat": None,
         },
     ],
-    "nbLaHH": [
+    "BykoQQ": [
         {
-            "answerValue": True,
+            "answerValue": ["none"],
             "result": Eoi_Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Make progress in securing match funding: COF will contribute up to 80%"
