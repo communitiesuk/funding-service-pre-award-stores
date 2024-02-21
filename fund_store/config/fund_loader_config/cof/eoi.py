@@ -54,7 +54,7 @@ cof_eoi_sections = [
             "cy": "",
         },
         "form_name_json": {
-            "en": "cof-eoi-details",
+            "en": "organisation-details",
             "cy": "",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.1",
@@ -65,7 +65,7 @@ cof_eoi_sections = [
             "cy": "",
         },
         "form_name_json": {
-            "en": "cof-eoi-asset",
+            "en": "about-your-asset",
             "cy": "",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.2",
@@ -76,7 +76,7 @@ cof_eoi_sections = [
             "cy": "",
         },
         "form_name_json": {
-            "en": "cof-eoi-funding",
+            "en": "your-funding-request",
             "cy": "",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.3",
@@ -87,7 +87,7 @@ cof_eoi_sections = [
             "cy": "",
         },
         "form_name_json": {
-            "en": "cof-eoi-support",
+            "en": "development-support-provider",
             "cy": "",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.4",
@@ -98,7 +98,7 @@ cof_eoi_sections = [
             "cy": "",
         },
         "form_name_json": {
-            "en": "cof-eoi-declaration",
+            "en": "declaration",
             "cy": "",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.5",
