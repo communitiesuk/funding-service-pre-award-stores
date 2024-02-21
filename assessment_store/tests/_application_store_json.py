@@ -9751,7 +9751,7 @@ cof_eoi_application_store_json_template = Template(
     "date_submitted": "2024-02-12T13:41:26.297195",
     "forms": [
       {
-    "name": "cof-eoi-details",
+    "name": "organisation-details",
     "questions": [
         {
             "category": "eAEGhH",
@@ -9840,7 +9840,7 @@ cof_eoi_application_store_json_template = Template(
     "status": "COMPLETED"
 },
 {
-    "name": "cof-eoi-support",
+    "name": "development-support-provider",
     "questions": [
         {
             "category": "IEwDfr",
@@ -9910,7 +9910,7 @@ cof_eoi_application_store_json_template = Template(
     "status": "COMPLETED"
 },
 {
-    "name": "cof-eoi-declaration",
+    "name": "declaration",
     "questions": [
         {
             "fields": [
@@ -9928,7 +9928,7 @@ cof_eoi_application_store_json_template = Template(
     "status": "COMPLETED"
 },
 {
-    "name": "cof-eoi-funding",
+    "name": "your-funding-request",
     "questions": [
         {
             "category": "seZPbt",
@@ -10058,7 +10058,7 @@ cof_eoi_application_store_json_template = Template(
     "status": "COMPLETED"
 },
 {
-    "name": "cof-eoi-asset",
+    "name": "about-your-asset",
     "questions": [
         {
             "category": "McpePG",
