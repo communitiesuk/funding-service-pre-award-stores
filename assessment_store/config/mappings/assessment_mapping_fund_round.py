@@ -281,7 +281,108 @@ applicant_info_mapping = {
         },
         "OUTPUT_TRACKER": {},
     },
-    COF_EOI_FUND_ID: {},
+    COF_EOI_FUND_ID: {
+        "ASSESSOR_EXPORT": {
+            "form_fields": {
+                "eEaDGz": {
+                    "en": {
+                        "title": "Does your organisation plan both to receive the funding and run the project?",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "Ihjjyi": {"en": {"title": "Type of asset", "field_type": "radiosField"}},
+                "zurxox": {"en": {"title": "Is the asset based in the UK?", "field_type": "yesNoField"}},
+                "dnqIdW": {"en": {"title": "Address of the asset", "field_type": "ukAddressField"}},
+                "lLQmNb": {"en": {"title": "Is the asset at risk?", "field_type": "yesNoField"}},
+                "ilMbMH": {"en": {"title": "What is the risk to the asset?", "field_type": "checkboxesField"}},
+                "fBhSNc": {
+                    "en": {
+                        "title": "Has the asset ever been used by or had significance to the community?",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "cPcZos": {"en": {"title": "Do you already own the asset?", "field_type": "yesNoField"}},
+                "jOpXfi": {"en": {"title": "Help with public authority", "field_type": "details"}},
+                "XuAyrs": {
+                    "en": {"title": "Does the asset belong to a public authority?", "field_type": "radiosField"}
+                },
+                "oDhZlw": {"en": {"title": "Stage purchasing asset", "field_type": "radiosField"}},
+                "oXFEkV": {
+                    "en": {
+                        "title": "I confirm the information I've provided is correct",
+                        "field_type": "checkboxesField",
+                    }
+                },
+                "SMRWjl": {"en": {"title": "Organisation name", "field_type": "textField"}},
+                "SxkwhF": {
+                    "en": {"title": "Does your organisation have any alternative names?", "field_type": "yesNoField"}
+                },
+                "OpeSdM": {"en": {"title": "Organisation address", "field_type": "ukAddressField"}},
+                "Fepkam": {"en": {"title": "Help with organisation type", "field_type": "details"}},
+                "uYiLsv": {"en": {"title": "Organisation classification", "field_type": "radiosField"}},
+                "jGoBGp": {"en": {"title": "Help with insolvency", "field_type": "details"}},
+                "NcQSbU": {
+                    "en": {
+                        "title": "Is your organisation subject to any insolvency actions?",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "qkNYMP": {"en": {"title": "Alternative name 1", "field_type": "textField"}},
+                "mVxvon": {"en": {"title": "Alternative name 2", "field_type": "textField"}},
+                "DaIVVm": {"en": {"title": "Alternative name 3", "field_type": "textField"}},
+                "aocRmv": {
+                    "en": {"title": "What do you plan to use COF's funding for?", "field_type": "checkboxesField"}
+                },
+                "foQgiy": {
+                    "en": {
+                        "title": "Will the leasehold have at least 15 years when your organisation submits a full application?",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "fZAMFv": {
+                    "en": {
+                        "title": "How much capital funding are you requesting from COF?",
+                        "field_type": "numberField",
+                    }
+                },
+                "oblxxv": {"en": {"title": "Do you plan to request any revenue funding?", "field_type": "yesNoField"}},
+                "eOWKoO": {"en": {"title": "Do you plan to secure match funding?", "field_type": "yesNoField"}},
+                "BykoQQ": {"en": {"title": "In-kind and cash match funding", "field_type": "checkboxesField"}},
+                "yZxdeJ": {
+                    "en": {"title": "Does your project include an element of housing?", "field_type": "yesNoField"}
+                },
+                "UORyaF": {
+                    "en": {"title": "Will you need planning permission for your project?", "field_type": "radiosField"}
+                },
+                "jICagT": {
+                    "en": {
+                        "title": "What stage are you at in securing planning permission?",
+                        "field_type": "radiosField",
+                    }
+                },
+                "kWRuac": {
+                    "en": {"title": "What progress have you made to secure this funding?", "field_type": "radiosField"}
+                },
+                "iXmKyq": {
+                    "en": {
+                        "title": "Do you wish to be contacted by the development support provider, if eligible for in-depth support?",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "ObIBSx": {
+                    "en": {
+                        "title": "What are the main things you feel you need support with to submit a good COF application?",
+                        "field_type": "checkboxesField",
+                    }
+                },
+                "MxzEYq": {"en": {"title": "Describe your project and its aims", "field_type": "freeTextField"}},
+                "xWnVof": {"en": {"title": "Name of lead contact", "field_type": "textField"}},
+                "NQoGIm": {"en": {"title": "Lead contact email address", "field_type": "emailAddressField"}},
+                "srxZmv": {"en": {"title": "Lead contact telephone number", "field_type": "telephoneNumberField"}},
+            }
+        },
+        "OUTPUT_TRACKER": {},
+    },
     CYP_FUND_ID: {
         "ASSESSOR_EXPORT": {
             "form_fields": {
