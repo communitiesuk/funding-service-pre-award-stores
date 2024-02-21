@@ -224,7 +224,7 @@ unscored_sections = [
                             {
                                 "field_id": "iXmKyq",
                                 "form_name": "development-support-provider",
-                                "field_type": "yesNoField",
+                                "field_type": "radiosField",
                                 "presentation_type": "text",
                                 "question": "Do you wish to be contacted by the development support provider, if eligible for in-depth support?",
                             },
