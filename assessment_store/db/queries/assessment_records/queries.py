@@ -692,6 +692,7 @@ def select_active_tags_associated_with_assessment(application_id):
         query = db.session.query(
             Tag.id.label("tag_id"),
             Tag.value,
+            Tag.active,
             TagType.purpose,
             TagType.description,
             TagAssociation.associated,
@@ -710,16 +711,16 @@ def select_active_tags_associated_with_assessment(application_id):
             .join(TagType, Tag.type_id == TagType.id)
         )
 
-        # Step 3: Filtering by application_id and active tags
+        # Step 3: Filtering by application_id
         query = query.filter(
             AssessmentRecord.application_id == application_id,
-            Tag.active == True,  # noqa: E712
         )
 
         # Step 4: Group data based on tags and related info.
         query = query.group_by(
             Tag.id,
             Tag.value,
+            Tag.active,
             TagType.purpose,
             TagType.description,
             TagAssociation.associated,
@@ -734,8 +735,7 @@ def select_active_tags_associated_with_assessment(application_id):
                 func.max(TagAssociation.created_at).label("_created_at"),
             )
             .filter(
-                AssessmentRecord.application_id == application_id,
-                Tag.active == True,  # noqa: E712
+                TagAssociation.application_id == application_id,
             )
             .group_by(TagAssociation.tag_id)
             .subquery()
@@ -752,8 +752,8 @@ def select_active_tags_associated_with_assessment(application_id):
         # Step 6: Executing the whole query
         tag_associations = query.all()
 
-        # Step 7: Check if the first record for each tag_id has associated set to True
-        associated_tags = [record for record in tag_associations if record.associated]
+        # Step 7: Check if the first record for each tag_id has associated set to True and tag is active
+        associated_tags = [record for record in tag_associations if record.active and record.associated]
 
         return associated_tags
 
