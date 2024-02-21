@@ -231,8 +231,8 @@ unscored_sections = [
                             {
                                 "field_id": "ObIBSx",
                                 "form_name": "development-support-provider",
-                                "field_type": "freeTextField",
-                                "presentation_type": "free_text",
+                                "field_type": "checkboxesField",
+                                "presentation_type": "list",
                                 "question": "What are the main things you feel you need support with to submit a good COF application?",
                             },
                             {
