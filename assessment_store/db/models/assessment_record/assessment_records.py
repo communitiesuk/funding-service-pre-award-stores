@@ -148,6 +148,7 @@ class AssessmentRecord(BaseModel):
             '$.forms[*].questions[*].fields[*] ? (@.key == "NQoGIm").answer',
         )
     )
+    date_submitted = column_property(func.jsonb_path_query_first(jsonb_blob, "$.date_submitted"))
 
 
 Index(
