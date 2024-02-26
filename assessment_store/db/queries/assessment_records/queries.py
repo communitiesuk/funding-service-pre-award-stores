@@ -9,6 +9,9 @@ from typing import Dict
 from typing import List
 
 from bs4 import BeautifulSoup
+from config.mappings.assessment_mapping_fund_round import (
+    fund_round_mapping_config_with_round_id,
+)
 from db import db
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record import TagAssociation
@@ -241,7 +244,9 @@ def bulk_insert_application_record(
         if not is_json:
             single_application_json = json.loads(single_application_json)
         if not application_type:
-            application_type = "".join(single_application_json["reference"].split("-")[:1])
+            application_type = fund_round_mapping_config_with_round_id[single_application_json["round_id"]][
+                "type_of_application"
+            ]
 
         derived_values = derive_application_values(single_application_json)
 

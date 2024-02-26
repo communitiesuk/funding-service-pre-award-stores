@@ -170,7 +170,7 @@ unscored_sections = [
                                 "field_id": "fZAMFv",
                                 "form_name": "your-funding-request",
                                 "field_type": "numberField",
-                                "presentation_type": "integer",
+                                "presentation_type": "currency",
                                 "question": "How much capital funding are you requesting from COF?",
                             },
                             {
