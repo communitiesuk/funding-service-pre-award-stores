@@ -501,3 +501,8 @@ fund_round_mapping_config = {
         "type_of_application": "RFR",
     },
 }
+
+fund_round_mapping_config_with_round_id = {
+    v["round_id"]: {"fund_id": v["fund_id"], "type_of_application": v["type_of_application"]}
+    for k, v in fund_round_mapping_config.items()
+}
