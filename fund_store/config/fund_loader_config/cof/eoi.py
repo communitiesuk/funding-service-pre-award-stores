@@ -122,7 +122,7 @@ round_config_eoi = [
             "https://www.gov.uk/government/publications/community-ownership-fund-"
             "privacy-notice/community-ownership-fund-privacy-notice"
         ),
-        "contact_email": "fsd.support@levellingup.gov.uk",
+        "contact_email": "COF@levellingup.gov.uk",
         "contact_phone": None,
         "contact_textphone": None,
         "support_times": "9am to 5pm",
