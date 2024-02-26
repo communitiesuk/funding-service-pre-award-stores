@@ -91,6 +91,13 @@ unscored_sections = [
                                 "question": "Is the asset based in the UK?",
                             },
                             {
+                                "field_id": "xYnVof",
+                                "form_name": "about-your-asset",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Name of the asset (optional)",
+                            },
+                            {
                                 "field_id": "dnqIdW",
                                 "form_name": "about-your-asset",
                                 "field_type": "ukAddressField",
