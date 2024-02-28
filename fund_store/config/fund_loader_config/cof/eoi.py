@@ -44,7 +44,7 @@ cof_eoi_sections = [
     {
         "section_name": {
             "en": "1. Expression of interest",
-            "cy": "",
+            "cy": "1. Mynegi diddordeb",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1",
         "requires_feedback": True,
@@ -52,55 +52,55 @@ cof_eoi_sections = [
     {
         "section_name": {
             "en": "1.1 Organisation details",
-            "cy": "",
+            "cy": "1.1 Manylion y sefydliad",
         },
         "form_name_json": {
             "en": "organisation-details",
-            "cy": "",
+            "cy": "manylion-y-sefydliad",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.1",
     },
     {
         "section_name": {
             "en": "1.2 About your asset",
-            "cy": "",
+            "cy": "1.2 Ynglŷn â'ch ased",
         },
         "form_name_json": {
             "en": "about-your-asset",
-            "cy": "",
+            "cy": "ynglyn-ach-ased",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.2",
     },
     {
         "section_name": {
             "en": "1.3 Your funding request",
-            "cy": "",
+            "cy": "1.3 Eich cais am gyllid",
         },
         "form_name_json": {
             "en": "your-funding-request",
-            "cy": "",
+            "cy": "eich-cais-am-gyllid",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.3",
     },
     {
         "section_name": {
             "en": "1.4 Development support provider (not scored)",
-            "cy": "",
+            "cy": "1.4 Darparwr cymorth datblygu (heb ei sgorio)",
         },
         "form_name_json": {
             "en": "development-support-provider",
-            "cy": "",
+            "cy": "darparwr-cymorth-datblygu",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.4",
     },
     {
         "section_name": {
             "en": "1.5 Declaration",
-            "cy": "",
+            "cy": "1.5 Datganiad",
         },
         "form_name_json": {
             "en": "declaration",
-            "cy": "",
+            "cy": "datganiad",
         },
         "tree_path": f"{APPLICATION_BASE_PATH_COF_EOI}.1.5",
     },
@@ -110,7 +110,7 @@ round_config_eoi = [
     {
         "id": COF_EOI_ROUND_ID,
         "fund_id": COF_FUND_ID,
-        "title_json": {"en": "Expression of interest", "cy": ""},
+        "title_json": {"en": "Expression of interest", "cy": "Mynegi diddordeb"},
         "short_name": "R1",
         "opens": COF_EOI_OPENS_DATE,
         "assessment_start": COF_EOI_ASSESSMENT_OPENS_DATE,
