@@ -195,6 +195,13 @@ unscored_sections = [
                                 "question": "Where do you plan to source match funding?",
                             },
                             {
+                                "field_id": "kWRuac",
+                                "form_name": "your-funding-request",
+                                "field_type": "radiosField",
+                                "presentation_type": "text",
+                                "question": "What progress have you made to secure this funding?",
+                            },
+                            {
                                 "field_id": "yZxdeJ",
                                 "form_name": "your-funding-request",
                                 "field_type": "yesNoField",
@@ -214,13 +221,6 @@ unscored_sections = [
                                 "field_type": "radiosField",
                                 "presentation_type": "text",
                                 "question": "What stage are you at in securing planning permission?",
-                            },
-                            {
-                                "field_id": "kWRuac",
-                                "form_name": "your-funding-request",
-                                "field_type": "radiosField",
-                                "presentation_type": "text",
-                                "question": "What progress have you made to secure this funding?",
                             },
                         ],
                     },
