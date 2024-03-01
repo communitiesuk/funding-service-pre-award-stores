@@ -87,7 +87,7 @@ cof_r4w1_sections = [
         "weighting": 53,
     },
     {
-        "section_name": {"en": "3.1 Community use/significance", "cy": "3.1 Defnydd cymunedol"},
+        "section_name": {"en": "3.1 Community use/significance", "cy": "3.1 Defnydd/arwyddocâd cymunedol"},
         "form_name_json": {
             "en": "community-use-cof",
             "cy": "defnydd-cymunedol-cof",
