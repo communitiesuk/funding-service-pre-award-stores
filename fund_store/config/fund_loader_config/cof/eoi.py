@@ -15,7 +15,7 @@ COF_EOI_ROUND_ID = "6a47c649-7bac-4583-baed-9c4e7a35c8b3"
 APPLICATION_BASE_PATH_COF_EOI = ".".join([str(COF_EOI_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH_COF_EOI = ".".join([str(COF_EOI_BASE_PATH), str(2)])
 
-COF_EOI_OPENS_DATE = datetime(2024, 3, 6, 11, 00, 0, tzinfo=timezone.utc)  # 2023-12-06 11:00:00
+COF_EOI_OPENS_DATE = datetime(2024, 3, 6, 14, 00, 0, tzinfo=timezone.utc)  # 2023-12-06 14:00:00
 COF_EOI_ASSESSMENT_OPENS_DATE = COF_EOI_OPENS_DATE
 COF_EOI_DEADLINE_DATE = datetime(2124, 3, 6, 11, 59, 0, tzinfo=timezone.utc)  # 2124-03-06 11:59:00
 COF_EOI_ASSESSMENT_DEADLINE_DATE = datetime(2124, 3, 6, 12, 0, 0, tzinfo=timezone.utc)  # 2124-03-06 12:00:00
@@ -30,7 +30,7 @@ fund_config = {
     },
     "title_json": {
         "en": "expression of interest in applying for the Community Ownership Fund",
-        "cy": "",
+        "cy": "Gwneud cais am ddatganiad o ddiddordeb mewn gwneud cais i'r Gronfa Perchnogaeth Gymunedol",
     },
     "short_name": "COF-EOI",
     "description_json": fund_config["description_json"],
