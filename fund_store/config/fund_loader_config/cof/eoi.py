@@ -130,9 +130,7 @@ round_config_eoi = [
         "support_days": "Monday to Friday",
         "instructions": (
             "You must complete this Expression of Interest (EOI) form if you"
-            " are interested in applying for the Community Ownership Fund (COF). <a"
-            ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus"'
-            " Read the fund's prospectus before you start.</a>"
+            " are interested in applying for the Community Ownership Fund (COF)."
         ),
         "feedback_link": (
             "https://forms.office.com/Pages/ResponsePage.aspx?id="
