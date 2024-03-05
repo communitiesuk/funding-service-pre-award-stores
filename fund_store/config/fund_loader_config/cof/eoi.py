@@ -1,7 +1,8 @@
 from datetime import datetime
 from datetime import timezone
 
-from config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA
+from config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA_CY
+from config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA_EN
 from config.fund_loader_config.cof.shared import EOI_APPLICATION_GUIDANCE
 from config.fund_loader_config.cof.shared import fund_config
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
@@ -153,6 +154,6 @@ round_config_eoi = [
             "is_section_feedback_optional": True,
         },
         "eligibility_config": {"has_eligibility": False},
-        "eoi_decision_schema": COF_R3_EOI_SCHEMA,
+        "eoi_decision_schema": {"en": COF_R3_EOI_SCHEMA_EN, "cy": COF_R3_EOI_SCHEMA_CY},
     }
 ]
