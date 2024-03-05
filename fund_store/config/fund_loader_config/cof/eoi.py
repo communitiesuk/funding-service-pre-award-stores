@@ -27,7 +27,7 @@ fund_config = {
     "id": COF_FUND_ID,
     "name_json": {
         "en": "Community Ownership Fund - Expression of Interest",
-        "cy": "Y Cronfa Perchnogaeth Gymunedol",
+        "cy": "Y Cronfa Perchnogaeth Gymunedol - Mynegi diddordeb",
     },
     "title_json": {
         "en": "expression of interest in applying for the Community Ownership Fund",
