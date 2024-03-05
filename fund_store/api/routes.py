@@ -103,10 +103,15 @@ def get_round(fund_id, round_id):
 
 
 def get_eoi_deicision_schema_for_round(fund_id, round_id):
+    language = request.args.get("language", "en").replace("?", "").lower()
     round = get_round_from_db(fund_id=fund_id, round_id=round_id)
-    if round:
-        return round.eoi_decision_schema or {}
-    abort(404)
+    if not round:
+        abort(404)
+
+    if not round.eoi_decision_schema:
+        return {}
+
+    return round.eoi_decision_schema.get(language) or {}
 
 
 def get_rounds_for_fund(fund_id):
