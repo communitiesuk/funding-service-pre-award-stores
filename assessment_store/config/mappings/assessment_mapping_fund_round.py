@@ -492,7 +492,7 @@ applicant_info_mapping = {
                     },
                 },
                 "BykoQQ": {
-                    "en": {"title": "In-kind and cash match funding", "field_type": "checkboxesField"},
+                    "en": {"title": "Where do you plan to source match funding?", "field_type": "checkboxesField"},
                     "cy": {
                         "title": "O ble rydych yn bwriadu cael arian cyfatebol?",
                         "field_type": "checkboxesField",
