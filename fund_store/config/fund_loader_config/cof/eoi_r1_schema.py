@@ -136,7 +136,7 @@ COF_R3_EOI_SCHEMA_EN = {
     ],
     "BykoQQ": [
         {
-            "answerValue": ["none"],
+            "answerValue": ["Not sure"],
             "result": Eoi_Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Make progress in securing match funding: COF will contribute up to 80%"

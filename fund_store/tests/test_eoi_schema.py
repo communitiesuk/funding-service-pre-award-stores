@@ -52,7 +52,7 @@ def test_eoi_schema_throws_no_errors_with_all_forms():
         ),
         (
             "BykoQQ",
-            ["none"],
+            ["Not sure"],
             Eoi_Decision.PASS_WITH_CAVEATS,
             [COF_R3_EOI_SCHEMA_EN["BykoQQ"][0]["caveat"]],
         ),
