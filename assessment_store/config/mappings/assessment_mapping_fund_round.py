@@ -361,7 +361,10 @@ applicant_info_mapping = {
                     },
                 },
                 "oDhZlw": {
-                    "en": {"title": "Stage purchasing asset", "field_type": "radiosField"},
+                    "en": {
+                        "title": "Select the option which best represents the stage you are at in purchasing the asset",
+                        "field_type": "radiosField",
+                    },
                     "cy": {
                         "title": "Cam prynu'r ased",
                         "field_type": "radiosField",
