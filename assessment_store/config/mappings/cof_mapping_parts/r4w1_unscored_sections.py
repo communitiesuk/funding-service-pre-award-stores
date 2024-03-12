@@ -379,14 +379,8 @@ unscored_sections = [
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload asset valuation or lease agreement",
                                 "path": {
-                                    "en": [
-                                        "upload-asset-valuation-or-lease-agreement",
-                                        "upload-asset-valuation-or-lease-agreement-pJQtXk",
-                                    ],
-                                    "cy": [
-                                        "lanlwytho-arâd-gwerthiant-neu-gytundeb-leol",
-                                        "lanlwytho-arâd-gwerthiant-neu-gytundeb-leol-pJQtXk",
-                                    ],
+                                    "en": "upload-asset-valuation-or-lease-agreement",
+                                    "cy": "lanlwytho-arâd-gwerthiant-neu-gytundeb-leol",
                                 },
                             },
                             {
