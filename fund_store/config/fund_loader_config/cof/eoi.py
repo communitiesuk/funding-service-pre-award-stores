@@ -20,8 +20,6 @@ COF_EOI_OPENS_DATE = datetime(2024, 3, 6, 14, 00, 0, tzinfo=timezone.utc)  # 202
 COF_EOI_ASSESSMENT_OPENS_DATE = COF_EOI_OPENS_DATE
 COF_EOI_DEADLINE_DATE = datetime(2124, 3, 6, 11, 59, 0, tzinfo=timezone.utc)  # 2124-03-06 11:59:00
 COF_EOI_ASSESSMENT_DEADLINE_DATE = datetime(2124, 3, 6, 12, 0, 0, tzinfo=timezone.utc)  # 2124-03-06 12:00:00
-COF_EOI_SEND_REMINDER_DATE = datetime(2024, 3, 1, 11, 59, 0, tzinfo=timezone.utc)  # 2024-03-1 11:59:00
-
 
 fund_config = {
     "id": COF_FUND_ID,
@@ -117,7 +115,7 @@ round_config_eoi = [
         "assessment_start": COF_EOI_ASSESSMENT_OPENS_DATE,
         "deadline": COF_EOI_DEADLINE_DATE,
         "application_reminder_sent": False,
-        "reminder_date": COF_EOI_SEND_REMINDER_DATE,
+        "reminder_date": None,
         "assessment_deadline": COF_EOI_ASSESSMENT_DEADLINE_DATE,
         "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
         "privacy_notice": (
