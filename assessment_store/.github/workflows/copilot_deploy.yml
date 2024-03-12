@@ -36,6 +36,8 @@ on:
       - 'api/**'
       - 'config/**'
       - 'db/**'
+      - 'openapi/**'
+      - 'scripts/**'
       - 'services/**'
       - 'tests/**'
       - 'requirements-dev.in'
