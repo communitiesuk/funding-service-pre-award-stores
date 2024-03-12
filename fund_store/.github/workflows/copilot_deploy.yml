@@ -35,6 +35,8 @@ on:
       - '!**/README.md'
       - 'api/**'
       - 'config/**'
+      - 'scripts/**'
+      - 'openapi/**'
       - 'db/**'
       - 'tests/**'
       - 'requirements-dev.in'
