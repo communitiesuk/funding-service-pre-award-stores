@@ -25,6 +25,7 @@ def create_app() -> Flask:
 
     flask_app = connexion_app.app
     flask_app.config.from_object("config.Config")
+    flask_app.json.sort_keys = False
 
     # Initialise logging
     logging.init_app(flask_app)

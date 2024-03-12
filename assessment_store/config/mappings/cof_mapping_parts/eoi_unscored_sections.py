@@ -7,7 +7,7 @@ unscored_sections = [
         "name": "Expression of interest",
         "sub_criteria": [
             {
-                "id": "applicants_reponse",
+                "id": "applicants_response",
                 "name": "Applicant's response",
                 "themes": [
                     {
