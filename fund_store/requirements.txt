@@ -141,7 +141,7 @@ pluggy==1.0.0
     # via pytest
 prance==0.21.8.0
     # via -r requirements.in
-psycopg2-binary==2.9.6
+psycopg2-binary==2.9.9
     # via -r requirements.in
 py==1.11.0
     # via pytest-html
