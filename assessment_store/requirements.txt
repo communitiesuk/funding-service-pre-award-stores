@@ -52,7 +52,7 @@ commonmark==0.9.1
     # via rich
 connexion==2.14.2
     # via -r requirements.in
-cryptography==41.0.7
+cryptography==42.0.4
     # via pyjwt
 dataclass-dict-convert==1.7.1
     # via -r requirements.in
@@ -229,9 +229,7 @@ s3transfer==0.6.0
 semver==2.13.0
     # via prance
 sentry-sdk[flask]==1.31.0
-    # via
-    #   funding-service-design-utils
-    #   sentry-sdk
+    # via funding-service-design-utils
 six==1.16.0
     # via
     #   apscheduler
