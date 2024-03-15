@@ -342,8 +342,8 @@ applicant_info_mapping = {
                 "cPcZos": {
                     "en": {"title": "Do you already own the asset?", "field_type": "yesNoField"},
                     "cy": {
-                        "title": "",
-                        "field_type": "",
+                        "title": "A ydych eisoes yn berchen ar yr ased?",
+                        "field_type": "yesNoField",
                     },
                 },
                 "jOpXfi": {
