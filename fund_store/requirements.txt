@@ -137,10 +137,11 @@ packaging==21.3
     #   connexion
     #   marshmallow
     #   marshmallow-sqlalchemy
+    #   prance
     #   pytest
 pluggy==1.0.0
     # via pytest
-prance==0.21.8.0
+prance==23.6.21.0
     # via -r requirements.in
 psycopg2-binary==2.9.9
     # via -r requirements.in
@@ -205,8 +206,6 @@ ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
 s3transfer==0.6.0
     # via boto3
-semver==2.13.0
-    # via prance
 sentry-sdk[flask]==1.21.1
     # via funding-service-design-utils
 six==1.16.0
