@@ -1,16 +1,16 @@
 import uuid
 from typing import List
 
-from db import db
-from db.models.round import Round
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import Column
 from sqlalchemy import JSON
+from sqlalchemy import Column
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import relationship
 from sqlalchemy.types import Boolean
 
+from db import db
+from db.models.round import Round
 
 BaseModel: DefaultMeta = db.Model
 

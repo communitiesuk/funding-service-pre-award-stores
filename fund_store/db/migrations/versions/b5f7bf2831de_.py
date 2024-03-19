@@ -9,6 +9,7 @@ FS-2701: Adds relevant welsh translations to the fund-store for form_name table.
 Authors: https://github.com/tferns
 
 """
+
 import json
 
 import sqlalchemy

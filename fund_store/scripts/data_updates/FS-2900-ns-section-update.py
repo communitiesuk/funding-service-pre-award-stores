@@ -1,8 +1,9 @@
+from flask import current_app
+from sqlalchemy import update
+
 import config.fund_loader_config.night_shelter.ns_r2 as nstf_config
 from db import db
 from db.models.section import Section
-from flask import current_app
-from sqlalchemy import update
 
 
 def update_section_titles(section_config):

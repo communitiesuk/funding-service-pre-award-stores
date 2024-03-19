@@ -9,6 +9,7 @@ FS-2701: Insert welsh translations into fund/round tables.
 Authors: https://github.com/tferns
 
 """
+
 import json
 
 import sqlalchemy

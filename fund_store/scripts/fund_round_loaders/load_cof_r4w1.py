@@ -1,8 +1,8 @@
 # flake8: noqa
 from config.fund_loader_config.cof.cof_r4 import APPLICATION_BASE_PATH_COF_R4_W1
 from config.fund_loader_config.cof.cof_r4 import ASSESSMENT_BASE_PATH_COF_R4_W1
-from config.fund_loader_config.cof.cof_r4 import cof_r4w1_sections
 from config.fund_loader_config.cof.cof_r4 import COF_ROUND_4_WINDOW_1_ID
+from config.fund_loader_config.cof.cof_r4 import cof_r4w1_sections
 from config.fund_loader_config.cof.cof_r4 import fund_config
 from config.fund_loader_config.cof.cof_r4 import round_config_w1
 from db.queries import insert_base_sections

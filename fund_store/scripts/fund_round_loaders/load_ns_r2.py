@@ -1,8 +1,8 @@
 # flake8: noqa
 from config.fund_loader_config.night_shelter.ns_r2 import APPLICATION_BASE_PATH
 from config.fund_loader_config.night_shelter.ns_r2 import ASSESSMENT_BASE_PATH
-from config.fund_loader_config.night_shelter.ns_r2 import fund_config
 from config.fund_loader_config.night_shelter.ns_r2 import NIGHT_SHELTER_ROUND_2_ID
+from config.fund_loader_config.night_shelter.ns_r2 import fund_config
 from config.fund_loader_config.night_shelter.ns_r2 import r2_application_sections
 from config.fund_loader_config.night_shelter.ns_r2 import round_config
 from db.queries import insert_assessment_sections

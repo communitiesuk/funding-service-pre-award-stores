@@ -1,3 +1,11 @@
+from distutils.util import strtobool
+
+from flask import abort
+from flask import current_app
+from flask import jsonify
+from flask import request
+from fsd_utils.locale_selector.get_lang import get_lang
+
 from db import db
 from db.models import Round
 from db.queries import get_all_funds
@@ -12,12 +20,6 @@ from db.queries import get_rounds_for_fund_by_short_name
 from db.schemas.fund import FundSchema
 from db.schemas.round import RoundSchema
 from db.schemas.section import SECTION_SCHEMA_MAP
-from distutils.util import strtobool
-from flask import abort
-from flask import current_app
-from flask import jsonify
-from flask import request
-from fsd_utils.locale_selector.get_lang import get_lang
 
 
 def filter_fund_by_lang(fund_data, lang_key: str = "en"):
@@ -156,20 +158,19 @@ def get_sections_for_round_assessment(fund_id, round_id):
 
 def get_available_flag_allocations(fund_id, round_id):
     # TODO: Currently teams are hardcoded, move it to database implementation
-    from config.fund_loader_config.cof.cof_r4 import COF_ROUND_4_WINDOW_1_ID
-    from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_1_ID
-    from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_2_ID
-    from config.fund_loader_config.cof.cof_r3 import COF_FUND_ID
     from config.fund_loader_config.cof.cof_r2 import COF_ROUND_2_WINDOW_2_ID
     from config.fund_loader_config.cof.cof_r2 import COF_ROUND_2_WINDOW_3_ID
+    from config.fund_loader_config.cof.cof_r3 import COF_FUND_ID
+    from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_1_ID
+    from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_2_ID
     from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_3_ID
-    from config.fund_loader_config.night_shelter.ns_r2 import NIGHT_SHELTER_ROUND_2_ID
+    from config.fund_loader_config.cof.cof_r4 import COF_ROUND_4_WINDOW_1_ID
+    from config.fund_loader_config.cyp.cyp_r1 import CYP_FUND_ID
+    from config.fund_loader_config.cyp.cyp_r1 import CYP_ROUND_1_ID
+    from config.fund_loader_config.digital_planning.dpi_r2 import DPI_FUND_ID
+    from config.fund_loader_config.digital_planning.dpi_r2 import DPI_ROUND_2_ID
     from config.fund_loader_config.night_shelter.ns_r2 import NIGHT_SHELTER_FUND_ID
-    from config.fund_loader_config.cyp.cyp_r1 import CYP_FUND_ID, CYP_ROUND_1_ID
-    from config.fund_loader_config.digital_planning.dpi_r2 import (
-        DPI_FUND_ID,
-        DPI_ROUND_2_ID,
-    )
+    from config.fund_loader_config.night_shelter.ns_r2 import NIGHT_SHELTER_ROUND_2_ID
 
     cof_teams = [
         {"key": "ASSESSOR", "value": "Assessor"},

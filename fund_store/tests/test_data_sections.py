@@ -1,10 +1,11 @@
 from typing import List
 
 import pytest
+
 from config.fund_loader_config.cof.cof_r2 import APPLICATION_BASE_PATH
 from config.fund_loader_config.cof.cof_r2 import ASSESSMENT_BASE_PATH
-from config.fund_loader_config.cof.cof_r2 import cof_r2_sections
 from config.fund_loader_config.cof.cof_r2 import COF_ROUND_2_WINDOW_2_ID
+from config.fund_loader_config.cof.cof_r2 import cof_r2_sections
 from config.fund_loader_config.cof.cof_r2 import fund_config
 from config.fund_loader_config.cof.cof_r2 import rounds_config
 from db.models.section import Section

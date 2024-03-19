@@ -1,6 +1,6 @@
 # flake8: noqa
-from config.fund_loader_config.cof.cof_r3 import cof_r3_sections
 from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_1_ID
+from config.fund_loader_config.cof.cof_r3 import cof_r3_sections
 from db.queries import update_application_section_names
 
 

@@ -11,10 +11,10 @@ section title to jsonb.  The downgrade does the exact opposite, but aims to keep
 Authors: https://github.com/tferns
 
 """
+
 import sqlalchemy
 import sqlalchemy as sa
 from alembic import op
-
 
 # revision identifiers, used by Alembic.
 revision = "5fe9a48b7739"

@@ -6,19 +6,18 @@ import click
 
 sys.path.insert(1, ".")
 
-from db.models.section import Section  # noqa: E402
-from db.queries import (  # noqa: E402
-    get_application_sections_for_round,
-    get_round_by_short_name,
-)  # noqa: E402
-from app import create_app  # noqa: E402
 from airium import Airium  # noqa: E402
-from scripts.all_questions.read_forms import (  # noqa: E402
-    find_forms_dir,
-)  # , build_form  # noqa: E402
+
+from app import create_app  # noqa: E402
+from db.models.section import Section  # noqa: E402
+from db.queries import get_application_sections_for_round  # noqa: E402
+from db.queries import get_round_by_short_name  # noqa: E402
 from scripts.all_questions.metadata_utils import (  # noqa: E402
     generate_print_data_for_sections,
-)  # noqa: E402
+)
+from scripts.all_questions.read_forms import (  # noqa: E402; , build_form  # noqa: E402
+    find_forms_dir,
+)
 
 # Initialise Airium html printer
 air = Airium()

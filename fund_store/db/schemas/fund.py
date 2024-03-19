@@ -1,5 +1,6 @@
-from db.models.fund import Fund
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+
+from db.models.fund import Fund
 
 
 class FundSchema(SQLAlchemyAutoSchema):

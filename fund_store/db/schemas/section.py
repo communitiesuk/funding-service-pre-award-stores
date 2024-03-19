@@ -1,14 +1,15 @@
 import contextlib
 from operator import itemgetter
 
-from db.models.section import Section
-from db.models.section import SectionField
 from marshmallow import post_dump
 from marshmallow.fields import Method
 from marshmallow.fields import String
-from marshmallow_sqlalchemy import auto_field
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow_sqlalchemy import auto_field
 from marshmallow_sqlalchemy.fields import Nested
+
+from db.models.section import Section
+from db.models.section import SectionField
 
 
 class SectionFieldSchema(SQLAlchemyAutoSchema):

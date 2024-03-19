@@ -5,11 +5,11 @@ Revises: 1kgae1606cfa
 Create Date: 2023-10-04 15:52:23.704133
 
 """
+
 import json
 
 import sqlalchemy as sa
 from alembic import op
-
 
 # revision identifiers, used by Alembic.
 revision = "0feae1606cfa"

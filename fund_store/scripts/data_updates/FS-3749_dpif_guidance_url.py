@@ -1,8 +1,9 @@
+from flask import current_app
+from sqlalchemy import update
+
 import config.fund_loader_config.digital_planning.dpi_r2 as dpi_r2
 from db import db
 from db.models.round import Round
-from flask import current_app
-from sqlalchemy import update
 
 
 def update_rounds_with_links(rounds):

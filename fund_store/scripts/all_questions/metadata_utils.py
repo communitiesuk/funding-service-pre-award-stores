@@ -6,6 +6,7 @@ from typing import Tuple
 
 from bs4 import BeautifulSoup
 from bs4 import NavigableString
+
 from db.models.section import Section
 from scripts.all_questions.read_forms import build_section_header
 from scripts.all_questions.read_forms import determine_display_value_for_condition

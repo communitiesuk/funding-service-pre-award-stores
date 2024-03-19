@@ -1,10 +1,14 @@
 """
 Contains test configuration.
 """
+
 from datetime import datetime
 from uuid import uuid4
 
 import pytest
+from flask import Flask
+from sqlalchemy_utils import Ltree
+
 from app import create_app
 from db.models.fund import Fund
 from db.models.round import Round
@@ -12,8 +16,6 @@ from db.models.section import Section
 from db.queries import insert_fund_data
 from db.queries import insert_round_data
 from db.queries import insert_sections
-from flask import Flask
-from sqlalchemy_utils import Ltree
 
 pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
 
@@ -93,7 +95,7 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
                         },
                         {
                             "id": str(uuid4()),
-                            "sections": []
+                            "sections": [],
                             # "fund_id": fund_id,
                             # "short_name": "RND2"
                         },

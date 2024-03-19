@@ -3,6 +3,7 @@ from datetime import datetime
 from datetime import timedelta
 
 import click
+
 from config.fund_loader_config.cof.cof_r2 import rounds_config as cof_r2_configs
 from config.fund_loader_config.cof.cof_r3 import round_config as cof_r3w1_config
 from config.fund_loader_config.cof.cof_r3 import round_config_w2 as cof_r3w2_config
@@ -10,7 +11,9 @@ from config.fund_loader_config.cof.cof_r3 import round_config_w3 as cof_r3w3_con
 from config.fund_loader_config.cof.cof_r4 import round_config_w1 as cof_r4_configs
 from config.fund_loader_config.cof.eoi import round_config_eoi as cof_eoi_configs
 from config.fund_loader_config.cyp.cyp_r1 import round_config as cyp_config
-from config.fund_loader_config.digital_planning.dpi_r2 import round_config as dpif_config
+from config.fund_loader_config.digital_planning.dpi_r2 import (
+    round_config as dpif_config,
+)
 from config.fund_loader_config.night_shelter.ns_r2 import round_config as nstf_config
 from db import db
 from db.models import Round

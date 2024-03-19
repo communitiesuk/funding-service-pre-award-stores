@@ -1,8 +1,9 @@
+from flask import current_app
+from sqlalchemy import update
+
 import config.fund_loader_config.cyp.cyp_r1 as cyp_r1
 from db import db
 from db.models.fund import Fund
-from flask import current_app
-from sqlalchemy import update
 
 
 def update_fund_name(fund_config):

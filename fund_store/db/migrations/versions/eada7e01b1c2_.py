@@ -13,10 +13,10 @@ The downgrade does the exact opposite, but aims to keep the data in tact.
 Authors: https://github.com/RamuniN, https://github.com/tferns
 
 """
+
 import sqlalchemy
 import sqlalchemy as sa
 from alembic import op
-
 
 # revision identifiers, used by Alembic.
 revision = "eada7e01b1c2"

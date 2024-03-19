@@ -1,4 +1,5 @@
 import pytest
+
 from db.queries import get_all_funds
 from db.queries import get_fund_by_id
 from db.queries import get_fund_by_short_name

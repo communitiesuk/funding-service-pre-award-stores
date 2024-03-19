@@ -1,7 +1,8 @@
 """Flask Production Environment Configuration."""
-from config.envs.default import DefaultConfig as Config
+
 from fsd_utils import configclass
 
+from config.envs.default import DefaultConfig as Config
 
 # TODO : Uncomment the following if using a GovPaaS VcapServices
 #  redis instance for session management.

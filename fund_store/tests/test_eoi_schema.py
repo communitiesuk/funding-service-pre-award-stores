@@ -1,12 +1,19 @@
 import json
 
 import pytest
-from config.fund_loader_config.cof.eoi_r1_schema import COF_PLANNING_PERMISSION_CAVEAT_EN
-from config.fund_loader_config.cof.eoi_r1_schema import COF_PLANNING_PERMISSION_IF_NEEDED_CAVEAT_EN
-from config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA_EN
-from config.fund_loader_config.cof.eoi_r1_schema import COF_SECURE_MATCH_FUNDING_CAVEAT_EN
 from fsd_utils import Eoi_Decision
 from fsd_utils import evaluate_eoi_response
+
+from config.fund_loader_config.cof.eoi_r1_schema import (
+    COF_PLANNING_PERMISSION_CAVEAT_EN,
+)
+from config.fund_loader_config.cof.eoi_r1_schema import (
+    COF_PLANNING_PERMISSION_IF_NEEDED_CAVEAT_EN,
+)
+from config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA_EN
+from config.fund_loader_config.cof.eoi_r1_schema import (
+    COF_SECURE_MATCH_FUNDING_CAVEAT_EN,
+)
 
 
 def test_eoi_schema_throws_no_errors_with_all_forms():

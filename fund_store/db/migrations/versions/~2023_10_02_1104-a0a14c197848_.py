@@ -5,8 +5,8 @@ Revises: c2a534a4b74a
 Create Date: 2023-10-02 11:04:03.810662
 
 """
-from alembic import op
 
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = "a0a14c197848"

@@ -1,10 +1,11 @@
 """Flask configuration."""
+
 import logging
+from distutils.util import strtobool
 from os import environ
 from os import getenv
 from pathlib import Path
 
-from distutils.util import strtobool
 from fsd_utils import configclass
 
 

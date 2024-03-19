@@ -1,8 +1,9 @@
 import pytest
+
 from db.models import FormName
 from db.models.section import Section
-from db.schemas.section import EnglishSectionSchema
 from db.schemas.section import SECTION_SCHEMA_MAP
+from db.schemas.section import EnglishSectionSchema
 from db.schemas.section import WelshSectionSchema
 
 section = Section(

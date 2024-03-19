@@ -1,16 +1,17 @@
-from db import db
 from flask_sqlalchemy.model import DefaultMeta
+from sqlalchemy import JSON
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
-from sqlalchemy import func
 from sqlalchemy import Index
 from sqlalchemy import Integer
-from sqlalchemy import JSON
+from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import foreign
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import remote
 from sqlalchemy_utils import LtreeType
+
+from db import db
 
 BaseModel: DefaultMeta = db.Model
 
