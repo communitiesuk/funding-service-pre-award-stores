@@ -50,10 +50,12 @@ class Round(BaseModel):
     contact_textphone = Column("contact_textphone", db.String(), nullable=True, unique=False)
     support_times = Column("support_times", db.String(), nullable=False, unique=False)
     support_days = Column("support_days", db.String(), nullable=False, unique=False)
-    instructions = Column("instructions", db.String(), nullable=False, unique=False)
+    instructions_json = Column("instructions_json", JSON(none_as_null=True), nullable=True, unique=False)
     feedback_link = Column("feedback_link", db.String(), unique=False)
     project_name_field_id = Column("project_name_field_id", db.String(), unique=False, nullable=False)
-    application_guidance = Column("application_guidance", db.String(), nullable=True, unique=False)
+    application_guidance_json = Column(
+        "application_guidance_json", JSON(none_as_null=True), nullable=True, unique=False
+    )
     guidance_url = Column("guidance_url", db.String(), nullable=True, unique=False)
     all_uploaded_documents_section_available = Column(
         "all_uploaded_documents_section_available",

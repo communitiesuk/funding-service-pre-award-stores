@@ -127,16 +127,22 @@ round_config_eoi = [
         "contact_textphone": None,
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
-        "instructions": (
-            "You must complete this Expression of Interest (EOI) form if you"
-            " are interested in applying for the Community Ownership Fund (COF)."
-        ),
+        "instructions_json": {
+            "en": (
+                "You must complete this Expression of Interest (EOI) form if you"
+                " are interested in applying for the Community Ownership Fund (COF)."
+            ),
+            "cy": (
+                "Mae'n rhaid i chi gwblhau'r ffurflen Datganiad o Ddiddordeb hon os"
+                " oes diddordeb gennych mewn gwneud cais i'r Gronfa Perchnogaeth Gymunedol."
+            ),
+        },
         "feedback_link": (
             "https://forms.office.com/Pages/ResponsePage.aspx?id="
             "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
         ),
         "project_name_field_id": "SMRWjl",
-        "application_guidance": EOI_APPLICATION_GUIDANCE,
+        "application_guidance_json": EOI_APPLICATION_GUIDANCE,
         "guidance_url": (
             "https://www.gov.uk/government/publications/community-ownership-fund-round-3-application-form"
             "-assessment-criteria-guidance"

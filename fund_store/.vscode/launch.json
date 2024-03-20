@@ -71,7 +71,7 @@
             "args": [
               "db",
               "downgrade",
-              "0feae1606cfa" // modify the downgrade revision accordingly
+              "ed3a28891090" // modify the downgrade revision accordingly
             ]
         },
         {

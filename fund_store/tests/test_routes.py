@@ -176,29 +176,69 @@ def test_filter_fund_by_lang(fund_data, lang_key, expected):
     "round_data, lang_key, expected",
     [
         (
-            {"title_json": {"en": "English Title", "fr": "French Title"}},
+            {
+                "title_json": {"en": "English Title", "fr": "French Title"},
+                "instructions_json": {"en": "English Instructions", "fr": "French Instructions"},
+                "application_guidance_json": {
+                    "en": "English Application Guidance",
+                    "fr": "French Application Guidance",
+                },
+            },
             "en",
             {
                 "title": "English Title",
                 "title_json": {"en": "English Title", "fr": "French Title"},
+                "instructions": "English Instructions",
+                "instructions_json": {"en": "English Instructions", "fr": "French Instructions"},
+                "application_guidance": "English Application Guidance",
+                "application_guidance_json": {
+                    "en": "English Application Guidance",
+                    "fr": "French Application Guidance",
+                },
             },
         ),
         (
-            {"title_json": {"en": "English Title", "fr": "French Title"}},
+            {
+                "title_json": {"en": "English Title", "fr": "French Title"},
+                "instructions_json": {"en": "English Instructions", "fr": "French Instructions"},
+                "application_guidance_json": {
+                    "en": "English Application Guidance",
+                    "fr": "French Application Guidance",
+                },
+            },
             "fr",
             {
                 "title": "French Title",
                 "title_json": {"en": "English Title", "fr": "French Title"},
+                "instructions": "French Instructions",
+                "instructions_json": {"en": "English Instructions", "fr": "French Instructions"},
+                "application_guidance": "French Application Guidance",
+                "application_guidance_json": {
+                    "en": "English Application Guidance",
+                    "fr": "French Application Guidance",
+                },
             },
         ),
         (
             [
-                {"title_json": {"en": "English Title", "fr": "French Title"}},
+                {
+                    "title_json": {"en": "English Title", "fr": "French Title"},
+                    "instructions_json": {"en": "English Instructions", "fr": "French Instructions"},
+                    "application_guidance_json": {
+                        "en": "English Application Guidance",
+                        "fr": "French Application Guidance",
+                    },
+                },
                 {
                     "title_json": {
                         "en": "Another English Title",
                         "fr": "Another French Title",
-                    }
+                    },
+                    "instructions_json": {"en": "Another English Instructions", "fr": "Another French Instructions"},
+                    "application_guidance_json": {
+                        "en": "Another English Application Guidance",
+                        "fr": "Another French Application Guidance",
+                    },
                 },
             ],
             "en",
@@ -206,6 +246,13 @@ def test_filter_fund_by_lang(fund_data, lang_key, expected):
                 {
                     "title": "English Title",
                     "title_json": {"en": "English Title", "fr": "French Title"},
+                    "instructions": "English Instructions",
+                    "instructions_json": {"en": "English Instructions", "fr": "French Instructions"},
+                    "application_guidance": "English Application Guidance",
+                    "application_guidance_json": {
+                        "en": "English Application Guidance",
+                        "fr": "French Application Guidance",
+                    },
                 },
                 {
                     "title": "Another English Title",
@@ -213,17 +260,36 @@ def test_filter_fund_by_lang(fund_data, lang_key, expected):
                         "en": "Another English Title",
                         "fr": "Another French Title",
                     },
+                    "instructions": "Another English Instructions",
+                    "instructions_json": {"en": "Another English Instructions", "fr": "Another French Instructions"},
+                    "application_guidance": "Another English Application Guidance",
+                    "application_guidance_json": {
+                        "en": "Another English Application Guidance",
+                        "fr": "Another French Application Guidance",
+                    },
                 },
             ],
         ),
         (
             [
-                {"title_json": {"en": "English Title", "fr": "French Title"}},
+                {
+                    "title_json": {"en": "English Title", "fr": "French Title"},
+                    "instructions_json": {"en": "English Instructions", "fr": "French Instructions"},
+                    "application_guidance_json": {
+                        "en": "English Application Guidance",
+                        "fr": "French Application Guidance",
+                    },
+                },
                 {
                     "title_json": {
                         "en": "Another English Title",
                         "fr": "Another French Title",
-                    }
+                    },
+                    "instructions_json": {"en": "Another English Instructions", "fr": "Another French Instructions"},
+                    "application_guidance_json": {
+                        "en": "Another English Application Guidance",
+                        "fr": "Another French Application Guidance",
+                    },
                 },
             ],
             "fr",
@@ -231,12 +297,26 @@ def test_filter_fund_by_lang(fund_data, lang_key, expected):
                 {
                     "title": "French Title",
                     "title_json": {"en": "English Title", "fr": "French Title"},
+                    "instructions": "French Instructions",
+                    "instructions_json": {"en": "English Instructions", "fr": "French Instructions"},
+                    "application_guidance": "French Application Guidance",
+                    "application_guidance_json": {
+                        "en": "English Application Guidance",
+                        "fr": "French Application Guidance",
+                    },
                 },
                 {
                     "title": "Another French Title",
                     "title_json": {
                         "en": "Another English Title",
                         "fr": "Another French Title",
+                    },
+                    "instructions": "Another French Instructions",
+                    "instructions_json": {"en": "Another English Instructions", "fr": "Another French Instructions"},
+                    "application_guidance": "Another French Application Guidance",
+                    "application_guidance_json": {
+                        "en": "Another English Application Guidance",
+                        "fr": "Another French Application Guidance",
                     },
                 },
             ],

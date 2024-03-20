@@ -18,13 +18,15 @@ DPI_PROSPECTS_LINK = (
     "https://www.localdigital.gov.uk/digital-planning/funding/digital-planning-programme-funding-2023"  # noqa
 )
 DPI_PRIVACY_NOTICE = "https://www.gov.uk/guidance/digital-planning-improvement-fund-privacy-notice"
-DPI_APPLICATION_GUIDANCE = (
-    "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
-    f" class='govuk-body'><a href='{DPI_PROSPECTS_LINK}'>Read the fund's prospectus</a>"
-    " before you apply.</p><p class='govuk-body'>You can <a"
-    " href='{all_questions_url}'>preview the full list of application"
-    " questions</a>.</p>"
-)
+DPI_APPLICATION_GUIDANCE = {
+    "en": (
+        "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
+        f" class='govuk-body'><a href='{DPI_PROSPECTS_LINK}'>Read the fund's prospectus</a>"
+        " before you apply.</p><p class='govuk-body'>You can <a"
+        " href='{all_questions_url}'>preview the full list of application"
+        " questions</a>.</p>"
+    )
+}
 
 r2_application_sections = [
     {
@@ -141,10 +143,10 @@ round_config = [
         "contact_textphone": None,
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
-        "instructions": "",
+        "instructions_json": None,
         "feedback_link": "",
         "project_name_field_id": "JAAhRP",
-        "application_guidance": DPI_APPLICATION_GUIDANCE,
+        "application_guidance_json": DPI_APPLICATION_GUIDANCE,
         "guidance_url": (
             "https://docs.google.com/document/d/1cF5eKphoBWEUe0Zv5HBwv0R3n1svCk16kUFRJhKnIQY"
             "/edit#heading=h.b0vrhm5gih2k"

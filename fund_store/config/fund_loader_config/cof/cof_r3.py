@@ -733,18 +733,26 @@ round_config = [
         "contact_textphone": None,
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
-        "instructions": (
-            "You must have received an invitation to apply. If we did not invite you,"
-            " first <a"
-            ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
-            " express your interest in the fund</a>."
-        ),
+        "instructions_json": {
+            "en": (
+                "You must have received an invitation to apply. If we did not invite you,"
+                " first <a"
+                ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
+                " express your interest in the fund</a>."
+            ),
+            "cy": (
+                "You must have received an invitation to apply. If we did not invite you,"
+                " first <a"
+                ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
+                " express your interest in the fund</a>."
+            ),
+        },
         "feedback_link": (
             "https://forms.office.com/Pages/ResponsePage.aspx?id="
             "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
         ),
         "project_name_field_id": "apGjFS",
-        "application_guidance": COF_APPLICATION_GUIDANCE,
+        "application_guidance_json": COF_APPLICATION_GUIDANCE,
         "guidance_url": (
             "https://www.gov.uk/government/publications/community-ownership-fund-round-3-application-form"
             "-assessment-criteria-guidance"
@@ -786,18 +794,26 @@ round_config_w2 = [
         "contact_textphone": None,
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
-        "instructions": (
-            "You must have received an invitation to apply. If we did not invite you,"
-            " first <a"
-            ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
-            " express your interest in the fund</a>."
-        ),
+        "instructions_json": {
+            "en": (
+                "You must have received an invitation to apply. If we did not invite you,"
+                " first <a"
+                ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
+                " express your interest in the fund</a>."
+            ),
+            "cy": (
+                "You must have received an invitation to apply. If we did not invite you,"
+                " first <a"
+                ' href="https://www.gov.uk/government/publications/community-ownership-fund-prospectus">'
+                " express your interest in the fund</a>."
+            ),
+        },
         "feedback_link": (
             "https://forms.office.com/Pages/ResponsePage.aspx?id="
             "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
         ),
         "project_name_field_id": "apGjFS",
-        "application_guidance": COF_APPLICATION_GUIDANCE,
+        "application_guidance_json": COF_APPLICATION_GUIDANCE,
         "guidance_url": (
             "https://www.gov.uk/government/publications/community-ownership-fund-round-3-application-form"
             "-assessment-criteria-guidance"
@@ -839,19 +855,28 @@ round_config_w3 = [
         "contact_textphone": None,
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
-        "instructions": (
-            "You must have received an invitation to apply. If we did not invite you,"
-            " first <a"
-            ' href="https://www.gov.uk/guidance/community-ownership-fund-round-3-how-'
-            'to-express-your-interest-in-applying">'
-            " express your interest in the fund</a>."
-        ),
+        "instructions_json": {
+            "en": (
+                "You must have received an invitation to apply. If we did not invite you,"
+                " first <a"
+                ' href="https://www.gov.uk/guidance/community-ownership-fund-round-3-how-'
+                'to-express-your-interest-in-applying">'
+                " express your interest in the fund</a>."
+            ),
+            "cy": (
+                "You must have received an invitation to apply. If we did not invite you,"
+                " first <a"
+                ' href="https://www.gov.uk/guidance/community-ownership-fund-round-3-how-'
+                'to-express-your-interest-in-applying">'
+                " express your interest in the fund</a>."
+            ),
+        },
         "feedback_link": (
             "https://forms.office.com/Pages/ResponsePage.aspx?id="
             "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
         ),
         "project_name_field_id": "apGjFS",
-        "application_guidance": COF_APPLICATION_GUIDANCE,
+        "application_guidance_json": COF_APPLICATION_GUIDANCE,
         "guidance_url": (
             "https://www.gov.uk/government/publications/community-ownership-fund-round-3-application-form"
             "-assessment-criteria-guidance"

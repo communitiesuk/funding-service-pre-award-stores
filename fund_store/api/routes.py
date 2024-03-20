@@ -42,6 +42,16 @@ def filter_fund_by_lang(fund_data, lang_key: str = "en"):
 def filter_round_by_lang(round_data, lang_key: str = "en"):
     def filter_round(data):
         data["title"] = data["title_json"].get(lang_key) or data["title_json"]["en"]
+        data["instructions"] = (
+            data["instructions_json"].get(lang_key) or data["instructions_json"].get("en")
+            if data["instructions_json"]
+            else ""
+        )
+        data["application_guidance"] = (
+            data["application_guidance_json"].get(lang_key) or data["application_guidance_json"].get("en")
+            if data["application_guidance_json"]
+            else ""
+        )
         return data
 
     if isinstance(round_data, dict):
