@@ -17,11 +17,13 @@ NS_R2_ASSESSMENT_DEADLINE_DATE = datetime(2023, 8, 9, 12, 0, 0, tzinfo=timezone.
 NIGHT_SHELTER_PROSPECTS_LINK = (
     "https://www.gov.uk/government/publications/night-shelter-transformation-fund-round-2-prospectus"
 )
-NIGHT_SHELTER_APPLICATION_GUIDANCE = (  # TODO: Provide welsh translation
-    "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
-    f" class='govuk-body'><a href='{NIGHT_SHELTER_PROSPECTS_LINK}'>Read the fund's"
-    " prospectus</a> before you apply.</p>"
-)
+NIGHT_SHELTER_APPLICATION_GUIDANCE = {
+    "en": (
+        "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
+        f" class='govuk-body'><a href='{NIGHT_SHELTER_PROSPECTS_LINK}'>Read the fund's"
+        " prospectus</a> before you apply.</p>"
+    )
+}
 
 r2_application_sections = [
     {
@@ -195,10 +197,10 @@ round_config = [
         "contact_textphone": None,
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
-        "instructions": "",
+        "instructions_json": None,
         "feedback_link": "https://forms.office.com/e/n6J9KPebUy",
         "project_name_field_id": "YVsPtE",
-        "application_guidance": NIGHT_SHELTER_APPLICATION_GUIDANCE,
+        "application_guidance_json": NIGHT_SHELTER_APPLICATION_GUIDANCE,
         "guidance_url": (
             "https://mhclg.sharepoint.com.mcas.ms/:w:/s/HomelessnessandRoughSleeping/EZn"
             "-Dq3eBvFDtdBqhyEZxUUBj_BP53F9TVyI0imX3NdcPw?e=PtmLwH"

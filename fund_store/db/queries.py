@@ -255,10 +255,10 @@ def insert_round_data(round_config):
             round_record.contact_textphone = item["contact_textphone"]
             round_record.support_times = item["support_times"]
             round_record.support_days = item["support_days"]
-            round_record.instructions = item["instructions"]
+            round_record.instructions_json = item["instructions_json"]
             round_record.project_name_field_id = item["project_name_field_id"]
             round_record.feedback_link = item["feedback_link"]
-            round_record.application_guidance = item["application_guidance"]
+            round_record.application_guidance_json = item["application_guidance_json"]
             round_record.guidance_url = item["guidance_url"]
             round_record.all_uploaded_documents_section_available = item["all_uploaded_documents_section_available"]
             round_record.application_fields_download_available = item["application_fields_download_available"]
@@ -290,10 +290,10 @@ def insert_round_data(round_config):
                 contact_textphone=item["contact_textphone"],
                 support_times=item["support_times"],
                 support_days=item["support_days"],
-                instructions=item["instructions"],
+                instructions_json=item["instructions_json"],
                 project_name_field_id=item["project_name_field_id"],
                 feedback_link=item["feedback_link"],
-                application_guidance=item["application_guidance"],
+                application_guidance_json=item["application_guidance_json"],
                 guidance_url=item["guidance_url"],
                 all_uploaded_documents_section_available=item["all_uploaded_documents_section_available"],
                 application_fields_download_available=item["application_fields_download_available"],

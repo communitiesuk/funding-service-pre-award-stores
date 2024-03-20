@@ -253,19 +253,27 @@ round_config_w1 = [
         "contact_textphone": None,
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
-        "instructions": (
-            "You must have received an invitation to apply. If we did not invite you,"
-            " first <a"
-            ' href="https://www.gov.uk/guidance/community-ownership-fund-round-3-how-'
-            'to-express-your-interest-in-applying">'
-            " express your interest in the fund</a>."
-        ),
+        "instructions_json": {
+            "en": (
+                "You must have received an invitation to apply. If we did not invite you,"
+                " first <a"
+                ' href="https://www.gov.uk/guidance/community-ownership-fund-round-3-how-'
+                'to-express-your-interest-in-applying">'
+                " express your interest in the fund</a>."
+            ),
+            "cy": (
+                "Mae'n rhaid i chi fod wedi derbyn gwahoddiad i ymgeisio. Os na wnaethom eich gwahodd, <a"
+                ' href="https://www.gov.uk/guidance/community-ownership-fund-round-3-how-'
+                'to-express-your-interest-in-applying">'
+                " mynegwch eich diddordeb yn y gronfa yn gyntaf</a>."
+            ),
+        },
         "feedback_link": (
             "https://forms.office.com/Pages/ResponsePage.aspx?id="
             "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
         ),
         "project_name_field_id": "apGjFS",
-        "application_guidance": COF_APPLICATION_GUIDANCE,
+        "application_guidance_json": COF_APPLICATION_GUIDANCE,
         "guidance_url": (
             "https://www.gov.uk/government/publications/community-ownership-fund-round-3-application-form"
             "-assessment-criteria-guidance"

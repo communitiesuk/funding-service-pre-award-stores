@@ -15,13 +15,15 @@ CYP_R1_DEADLINE_DATE = datetime(2023, 11, 1, 11, 59, 0, tzinfo=timezone.utc)  # 
 CYP_R1_ASSESSMENT_DEADLINE_DATE = datetime(2023, 12, 24, 12, 0, 0, tzinfo=timezone.utc)  # 2023-12-24 12:00:00
 
 CYP_PROSPECTS_LINK = "https://www.gov.uk/government/publications/the-children-and-young-peoples-resettlement-fund-prospectus/the-children-and-young-peoples-resettlement-fund-prospectus"  # noqa
-CYP_APPLICATION_GUIDANCE = (
-    "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
-    f" class='govuk-body'><a href='{CYP_PROSPECTS_LINK}'>Read the fund's prospectus</a>"
-    " before you apply.</p><p class='govuk-body'>You can <a"
-    " href='{all_questions_url}'>preview the full list of application"
-    " questions</a>.</p>"
-)
+CYP_APPLICATION_GUIDANCE = {
+    "en": (
+        "<h2 class='govuk-heading govuk-heading-s'>Before you start</h2><p"
+        f" class='govuk-body'><a href='{CYP_PROSPECTS_LINK}'>Read the fund's prospectus</a>"
+        " before you apply.</p><p class='govuk-body'>You can <a"
+        " href='{all_questions_url}'>preview the full list of application"
+        " questions</a>.</p>"
+    )
+}
 
 r1_application_sections = [
     {
@@ -163,10 +165,10 @@ round_config = [
         "contact_textphone": None,
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
-        "instructions": "",
+        "instructions_json": None,
         "feedback_link": "",
         "project_name_field_id": "bsUoNG",
-        "application_guidance": CYP_APPLICATION_GUIDANCE,
+        "application_guidance_json": CYP_APPLICATION_GUIDANCE,
         "guidance_url": (
             "https://www.gov.uk/government/publications/"
             "the-children-and-young-peoples-resettlement-"
