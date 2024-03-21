@@ -14,9 +14,9 @@ APPLICATION_BASE_PATH_COF_R4_W1 = ".".join([str(COF_R4_W1_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH_COF_R4_W1 = ".".join([str(COF_R4_W1_BASE_PATH), str(2)])
 
 # TODO Dates are still being debated and are likely to change
-COF_R4W1_OPENS_DATE = datetime(2024, 3, 28, 14, 00, 0, tzinfo=timezone.utc)  # 2024-03-28 14:00:00
-COF_R4W1_SEND_REMINDER_DATE = datetime(2024, 5, 22, 11, 59, 0, tzinfo=timezone.utc)  # 2024-05-22 11:59:00
-COF_R4W1_DEADLINE_DATE = datetime(2024, 5, 24, 11, 59, 0, tzinfo=timezone.utc)  # 2024-05-24 11:59:00
+COF_R4W1_OPENS_DATE = datetime(2024, 3, 25, 14, 00, 0, tzinfo=timezone.utc)  # 2024-03-25 14:00:00
+COF_R4W1_SEND_REMINDER_DATE = datetime(2024, 4, 8, 11, 59, 0, tzinfo=timezone.utc)  # 2024-04-08 11:59:00
+COF_R4W1_DEADLINE_DATE = datetime(2024, 4, 10, 14, 00, 0, tzinfo=timezone.utc)  # 2024-04-10 14:00:00
 COF_R4W1_ASSESSMENT_DEADLINE_DATE = datetime(2024, 6, 23, 12, 0, 0, tzinfo=timezone.utc)  # 2024-06-23 12:00:00
 
 cof_r4w1_sections = [
