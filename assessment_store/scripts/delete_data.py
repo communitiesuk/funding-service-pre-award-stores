@@ -9,6 +9,7 @@ from db.models.comment import Comment
 from db.models.comment import CommentsUpdate
 from db.models.flags import AssessmentFlag
 from db.models.flags import FlagUpdate
+from db.models.qa_complete import QaComplete
 from db.models.score import Score
 
 
@@ -22,6 +23,8 @@ def delete_single_assessment(application_id: str, do_commit: bool = False):
         print(f"\tDeleted {tags_deleted} tags")
         scores_deleted = db.session.query(Score).filter(Score.application_id == application_id).delete()
         print(f"\tDeleted {scores_deleted} scores")
+        qa_completed_deleted = db.session.query(QaComplete).filter(QaComplete.application_id == application_id).delete()
+        print(f"\tDeleted {qa_completed_deleted} scores")
 
         associated_flags = db.session.query(AssessmentFlag).filter(AssessmentFlag.application_id == application_id)
         if associated_flags.count() > 0:
