@@ -86,3 +86,28 @@ If you are on Mac, run the following command:
 
 
 1. `final.csv` will be located in the /home/<name of user> directory on the local machine, otherwise known as ~/  - alternatively, you can direct `final.csv` wherever you like, as long as you know the directory structure. ~/ will be the easiest to locate for both Macs and PCs.
+
+
+## Delete Data
+This script is intended for using in test environments, NEVER in production. It allows deletion of a specific single assessment record, or of all assessment records in a round.
+
+The parameter `c` determines whether or not the deletes will be committed to the database. Before updating the database the script will prompt for confirmation - you can suppress this with `q`.
+
+To delete a single assessment record, and commit, with a prompt to confirm:
+```
+python -m scripts.delete_data delete-assessment-record -id <application_id_to_delete> -c
+```
+To delete a single assessment record, and commit, with no prompt for confirmation:
+```
+python -m scripts.delete_data -q delete-assessment-record -id <application_id_to_delete> -c
+```
+
+To delete all assessments in a round, but not commit:
+```
+python -m scripts.delete_data delete-all-assessments-in-round -r <round_id_to_delete>
+```
+
+To run on AWS, wrap the above commands in:
+```
+copilot svc exec --name fsd-assessment-store --app pre-award --command "launcher <command goes here>"
+```
