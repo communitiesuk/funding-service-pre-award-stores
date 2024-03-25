@@ -81,6 +81,12 @@ class Round(BaseModel):
         default=False,
         nullable=False,
     )
+    is_expression_of_interest = Column(
+        "is_expression_of_interest",
+        db.Boolean,
+        default=False,
+        nullable=False,
+    )
     feedback_survey_config = Column("feedback_survey_config", JSON(none_as_null=True), nullable=True, unique=False)
     eligibility_config = Column("eligibility_config", JSON(none_as_null=True), nullable=True, unique=False)
     eoi_decision_schema = Column("eoi_decision_schema ", JSON(none_as_null=True), nullable=True, unique=False)

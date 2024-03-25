@@ -265,6 +265,7 @@ def insert_round_data(round_config):
             round_record.display_logo_on_pdf_exports = item["display_logo_on_pdf_exports"]
             round_record.feedback_survey_config = item["feedback_survey_config"]
             round_record.mark_as_complete_enabled = item["mark_as_complete_enabled"]
+            round_record.is_expression_of_interest = item["is_expression_of_interest"]
             round_record.eligibility_config = item["eligibility_config"]
             round_record.eoi_decision_schema = item["eoi_decision_schema"]
 
@@ -300,6 +301,7 @@ def insert_round_data(round_config):
                 display_logo_on_pdf_exports=item["display_logo_on_pdf_exports"],
                 feedback_survey_config=item["feedback_survey_config"],
                 mark_as_complete_enabled=item["mark_as_complete_enabled"],
+                is_expression_of_interest=item["is_expression_of_interest"],
                 eligibility_config=item["eligibility_config"],
                 eoi_decision_schema=item["eoi_decision_schema"],
             )

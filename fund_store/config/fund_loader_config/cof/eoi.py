@@ -151,6 +151,7 @@ round_config_eoi = [
         "application_fields_download_available": True,
         "display_logo_on_pdf_exports": False,
         "mark_as_complete_enabled": False,
+        "is_expression_of_interest": True,
         "feedback_survey_config": {
             "has_feedback_survey": False,
             "has_section_feedback": True,
