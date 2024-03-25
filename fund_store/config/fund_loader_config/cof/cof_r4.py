@@ -257,13 +257,13 @@ round_config_w1 = [
             "en": (
                 "You must have received an invitation to apply. If we did not invite you,"
                 " first <a"
-                ' href="https://www.gov.uk/guidance/community-ownership-fund-round-3-how-'
+                ' href="https://www.gov.uk/guidance/community-ownership-fund-round-4-how-'
                 'to-express-your-interest-in-applying">'
                 " express your interest in the fund</a>."
             ),
             "cy": (
                 "Mae'n rhaid i chi fod wedi derbyn gwahoddiad i ymgeisio. Os na wnaethom eich gwahodd, <a"
-                ' href="https://www.gov.uk/guidance/community-ownership-fund-round-3-how-'
+                ' href="https://www.gov.uk/guidance/community-ownership-fund-round-4-how-'
                 'to-express-your-interest-in-applying">'
                 " mynegwch eich diddordeb yn y gronfa yn gyntaf</a>."
             ),
