@@ -209,6 +209,7 @@ round_config = [
         "application_fields_download_available": False,
         "display_logo_on_pdf_exports": False,
         "mark_as_complete_enabled": False,
+        "is_expression_of_interest": False,
         "feedback_survey_config": {
             "has_feedback_survey": False,
             "has_section_feedback": False,
