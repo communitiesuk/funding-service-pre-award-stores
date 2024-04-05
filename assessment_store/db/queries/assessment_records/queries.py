@@ -865,6 +865,10 @@ def get_export_data(
                             title = form_fields[field["key"]][language]["title"]
                             field_type = form_fields[field["key"]][language].get("field_type", field["type"])
 
+                            if "answer" not in field:  # we use a blank string is there's no answer.
+                                applicant_info[title] = ""
+                                continue
+
                             # filter 'null' values from the address field
                             # TODO: Remove this filter after FS-4021
                             if field["answer"] and field_type == "ukAddressField":
