@@ -135,7 +135,7 @@ unscored_sections = [
                             {
                                 "field_id": "XuAyrs",
                                 "form_name": "about-your-asset",
-                                "field_type": "yesNoField",
+                                "field_type": "radiosField",
                                 "presentation_type": "text",
                                 "question": "Does the asset belong to a public authority?",
                             },
