@@ -874,6 +874,8 @@ def get_export_data(
                             if field["answer"] and field_type == "ukAddressField":
                                 address_parts = field["answer"].split(", ")
                                 answer = ", ".join([part for part in address_parts if part != "null"])
+                            elif field["answer"] and field_type == "uk_postcode":
+                                answer = field["answer"].split(", ")[-1]
                             else:
                                 answer = field["answer"]
 
@@ -885,6 +887,16 @@ def get_export_data(
                                 answer, bool
                             ):  # Adding check for bool since yesno fields are considered lists
                                 answer = format_lists(answer)
+
+                            if field_type == "sum_list" and isinstance(field["answer"], list):
+                                answer = 0
+                                field_to_sum = form_fields[field["key"]][language].get("field_to_sum", None)
+                                if not field_to_sum:
+                                    applicant_info[title] = ""
+                                    continue
+                                for sum_item in field["answer"]:
+                                    answer += int(sum_item[field_to_sum])
+
                             applicant_info[title] = answer
             applicant_info = add_missing_elements_with_empty_values(applicant_info, form_fields, language)
         final_list.append(applicant_info)

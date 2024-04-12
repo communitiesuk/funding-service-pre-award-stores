@@ -2,6 +2,8 @@ import random
 
 import pytest
 import sqlalchemy
+from config.mappings.assessment_mapping_fund_round import applicant_info_mapping
+from config.mappings.assessment_mapping_fund_round import COF_FUND_ID
 from db.models import Comment
 from db.models import Score
 from db.models.assessment_record.assessment_records import AssessmentRecord
@@ -14,6 +16,7 @@ from db.queries.assessment_records.queries import (
 )
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.assessment_records.queries import get_assessment_export_data
+from db.queries.assessment_records.queries import get_export_data
 from db.queries.comments.queries import create_comment_for_application_sub_crit
 from db.queries.comments.queries import get_comments_for_application_sub_crit
 from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
@@ -399,3 +402,39 @@ def test_output_tracker_with_no_scores_data(seed_application_records, mocker):
     assert data["en_list"][0]["Do you need to do any further feasibility work?"] is False
     assert data["en_list"][0]["Project name"] == "Save the humble pub in Bangor"
     assert data["en_list"][0]["Risks to your project (document upload)"] == "sample1.doc"
+
+
+@pytest.mark.apps_to_insert([test_input_data[4]])  # taken from assessment store for cof r4w1
+def test_get_cof_r4w1_export_data_en(seed_application_records):
+    app_id = test_input_data[4]["id"]
+    test_record = get_assessment_record(app_id)
+    result = get_export_data("round_id", "ASSESSOR_EXPORT", applicant_info_mapping[COF_FUND_ID], [test_record], "en")
+    assert len(result) == 1
+    assert str(result[0]["Application ID"]) == app_id
+    assert result[0]["Name of lead contact"] == "test lead person"
+    assert result[0]["Type of organisation"] == "CIO"
+    assert result[0]["Asset type"] == "community-centre"
+    assert result[0]["Type of asset (other)"] == ""
+    assert result[0]["Charity number"] == "786786"
+    assert result[0]["Organisation address"] == "test, test, test, test, ss12ss"
+    assert result[0]["Postcode of asset"] == "NP10 8QQ"
+    assert result[0]["Capital funding request"] == "966585"
+    assert result[0]["Revenue costs (optional)"] == 456
+
+
+@pytest.mark.apps_to_insert([test_input_data[5]])  # taken from assessment store for cof r4w1
+def test_get_cof_r4w1_export_data_cy(seed_application_records):
+    app_id = test_input_data[5]["id"]
+    test_record = get_assessment_record(app_id)
+    result = get_export_data("round_id", "ASSESSOR_EXPORT", applicant_info_mapping[COF_FUND_ID], [test_record], "cy")
+    assert len(result) == 1
+    assert str(result[0]["Application ID"]) == app_id
+    assert result[0]["Enw'r cyswllt arweiniol"] == "asdf"
+    assert result[0]["Math o sefydliad"] == "Cwmni cydweithredol, fel cymdeithas budd cymunedol"
+    assert result[0]["Math o ased"] == "Arall"
+    assert result[0]["Math o eiddo (arall)"] == "other asset type"
+    assert result[0]["Rhif elusen"] == ""
+    assert result[0]["Cyfeiriad y sefydliad"] == "line 1, town, county, PL11RN"
+    assert result[0]["Cod post o ased"] == "PL11RN"
+    assert result[0]["Cais cyllido cyfalaf"] == "234234"
+    assert result[0]["Costau refeniw (dewisol)"] == ""

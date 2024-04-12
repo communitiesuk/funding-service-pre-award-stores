@@ -1,9 +1,13 @@
 import inspect
+import sys
 
-from invoke import task
-from tasks.helper_tasks import _echo_input
-from tasks.helper_tasks import _echo_print
-from tasks.helper_tasks import _env_var
+sys.path.insert(1, ".")
+
+from invoke import task  # noqa:E402
+from tasks.helper_tasks import _echo_input  # noqa:E402
+from tasks.helper_tasks import _echo_print  # noqa:E402
+from tasks.helper_tasks import _env_var  # noqa:E402
+from app import app  # noqa:E402
 
 # Needed for invoke to work on python3.11
 # Remove once invoke has been updated.
@@ -23,8 +27,6 @@ def bootstrap_dev_db(c):
     from sqlalchemy_utils.functions import database_exists
 
     with _env_var("FLASK_ENV", "development"):
-        from app import app
-
         with app.app_context():
             from config import Config
 
@@ -66,8 +68,6 @@ def seed_dev_db(c, fundround=None, appcount=None):
     from flask_migrate import upgrade
 
     with _env_var("FLASK_ENV", "development"):
-        from app import app
-
         with app.app_context():
             from tests._helpers import seed_database_for_fund_round
             from config import Config
