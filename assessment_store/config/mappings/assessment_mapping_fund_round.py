@@ -277,6 +277,44 @@ applicant_info_mapping = {
                         "field_type": "ukAddressField",
                     },
                 },
+                "WWWWxy": {
+                    "en": {"title": "Your expression of interest (EOI) application reference"},
+                    "cy": {"title": "Cyfeirnod eich ffurflen mynegi diddordeb (EOI)."},
+                },
+                "YdtlQZ": {"en": {"title": "Organisation name"}, "cy": {"title": "Enw'r sefydliad"}},
+                "lajFtB": {
+                    "en": {
+                        "title": "Type of organisation",
+                        "field_type": "radiosField",
+                    },
+                    "cy": {
+                        "title": "Math o sefydliad",
+                        "field_type": "radiosField",
+                    },
+                },
+                "aHIGbK": {"en": {"title": "Charity number"}, "cy": {"title": "Rhif elusen"}},
+                "GlPmCX": {"en": {"title": "Company registration number"}, "cy": {"title": "Rhif cofrestru'r cwmni"}},
+                "oXGwlA": {
+                    "en": {
+                        "title": "Asset type",
+                        "field_type": "radiosField",
+                    },
+                    "cy": {
+                        "title": "Math o ased",
+                        "field_type": "radiosField",
+                    },
+                },
+                "aJGyCR": {"en": {"title": "Type of asset (other)"}, "cy": {"title": "Math o eiddo (arall)"}},
+                "EfdliG": {
+                    "en": {"title": "Postcode of asset", "field_type": "uk_postcode"},
+                    "cy": {"title": "Cod post o ased", "field_type": "uk_postcode"},
+                },
+                "ABROnB": {"en": {"title": "Capital funding request"}, "cy": {"title": "Cais cyllido cyfalaf"}},
+                "tSKhQQ": {
+                    "en": {"title": "Revenue costs (optional)", "field_type": "sum_list", "field_to_sum": "UyaAHw"},
+                    "cy": {"title": "Costau refeniw (dewisol)"},
+                },
+                "apGjFS": {"en": {"title": "Project name"}, "cy": {"title": "Enw'r prosiect"}},
             }
         },
         "OUTPUT_TRACKER": {},
