@@ -134,6 +134,7 @@ round_config = [
         "assessment_deadline": HSRA_ASSESSMENT_DEADLINE_DATE,
         "prospectus": "",  # TODO needs to be added
         "privacy_notice": "",
+        "contact_us_banner_json": {"en": "", "cy": ""},
         "contact_email": "HighStreetRentalAuctions@levellingup.gov.uk",
         "contact_phone": None,
         "contact_textphone": None,
