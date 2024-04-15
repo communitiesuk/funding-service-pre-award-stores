@@ -10,7 +10,7 @@ from .assessment_routes import get_banner_state
 from .assessment_routes import sub_criteria
 from .assessment_routes import update_ar_status_to_completed
 from .comment_routes import comments_for_application_sub_criteria
-from .comment_routes import post_comments_for_application_sub_criteria
+from .comment_routes import post_comments
 from .comment_routes import put_comments_for_application_sub_criteria
 from .flag_routes import create_flag_for_application
 from .flag_routes import get_all_flags_for_application
@@ -41,7 +41,7 @@ __all__ = [
     "sub_criteria",
     "get_application_json_and_sub_criterias",
     "comments_for_application_sub_criteria",
-    "post_comments_for_application_sub_criteria",
+    "post_comments",
     "put_comments_for_application_sub_criteria",
     "get_banner_state",
     "get_progress_for_applications",

@@ -6,3 +6,5 @@ class CommentType(Enum):
     values for the `comment_type` column."""
 
     COMMENT = 0
+
+    WHOLE_APPLICATION = 1

@@ -1,6 +1,7 @@
 from typing import Dict
 
-from db.queries.comments import create_comment_for_application_sub_crit
+from db.models.comment.enums import CommentType
+from db.queries.comments import create_comment
 from db.queries.comments import get_comments_for_application_sub_crit
 from db.queries.comments import update_comment_for_application_sub_crit
 from flask import request
@@ -28,9 +29,8 @@ def comments_for_application_sub_criteria(
     return comment_metadatas
 
 
-def post_comments_for_application_sub_criteria() -> Dict:
-    """post_comments_for_application_sub_criteria Function used by the post
-    endpoint `/comment`.
+def post_comments() -> Dict:
+    """post_comments Function used by the post endpoint `/comment`.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
@@ -45,11 +45,12 @@ def post_comments_for_application_sub_criteria() -> Dict:
     application_id = args["application_id"]
     sub_criteria_id = args["sub_criteria_id"]
     comment = args["comment"]
-    comment_type = args["comment_type"]
+    comment_type = CommentType(args["comment_type"])
+
     user_id = args["user_id"]
     theme_id = args["theme_id"]
 
-    created_comment = create_comment_for_application_sub_crit(
+    created_comment = create_comment(
         application_id=application_id,
         sub_criteria_id=sub_criteria_id,
         comment=comment,

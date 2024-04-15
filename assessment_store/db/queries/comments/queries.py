@@ -53,7 +53,7 @@ def get_comments_for_application_sub_crit(
     return comment_metadatas
 
 
-def create_comment_for_application_sub_crit(
+def create_comment(
     application_id: str,
     sub_criteria_id: str,
     comment: str,

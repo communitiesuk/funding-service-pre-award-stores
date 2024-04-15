@@ -14,7 +14,7 @@ from db.queries.assessment_records.queries import (
 )
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.assessment_records.queries import get_assessment_export_data
-from db.queries.comments.queries import create_comment_for_application_sub_crit
+from db.queries.comments.queries import create_comment
 from db.queries.comments.queries import get_comments_for_application_sub_crit
 from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
 from db.queries.comments.queries import update_comment_for_application_sub_crit
@@ -114,7 +114,7 @@ def test_post_comment(seed_application_records):
         "user_id": "test",
         "theme_id": "something",
     }
-    comment_metadata = create_comment_for_application_sub_crit(**assessment_payload)
+    comment_metadata = create_comment(**assessment_payload)
 
     assert len(comment_metadata) == 8
     assert comment_metadata["user_id"] == "test"
@@ -138,7 +138,7 @@ def test_put_comment(seed_application_records):
         "user_id": "test",
         "theme_id": "something",
     }
-    comment_metadata = create_comment_for_application_sub_crit(**assessment_payload)
+    comment_metadata = create_comment(**assessment_payload)
 
     assert len(comment_metadata) == 8
     assert comment_metadata["user_id"] == "test"
@@ -171,7 +171,7 @@ def test_get_comments(seed_application_records):
         "user_id": "test",
         "theme_id": theme_id,
     }
-    create_comment_for_application_sub_crit(**assessment_payload_1)
+    create_comment(**assessment_payload_1)
 
     assessment_payload_2 = {
         "application_id": application_id,
@@ -181,7 +181,7 @@ def test_get_comments(seed_application_records):
         "user_id": "test",
         "theme_id": theme_id,
     }
-    create_comment_for_application_sub_crit(**assessment_payload_2)
+    create_comment(**assessment_payload_2)
 
     assessment_payload_3 = {
         "application_id": application_id,
@@ -191,7 +191,7 @@ def test_get_comments(seed_application_records):
         "user_id": "test",
         "theme_id": "different theme",
     }
-    comment_metadata = create_comment_for_application_sub_crit(**assessment_payload_3)
+    comment_metadata = create_comment(**assessment_payload_3)
 
     comment_metadata_for_theme = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id)
     assert len(comment_metadata_for_theme) == 2
@@ -220,7 +220,7 @@ def test_get_sub_criteria_to_has_comment_map(seed_application_records):
         "user_id": "test",
         "theme_id": theme_id,
     }
-    create_comment_for_application_sub_crit(**assessment_payload_1)
+    create_comment(**assessment_payload_1)
 
     result = get_sub_criteria_to_has_comment_map(picked_row.application_id)
     assert result[sub_criteria_id] is True

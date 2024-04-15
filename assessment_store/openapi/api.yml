@@ -734,7 +734,7 @@ paths:
         - comments
       summary: post a comment for subcriteria in application
       description: post a comment for a subcriteria in an application
-      operationId: api.routes.post_comments_for_application_sub_criteria
+      operationId: api.routes.post_comments
       requestBody:
         description: Comment creation parameters
         required: true
