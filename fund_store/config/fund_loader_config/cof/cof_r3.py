@@ -1,5 +1,3 @@
-# flake8: noqa
-import textwrap
 from datetime import datetime
 from datetime import timezone
 
@@ -730,47 +728,7 @@ round_config = [
             "https://www.gov.uk/government/publications/community-ownership-fund-"
             "privacy-notice/community-ownership-fund-privacy-notice"
         ),
-        "contact_us_banner_json": {
-            "en": textwrap.dedent(
-                """
-                 <h2 class="govuk-heading-m">Get application support</h2>
-                 <p class="govuk-body">
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Visit the My Community website</a>
-                    for information and guidance on applying to Community Ownership Fund.
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Fill out the enquiry form</a>
-                    to request advice from My Community.
-                </p>
-                <p class="govuk-body">
-                    We cannot provide direct support to applicants outside of this service.
-                </p>
-                <h2 class="govuk-heading-m">Get technical support</h2>
-                <p  class="govuk-body">
-                    Contact the Department of Levelling Up, Housing and Communities funding team if you need
-                    help with accessing or submitting an application form.
-                </p>
-            """
-            ),
-            "cy": textwrap.dedent(
-                """
-                 <h2 class="govuk-heading-m">Get application support</h2>
-                 <p class="govuk-body">
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Visit the My Community website</a>
-                    for information and guidance on applying to Community Ownership Fund.
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Fill out the enquiry form</a>
-                    to request advice from My Community.
-                </p>
-                <p class="govuk-body">
-                    We cannot provide direct support to applicants outside of this service.
-                </p>
-                <h2 class="govuk-heading-m">Get technical support</h2>
-                <p  class="govuk-body">
-                    Contact the Department of Levelling Up, Housing and Communities funding team if you need
-                    help with accessing or submitting an application form.
-                </p>
-            """
-            ),
-        },
-        "contact_email": "fsd.support@levellingup.gov.uk",
+        "contact_email": "COF@levellingup.gov.uk",
         "contact_phone": None,
         "contact_textphone": None,
         "support_times": "9am to 5pm",
@@ -832,47 +790,7 @@ round_config_w2 = [
             "https://www.gov.uk/government/publications/community-ownership-fund-"
             "privacy-notice/community-ownership-fund-privacy-notice"
         ),
-        "contact_us_banner_json": {
-            "en": textwrap.dedent(
-                """
-                 <h2 class="govuk-heading-m">Get application support</h2>
-                 <p class="govuk-body">
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Visit the My Community website</a>
-                    for information and guidance on applying to Community Ownership Fund.
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Fill out the enquiry form</a>
-                    to request advice from My Community.
-                </p>
-                <p class="govuk-body">
-                    We cannot provide direct support to applicants outside of this service.
-                </p>
-                <h2 class="govuk-heading-m">Get technical support</h2>
-                <p  class="govuk-body">
-                    Contact the Department of Levelling Up, Housing and Communities funding team if you need
-                    help with accessing or submitting an application form.
-                </p>
-            """
-            ),
-            "cy": textwrap.dedent(
-                """
-                 <h2 class="govuk-heading-m">Get application support</h2>
-                 <p class="govuk-body">
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Visit the My Community website</a>
-                    for information and guidance on applying to Community Ownership Fund.
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Fill out the enquiry form</a>
-                    to request advice from My Community.
-                </p>
-                <p class="govuk-body">
-                    We cannot provide direct support to applicants outside of this service.
-                </p>
-                <h2 class="govuk-heading-m">Get technical support</h2>
-                <p  class="govuk-body">
-                    Contact the Department of Levelling Up, Housing and Communities funding team if you need
-                    help with accessing or submitting an application form.
-                </p>
-            """
-            ),
-        },
-        "contact_email": "fsd.support@levellingup.gov.uk",
+        "contact_email": "COF@levellingup.gov.uk",
         "contact_phone": None,
         "contact_textphone": None,
         "support_times": "9am to 5pm",
@@ -934,47 +852,7 @@ round_config_w3 = [
             "https://www.gov.uk/government/publications/community-ownership-fund-"
             "privacy-notice/community-ownership-fund-privacy-notice"
         ),
-        "contact_us_banner_json": {
-            "en": textwrap.dedent(
-                """
-                 <h2 class="govuk-heading-m">Get application support</h2>
-                 <p class="govuk-body">
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Visit the My Community website</a>
-                    for information and guidance on applying to Community Ownership Fund.
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Fill out the enquiry form</a>
-                    to request advice from My Community.
-                </p>
-                <p class="govuk-body">
-                    We cannot provide direct support to applicants outside of this service.
-                </p>
-                <h2 class="govuk-heading-m">Get technical support</h2>
-                <p  class="govuk-body">
-                    Contact the Department of Levelling Up, Housing and Communities funding team if you need
-                    help with accessing or submitting an application form.
-                </p>
-            """
-            ),
-            "cy": textwrap.dedent(
-                """
-                 <h2 class="govuk-heading-m">Get application support</h2>
-                 <p class="govuk-body">
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Visit the My Community website</a>
-                    for information and guidance on applying to Community Ownership Fund.
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Fill out the enquiry form</a>
-                    to request advice from My Community.
-                </p>
-                <p class="govuk-body">
-                    We cannot provide direct support to applicants outside of this service.
-                </p>
-                <h2 class="govuk-heading-m">Get technical support</h2>
-                <p  class="govuk-body">
-                    Contact the Department of Levelling Up, Housing and Communities funding team if you need
-                    help with accessing or submitting an application form.
-                </p>
-            """
-            ),
-        },
-        "contact_email": "fsd.support@levellingup.gov.uk",
+        "contact_email": "COF@levellingup.gov.uk",
         "contact_phone": None,
         "contact_textphone": None,
         "support_times": "9am to 5pm",

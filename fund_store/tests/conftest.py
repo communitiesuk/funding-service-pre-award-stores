@@ -140,7 +140,6 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
                 "assessment_deadline": "2024-02-28 12:00:00",
                 "prospectus": "http://google.com",
                 "privacy_notice": "http://google.com",
-                "contact_us_banner_json": {"en": "", "cy": ""},
                 "contact_email": "contact@example.com",
                 "contact_phone": "01234567890",
                 "contact_textphone": "1234",

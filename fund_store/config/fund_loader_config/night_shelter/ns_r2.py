@@ -192,7 +192,6 @@ round_config = [
         "assessment_deadline": NS_R2_ASSESSMENT_DEADLINE_DATE,
         "prospectus": NIGHT_SHELTER_PROSPECTS_LINK,
         "privacy_notice": "https://www.gov.uk/guidance/night-shelter-transformation-fund-2022-2025-privacy-notice",
-        "contact_us_banner_json": {"en": "", "cy": ""},
         "contact_email": "transformationfund@levellingup.gov.uk",
         "contact_phone": None,
         "contact_textphone": None,

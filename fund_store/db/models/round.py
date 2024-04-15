@@ -45,7 +45,6 @@ class Round(BaseModel):
     assessment_deadline = Column("assessment_deadline", DateTime())
     prospectus = Column("prospectus", db.String(), nullable=False, unique=False)
     privacy_notice = Column("privacy_notice", db.String(), nullable=False, unique=False)
-    contact_us_banner_json = Column("contact_us_banner_json", JSON(none_as_null=True), nullable=True, unique=False)
     contact_email = Column("contact_email", db.String(), nullable=True, unique=False)
     contact_phone = Column("contact_phone", db.String(), nullable=True, unique=False)
     contact_textphone = Column("contact_textphone", db.String(), nullable=True, unique=False)
