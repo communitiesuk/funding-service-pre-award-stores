@@ -3,7 +3,7 @@ Postgres db."""
 import uuid
 
 from db import db
-from db.models.score.enums import ScoringSysyem
+from db.models.score.enums import ScoringSystem
 from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.dialects.postgresql import UUID
@@ -39,4 +39,4 @@ class AssessmentRound(db.Model):
 
     round_id = db.Column("round_id", UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
 
-    scoring_system = db.Column("scoring_system", ENUM(ScoringSysyem), nullable=False)
+    scoring_system = db.Column("scoring_system", ENUM(ScoringSystem), nullable=False)
