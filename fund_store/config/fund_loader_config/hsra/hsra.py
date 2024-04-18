@@ -153,7 +153,7 @@ round_config = [
             "https://forms.office.com/Pages/ResponsePage.aspx?id="
             "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
         ),
-        "project_name_field_id": "apGjFS",
+        "project_name_field_id": "qbBtUh",
         "application_guidance_json": "",
         "guidance_url": "",  # TODO add guidance link
         "all_uploaded_documents_section_available": True,
