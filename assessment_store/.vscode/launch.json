@@ -55,16 +55,6 @@
     ]
   },
   {
-    "name": "Bootstrap dev DB",
-    "type": "python",
-    "request": "launch",
-    "module": "invoke",
-    "envFile": "${workspaceFolder}/.env.development",
-    "args": [
-      "bootstrap_dev_db"
-    ]
-  },
-  {
     "name": "Downgrade DB",
     "type": "python",
     "request": "launch",
@@ -73,7 +63,7 @@
     "args": [
       "db",
       "downgrade",
-      "ea9b2ccebd34" // modify the downgrade revision accordingly
+      "6c8205510de6" // modify the downgrade revision accordingly
     ]
   },
   {

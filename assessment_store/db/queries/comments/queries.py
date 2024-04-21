@@ -9,16 +9,18 @@ from typing import Dict
 from db import db
 from db.models.comment.comments import Comment
 from db.models.comment.comments_update import CommentsUpdate
+from db.models.comment.enums import CommentType
 from db.schemas import CommentMetadata
 from sqlalchemy import and_
 from sqlalchemy import select
 
 
-def get_comments_for_application_sub_crit(
+def get_comments_from_db(
     application_id: str = None,
     sub_criteria_id: str = None,
     theme_id: str = None,
     comment_id: str = None,
+    comment_type: CommentType = None,
 ) -> list[dict]:
     """Retrieve comments based on provided criteria.
 
@@ -32,19 +34,23 @@ def get_comments_for_application_sub_crit(
     """
     # Create a base query to retrieve Comment objects ordered by date_created
     query = db.session.query(Comment).order_by(Comment.date_created.desc())
+    filters = []
 
     if comment_id:
         # Filter the query to retrieve only the comment with the given comment_id
-        query = query.filter(Comment.id == comment_id)
+        filters.append(Comment.id == comment_id)
     elif application_id:
-        filters = [Comment.application_id == application_id]
+        filters.append(Comment.application_id == application_id)
         if sub_criteria_id:
             filters.append(Comment.sub_criteria_id == sub_criteria_id)
         if theme_id:
             filters.append(Comment.theme_id == theme_id)
-        # Combine multiple filters using logical AND using the `and_` function from SQLAlchemy
 
-        query = query.filter(and_(*filters))
+    if comment_type:
+        filters.append(Comment.comment_type == comment_type)
+
+    # Combine multiple filters using logical AND using the `and_` function from SQLAlchemy
+    query = query.filter(and_(*filters))
 
     comment_rows = query.all()
     metadata_serializer = CommentMetadata()

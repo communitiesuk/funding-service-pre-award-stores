@@ -15,7 +15,7 @@ from db.queries.assessment_records.queries import (
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.assessment_records.queries import get_assessment_export_data
 from db.queries.comments.queries import create_comment
-from db.queries.comments.queries import get_comments_for_application_sub_crit
+from db.queries.comments.queries import get_comments_from_db
 from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
 from db.queries.comments.queries import update_comment_for_application_sub_crit
 from db.queries.scores.queries import create_score_for_app_sub_crit
@@ -187,21 +187,21 @@ def test_get_comments(seed_application_records):
         "application_id": application_id,
         "sub_criteria_id": sub_criteria_id,
         "comment": "Please provide more information",
-        "comment_type": "COMMENT",
+        "comment_type": "WHOLE_APPLICATION",
         "user_id": "test",
         "theme_id": "different theme",
     }
     comment_metadata = create_comment(**assessment_payload_3)
 
-    comment_metadata_for_theme = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id)
+    comment_metadata_for_theme = get_comments_from_db(application_id, sub_criteria_id, theme_id)
     assert len(comment_metadata_for_theme) == 2
     assert comment_metadata_for_theme[0]["theme_id"] == comment_metadata_for_theme[1]["theme_id"]
 
-    comment_metadata_no_theme = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id=None)
+    comment_metadata_no_theme = get_comments_from_db(application_id, sub_criteria_id, theme_id=None)
     assert len(comment_metadata_no_theme) == 3
 
     # test without application_id
-    comment_metadata_for_comment_id = get_comments_for_application_sub_crit(comment_id=comment_metadata["id"])
+    comment_metadata_for_comment_id = get_comments_from_db(comment_id=comment_metadata["id"])
     assert len(comment_metadata_for_comment_id) == 1
 
 
