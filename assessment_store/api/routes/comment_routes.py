@@ -47,7 +47,8 @@ def post_comments() -> Dict:
     application_id = args["application_id"]
     sub_criteria_id = args["sub_criteria_id"]
     comment = args["comment"]
-    comment_type = args["comment_type"]
+    comment_type = CommentType(args["comment_type"])
+
     user_id = args["user_id"]
     theme_id = args["theme_id"]
 
