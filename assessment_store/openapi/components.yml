@@ -149,7 +149,7 @@ components:
         sub_criteria_id:
           type: string
         comment_type:
-          type: integer
+          type: string
         theme_id:
           type: string
         updates:

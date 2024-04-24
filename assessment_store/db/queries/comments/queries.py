@@ -97,12 +97,12 @@ def create_comment(
     return comment_metadata
 
 
-def update_comment_for_application_sub_crit(
+def update_comment(
     comment: str,
     comment_id: str,
 ) -> Dict:
-    """update_comment_for_application_sub_crit executes a query on comments which
-    updates a comment for the given comment id.
+    """update_comment executes a query on comments which updates a comment for the
+    given comment id.
 
     :param comment: The comment string.
     :param comment_id: The comment id.
