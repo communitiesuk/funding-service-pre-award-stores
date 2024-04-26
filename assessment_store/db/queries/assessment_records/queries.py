@@ -647,7 +647,7 @@ def associate_assessment_tags(application_id, tags: List):
                 )[1]
                 # If it's already associated, skip, otherwise, create a new associated tag.
                 if most_recent_tag.associated:
-                    current_app.logger.info(f"Tag is alreday associated: { most_recent_tag.tag_id}")
+                    current_app.logger.info(f"Tag is alreday associated: {most_recent_tag.tag_id}")
                 else:
                     current_app.logger.info(f"Creating new tag: {incoming_tag_id}")
                     create_tag(
