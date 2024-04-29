@@ -677,8 +677,8 @@ paths:
       tags:
         - comments
       summary: get comments for subcriteria in application
-      description: get comments for a subcriteria in an application
-      operationId: api.routes.comments_for_application_sub_criteria
+      description: get comments in an application
+      operationId: api.routes.get_comments
       responses:
         200:
           description: SUCCESS - A list of comments
@@ -734,7 +734,7 @@ paths:
         - comments
       summary: post a comment for subcriteria in application
       description: post a comment for a subcriteria in an application
-      operationId: api.routes.post_comments_for_application_sub_criteria
+      operationId: api.routes.post_comments
       requestBody:
         description: Comment creation parameters
         required: true
@@ -763,7 +763,7 @@ paths:
         - comments
       summary: update a comment for subcriteria in application
       description: edit a comment for a subcriteria in an application
-      operationId: api.routes.put_comments_for_application_sub_criteria
+      operationId: api.routes.put_comments
       requestBody:
         description: Comment creation parameters
         required: true

@@ -1,19 +1,19 @@
 from typing import Dict
 
-from db.queries.comments import create_comment_for_application_sub_crit
-from db.queries.comments import get_comments_for_application_sub_crit
-from db.queries.comments import update_comment_for_application_sub_crit
+from db.queries.comments import create_comment
+from db.queries.comments import get_comments_from_db
+from db.queries.comments import update_comment
 from flask import request
 
 
-def comments_for_application_sub_criteria(
+def get_comments(
     application_id: str = None,
     sub_criteria_id: str = None,
     theme_id: str = None,
     comment_id: str = None,
+    comment_type: str = None,
 ) -> Dict:
-    """comments_for_application_sub_criteria Function used by the get endpoint
-    `/comment`.
+    """get_comments Function used by the get endpoint `/comment`.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
@@ -23,14 +23,15 @@ def comments_for_application_sub_criteria(
 
     """
 
-    comment_metadatas = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id, comment_id)
+    comment_metadatas = get_comments_from_db(
+        application_id, sub_criteria_id, theme_id, comment_id, comment_type=comment_type
+    )
 
     return comment_metadatas
 
 
-def post_comments_for_application_sub_criteria() -> Dict:
-    """post_comments_for_application_sub_criteria Function used by the post
-    endpoint `/comment`.
+def post_comments() -> Dict:
+    """post_comments Function used by the post endpoint `/comment`.
 
     :param application_id: The stringified application UUID.
     :param sub_criteria_id: The stringified sub_criteria UUID.
@@ -46,10 +47,11 @@ def post_comments_for_application_sub_criteria() -> Dict:
     sub_criteria_id = args["sub_criteria_id"]
     comment = args["comment"]
     comment_type = args["comment_type"]
+
     user_id = args["user_id"]
     theme_id = args["theme_id"]
 
-    created_comment = create_comment_for_application_sub_crit(
+    created_comment = create_comment(
         application_id=application_id,
         sub_criteria_id=sub_criteria_id,
         comment=comment,
@@ -61,9 +63,8 @@ def post_comments_for_application_sub_criteria() -> Dict:
     return created_comment
 
 
-def put_comments_for_application_sub_criteria() -> Dict:
-    """put_comments_for_application_sub_criteria Function used by the put endpoint
-    `/comment`.
+def put_comments() -> Dict:
+    """put_comments Function used by the put endpoint `/comment`.
 
     :param comment: The comment to be updated.
     :param comment_id: The stringified comment_id UUID.
@@ -74,7 +75,7 @@ def put_comments_for_application_sub_criteria() -> Dict:
     comment = args["comment"]
     comment_id = args["comment_id"]
 
-    updated_comment = update_comment_for_application_sub_crit(
+    updated_comment = update_comment(
         comment=comment,
         comment_id=comment_id,
     )

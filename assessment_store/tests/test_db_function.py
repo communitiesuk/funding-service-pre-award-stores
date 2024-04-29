@@ -17,10 +17,10 @@ from db.queries.assessment_records.queries import (
 from db.queries.assessment_records.queries import find_assessor_task_list_state
 from db.queries.assessment_records.queries import get_assessment_export_data
 from db.queries.assessment_records.queries import get_export_data
-from db.queries.comments.queries import create_comment_for_application_sub_crit
-from db.queries.comments.queries import get_comments_for_application_sub_crit
+from db.queries.comments.queries import create_comment
+from db.queries.comments.queries import get_comments_from_db
 from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
-from db.queries.comments.queries import update_comment_for_application_sub_crit
+from db.queries.comments.queries import update_comment
 from db.queries.scores.queries import create_score_for_app_sub_crit
 from tests._expected_responses import BULK_UPDATE_LOCATION_JSONB_BLOB
 from tests._helpers import get_assessment_record
@@ -117,11 +117,37 @@ def test_post_comment(seed_application_records):
         "user_id": "test",
         "theme_id": "something",
     }
-    comment_metadata = create_comment_for_application_sub_crit(**assessment_payload)
+    comment_metadata = create_comment(**assessment_payload)
 
     assert len(comment_metadata) == 8
     assert comment_metadata["user_id"] == "test"
     assert comment_metadata["theme_id"] == "something"
+    assert comment_metadata["comment_type"] == "COMMENT"
+
+
+@pytest.mark.apps_to_insert([test_input_data[0]])
+def test_post_comment_whole_application(seed_application_records):
+    """test_post_comment_whole_application tests we can create comment records in
+    the comments table."""
+
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
+    application_id = picked_row.application_id
+
+    assessment_payload = {
+        "application_id": application_id,
+        "sub_criteria_id": None,
+        "comment": "Please provide more information",
+        "comment_type": "WHOLE_APPLICATION",
+        "user_id": "test",
+        "theme_id": None,
+    }
+    comment_metadata = create_comment(**assessment_payload)
+
+    assert len(comment_metadata) == 8
+    assert comment_metadata["user_id"] == "test"
+    assert comment_metadata["theme_id"] is None
+    assert comment_metadata["sub_criteria_id"] is None
+    assert comment_metadata["comment_type"] == "WHOLE_APPLICATION"
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
@@ -141,16 +167,45 @@ def test_put_comment(seed_application_records):
         "user_id": "test",
         "theme_id": "something",
     }
-    comment_metadata = create_comment_for_application_sub_crit(**assessment_payload)
+    comment_metadata = create_comment(**assessment_payload)
 
     assert len(comment_metadata) == 8
     assert comment_metadata["user_id"] == "test"
     assert comment_metadata["theme_id"] == "something"
 
     updated_comment = "This is updated comment"
-    comment_metadata = update_comment_for_application_sub_crit(
-        comment_id=comment_metadata["id"], comment=updated_comment
-    )
+    comment_metadata = update_comment(comment_id=comment_metadata["id"], comment=updated_comment)
+
+    assert len(comment_metadata) == 8
+    assert comment_metadata["updates"][-1]["comment"] == updated_comment
+
+
+@pytest.mark.apps_to_insert([test_input_data[0]])
+def test_put_comment_whole_application(seed_application_records):
+    """test_put_comment_whole_application tests we can create comment records in
+    the comments table."""
+
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
+    application_id = picked_row.application_id
+
+    assessment_payload = {
+        "application_id": application_id,
+        "sub_criteria_id": None,
+        "comment": "Please provide more information",
+        "comment_type": "WHOLE_APPLICATION",
+        "user_id": "test",
+        "theme_id": None,
+    }
+    comment_metadata = create_comment(**assessment_payload)
+
+    assert len(comment_metadata) == 8
+    assert comment_metadata["user_id"] == "test"
+    assert comment_metadata["theme_id"] is None
+    assert comment_metadata["sub_criteria_id"] is None
+    assert comment_metadata["comment_type"] == "WHOLE_APPLICATION"
+
+    updated_comment = "This is updated comment"
+    comment_metadata = update_comment(comment_id=comment_metadata["id"], comment=updated_comment)
 
     assert len(comment_metadata) == 8
     assert comment_metadata["updates"][-1]["comment"] == updated_comment
@@ -174,7 +229,7 @@ def test_get_comments(seed_application_records):
         "user_id": "test",
         "theme_id": theme_id,
     }
-    create_comment_for_application_sub_crit(**assessment_payload_1)
+    create_comment(**assessment_payload_1)
 
     assessment_payload_2 = {
         "application_id": application_id,
@@ -184,7 +239,7 @@ def test_get_comments(seed_application_records):
         "user_id": "test",
         "theme_id": theme_id,
     }
-    create_comment_for_application_sub_crit(**assessment_payload_2)
+    create_comment(**assessment_payload_2)
 
     assessment_payload_3 = {
         "application_id": application_id,
@@ -194,17 +249,65 @@ def test_get_comments(seed_application_records):
         "user_id": "test",
         "theme_id": "different theme",
     }
-    comment_metadata = create_comment_for_application_sub_crit(**assessment_payload_3)
+    comment_metadata = create_comment(**assessment_payload_3)
 
-    comment_metadata_for_theme = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id)
+    comment_metadata_for_theme = get_comments_from_db(application_id, sub_criteria_id, theme_id)
     assert len(comment_metadata_for_theme) == 2
     assert comment_metadata_for_theme[0]["theme_id"] == comment_metadata_for_theme[1]["theme_id"]
 
-    comment_metadata_no_theme = get_comments_for_application_sub_crit(application_id, sub_criteria_id, theme_id=None)
+    comment_metadata_no_theme = get_comments_from_db(application_id, sub_criteria_id, theme_id=None)
     assert len(comment_metadata_no_theme) == 3
 
     # test without application_id
-    comment_metadata_for_comment_id = get_comments_for_application_sub_crit(comment_id=comment_metadata["id"])
+    comment_metadata_for_comment_id = get_comments_from_db(comment_id=comment_metadata["id"])
+    assert len(comment_metadata_for_comment_id) == 1
+
+
+@pytest.mark.apps_to_insert([test_input_data[0]])
+def test_get_comments_whole_application(seed_application_records):
+    """test_get_comments_whole_application tests we can get all comment records in
+    the comments table filtered by application_id, subcriteria_id and theme_id."""
+
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
+    application_id = picked_row.application_id
+
+    assessment_payload_1 = {
+        "application_id": application_id,
+        "sub_criteria_id": None,
+        "comment": "Please provide more information",
+        "comment_type": "WHOLE_APPLICATION",
+        "user_id": "test",
+        "theme_id": None,
+    }
+    create_comment(**assessment_payload_1)
+
+    assessment_payload_2 = {
+        "application_id": application_id,
+        "sub_criteria_id": None,
+        "comment": "Please provide more information",
+        "comment_type": "WHOLE_APPLICATION",
+        "user_id": "test",
+        "theme_id": None,
+    }
+    create_comment(**assessment_payload_2)
+
+    assessment_payload_3 = {
+        "application_id": application_id,
+        "sub_criteria_id": None,
+        "comment": "Please provide more information",
+        "comment_type": "WHOLE_APPLICATION",
+        "user_id": "test",
+        "theme_id": None,
+    }
+    comment_metadata = create_comment(**assessment_payload_3)
+
+    comment_metadata_for_theme = get_comments_from_db(application_id, None, None)
+    assert len(comment_metadata_for_theme) == 3
+    assert comment_metadata_for_theme[0]["theme_id"] == comment_metadata_for_theme[1]["theme_id"]
+    assert comment_metadata_for_theme[0]["comment_type"] == comment_metadata_for_theme[1]["comment_type"]
+
+    # test without application_id
+    comment_metadata_for_comment_id = get_comments_from_db(comment_id=comment_metadata["id"])
     assert len(comment_metadata_for_comment_id) == 1
 
 
@@ -223,7 +326,7 @@ def test_get_sub_criteria_to_has_comment_map(seed_application_records):
         "user_id": "test",
         "theme_id": theme_id,
     }
-    create_comment_for_application_sub_crit(**assessment_payload_1)
+    create_comment(**assessment_payload_1)
 
     result = get_sub_criteria_to_has_comment_map(picked_row.application_id)
     assert result[sub_criteria_id] is True
