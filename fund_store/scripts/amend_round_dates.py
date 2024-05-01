@@ -8,7 +8,8 @@ from config.fund_loader_config.cof.cof_r2 import rounds_config as cof_r2_configs
 from config.fund_loader_config.cof.cof_r3 import round_config as cof_r3w1_config
 from config.fund_loader_config.cof.cof_r3 import round_config_w2 as cof_r3w2_config
 from config.fund_loader_config.cof.cof_r3 import round_config_w3 as cof_r3w3_config
-from config.fund_loader_config.cof.cof_r4 import round_config_w1 as cof_r4_configs
+from config.fund_loader_config.cof.cof_r4 import round_config_w1 as cof_r4w1_config
+from config.fund_loader_config.cof.cof_r4 import round_config_w2 as cof_r4w2_config
 from config.fund_loader_config.cof.eoi import round_config_eoi as cof_eoi_configs
 from config.fund_loader_config.cyp.cyp_r1 import round_config as cyp_config
 from config.fund_loader_config.digital_planning.dpi_r2 import (
@@ -26,6 +27,7 @@ ROUND_IDS = {
     "COF_R3W2": "6af19a5e-9cae-4f00-9194-cf10d2d7c8a7",
     "COF_R3W3": "4efc3263-aefe-4071-b5f4-0910abec12d2",
     "COF_R4W1": "33726b63-efce-4749-b149-20351346c76e",
+    "COF_R4W2": "27ab26c2-e58e-4bfe-917d-64be10d16496",
     "COF_EOI": "6a47c649-7bac-4583-baed-9c4e7a35c8b3",
     "NSTF_R2": "fc7aa604-989e-4364-98a7-d1234271435a",
     "CYP_R1": "888aae3d-7e2c-4523-b9c1-95952b3d1644",
@@ -39,7 +41,8 @@ ALL_ROUNDS_CONFIG = {
     ROUND_IDS["COF_R3W1"]: cof_r3w1_config[0],
     ROUND_IDS["COF_R3W2"]: cof_r3w2_config[0],
     ROUND_IDS["COF_R3W3"]: cof_r3w3_config[0],
-    ROUND_IDS["COF_R4W1"]: cof_r4_configs[0],
+    ROUND_IDS["COF_R4W1"]: cof_r4w1_config[0],
+    ROUND_IDS["COF_R4W2"]: cof_r4w2_config[0],
     ROUND_IDS["COF_EOI"]: cof_eoi_configs[0],
     ROUND_IDS["NSTF_R2"]: nstf_config[0],
     ROUND_IDS["CYP_R1"]: cyp_config[0],
