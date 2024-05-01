@@ -138,6 +138,8 @@ round_config = [
         "assessment_deadline": DPI_R2_ASSESSMENT_DEADLINE_DATE,
         "prospectus": DPI_PROSPECTS_LINK,
         "privacy_notice": DPI_PRIVACY_NOTICE,
+        "reference_contact_page_over_email": False,
+        "contact_us_banner_json": {"en": "", "cy": ""},
         "contact_email": "digitalplanningteam@levellingup.gov.uk",
         "contact_phone": None,
         "contact_textphone": None,
