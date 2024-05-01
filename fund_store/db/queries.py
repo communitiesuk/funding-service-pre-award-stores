@@ -250,6 +250,8 @@ def insert_round_data(round_config):
             round_record.assessment_deadline = item["assessment_deadline"]
             round_record.prospectus = item["prospectus"]
             round_record.privacy_notice = item["privacy_notice"]
+            round_record.reference_contact_page_over_email = item["reference_contact_page_over_email"]
+            round_record.contact_us_banner_json = item["contact_us_banner_json"]
             round_record.contact_email = item["contact_email"]
             round_record.contact_phone = item["contact_phone"]
             round_record.contact_textphone = item["contact_textphone"]
@@ -286,6 +288,8 @@ def insert_round_data(round_config):
                 assessment_deadline=item["assessment_deadline"],
                 prospectus=item["prospectus"],
                 privacy_notice=item["privacy_notice"],
+                reference_contact_page_over_email=item["reference_contact_page_over_email"],
+                contact_us_banner_json=item["contact_us_banner_json"],
                 contact_email=item["contact_email"],
                 contact_phone=item["contact_phone"],
                 contact_textphone=item["contact_textphone"],
