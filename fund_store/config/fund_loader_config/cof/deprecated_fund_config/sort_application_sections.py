@@ -1,6 +1,6 @@
 def alpha_numeric_sort_section(index, section_config, tree_base_path):
     an_sorted_sections = []
-    top_section_tree_level = f"{tree_base_path}.{index+1}"
+    top_section_tree_level = f"{tree_base_path}.{index + 1}"
     an_sorted_sections.append(
         {
             "section_name": str(section_config["section_title"]["en"]),
