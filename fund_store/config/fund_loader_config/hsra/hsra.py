@@ -4,6 +4,7 @@ from datetime import timezone
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     HSRA_BASE_PATH,
 )
+from config.fund_loader_config.hsra.shared import HSRA_APPLICATION_GUIDANCE
 from config.fund_loader_config.logo import DLUHC_LOGO_PNG
 
 HSRA_FUND_ID = "1e4bd8b0-b399-466d-bbd1-572171bbc7bd"
@@ -155,7 +156,7 @@ round_config = [
             "EGg0v32c3kOociSi7zmVqFJBHpeOL2tNnpiwpdL2iElURUY1WkhaS0NFMlZVQUhYQ1NaN0E4RjlQMC4u"
         ),
         "project_name_field_id": "qbBtUh",
-        "application_guidance_json": "",
+        "application_guidance_json": HSRA_APPLICATION_GUIDANCE,
         "guidance_url": "",  # TODO add guidance link
         "all_uploaded_documents_section_available": True,
         "application_fields_download_available": True,
