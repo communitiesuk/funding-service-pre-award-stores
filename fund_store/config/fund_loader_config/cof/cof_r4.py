@@ -295,7 +295,7 @@ cof_r4w2_sections = [
             "en": "project-information-cof",
             "cy": "gwybodaeth-am-y-prosiect-cof",
         },
-        "tree_path": f"{APPLICATION_BASE_PATH_COF_R4_W1}.2.1",
+        "tree_path": f"{APPLICATION_BASE_PATH_COF_R4_W2}.2.1",
     },
     {
         "section_name": {
