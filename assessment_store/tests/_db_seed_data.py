@@ -15,6 +15,9 @@ from tests._application_store_json import (
     cofr4w1_application_store_json_template,
 )
 from tests._application_store_json import (
+    cofr4w2_application_store_json_template,
+)
+from tests._application_store_json import (
     cypr1_application_store_json_template,
 )
 from tests._application_store_json import (
@@ -33,6 +36,7 @@ mappings_application_store_json = {
     "COFR3W2": cofr3w2_application_store_json_template,
     "COFR3W3": cofr3w3_application_store_json_template,
     "COFR4W1": cofr4w1_application_store_json_template,
+    "COFR4W2": cofr4w2_application_store_json_template,
     "COFEOI": cof_eoi_application_store_json_template,
     "NSTFR2": nstfr2_application_store_json_template,
     "CYPR1": cypr1_application_store_json_template,
@@ -47,6 +51,7 @@ mappings_short_name_to_reference_prepend = {
     "COFR3W2": "COF-R3W2",
     "COFR3W3": "COF-R3W3",
     "COFR4W1": "COF-R4W1",
+    "COFR4W2": "COF-R4W2",
     "COFEOI": "COF-EOI-R1",
     "NSTFR2": "NSTF-R2",
     "CYPR1": "CYP-R1",
