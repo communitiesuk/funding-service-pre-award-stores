@@ -570,7 +570,7 @@ round_config_w2 = [
         "title_json": {"en": "Round 4 Window 2", "cy": "Round 4 Window 2"},
         "short_name": "R4W2",
         "opens": COF_R4W2_OPENS_DATE,
-        "assessment_start": None,
+        "assessment_start": datetime(2024, 5, 22, 14, 00, 0, tzinfo=timezone.utc),
         "deadline": COF_R4W2_DEADLINE_DATE,
         "application_reminder_sent": False,
         "reminder_date": COF_R4W2_SEND_REMINDER_DATE,
