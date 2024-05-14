@@ -15,6 +15,7 @@ ASSESSMENT_BASE_PATH_HSRA = ".".join([str(HSRA_BASE_PATH), str(2)])
 
 # TODO Dates are still being debated and are likely to change
 HSRA_OPENS_DATE = datetime(2024, 6, 27, 11, 00, 0, tzinfo=timezone.utc)  # 2024-06-27 11:00:00
+HSRA_START_DATE = datetime(2024, 6, 27, 11, 00, 0, tzinfo=timezone.utc)  # 2024-06-27 11:00:00
 # TODO The bellow dates are likely to change when the fund is live
 HSRA_SEND_REMINDER_DATE = datetime(2025, 1, 27, 11, 59, 0, tzinfo=timezone.utc)  # 2025-1-27 11:59:00
 HSRA_DEADLINE_DATE = datetime(2025, 1, 29, 11, 00, 0, tzinfo=timezone.utc)  # 2025-01-29 11:00:00
@@ -125,10 +126,10 @@ round_config = [
     {
         "id": HSRA_ROUND_ID,
         "fund_id": HSRA_FUND_ID,
-        "title_json": {"en": "", "cy": ""},
+        "title_json": {"en": "Round 1", "cy": ""},
         "short_name": "R1",
         "opens": HSRA_OPENS_DATE,
-        "assessment_start": None,
+        "assessment_start": HSRA_START_DATE,
         "deadline": HSRA_DEADLINE_DATE,
         "application_reminder_sent": False,
         "reminder_date": HSRA_SEND_REMINDER_DATE,
