@@ -21,6 +21,9 @@ from tests._application_store_json import (
     dpifr2_application_store_json_template,
 )
 from tests._application_store_json import (
+    hsra1_application_store_json_template,
+)
+from tests._application_store_json import (
     nstfr2_application_store_json_template,
 )
 
@@ -37,6 +40,7 @@ mappings_application_store_json = {
     "NSTFR2": nstfr2_application_store_json_template,
     "CYPR1": cypr1_application_store_json_template,
     "DPIFR2": dpifr2_application_store_json_template,
+    "HSRAR1": hsra1_application_store_json_template,
     "RANDOM_FUND_ROUND": application_store_json_template,
 }
 
@@ -51,6 +55,7 @@ mappings_short_name_to_reference_prepend = {
     "NSTFR2": "NSTF-R2",
     "CYPR1": "CYP-R1",
     "DPIFR2": "DPIF-R2",
+    "HSRAR1": "HSRA-R1",
     "RANDOM_FUND_ROUND": "RFR",
 }
 

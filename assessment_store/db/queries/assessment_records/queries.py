@@ -79,6 +79,7 @@ def get_metadata_for_fund_round_id(
     publish_datasets: str = "",
     datasets: str = "",
     team_in_place: str = "",
+    joint_application: str = "",
 ) -> List[Dict]:
     """get_metadata_for_fund_round_id Executes a query on assessment records which
     returns all rows matching the given fund_id and round_id. Has optional
@@ -171,7 +172,22 @@ def get_metadata_for_fund_round_id(
             select(AssessmentRecord.application_id).where(
                 func.jsonb_path_exists(
                     AssessmentRecord.jsonb_blob,
-                    f'$.forms[*].questions[*].fields[*] ? (@.key == "nURkuc" && @.answer == "{local_authority}")',
+                    f'$.forms[*].questions[*].fields[*] ? (@.key == "nURkuc"'
+                    f'|| @.key == "WLddBt" && @.answer == "{local_authority}")',
+                ),
+            )
+        ).subquery()
+
+        statement = statement.where(AssessmentRecord.application_id.in_(subquery))
+
+    if joint_application != "" and joint_application != "ALL" and joint_application in ["true", "false"]:
+        current_app.logger.info(f"Performing assessment search on joint_application: {joint_application}.")
+
+        subquery = (
+            select(AssessmentRecord.application_id).where(
+                func.jsonb_path_exists(
+                    AssessmentRecord.jsonb_blob,
+                    f'$.forms[*].questions[*].fields[*] ? (@.key == "luWnQp" && @.answer == {joint_application})',
                 ),
             )
         ).subquery()

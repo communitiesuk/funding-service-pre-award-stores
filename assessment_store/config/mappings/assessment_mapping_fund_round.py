@@ -136,9 +136,9 @@ fund_round_to_assessment_mapping = {
         "scored_criteria": dpif_scored_criteria,
     },
     f"{HSRA_FUND_ID}:{HSRA_ROUND_ID}": {
-        "schema_id": "dpif_r2_assessment",
-        "unscored_sections": hsra_scored_criteria,
-        "scored_criteria": hsra_unscored_sections,
+        "schema_id": "hsra_r1_assessment",
+        "unscored_sections": hsra_unscored_sections,
+        "scored_criteria": hsra_scored_criteria,
     },
 }
 
@@ -701,7 +701,11 @@ applicant_info_mapping = {
     },
     HSRA_FUND_ID: {
         # TODO find which fields are need
-        "ASSESSOR_EXPORT": {},
+        "ASSESSOR_EXPORT": {
+            "form_fields": {
+                "WLddBt": {"en": {"title": "Local Authority"}},
+            },
+        },
         "OUTPUT_TRACKER": {},
     },
 }

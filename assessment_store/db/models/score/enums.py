@@ -7,3 +7,4 @@ class ScoringSystem(Enum):
 
     OneToFive = 0
     ZeroToThree = 1
+    ZeroToOne = 2

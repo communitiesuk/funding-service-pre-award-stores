@@ -60,6 +60,7 @@ def all_assessments_for_fund_round_id(
     publish_datasets: str = "ALL",
     datasets: str = "ALL",
     team_in_place: str = "ALL",
+    joint_application: str = "ALL",
 ) -> List[Dict]:
     """all_assessments_for_fund_round_id Function used by the endpoint
     `/application_overviews/{fund_id}/{round_id}`.
@@ -86,6 +87,7 @@ def all_assessments_for_fund_round_id(
         publish_datasets=publish_datasets,
         datasets=datasets,
         team_in_place=team_in_place,
+        joint_application=joint_application,
     )
     return app_list
 
