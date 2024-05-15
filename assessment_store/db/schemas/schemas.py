@@ -48,6 +48,9 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     qa_complete = Nested("QaCompleteMetadata", many=True)
     tag_associations = Nested("TagAssociationNestedSchema", many=True)
     date_submitted = String()
+    application_name = String()
+    joint_application = String()
+    total_expected_cost = String()
 
 
 class ScoreMetadata(SQLAlchemyAutoSchema):

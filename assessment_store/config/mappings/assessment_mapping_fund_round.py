@@ -52,6 +52,12 @@ from config.mappings.dpif_mappping_parts.r2_scored_criteria import (
 from config.mappings.dpif_mappping_parts.r2_unscored_criteria import (
     unscored_sections as dpif_unscored_sections,
 )
+from config.mappings.hsra_mapping_parts.r1_scored_criteria import (
+    scored_criteria as hsra_scored_criteria,
+)
+from config.mappings.hsra_mapping_parts.r1_unscored_sections import (
+    unscored_sections as hsra_unscored_sections,
+)
 from config.mappings.nstf_mapping_parts.r2_scored_criteria import (
     scored_criteria as nstf_scored_criteria,
 )
@@ -79,6 +85,9 @@ CYP_ROUND_1_ID = "888aae3d-7e2c-4523-b9c1-95952b3d1644"
 
 DPIF_FUND_ID = "f493d512-5eb4-11ee-8c99-0242ac120002"
 DPIF_ROUND_2_ID = "0059aad4-5eb5-11ee-8c99-0242ac120002"
+
+HSRA_FUND_ID = "1e4bd8b0-b399-466d-bbd1-572171bbc7bd"
+HSRA_ROUND_ID = "50062ff6-e696-474d-a560-4d9af784e6e5"
 
 # ASSESSMENT DISPLAY CONFIGURATION
 
@@ -137,6 +146,11 @@ fund_round_to_assessment_mapping = {
         "schema_id": "dpif_r2_assessment",
         "unscored_sections": dpif_unscored_sections,
         "scored_criteria": dpif_scored_criteria,
+    },
+    f"{HSRA_FUND_ID}:{HSRA_ROUND_ID}": {
+        "schema_id": "hsra_r1_assessment",
+        "unscored_sections": hsra_unscored_sections,
+        "scored_criteria": hsra_scored_criteria,
     },
 }
 
@@ -213,6 +227,12 @@ fund_round_data_key_mappings = {
         "funding_two": ["JXKUcj", "OnPeeS"],  # only revenue funding for cyp
     },
     "DPIFR2": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
+    },
+    "HSRAR1": {
         "location": None,
         "asset_type": None,
         "funding_one": None,
@@ -698,6 +718,15 @@ applicant_info_mapping = {
         },
         "OUTPUT_TRACKER": {},
     },
+    HSRA_FUND_ID: {
+        # TODO find which fields are need
+        "ASSESSOR_EXPORT": {
+            "form_fields": {
+                "WLddBt": {"en": {"title": "Local Authority"}},
+            },
+        },
+        "OUTPUT_TRACKER": {},
+    },
 }
 
 # APPLICATION SEEDING CONFIGURATION
@@ -757,6 +786,11 @@ fund_round_mapping_config = {
         "fund_id": DPIF_FUND_ID,
         "round_id": DPIF_ROUND_2_ID,
         "type_of_application": "DPIF",
+    },
+    "HSRAR1": {
+        "fund_id": HSRA_FUND_ID,
+        "round_id": HSRA_ROUND_ID,
+        "type_of_application": "HSRA",
     },
     "RANDOM_FUND_ROUND": {
         "fund_id": uuid4(),

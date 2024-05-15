@@ -97,7 +97,7 @@ class AssessmentRecord(BaseModel):
     local_authority = column_property(
         func.jsonb_path_query_first(
             jsonb_blob,
-            '$.forms[*].questions[*].fields[*] ? (@.key == "nURkuc").answer',
+            '$.forms[*].questions[*].fields[*] ? (@.key == "nURkuc" || @.key == "WLddBt").answer',
         )
     )
     funding_type = column_property(
@@ -146,6 +146,24 @@ class AssessmentRecord(BaseModel):
         func.jsonb_path_query_first(
             jsonb_blob,
             '$.forms[*].questions[*].fields[*] ? (@.key == "NQoGIm").answer',
+        )
+    )
+    application_name = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "qbBtUh").answer',
+        )
+    )
+    joint_application = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "luWnQp").answer',
+        )
+    )
+    total_expected_cost = column_property(
+        func.jsonb_path_query_first(
+            jsonb_blob,
+            '$.forms[*].questions[*].fields[*] ? (@.key == "lfXuaP").answer',
         )
     )
     date_submitted = column_property(func.jsonb_path_query_first(jsonb_blob, "$.date_submitted"))
