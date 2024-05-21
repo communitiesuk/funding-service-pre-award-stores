@@ -1,3 +1,7 @@
+from copy import deepcopy
+from datetime import datetime
+from unittest.mock import patch
+
 from fsd_test_utils.test_config.useful_config import UsefulConfig
 
 
@@ -78,3 +82,91 @@ def test_get_assess_sections_for_round(flask_test_client, mock_get_sections):
     assert response.status_code == 200
     result = response.json
     assert result[0]["title"] == "Top"
+
+
+def test_get_events_for_round(flask_test_client):
+    mock_events = [
+        {
+            "id": "1",
+            "round_id": "9",
+            "type": "APPLICATION_DEADLINE_REMINDER",
+            "activation_date": datetime(2000, 10, 1),
+            "processed": False,
+        },
+        {
+            "id": "2",
+            "round_id": "9",
+            "type": "APPLICATION_DEADLINE_REMINDER",
+            "activation_date": datetime(2001, 7, 8),
+            "processed": True,
+        },
+    ]
+
+    expected_response = deepcopy(mock_events)
+    for response in expected_response:
+        response["activation_date"] = response["activation_date"].isoformat()
+        response["processed"] = str(response["processed"])
+    with patch(
+        "api.routes.get_events_for_round_from_db", return_value=mock_events
+    ) as mock_get_events_for_round_from_db:
+        response = flask_test_client.get("/funds/some_fund_id/rounds/some_round_id/events?only_unprocessed=true")
+
+        assert response.status_code == 200
+        assert response.json == expected_response
+        mock_get_events_for_round_from_db.assert_called_once_with(round_id="some_round_id", only_unprocessed=True)
+
+
+def test_get_events_for_round_not_found(flask_test_client):
+    with patch("api.routes.get_events_for_round_from_db", return_value=None) as mock_get_events_for_round_from_db:
+        response = flask_test_client.get("/funds/some_fund_id/rounds/some_round_id/events")
+
+        assert response.status_code == 404
+        mock_get_events_for_round_from_db.assert_called_once_with(round_id="some_round_id", only_unprocessed=False)
+
+
+def test_get_event(flask_test_client):
+    mock_event = {
+        "id": "1",
+        "round_id": "9",
+        "type": "APPLICATION_DEADLINE_REMINDER",
+        "activation_date": datetime(2000, 10, 1),
+        "processed": False,
+    }
+    expected_response = deepcopy(mock_event)
+    expected_response["activation_date"] = expected_response["activation_date"].isoformat()
+    expected_response["processed"] = str(expected_response["processed"])
+    with patch("api.routes.get_event_from_db", return_value=mock_event) as mock_get_event_from_db:
+        response = flask_test_client.get("/funds/some_fund_id/rounds/some_round_id/event/123")
+
+        assert response.status_code == 200
+        assert response.json == expected_response
+        mock_get_event_from_db.assert_called_once_with(round_id="some_round_id", event_id="123")
+
+
+def test_get_event_not_found(flask_test_client):
+    with patch("api.routes.get_event_from_db", return_value=None) as mock_get_events_for_round_from_db:
+        response = flask_test_client.get("/funds/some_fund_id/rounds/some_round_id/event/123")
+
+        assert response.status_code == 404
+        mock_get_events_for_round_from_db.assert_called_once_with(round_id="some_round_id", event_id="123")
+
+
+def test_set_event_to_processed(flask_test_client):
+    mock_event = {
+        "id": "1",
+        "round_id": "9",
+        "type": "APPLICATION_DEADLINE_REMINDER",
+        "activation_date": datetime(2000, 10, 1),
+        "processed": True,
+    }
+    expected_response = deepcopy(mock_event)
+    expected_response["activation_date"] = expected_response["activation_date"].isoformat()
+    expected_response["processed"] = str(expected_response["processed"])
+    with patch("api.routes.set_event_to_processed_in_db", return_value=mock_event) as mock_set_event_to_processed_in_db:
+        response = flask_test_client.put("/funds/some_fund_id/rounds/some_round_id/event/123?processed=true")
+
+        assert response.status_code == 200
+        assert response.json == expected_response
+        mock_set_event_to_processed_in_db.assert_called_once_with(
+            round_id="some_round_id", event_id="123", processed=True
+        )
