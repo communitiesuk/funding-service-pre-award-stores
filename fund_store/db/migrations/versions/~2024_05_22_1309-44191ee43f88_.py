@@ -1,8 +1,8 @@
 """FS-2563: Add Event table
 
-Revision ID: 7ff731a56afb
+Revision ID: 44191ee43f88
 Revises: 8e4d1e36ebbf
-Create Date: 2024-05-21 09:32:17.418663
+Create Date: 2024-05-22 13:09:05.921892
 
 """
 
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "7ff731a56afb"
+revision = "44191ee43f88"
 down_revision = "8e4d1e36ebbf"
 branch_labels = None
 depends_on = None
@@ -22,9 +22,13 @@ def upgrade():
         "event",
         sa.Column("id", sa.UUID(), nullable=False),
         sa.Column("round_id", sa.UUID(), nullable=False),
-        sa.Column("type", sa.String(), nullable=False),
+        sa.Column(
+            "type",
+            sa.Enum("APPLICATION_DEADLINE_REMINDER", "SEND_INCOMPLETE_APPLICATIONS", name="event_type"),
+            nullable=False,
+        ),
         sa.Column("activation_date", sa.DateTime(), nullable=False),
-        sa.Column("processed", sa.Boolean(), nullable=False),
+        sa.Column("processed", sa.DateTime(), nullable=True),
         sa.ForeignKeyConstraint(["round_id"], ["round.id"], name=op.f("fk_event_round_id_round")),
         sa.PrimaryKeyConstraint("id", name=op.f("pk_event")),
     )

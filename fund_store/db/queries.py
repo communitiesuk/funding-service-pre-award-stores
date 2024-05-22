@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 from typing import List
 
 from sqlalchemy import bindparam
@@ -151,7 +152,7 @@ def get_events_for_round(
 ) -> List[Event]:
     query = select(Event).filter(Event.round_id == round_id)
     if only_unprocessed:
-        query = query.filter(Event.processed == False)  # noqa
+        query = query.filter(Event.processed != None)  # noqa
 
     events = db.session.scalars(query).all()
     return events
@@ -167,7 +168,7 @@ def set_event_to_processed(round_id: str, event_id: str, processed: bool) -> Eve
     event = Event.query.filter_by(id=event_id, round_id=round_id).first()
     if not event:
         return None
-    event.processed = processed
+    event.processed = datetime.now() if processed else None
     db.session.commit()
     return event
 

@@ -102,8 +102,10 @@ components:
             example: "2022-12-25 00:00:00"
           processed:
             type: string
-            description: Whether or not the event has been processed
-            example: "False"
+            format: date-time
+            nullable: true
+            description: Date of when the event has been processed, null otherwise
+            example: null
         required:
           - id
           - round_id

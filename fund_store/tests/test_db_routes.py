@@ -4,6 +4,8 @@ from unittest.mock import patch
 
 from fsd_test_utils.test_config.useful_config import UsefulConfig
 
+from db.models.event import EventType
+
 
 def test_get_fund_by_id(flask_test_client, mock_get_fund_round):
     response = flask_test_client.get("/funds/123")
@@ -89,23 +91,24 @@ def test_get_events_for_round(flask_test_client):
         {
             "id": "1",
             "round_id": "9",
-            "type": "APPLICATION_DEADLINE_REMINDER",
+            "type": EventType.APPLICATION_DEADLINE_REMINDER,
             "activation_date": datetime(2000, 10, 1),
-            "processed": False,
+            "processed": None,
         },
         {
             "id": "2",
             "round_id": "9",
-            "type": "APPLICATION_DEADLINE_REMINDER",
+            "type": EventType.APPLICATION_DEADLINE_REMINDER,
             "activation_date": datetime(2001, 7, 8),
-            "processed": True,
+            "processed": datetime(2001, 8, 8),
         },
     ]
 
     expected_response = deepcopy(mock_events)
     for response in expected_response:
         response["activation_date"] = response["activation_date"].isoformat()
-        response["processed"] = str(response["processed"])
+        response["processed"] = response["processed"].isoformat() if response["processed"] else None
+        response["type"] = response["type"].value
     with patch(
         "api.routes.get_events_for_round_from_db", return_value=mock_events
     ) as mock_get_events_for_round_from_db:
@@ -128,13 +131,16 @@ def test_get_event(flask_test_client):
     mock_event = {
         "id": "1",
         "round_id": "9",
-        "type": "APPLICATION_DEADLINE_REMINDER",
+        "type": EventType.APPLICATION_DEADLINE_REMINDER,
         "activation_date": datetime(2000, 10, 1),
-        "processed": False,
+        "processed": None,
     }
     expected_response = deepcopy(mock_event)
     expected_response["activation_date"] = expected_response["activation_date"].isoformat()
-    expected_response["processed"] = str(expected_response["processed"])
+    expected_response["processed"] = (
+        expected_response["processed"].isoformat() if expected_response["processed"] else None
+    )
+    expected_response["type"] = expected_response["type"].value
     with patch("api.routes.get_event_from_db", return_value=mock_event) as mock_get_event_from_db:
         response = flask_test_client.get("/funds/some_fund_id/rounds/some_round_id/event/123")
 
@@ -155,13 +161,14 @@ def test_set_event_to_processed(flask_test_client):
     mock_event = {
         "id": "1",
         "round_id": "9",
-        "type": "APPLICATION_DEADLINE_REMINDER",
+        "type": EventType.APPLICATION_DEADLINE_REMINDER,
         "activation_date": datetime(2000, 10, 1),
-        "processed": True,
+        "processed": datetime(2000, 11, 1),
     }
     expected_response = deepcopy(mock_event)
     expected_response["activation_date"] = expected_response["activation_date"].isoformat()
-    expected_response["processed"] = str(expected_response["processed"])
+    expected_response["type"] = expected_response["type"].value
+    expected_response["processed"] = expected_response["processed"].isoformat()
     with patch("api.routes.set_event_to_processed_in_db", return_value=mock_event) as mock_set_event_to_processed_in_db:
         response = flask_test_client.put("/funds/some_fund_id/rounds/some_round_id/event/123?processed=true")
 

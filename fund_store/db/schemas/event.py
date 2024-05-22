@@ -1,13 +1,15 @@
-from marshmallow.fields import String
+from marshmallow import fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy import auto_field
 
 from db.models.event import Event
+from db.models.event import EventType
 
 
 class EventSchema(SQLAlchemyAutoSchema):
+
     class Meta:
         model = Event
 
     round_id = auto_field()
-    processed = String()
+    type = fields.Enum(EventType)
