@@ -67,11 +67,7 @@ paths:
       operationId: api.routes.get_round
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
-        - name: round_id
-          in: path
-          schema:
-            type: string
-          required: true
+        - $ref: "components.yml#/components/parameters/round_id"
         - name: language
           in: query
           schema:
@@ -103,11 +99,7 @@ paths:
       operationId: api.routes.get_eoi_deicision_schema_for_round
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
-        - name: round_id
-          in: path
-          schema:
-            type: string
-          required: true
+        - $ref: "components.yml#/components/parameters/round_id"
         - name: language
           in: query
           schema:
@@ -130,6 +122,94 @@ paths:
               application/json:
                 schema:
                   $ref: 'components.yml#/components/schemas/Error'
+  /funds/{fund_id}/rounds/{round_id}/events:
+    get:
+      tags:
+        - Rounds
+      summary: Returns the events set for the specified round
+      description: Given a fund ID and a round ID we return the associated events.
+      operationId: api.routes.get_events_for_round
+      parameters:
+        - $ref: "components.yml#/components/parameters/fund_id"
+        - $ref: "components.yml#/components/parameters/round_id"
+        - name: only_unprocessed
+          in: query
+          schema:
+            type: boolean
+          required: false
+      responses:
+        200:
+          description: "If the round exists then the data is returned."
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Events'
+        404:
+          description: "Events not found from given fund id and round id."
+          content:
+              application/json:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Error'
+  /funds/{fund_id}/rounds/{round_id}/event/{event_id}:
+    get:
+      tags:
+        - Rounds
+      summary: Returns the event with the given fund, round and event IDs.
+      description: Returns the event with the given fund, round and event IDs.
+      operationId: api.routes.get_event
+      parameters:
+        - $ref: "components.yml#/components/parameters/fund_id"
+        - $ref: "components.yml#/components/parameters/round_id"
+        - name: event_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "If the event exists then the data is returned."
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Event'
+        404:
+          description: "Event not found from given fund, round or event id."
+          content:
+              application/json:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Error'
+    put:
+      tags:
+        - Rounds
+      summary: Updates the event
+      description: Updates the event to be marked as processed
+      operationId: api.routes.set_event_to_processed
+      parameters:
+        - $ref: "components.yml#/components/parameters/fund_id"
+        - $ref: "components.yml#/components/parameters/round_id"
+        - name: event_id
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: processed
+          in: query
+          schema:
+            type: boolean
+          required: true
+      responses:
+        200:
+          description: Updates the event to be marked as processed
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Event'
+        400:
+          description: "Invalid fund, round or event ID supplied"
+          content:
+                texts/plain:
+                  schema:
+                    $ref: 'components.yml#/components/schemas/Error'
   /funds/{round_id}/application_reminder_status:
     put:
       tags:
@@ -138,11 +218,7 @@ paths:
       description: Updates the application reminder sent status to True
       operationId: api.routes.update_application_reminder_sent_status
       parameters:
-        - name: round_id
-          in: path
-          schema:
-            type: string
-          required: true
+        - $ref: "components.yml#/components/parameters/round_id"
         - name: status
           in: query
           schema:
@@ -169,16 +245,8 @@ paths:
       description: Returns list of all flag allocations
       operationId: api.routes.get_available_flag_allocations
       parameters:
-        - in: path
-          name: fund_id
-          schema:
-            type: string
-          required: true
-        - name: round_id
-          in: path
-          schema:
-            type: string
-          required: true
+        - $ref: "components.yml#/components/parameters/fund_id"
+        - $ref: "components.yml#/components/parameters/round_id"
       responses:
         200:
           description: "List all available allocations for flags in this round."
@@ -234,11 +302,7 @@ paths:
       operationId: api.routes.get_sections_for_round_application
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
-        - name: round_id
-          in: path
-          schema:
-            type: string
-          required: true
+        - $ref: "components.yml#/components/parameters/round_id"
         - name: language
           in: query
           schema:
@@ -257,11 +321,7 @@ paths:
       operationId: api.routes.get_sections_for_round_assessment
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
-        - name: round_id
-          in: path
-          schema:
-            type: string
-          required: true
+        - $ref: "components.yml#/components/parameters/round_id"
         - name: language
           in: query
           schema:

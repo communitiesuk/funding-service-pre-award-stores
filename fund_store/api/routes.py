@@ -11,12 +11,16 @@ from db.models import Round
 from db.queries import get_all_funds
 from db.queries import get_application_sections_for_round
 from db.queries import get_assessment_sections_for_round
+from db.queries import get_event as get_event_from_db
+from db.queries import get_events_for_round as get_events_for_round_from_db
 from db.queries import get_fund_by_id
 from db.queries import get_fund_by_short_name
 from db.queries import get_round_by_id
 from db.queries import get_round_by_short_name
 from db.queries import get_rounds_for_fund_by_id
 from db.queries import get_rounds_for_fund_by_short_name
+from db.queries import set_event_to_processed as set_event_to_processed_in_db
+from db.schemas.event import EventSchema
 from db.schemas.fund import FundSchema
 from db.schemas.round import RoundSchema
 from db.schemas.section import SECTION_SCHEMA_MAP
@@ -168,6 +172,32 @@ def get_sections_for_round_assessment(fund_id, round_id):
         serialiser = section_schema()
         return serialiser.dump(sections, many=True)
 
+    abort(404)
+
+
+def get_events_for_round(fund_id, round_id):
+    only_unprocessed = request.args.get("only_unprocessed", False, type=lambda x: x.lower() == "true")
+    events = get_events_for_round_from_db(round_id=round_id, only_unprocessed=only_unprocessed)
+    if events:
+        serialiser = EventSchema()
+        return serialiser.dump(events, many=True)
+    abort(404)
+
+
+def get_event(fund_id, round_id, event_id):
+    event = get_event_from_db(round_id=round_id, event_id=event_id)
+    if event:
+        serialiser = EventSchema()
+        return serialiser.dump(event)
+    abort(404)
+
+
+def set_event_to_processed(fund_id, round_id, event_id):
+    processed = request.args.get("processed", type=lambda x: x.lower() == "true")
+    event = set_event_to_processed_in_db(round_id=round_id, event_id=event_id, processed=processed)
+    if event:
+        serialiser = EventSchema()
+        return serialiser.dump(event)
     abort(404)
 
 

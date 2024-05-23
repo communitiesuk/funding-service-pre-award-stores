@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 from typing import List
 
 from sqlalchemy import bindparam
@@ -13,6 +14,7 @@ from sqlalchemy_utils import Ltree
 from sqlalchemy_utils.types.ltree import LQUERY
 
 from db import db
+from db.models.event import Event
 from db.models.form_name import FormName
 from db.models.fund import Fund
 from db.models.round import Round
@@ -142,6 +144,33 @@ def get_assessment_sections_for_round(
     ).all()
 
     return assessment_sections
+
+
+def get_events_for_round(
+    round_id: str,
+    only_unprocessed: bool,
+) -> List[Event]:
+    query = select(Event).filter(Event.round_id == round_id)
+    if only_unprocessed:
+        query = query.filter(Event.processed != None)  # noqa
+
+    events = db.session.scalars(query).all()
+    return events
+
+
+def get_event(round_id: str, event_id: str) -> Event:
+    query = select(Event).filter(Event.id == event_id, Event.round_id == round_id)
+    event = db.session.scalar(query)
+    return event
+
+
+def set_event_to_processed(round_id: str, event_id: str, processed: bool) -> Event:
+    event = Event.query.filter_by(id=event_id, round_id=round_id).first()
+    if not event:
+        return None
+    event.processed = datetime.now() if processed else None
+    db.session.commit()
+    return event
 
 
 def upsert_fields(fields: list):

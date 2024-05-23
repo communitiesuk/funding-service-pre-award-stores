@@ -81,6 +81,41 @@ components:
           - opens
           - deadline
           - assessment_deadline
+    Event:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The id of the event.
+            example: "12345-qwert-....."
+          round_id:
+            type: string
+            description: The round ID, uniquely identifies the round.
+            example: "12345-qwert-....."
+          type:
+            type: string
+            description: the type of event.
+            example: "APPLICATION_DEADLINE_REMINDER"
+          activation_date:
+            type: string
+            description: The date after which the event is ready for processing
+            example: "2022-12-25 00:00:00"
+          processed:
+            type: string
+            format: date-time
+            nullable: true
+            description: Date of when the event has been processed, null otherwise
+            example: null
+        required:
+          - id
+          - round_id
+          - type
+          - activation_date
+          - processed
+    Events:
+      type: array
+      items:
+        $ref: '#/components/schemas/Event'
     EoiDecisionSchema:
         type: object
     Error:
@@ -97,6 +132,12 @@ components:
     fund_id:
       in: path
       name: fund_id
+      schema:
+        type: string
+      required: true
+    round_id:
+      in: path
+      name: round_id
       schema:
         type: string
       required: true
