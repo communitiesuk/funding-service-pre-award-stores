@@ -84,14 +84,9 @@ hsra_sections = [
         "tree_path": f"{APPLICATION_BASE_PATH_HSRA}.4.2",
     },
     {
-        "section_name": {"en": "Auction costs", "cy": ""},
-        "form_name_json": {"en": "auction-costs-hsra", "cy": ""},
-        "tree_path": f"{APPLICATION_BASE_PATH_HSRA}.4.3",
-    },
-    {
         "section_name": {"en": "Other costs", "cy": ""},
         "form_name_json": {"en": "other-costs-hsra", "cy": ""},
-        "tree_path": f"{APPLICATION_BASE_PATH_HSRA}.4.4",
+        "tree_path": f"{APPLICATION_BASE_PATH_HSRA}.4.3",
     },
     {
         "section_name": {"en": "5. Declaration", "cy": ""},
