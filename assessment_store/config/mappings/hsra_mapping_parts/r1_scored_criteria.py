@@ -48,7 +48,7 @@ scored_criteria = [
                                 "form_name": "total-expected-cost-hsra",
                                 "field_type": "freeTextField",
                                 "presentation_type": "free_text",
-                                "question": "Why are your costs higher than \u00c2\u00a372,000?",
+                                "question": "Why are your costs higher than the guided price?",
                             },
                         ],
                     }
@@ -74,7 +74,7 @@ scored_criteria = [
                                 "form_name": "refurbishment-costs-hsra",
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
-                                "question": "Upload quotes showing refurbishment costs",
+                                "question": "Upload quotes showing refurbishment costs and if applicable project management costs for properties exceeding 200 sqm.",
                             },
                             {
                                 "field_id": "SMwXcK",
@@ -82,32 +82,6 @@ scored_criteria = [
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload the independent survey of works",
-                            },
-                        ],
-                    }
-                ],
-            },
-            {
-                "id": "auction_costs",
-                "name": "Auction costs",
-                "themes": [
-                    {
-                        "id": "auction_costs",
-                        "name": "Auction costs",
-                        "answers": [
-                            {
-                                "field_id": "QXHlgU",
-                                "form_name": "auction-costs-hsra",
-                                "field_type": "clientSideFileUploadField",
-                                "presentation_type": "s3bucketPath",
-                                "question": "Upload quotes showing auction costs",
-                            },
-                            {
-                                "field_id": "kNlEvn",
-                                "form_name": "auction-costs-hsra",
-                                "field_type": "numberField",
-                                "presentation_type": "integer",
-                                "question": "What is the total expected cost of the auction, in pounds?",
                             },
                         ],
                     }
