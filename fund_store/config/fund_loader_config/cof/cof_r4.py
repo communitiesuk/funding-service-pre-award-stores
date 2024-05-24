@@ -29,11 +29,15 @@ COF_R4W1_DEADLINE_DATE = datetime(2024, 4, 10, 14, 00, 0, tzinfo=timezone.utc)  
 COF_R4W1_ASSESSMENT_DEADLINE_DATE = datetime(2024, 6, 23, 12, 0, 0, tzinfo=timezone.utc)  # 2024-06-23 12:00:00
 
 
-# TODO Dates are still being debated and are likely to change
 COF_R4W2_OPENS_DATE = datetime(2024, 5, 22, 14, 00, 0, tzinfo=timezone.utc)  # 2024-05-22 14:00:00
 COF_R4W2_SEND_REMINDER_DATE = datetime(2024, 5, 22, 11, 59, 0, tzinfo=timezone.utc)  # 2024-05-22 11:59:00
 COF_R4W2_DEADLINE_DATE = datetime(2024, 6, 26, 14, 00, 0, tzinfo=timezone.utc)  # 2024-06-26 14:00:00
+COF_R4W2_ASSESSMENT_START_DATE = datetime(2024, 5, 22, 14, 00, 0, tzinfo=timezone.utc)  # 2024-05-22 14:00:00
 COF_R4W2_ASSESSMENT_DEADLINE_DATE = datetime(2024, 7, 31, 12, 0, 0, tzinfo=timezone.utc)  # 2024-07-31 12:00:00
+
+# Date far in the future as a temporary measure to stop this going live by accident
+COF_R4W2_HOLD_DATE = datetime(2124, 1, 1, 11, 59, 0)  # 2124-01-01 11:59:00
+
 
 cof_r4w1_sections = [
     {
@@ -569,12 +573,12 @@ round_config_w2 = [
         "fund_id": COF_FUND_ID,
         "title_json": {"en": "Round 4 Window 2", "cy": "Round 4 Window 2"},
         "short_name": "R4W2",
-        "opens": COF_R4W2_OPENS_DATE,
-        "assessment_start": datetime(2024, 5, 22, 14, 00, 0, tzinfo=timezone.utc),
-        "deadline": COF_R4W2_DEADLINE_DATE,
+        "opens": COF_R4W2_HOLD_DATE,
+        "assessment_start": COF_R4W2_HOLD_DATE,
+        "deadline": COF_R4W2_HOLD_DATE,
         "application_reminder_sent": False,
-        "reminder_date": COF_R4W2_SEND_REMINDER_DATE,
-        "assessment_deadline": COF_R4W2_ASSESSMENT_DEADLINE_DATE,
+        "reminder_date": COF_R4W2_HOLD_DATE,
+        "assessment_deadline": COF_R4W2_HOLD_DATE,
         "prospectus": "https://www.gov.uk/government/publications/community-ownership-fund-prospectus",
         "privacy_notice": (
             "https://www.gov.uk/government/publications/community-ownership-fund-"
