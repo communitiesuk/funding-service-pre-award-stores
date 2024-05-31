@@ -467,7 +467,7 @@ round_config_w1 = [
     {
         "id": COF_ROUND_4_WINDOW_1_ID,
         "fund_id": COF_FUND_ID,
-        "title_json": {"en": "Round 4 Window 1", "cy": "Round 4 Window 1"},
+        "title_json": {"en": "Round 4 Window 1", "cy": "Rownd 4 Cyfnod Ymgeisio 1"},
         "short_name": "R4W1",
         "opens": COF_R4W1_OPENS_DATE,
         "assessment_start": None,
@@ -503,20 +503,19 @@ round_config_w1 = [
             ),
             "cy": textwrap.dedent(
                 """
-                 <h2 class="govuk-heading-m">Get application support</h2>
+                 <h2 class="govuk-heading-m">Cael cymorth â'r cais</h2>
                  <p class="govuk-body">
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Visit the My Community website</a>
-                    for information and guidance on applying to Community Ownership Fund.
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Fill out the enquiry form</a>
-                    to request advice from My Community.
+                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Ewch i wefan My Community</a>
+                    i gael gwybodaeth ac arweiniad ar wneud cais i'r Gronfa Perchnogaeth Gymunedol.
+                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Llenwch y ffurflen ymholiad</a>
+                    i ofyn am gyngor gan My Community.
                 </p>
                 <p class="govuk-body">
-                    We cannot provide direct support to applicants outside of this service.
+                    Ni allwn ddarparu cymorth uniongyrchol i ymgeiswyr tu hwnt i'r gwasanaeth hwn.
                 </p>
-                <h2 class="govuk-heading-m">Get technical support</h2>
+                <h2 class="govuk-heading-m">Cael cymorth technegol</h2>
                 <p  class="govuk-body">
-                    Contact the Department of Levelling Up, Housing and Communities funding team if you need
-                    help with accessing or submitting an application form.
+                    Cysylltwch â thîm cyllid yr Adran Ffyniant Bro, Tai a Chymunedau os oes angen help arnoch i gael at ffurflen gais neu ei chyflwyno.
                 </p>
             """
             ),
@@ -571,7 +570,7 @@ round_config_w2 = [
     {
         "id": COF_ROUND_4_WINDOW_2_ID,
         "fund_id": COF_FUND_ID,
-        "title_json": {"en": "Round 4 Window 2", "cy": "Round 4 Window 2"},
+        "title_json": {"en": "Round 4 Window 2", "cy": "Rownd 4 Cyfnod Ymgeisio 2"},
         "short_name": "R4W2",
         "opens": COF_R4W2_HOLD_DATE,
         "assessment_start": COF_R4W2_HOLD_DATE,
@@ -607,20 +606,19 @@ round_config_w2 = [
             ),
             "cy": textwrap.dedent(
                 """
-                 <h2 class="govuk-heading-m">Get application support</h2>
+                 <h2 class="govuk-heading-m">Cael cymorth â'r cais</h2>
                  <p class="govuk-body">
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Visit the My Community website</a>
-                    for information and guidance on applying to Community Ownership Fund.
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Fill out the enquiry form</a>
-                    to request advice from My Community.
+                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Ewch i wefan My Community</a>
+                    i gael gwybodaeth ac arweiniad ar wneud cais i'r Gronfa Perchnogaeth Gymunedol.
+                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Llenwch y ffurflen ymholiad</a>
+                    i ofyn am gyngor gan My Community.
                 </p>
                 <p class="govuk-body">
-                    We cannot provide direct support to applicants outside of this service.
+                    Ni allwn ddarparu cymorth uniongyrchol i ymgeiswyr tu hwnt i'r gwasanaeth hwn.
                 </p>
-                <h2 class="govuk-heading-m">Get technical support</h2>
+                <h2 class="govuk-heading-m">Cael cymorth technegol</h2>
                 <p  class="govuk-body">
-                    Contact the Department of Levelling Up, Housing and Communities funding team if you need
-                    help with accessing or submitting an application form.
+                    Cysylltwch â thîm cyllid yr Adran Ffyniant Bro, Tai a Chymunedau os oes angen help arnoch i gael at ffurflen gais neu ei chyflwyno.
                 </p>
             """
             ),
