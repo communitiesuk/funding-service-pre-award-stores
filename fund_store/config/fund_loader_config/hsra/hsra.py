@@ -121,7 +121,7 @@ round_config = [
     {
         "id": HSRA_ROUND_ID,
         "fund_id": HSRA_FUND_ID,
-        "title_json": {"en": "Round 1", "cy": ""},
+        "title_json": {"en": "Round 1", "cy": "Rownd 1"},
         "short_name": "R1",
         "opens": HSRA_OPENS_DATE,
         "assessment_start": HSRA_START_DATE,
