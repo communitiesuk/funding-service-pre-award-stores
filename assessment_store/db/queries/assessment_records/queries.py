@@ -297,6 +297,7 @@ def bulk_insert_application_record(
         except exc.SQLAlchemyError as e:
             db.session.rollback()
             print(f"Error occurred while inserting application {row['application_id']}, error: {e}")
+            raise e
 
     print("Inserted application_ids (i.e. application rows) :" f" {[row['application_id'] for row in rows]}")
     return rows
