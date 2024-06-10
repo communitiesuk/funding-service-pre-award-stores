@@ -1,5 +1,5 @@
 import connexion
-from _helpers.task_executer_service import TaskExecutorService
+from _helpers.task_executer_service import AssessmentTaskExecutorService
 from apscheduler.schedulers.background import BackgroundScheduler
 from config import Config
 from connexion.resolver import MethodViewResolver
@@ -55,7 +55,7 @@ def create_app() -> Flask:
         max_workers=Config.TASK_EXECUTOR_MAX_THREAD, thread_name_prefix="NotifTask", flask_app=flask_app
     )
     # Configure Task Executor service
-    task_executor_service = TaskExecutorService(
+    task_executor_service = AssessmentTaskExecutorService(
         flask_app=flask_app,
         executor=executor,
         s3_bucket=Config.AWS_MSG_BUCKET_NAME,
