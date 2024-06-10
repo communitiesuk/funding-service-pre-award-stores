@@ -147,4 +147,29 @@ unscored_sections = [
             },
         ],
     },
+    {
+        "id": "declaration",
+        "name": "Declaration",
+        "sub_criteria": [
+            {
+                "id": "declaration",
+                "name": "Declaration",
+                "themes": [
+                    {
+                        "id": "declaration",
+                        "name": "Declaration",
+                        "answers": [
+                            {
+                                "field_id": "QUaOGq",
+                                "form_name": "declaration-hsra",
+                                "field_type": "checkboxesField",
+                                "presentation_type": "list",
+                                "question": "By submitting this application, you confirm that the information you have provided is correct.",
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
 ]

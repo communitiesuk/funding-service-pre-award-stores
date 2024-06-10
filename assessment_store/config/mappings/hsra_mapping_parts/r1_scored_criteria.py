@@ -75,6 +75,7 @@ scored_criteria = [
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload quotes showing refurbishment costs and if applicable project management costs for properties exceeding 200 sqm.",
+                                "path": "upload-quotes-showing-refurbishment-costs-and-if-applicable-project-management-costs-for-properties-exceeding-200-sqm.",
                             },
                             {
                                 "field_id": "SMwXcK",
@@ -82,6 +83,7 @@ scored_criteria = [
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload the independent survey of works",
+                                "path": "upload-the-independent-survey-of-works",
                             },
                         ],
                     }
@@ -108,6 +110,7 @@ scored_criteria = [
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload quotes showing other costs",
+                                "path": "upload-quotes-showing-other-costs",
                             },
                         ],
                     }
@@ -141,6 +144,7 @@ scored_criteria = [
                                 "field_type": "clientSideFileUploadField",
                                 "presentation_type": "s3bucketPath",
                                 "question": "Upload the initial notice you served the landlord",
+                                "path": "upload-the-initial-notice-you-served-the-landlord",
                             },
                             {
                                 "field_id": "NnOqGc",
