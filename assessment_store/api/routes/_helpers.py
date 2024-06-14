@@ -1,8 +1,25 @@
 import copy
+import json
+from uuid import UUID
 
 from config import Config
 from db.models.assessment_record.enums import Status
 from flask import current_app
+from flask import make_response
+
+
+def compress_response(data):
+    class UUIDEncoder(json.JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, UUID):
+                return obj.hex
+            return json.JSONEncoder.default(self, obj)
+
+    content = json.dumps(data, cls=UUIDEncoder, separators=(",", ":"))
+    response = make_response(content)
+    response.headers["Content-length"] = len(content)
+    response.headers["Content-Type"] = "application/json"
+    return response
 
 
 def _derive_status(score_map: dict, comment_map: dict, sub_criteria_id: str) -> str:

@@ -3,6 +3,7 @@ from typing import Dict
 from typing import List
 
 from api.models.sub_criteria import SubCriteria
+from api.routes._helpers import compress_response
 from api.routes._helpers import transform_to_assessor_task_list_metadata
 from api.routes.subcriterias.get_sub_criteria import (
     get_all_subcriteria,
@@ -89,7 +90,8 @@ def all_assessments_for_fund_round_id(
         team_in_place=team_in_place,
         joint_application=joint_application,
     )
-    return app_list
+
+    return compress_response(app_list)
 
 
 def sub_criteria(

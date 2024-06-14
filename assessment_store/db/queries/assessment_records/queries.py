@@ -43,6 +43,7 @@ from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.orm import aliased
 from sqlalchemy.orm import defer
 from sqlalchemy.orm import load_only
+from sqlalchemy.orm import selectinload
 
 
 def get_metadata_for_application(
@@ -95,7 +96,12 @@ def get_metadata_for_fund_round_id(
     statement = (
         select(AssessmentRecord)
         # Dont load json into memory
-        .options(defer(AssessmentRecord.jsonb_blob)).where(
+        .options(
+            defer(AssessmentRecord.jsonb_blob),
+            selectinload(AssessmentRecord.qa_complete),
+            selectinload(AssessmentRecord.flags),
+            selectinload(AssessmentRecord.tag_associations).selectinload(TagAssociation.tag).selectinload(Tag.tag_type),
+        ).where(
             AssessmentRecord.fund_id == fund_id,
             AssessmentRecord.round_id == round_id,
             AssessmentRecord.is_withdrawn == False,  # noqa: E712
@@ -201,7 +207,8 @@ def get_metadata_for_fund_round_id(
         # so it has the double quotes from the json so we have to include them in the comparison
         statement = statement.where(func.cast(AssessmentRecord.funding_type, String) == f'"{funding_type}"')
 
-    assessment_metadatas = db.session.scalars(statement).all()
+    raw_results = db.session.execute(statement)
+    assessment_metadatas = raw_results.unique().scalars().all()
 
     if status != "ALL":
         filter_assessments = []
