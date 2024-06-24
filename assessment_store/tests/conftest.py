@@ -6,6 +6,7 @@ import pytest
 from app import create_app
 from db.models import AssessmentRound
 from db.models.assessment_record import AssessmentRecord
+from db.models.assessment_record.allocation_association import AllocationAssociation
 from db.models.assessment_record.tag_association import TagAssociation
 from db.models.comment import Comment
 from db.models.comment import CommentsUpdate
@@ -90,6 +91,7 @@ def seed_application_records(request, app, clear_test_data, enable_preserve_test
     # Supplied the rows we inserted for tests to use in their actions
     yield inserted_applications
 
+    AllocationAssociation.query.delete()
     FlagUpdate.query.delete()
     AssessmentFlag.query.delete()
     TagAssociation.query.delete()

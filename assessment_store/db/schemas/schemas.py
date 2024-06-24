@@ -1,4 +1,5 @@
 from db.models.assessment_record import AssessmentRecord
+from db.models.assessment_record.allocation_association import AllocationAssociation
 from db.models.assessment_record.enums import Language
 from db.models.assessment_record.enums import Status
 from db.models.assessment_record.tag_association import TagAssociation
@@ -196,3 +197,11 @@ class AssessmentRoundMetadata(SQLAlchemyAutoSchema):
 
     class Meta:
         model = AssessmentRound
+
+
+class AllocationAssociationSchema(SQLAlchemyAutoSchema):
+    log = String()
+    application_id = UUID()
+
+    class Meta:
+        model = AllocationAssociation

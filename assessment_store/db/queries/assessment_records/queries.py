@@ -5,6 +5,7 @@ Joins allowed.
 """
 import json
 from datetime import datetime
+from datetime import timezone
 from typing import Dict
 from typing import List
 
@@ -15,6 +16,7 @@ from config.mappings.assessment_mapping_fund_round import (
 from db import db
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record import TagAssociation
+from db.models.assessment_record.allocation_association import AllocationAssociation
 from db.models.assessment_record.enums import Status
 from db.models.flags.flag_update import FlagStatus
 from db.models.score import Score
@@ -975,3 +977,52 @@ def combine_dicts(applications_list, scores_list):
             combined_list.append(application_with_nulls)
 
     return combined_list
+
+
+def get_user_application_associations(application_id=None, user_id=None, active=None):
+    query = db.session.query(AllocationAssociation)
+    if application_id:
+        query = query.filter(AllocationAssociation.application_id == application_id)
+
+    if user_id:
+        query = query.filter(AllocationAssociation.user_id == user_id)
+
+    if active is not None:
+        query = query.filter(AllocationAssociation.active == active)
+
+    return query.all()
+
+
+def create_user_application_association(application_id, user_id):
+    allocation_association = AllocationAssociation(
+        user_id=user_id,
+        application_id=application_id,
+        active=True,
+        log={datetime.now(tz=timezone.utc).isoformat(): "activated"},
+    )
+    try:
+        db.session.add(allocation_association)
+        db.session.commit()
+        db.session.refresh(allocation_association)
+    except exc.IntegrityError:
+        db.session.rollback()
+        return None
+
+    return allocation_association
+
+
+def update_user_application_association(application_id, user_id, active):
+    allocation_association = (
+        db.session.query(AllocationAssociation)
+        .filter(AllocationAssociation.application_id == application_id, AllocationAssociation.user_id == user_id)
+        .one_or_none()
+    )
+    allocation_association.active = active
+    allocation_association.log = {
+        **allocation_association.log,
+        datetime.now(tz=timezone.utc).isoformat(): "activated" if active else "deactivated",
+    }
+    db.session.commit()
+    db.session.refresh(allocation_association)
+
+    return allocation_association

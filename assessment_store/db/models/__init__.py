@@ -1,4 +1,5 @@
 # flake8: noqa
+from db.models.assessment_record import AllocationAssociation
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record import TagAssociation
 from db.models.comment import Comment
@@ -12,6 +13,7 @@ from db.models.tag import TagType
 
 __all__ = [
     "AssessmentRecord",
+    "AllocationAssociation",
     "Score",
     "AssessmentRound",
     "Comment",

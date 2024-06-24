@@ -29,6 +29,10 @@ from .tag_routes import associate_tags_with_assessment
 from .tag_routes import get_active_tags_associated_with_assessment
 from .tag_routes import get_tag
 from .tag_routes import get_tags_for_fund_round
+from .user_routes import add_user_application_association
+from .user_routes import get_all_users_associated_with_application
+from .user_routes import get_user_application_association
+from .user_routes import update_user_application_association
 
 
 __all__ = [
@@ -63,4 +67,8 @@ __all__ = [
     "get_application_data_for_export",
     "get_active_tags_associated_with_assessment",
     "associate_tags_with_assessment",
+    "get_all_users_associated_with_application",
+    "get_user_application_association",
+    "add_user_application_association",
+    "update_user_application_association",
 ]

@@ -474,3 +474,33 @@ components:
             type: string
             description: scoring system
             example: OneToFive
+    UserAssociation:
+        type: object
+        properties:
+          application_id:
+            type: string
+            description: uuid of application.
+            example: uuif7eaf61b-093e-4464-a4da-b36b849f0a1b
+          user_id:
+            type: string
+            description: uuid of user who associated
+            example: "uuif7eaf61b-093e-4464-a4da-b36b849f0a1b"
+          created:
+            type: string
+            description: Date time the association was created
+            example : "2024-06-10T15:35:47Z"
+          active:
+            type: boolean
+            description: If the association is active
+            example : "true"
+          log:
+            type: string
+            description: a (json) log of changes made to the association
+            example : "{'activated' : '2024-06-10T15:35:47Z', 'deactivated': '2024-06-11T15:35:47Z'}"
+    PutUserAssociation:
+      type: object
+      properties:
+        active:
+          type: boolean
+          nullable: false
+          example: True

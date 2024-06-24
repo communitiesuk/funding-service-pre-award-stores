@@ -1338,3 +1338,145 @@ paths:
                   type: object
                   items:
                     $ref: 'components.yml#/components/schemas/ScoringSystem'
+  '/application/{application_id}/users':
+    get:
+      tags:
+        - application user association
+      summary: Get all users that are assigned the application
+      description: returns all users assigned to the application
+      operationId: api.routes.user_routes.get_all_users_associated_with_application
+      parameters:
+        - name: application_id
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: active
+          in: query
+          schema:
+            type: boolean
+          required: false
+      responses:
+        200:
+          description: SUCCESS - A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/UserAssociation'
+  '/application/{application_id}/user/{user_id}':
+    get:
+      tags:
+        - application user association
+      summary: Get the association corresponding to the user and the application
+      description: returns the assocation for the user and application, if it exists
+      operationId: api.routes.user_routes.get_user_application_association
+      parameters:
+        - name: application_id
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: user_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: SUCCESS - An user application association
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/UserAssociation'
+    post:
+      tags:
+        - application user association
+      summary: Create a new association between user and application
+      description: Post a new association between user and application
+      operationId: api.routes.user_routes.add_user_application_association
+      parameters:
+        - name: application_id
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: user_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        201:
+          description: SUCCESS - Association created
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/UserAssociation'
+    put:
+      tags:
+        - application user association
+      summary: Activate or deactivate an association between a user and an application
+      description: Activate or deactivate an between a user and an application
+      operationId: api.routes.user_routes.update_user_application_association
+      parameters:
+        - in: path
+          name: application_id
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+      requestBody:
+        description: Association parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+               $ref: 'components.yml#/components/schemas/PutUserAssociation'
+      responses:
+        200:
+          description: SUCCESS - Association Updated
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: 'components.yml#/components/schemas/UserAssociation'
+  '/user/{user_id}/applications':
+    get:
+      tags:
+        - application user association
+      summary: Get all applications that are assigned to the user
+      description: returns all applications assigned to the user
+      operationId: api.routes.user_routes.get_all_applications_associated_with_user
+      parameters:
+        - name: user_id
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: active
+          in: query
+          schema:
+            type: boolean
+          required: false
+      responses:
+        200:
+          description: SUCCESS - A list of applications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/UserAssociation'
