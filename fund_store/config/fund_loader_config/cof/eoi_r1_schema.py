@@ -1,4 +1,4 @@
-from fsd_utils import Eoi_Decision
+from fsd_utils import Decision
 
 COF_SECURE_MATCH_FUNDING_CAVEAT_EN = (
     "Make progress in securing match funding: COF will contribute up to 80% of the"
@@ -50,7 +50,7 @@ COF_R3_EOI_SCHEMA_EN = {
     "uYiLsv": [
         {
             "answerValue": "not-yet-incorporated",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Incorporate your organisation: You must have incorporated your"
                 " organisation by the time you submit a full application. If you remain"
@@ -61,42 +61,42 @@ COF_R3_EOI_SCHEMA_EN = {
     "NcQSbU": [
         {
             "answerValue": True,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "eEaDGz": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "zurxox": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "lLQmNb": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "fBhSNc": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "XuAyrs": [
         {
             "answerValue": "Yes, a town, parish or community council",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Understand the rules on acquiring assets from town, parish or"
                 " community councils: We cannot fund you to acquire a publicly owned"
@@ -109,7 +109,7 @@ COF_R3_EOI_SCHEMA_EN = {
         },
         {
             "answerValue": "Yes, another type of public authority",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Understand the rules on acquiring public sector assets: COF funding"
                 " can only be used for renovation and refurbishment costs once a"
@@ -130,14 +130,14 @@ COF_R3_EOI_SCHEMA_EN = {
     "foQgiy": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "BykoQQ": [
         {
             "answerValue": ["Not sure"],
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Make progress in securing match funding: COF will contribute up to 80%"
                 " of the capital costs you require, and you must raise at least 20%"
@@ -154,14 +154,14 @@ COF_R3_EOI_SCHEMA_EN = {
     "eOWKoO": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "oblxxv": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Consider requesting revenue funding: We encourage all organisations"
                 " to apply for revenue funding to help cover the initial running costs"
@@ -176,29 +176,29 @@ COF_R3_EOI_SCHEMA_EN = {
     "kWRuac": [
         {
             "answerValue": "Not yet approached any funders",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_SECURE_MATCH_FUNDING_CAVEAT_EN,
         },
         {
             "answerValue": "Approached some funders but not yet secured",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_SECURE_MATCH_FUNDING_CAVEAT_EN,
         },
         {
             "answerValue": "Approached all funders but not yet secured",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_SECURE_MATCH_FUNDING_CAVEAT_EN,
         },
         {
             "answerValue": "Secured some match funding",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_SECURE_MATCH_FUNDING_CAVEAT_EN,
         },
     ],
     "yZxdeJ": [
         {
             "answerValue": True,
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Understand the rules on housing: We will not provide funding if your"
                 " project's main purpose is to purchase or develop housing assets,"
@@ -211,19 +211,19 @@ COF_R3_EOI_SCHEMA_EN = {
     "UORyaF": [
         {
             "answerValue": "Not sure",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_PLANNING_PERMISSION_IF_NEEDED_CAVEAT_EN,
         }
     ],
     "jICagT": [
         {
             "answerValue": "Not yet started",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_PLANNING_PERMISSION_CAVEAT_EN,
         },
         {
             "answerValue": "Early stage",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_PLANNING_PERMISSION_CAVEAT_EN,
         },
     ],
@@ -231,7 +231,7 @@ COF_R3_EOI_SCHEMA_EN = {
         {
             "operator": ">",
             "compareValue": 2000000,  # 2 million
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         }
     ],
@@ -240,7 +240,7 @@ COF_R3_EOI_SCHEMA_CY = {
     "uYiLsv": [
         {
             "answerValue": "Ddim yn gorfforedig eto",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Dylech gorffori eich sefydliad: Mae'n rhaid eich bod wedi corffori eich sefydliad erbyn eich bod yn "
                 "cyflwyno cais llawn. Os byddwch yn anghorfforedig o hyd, ni fydd eich cais yn gymwys."
@@ -250,42 +250,42 @@ COF_R3_EOI_SCHEMA_CY = {
     "NcQSbU": [
         {
             "answerValue": True,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "eEaDGz": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "zurxox": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "lLQmNb": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "fBhSNc": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "XuAyrs": [
         {
             "answerValue": "Ydy, cyngor tref, plwyf neu gymuned",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Dylech ddeall y rheolau ynglŷn â chaffael asedau gan gynghorau tref, plwyf neu gymuned: Ni allwn "
                 "eich ariannu i gaffael ased dan berchnogaeth gyhoeddus os yw'n golygu trosglwyddo cyfrifoldeb am "
@@ -296,7 +296,7 @@ COF_R3_EOI_SCHEMA_CY = {
         },
         {
             "answerValue": "Ydy, math arall o awdurdod cyhoeddus",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Dylech ddeall y rheolau ynglŷn â chaffael asedau'r sector cyhoeddus: Dim ond ar ôl trosglwyddo ased "
                 "sydd dan berchnogaeth gyhoeddus i chi y gellir defnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol ar "
@@ -314,14 +314,14 @@ COF_R3_EOI_SCHEMA_CY = {
     "foQgiy": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "BykoQQ": [
         {
             "answerValue": ["none"],
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at "
                 "80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau "
@@ -337,14 +337,14 @@ COF_R3_EOI_SCHEMA_CY = {
     "eOWKoO": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         },
     ],
     "oblxxv": [
         {
             "answerValue": False,
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Ystyriwch wneud cais am gyllid refeniw: Rydym yn annog pob sefydliad i wneud cais am gyllid refeniw "
                 "er mwyn helpu i dalu costau rhedeg cychwynnol eich prosiect. Pan fyddwch yn gwneud cais, bydd angen "
@@ -358,29 +358,29 @@ COF_R3_EOI_SCHEMA_CY = {
     "kWRuac": [
         {
             "answerValue": "Heb gysylltu ag unrhyw gyllidwyr eto",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_SECURE_MATCH_FUNDING_CAVEAT_CY,
         },
         {
             "answerValue": "Wedi cysylltu â rhai cyllidwyr ond heb sicrhau cyllid eto",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_SECURE_MATCH_FUNDING_CAVEAT_CY,
         },
         {
             "answerValue": "Wedi cysylltu â'r holl gyllidwyr ond heb sicrhau cyllid eto",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_SECURE_MATCH_FUNDING_CAVEAT_CY,
         },
         {
             "answerValue": "Wedi sicrhau rhywfaint o arian cyfatebol",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_SECURE_MATCH_FUNDING_CAVEAT_CY,
         },
     ],
     "yZxdeJ": [
         {
             "answerValue": True,
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": (
                 "Dylech ddeall y rheolau ynglyn â thai: Ni fyddwn yn darparu cyllid os mai prif ddiben eich prosiect "
                 "yw prynu neu ddatblygu asedau tai, gan gynnwys tai cymdeithasol. Fodd bynnag, gallwch gynnwys "
@@ -392,19 +392,19 @@ COF_R3_EOI_SCHEMA_CY = {
     "UORyaF": [
         {
             "answerValue": "Ddim yn siŵr",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_PLANNING_PERMISSION_IF_NEEDED_CAVEAT_CY,
         }
     ],
     "jICagT": [
         {
             "answerValue": "Heb ddechrau eto",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_PLANNING_PERMISSION_CAVEAT_CY,
         },
         {
             "answerValue": "Cam cynnar",
-            "result": Eoi_Decision.PASS_WITH_CAVEATS,
+            "result": Decision.PASS_WITH_CAVEATS,
             "caveat": COF_PLANNING_PERMISSION_CAVEAT_CY,
         },
     ],
@@ -412,7 +412,7 @@ COF_R3_EOI_SCHEMA_CY = {
         {
             "operator": ">",
             "compareValue": 2000000,  # 2 million
-            "result": Eoi_Decision.FAIL,
+            "result": Decision.FAIL,
             "caveat": None,
         }
     ],
