@@ -70,7 +70,12 @@ def add_user_application_association(application_id, user_id):
         404: If the association cannot be created.
 
     """
-    association = create_user_application_association(application_id=application_id, user_id=user_id)
+    args = request.get_json()
+    if "assigner_id" not in args:
+        abort(400, "Post body must contain assigner_id")
+    association = create_user_application_association(
+        application_id=application_id, user_id=user_id, assigner_id=args["assigner_id"]
+    )
 
     if association:
         serialiser = AllocationAssociationSchema()
@@ -131,4 +136,27 @@ def get_all_applications_associated_with_user(user_id, active=None):
         return serialiser.dump(associations, many=True)
 
     current_app.logger.error(f"Could not find any applications associated with user {user_id}")
+    abort(404)
+
+
+def get_all_associations_assigned_by_user(assigner_id, active=None):
+    """Fetches all associations where the user is the assigner.
+
+    Parameters:
+        assigner_id (str): UUID of the assigner.
+        active (bool, optional): Filter for active associations. Defaults to None.
+
+    Returns:
+        list: Serialized list of application associations.
+
+    Raises:
+        404: If no applications are found for the given user.
+
+    """
+    associations = get_user_application_associations(assigner_id=assigner_id, active=active)
+    if associations:
+        serialiser = AllocationAssociationSchema()
+        return serialiser.dump(associations, many=True)
+
+    current_app.logger.error(f"Could not find any applications assigned by user {assigner_id}")
     abort(404)

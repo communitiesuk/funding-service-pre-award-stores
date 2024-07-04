@@ -14,15 +14,18 @@ from tests.conftest import test_input_data
 def test_get_users_for_application(_db, seed_application_records):
     user_id_1 = str(uuid.uuid4())
     user_id_2 = str(uuid.uuid4())
+    assigner_id = str(uuid.uuid4())
     app_id = seed_application_records[0]["application_id"]
     allocation_association_1 = AllocationAssociation(
         user_id=user_id_1,
+        assigner_id=assigner_id,
         application_id=app_id,
         active=True,
         log={datetime.now(tz=timezone.utc).isoformat(): "activated"},
     )
     allocation_association_2 = AllocationAssociation(
         user_id=user_id_2,
+        assigner_id=assigner_id,
         application_id=app_id,
         active=False,
         log={datetime.now(tz=timezone.utc).isoformat(): "deactivated"},
@@ -46,16 +49,20 @@ def test_get_users_for_application(_db, seed_application_records):
 @pytest.mark.apps_to_insert([{**test_input_data[0]}, {**test_input_data[1]}])
 def test_get_applications_for_user(_db, seed_application_records):
     user_id = str(uuid.uuid4())
+    assigner_id_1 = str(uuid.uuid4())
+    assigner_id_2 = str(uuid.uuid4())
     app_id_1 = seed_application_records[0]["application_id"]
     app_id_2 = seed_application_records[1]["application_id"]
     allocation_association_1 = AllocationAssociation(
         user_id=user_id,
+        assigner_id=assigner_id_1,
         application_id=app_id_1,
         active=True,
         log={datetime.now(tz=timezone.utc).isoformat(): "activated"},
     )
     allocation_association_2 = AllocationAssociation(
         user_id=user_id,
+        assigner_id=assigner_id_2,
         application_id=app_id_2,
         active=False,
         log={datetime.now(tz=timezone.utc).isoformat(): "deactivated"},
@@ -75,12 +82,17 @@ def test_get_applications_for_user(_db, seed_application_records):
     assert len(inactive_applications) == 1
     assert str(inactive_applications[0].application_id) == app_id_2
 
+    assigner_1_applications = get_user_application_associations(assigner_id=assigner_id_1)
+    assert len(assigner_1_applications) == 1
+    assert str(assigner_1_applications[0].application_id) == app_id_1
+
 
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])
 def test_create_user_application_association(_db, seed_application_records):
     user_id = str(uuid.uuid4())
+    assigner_id = str(uuid.uuid4())
     app_id = seed_application_records[0]["application_id"]
-    new_association = create_user_application_association(app_id, user_id)
+    new_association = create_user_application_association(app_id, user_id, assigner_id)
     assert new_association is not None
     assert str(new_association.application_id) == app_id
     assert str(new_association.user_id) == user_id
@@ -95,8 +107,9 @@ def test_create_user_application_association(_db, seed_application_records):
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])
 def test_update_user_application_association(_db, seed_application_records):
     user_id = str(uuid.uuid4())
+    assigner_id = str(uuid.uuid4())
     app_id = seed_application_records[0]["application_id"]
-    create_user_application_association(app_id, user_id)
+    create_user_application_association(app_id, user_id, assigner_id)
     updated_association = update_user_application_association(app_id, user_id, active=False)
     assert updated_association.active is False
     assert len(updated_association.log.keys()) == 2
@@ -111,7 +124,7 @@ def test_update_user_application_association(_db, seed_application_records):
 def test_duplicate_user_application_association(_db, seed_application_records):
     user_id = str(uuid.uuid4())
     app_id = seed_application_records[0]["application_id"]
-    updated_association = create_user_application_association(app_id, user_id)
-    duplicate_return_value = create_user_application_association(app_id, user_id)
+    updated_association = create_user_application_association(app_id, user_id, str(uuid.uuid4()))
+    duplicate_return_value = create_user_application_association(app_id, user_id, str(uuid.uuid4()))
     assert updated_association is not None
     assert duplicate_return_value is None

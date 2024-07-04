@@ -421,6 +421,7 @@ def test_get_all_users_associated_with_application(client):
         {
             "application_id": "app1",
             "user_id": "user1",
+            "assigner_id": "assigner1",
             "created_at": datetime(2024, 6, 10, 15, 35, 47, 999),
             "active": True,
             "log": "{'activated': '2024-06-10T15:35:47Z'}",
@@ -428,6 +429,7 @@ def test_get_all_users_associated_with_application(client):
         {
             "application_id": "app1",
             "user_id": "user2",
+            "assigner_id": "assigner1",
             "created_at": datetime(2024, 6, 10, 15, 35, 47, 999),
             "active": False,
             "log": "{'activated': '2024-06-10T15:35:47Z', 'deactivated': '2024-06-11T15:35:47Z'}",
@@ -452,6 +454,7 @@ def test_get_user_application_association(client):
     mock_association = {
         "application_id": "app1",
         "user_id": "user1",
+        "assigner_id": "assigner1",
         "created_at": datetime(2024, 6, 10, 15, 35, 47, 999),
         "active": True,
         "log": "{'activated': '2024-06-10T15:35:47Z'}",
@@ -474,6 +477,7 @@ def test_add_user_application_association(client):
     mock_association = {
         "application_id": "app1",
         "user_id": "user1",
+        "assigner_id": "assigner1",
         "created_at": datetime(2024, 6, 10, 15, 35, 47, 999),
         "active": True,
         "log": "{'activated': '2024-06-10T15:35:47Z'}",
@@ -485,17 +489,18 @@ def test_add_user_application_association(client):
     with mock.patch(
         "api.routes.user_routes.create_user_application_association", return_value=mock_association
     ) as mock_create_association:
-        response = client.post("/application/app1/user/user1")
+        response = client.post("/application/app1/user/user1", json={"assigner_id": "assigner1"})
 
         assert response.status_code == 201
         assert response.json == expected_response
-        mock_create_association.assert_called_once_with(application_id="app1", user_id="user1")
+        mock_create_association.assert_called_once_with(application_id="app1", user_id="user1", assigner_id="assigner1")
 
 
 def test_update_user_application_association(client):
     mock_association = {
         "application_id": "app1",
         "user_id": "user1",
+        "assigner_id": "assigner1",
         "created_at": datetime(2024, 6, 10, 15, 35, 47, 999),
         "active": False,
         "log": "{'activated': '2024-06-10T15:35:47Z', 'deactivated': '2024-06-11T15:35:47Z'}",
@@ -519,6 +524,7 @@ def test_get_all_applications_associated_with_user(client):
         {
             "application_id": "app1",
             "user_id": "user1",
+            "assigner_id": "assigner1",
             "created_at": datetime(2024, 6, 10, 15, 35, 47, 999),
             "active": True,
             "log": "{'activated': '2024-06-10T15:35:47Z'}",
@@ -526,6 +532,7 @@ def test_get_all_applications_associated_with_user(client):
         {
             "application_id": "app2",
             "user_id": "user1",
+            "assigner_id": "assigner1",
             "created_at": datetime(2024, 6, 11, 15, 35, 47, 999),
             "active": False,
             "log": "{'activated': '2024-06-10T15:35:47Z', 'deactivated': '2024-06-11T15:35:47Z'}",
@@ -544,3 +551,37 @@ def test_get_all_applications_associated_with_user(client):
         assert response.status_code == 200
         assert response.json == expected_response
         mock_get_applications.assert_called_once_with(user_id="user1", active=None)
+
+
+def test_get_all_applications_assigned_by_user(client):
+    mock_applications = [
+        {
+            "application_id": "app1",
+            "user_id": "user1",
+            "assigner_id": "assigner1",
+            "created_at": datetime(2024, 6, 10, 15, 35, 47, 999),
+            "active": True,
+            "log": "{'activated': '2024-06-10T15:35:47Z'}",
+        },
+        {
+            "application_id": "app2",
+            "user_id": "user2",
+            "assigner_id": "assigner1",
+            "created_at": datetime(2024, 6, 11, 15, 35, 47, 999),
+            "active": False,
+            "log": "{'activated': '2024-06-10T15:35:47Z', 'deactivated': '2024-06-11T15:35:47Z'}",
+        },
+    ]
+
+    expected_response = deepcopy(mock_applications)
+    expected_response[0]["created_at"] = expected_response[0]["created_at"].isoformat()
+    expected_response[1]["created_at"] = expected_response[1]["created_at"].isoformat()
+
+    with mock.patch(
+        "api.routes.user_routes.get_user_application_associations", return_value=mock_applications
+    ) as mock_get_applications:
+        response = client.get("/user/assigner1/assignees")
+
+        assert response.status_code == 200
+        assert response.json == expected_response
+        mock_get_applications.assert_called_once_with(assigner_id="assigner1", active=None)

@@ -1418,6 +1418,15 @@ paths:
                 type: object
                 items:
                   $ref: 'components.yml#/components/schemas/UserAssociation'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assigner_id:
+                  type: string
     put:
       tags:
         - application user association
@@ -1462,6 +1471,33 @@ paths:
       operationId: api.routes.user_routes.get_all_applications_associated_with_user
       parameters:
         - name: user_id
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: active
+          in: query
+          schema:
+            type: boolean
+          required: false
+      responses:
+        200:
+          description: SUCCESS - A list of applications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'components.yml#/components/schemas/UserAssociation'
+  '/user/{assigner_id}/assignees':
+    get:
+      tags:
+        - application user association
+      summary: Get all users associations that have been assigned by the user
+      description: returns all users associations that have been assigned by the user
+      operationId: api.routes.user_routes.get_all_associations_assigned_by_user
+      parameters:
+        - name: assigner_id
           in: path
           schema:
             type: string

@@ -19,6 +19,7 @@ class AllocationAssociation(BaseModel):
     Attributes:
         application_id: UUID of the application, serving as a foreign key to the assessment_records table.
         user_id: UUID of the user associated with the application.
+        assigner_id: UUID of the user creating the association (usually the lead assessor).
         created_at: Timestamp of when the association was created, defaulting to the current time.
         active: Boolean indicating whether the association is active, defaulting to True.
         log: JSONB object containing a log of changes made to the association.
@@ -38,6 +39,7 @@ class AllocationAssociation(BaseModel):
         nullable=False,
     )
     user_id = db.Column(UUID(as_uuid=True), nullable=False)
+    assigner_id = db.Column(UUID(as_uuid=True), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     active = db.Column(db.Boolean(), nullable=False, default=True)
     log = db.Column(JSONB, nullable=False)
