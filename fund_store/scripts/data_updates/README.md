@@ -21,12 +21,6 @@ To run the script, find the container ID for the fund-store and execute
 
     docker exec -it <fund_store_container_id> python -m scripts.data_updates.<script_name>
 
-To run on cloud foundry, use `cf run-task`
+To run on Copilot environments, use:
 
-    cf run-task funding-service-design-fund-store-test --command "python -m scripts.data_updates.patch_cyp_name"
-
-Or to run inside the CF container:
-
-    export PYTHONPATH=/home/vcap/app
-    cd app
-    LD_LIBRARY_PATH=/home/vcap/deps/0/lib:/home/vcap/deps/0/python/lib:$LD_LIBRARY_PATH ~/deps/0/python/bin/python3.10 ./scripts/data_updates/FS-3471-application_guidance.py
+    copilot svc exec --command "launcher python -m scripts.data_updates.<script_name>"
