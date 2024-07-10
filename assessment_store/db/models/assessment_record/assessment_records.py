@@ -68,6 +68,8 @@ class AssessmentRecord(BaseModel):
 
     qa_complete = relationship("QaComplete")
 
+    user_associations = relationship("AllocationAssociation")
+
     location_json_blob = Column("location_json_blob", JSONB, nullable=True)
 
     is_withdrawn = Column("is_withdrawn", Boolean, default=False, nullable=False)

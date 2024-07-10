@@ -48,6 +48,7 @@ class AssessmentRecordMetadata(SQLAlchemyAutoSchema):
     flags = Nested("AssessmentFlagSchema", many=True)
     qa_complete = Nested("QaCompleteMetadata", many=True)
     tag_associations = Nested("TagAssociationNestedSchema", many=True)
+    user_associations = Nested("AllocationAssociationSchema", many=True)
     date_submitted = String()
     application_name = String()
     joint_application = String()

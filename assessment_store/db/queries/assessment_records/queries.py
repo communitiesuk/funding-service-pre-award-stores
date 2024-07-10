@@ -102,6 +102,7 @@ def get_metadata_for_fund_round_id(
             defer(AssessmentRecord.jsonb_blob),
             selectinload(AssessmentRecord.qa_complete),
             selectinload(AssessmentRecord.flags),
+            selectinload(AssessmentRecord.user_associations),
             selectinload(AssessmentRecord.tag_associations).selectinload(TagAssociation.tag).selectinload(Tag.tag_type),
         ).where(
             AssessmentRecord.fund_id == fund_id,
