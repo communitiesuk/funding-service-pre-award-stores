@@ -226,5 +226,5 @@ def reset_round_dates(round_id, round_short_name):
 if __name__ == "__main__":
     from app import app
 
-    with app.app_context():
+    with app.app.app_context():
         cli()

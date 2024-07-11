@@ -1,6 +1,6 @@
 import connexion
 import psycopg2
-from flask import Flask
+from connexion import FlaskApp
 from fsd_utils import init_sentry
 from fsd_utils.healthchecks.checkers import DbChecker
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
@@ -14,22 +14,19 @@ from db.models import Section  # noqa
 from openapi.utils import get_bundled_specs
 
 
-def create_app() -> Flask:
+def create_app() -> FlaskApp:
+
     init_sentry()
-    connexion_options = {"swagger_url": "/"}
-    connexion_app = connexion.FlaskApp(
+    connexion_app = connexion.App(
         "Fund Store",
-        specification_dir="/openapi/",
-        options=connexion_options,
     )
+
     connexion_app.add_api(
         get_bundled_specs("/openapi/api.yml"),
         validate_responses=True,
     )
-
     flask_app = connexion_app.app
     flask_app.config.from_object("config.Config")
-
     from db import db
     from db import migrate
 
@@ -46,8 +43,8 @@ def create_app() -> Flask:
     health = Healthcheck(flask_app)
     health.add_check(FlaskRunningChecker())
     health.add_check(DbChecker(db))
-
-    return flask_app
+    return connexion_app
 
 
 app = create_app()
+application = app.app

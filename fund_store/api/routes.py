@@ -79,10 +79,9 @@ def get_funds():
 
     if funds:
         serialiser = FundSchema()
-        return filter_fund_by_lang(fund_data=serialiser.dump(funds, many=True), lang_key=language)
-
-    current_app.logger.warn("No funds were found, please check this.")
-    return []
+        return jsonify(filter_fund_by_lang(fund_data=serialiser.dump(funds, many=True), lang_key=language))
+    current_app.logger.warning("No funds were found, please check this.")
+    return jsonify(funds)
 
 
 def get_fund(fund_id):
@@ -97,7 +96,7 @@ def get_fund(fund_id):
 
     if fund:
         serialiser = FundSchema()
-        return filter_fund_by_lang(fund_data=serialiser.dump(fund), lang_key=language)
+        return jsonify(filter_fund_by_lang(fund_data=serialiser.dump(fund), lang_key=language))
 
     abort(404)
 
@@ -197,7 +196,7 @@ def set_event_to_processed(fund_id, round_id, event_id):
     event = set_event_to_processed_in_db(round_id=round_id, event_id=event_id, processed=processed)
     if event:
         serialiser = EventSchema()
-        return serialiser.dump(event)
+        return jsonify(serialiser.dump(event))
     abort(404)
 
 

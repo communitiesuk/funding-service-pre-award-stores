@@ -182,7 +182,7 @@ def generate_all_questions(
     assessment_display_output_path: str = None,
 ):
     app = create_app()
-    with app.app_context():
+    with app.app.app_context():
         round = get_round_by_short_name(fund_short_code, round_short_code)
         if not round:
             raise NameError(f"Round {round_short_code} does not exist in fund {fund_short_code}")
