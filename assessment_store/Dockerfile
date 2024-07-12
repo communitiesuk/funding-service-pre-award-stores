@@ -13,4 +13,6 @@ COPY . .
 EXPOSE 8080
 ENV FLASK_ENV=development
 
-CMD bash -c "flask db upgrade && flask run --host 0.0.0.0 --port 8080"
+CMD ["gunicorn", "--worker-class", "uvicorn.workers.UvicornWorker", "wsgi:app", "-b", "0.0.0.0:8080"]
+
+#CMD bash -c "flask db upgrade && flask run --host 0.0.0.0 --port 8080"

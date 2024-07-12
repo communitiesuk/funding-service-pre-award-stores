@@ -177,7 +177,7 @@ def test_tag_association_only_returns_assocaitions_for_active_tags(_db, seed_app
 
     # Deactivate tag
     tags_to_update = [{"active": False, "id": single_tag["id"]}]
-    with app.test_request_context(json=tags_to_update):
+    with app.app.test_request_context(json=tags_to_update):
         update_tags_for_fund_round(fund_id, round_id)
 
     # we return no tags associations as the tag is not inactive

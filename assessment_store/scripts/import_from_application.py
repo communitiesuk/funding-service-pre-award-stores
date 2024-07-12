@@ -47,7 +47,7 @@ def main() -> None:
     else:
         raise Exception("Please provide all the required arguments.")
 
-    with app.app_context():
+    with app.app.app_context():
         applications_url = (
             CommonConfig.APPLICATION_STORE_API_HOST
             + Config.APPLICATIONS_ENDPOINT

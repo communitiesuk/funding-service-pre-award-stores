@@ -2,8 +2,8 @@ import connexion
 from _helpers.task_executer_service import AssessmentTaskExecutorService
 from apscheduler.schedulers.background import BackgroundScheduler
 from config import Config
+from connexion import FlaskApp
 from connexion.resolver import MethodViewResolver
-from flask import Flask
 from fsd_utils import init_sentry
 from fsd_utils.healthchecks.checkers import DbChecker
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
@@ -14,12 +14,9 @@ from fsd_utils.sqs_scheduler.scheduler_service import scheduler_executor
 from openapi.utils import get_bundled_specs
 
 
-def create_app() -> Flask:
+def create_app() -> FlaskApp:
     init_sentry()
-    connexion_options = {
-        "swagger_url": "/",
-    }
-    connexion_app = connexion.FlaskApp(__name__, specification_dir="openapi/", options=connexion_options)
+    connexion_app = connexion.FlaskApp(__name__, specification_dir="openapi/")
     connexion_app.add_api(
         get_bundled_specs("/openapi/api.yml"),
         validate_responses=True,
@@ -79,7 +76,8 @@ def create_app() -> Flask:
     )
     scheduler.start()
 
-    return flask_app
+    return connexion_app
 
 
 app = create_app()
+application = app.app

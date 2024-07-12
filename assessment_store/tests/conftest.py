@@ -212,4 +212,10 @@ def app():
 
     app = create_app()
 
-    yield app
+    yield app.app
+
+
+@pytest.fixture(scope="function")
+def flask_test_client():
+    with create_app().test_client() as test_client:
+        yield test_client
