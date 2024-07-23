@@ -3,7 +3,7 @@ import uuid
 from unittest.mock import MagicMock
 
 import pytest
-from api.routes import get_scoring_system_for_round
+from api.routes import get_scoring_system_name_for_round_id
 from api.routes.progress_routes import get_progress_for_applications
 from db.models import Score
 from db.queries.scores.queries import create_score_for_app_sub_crit
@@ -234,6 +234,6 @@ def test_get_scoring_system(seed_scoring_system):
         # Add more test cases as needed
     }
     for round_id, scoring_system in test_cases.items():
-        returned_scoring_system = get_scoring_system_for_round(round_id)
+        returned_scoring_system = get_scoring_system_name_for_round_id(round_id)
         assert returned_scoring_system["scoring_system"] == scoring_system
         assert returned_scoring_system["round_id"] == round_id

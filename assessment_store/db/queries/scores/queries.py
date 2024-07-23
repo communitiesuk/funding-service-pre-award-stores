@@ -3,14 +3,17 @@
 Joins allowed.
 
 """
+import uuid
 from typing import Dict
 
 from db import db
 from db.models import AssessmentRecord
 from db.models.score import AssessmentRound
 from db.models.score import Score
+from db.models.score import ScoringSystem
 from db.schemas import AssessmentRoundMetadata
 from db.schemas import ScoreMetadata
+from db.schemas import ScoringSystemMetadata
 from sqlalchemy import select
 
 
@@ -118,23 +121,46 @@ def get_sub_criteria_to_latest_score_map(application_id: str) -> dict:
 
 
 def get_scoring_system_for_round_id(round_id: str) -> dict:
-    stmt = select(AssessmentRound.scoring_system, AssessmentRound.round_id).where(AssessmentRound.round_id == round_id)
+    stmt = (
+        select(ScoringSystem, AssessmentRound.round_id)
+        .select_from(AssessmentRound)
+        .join(ScoringSystem, AssessmentRound.scoring_system_id == ScoringSystem.id)
+        .where(AssessmentRound.round_id == round_id)
+    )
 
-    scoring_system = db.session.execute(stmt).one()
-    metadata_serialiser = AssessmentRoundMetadata()
-    processed_scoring_system = metadata_serialiser.dump(scoring_system)
+    result = db.session.execute(stmt).one()
+    # Extract the ScoringSystem instance from the result tuple
+    scoring_system_instance = result[0]
+
+    metadata_serialiser = ScoringSystemMetadata()
+    processed_scoring_system = metadata_serialiser.dump(scoring_system_instance)
 
     return processed_scoring_system
 
 
-def insert_scoring_system_for_round_id(round_id: str, scoring_system: str) -> dict:
-    scoring_system = AssessmentRound(
-        round_id=round_id,
-        scoring_system=scoring_system,
+def _insert_scoring_system(scoring_system_name: str, min_score: int, max_score: int) -> dict:
+    scoring_system = ScoringSystem(
+        id=uuid.uuid4(),
+        scoring_system_name=scoring_system_name,
+        minimum_score=min_score,
+        maximum_score=max_score,
     )
     db.session.add(scoring_system)
     db.session.commit()
 
-    metadata_serialiser = AssessmentRoundMetadata()
+    metadata_serialiser = ScoringSystemMetadata()
     inserted_scoring_system = metadata_serialiser.dump(scoring_system)
     return inserted_scoring_system
+
+
+def insert_scoring_system_for_round_id(round_id: str, scoring_system_id: str) -> dict:
+    assessment_round = AssessmentRound(
+        round_id=round_id,
+        scoring_system_id=scoring_system_id,
+    )
+    db.session.add(assessment_round)
+    db.session.commit()
+
+    metadata_serialiser = AssessmentRoundMetadata()
+    inserted_assessment_round = metadata_serialiser.dump(assessment_round)
+    return inserted_assessment_round

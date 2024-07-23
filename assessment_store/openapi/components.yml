@@ -13,27 +13,119 @@ components:
         message:
           type: string
           example: 'Not found'
-    AssessmentCreate:
-      type: object
-      properties:
-        applicationId:
-          type: string
-          example: 'abc'
     Assessment:
       type: object
       properties:
         id:
           type: string
-        compliance_status:
+        total_expected_cost:
+          type: number
+          nullable: true
+        location_json_blob:
+          type: object
+          properties:
+            error:
+              type: boolean
+            county:
+              type: string
+            region:
+              type: string
+            country:
+              type: string
+            postcode:
+              type: string
+            constituency:
+              type: string
+        cohort:
           type: string
-        applicationId:
+          nullable: true
+        team_in_place:
+          type: boolean
+          nullable: true
+        funding_amount_requested:
+          type: number
+        user_associations:
+          type: array
+          items:
+            type: object
+            properties:
+              created_at:
+                type: string
+              application_id:
+                type: string
+              active:
+                type: boolean
+              user_id:
+                type: string
+              log:
+                type: string
+              assigner_id:
+                type: string
+        qa_complete:
+          type: array
+          items: {}
+        funding_type:
           type: string
+          nullable: true
+        organisation_name:
+          type: string
+          nullable: true
+        lead_contact_email:
+          type: string
+          nullable: true
+        publish_datasets:
+          type: boolean
+          nullable: true
+        language:
+          type: string
+        is_withdrawn:
+          type: boolean
+        type_of_application:
+          type: string
+        local_authority:
+          type: string
+          nullable: true
+        flags:
+          type: array
+          items: {}
+        short_id:
+          type: string
+        date_submitted:
+          type: string
+        fund_id:
+          type: string
+        application_name:
+          type: string
+          nullable: true
+        round_id:
+          type: string
+        project_name:
+          type: string
+        workflow_status:
+          type: string
+        is_project_regional:
+          type: boolean
+          nullable: true
+        asset_type:
+          type: string
+        datasets:
+          type: array
+          items: {}
+          nullable: true
+        joint_application:
+          type: boolean
+          nullable: true
+        tag_associations:
+          type: array
+          items: {}
+        is_qa_complete:
+          type: boolean
+        overall_score_percentage:
+          type: number
     UpdateStatus:
       type: object
       properties:
         id:
-          type: string
-        compliance_status:
           type: string
     ScoreJustification:
       type: object

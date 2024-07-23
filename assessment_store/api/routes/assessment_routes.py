@@ -1,4 +1,5 @@
 # flake8: noqa
+import copy
 from typing import Dict
 from typing import List
 
@@ -11,6 +12,7 @@ from api.routes.subcriterias.get_sub_criteria import (
 from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_mapping,
 )
+from config import Config
 from config.mappings.assessment_mapping_fund_round import (
     applicant_info_mapping,
 )
@@ -28,9 +30,37 @@ from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
 from db.queries.qa_complete.queries import (
     get_qa_complete_record_for_application,
 )
+from db.queries.scores.queries import get_scoring_system_for_round_id
 from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
 from flask import current_app
 from flask import request
+
+
+def calculate_overall_score_percentage_for_application(app):
+    scoring_system = get_scoring_system_for_round_id(app["round_id"])
+
+    # Deep copy the assessment mapping configuration for the specific fund and round
+    mapping = copy.deepcopy(Config.ASSESSMENT_MAPPING_CONFIG[f"{app['fund_id']}:{app['round_id']}"])
+    sub_criteria_to_criteria_weighting_map = {}
+    highest_possible_weighted_score_for_round = 0
+
+    # Combine mapping and highest possible score calculation
+    for criterion in mapping["scored_criteria"]:
+        parent_weighting = criterion["weighting"]
+        if "sub_criteria" in criterion:
+            num_sub_criteria = len(criterion["sub_criteria"])
+            for sub_criterion in criterion["sub_criteria"]:
+                sub_criteria_to_criteria_weighting_map[sub_criterion["id"]] = parent_weighting
+            # Update the highest possible weighted score
+            highest_possible_weighted_score_for_round += (
+                scoring_system["maximum_score"] * parent_weighting * num_sub_criteria
+            )
+
+    application_weighted_score = sum(
+        sub_criteria_score * sub_criteria_to_criteria_weighting_map[sub_criteria]
+        for sub_criteria, sub_criteria_score in get_sub_criteria_to_latest_score_map(app["application_id"]).items()
+    )
+    return (application_weighted_score / highest_possible_weighted_score_for_round) * 100
 
 
 def assessment_metadata_for_application_id(application_id: str) -> Dict:
@@ -90,6 +120,10 @@ def all_assessments_for_fund_round_id(
         team_in_place=team_in_place,
         joint_application=joint_application,
     )
+
+    # Calculate and assign score percentages for each application
+    for app in app_list:
+        app["overall_score_percentage"] = calculate_overall_score_percentage_for_application(app)
 
     return compress_response(app_list)
 

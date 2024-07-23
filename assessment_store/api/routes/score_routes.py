@@ -8,6 +8,19 @@ from db.queries import get_scoring_system_for_round_id
 from flask import request
 
 
+def get_scoring_system_name_for_round_id(round_id: str) -> dict:
+    """get_scoring_system_for_round_id Function used by the get endpoint
+    `/scoring_systems/{round_id}`.
+
+    :param round_id: The stringified round UUID.
+    :return: A dictionary.
+
+    """
+
+    scoring_system = get_scoring_system_for_round_id(round_id)
+    return {"round_id": round_id, "scoring_system": scoring_system["scoring_system_name"].name}
+
+
 def get_score_for_application_sub_criteria(
     application_id: str,
     sub_criteria_id: str = None,
@@ -53,8 +66,3 @@ def post_score_for_application_sub_criteria() -> Dict:
     )
 
     return created_score
-
-
-def get_scoring_system_for_round(round_id):
-    scoring_system = get_scoring_system_for_round_id(round_id)
-    return scoring_system

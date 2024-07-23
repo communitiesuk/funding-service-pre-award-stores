@@ -16,6 +16,7 @@ from db.models.qa_complete import QaComplete
 from db.models.score import Score
 from db.models.tag.tag_types import TagType
 from db.queries import bulk_insert_application_record
+from db.queries.scores.queries import _insert_scoring_system
 from db.queries.scores.queries import insert_scoring_system_for_round_id
 from db.queries.tags.queries import insert_tags
 from db.schemas.schemas import TagSchema
@@ -149,34 +150,37 @@ def seed_scoring_system(
     these rows are removed first.
 
     """
+
+    one_to_five_scoring_system_id = _insert_scoring_system("OneToFive", 1, 5)["id"]
+
     scoring_system_for_rounds = [
         {
             "round_id": "e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762",
-            "scoring_system": "OneToFive",
+            "scoring_system_id": one_to_five_scoring_system_id,
         },
         {
             "round_id": "6af19a5e-9cae-4f00-9194-cf10d2d7c8a7",
-            "scoring_system": "OneToFive",
+            "scoring_system_id": one_to_five_scoring_system_id,
         },
         {
             "round_id": "888aae3d-7e2c-4523-b9c1-95952b3d1644",
-            "scoring_system": "OneToFive",
+            "scoring_system_id": one_to_five_scoring_system_id,
         },
         {
             "round_id": "0059aad4-5eb5-11ee-8c99-0242ac120002",
-            "scoring_system": "OneToFive",
+            "scoring_system_id": one_to_five_scoring_system_id,
         },
         {
             "round_id": "fc7aa604-989e-4364-98a7-d1234271435a",
-            "scoring_system": "OneToFive",
+            "scoring_system_id": one_to_five_scoring_system_id,
         },
         {
             "round_id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
-            "scoring_system": "OneToFive",
+            "scoring_system_id": one_to_five_scoring_system_id,
         },
         {
             "round_id": "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f",
-            "scoring_system": "OneToFive",
+            "scoring_system_id": one_to_five_scoring_system_id,
         },
     ]
 
@@ -184,7 +188,7 @@ def seed_scoring_system(
     _db.session.commit()
 
     for scoring_system in scoring_system_for_rounds:
-        insert_scoring_system_for_round_id(scoring_system["round_id"], scoring_system["scoring_system"])
+        insert_scoring_system_for_round_id(scoring_system["round_id"], scoring_system["scoring_system_id"])
     yield
 
 

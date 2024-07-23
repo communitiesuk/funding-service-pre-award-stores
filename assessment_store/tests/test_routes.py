@@ -5,6 +5,7 @@ from unittest import mock
 from uuid import uuid4
 
 import pytest
+from api.routes.assessment_routes import calculate_overall_score_percentage_for_application
 from config.mappings.assessment_mapping_fund_round import (
     applicant_info_mapping,
 )
@@ -19,7 +20,6 @@ from tests.conftest import test_input_data
 from tests.test_data.flags import add_flag_update_request_json
 from tests.test_data.flags import create_flag_request_json
 
-
 COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
 COF_ROUND_2_W3_ID = "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f"
@@ -28,7 +28,7 @@ NS_ROUND_2_ID = "fc7aa604-989e-4364-98a7-d1234271435a"
 
 
 @pytest.mark.apps_to_insert(test_input_data)
-def test_get_assessments_stats(flask_test_client, seed_application_records):
+def test_get_assessments_stats(flask_test_client, seed_application_records, seed_scoring_system):
     fund_id = seed_application_records[0]["fund_id"]
     round_id = seed_application_records[0]["round_id"]
 
@@ -77,7 +77,7 @@ def test_get_assessments_stats(flask_test_client, seed_application_records):
 
 
 @pytest.mark.apps_to_insert([test_input_data[0].copy() for x in range(4)])
-def test_gets_all_apps_for_fund_round(request, flask_test_client, seed_application_records):
+def test_gets_all_apps_for_fund_round(request, flask_test_client, seed_application_records, seed_scoring_system):
     """test_gets_all_apps_for_fund_round Tests that the number of rows returned by
     filtering by round on `assessment_records` matches the number of applications
     per round specified by the test data generation process."""
@@ -90,9 +90,36 @@ def test_gets_all_apps_for_fund_round(request, flask_test_client, seed_applicati
     random_fund_id = picked_row["fund_id"]
     application_id = picked_row["application_id"]
 
-    response_json = flask_test_client.get(f"/application_overviews/{random_fund_id}/{random_round_id}").json()
+    response_jsons = flask_test_client.get(f"/application_overviews/{random_fund_id}/{random_round_id}").json()
 
-    assert len(response_json) == apps_per_round
+    assert len(response_jsons) == apps_per_round
+
+    # Define the expected keys and nested keys based on the YAML structure
+    expected_keys = {
+        "location_json_blob": dict,
+        "funding_amount_requested": (int, float),
+        "user_associations": list,
+        "qa_complete": list,
+        "language": str,
+        "is_withdrawn": bool,
+        "type_of_application": str,
+        "flags": list,
+        "short_id": str,
+        "date_submitted": str,
+        "fund_id": str,
+        "round_id": str,
+        "project_name": str,
+        "workflow_status": str,
+        "asset_type": str,
+        "tag_associations": list,
+        "is_qa_complete": bool,
+        "overall_score_percentage": (int, float),
+    }
+    for response_json in response_jsons:
+        # Assert that each key is present in the response and has the correct type
+        for key, expected_type in expected_keys.items():
+            assert key in response_json, f"Missing key: {key}"
+            assert isinstance(response_json[key], expected_type), f"Incorrect type for key: {key}"
 
     # Check application overview returns flags in order of descending
     add_flag_for_application(
@@ -585,3 +612,61 @@ def test_get_all_applications_assigned_by_user(flask_test_client):
         assert response.status_code == 200
         assert response.json() == expected_response
         mock_get_applications.assert_called_once_with(assigner_id="assigner1", active=None)
+
+
+COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
+COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
+app = {"round_id": COF_ROUND_2_ID, "fund_id": COF_FUND_ID, "application_id": "app789"}
+scoring_system = {"maximum_score": 5}
+mapping_config = {
+    "scored_criteria": [
+        {"id": "criteria1", "weighting": 2, "sub_criteria": [{"id": "sub1"}, {"id": "sub2"}]},
+        {"id": "criteria2", "weighting": 1, "sub_criteria": [{"id": "sub3"}]},
+    ]
+}
+sub_criteria_scores = {"sub1": 3, "sub2": 4, "sub3": 5}
+
+mapping_config = {
+    f"{COF_FUND_ID}:{COF_ROUND_2_ID}": {
+        "scored_criteria": [
+            {"id": "criteria1", "weighting": 2, "sub_criteria": [{"id": "sub1"}, {"id": "sub2"}]},
+            {"id": "criteria2", "weighting": 1, "sub_criteria": [{"id": "sub3"}]},
+        ]
+    }
+}
+
+
+@pytest.fixture
+def mock_get_scoring_system(mocker):
+    return mocker.patch("api.routes.assessment_routes.get_scoring_system_for_round_id", return_value=scoring_system)
+
+
+@pytest.fixture
+def mock_get_scores(mocker):
+    return mocker.patch(
+        "api.routes.assessment_routes.get_sub_criteria_to_latest_score_map", return_value=sub_criteria_scores
+    )
+
+
+def test_calculate_overall_score_percentage_for_application(mocker, mock_get_scores, mock_get_scoring_system):
+    mock_config = mocker.patch("api.routes.assessment_routes.Config")
+    mock_config.ASSESSMENT_MAPPING_CONFIG = mapping_config
+    result = calculate_overall_score_percentage_for_application(app)
+    expected_score = ((3 * 2 + 4 * 2 + 5 * 1) / (5 * 2 * 2 + 5 * 1 * 1)) * 100
+    assert result == expected_score, "The calculated score did not match the expected score"
+
+
+def test_with_no_sub_criteria_scores(mocker, mock_get_scores, mock_get_scoring_system):
+    mock_config = mocker.patch("api.routes.assessment_routes.Config")
+    mock_config.ASSESSMENT_MAPPING_CONFIG = mapping_config
+    mock_get_scores.return_value = {}
+    result = calculate_overall_score_percentage_for_application(app)
+    assert result == 0, "The result should be 0 when there are no sub-criteria scores"
+
+
+def test_with_invalid_application_id(mocker, mock_get_scores, mock_get_scoring_system):
+    mock_config = mocker.patch("api.routes.assessment_routes.Config")
+    mock_config.ASSESSMENT_MAPPING_CONFIG = mapping_config
+    mock_get_scores.side_effect = KeyError("Invalid application ID")
+    with pytest.raises(KeyError):
+        calculate_overall_score_percentage_for_application(app)

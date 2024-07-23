@@ -22,7 +22,7 @@ from .progress_routes import post_progress_for_applications
 from .qa_complete_routes import post_qa_complete_for_application
 from .qa_complete_routes import qa_complete_record_for_application
 from .score_routes import get_score_for_application_sub_criteria
-from .score_routes import get_scoring_system_for_round
+from .score_routes import get_scoring_system_name_for_round_id
 from .score_routes import post_score_for_application_sub_criteria
 from .tag_routes import add_tag_for_fund_round
 from .tag_routes import associate_tags_with_assessment
@@ -71,4 +71,5 @@ __all__ = [
     "get_user_application_association",
     "add_user_application_association",
     "update_user_application_association",
+    "get_scoring_system_name_for_round_id",
 ]

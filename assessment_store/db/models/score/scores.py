@@ -37,6 +37,19 @@ class AssessmentRound(db.Model):
 
     __tablename__ = "assessment_round"
 
-    round_id = db.Column("round_id", UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
+    round_id = db.Column("round_id", UUID(as_uuid=True), default=uuid.uuid4, primary_key=True, nullable=False)
 
-    scoring_system = db.Column("scoring_system", ENUM(ScoringSystem), nullable=False)
+    # link to the scoring system table
+    scoring_system_id = db.Column(
+        "scoring_system_id", UUID(as_uuid=True), ForeignKey("scoring_system.id"), nullable=False
+    )
+
+
+class ScoringSystem(db.Model):
+    id = db.Column(UUID(as_uuid=True), primary_key=True)
+
+    scoring_system_name = db.Column(ENUM(ScoringSystem), nullable=False)
+
+    minimum_score = db.Column("minimum_score", db.Integer(), nullable=False)
+
+    maximum_score = db.Column("maximum_score", db.Integer(), nullable=False)
