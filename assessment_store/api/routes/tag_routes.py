@@ -40,6 +40,7 @@ def get_tags_for_fund_round(
     return Response(
         response=[],
         status=204,
+        headers={"Content-Type": "application/json"},
     )
 
 
