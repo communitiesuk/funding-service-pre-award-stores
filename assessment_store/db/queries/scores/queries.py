@@ -14,7 +14,9 @@ from db.models.score import ScoringSystem
 from db.schemas import AssessmentRoundMetadata
 from db.schemas import ScoreMetadata
 from db.schemas import ScoringSystemMetadata
+from flask import current_app as app
 from sqlalchemy import select
+from sqlalchemy.orm.exc import NoResultFound
 
 
 def get_scores_for_app_sub_crit(
@@ -128,13 +130,22 @@ def get_scoring_system_for_round_id(round_id: str) -> dict:
         .where(AssessmentRound.round_id == round_id)
     )
 
-    result = db.session.execute(stmt).one()
-    # Extract the ScoringSystem instance from the result tuple
-    scoring_system_instance = result[0]
+    try:
+        result = db.session.execute(stmt).one()
+        scoring_system_instance = result[0]
 
-    metadata_serialiser = ScoringSystemMetadata()
-    processed_scoring_system = metadata_serialiser.dump(scoring_system_instance)
+        metadata_serialiser = ScoringSystemMetadata()
+        processed_scoring_system = metadata_serialiser.dump(scoring_system_instance)
 
+    except NoResultFound:
+        # Return a default scoring system of OneToFive
+        stmt = select(ScoringSystem).where(ScoringSystem.scoring_system_name == "OneToFive")
+        result = db.session.execute(stmt).one()
+        scoring_system_instance = result[0]
+
+        metadata_serialiser = ScoringSystemMetadata()
+        processed_scoring_system = metadata_serialiser.dump(scoring_system_instance)
+        app.logger.error(f"No scoring system found for round_id: {round_id}. Defaulting to OneToFive")
     return processed_scoring_system
 
 
