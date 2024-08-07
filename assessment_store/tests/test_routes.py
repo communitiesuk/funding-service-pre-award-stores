@@ -618,12 +618,6 @@ COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
 app = {"round_id": COF_ROUND_2_ID, "fund_id": COF_FUND_ID, "application_id": "app789"}
 scoring_system = {"maximum_score": 5}
-mapping_config = {
-    "scored_criteria": [
-        {"id": "criteria1", "weighting": 2, "sub_criteria": [{"id": "sub1"}, {"id": "sub2"}]},
-        {"id": "criteria2", "weighting": 1, "sub_criteria": [{"id": "sub3"}]},
-    ]
-}
 sub_criteria_scores = {"sub1": 3, "sub2": 4, "sub3": 5}
 
 mapping_config = {
@@ -670,3 +664,10 @@ def test_with_invalid_application_id(mocker, mock_get_scores, mock_get_scoring_s
     mock_get_scores.side_effect = KeyError("Invalid application ID")
     with pytest.raises(KeyError):
         calculate_overall_score_percentage_for_application(app)
+
+
+def test_no_scored_criteria_exists(mocker, mock_get_scores, mock_get_scoring_system):
+    mock_config = mocker.patch("api.routes.assessment_routes.Config")
+    mock_config.ASSESSMENT_MAPPING_CONFIG = {f"{COF_FUND_ID}:{COF_ROUND_2_ID}": {"scored_criteria": []}}
+    result = calculate_overall_score_percentage_for_application(app)
+    assert result is None, "The result should be 0 when there are no scored criteria"

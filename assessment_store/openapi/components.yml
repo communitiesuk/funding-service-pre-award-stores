@@ -19,7 +19,7 @@ components:
         id:
           type: string
         total_expected_cost:
-          type: number
+          type: string
           nullable: true
         location_json_blob:
           type: object
@@ -74,7 +74,7 @@ components:
           type: string
           nullable: true
         publish_datasets:
-          type: boolean
+          type: string
           nullable: true
         language:
           type: string
@@ -86,8 +86,8 @@ components:
           type: string
           nullable: true
         flags:
+          additionalProperties: true
           type: array
-          items: {}
         short_id:
           type: string
         date_submitted:
@@ -109,11 +109,11 @@ components:
         asset_type:
           type: string
         datasets:
-          type: array
-          items: {}
+          type: boolean
           nullable: true
         joint_application:
-          type: boolean
+          type: string  # TODO: this should be a boolean
+          # Note: Consumers of this API should interpret "True" and "False" as boolean values.
           nullable: true
         tag_associations:
           type: array
@@ -122,6 +122,7 @@ components:
           type: boolean
         overall_score_percentage:
           type: number
+          nullable: true
     UpdateStatus:
       type: object
       properties:

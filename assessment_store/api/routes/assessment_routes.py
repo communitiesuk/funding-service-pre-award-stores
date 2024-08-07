@@ -36,13 +36,17 @@ from flask import current_app
 from flask import request
 
 
-def calculate_overall_score_percentage_for_application(app):
-    scoring_system = get_scoring_system_for_round_id(app["round_id"])
+def calculate_overall_score_percentage_for_application(application):
+    scoring_system = get_scoring_system_for_round_id(application["round_id"])
 
     # Deep copy the assessment mapping configuration for the specific fund and round
-    mapping = copy.deepcopy(Config.ASSESSMENT_MAPPING_CONFIG[f"{app['fund_id']}:{app['round_id']}"])
+    mapping = copy.deepcopy(Config.ASSESSMENT_MAPPING_CONFIG[f"{application['fund_id']}:{application['round_id']}"])
     sub_criteria_to_criteria_weighting_map = {}
     highest_possible_weighted_score_for_round = 0
+    if mapping["scored_criteria"] == []:
+        # We have no scoring config for this round (possibly an EOI)
+        current_app.logger.info(f"No scoring config found for {application['fund_id']}:{application['round_id']}")
+        return None
 
     # Combine mapping and highest possible score calculation
     for criterion in mapping["scored_criteria"]:
@@ -58,8 +62,11 @@ def calculate_overall_score_percentage_for_application(app):
 
     application_weighted_score = sum(
         sub_criteria_score * sub_criteria_to_criteria_weighting_map[sub_criteria]
-        for sub_criteria, sub_criteria_score in get_sub_criteria_to_latest_score_map(app["application_id"]).items()
+        for sub_criteria, sub_criteria_score in get_sub_criteria_to_latest_score_map(
+            application["application_id"]
+        ).items()
     )
+
     return (application_weighted_score / highest_possible_weighted_score_for_round) * 100
 
 
