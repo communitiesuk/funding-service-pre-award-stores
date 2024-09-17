@@ -1,3 +1,5 @@
+from os import getenv
+
 import connexion
 from _helpers.task_executer_service import AssessmentTaskExecutorService
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -9,6 +11,7 @@ from fsd_utils.healthchecks.checkers import DbChecker
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
+from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from fsd_utils.sqs_scheduler.context_aware_executor import ContextAwareExecutor
 from fsd_utils.sqs_scheduler.scheduler_service import scheduler_executor
 from openapi.utils import get_bundled_specs
@@ -48,6 +51,9 @@ def create_app() -> FlaskApp:
     health.add_check(FlaskRunningChecker())
     health.add_check(DbChecker(db))
 
+    # Initialize sqs extended client
+    create_sqs_extended_client(flask_app)
+
     executor = ContextAwareExecutor(
         max_workers=Config.TASK_EXECUTOR_MAX_THREAD, thread_name_prefix="NotifTask", flask_app=flask_app
     )
@@ -77,6 +83,19 @@ def create_app() -> FlaskApp:
     scheduler.start()
 
     return connexion_app
+
+
+def create_sqs_extended_client(flask_app):
+    flask_app.extensions["sqs_extended_client"] = SQSExtendedClient(
+        aws_access_key_id=Config.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=Config.AWS_SECRET_ACCESS_KEY,
+        region_name=Config.AWS_REGION,
+        endpoint_url=getenv("AWS_ENDPOINT_OVERRIDE", None),
+        large_payload_support=Config.AWS_MSG_BUCKET_NAME,
+        always_through_s3=True,
+        delete_payload_from_s3=True,
+        logger=flask_app.logger,
+    )
 
 
 app = create_app()

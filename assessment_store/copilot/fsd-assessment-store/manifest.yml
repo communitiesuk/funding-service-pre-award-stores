@@ -47,12 +47,18 @@ variables:
   FLASK_ENV: ${COPILOT_ENVIRONMENT_NAME}
   APPLICATION_STORE_API_HOST: http://fsd-application-store:8080
   ACCOUNT_STORE_API_HOST: http://fsd-account-store:8080
+  FUND_STORE_API_HOST: http://fsd-fund-store:8080
+  ASSESSMENT_FRONTEND_HOST: "https://assessment.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   AWS_MSG_BUCKET_NAME:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-MessageBucket
   PRIMARY_QUEUE_URL:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-AssessmentImportQueueURL
   DEAD_LETTER_QUEUE_URL:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-AssessmentImportDeadLetterQueueURL
+  AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL:
+    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-NotificationQueueURL
+  AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL:
+    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-NotificationDeadLetterQueueURL
 
 # You can override any of the values defined above by environment.
 environments:
@@ -91,3 +97,4 @@ environments:
       requests: 30
     variables:
       FLASK_ENV: production
+      ASSESSMENT_FRONTEND_HOST: "https://assessment.access-funding.levellingup.gov.uk"

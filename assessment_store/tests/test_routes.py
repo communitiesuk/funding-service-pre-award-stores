@@ -500,7 +500,8 @@ def test_get_user_application_association(flask_test_client):
         mock_get_association.assert_called_once_with(application_id="app1", user_id="user1")
 
 
-def test_add_user_application_association(flask_test_client):
+@pytest.mark.parametrize("send_email_value", [True, False])
+def test_add_user_application_association(flask_test_client, send_email_value):
     mock_association = {
         "application_id": "app1",
         "user_id": "user1",
@@ -515,15 +516,24 @@ def test_add_user_application_association(flask_test_client):
 
     with mock.patch(
         "api.routes.user_routes.create_user_application_association", return_value=mock_association
-    ) as mock_create_association:
-        response = flask_test_client.post("/application/app1/user/user1", json={"assigner_id": "assigner1"})
+    ) as mock_create_association, mock.patch("api.routes.user_routes.get_metadata_for_application"), mock.patch(
+        "api.routes.user_routes.send_notification_email"
+    ) as mock_notify_email:
+        response = flask_test_client.post(
+            "/application/app1/user/user1", json={"assigner_id": "assigner1", "send_email": send_email_value}
+        )
 
         assert response.status_code == 201
         assert response.json() == expected_response
         mock_create_association.assert_called_once_with(application_id="app1", user_id="user1", assigner_id="assigner1")
+        if send_email_value:
+            mock_notify_email.assert_called_once()
+        else:
+            mock_notify_email.assert_not_called()
 
 
-def test_update_user_application_association(flask_test_client):
+@pytest.mark.parametrize("send_email_value", [True, False])
+def test_update_user_application_association(flask_test_client, send_email_value):
     mock_association = {
         "application_id": "app1",
         "user_id": "user1",
@@ -538,12 +548,23 @@ def test_update_user_application_association(flask_test_client):
 
     with mock.patch(
         "api.routes.user_routes.update_user_application_association_db", return_value=mock_association
-    ) as mock_update_association:
-        response = flask_test_client.put("/application/app1/user/user1", json={"active": "false"})
+    ) as mock_update_association, mock.patch("api.routes.user_routes.get_metadata_for_application"), mock.patch(
+        "api.routes.user_routes.send_notification_email"
+    ) as mock_notify_email:
+        response = flask_test_client.put(
+            "/application/app1/user/user1",
+            json={"active": "false", "assigner_id": "assigner1", "send_email": send_email_value},
+        )
 
         assert response.status_code == 200
         assert response.json() == expected_response
-        mock_update_association.assert_called_once_with(application_id="app1", user_id="user1", active=False)
+        mock_update_association.assert_called_once_with(
+            application_id="app1", user_id="user1", active="false", assigner_id="assigner1"
+        )
+        if send_email_value:
+            mock_notify_email.assert_called_once()
+        else:
+            mock_notify_email.assert_not_called()
 
 
 def test_get_all_applications_associated_with_user(flask_test_client):

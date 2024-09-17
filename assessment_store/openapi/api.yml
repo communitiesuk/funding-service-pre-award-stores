@@ -1427,6 +1427,10 @@ paths:
               properties:
                 assigner_id:
                   type: string
+                send_email:
+                  type: boolean
+                email_content:
+                  type: string
     put:
       tags:
         - application user association

@@ -36,6 +36,14 @@ class DefaultConfig:
     ACCOUNTS_ENDPOINT = CommonConfig.ACCOUNTS_ENDPOINT
     ACCOUNT_ENDPOINT = CommonConfig.ACCOUNT_ENDPOINT
 
+    # Fund Store
+    FUND_STORE_API_HOST = CommonConfig.FUND_STORE_API_HOST
+    FUNDS_ENDPOINT = CommonConfig.FUNDS_ENDPOINT
+    FUND_ENDPOINT = CommonConfig.FUND_ENDPOINT + "?use_short_name={use_short_name}"
+
+    ASSESSMENT_FRONTEND_HOST = environ.get("ASSESSMENT_FRONTEND_HOST")
+    ASSESSMENT_APPLICATION_ENDPOINT = "/assess/application/{application_id}"
+
     # ---------------
     # Database
     # ---------------
@@ -78,3 +86,9 @@ class DefaultConfig:
     SQS_RECEIVE_MESSAGE_CYCLE_TIME = int(
         environ.get("SQS_RECEIVE_MESSAGE_CYCLE_TIME", 60)
     )  # Run the job every 'x' seconds
+
+    # ---------------
+    # SQS Config
+    # ---------------
+    AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL")
+    AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL")

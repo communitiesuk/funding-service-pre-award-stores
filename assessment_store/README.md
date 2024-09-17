@@ -12,6 +12,7 @@ This service depends on:
 - A postgres database
 - [Account Store](https://github.com/communitiesuk/funding-service-design-account-store)
 - [Application Store](https://github.com/communitiesuk/funding-service-design-application-store)
+- [Fund Store](https://github.com/communitiesuk/funding-service-design-fund-store)
 - SQS Queue
 
 # IDE Setup

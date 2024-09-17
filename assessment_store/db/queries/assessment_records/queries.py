@@ -1016,12 +1016,13 @@ def create_user_application_association(application_id, user_id, assigner_id):
     return allocation_association
 
 
-def update_user_application_association(application_id, user_id, active):
+def update_user_application_association(application_id, user_id, active, assigner_id):
     allocation_association = (
         db.session.query(AllocationAssociation)
         .filter(AllocationAssociation.application_id == application_id, AllocationAssociation.user_id == user_id)
         .one_or_none()
     )
+    allocation_association.assigner_id = assigner_id
     allocation_association.active = active
     allocation_association.log = {
         **allocation_association.log,

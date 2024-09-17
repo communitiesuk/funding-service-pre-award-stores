@@ -1,4 +1,5 @@
 from db.queries.assessment_records.queries import create_user_application_association
+from db.queries.assessment_records.queries import get_metadata_for_application
 from db.queries.assessment_records.queries import get_user_application_associations
 from db.queries.assessment_records.queries import (
     update_user_application_association as update_user_application_association_db,
@@ -7,6 +8,8 @@ from db.schemas.schemas import AllocationAssociationSchema
 from flask import abort
 from flask import current_app
 from flask import request
+from fsd_utils.config.notify_constants import NotifyConstants
+from services.data_services import send_notification_email
 
 
 def get_all_users_associated_with_application(application_id, active=None):
@@ -72,12 +75,24 @@ def add_user_application_association(application_id, user_id):
     """
     args = request.get_json()
     if "assigner_id" not in args:
-        abort(400, "Post body must contain assigner_id")
+        abort(400, "Post body must contain assigner_id field")
+
+    send_email = args.get("send_email")
     association = create_user_application_association(
         application_id=application_id, user_id=user_id, assigner_id=args["assigner_id"]
     )
 
     if association:
+        if send_email:
+            application = get_metadata_for_application(application_id)
+            send_notification_email(
+                application=application,
+                user_id=user_id,
+                template=NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_ASSIGNED,
+                assigner_id=args["assigner_id"],
+                message=args.get("email_content"),
+            )
+
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(association), 201
 
@@ -103,12 +118,30 @@ def update_user_application_association(application_id, user_id):
     """
     args = request.get_json()
     if "active" not in args:
-        abort(400)
+        abort(400, "Body must contain active field")
 
-    active = True if args.get("active").lower() == "true" else False
-    association = update_user_application_association_db(application_id=application_id, user_id=user_id, active=active)
+    if "assigner_id" not in args:
+        abort(400, "Post body must contain assigner_id field")
+
+    send_email = args.get("send_email")
+    active = args.get("active")
+    association = update_user_application_association_db(
+        application_id=application_id, user_id=user_id, active=active, assigner_id=args["assigner_id"]
+    )
 
     if association:
+        if send_email:
+            application = get_metadata_for_application(application_id)
+            send_notification_email(
+                application=application,
+                user_id=user_id,
+                template=NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_ASSIGNED
+                if active
+                else NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_UNASSIGNED,
+                assigner_id=args["assigner_id"],
+                message=args.get("email_content"),
+            )
+
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(association)
 

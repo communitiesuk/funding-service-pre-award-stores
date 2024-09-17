@@ -597,3 +597,9 @@ components:
           type: boolean
           nullable: false
           example: True
+        send_email:
+          type: boolean
+        email_content:
+          type: string
+        assigner_id:
+          type: string

@@ -107,12 +107,14 @@ def test_create_user_application_association(_db, seed_application_records):
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])
 def test_update_user_application_association(_db, seed_application_records):
     user_id = str(uuid.uuid4())
-    assigner_id = str(uuid.uuid4())
+    assigner_id_1 = str(uuid.uuid4())
+    assigner_id_2 = str(uuid.uuid4())
     app_id = seed_application_records[0]["application_id"]
-    create_user_application_association(app_id, user_id, assigner_id)
-    updated_association = update_user_application_association(app_id, user_id, active=False)
+    create_user_application_association(app_id, user_id, assigner_id_1)
+    updated_association = update_user_application_association(app_id, user_id, active=False, assigner_id=assigner_id_2)
     assert updated_association.active is False
     assert len(updated_association.log.keys()) == 2
+    assert str(updated_association.assigner_id) == assigner_id_2
     logs = [(datetime.fromisoformat(key), value) for key, value in updated_association.log.items()]
 
     # The timestamp for deactivated should be after activated
