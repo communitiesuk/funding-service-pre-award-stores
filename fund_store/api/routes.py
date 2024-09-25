@@ -1,3 +1,4 @@
+import uuid
 from distutils.util import strtobool
 
 from flask import abort
@@ -24,6 +25,14 @@ from db.schemas.event import EventSchema
 from db.schemas.fund import FundSchema
 from db.schemas.round import RoundSchema
 from db.schemas.section import SECTION_SCHEMA_MAP
+
+
+def is_valid_uuid(value):
+    try:
+        obj = uuid.UUID(value)
+        return str(obj) == value.lower()
+    except Exception:
+        return False
 
 
 def filter_fund_by_lang(fund_data, lang_key: str = "en"):
@@ -90,9 +99,9 @@ def get_fund(fund_id):
     use_short_name = short_name_arg and strtobool(short_name_arg)
 
     if use_short_name:
-        fund = get_fund_by_short_name(fund_id)
+        fund = get_fund_by_short_name(fund_id) if fund_id else None
     else:
-        fund = get_fund_by_id(fund_id)
+        fund = get_fund_by_id(fund_id) if is_valid_uuid(fund_id) else None
 
     if fund:
         serialiser = FundSchema()
@@ -108,7 +117,7 @@ def get_round_from_db(fund_id, round_id) -> Round:
     if use_short_name:
         round = get_round_by_short_name(fund_id, round_id)
     else:
-        round = get_round_by_id(fund_id, round_id)
+        round = get_round_by_id(fund_id, round_id) if is_valid_uuid(fund_id) and is_valid_uuid(round_id) else None
     return round
 
 
@@ -142,7 +151,7 @@ def get_rounds_for_fund(fund_id):
     if use_short_name:
         rounds = get_rounds_for_fund_by_short_name(fund_id)
     else:
-        rounds = get_rounds_for_fund_by_id(fund_id)
+        rounds = get_rounds_for_fund_by_id(fund_id) if is_valid_uuid(fund_id) else None
 
     if rounds:
         serialiser = RoundSchema()
@@ -154,49 +163,54 @@ def get_rounds_for_fund(fund_id):
 
 def get_sections_for_round_application(fund_id, round_id):
     language = request.args.get("language", "en").replace("?", "")
-    sections = get_application_sections_for_round(fund_id, round_id)
-    if sections:
-        section_schema = SECTION_SCHEMA_MAP.get(language)
-        serialiser = section_schema()
-        dumped = serialiser.dump(sections, many=True)
-        return dumped
+    if is_valid_uuid(fund_id) and is_valid_uuid(round_id):
+        sections = get_application_sections_for_round(fund_id, round_id)
+        if sections:
+            section_schema = SECTION_SCHEMA_MAP.get(language)
+            serialiser = section_schema()
+            dumped = serialiser.dump(sections, many=True)
+            return dumped
     abort(404)
 
 
 def get_sections_for_round_assessment(fund_id, round_id):
     language = request.args.get("language", "en").replace("?", "")
-    sections = get_assessment_sections_for_round(fund_id, round_id, get_lang())
-    if sections:
-        section_schema = SECTION_SCHEMA_MAP.get(language)
-        serialiser = section_schema()
-        return serialiser.dump(sections, many=True)
+    if is_valid_uuid(fund_id) and is_valid_uuid(round_id):
+        sections = get_assessment_sections_for_round(fund_id, round_id, get_lang())
+        if sections:
+            section_schema = SECTION_SCHEMA_MAP.get(language)
+            serialiser = section_schema()
+            return serialiser.dump(sections, many=True)
 
     abort(404)
 
 
 def get_events_for_round(fund_id, round_id):
     only_unprocessed = request.args.get("only_unprocessed", False, type=lambda x: x.lower() == "true")
-    events = get_events_for_round_from_db(round_id=round_id, only_unprocessed=only_unprocessed)
-    if events:
-        serialiser = EventSchema()
-        return serialiser.dump(events, many=True)
+    if is_valid_uuid(round_id):
+        events = get_events_for_round_from_db(round_id=round_id, only_unprocessed=only_unprocessed)
+        if events:
+            serialiser = EventSchema()
+            return serialiser.dump(events, many=True)
     abort(404)
 
 
 def get_event(fund_id, round_id, event_id):
-    event = get_event_from_db(round_id=round_id, event_id=event_id)
-    if event:
-        serialiser = EventSchema()
-        return serialiser.dump(event)
+    if is_valid_uuid(event_id) and is_valid_uuid(round_id):
+        event = get_event_from_db(round_id=round_id, event_id=event_id)
+        if event:
+            serialiser = EventSchema()
+            return serialiser.dump(event)
     abort(404)
 
 
 def set_event_to_processed(fund_id, round_id, event_id):
     processed = request.args.get("processed", type=lambda x: x.lower() == "true")
-    event = set_event_to_processed_in_db(round_id=round_id, event_id=event_id, processed=processed)
-    if event:
-        serialiser = EventSchema()
-        return jsonify(serialiser.dump(event))
+    if is_valid_uuid(event_id) and is_valid_uuid(round_id):
+        event = set_event_to_processed_in_db(round_id=round_id, event_id=event_id, processed=processed)
+        if event:
+            serialiser = EventSchema()
+            return jsonify(serialiser.dump(event))
     abort(404)
 
 
@@ -242,36 +256,36 @@ def get_available_flag_allocations(fund_id, round_id):
         {"key": "MODERATION", "value": "Moderation"},
         {"key": "LEAD_ASSESSOR", "value": "Lead Assessor"},
     ]
-
-    if fund_id == COF_FUND_ID and round_id in COF_ROUND_2_WINDOW_2_ID:
-        return cof_teams
-    elif fund_id == COF_FUND_ID and round_id == COF_ROUND_2_WINDOW_3_ID:
-        return cof_teams
-    elif fund_id == COF_FUND_ID and round_id == COF_ROUND_3_WINDOW_1_ID:
-        return cof_teams
-    elif fund_id == COF_FUND_ID and round_id == COF_ROUND_3_WINDOW_2_ID:
-        return cof_teams
-    elif fund_id == COF_FUND_ID and round_id == COF_ROUND_3_WINDOW_3_ID:
-        return cof_teams
-    elif fund_id == COF_FUND_ID and round_id == COF_ROUND_4_WINDOW_1_ID:
-        return cof_teams
-    elif fund_id == NIGHT_SHELTER_FUND_ID and round_id == NIGHT_SHELTER_ROUND_2_ID:
-        return nstf_teams
-    elif fund_id == CYP_FUND_ID and round_id == CYP_ROUND_1_ID:
-        return cyp_teams
-    elif fund_id == DPI_FUND_ID and round_id == DPI_ROUND_2_ID:
-        return dpif_teams
-    else:
-        abort(404)
+    if is_valid_uuid(fund_id) and is_valid_uuid(round_id):
+        if fund_id == COF_FUND_ID and round_id in COF_ROUND_2_WINDOW_2_ID:
+            return cof_teams
+        elif fund_id == COF_FUND_ID and round_id == COF_ROUND_2_WINDOW_3_ID:
+            return cof_teams
+        elif fund_id == COF_FUND_ID and round_id == COF_ROUND_3_WINDOW_1_ID:
+            return cof_teams
+        elif fund_id == COF_FUND_ID and round_id == COF_ROUND_3_WINDOW_2_ID:
+            return cof_teams
+        elif fund_id == COF_FUND_ID and round_id == COF_ROUND_3_WINDOW_3_ID:
+            return cof_teams
+        elif fund_id == COF_FUND_ID and round_id == COF_ROUND_4_WINDOW_1_ID:
+            return cof_teams
+        elif fund_id == NIGHT_SHELTER_FUND_ID and round_id == NIGHT_SHELTER_ROUND_2_ID:
+            return nstf_teams
+        elif fund_id == CYP_FUND_ID and round_id == CYP_ROUND_1_ID:
+            return cyp_teams
+        elif fund_id == DPI_FUND_ID and round_id == DPI_ROUND_2_ID:
+            return dpif_teams
+    abort(404)
 
 
 def update_application_reminder_sent_status(round_id):
     try:
         status = request.args.get("status")
-        round_instance = Round.query.filter_by(id=round_id).first()
-        reminder_status = round_instance.application_reminder_sent
+        round_instance = Round.query.filter_by(id=round_id).first() if is_valid_uuid(round_id) else None
+
         if not round_instance:
             return jsonify({"message": "Round ID not found"}), 404
+        reminder_status = round_instance.application_reminder_sent
 
         if status.lower() == "true" and reminder_status is False:
             round_instance.application_reminder_sent = True
