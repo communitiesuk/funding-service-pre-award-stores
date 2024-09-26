@@ -553,10 +553,10 @@ def test_output_tracker_columns_remain_same_for_scored_and_unscored_reports(seed
             }
         },
     )
-  
-    no_scores_cols = list(no_scores['en_list'][0].keys())
-    with_scores_cols = list(with_scores['en_list'][0].keys())[:len(no_scores_cols)]
-    assert  no_scores_cols == with_scores_cols
+
+    no_scores_cols = list(no_scores["en_list"][0].keys())
+    with_scores_cols = list(with_scores["en_list"][0].keys())[: len(no_scores_cols)]
+    assert no_scores_cols == with_scores_cols
 
 
 @pytest.mark.apps_to_insert([test_input_data[4]])  # taken from assessment store for cof r4w1
