@@ -507,6 +507,58 @@ def test_output_tracker_with_no_scores_data(seed_application_records, mocker):
     assert data["en_list"][0]["Risks to your project (document upload)"] == "sample1.doc"
 
 
+@pytest.mark.apps_to_insert([test_input_data[0]])
+def test_output_tracker_columns_remain_same_for_scored_and_unscored_reports(seed_application_records, mocker):
+    mocker.patch(
+        "db.queries.assessment_records.queries.get_account_name",
+        return_value="Test user",
+    )
+
+    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
+
+    no_scores = get_assessment_export_data(
+        picked_row.fund_id,
+        picked_row.round_id,
+        "OUTPUT_TRACKER",
+        {
+            "OUTPUT_TRACKER": {
+                "form_fields": {
+                    "KAgrBz": {"en": {"title": "Project name"}},
+                }
+            }
+        },
+    )
+
+    application_id = picked_row.application_id
+    sub_criteria_id = "app-info"
+
+    assessment_payload = {
+        "application_id": application_id,
+        "sub_criteria_id": sub_criteria_id,
+        "score": 5,
+        "justification": "great",
+        "user_id": "test",
+    }
+    create_score_for_app_sub_crit(**assessment_payload)
+
+    with_scores = get_assessment_export_data(
+        picked_row.fund_id,
+        picked_row.round_id,
+        "OUTPUT_TRACKER",
+        {
+            "OUTPUT_TRACKER": {
+                "form_fields": {
+                    "KAgrBz": {"en": {"title": "Project name"}},
+                }
+            }
+        },
+    )
+
+    no_scores_cols = list(no_scores["en_list"][0].keys())
+    with_scores_cols = list(with_scores["en_list"][0].keys())[: len(no_scores_cols)]
+    assert no_scores_cols == with_scores_cols
+
+
 @pytest.mark.apps_to_insert([test_input_data[4]])  # taken from assessment store for cof r4w1
 def test_get_cof_r4w1_export_data_en(seed_application_records):
     app_id = test_input_data[4]["id"]

@@ -261,8 +261,8 @@ applicant_info_mapping = {
             "score_fields": {
                 "Application ID",
                 "Short ID",
-                "Score Subcriteria",
                 "Score",
+                "Score Subcriteria",
                 "Score Date",
                 "Score Time",
             },

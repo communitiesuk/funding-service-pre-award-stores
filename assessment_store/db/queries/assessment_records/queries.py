@@ -576,8 +576,8 @@ def get_assessment_records_score_data_by_round_id(round_id, selected_fields=None
     default_fields = [
         "Application ID",
         "Short ID",
-        "Score Subcriteria",
         "Score",
+        "Score Subcriteria",
         "Score Justification",
         "Score Date",
         "Score Time",
