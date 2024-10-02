@@ -1003,7 +1003,7 @@ def create_user_application_association(application_id, user_id, assigner_id):
         application_id=application_id,
         assigner_id=assigner_id,
         active=True,
-        log={datetime.now(tz=timezone.utc).isoformat(): "activated"},
+        log={datetime.now(tz=timezone.utc).isoformat(): {"status": "activated", "assigner": str(assigner_id)}},
     )
     try:
         db.session.add(allocation_association)
@@ -1026,7 +1026,10 @@ def update_user_application_association(application_id, user_id, active, assigne
     allocation_association.active = active
     allocation_association.log = {
         **allocation_association.log,
-        datetime.now(tz=timezone.utc).isoformat(): "activated" if active else "deactivated",
+        datetime.now(tz=timezone.utc).isoformat(): {
+            "status": "activated" if active else "deactivated",
+            "assigner": str(assigner_id),
+        },
     }
     db.session.commit()
     db.session.refresh(allocation_association)

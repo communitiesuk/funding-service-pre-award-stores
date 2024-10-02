@@ -21,14 +21,14 @@ def test_get_users_for_application(_db, seed_application_records):
         assigner_id=assigner_id,
         application_id=app_id,
         active=True,
-        log={datetime.now(tz=timezone.utc).isoformat(): "activated"},
+        log={datetime.now(tz=timezone.utc).isoformat(): {"status": "activated", "assigner": str(assigner_id)}},
     )
     allocation_association_2 = AllocationAssociation(
         user_id=user_id_2,
         assigner_id=assigner_id,
         application_id=app_id,
         active=False,
-        log={datetime.now(tz=timezone.utc).isoformat(): "deactivated"},
+        log={datetime.now(tz=timezone.utc).isoformat(): {"status": "deactivated", "assigner": str(assigner_id)}},
     )
     _db.session.add(allocation_association_1)
     _db.session.commit()
@@ -58,14 +58,14 @@ def test_get_applications_for_user(_db, seed_application_records):
         assigner_id=assigner_id_1,
         application_id=app_id_1,
         active=True,
-        log={datetime.now(tz=timezone.utc).isoformat(): "activated"},
+        log={datetime.now(tz=timezone.utc).isoformat(): {"status": "activated", "assigner": str(assigner_id_1)}},
     )
     allocation_association_2 = AllocationAssociation(
         user_id=user_id,
         assigner_id=assigner_id_2,
         application_id=app_id_2,
         active=False,
-        log={datetime.now(tz=timezone.utc).isoformat(): "deactivated"},
+        log={datetime.now(tz=timezone.utc).isoformat(): {"status": "deactivated", "assigner": str(assigner_id_2)}},
     )
     _db.session.add(allocation_association_1)
     _db.session.commit()
@@ -97,7 +97,7 @@ def test_create_user_application_association(_db, seed_application_records):
     assert str(new_association.application_id) == app_id
     assert str(new_association.user_id) == user_id
     assert new_association.active is True
-    assert "activated" == list(new_association.log.values())[0]
+    assert {"assigner": assigner_id, "status": "activated"} == list(new_association.log.values())[0]
     try:
         datetime.fromisoformat(list(new_association.log.keys())[0])
     except ValueError:
@@ -118,8 +118,8 @@ def test_update_user_application_association(_db, seed_application_records):
     logs = [(datetime.fromisoformat(key), value) for key, value in updated_association.log.items()]
 
     # The timestamp for deactivated should be after activated
-    assert logs[0][1] == "activated" if logs[0][0] < logs[1][0] else "deactivated"
-    assert logs[1][1] == "deactivated" if logs[0][0] < logs[1][0] else "activated"
+    assert logs[0][1]["status"] == "activated" if logs[0][0] < logs[1][0] else "deactivated"
+    assert logs[1][1]["status"] == "deactivated" if logs[0][0] < logs[1][0] else "activated"
 
 
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])
