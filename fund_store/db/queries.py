@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import List
 
 from sqlalchemy import bindparam
+from sqlalchemy import exc
 from sqlalchemy import func
 from sqlalchemy import insert
 from sqlalchemy import select
@@ -146,11 +147,37 @@ def get_assessment_sections_for_round(
     return assessment_sections
 
 
-def get_events_for_round(
-    round_id: str,
-    only_unprocessed: bool,
+def create_event(
+    type: str,
+    activation_date: datetime,
+    round_id: str = None,
+    processed: datetime = None,
+) -> Event:
+
+    event = Event(type=type, activation_date=activation_date, round_id=round_id, processed=processed)
+    try:
+        db.session.add(event)
+        db.session.commit()
+        db.session.refresh(event)
+    except exc.IntegrityError:
+        db.session.rollback()
+        return None
+
+    return event
+
+
+def get_events(
+    round_id: str = None,
+    type: str = None,
+    only_unprocessed: bool = False,
 ) -> List[Event]:
-    query = select(Event).filter(Event.round_id == round_id)
+    query = select(Event)
+    if round_id:
+        query = query.filter(Event.round_id == round_id)
+
+    if type:
+        query = query.filter(Event.type == type)
+
     if only_unprocessed:
         query = query.filter(Event.processed != None)  # noqa
 
@@ -164,8 +191,8 @@ def get_event(round_id: str, event_id: str) -> Event:
     return event
 
 
-def set_event_to_processed(round_id: str, event_id: str, processed: bool) -> Event:
-    event = Event.query.filter_by(id=event_id, round_id=round_id).first()
+def set_event_to_processed(event_id: str, processed: bool) -> Event:
+    event = Event.query.filter_by(id=event_id).first()
     if not event:
         return None
     event.processed = datetime.now() if processed else None

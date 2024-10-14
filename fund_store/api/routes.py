@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 from distutils.util import strtobool
 
 from flask import abort
@@ -9,11 +10,13 @@ from fsd_utils.locale_selector.get_lang import get_lang
 
 from db import db
 from db.models import Round
+from db.models.event import EventType
+from db.queries import create_event as create_event_in_db
 from db.queries import get_all_funds
 from db.queries import get_application_sections_for_round
 from db.queries import get_assessment_sections_for_round
 from db.queries import get_event as get_event_from_db
-from db.queries import get_events_for_round as get_events_for_round_from_db
+from db.queries import get_events as get_events_from_db
 from db.queries import get_fund_by_id
 from db.queries import get_fund_by_short_name
 from db.queries import get_round_by_id
@@ -33,6 +36,14 @@ def is_valid_uuid(value):
         return str(obj) == value.lower()
     except Exception:
         return False
+
+
+def is_valid_isoformat_datetime(datetime_str):
+    try:
+        datetime.fromisoformat(datetime_str)
+    except Exception:
+        return False
+    return True
 
 
 def filter_fund_by_lang(fund_data, lang_key: str = "en"):
@@ -185,32 +196,98 @@ def get_sections_for_round_assessment(fund_id, round_id):
     abort(404)
 
 
+def create_event():
+    args = request.get_json()
+    if "type" not in args:
+        abort(400, "Post body must contain event type field")
+
+    if "activation_date" not in args or not is_valid_isoformat_datetime(args["activation_date"]):
+        abort(400, "Activation date must be in isoformat datetime")
+
+    if "processed" in args and not (is_valid_isoformat_datetime(args["processed"])):
+        abort(400, "Processed field must be an isoformat datetime")
+
+    if "round_id" in args and not is_valid_uuid(args["round_id"]):
+        abort(400, "Round ID must be a UUID")
+
+    event = create_event_in_db(
+        type=args["type"],
+        activation_date=args["activation_date"],
+        round_id=args.get("round_id"),
+        processed=args.get("processed"),
+    )
+
+    if event:
+        serialiser = EventSchema()
+        return serialiser.dump(event), 201
+    abort(500)
+
+
 def get_events_for_round(fund_id, round_id):
+    if not is_valid_uuid(round_id):
+        abort(400, "One or more IDs is not of format UUID")
+
     only_unprocessed = request.args.get("only_unprocessed", False, type=lambda x: x.lower() == "true")
-    if is_valid_uuid(round_id):
-        events = get_events_for_round_from_db(round_id=round_id, only_unprocessed=only_unprocessed)
-        if events:
-            serialiser = EventSchema()
-            return serialiser.dump(events, many=True)
+    events = get_events_from_db(round_id=round_id, only_unprocessed=only_unprocessed)
+    if events:
+        serialiser = EventSchema()
+        return serialiser.dump(events, many=True)
     abort(404)
 
 
-def get_event(fund_id, round_id, event_id):
-    if is_valid_uuid(event_id) and is_valid_uuid(round_id):
-        event = get_event_from_db(round_id=round_id, event_id=event_id)
-        if event:
-            serialiser = EventSchema()
-            return serialiser.dump(event)
+def get_events_by_type(type):
+    if not any(type == event_type.value for event_type in EventType):
+        abort(400, "Event type not recognised")
+    only_unprocessed = request.args.get("only_unprocessed", False, type=lambda x: x.lower() == "true")
+    events = get_events_from_db(type=type, only_unprocessed=only_unprocessed)
+    if events:
+        serialiser = EventSchema()
+        return serialiser.dump(events, many=True)
     abort(404)
 
 
-def set_event_to_processed(fund_id, round_id, event_id):
+# TODO: deprecate in favour of get_event_by_id
+def get_event_for_round(fund_id, round_id, event_id):
+    if not is_valid_uuid(event_id) or not is_valid_uuid(round_id):
+        abort(400, "One or more IDs is not of format UUID")
+
+    event = get_event_from_db(round_id=round_id, event_id=event_id)
+    if event:
+        serialiser = EventSchema()
+        return serialiser.dump(event)
+
+    abort(404)
+
+
+def get_event_by_id(event_id):
+    if not is_valid_uuid(event_id):
+        abort(400, "One or more IDs is not of format UUID")
+    event = get_event_from_db(event_id=event_id)
+    if event:
+        serialiser = EventSchema()
+        return serialiser.dump(event)
+    abort(404)
+
+
+def set_round_event_to_processed(fund_id, round_id, event_id):
+    if not is_valid_uuid(event_id) or not is_valid_uuid(round_id):
+        abort(400, "One or more IDs is not of format UUID")
     processed = request.args.get("processed", type=lambda x: x.lower() == "true")
-    if is_valid_uuid(event_id) and is_valid_uuid(round_id):
-        event = set_event_to_processed_in_db(round_id=round_id, event_id=event_id, processed=processed)
-        if event:
-            serialiser = EventSchema()
-            return jsonify(serialiser.dump(event))
+    event = set_event_to_processed_in_db(event_id=event_id, processed=processed)
+    if event:
+        serialiser = EventSchema()
+        return jsonify(serialiser.dump(event))
+    abort(404)
+
+
+def set_event_to_processed(event_id):
+    if not is_valid_uuid(event_id):
+        abort(400, "One or more IDs is not of format UUID")
+    processed = request.args.get("processed", type=lambda x: x.lower() == "true")
+    event = set_event_to_processed_in_db(event_id=event_id, processed=processed)
+    if event:
+        serialiser = EventSchema()
+        return jsonify(serialiser.dump(event))
     abort(404)
 
 

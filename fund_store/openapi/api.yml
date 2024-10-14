@@ -156,7 +156,7 @@ paths:
         - Rounds
       summary: Returns the event with the given fund, round and event IDs.
       description: Returns the event with the given fund, round and event IDs.
-      operationId: api.routes.get_event
+      operationId: api.routes.get_event_for_round
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
         - $ref: "components.yml#/components/parameters/round_id"
@@ -183,7 +183,7 @@ paths:
         - Rounds
       summary: Updates the event
       description: Updates the event to be marked as processed
-      operationId: api.routes.set_event_to_processed
+      operationId: api.routes.set_round_event_to_processed
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
         - $ref: "components.yml#/components/parameters/round_id"
@@ -331,7 +331,110 @@ paths:
           description: "If the round exists then the sections are returned."
         404:
           description: "If an invalid fund/round ID is supplied"
-
+  /events/{type}:
+    get:
+      summary: Returns all the event that are of a given type.
+      description: Returns all the event that are of a given type.
+      operationId: api.routes.get_events_by_type
+      parameters:
+        - name: type
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "If there are events of the type then the data is returned."
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Events'
+        404:
+          description: "Event not found from given fund, round or event id."
+          content:
+              application/json:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Error'
+  /event:
+    post:
+      summary: Creates an event with the supplied parameters
+      description: Returns the event that has been created
+      operationId: api.routes.create_event
+      responses:
+        201:
+          description: SUCCESS - Event created
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Event'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                round_id:
+                  type: string
+                processed:
+                  type: string
+                type:
+                  type: string
+                activation_date:
+                  type: string
+                  format: date
+  /event/{event_id}:
+    get:
+      summary: Returns the event with the given event ID.
+      description: Returns the event with the given event ID.
+      operationId: api.routes.get_event_by_id
+      parameters:
+        - name: event_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "If the event exists then the data is returned."
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Event'
+        404:
+          description: "Event not found from given event id."
+          content:
+              application/json:
+                schema:
+                  $ref: 'components.yml#/components/schemas/Error'
+    put:
+      summary: Updates the event
+      description: Updates the event to be marked as processed
+      operationId: api.routes.set_event_to_processed
+      parameters:
+        - name: event_id
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: processed
+          in: query
+          schema:
+            type: boolean
+          required: true
+      responses:
+        200:
+          description: Updates the event to be marked as processed
+          content:
+            application/json:
+              schema:
+                $ref: 'components.yml#/components/schemas/Event'
+        400:
+          description: "Invalid fund, round or event ID supplied"
+          content:
+                texts/plain:
+                  schema:
+                    $ref: 'components.yml#/components/schemas/Error'
 tags:
   - name: Funds
     description: "See all funds or find a fund"
