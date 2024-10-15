@@ -90,6 +90,7 @@ components:
             example: "12345-qwert-....."
           round_id:
             type: string
+            nullable: true
             description: The round ID, uniquely identifies the round.
             example: "12345-qwert-....."
           type:

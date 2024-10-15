@@ -147,9 +147,7 @@ def test_get_events_for_round(flask_test_client, mocker):
         response["activation_date"] = response["activation_date"].isoformat()
         response["processed"] = response["processed"].isoformat() if response["processed"] else None
         response["type"] = response["type"].value
-    with patch(
-        "api.routes.get_events_for_round_from_db", return_value=mock_events
-    ) as mock_get_events_for_round_from_db:
+    with patch("api.routes.get_events_from_db", return_value=mock_events) as mock_get_events_for_round_from_db:
         response = flask_test_client.get("/funds/some_fund_id/rounds/some_round_id/events?only_unprocessed=true")
 
         assert response.status_code == 200
@@ -159,7 +157,7 @@ def test_get_events_for_round(flask_test_client, mocker):
 
 def test_get_events_for_round_not_found(flask_test_client, mocker):
     mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    with patch("api.routes.get_events_for_round_from_db", return_value=None) as mock_get_events_for_round_from_db:
+    with patch("api.routes.get_events_from_db", return_value=None) as mock_get_events_for_round_from_db:
         response = flask_test_client.get("/funds/some_fund_id/rounds/some_round_id/events")
 
         assert response.status_code == 404
@@ -211,11 +209,130 @@ def test_set_event_to_processed(flask_test_client, mocker):
     expected_response["type"] = expected_response["type"].value
     expected_response["processed"] = expected_response["processed"].isoformat()
     mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    with patch("api.routes.set_event_to_processed_in_db", return_value=mock_event) as mock_set_event_to_processed_in_db:
+    with patch(
+        "api.routes.set_event_to_processed_in_db", return_value=mock_event
+    ) as mock_set_round_event_to_processed_in_db:
         response = flask_test_client.put("/funds/some_fund_id/rounds/some_round_id/event/123?processed=true")
 
         assert response.status_code == 200
         assert response.json() == expected_response
-        mock_set_event_to_processed_in_db.assert_called_once_with(
-            round_id="some_round_id", event_id="123", processed=True
+        mock_set_round_event_to_processed_in_db.assert_called_once_with(event_id="123", processed=True)
+
+    with patch(
+        "api.routes.set_event_to_processed_in_db", return_value=mock_event
+    ) as mock_set_round_event_to_processed_in_db:
+        response = flask_test_client.put("/event/123?processed=true")
+
+        assert response.status_code == 200
+        assert response.json() == expected_response
+        mock_set_round_event_to_processed_in_db.assert_called_once_with(event_id="123", processed=True)
+
+
+def test_get_events_by_type(flask_test_client):
+    mock_expected_events = [
+        {
+            "id": "1",
+            "type": EventType.APPLICATION_DEADLINE_REMINDER,
+            "round_id": "9",
+            "activation_date": datetime(2000, 10, 1),
+            "processed": None,
+        },
+    ]
+
+    expected_response = deepcopy(mock_expected_events)
+    for response in expected_response:
+        response["activation_date"] = response["activation_date"].isoformat()
+        response["processed"] = response["processed"].isoformat() if response["processed"] else None
+        response["type"] = response["type"].value
+    with patch("api.routes.get_events_from_db", return_value=mock_expected_events) as mock_get_events_by_type_from_db:
+        response = flask_test_client.get("/events/APPLICATION_DEADLINE_REMINDER?only_unprocessed=true")
+
+        assert response.status_code == 200
+        assert response.json() == expected_response
+        mock_get_events_by_type_from_db.assert_called_once_with(
+            type="APPLICATION_DEADLINE_REMINDER", only_unprocessed=True
         )
+
+
+def test_get_events_by_type_not_recognised(flask_test_client, mocker):
+    with patch("api.routes.get_events_from_db", return_value=None):
+        response = flask_test_client.get("/events/INVALID_TYPE")
+
+        assert response.status_code == 400
+
+
+def test_get_events_by_type_not_found(flask_test_client, mocker):
+    with patch("api.routes.get_events_from_db", return_value=None) as mock_get_events_by_type_from_db:
+        response = flask_test_client.get("/events/APPLICATION_DEADLINE_REMINDER")
+
+        assert response.status_code == 404
+        mock_get_events_by_type_from_db.assert_called_once_with(
+            type="APPLICATION_DEADLINE_REMINDER", only_unprocessed=False
+        )
+
+
+def test_get_event_by_id(flask_test_client, mocker):
+    mock_event = {
+        "id": "1",
+        "type": EventType.APPLICATION_DEADLINE_REMINDER,
+        "round_id": "9",
+        "activation_date": datetime(2000, 10, 1),
+        "processed": None,
+    }
+    expected_response = deepcopy(mock_event)
+    expected_response["activation_date"] = expected_response["activation_date"].isoformat()
+    expected_response["processed"] = (
+        expected_response["processed"].isoformat() if expected_response["processed"] else None
+    )
+    expected_response["type"] = expected_response["type"].value
+    mocker.patch("api.routes.is_valid_uuid", return_value=True)
+    with patch("api.routes.get_event_from_db", return_value=mock_event) as mock_get_event_from_db:
+        response = flask_test_client.get("/event/1")
+
+        assert response.status_code == 200
+        assert response.json() == expected_response
+        mock_get_event_from_db.assert_called_once_with(event_id="1")
+
+
+def test_get_event_by_id_not_found(flask_test_client, mocker):
+    mocker.patch("api.routes.is_valid_uuid", return_value=True)
+    with patch("api.routes.get_event_from_db", return_value=None) as mock_get_event_by_id_from_db:
+        response = flask_test_client.get("/event/123")
+
+        assert response.status_code == 404
+        mock_get_event_by_id_from_db.assert_called_once_with(event_id="123")
+
+
+def test_create_event(flask_test_client, mocker):
+    mock_events = {
+        "id": "1",
+        "type": EventType.ACCOUNT_IMPORT,
+        "activation_date": datetime(2000, 10, 1),
+        "processed": datetime(2000, 10, 1),
+        "round_id": None,
+    }
+    new_event_payload = {
+        "type": EventType.ACCOUNT_IMPORT.value,
+        "activation_date": datetime(2000, 10, 1).isoformat(),
+        "processed": datetime(2000, 10, 1).isoformat(),
+    }
+
+    expected_response = {"id": "1", "round_id": None, **new_event_payload}
+    mocker.patch("api.routes.create_event_in_db", return_value=mock_events)
+    with patch("api.routes.create_event_in_db", return_value=mock_events) as mock_create_event_in_db:
+        response = flask_test_client.post("/event", json=new_event_payload)
+        mock_create_event_in_db.assert_called_once_with(**new_event_payload, round_id=None)
+
+    assert response.status_code == 201
+    assert response.json() == expected_response
+
+
+def test_create_event_missing_type(flask_test_client):
+    new_event_payload = {
+        "round_id": "9",
+        "activation_date": datetime(2000, 10, 1).isoformat(),
+    }
+    response = flask_test_client.post("/event", json=new_event_payload)
+
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Post body must contain event type field"

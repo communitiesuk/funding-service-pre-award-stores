@@ -16,6 +16,7 @@ BaseModel: DefaultMeta = db.Model
 class EventType(Enum):
     APPLICATION_DEADLINE_REMINDER = "APPLICATION_DEADLINE_REMINDER"
     SEND_INCOMPLETE_APPLICATIONS = "SEND_INCOMPLETE_APPLICATIONS"
+    ACCOUNT_IMPORT = "ACCOUNT_IMPORT"
 
 
 class Event(BaseModel):
@@ -30,7 +31,7 @@ class Event(BaseModel):
         "round_id",
         UUID(as_uuid=True),
         ForeignKey("round.id"),
-        nullable=False,
+        nullable=True,
     )
     type = Column("type", SQLAEnum(EventType, name="event_type"), nullable=False, unique=False)
     activation_date = Column("activation_date", DateTime(), nullable=False)
