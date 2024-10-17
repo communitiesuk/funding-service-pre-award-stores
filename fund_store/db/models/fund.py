@@ -1,4 +1,5 @@
 import uuid
+from enum import Enum
 from typing import List
 
 from flask_sqlalchemy.model import DefaultMeta
@@ -8,11 +9,18 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import relationship
 from sqlalchemy.types import Boolean
+from sqlalchemy.types import Enum as SQLAEnum
 
 from db import db
 from db.models.round import Round
 
 BaseModel: DefaultMeta = db.Model
+
+
+class FundingType(Enum):
+    COMPETITIVE = "COMPETITIVE"
+    UNCOMPETED = "UNCOMPETED"
+    EOI = "EOI"
 
 
 class Fund(BaseModel):
@@ -32,3 +40,4 @@ class Fund(BaseModel):
     owner_organisation_name = Column("owner_organisation_name", db.String(), nullable=False, unique=False)
     owner_organisation_shortname = Column("owner_organisation_shortname", db.String(), nullable=False, unique=False)
     owner_organisation_logo_uri = Column("owner_organisation_logo_uri", db.Text(), nullable=True, unique=False)
+    fund_type = Column("funding_type", SQLAEnum(FundingType), nullable=True, unique=False)
