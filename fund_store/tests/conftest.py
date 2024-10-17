@@ -33,6 +33,7 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
                 {
                     "id": fund_id,
                     "short_name": "FUND",
+                    "funding_type": "COMPETITIVE",
                     "rounds": [
                         {
                             "id": round_id_1,
@@ -120,6 +121,7 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
             "owner_organisation_name": "testing org name",
             "owner_organisation_shortname": "TON",
             "owner_organisation_logo_uri": "...",
+            "funding_type": fund["funding_type"],
         }
         insert_fund_data(fund_config)
         rounds = []

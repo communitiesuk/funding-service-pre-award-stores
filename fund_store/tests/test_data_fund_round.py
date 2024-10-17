@@ -1,5 +1,6 @@
 import pytest
 
+from db.models.fund import FundingType
 from db.queries import get_all_funds
 from db.queries import get_fund_by_id
 from db.queries import get_fund_by_short_name
@@ -78,3 +79,4 @@ def test_get_all_funds(seed_dynamic_data):
     result = get_all_funds()
     assert len(result) == 1
     assert result[0].name_json["en"] == "Unit Test Fund 1"
+    assert result[0].funding_type == FundingType.COMPETITIVE

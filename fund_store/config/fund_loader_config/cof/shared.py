@@ -11,6 +11,7 @@ fund_config = {
         "cy": "gyllid i achub ased yn eich cymuned",
     },
     "short_name": "COF",
+    "funding_type": "COMPETITIVE",
     "description_json": {
         "en": (
             "The Community Ownership Fund is a £150 million fund over 4 years"
