@@ -35,6 +35,19 @@ def upgrade():
                 nullable=True,
             )
         )
+
+    # all original funds will we competitive funds so default to this, this will be overriden
+    # per environment
+    op.get_bind().execute(
+        sa.text(
+            """
+            UPDATE fund SET funding_type = 'COMPETITIVE'
+            """
+        )
+    )
+
+    with op.batch_alter_table("fund", schema=None) as batch_op:
+        batch_op.alter_column("funding_type", nullable=False)
     # ### end Alembic commands ###
 
 
