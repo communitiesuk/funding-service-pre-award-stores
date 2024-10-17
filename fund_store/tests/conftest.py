@@ -11,6 +11,7 @@ from sqlalchemy_utils import Ltree
 
 from app import create_app
 from db.models.fund import Fund
+from db.models.fund import FundingType
 from db.models.round import Round
 from db.models.section import Section
 from db.queries import insert_fund_data
@@ -121,7 +122,7 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
             "owner_organisation_name": "testing org name",
             "owner_organisation_shortname": "TON",
             "owner_organisation_logo_uri": "...",
-            "funding_type": fund["funding_type"],
+            "funding_type": fund["funding_type"] or FundingType.COMPETITIVE,
         }
         insert_fund_data(fund_config)
         rounds = []
@@ -200,6 +201,7 @@ def mock_get_fund_round(mocker):
         name_json={"en": "Fund Name 1"},
         title_json={"en": "Fund 1"},
         description_json={"en": "description text"},
+        funding_type=FundingType.COMPETITIVE,
     )
     round_config = {
         "id": uuid4(),

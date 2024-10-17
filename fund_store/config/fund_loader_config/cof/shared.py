@@ -1,4 +1,5 @@
 from config.fund_loader_config.logo import DLUHC_LOGO_PNG
+from db.models.fund import FundingType
 
 fund_config = {
     "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
@@ -11,7 +12,7 @@ fund_config = {
         "cy": "gyllid i achub ased yn eich cymuned",
     },
     "short_name": "COF",
-    "funding_type": "COMPETITIVE",
+    "funding_type": FundingType.COMPETITIVE,
     "description_json": {
         "en": (
             "The Community Ownership Fund is a £150 million fund over 4 years"

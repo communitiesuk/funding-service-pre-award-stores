@@ -5,6 +5,7 @@ from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     DPI_R2_BASE_PATH,
 )
 from config.fund_loader_config.logo import DLUHC_LOGO_PNG
+from db.models.fund import FundingType
 
 DPI_FUND_ID = "f493d512-5eb4-11ee-8c99-0242ac120002"
 DPI_ROUND_2_ID = "0059aad4-5eb5-11ee-8c99-0242ac120002"
@@ -117,6 +118,7 @@ fund_config = {
         "cy": "",
     },
     "short_name": "DPIF",
+    "funding_type": FundingType.COMPETITIVE,
     "description_json": {"en": "", "cy": ""},
     "welsh_available": False,
     "owner_organisation_name": "Department for Levelling Up, Housing and Communities",

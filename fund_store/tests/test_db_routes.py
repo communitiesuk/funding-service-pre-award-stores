@@ -36,6 +36,7 @@ def test_get_fund_by_id(flask_test_client, mock_get_fund_round, mocker):
     assert response.status_code == 200
     result = response.json()
     assert result["name"] == "Fund Name 1"
+    assert result["funding_type"] == "COMPETITIVE"
 
 
 def test_get_fund_by_invalid_id(flask_test_client, mocker):
