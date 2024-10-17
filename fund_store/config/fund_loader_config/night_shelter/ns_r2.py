@@ -5,6 +5,7 @@ from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     NSTF_R2_BASE_PATH,
 )
 from config.fund_loader_config.logo import DLUHC_LOGO_PNG
+from db.models.fund import FundingType
 
 NIGHT_SHELTER_FUND_ID = "13b95669-ed98-4840-8652-d6b7a19964db"
 NIGHT_SHELTER_ROUND_2_ID = "fc7aa604-989e-4364-98a7-d1234271435a"
@@ -170,6 +171,7 @@ fund_config = {
         "en": "funding to transform your night shelter services in England",
         "cy": "",
     },
+    "funding_type": FundingType.COMPETITIVE,
     "short_name": "NSTF",
     "description_json": {"en": "", "cy": ""},
     "welsh_available": False,

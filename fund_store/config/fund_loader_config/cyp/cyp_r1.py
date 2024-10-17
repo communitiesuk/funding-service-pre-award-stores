@@ -5,6 +5,7 @@ from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     CYP_R1_BASE_PATH,
 )
 from config.fund_loader_config.logo import DLUHC_LOGO_PNG
+from db.models.fund import FundingType
 
 CYP_FUND_ID = "1baa0f68-4e0a-4b02-9dfe-b5646f089e65"
 CYP_ROUND_1_ID = "888aae3d-7e2c-4523-b9c1-95952b3d1644"
@@ -139,6 +140,7 @@ fund_config = {
         "cy": "",
     },
     "short_name": "CYP",
+    "funding_type": FundingType.COMPETITIVE,
     "description_json": {"en": "", "cy": ""},
     "welsh_available": False,
     "owner_organisation_name": "Department for Levelling Up, Housing and Communities",

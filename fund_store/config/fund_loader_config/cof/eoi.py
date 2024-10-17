@@ -11,6 +11,7 @@ from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     COF_EOI_BASE_PATH,
 )
 from config.fund_loader_config.logo import DLUHC_LOGO_PNG
+from db.models.fund import FundingType
 
 COF_FUND_ID = "54c11ec2-0b16-46bb-80d2-f210e47a8791"
 COF_EOI_ROUND_ID = "6a47c649-7bac-4583-baed-9c4e7a35c8b3"
@@ -34,6 +35,7 @@ fund_config = {
         "cy": "Gwneud cais am ddatganiad o ddiddordeb mewn gwneud cais i'r Gronfa Perchnogaeth Gymunedol",
     },
     "short_name": "COF-EOI",
+    "funding_type": FundingType.EOI,
     "description_json": fund_config["description_json"],
     "welsh_available": True,
     "owner_organisation_name": "Department for Levelling Up, Housing and Communities",

@@ -6,6 +6,7 @@ from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
 )
 from config.fund_loader_config.hsra.shared import HSRA_APPLICATION_GUIDANCE
 from config.fund_loader_config.logo import DLUHC_LOGO_PNG
+from db.models.fund import FundingType
 
 HSRA_FUND_ID = "1e4bd8b0-b399-466d-bbd1-572171bbc7bd"
 HSRA_ROUND_ID = "50062ff6-e696-474d-a560-4d9af784e6e5"
@@ -110,6 +111,7 @@ fund_config = {
         "cy": "",
     },
     "short_name": "HSRA",
+    "funding_type": FundingType.COMPETITIVE,
     "description_json": {"en": "", "cy": ""},
     "welsh_available": False,
     "owner_organisation_name": "Department for Levelling Up, Housing and Communities",

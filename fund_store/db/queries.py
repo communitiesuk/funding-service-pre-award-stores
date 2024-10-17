@@ -248,6 +248,7 @@ def insert_fund_data(fund_config):
                 owner_organisation_name=bindparam("owner_organisation_name"),
                 owner_organisation_shortname=bindparam("owner_organisation_shortname"),
                 owner_organisation_logo_uri=bindparam("owner_organisation_logo_uri"),
+                funding_type=bindparam("funding_type"),
             )
         )
         .on_conflict_do_update(
@@ -261,6 +262,7 @@ def insert_fund_data(fund_config):
                 "owner_organisation_name": bindparam("owner_organisation_name"),
                 "owner_organisation_shortname": bindparam("owner_organisation_shortname"),
                 "owner_organisation_logo_uri": bindparam("owner_organisation_logo_uri"),
+                "funding_type": bindparam("funding_type"),
             },
         )
         .returning(Fund.id)
@@ -276,6 +278,7 @@ def insert_fund_data(fund_config):
         "owner_organisation_name": fund_config["owner_organisation_name"],
         "owner_organisation_shortname": fund_config["owner_organisation_shortname"],
         "owner_organisation_logo_uri": fund_config["owner_organisation_logo_uri"],
+        "funding_type": fund_config["funding_type"],
     }
 
     result = db.session.execute(stmt, update_params)
