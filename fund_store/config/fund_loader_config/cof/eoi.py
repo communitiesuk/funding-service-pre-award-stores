@@ -166,7 +166,7 @@ round_config_eoi = [
             """
             ),
         },
-        "contact_email": "COF@levellingup.gov.uk",
+        "contact_email": "COF@communities.gov.uk",
         "contact_phone": None,
         "contact_textphone": None,
         "support_times": "9am to 5pm",
