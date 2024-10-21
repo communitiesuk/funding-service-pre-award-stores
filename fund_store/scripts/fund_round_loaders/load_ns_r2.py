@@ -9,14 +9,14 @@ from db.queries import insert_assessment_sections
 from db.queries import insert_base_sections
 from db.queries import insert_fund_data
 from db.queries import insert_or_update_application_sections
-from db.queries import insert_round_data
+from db.queries import upsert_round_data
 
 
 def main() -> None:
     print("Inserting fund data for the Night Shelter fund.")
     insert_fund_data(fund_config)
     print("Inserting round data for round 2 of the Night Shelter fund.")
-    insert_round_data(round_config)
+    upsert_round_data(round_config)
 
     print("Inserting base sections for Night Shelter Round 2.")
     insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, NIGHT_SHELTER_ROUND_2_ID)
@@ -27,5 +27,5 @@ def main() -> None:
 if __name__ == "__main__":
     from app import app
 
-    with app.app_context():
+    with app.app.app_context():
         main()

@@ -96,7 +96,21 @@
             "cwd": "${workspaceFolder}",
             "env": { "PYTHONPATH":"${workspaceFolder}"},
             "envFile": "${workspaceFolder}/.env.development",
+            "justMyCode": false
+        },
+        {
+            "name": "Load FAB Round",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/fund_round_loaders/load_fund_round_from_fab.py",
+            "console": "integratedTerminal",
+            "host": "localhost",
+            "port": 9091,
+            "cwd": "${workspaceFolder}",
+            "env": { "PYTHONPATH":"${workspaceFolder}"},
+            "envFile": "${workspaceFolder}/.env.development",
             "justMyCode": false,
+            "args": ["--fund_short_code", "COF25-EOI"]
         },
         {
             "name": "Amend Round dates",

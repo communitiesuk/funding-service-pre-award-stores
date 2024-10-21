@@ -15,8 +15,8 @@ from db.models.fund import FundingType
 from db.models.round import Round
 from db.models.section import Section
 from db.queries import insert_fund_data
-from db.queries import insert_round_data
 from db.queries import insert_sections
+from db.queries import upsert_round_data
 
 pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
 
@@ -171,7 +171,7 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
             }
             rounds.append(round_config)
 
-        insert_round_data(rounds)
+        upsert_round_data(rounds)
         inserted_data["funds"].append({"rounds": rounds, "id": fund_id, "short_name": fund["short_name"]})
 
         for fund in seed_config["funds"]:

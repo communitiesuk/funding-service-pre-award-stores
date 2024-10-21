@@ -14,7 +14,7 @@ from db.queries import get_assessment_sections_for_round
 from db.queries import insert_base_sections
 from db.queries import insert_fund_data
 from db.queries import insert_or_update_application_sections
-from db.queries import insert_round_data
+from db.queries import upsert_round_data
 
 
 def test_get_application_sections(seed_dynamic_data):
@@ -47,7 +47,7 @@ def test_get_assessment_sections(seed_dynamic_data):
 
 def test_load_application_sections(clear_test_data):
     insert_fund_data(fund_config)
-    insert_round_data(rounds_config)
+    upsert_round_data(rounds_config)
 
     base_sections = insert_base_sections(APPLICATION_BASE_PATH, ASSESSMENT_BASE_PATH, COF_ROUND_2_WINDOW_2_ID)
     application_sections = insert_or_update_application_sections(COF_ROUND_2_WINDOW_2_ID, cof_r2_sections)

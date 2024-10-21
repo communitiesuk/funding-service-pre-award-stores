@@ -10,14 +10,14 @@ from config.fund_loader_config.cof.cof_r2 import rounds_config
 from db.queries import insert_base_sections
 from db.queries import insert_fund_data
 from db.queries import insert_or_update_application_sections
-from db.queries import insert_round_data
+from db.queries import upsert_round_data
 
 
 def main() -> None:
     inserted_fund = insert_fund_data(fund_config)
     print("Fund inserted:")
     print(inserted_fund)
-    inserted_rounds = insert_round_data(rounds_config)
+    inserted_rounds = upsert_round_data(rounds_config)
     print("Rounds inserted:")
     print(inserted_rounds)
 
@@ -33,5 +33,5 @@ def main() -> None:
 if __name__ == "__main__":
     from app import app
 
-    with app.app_context():
+    with app.app.app_context():
         main()

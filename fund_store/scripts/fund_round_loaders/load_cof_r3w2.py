@@ -6,13 +6,13 @@ from config.fund_loader_config.cof.cof_r3 import cof_r3w2_sections
 from config.fund_loader_config.cof.cof_r3 import round_config_w2
 from db.queries import insert_base_sections
 from db.queries import insert_or_update_application_sections
-from db.queries import insert_round_data
+from db.queries import upsert_round_data
 
 
 def main() -> None:
     print("'insert_fund_config(...)' not required as COFR3W2 shares the same fund config from COFR3W1.")
     print("Inserting round data.")
-    insert_round_data(round_config_w2)
+    upsert_round_data(round_config_w2)
 
     print("Inserting base sections config.")
     insert_base_sections(
@@ -27,5 +27,5 @@ def main() -> None:
 if __name__ == "__main__":
     from app import app
 
-    with app.app_context():
+    with app.app.app_context():
         main()

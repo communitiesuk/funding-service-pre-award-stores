@@ -8,13 +8,13 @@ from config.fund_loader_config.hsra.hsra import round_config
 from db.queries import insert_base_sections
 from db.queries import insert_fund_data
 from db.queries import insert_or_update_application_sections
-from db.queries import insert_round_data
+from db.queries import upsert_round_data
 
 
 def main() -> None:
     print("Inserting fund and round data for HSRA.")
     insert_fund_data(fund_config)
-    insert_round_data(round_config)
+    upsert_round_data(round_config)
 
     print("Inserting base sections config.")
     insert_base_sections(
@@ -29,5 +29,5 @@ def main() -> None:
 if __name__ == "__main__":
     from app import app
 
-    with app.app_context():
+    with app.app.app_context():
         main()
