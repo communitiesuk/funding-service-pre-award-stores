@@ -54,9 +54,73 @@ UNCHANGED = "unchanged"
 PAST = "past"
 FUTURE = "future"
 
-DEFAULTS = {
-    "round_short_name": None,
-}
+DEFAULTS = {"round_short_name": None}
+
+
+def update_round_dates_in_db(round_id, application_opens, application_deadline, assessment_start, assessment_deadline):
+    round_to_update = Round.query.get(round_id)
+    if not round_to_update:
+        raise ValueError(f"Round with ID {round_id} not found in database. No updates made")
+    date_in_past = (datetime.now() + timedelta(days=-5)).strftime("%Y-%m-%d %H:%M:%S")
+    date_in_future = (datetime.now() + timedelta(days=5)).strftime("%Y-%m-%d %H:%M:%S")
+    commit = False
+    if application_opens and not str(application_opens).casefold() == UNCHANGED:
+        commit = True
+
+        if isinstance(application_opens, datetime):
+            round_to_update.opens = application_opens
+
+        elif application_opens.casefold() == PAST:
+            round_to_update.opens = date_in_past
+        elif application_opens.casefold() == FUTURE:
+            round_to_update.opens = date_in_future
+        else:
+            round_to_update.opens = datetime.strptime(application_opens, "%Y-%m-%d %H:%M:%S")
+
+    if application_deadline and not str(application_deadline).casefold() == UNCHANGED:
+        commit = True
+
+        if isinstance(application_deadline, datetime):
+            round_to_update.deadline = application_deadline
+        elif application_deadline.casefold() == PAST:
+            round_to_update.deadline = date_in_past
+        elif application_deadline.casefold() == FUTURE:
+            round_to_update.deadline = date_in_future
+        else:
+            round_to_update.deadline = datetime.strptime(application_deadline, "%Y-%m-%d %H:%M:%S")
+
+    if assessment_start and not str(assessment_start).casefold() == UNCHANGED:
+        commit = True
+
+        if isinstance(assessment_start, datetime):
+            round_to_update.assessment_start = assessment_start
+        elif assessment_start.casefold() == NONE:
+            round_to_update.assessment_start = None
+        elif assessment_start.casefold() == PAST:
+            round_to_update.assessment_start = date_in_past
+        elif assessment_start.casefold() == FUTURE:
+            round_to_update.assessment_start = date_in_future
+        else:
+            round_to_update.assessment_start = datetime.strptime(assessment_start, "%Y-%m-%d %H:%M:%S")
+
+    if assessment_deadline and not str(assessment_deadline).casefold() == UNCHANGED:
+        commit = True
+
+        if isinstance(assessment_deadline, datetime):
+            round_to_update.assessment_deadline = assessment_deadline
+        elif assessment_deadline.casefold() == PAST:
+            round_to_update.assessment_deadline = date_in_past
+        elif assessment_deadline.casefold() == FUTURE:
+            round_to_update.assessment_deadline = date_in_future
+        else:
+            round_to_update.deadline = datetime.strptime(assessment_deadline, "%Y-%m-%d %H:%M:%S")
+
+    if commit:
+        db.session.commit()
+        print(f"Sucessfully updated the round dates for {round_to_update.short_name} [{round_id}].")
+    else:
+        print("No changes supplied")
+    return
 
 
 class DynamicPromptOption(click.Option):
@@ -138,61 +202,12 @@ def update_round_dates(
 
     For assessment_start, the following value is also available:
         - NONE: Set the assessment_start to null"""
+
+    # If round ID not supplied, look it up in configs above
     if not round_id:
-        round_id = ROUND_IDS[round_short_name]
+        round_id = ROUND_IDS.get(round_short_name, None)
 
-    round_to_update = Round.query.get(round_id)
-    date_in_past = (datetime.now() + timedelta(days=-5)).strftime("%Y-%m-%d %H:%M:%S")
-    date_in_future = (datetime.now() + timedelta(days=5)).strftime("%Y-%m-%d %H:%M:%S")
-    commit = False
-    if application_opens and not application_opens.casefold() == UNCHANGED:
-        commit = True
-
-        if application_opens.casefold() == PAST:
-            round_to_update.opens = date_in_past
-        elif application_opens.casefold() == FUTURE:
-            round_to_update.opens = date_in_future
-        else:
-            round_to_update.opens = datetime.strptime(application_opens, "%Y-%m-%d %H:%M:%S")
-
-    if application_deadline and not application_deadline.casefold() == UNCHANGED:
-        commit = True
-
-        if application_deadline.casefold() == PAST:
-            round_to_update.deadline = date_in_past
-        elif application_deadline.casefold() == FUTURE:
-            round_to_update.deadline = date_in_future
-        else:
-            round_to_update.deadline = datetime.strptime(application_deadline, "%Y-%m-%d %H:%M:%S")
-
-    if assessment_start and not assessment_start.casefold() == UNCHANGED:
-        commit = True
-
-        if assessment_start.casefold() == NONE:
-            round_to_update.assessment_start = None
-        elif assessment_start.casefold() == PAST:
-            round_to_update.assessment_start = date_in_past
-        elif assessment_start.casefold() == FUTURE:
-            round_to_update.assessment_start = date_in_future
-        else:
-            round_to_update.assessment_start = datetime.strptime(assessment_start, "%Y-%m-%d %H:%M:%S")
-
-    if assessment_deadline and not assessment_deadline.casefold() == UNCHANGED:
-        commit = True
-
-        if assessment_deadline.casefold() == PAST:
-            round_to_update.assessment_deadline = date_in_past
-        elif assessment_deadline.casefold() == FUTURE:
-            round_to_update.assessment_deadline = date_in_future
-        else:
-            round_to_update.deadline = datetime.strptime(assessment_deadline, "%Y-%m-%d %H:%M:%S")
-
-    if commit:
-        db.session.commit()
-        print(f"Sucessfully updated the round dates for {round_short_name if round_short_name else ''} [{round_id}].")
-    else:
-        print("No changes supplied")
-    return
+    update_round_dates_in_db(round_id, application_opens, application_deadline, assessment_start, assessment_deadline)
 
 
 @cli.command
@@ -209,18 +224,128 @@ def reset_round_dates(round_id, round_short_name):
     """Resets the dates for the supplied round to the dates in the fund loader config"""
     if not round_id:
         round_id = ROUND_IDS[round_short_name]
-
-    round_to_update = Round.query.get(round_id)
     reset_config = ALL_ROUNDS_CONFIG[round_id]
-    round_to_update.opens = reset_config["opens"]
-    round_to_update.deadline = reset_config["deadline"]
-    round_to_update.assessment_start = reset_config["assessment_start"]
-    round_to_update.assessment_deadline = reset_config["assessment_deadline"]
-    db.session.commit()
+
+    update_round_dates_in_db(
+        round_id,
+        reset_config["opens"],
+        reset_config["deadline"],
+        reset_config["assessment_start"],
+        reset_config["assessment_deadline"],
+    )
+
     print(
         f"Sucessfully reset the round dates for {round_short_name if round_short_name else ''} [{round_id}] to the"
         " dates in the fund loader config"
     )
+
+
+@cli.command
+@click.option(
+    "-f",
+    "--fund_short_name",
+    prompt=True,
+    cls=DynamicPromptOption,
+)
+@click.option(
+    "-r",
+    "--round_short_name",
+    prompt=True,
+    cls=DynamicPromptOption,
+)
+@click.option("-rid", "--round_id", prompt=False, default=None)
+def reset_round_dates_fab(round_id, fund_short_name, round_short_name):
+    """Resets the dates for the supplied round to the dates in the fund loader config"""
+    if not round_id:
+        from config.fund_loader_config.FAB import FAB_FUND_ROUND_CONFIGS
+
+        round_id = FAB_FUND_ROUND_CONFIGS[fund_short_name]["rounds"][round_short_name]["id"]
+
+    if not round_id:
+        raise ValueError(f"Round ID does not exist for {round_short_name}")
+
+    reset_config = FAB_FUND_ROUND_CONFIGS[fund_short_name]["rounds"][round_short_name]
+
+    update_round_dates_in_db(
+        round_id,
+        datetime.strptime(reset_config["opens"], "%Y-%m-%dT%H:%M:%S"),
+        datetime.strptime(reset_config["deadline"], "%Y-%m-%dT%H:%M:%S"),
+        datetime.strptime(reset_config["assessment_start"], "%Y-%m-%dT%H:%M:%S"),
+        datetime.strptime(reset_config["assessment_deadline"], "%Y-%m-%dT%H:%M:%S"),
+    )
+
+    print(
+        f"Sucessfully reset the round dates for {round_short_name if round_short_name else ''} [{round_id}] to the"
+        " dates in the fund loader config"
+    )
+
+
+@cli.command
+@click.option(
+    "-f",
+    "--fund_short_name",
+    prompt=True,
+    cls=DynamicPromptOption,
+)
+@click.option(
+    "-r",
+    "--round_short_name",
+    prompt=True,
+    cls=DynamicPromptOption,
+)
+@click.option(
+    "-rid",
+    "--round_id",
+    prompt=False,
+    default=None,
+    help="UUID for round. Not needed if a valid round_short_name supplied",
+)
+@click.option(
+    "-o",
+    "--application_opens",
+    default=UNCHANGED,
+    prompt=True,
+    cls=DynamicPromptOption,
+)
+@click.option(
+    "-d",
+    "--application_deadline",
+    default=UNCHANGED,
+    prompt=True,
+    cls=DynamicPromptOption,
+)
+@click.option(
+    "-as",
+    "--assessment_start",
+    default=UNCHANGED,
+    prompt=True,
+    cls=DynamicPromptOption,
+)
+@click.option(
+    "-ad",
+    "--assessment_deadline",
+    default=UNCHANGED,
+    prompt=True,
+    cls=DynamicPromptOption,
+)
+def update_round_dates_fab(
+    fund_short_name=None,
+    round_short_name=None,
+    round_id=None,
+    application_opens=None,
+    application_deadline=None,
+    assessment_start=None,
+    assessment_deadline=None,
+):
+
+    from config.fund_loader_config.FAB import FAB_FUND_ROUND_CONFIGS
+
+    round_id = FAB_FUND_ROUND_CONFIGS[fund_short_name]["rounds"][round_short_name]["id"]
+
+    if not round_id:
+        raise ValueError(f"Round ID does not exist for {round_short_name}")
+
+    update_round_dates_in_db(round_id, application_opens, application_deadline, assessment_start, assessment_deadline)
 
 
 if __name__ == "__main__":

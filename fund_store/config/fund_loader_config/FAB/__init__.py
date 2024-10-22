@@ -8,6 +8,22 @@ Goes through all the files in config/fund_loader_config/FAB and adds each round 
 Each file in that directory needs to be python format as per the FAB exports,
 containing one property called LOADER_CONFIG
 See test_fab_round_config.py for example
+
+FAB_FUND_ROUND_CONFIGS example:
+{
+    "COF25":{
+        "id": "xxx",
+        "short_name": "COF25"
+        "rounds":{
+            "R1": {
+                "id": "yyy",
+                "fund_id": "xxx",
+                "short_name": "R1",
+                "sections_config": {}
+            }
+        }
+    }
+}
 """
 
 FAB_FUND_ROUND_CONFIGS = {}
