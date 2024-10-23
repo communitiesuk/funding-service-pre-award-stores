@@ -121,7 +121,6 @@ LOADER_CONFIG = {
         "display_logo_on_pdf_exports": False,
         "mark_as_complete_enabled": False,
         "is_expression_of_interest": True,
-        "eoi_decision_schema": None,
         "feedback_survey_config": {
             "has_feedback_survey": False,
             "has_section_feedback": True,
@@ -148,6 +147,190 @@ LOADER_CONFIG = {
                     Cysylltwch â thîm cyllid yr Adran Ffyniant Bro, Tai a Chymunedau os oes angen help arnoch i gael at ffurflen gais neu ei chyflwyno.
                 </p>
             """,
+        },
+        "eoi_decision_schema": {
+            "en": {
+                "BykoQQ": [
+                    {
+                        "answerValue": ["Not sure"],
+                        "caveat": "Make progress in securing match funding: COF will contribute up to 80% of the capital costs you require, and you must raise at least 20% from other sources.You do not need to have secured all your match funding by the time you apply, but we will ask you to set out your total costs, funding already secured, and plans to raise any additional funding.You must use COF funding within 12 months, so you must be able to show that you've made good progress to secure the remaining match funding. This is so that we're confident you can draw down this funding within this timeframe.",
+                        "result": 1,
+                    }
+                ],
+                "NcQSbU": [{"answerValue": True, "caveat": None, "result": 2}],
+                "UORyaF": [
+                    {
+                        "answerValue": "Not sure",
+                        "caveat": "Get planning permission, if needed: When you apply, you must be able to show that you have secured or have made good progress in securing planning permission, if needed (and building warrants, if required). This is so that we're confident that COF funding will be used within the 12 month timeframe.",
+                        "result": 1,
+                    }
+                ],
+                "XuAyrs": [
+                    {
+                        "answerValue": "Yes, a town, parish or community council",
+                        "caveat": "Understand the rules on acquiring assets from town, parish or community councils: We cannot fund you to acquire a publicly owned asset if this involves transferring responsibility for delivering statutory services (services paid for by tax payers) from the public authority to your organisation. You should only apply to acquire an asset from a town, parish or community council if you do not plan to deliver statutory services.",
+                        "result": 1,
+                    },
+                    {
+                        "answerValue": "Yes, another type of public authority",
+                        "caveat": "Understand the rules on acquiring public sector assets: COF funding can only be used for renovation and refurbishment costs once a publicly owned asset has been transferred to you. We cannot fund capital receipts, unless the costs incurred in transferring the asset to you are nominal (very small and far below the real value).In your application, you should show that you are not asking COF to fund a capital receipt to a public authority (for example, by sharing a letter confirming the authority is willing/has already agreed a long-term lease and no capital receipt is involved).We also cannot fund you to acquire a publicly owned asset if this involves transferring responsibility for delivering statutory services (services paid for by tax payers) from the public authority to your organisation",
+                        "result": 1,
+                    },
+                ],
+                "eEaDGz": [{"answerValue": False, "caveat": None, "result": 2}],
+                "eOWKoO": [{"answerValue": False, "caveat": None, "result": 2}],
+                "fBhSNc": [{"answerValue": False, "caveat": None, "result": 2}],
+                "fZAMFv": [{"caveat": None, "compareValue": 2000000, "operator": ">", "result": 2}],
+                "foQgiy": [{"answerValue": False, "caveat": None, "result": 2}],
+                "jICagT": [
+                    {
+                        "answerValue": "Not yet started",
+                        "caveat": "Get planning permission: When you apply, you must be able to show that you have secured or have made good progress in securing planning permission (and building warrants, if required). This is so that we're confident that COF funding will be used within the 12 month timeframe.",
+                        "result": 1,
+                    },
+                    {
+                        "answerValue": "Early stage",
+                        "caveat": "Get planning permission: When you apply, you must be able to show that you have secured or have made good progress in securing planning permission (and building warrants, if required). This is so that we're confident that COF funding will be used within the 12 month timeframe.",
+                        "result": 1,
+                    },
+                ],
+                "kWRuac": [
+                    {
+                        "answerValue": "Not yet approached any funders",
+                        "caveat": "Make progress in securing match funding: COF will contribute up to 80% of the capital costs you require, and you must raise at least 20% from other sources. You do not need to have secured all your match funding by the time you apply, but we will ask you to set out your total costs, funding already secured, and plans to raise any additional funding. You must use COF funding within 12 months, so you must be able to show that you've made good progress to secure the remaining match funding. This is so that we're confident you can draw down this funding within this timeframe.",
+                        "result": 1,
+                    },
+                    {
+                        "answerValue": "Approached some funders but not yet secured",
+                        "caveat": "Make progress in securing match funding: COF will contribute up to 80% of the capital costs you require, and you must raise at least 20% from other sources. You do not need to have secured all your match funding by the time you apply, but we will ask you to set out your total costs, funding already secured, and plans to raise any additional funding. You must use COF funding within 12 months, so you must be able to show that you've made good progress to secure the remaining match funding. This is so that we're confident you can draw down this funding within this timeframe.",
+                        "result": 1,
+                    },
+                    {
+                        "answerValue": "Approached all funders but not yet secured",
+                        "caveat": "Make progress in securing match funding: COF will contribute up to 80% of the capital costs you require, and you must raise at least 20% from other sources. You do not need to have secured all your match funding by the time you apply, but we will ask you to set out your total costs, funding already secured, and plans to raise any additional funding. You must use COF funding within 12 months, so you must be able to show that you've made good progress to secure the remaining match funding. This is so that we're confident you can draw down this funding within this timeframe.",
+                        "result": 1,
+                    },
+                    {
+                        "answerValue": "Secured some match funding",
+                        "caveat": "Make progress in securing match funding: COF will contribute up to 80% of the capital costs you require, and you must raise at least 20% from other sources. You do not need to have secured all your match funding by the time you apply, but we will ask you to set out your total costs, funding already secured, and plans to raise any additional funding. You must use COF funding within 12 months, so you must be able to show that you've made good progress to secure the remaining match funding. This is so that we're confident you can draw down this funding within this timeframe.",
+                        "result": 1,
+                    },
+                ],
+                "lLQmNb": [{"answerValue": False, "caveat": None, "result": 2}],
+                "oblxxv": [
+                    {
+                        "answerValue": False,
+                        "caveat": "Consider requesting revenue funding: We encourage all organisations to apply for revenue funding to help cover the initial running costs of your project. When you apply, you'll need to show us how you plan to use any revenue funding. See [Section 9 of the COF prospectus for more guidance](https://www.gov.uk/government/publications/community-ownership-fund-prospectus/community-ownership-fund-prospectus--3#funding-available).",
+                        "result": 1,
+                    }
+                ],
+                "uYiLsv": [
+                    {
+                        "answerValue": "not-yet-incorporated",
+                        "caveat": "Incorporate your organisation: You must have incorporated your organisation by the time you submit a full application. If you remain unincorporated, your application will be ineligible.",
+                        "result": 1,
+                    }
+                ],
+                "yZxdeJ": [
+                    {
+                        "answerValue": True,
+                        "caveat": "Understand the rules on housing: We will not provide funding if your project's main purpose is to purchase or develop housing assets, including social housing. However, you can include housing elements in your project where these are only a small part of supporting the overall financial sustainability of the asset in community ownership.",
+                        "result": 1,
+                    }
+                ],
+                "zurxox": [{"answerValue": False, "caveat": None, "result": 2}],
+            },
+            "cy": {
+                "BykoQQ": [
+                    {
+                        "answerValue": ["none"],
+                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
+                        "result": 1,
+                    }
+                ],
+                "NcQSbU": [{"answerValue": True, "caveat": None, "result": 2}],
+                "UORyaF": [
+                    {
+                        "answerValue": "Ddim yn si\u0175r",
+                        "caveat": "Sicrhewch ganiat\u00e2d cynllunio, os oes angen: Pan fyddwch yn gwneud cais, rhaid i chi allu dangos eich bod wedi sicrhau caniat\u00e2d cynllunio os oes angen (a gwarantau adeiladu, os oes angen), neu'ch bod wedi gwneud cynnydd da yn hyn o beth.  Diben hyn yw rhoi'r hyder i ni y caiff cyllid o'r Gronfa Perchnogaeth Gymunedol ei ddefnyddio o fewn y cyfnod o 12 mis.",
+                        "result": 1,
+                    }
+                ],
+                "XuAyrs": [
+                    {
+                        "answerValue": "Ydy, cyngor tref, plwyf neu gymuned",
+                        "caveat": "Dylech ddeall y rheolau yngl\u0177n \u00e2 chaffael asedau gan gynghorau tref, plwyf neu gymuned: Ni allwn eich ariannu i gaffael ased dan berchnogaeth gyhoeddus os yw'n golygu trosglwyddo cyfrifoldeb am ddarparu gwasanaethau statudol (gwasanaethau y mae trethdalwyr yn talu amdanynt) o'r awdurdod cyhoeddus i'ch sefydliad. Dim ond os nad ydych yn bwriadu darparu gwasanaethau statudol y dylech wneud cais i gaffael ased gan gyngor tref, plwyf neu gymuned.",
+                        "result": 1,
+                    },
+                    {
+                        "answerValue": "Ydy, math arall o awdurdod cyhoeddus",
+                        "caveat": "Dylech ddeall y rheolau yngl\u0177n \u00e2 chaffael asedau'r sector cyhoeddus: Dim ond ar \u00f4l trosglwyddo ased sydd dan berchnogaeth gyhoeddus i chi y gellir defnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol ar gyfer costau adnewyddu ac ailwampio. Ni allwn ariannu derbyniad cyfalaf, oni bai bod y costau yr aed iddynt wrth drosglwyddo'r ased i chi yn nominal (bach iawn ac yn llawer is na'r gwerth gwirioneddol). Yn eich cais, dylech ddangos nad ydych yn gofyn i'r Gronfa Perchnogaeth Gymunedol ariannu derbyniad cyfalaf i awdurdod cyhoeddus (er enghraifft drwy rannu llythyr yn cadarnhau bod yr awdurdod yn fodlon ar/eisoes wedi cytuno i les hirdymor ac nad oes derbyniad cyfalaf yn gysylltiedig). Ni allwn ychwaith eich ariannu i gaffael ased dan berchnogaeth gyhoeddus os yw'n golygu trosglwyddo cyfrifoldeb am ddarparu gwasanaethau statudol (gwasanaethau y mae trethdalwyr yn talu amdanynt) o'r awdurdod cyhoeddus i'ch sefydliad.",
+                        "result": 1,
+                    },
+                ],
+                "eEaDGz": [{"answerValue": False, "caveat": None, "result": 2}],
+                "eOWKoO": [{"answerValue": False, "caveat": None, "result": 2}],
+                "fBhSNc": [{"answerValue": False, "caveat": None, "result": 2}],
+                "fZAMFv": [{"caveat": None, "compareValue": 2000000, "operator": ">", "result": 2}],
+                "foQgiy": [{"answerValue": False, "caveat": None, "result": 2}],
+                "jICagT": [
+                    {
+                        "answerValue": "Heb ddechrau eto",
+                        "caveat": "Sicrhewch ganiat\u00e2d cynllunio: Pan fyddwch yn gwneud cais, rhaid i chi allu dangos eich bod wedi sicrhau caniat\u00e2d cynllunio (a gwarantau adeiladu, os oes angen), neu'ch bod wedi gwneud cynnydd da yn hyn o beth. Diben hyn yw rhoi'r hyder i ni y caiff cyllid o'r Gronfa Perchnogaeth Gymunedol ei ddefnyddio o fewn y cyfnod o 12 mis.",
+                        "result": 1,
+                    },
+                    {
+                        "answerValue": "Cam cynnar",
+                        "caveat": "Sicrhewch ganiat\u00e2d cynllunio: Pan fyddwch yn gwneud cais, rhaid i chi allu dangos eich bod wedi sicrhau caniat\u00e2d cynllunio (a gwarantau adeiladu, os oes angen), neu'ch bod wedi gwneud cynnydd da yn hyn o beth. Diben hyn yw rhoi'r hyder i ni y caiff cyllid o'r Gronfa Perchnogaeth Gymunedol ei ddefnyddio o fewn y cyfnod o 12 mis.",
+                        "result": 1,
+                    },
+                ],
+                "kWRuac": [
+                    {
+                        "answerValue": "Heb gysylltu ag unrhyw gyllidwyr eto",
+                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
+                        "result": 1,
+                    },
+                    {
+                        "answerValue": "Wedi cysylltu \u00e2 rhai cyllidwyr ond heb sicrhau cyllid eto",
+                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
+                        "result": 1,
+                    },
+                    {
+                        "answerValue": "Wedi cysylltu \u00e2'r holl gyllidwyr ond heb sicrhau cyllid eto",
+                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
+                        "result": 1,
+                    },
+                    {
+                        "answerValue": "Wedi sicrhau rhywfaint o arian cyfatebol",
+                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
+                        "result": 1,
+                    },
+                ],
+                "lLQmNb": [{"answerValue": False, "caveat": None, "result": 2}],
+                "oblxxv": [
+                    {
+                        "answerValue": False,
+                        "caveat": "Ystyriwch wneud cais am gyllid refeniw: Rydym yn annog pob sefydliad i wneud cais am gyllid refeniw er mwyn helpu i dalu costau rhedeg cychwynnol eich prosiect. Pan fyddwch yn gwneud cais, bydd angen i chi ddangos i ni sut rydych yn bwriadu defnyddio unrhyw gyllid refeniw. [Gweler Adran 9 o brosbectws y Gronfa Perchnogaeth Gymunedol am ragor o ganllawiau.](https://www.gov.uk/government/publications/community-ownership-fund-prospectus/community-ownership-fund-prospectus--3#funding-available)",
+                        "result": 1,
+                    }
+                ],
+                "uYiLsv": [
+                    {
+                        "answerValue": "Ddim yn gorfforedig eto",
+                        "caveat": "Dylech gorffori eich sefydliad: Mae'n rhaid eich bod wedi corffori eich sefydliad erbyn eich bod yn cyflwyno cais llawn. Os byddwch yn anghorfforedig o hyd, ni fydd eich cais yn gymwys.",
+                        "result": 1,
+                    }
+                ],
+                "yZxdeJ": [
+                    {
+                        "answerValue": True,
+                        "caveat": "Dylech ddeall y rheolau ynglyn \u00e2 thai: Ni fyddwn yn darparu cyllid os mai prif ddiben eich prosiect yw prynu neu ddatblygu asedau tai, gan gynnwys tai cymdeithasol. Fodd bynnag, gallwch gynnwys elfennau tai yn eich prosiect os mai dim ond rhan fach o gefnogi cynaliadwyedd ariannol gyffredinol yr ased dan berchnogaeth gymunedol yw'r rhain.",
+                        "result": 1,
+                    }
+                ],
+                "zurxox": [{"answerValue": False, "caveat": None, "result": 2}],
+            },
         },
     },
     "base_path": 1037,
