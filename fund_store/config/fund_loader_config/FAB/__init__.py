@@ -35,7 +35,13 @@ for file in os.listdir(this_dir):
         continue
     with open(this_dir / file, "r") as json_file:
 
-        content = json_file.read().split("LOADER_CONFIG=")[1]
+        content = json_file.read()
+        if content.startswith("LOADER_CONFIG = "):
+            content = content.split("LOADER_CONFIG = ")[1]
+        elif content.startswith("LOADER_CONFIG="):
+            content = content.split("LOADER_CONFIG=")[1]
+        else:
+            raise ValueError(f"fund config file {file.title()} does not start with 'LOADER_CONFIG='")
         loader_config = ast.literal_eval(content)
         if not loader_config.get("fund_config", None):
             print("No fund config found in the loader config.")

@@ -24,7 +24,7 @@
             "name": "Python: Flask",
             "type": "python",
             "request": "launch",
-            "module": "flask",
+            "module": "wsgi",
             "envFile": "${workspaceFolder}/.env.development",
             "args": [
                 "run",
@@ -110,7 +110,7 @@
             "env": { "PYTHONPATH":"${workspaceFolder}"},
             "envFile": "${workspaceFolder}/.env.development",
             "justMyCode": false,
-            "args": ["--fund_short_code", "COF25-EOI"]
+            "args": ["--fund_short_code", "COF25"]
         },
         {
             "name": "Amend Round dates",
