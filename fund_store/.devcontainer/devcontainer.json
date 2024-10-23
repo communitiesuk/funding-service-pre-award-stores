@@ -10,8 +10,9 @@
             "extensions": [
                 "ms-python.debugpy",
                 "ms-python.vscode-pylance",
-                "mikoz.black-py",
-                "eamodio.gitlens"
+                "eamodio.gitlens",
+                "ms-python.flake8",
+                "ms-python.black-formatter"
             ]
         }
     }
