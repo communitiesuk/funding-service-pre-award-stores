@@ -68,23 +68,18 @@ LOADER_CONFIG = {
         "id": "4db6072c-4657-458d-9f57-9ca59638317b",
         "short_name": "COF25-EOI",
         "welsh_available": True,
-        "owner_organisation_name": "Ministry of Housing, Communities and Local Government",
-        "owner_organisation_shortname": "MHCLG",
-        "owner_organisation_logo_uri": None,
+        "owner_organisation_name": "None",
+        "owner_organisation_shortname": "None",
+        "owner_organisation_logo_uri": "None",
         "funding_type": "EOI",
         "name_json": {"en": "Community Ownership Fund 2025", "cy": "Y Cronfa Perchnogaeth Gymunedol 2025"},
         "title_json": {
             "en": "expression of interest in applying for the Community Ownership Fund 2025",
-            "cy": "Gwneud cais am ddatganiad o ddiddordeb mewn gwneud cais i'r Gronfa Perchnogaeth Gymunedol",
+            "cy": "Gwneud cais am ddatganiad o ddiddordeb mewn gwneud cais i'r Gronfa Perchnogaeth Gymunedol 2025",
         },
         "description_json": {
             "en": "The Community Ownership Fund is a £150 million fund over 4 years to support community groups across England, Wales, Scotland and Northern Ireland to take ownership of assets which are at risk of being lost to the community.",
-            "cy": (  # TODO: Provide welsh translation
-                "The Community Ownership Fund is a £150 million fund over 4 years"
-                " to support community groups across England, Wales, Scotland and"
-                " Northern Ireland to take ownership of assets which are at risk"
-                " of being lost to the community."
-            ),
+            "cy": "The Community Ownership Fund is a £150 million fund over 4 years to support community groups across England, Wales, Scotland and Northern Ireland to take ownership of assets which are at risk of being lost to the community.",
         },
     },
     "round_config": {
@@ -101,53 +96,26 @@ LOADER_CONFIG = {
         "privacy_notice": "https://www.gov.uk/government/publications/community-ownership-fund-privacy-notice/community-ownership-fund-privacy-notice",
         "reference_contact_page_over_email": True,
         "contact_email": "COF@communities.gov.uk",
-        "contact_phone": None,
-        "contact_textphone": None,
+        "contact_phone": "",
+        "contact_textphone": "",
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
         "instructions_json": {
             "en": "You must complete this Expression of Interest (EOI) form if you are interested in applying for the Community Ownership Fund 2025 (COF25).",
-            "cy": (
-                "Mae'n rhaid i chi gwblhau'r ffurflen Datganiad o Ddiddordeb hon os"
-                " oes diddordeb gennych mewn gwneud cais i'r Gronfa Perchnogaeth Gymunedol 2025."
-            ),
+            "cy": "Mae'n rhaid i chi gwblhau'r ffurflen Datganiad o Ddiddordeb hon os oes diddordeb gennych mewn gwneud cais i'r Gronfa Perchnogaeth Gymunedol 2025.",
         },
         "feedback_link": "https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government",
         "project_name_field_id": "SMRWjl",
-        "application_guidance_json": {"en": "", "cy": ""},
+        "application_guidance_json": {
+            "en": "<h2 class='govuk-heading govuk-heading-s'>What we'll ask you for</h2><p class='govuk-body'>You can preview the <a class='govuk-link' href='{all_questions_url}'>full list of application questions</a>.</p>",
+            "cy": "<h2 class='govuk-heading govuk-heading-s'>Beth y byddwn yn gofyn i chi amdano</h2><p class='govuk-body'>Gallwch gael rhagolwg o'r <a class='govuk-link' href='{all_questions_url}'>rhestr lawn o gwestiynau yn y cais</a>.</p>",
+        },
         "guidance_url": "https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government",
         "all_uploaded_documents_section_available": False,
         "application_fields_download_available": True,
         "display_logo_on_pdf_exports": False,
         "mark_as_complete_enabled": False,
         "is_expression_of_interest": True,
-        "feedback_survey_config": {
-            "has_feedback_survey": False,
-            "has_section_feedback": True,
-            "is_feedback_survey_optional": False,
-            "is_section_feedback_optional": True,
-        },
-        "eligibility_config": {"has_eligibility": False},
-        "title_json": {"en": "Round 1", "cy": "Rownd 1"},
-        "contact_us_banner_json": {
-            "en": '<h2 class="govuk-heading-m">Get application support</h2>\r\n                 <p class="govuk-body">\r\n                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Visit the My Community website</a>\r\n                    for information and guidance on applying to Community Ownership Fund 2025.\r\n                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Fill out the enquiry form</a>\r\n                    to request advice from My Community.\r\n                </p>\r\n                <p class="govuk-body">\r\n                    We cannot provide direct support to applicants outside of this service.\r\n                </p>\r\n                <h2 class="govuk-heading-m">Get technical support</h2>\r\n                <p  class="govuk-body">\r\n                    Contact the Ministry of Housing, Communities & Local Government funding team if you need\r\n                    help with accessing or submitting an application form.\r\n                </p>',
-            "cy": """
-                 <h2 class="govuk-heading-m">Cael cymorth â'r cais</h2>
-                 <p class="govuk-body">
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Ewch i wefan My Community</a>
-                    i gael gwybodaeth ac arweiniad ar wneud cais i'r Gronfa Perchnogaeth Gymunedol 2025.
-                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Llenwch y ffurflen ymholiad</a>
-                    i ofyn am gyngor gan My Community.
-                </p>
-                <p class="govuk-body">
-                    Ni allwn ddarparu cymorth uniongyrchol i ymgeiswyr tu hwnt i'r gwasanaeth hwn.
-                </p>
-                <h2 class="govuk-heading-m">Cael cymorth technegol</h2>
-                <p  class="govuk-body">
-                    Cysylltwch â thîm cyllid yr Adran Ffyniant Bro, Tai a Chymunedau os oes angen help arnoch i gael at ffurflen gais neu ei chyflwyno.
-                </p>
-            """,
-        },
         "eoi_decision_schema": {
             "en": {
                 "BykoQQ": [
@@ -220,7 +188,7 @@ LOADER_CONFIG = {
                 "oblxxv": [
                     {
                         "answerValue": False,
-                        "caveat": "Consider requesting revenue funding: We encourage all organisations to apply for revenue funding to help cover the initial running costs of your project. When you apply, you'll need to show us how you plan to use any revenue funding. See [Section 9 of the COF prospectus for more guidance](https://www.gov.uk/government/publications/community-ownership-fund-prospectus/community-ownership-fund-prospectus--3#funding-available).",
+                        "caveat": "Consider requesting revenue funding: We encourage all organisations to apply for revenue funding to help cover the initial running costs of your project. When you apply, you'll need to show us how you plan to use any revenue funding. See [Section 9 of the COF prospectus for more guidance](https://www.gov.uk/government/publications/community-ownership-fund-prospectus/community-ownership-fund-2025-prospectus#funding-available).",
                         "result": 1,
                     }
                 ],
@@ -241,96 +209,108 @@ LOADER_CONFIG = {
                 "zurxox": [{"answerValue": False, "caveat": None, "result": 2}],
             },
             "cy": {
-                "BykoQQ": [
+                "uYiLsv": [
                     {
-                        "answerValue": ["none"],
-                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
+                        "answerValue": "Ddim yn gorfforedig eto",
                         "result": 1,
+                        "caveat": "Dylech gorffori eich sefydliad: Mae'n rhaid eich bod wedi corffori eich sefydliad erbyn eich bod yn cyflwyno cais llawn. Os byddwch yn anghorfforedig o hyd, ni fydd eich cais yn gymwys.",
                     }
                 ],
-                "NcQSbU": [{"answerValue": True, "caveat": None, "result": 2}],
-                "UORyaF": [
-                    {
-                        "answerValue": "Ddim yn si\u0175r",
-                        "caveat": "Sicrhewch ganiat\u00e2d cynllunio, os oes angen: Pan fyddwch yn gwneud cais, rhaid i chi allu dangos eich bod wedi sicrhau caniat\u00e2d cynllunio os oes angen (a gwarantau adeiladu, os oes angen), neu'ch bod wedi gwneud cynnydd da yn hyn o beth.  Diben hyn yw rhoi'r hyder i ni y caiff cyllid o'r Gronfa Perchnogaeth Gymunedol ei ddefnyddio o fewn y cyfnod o 12 mis.",
-                        "result": 1,
-                    }
-                ],
+                "NcQSbU": [{"answerValue": True, "result": 2, "caveat": None}],
+                "eEaDGz": [{"answerValue": False, "result": 2, "caveat": None}],
+                "zurxox": [{"answerValue": False, "result": 2, "caveat": None}],
+                "lLQmNb": [{"answerValue": False, "result": 2, "caveat": None}],
+                "fBhSNc": [{"answerValue": False, "result": 2, "caveat": None}],
                 "XuAyrs": [
                     {
                         "answerValue": "Ydy, cyngor tref, plwyf neu gymuned",
-                        "caveat": "Dylech ddeall y rheolau yngl\u0177n \u00e2 chaffael asedau gan gynghorau tref, plwyf neu gymuned: Ni allwn eich ariannu i gaffael ased dan berchnogaeth gyhoeddus os yw'n golygu trosglwyddo cyfrifoldeb am ddarparu gwasanaethau statudol (gwasanaethau y mae trethdalwyr yn talu amdanynt) o'r awdurdod cyhoeddus i'ch sefydliad. Dim ond os nad ydych yn bwriadu darparu gwasanaethau statudol y dylech wneud cais i gaffael ased gan gyngor tref, plwyf neu gymuned.",
                         "result": 1,
+                        "caveat": "Dylech ddeall y rheolau yngl\\u0177n \\u00e2 chaffael asedau gan gynghorau tref, plwyf neu gymuned: Ni allwn eich ariannu i gaffael ased dan berchnogaeth gyhoeddus os yw'n golygu trosglwyddo cyfrifoldeb am ddarparu gwasanaethau statudol (gwasanaethau y mae trethdalwyr yn talu amdanynt) o'r awdurdod cyhoeddus i'ch sefydliad. Dim ond os nad ydych yn bwriadu darparu gwasanaethau statudol y dylech wneud cais i gaffael ased gan gyngor tref, plwyf neu gymuned.",
                     },
                     {
                         "answerValue": "Ydy, math arall o awdurdod cyhoeddus",
-                        "caveat": "Dylech ddeall y rheolau yngl\u0177n \u00e2 chaffael asedau'r sector cyhoeddus: Dim ond ar \u00f4l trosglwyddo ased sydd dan berchnogaeth gyhoeddus i chi y gellir defnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol ar gyfer costau adnewyddu ac ailwampio. Ni allwn ariannu derbyniad cyfalaf, oni bai bod y costau yr aed iddynt wrth drosglwyddo'r ased i chi yn nominal (bach iawn ac yn llawer is na'r gwerth gwirioneddol). Yn eich cais, dylech ddangos nad ydych yn gofyn i'r Gronfa Perchnogaeth Gymunedol ariannu derbyniad cyfalaf i awdurdod cyhoeddus (er enghraifft drwy rannu llythyr yn cadarnhau bod yr awdurdod yn fodlon ar/eisoes wedi cytuno i les hirdymor ac nad oes derbyniad cyfalaf yn gysylltiedig). Ni allwn ychwaith eich ariannu i gaffael ased dan berchnogaeth gyhoeddus os yw'n golygu trosglwyddo cyfrifoldeb am ddarparu gwasanaethau statudol (gwasanaethau y mae trethdalwyr yn talu amdanynt) o'r awdurdod cyhoeddus i'ch sefydliad.",
                         "result": 1,
+                        "caveat": "Dylech ddeall y rheolau yngl\\u0177n \\u00e2 chaffael asedau'r sector cyhoeddus: Dim ond ar \\u00f4l trosglwyddo ased sydd dan berchnogaeth gyhoeddus i chi y gellir defnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol ar gyfer costau adnewyddu ac ailwampio. Ni allwn ariannu derbyniad cyfalaf, oni bai bod y costau yr aed iddynt wrth drosglwyddo'r ased i chi yn nominal (bach iawn ac yn llawer is na'r gwerth gwirioneddol). Yn eich cais, dylech ddangos nad ydych yn gofyn i'r Gronfa Perchnogaeth Gymunedol ariannu derbyniad cyfalaf i awdurdod cyhoeddus (er enghraifft drwy rannu llythyr yn cadarnhau bod yr awdurdod yn fodlon ar/eisoes wedi cytuno i les hirdymor ac nad oes derbyniad cyfalaf yn gysylltiedig). Ni allwn ychwaith eich ariannu i gaffael ased dan berchnogaeth gyhoeddus os yw'n golygu trosglwyddo cyfrifoldeb am ddarparu gwasanaethau statudol (gwasanaethau y mae trethdalwyr yn talu amdanynt) o'r awdurdod cyhoeddus i'ch sefydliad.",
                     },
                 ],
-                "eEaDGz": [{"answerValue": False, "caveat": None, "result": 2}],
-                "eOWKoO": [{"answerValue": False, "caveat": None, "result": 2}],
-                "fBhSNc": [{"answerValue": False, "caveat": None, "result": 2}],
-                "fZAMFv": [{"caveat": None, "compareValue": 2000000, "operator": ">", "result": 2}],
-                "foQgiy": [{"answerValue": False, "caveat": None, "result": 2}],
-                "jICagT": [
+                "foQgiy": [{"answerValue": False, "result": 2, "caveat": None}],
+                "BykoQQ": [
                     {
-                        "answerValue": "Heb ddechrau eto",
-                        "caveat": "Sicrhewch ganiat\u00e2d cynllunio: Pan fyddwch yn gwneud cais, rhaid i chi allu dangos eich bod wedi sicrhau caniat\u00e2d cynllunio (a gwarantau adeiladu, os oes angen), neu'ch bod wedi gwneud cynnydd da yn hyn o beth. Diben hyn yw rhoi'r hyder i ni y caiff cyllid o'r Gronfa Perchnogaeth Gymunedol ei ddefnyddio o fewn y cyfnod o 12 mis.",
+                        "answerValue": ["none"],
                         "result": 1,
-                    },
+                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
+                    }
+                ],
+                "eOWKoO": [{"answerValue": False, "result": 2, "caveat": None}],
+                "oblxxv": [
                     {
-                        "answerValue": "Cam cynnar",
-                        "caveat": "Sicrhewch ganiat\u00e2d cynllunio: Pan fyddwch yn gwneud cais, rhaid i chi allu dangos eich bod wedi sicrhau caniat\u00e2d cynllunio (a gwarantau adeiladu, os oes angen), neu'ch bod wedi gwneud cynnydd da yn hyn o beth. Diben hyn yw rhoi'r hyder i ni y caiff cyllid o'r Gronfa Perchnogaeth Gymunedol ei ddefnyddio o fewn y cyfnod o 12 mis.",
+                        "answerValue": False,
                         "result": 1,
-                    },
+                        "caveat": "Ystyriwch wneud cais am gyllid refeniw: Rydym yn annog pob sefydliad i wneud cais am gyllid refeniw er mwyn helpu i dalu costau rhedeg cychwynnol eich prosiect. Pan fyddwch yn gwneud cais, bydd angen i chi ddangos i ni sut rydych yn bwriadu defnyddio unrhyw gyllid refeniw. [Gweler Adran 9 o brosbectws y Gronfa Perchnogaeth Gymunedol am ragor o ganllawiau.](https://www.gov.uk/government/publications/community-ownership-fund-prospectus/community-ownership-fund-prospectus--3#funding-available)",
+                    }
                 ],
                 "kWRuac": [
                     {
                         "answerValue": "Heb gysylltu ag unrhyw gyllidwyr eto",
-                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
                         "result": 1,
+                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
                     },
                     {
-                        "answerValue": "Wedi cysylltu \u00e2 rhai cyllidwyr ond heb sicrhau cyllid eto",
-                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
+                        "answerValue": "Wedi cysylltu \\u00e2 rhai cyllidwyr ond heb sicrhau cyllid eto",
                         "result": 1,
+                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
                     },
                     {
-                        "answerValue": "Wedi cysylltu \u00e2'r holl gyllidwyr ond heb sicrhau cyllid eto",
-                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
+                        "answerValue": "Wedi cysylltu \\u00e2'r holl gyllidwyr ond heb sicrhau cyllid eto",
                         "result": 1,
+                        "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
                     },
                     {
                         "answerValue": "Wedi sicrhau rhywfaint o arian cyfatebol",
+                        "result": 1,
                         "caveat": "Gwneud cynnydd i sicrhau arian cyfatebol: Bydd y Gronfa Perchnogaeth Gymunedol yn cyfrannu hyd at 80% o'r costau cyfalaf sydd eu hangen arnoch, ac mae'n rhaid i chi godi o leiaf 20% o ffynonellau eraill. Nid oes angen i chi fod wedi sicrhau eich holl arian cyfatebol erbyn i chi wneud cais, ond byddwn yn gofyn i chi nodi cyfanswm eich costau, y cyllid rydych eisoes wedi'i sicrhau, a chynlluniau i godi unrhyw gyllid ychwanegol. Mae'n rhaid i chi ddefnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol o fewn 12 mis, felly mae'n rhaid i chi allu dangos eich bod wedi gwneud cynnydd da i sicrhau'r arian cyfatebol sy'n weddill. Diben hyn yw rhoi'r hyder i ni y gallwch ddefnyddio'r cyllid hwn o fewn yr amserlen hon.",
-                        "result": 1,
                     },
-                ],
-                "lLQmNb": [{"answerValue": False, "caveat": None, "result": 2}],
-                "oblxxv": [
-                    {
-                        "answerValue": False,
-                        "caveat": "Ystyriwch wneud cais am gyllid refeniw: Rydym yn annog pob sefydliad i wneud cais am gyllid refeniw er mwyn helpu i dalu costau rhedeg cychwynnol eich prosiect. Pan fyddwch yn gwneud cais, bydd angen i chi ddangos i ni sut rydych yn bwriadu defnyddio unrhyw gyllid refeniw. [Gweler Adran 9 o brosbectws y Gronfa Perchnogaeth Gymunedol am ragor o ganllawiau.](https://www.gov.uk/government/publications/community-ownership-fund-prospectus/community-ownership-fund-prospectus--3#funding-available)",
-                        "result": 1,
-                    }
-                ],
-                "uYiLsv": [
-                    {
-                        "answerValue": "Ddim yn gorfforedig eto",
-                        "caveat": "Dylech gorffori eich sefydliad: Mae'n rhaid eich bod wedi corffori eich sefydliad erbyn eich bod yn cyflwyno cais llawn. Os byddwch yn anghorfforedig o hyd, ni fydd eich cais yn gymwys.",
-                        "result": 1,
-                    }
                 ],
                 "yZxdeJ": [
                     {
                         "answerValue": True,
-                        "caveat": "Dylech ddeall y rheolau ynglyn \u00e2 thai: Ni fyddwn yn darparu cyllid os mai prif ddiben eich prosiect yw prynu neu ddatblygu asedau tai, gan gynnwys tai cymdeithasol. Fodd bynnag, gallwch gynnwys elfennau tai yn eich prosiect os mai dim ond rhan fach o gefnogi cynaliadwyedd ariannol gyffredinol yr ased dan berchnogaeth gymunedol yw'r rhain.",
                         "result": 1,
+                        "caveat": "Dylech ddeall y rheolau ynglyn \\u00e2 thai: Ni fyddwn yn darparu cyllid os mai prif ddiben eich prosiect yw prynu neu ddatblygu asedau tai, gan gynnwys tai cymdeithasol. Fodd bynnag, gallwch gynnwys elfennau tai yn eich prosiect os mai dim ond rhan fach o gefnogi cynaliadwyedd ariannol gyffredinol yr ased dan berchnogaeth gymunedol yw'r rhain.",
                     }
                 ],
-                "zurxox": [{"answerValue": False, "caveat": None, "result": 2}],
+                "UORyaF": [
+                    {
+                        "answerValue": "Ddim yn si\\u0175r",
+                        "result": 1,
+                        "caveat": "Sicrhewch ganiat\\u00e2d cynllunio, os oes angen: Pan fyddwch yn gwneud cais, rhaid i chi allu dangos eich bod wedi sicrhau caniat\\u00e2d cynllunio os oes angen (a gwarantau adeiladu, os oes angen), neu'ch bod wedi gwneud cynnydd da yn hyn o beth.  Diben hyn yw rhoi'r hyder i ni y caiff cyllid o'r Gronfa Perchnogaeth Gymunedol ei ddefnyddio o fewn y cyfnod o 12 mis.",
+                    }
+                ],
+                "jICagT": [
+                    {
+                        "answerValue": "Heb ddechrau eto",
+                        "result": 1,
+                        "caveat": "Sicrhewch ganiat\\u00e2d cynllunio: Pan fyddwch yn gwneud cais, rhaid i chi allu dangos eich bod wedi sicrhau caniat\\u00e2d cynllunio (a gwarantau adeiladu, os oes angen), neu'ch bod wedi gwneud cynnydd da yn hyn o beth. Diben hyn yw rhoi'r hyder i ni y caiff cyllid o'r Gronfa Perchnogaeth Gymunedol ei ddefnyddio o fewn y cyfnod o 12 mis.",
+                    },
+                    {
+                        "answerValue": "Cam cynnar",
+                        "result": 1,
+                        "caveat": "Sicrhewch ganiat\\u00e2d cynllunio: Pan fyddwch yn gwneud cais, rhaid i chi allu dangos eich bod wedi sicrhau caniat\\u00e2d cynllunio (a gwarantau adeiladu, os oes angen), neu'ch bod wedi gwneud cynnydd da yn hyn o beth. Diben hyn yw rhoi'r hyder i ni y caiff cyllid o'r Gronfa Perchnogaeth Gymunedol ei ddefnyddio o fewn y cyfnod o 12 mis.",
+                    },
+                ],
+                "fZAMFv": [{"operator": ">", "compareValue": 2000000, "result": 2, "caveat": None}],
             },
+        },
+        "feedback_survey_config": {
+            "has_feedback_survey": False,
+            "has_section_feedback": True,
+            "is_feedback_survey_optional": False,
+            "is_section_feedback_optional": True,
+        },
+        "eligibility_config": {"has_eligibility": False},
+        "title_json": {"en": "Round 1", "cy": "Rownd 1"},
+        "contact_us_banner_json": {
+            "en": '<h2 class="govuk-heading-m">Get application support</h2>\r\n                 <p class="govuk-body">\r\n                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Visit the My Community website</a>\r\n                    for information and guidance on applying to Community Ownership Fund 2025.\r\n                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Fill out the enquiry form</a>\r\n                    to request advice from My Community.\r\n                </p>\r\n                <p class="govuk-body">\r\n                    We cannot provide direct support to applicants outside of this service.\r\n                </p>\r\n                <h2 class="govuk-heading-m">Get technical support</h2>\r\n                <p  class="govuk-body">\r\n                    Contact the Ministry of Housing, Communities & Local Government funding team if you need\r\n                    help with accessing or submitting an application form.\r\n                </p>',
+            "cy": '<h2 class="govuk-heading-m">Cael cymorth â\'r cais</h2>\r\n                 <p class="govuk-body">\r\n                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund">Ewch i wefan My Community</a>\r\n                    i gael gwybodaeth ac arweiniad ar wneud cais i\'r Gronfa Perchnogaeth Gymunedol 2025.\r\n                    <a class="govuk-link" href="https://mycommunity.org.uk/community-ownership-fund#enquiry-form">Llenwch y ffurflen ymholiad</a>\r\n                    i ofyn am gyngor gan My Community.\r\n                </p>\r\n                <p class="govuk-body">\r\n                    Ni allwn ddarparu cymorth uniongyrchol i ymgeiswyr tu hwnt i\'r gwasanaeth hwn.\r\n                </p>\r\n                <h2 class="govuk-heading-m">Cael cymorth technegol</h2>\r\n                <p  class="govuk-body">\r\n                    Cysylltwch â thîm cyllid yr Adran Ffyniant Bro, Tai a Chymunedau os oes angen help arnoch i gael at ffurflen gais neu ei chyflwyno.\r\n                </p>',
         },
     },
     "base_path": 1037,
