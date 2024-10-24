@@ -11493,6 +11493,427 @@ cof_eoi_application_store_json_template = Template(
 """
 )
 
+cof25_eoi_application_store_json_template = Template(
+    """
+    {
+    "id": "$app_id",
+    "language": "en",
+    "fund_id": "$fund_id",
+    "last_edited": "2024-10-23T15:05:06.373533",
+    "project_name": "Est sequi iusto veli",
+    "reference": "$short_ref",
+    "round_id": "$round_id",
+    "round_name": "Round 1",
+    "started_at": "2024-10-23T14:59:11.298036",
+    "status": "SUBMITTED",
+    "account_id": "2b395090-5e7b-4d08-9d1e-bb9917418576",
+    "date_submitted": "2024-10-23T15:05:49.709130",
+    "forms": [
+      {
+        "name": "organisation-details-25",
+        "questions": [
+          {
+            "fields": [
+              {
+                "answer": "Est sequi iusto veli",
+                "key": "SMRWjl",
+                "title": "Organisation name",
+                "type": "text"
+              },
+              {
+                "answer": false,
+                "key": "SxkwhF",
+                "title": "Does your organisation have any alternative names?",
+                "type": "list"
+              }
+            ],
+            "question": "Organisation name",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": "832 Milton Parkway, Quam hic voluptas hic ut voluptates pariatur Perspiciatis in iusto pariatur Nisi sed fuga, London, West London, NN5 7AZ",
+                "key": "OpeSdM",
+                "title": "Organisation address",
+                "type": "text"
+              }
+            ],
+            "question": "Organisation address",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": "parish-town-community-councils",
+                "key": "uYiLsv",
+                "title": "Organisation classification",
+                "type": "list"
+              }
+            ],
+            "question": "How your organisation is classified",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": false,
+                "key": "NcQSbU",
+                "title": "Is your organisation subject to any insolvency actions?",
+                "type": "list"
+              }
+            ],
+            "question": "Is your organisation subject to any insolvency actions?",
+            "status": "COMPLETED"
+          }
+        ],
+        "status": "COMPLETED"
+      },
+      {
+        "name": "declaration-25",
+        "questions": [
+          {
+            "fields": [
+              {
+                "answer": [
+                  "confirm"
+                ],
+                "key": "oXFEkV",
+                "title": "I confirm the information I've provided is correct",
+                "type": "list"
+              }
+            ],
+            "question": "Declaration",
+            "status": "COMPLETED"
+          }
+        ],
+        "status": "COMPLETED"
+      },
+      {
+        "name": "about-your-asset-25",
+        "questions": [
+          {
+            "fields": [
+              {
+                "answer": true,
+                "key": "eEaDGz",
+                "title": "Does your organisation plan both to receive the funding and run the project?",
+                "type": "list"
+              }
+            ],
+            "question": "Does your organisation plan both to receive the funding and run the project?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": "Community centre",
+                "key": "Ihjjyi",
+                "title": "Type of asset",
+                "type": "list"
+              }
+            ],
+            "question": "Type of asset",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": true,
+                "key": "zurxox",
+                "title": "Is the asset based in the UK?",
+                "type": "list"
+              }
+            ],
+            "question": "Is the asset based in the UK?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": "Fritz Curry",
+                "key": "xYnVof",
+                "title": "Name of the asset",
+                "type": "text"
+              },
+              {
+                "answer": "921 Oak Parkway, Et nemo id sunt repudiandae aliquam id quidem laboris voluptas pariatur Ut est optio soluta dol, London, West London, NN4 7AZ",
+                "key": "dnqIdW",
+                "title": "Address of the asset",
+                "type": "text"
+              }
+            ],
+            "question": "Address of the asset",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": true,
+                "key": "lLQmNb",
+                "title": "Is the asset at risk?",
+                "type": "list"
+              }
+            ],
+            "question": "Is the asset at risk?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": [
+                  "Closure or end of lease"
+                ],
+                "key": "ilMbMH",
+                "title": "What is the risk to the asset?",
+                "type": "list"
+              }
+            ],
+            "question": "What is the risk to the asset?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": true,
+                "key": "fBhSNc",
+                "title": "Has the asset ever been used by or had significance to the community?",
+                "type": "list"
+              }
+            ],
+            "question": "Has the asset ever been used by or had significance to the community?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": false,
+                "key": "cPcZos",
+                "title": "Do you already own the asset?",
+                "type": "list"
+              }
+            ],
+            "question": "Do you already own the asset?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": "Yes, a town, parish or community council",
+                "key": "XuAyrs",
+                "title": "Does the asset belong to a public authority?",
+                "type": "list"
+              }
+            ],
+            "question": "Does the asset belong to a public authority?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": "Do not know who owner is",
+                "key": "oDhZlw",
+                "title": "Select the option which best represents the stage you are at in purchasing the asset",
+                "type": "list"
+              }
+            ],
+            "question": "Select the option which best represents the stage you are at in purchasing the asset",
+            "status": "COMPLETED"
+          }
+        ],
+        "status": "COMPLETED"
+      },
+      {
+        "name": "your-funding-request-25",
+        "questions": [
+          {
+            "fields": [
+              {
+                "answer": [
+                  "Buy a leasehold"
+                ],
+                "key": "aocRmv",
+                "title": "What do you plan to use COF25's funding for?",
+                "type": "list"
+              }
+            ],
+            "question": "What do you plan to use COF25's funding for?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": true,
+                "key": "foQgiy",
+                "title": "Will the leasehold have at least 15 years when your organisation submits a full application?",
+                "type": "list"
+              }
+            ],
+            "question": "Will the leasehold have at least 15 years when your organisation submits a full application?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": "112",
+                "key": "fZAMFv",
+                "title": "How much capital funding are you requesting from COF25?",
+                "type": "text"
+              }
+            ],
+            "question": "How much capital funding are you requesting from COF25?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": true,
+                "key": "oblxxv",
+                "title": "Do you plan to request any revenue funding?",
+                "type": "list"
+              }
+            ],
+            "question": "Do you plan to request any revenue funding?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": true,
+                "key": "eOWKoO",
+                "title": "Do you plan to secure match funding?",
+                "type": "list"
+              }
+            ],
+            "question": "Do you plan to secure match funding? (either cash or in-kind)",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": [
+                  "Donation of professional services"
+                ],
+                "key": "BykoQQ",
+                "title": "Where do you plan to source match funding?",
+                "type": "list"
+              }
+            ],
+            "question": "Where do you plan to source match funding?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": "Secured some match funding",
+                "key": "kWRuac",
+                "title": "What progress have you made to secure this funding?",
+                "type": "list"
+              }
+            ],
+            "question": "What progress have you made to secure this funding?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": true,
+                "key": "yZxdeJ",
+                "title": "Does your project include an element of housing?",
+                "type": "list"
+              }
+            ],
+            "question": "Does your project include an element of housing?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": "No",
+                "key": "UORyaF",
+                "title": "Will you need planning permission for your project?",
+                "type": "list"
+              }
+            ],
+            "question": "Will you need planning permission for your project?",
+            "status": "COMPLETED"
+          }
+        ],
+        "status": "COMPLETED"
+      },
+      {
+        "name": "development-support-provider-25",
+        "questions": [
+          {
+            "fields": [
+              {
+                "answer": "Yes, I agree to be contacted if eligible",
+                "key": "iXmKyq",
+                "title": "Do you wish to be contacted by the development support provider, if eligible for in-depth support?",
+                "type": "list"
+              }
+            ],
+            "question": "Do you wish to be contacted by the development support provider, if eligible for in-depth support?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": [
+                  "Financial forecasting"
+                ],
+                "key": "ObIBSx",
+                "title": "What are the main things you feel you need support with to submit a good COF25 application?",
+                "type": "list"
+              }
+            ],
+            "question": "What are the main things you feel you need support with to submit a good COF25 application?",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": "<p>yui</p>",
+                "key": "MxzEYq",
+                "title": "Describe your project and its aims",
+                "type": "freeText"
+              }
+            ],
+            "question": "Describe your project and its aims",
+            "status": "COMPLETED"
+          },
+          {
+            "fields": [
+              {
+                "answer": "Signe Casey",
+                "key": "xWnVof",
+                "title": "Name of lead contact",
+                "type": "text"
+              },
+              {
+                "answer": "metygacil@mailinator.com",
+                "key": "NQoGIm",
+                "title": "Lead contact email address",
+                "type": "text"
+              },
+              {
+                "answer": "+1 (768) 931-5335",
+                "key": "srxZmv",
+                "title": "Lead contact telephone number",
+                "type": "text"
+              }
+            ],
+            "question": "Lead contact details",
+            "status": "COMPLETED"
+          }
+        ],
+        "status": "COMPLETED"
+      }
+    ]
+  }
+"""
+)
+
 hsra1_application_store_json_template = Template(
     """
     {
