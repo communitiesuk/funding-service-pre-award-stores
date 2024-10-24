@@ -24,7 +24,10 @@ repos:
       name: Reorder Python imports (src, tests)
       args: ["--application-directories", "src"]
 - repo: https://github.com/PyCQA/docformatter
-  rev: v1.7.5
+  # We are pinning a specific hash here because the current latest released version (v1.7.5) is
+  # incompatible with pre-commit v4+
+  # issue: https://github.com/PyCQA/docformatter/issues/289
+  rev: eb1df347edd128b30cd3368dddc3aa65edcfac38
   hooks:
     - id: docformatter
       additional_dependencies: [tomli]
