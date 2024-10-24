@@ -77,6 +77,8 @@ def upgrade():
         "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
         "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f",
         "33726b63-efce-4749-b149-20351346c76e",
+        "50062ff6-e696-474d-a560-4d9af784e6e5",
+        "9104d809-0fb0-4144-b514-55e81cc2b6fa",
     ]
 
     # Convert list of round_ids to a format suitable for SQL IN clause
