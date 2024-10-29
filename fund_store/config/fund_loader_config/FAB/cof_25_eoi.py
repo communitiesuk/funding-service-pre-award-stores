@@ -303,7 +303,9 @@ LOADER_CONFIG = {
         "feedback_survey_config": {
             "has_feedback_survey": False,
             "has_section_feedback": True,
+            "has_research_survey": True,
             "is_feedback_survey_optional": False,
+            "is_research_survey_optional": True,
             "is_section_feedback_optional": True,
         },
         "eligibility_config": {"has_eligibility": False},
