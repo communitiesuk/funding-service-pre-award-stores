@@ -1,6 +1,12 @@
 # flake8: noqa
 from uuid import uuid4
 
+from config.mappings.cof_mapping_parts.cof25_r1_scored_criteria import (
+    scored_criteria as cof25_scored_criteria_r1,
+)
+from config.mappings.cof_mapping_parts.cof25_r1_unscored_sections import (
+    unscored_sections as cof25_unscored_sections_r1,
+)
 from config.mappings.cof_mapping_parts.eoi25_unscored_sections import (
     unscored_sections as cof25_unscored_sections_eoi,
 )
@@ -81,6 +87,8 @@ COF_EOI_FUND_ID = "54c11ec2-0b16-46bb-80d2-f210e47a8791"
 COF_EOI_ROUND_ID = "6a47c649-7bac-4583-baed-9c4e7a35c8b3"
 COF25_EOI_FUND_ID = "4db6072c-4657-458d-9f57-9ca59638317b"
 COF25_EOI_ROUND_ID = "9104d809-0fb0-4144-b514-55e81cc2b6fa"
+COF25_FUND_ID = "604450fe-65c0-4a2e-a4ba-30ccf256056b"
+COF25_ROUND_ID = "38914fbf-9c31-41be-8547-c24d997aaba2"
 
 NSTF_FUND_ID = "13b95669-ed98-4840-8652-d6b7a19964db"
 NSTF_ROUND_2_ID = "fc7aa604-989e-4364-98a7-d1234271435a"
@@ -136,6 +144,11 @@ fund_round_to_assessment_mapping = {
         "schema_id": "cof_r4w2_assessment",
         "unscored_sections": cof_unscored_sections_r4w2,
         "scored_criteria": cof_scored_criteria_r4w2,
+    },
+    f"{COF25_FUND_ID}:{COF25_ROUND_ID}": {
+        "schema_id": "cof25_r1_assessment",
+        "unscored_sections": cof25_unscored_sections_r1,
+        "scored_criteria": cof25_scored_criteria_r1,
     },
     f"{COF_EOI_FUND_ID}:{COF_EOI_ROUND_ID}": {
         "schema_id": "cof_eoi_assessment",
@@ -211,6 +224,13 @@ fund_round_data_key_mappings = {
         "funding_field_type": "multiInputField",
     },
     "COFR4W2": {
+        "location": "EfdliG",
+        "asset_type": "oXGwlA",
+        "funding_one": "ABROnB",
+        "funding_two": ["tSKhQQ", "UyaAHw"],
+        "funding_field_type": "multiInputField",
+    },
+    "COF25R1": {
         "location": "EfdliG",
         "asset_type": "oXGwlA",
         "funding_one": "ABROnB",
@@ -298,6 +318,83 @@ applicant_info_mapping = {
         },
     },
     COF_FUND_ID: {
+        "ASSESSOR_EXPORT": {
+            "form_fields": {
+                "SnLGJE": {
+                    "en": {"title": "Name of lead contact"},
+                    "cy": {"title": "Enw'r cyswllt arweiniol"},
+                },
+                "NlHSBg": {
+                    "en": {"title": "Lead contact email address"},
+                    "cy": {"title": "Cyfeiriad e-bost y cyswllt arweiniol"},
+                },
+                "FhBkJQ": {
+                    "en": {"title": "Lead contact telephone number"},
+                    "cy": {"title": "Rhif ffôn y cyswllt arweiniol"},
+                },
+                "ZQolYb": {
+                    "en": {
+                        "title": "Organisation address",
+                        "field_type": "ukAddressField",
+                    },
+                    "cy": {
+                        "title": "Cyfeiriad y sefydliad",
+                        "field_type": "ukAddressField",
+                    },
+                },
+                "VhkCbM": {
+                    "en": {
+                        "title": "Correspondence address",
+                        "field_type": "ukAddressField",
+                    },
+                    "cy": {
+                        "title": "Cyfeiriad gohebu",
+                        "field_type": "ukAddressField",
+                    },
+                },
+                "WWWWxy": {
+                    "en": {"title": "Your expression of interest (EOI) application reference"},
+                    "cy": {"title": "Cyfeirnod eich ffurflen mynegi diddordeb (EOI)."},
+                },
+                "YdtlQZ": {"en": {"title": "Organisation name"}, "cy": {"title": "Enw'r sefydliad"}},
+                "lajFtB": {
+                    "en": {
+                        "title": "Type of organisation",
+                        "field_type": "radiosField",
+                    },
+                    "cy": {
+                        "title": "Math o sefydliad",
+                        "field_type": "radiosField",
+                    },
+                },
+                "aHIGbK": {"en": {"title": "Charity number"}, "cy": {"title": "Rhif elusen"}},
+                "GlPmCX": {"en": {"title": "Company registration number"}, "cy": {"title": "Rhif cofrestru'r cwmni"}},
+                "oXGwlA": {
+                    "en": {
+                        "title": "Asset type",
+                        "field_type": "radiosField",
+                    },
+                    "cy": {
+                        "title": "Math o ased",
+                        "field_type": "radiosField",
+                    },
+                },
+                "aJGyCR": {"en": {"title": "Type of asset (other)"}, "cy": {"title": "Math o eiddo (arall)"}},
+                "EfdliG": {
+                    "en": {"title": "Postcode of asset", "field_type": "uk_postcode"},
+                    "cy": {"title": "Cod post o ased", "field_type": "uk_postcode"},
+                },
+                "ABROnB": {"en": {"title": "Capital funding request"}, "cy": {"title": "Cais cyllido cyfalaf"}},
+                "tSKhQQ": {
+                    "en": {"title": "Revenue costs (optional)", "field_type": "sum_list", "field_to_sum": "UyaAHw"},
+                    "cy": {"title": "Costau refeniw (dewisol)"},
+                },
+                "apGjFS": {"en": {"title": "Project name"}, "cy": {"title": "Enw'r prosiect"}},
+            }
+        },
+        "OUTPUT_TRACKER": {},
+    },
+    COF25_FUND_ID: {
         "ASSESSOR_EXPORT": {
             "form_fields": {
                 "SnLGJE": {
@@ -1085,6 +1182,11 @@ fund_round_mapping_config = {
         "fund_id": COF_FUND_ID,
         "round_id": COF_ROUND_4_W2_ID,
         "type_of_application": "COF",
+    },
+    "COF25R1": {
+        "fund_id": COF25_FUND_ID,
+        "round_id": COF25_ROUND_ID,
+        "type_of_application": "COF25",
     },
     "COFEOI": {
         "fund_id": COF_EOI_FUND_ID,
