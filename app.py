@@ -1,41 +1,44 @@
 from os import getenv
 
 import connexion
-from api.routes.application.routes import ApplicationsView  # noqa
-from config import Config
+import psycopg2
 from connexion import FlaskApp
 from connexion.resolver import MethodResolver
-from db.exceptions.application import ApplicationError
 from flask import jsonify
 from fsd_utils import init_sentry
-from fsd_utils.healthchecks.checkers import DbChecker
-from fsd_utils.healthchecks.checkers import FlaskRunningChecker
+from fsd_utils.healthchecks.checkers import DbChecker, FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
+from sqlalchemy_utils import Ltree
+
+from application_store.db.exceptions.application import ApplicationError
 from openapi.utils import get_bundled_specs
 
 
 def create_app() -> FlaskApp:
     init_sentry()
-
     connexion_app = connexion.App(
         __name__,
     )
 
     connexion_app.add_api(
-        get_bundled_specs("/openapi/api.yml"),
+        get_bundled_specs("fund_store/openapi/api.yml"),
+        validate_responses=True,
+        base_path="/fund",
+    )
+
+    connexion_app.add_api(
+        get_bundled_specs("application_store/openapi/api.yml"),
         validate_responses=True,
         resolver_error=501,
         resolver=MethodResolver("api"),
+        base_path="/application",
     )
 
-    # Configure Flask App
     flask_app = connexion_app.app
+    # TODO: Consolidate config
     flask_app.config.from_object("config.Config")
-
-    # Initialise logging
-    logging.init_app(flask_app)
 
     # Initialize sqs extended client
     create_sqs_extended_client(flask_app)
@@ -44,13 +47,28 @@ def create_app() -> FlaskApp:
 
     # Bind SQLAlchemy ORM to Flask app
     db.init_app(flask_app)
+
     # Bind Flask-Migrate db utilities to Flask app
     migrate.init_app(flask_app, db, directory="db/migrations", render_as_batch=True)
 
-    # Add healthchecks to flask_app
+    # Enable mapping of ltree datatype for sections
+    psycopg2.extensions.register_adapter(
+        Ltree, lambda ltree: psycopg2.extensions.QuotedString(str(ltree))
+    )
+
+    # Initialise logging
+    logging.init_app(flask_app)
+
     health = Healthcheck(flask_app)
     health.add_check(FlaskRunningChecker())
     health.add_check(DbChecker(db))
+
+    @flask_app.errorhandler(404)
+    def not_found(error):
+        flask_app.logger.warning("requested URL was not found on the server")
+        return jsonify(
+            {"code": 404, "message": "Requested URL was not found on the server"}
+        ), 404
 
     @flask_app.errorhandler(ApplicationError)
     def handle_application_error(error):
@@ -63,8 +81,10 @@ def create_app() -> FlaskApp:
 
 def create_sqs_extended_client(flask_app):
     if (
-        getenv("AWS_ACCESS_KEY_ID", "Access Key Not Available") == "Access Key Not Available"
-        and getenv("AWS_SECRET_ACCESS_KEY", "Secret Key Not Available") == "Secret Key Not Available"
+        getenv("AWS_ACCESS_KEY_ID", "Access Key Not Available")
+        == "Access Key Not Available"
+        and getenv("AWS_SECRET_ACCESS_KEY", "Secret Key Not Available")
+        == "Secret Key Not Available"
     ):
         flask_app.extensions["sqs_extended_client"] = SQSExtendedClient(
             region_name=Config.AWS_REGION,
