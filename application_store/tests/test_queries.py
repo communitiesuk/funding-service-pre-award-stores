@@ -3,26 +3,38 @@ from unittest.mock import ANY
 from uuid import uuid4
 
 import pytest
-from config.key_report_mappings.cof_eoi_key_report_mapping import COF_EOI_KEY_REPORT_MAPPING
-from config.key_report_mappings.cof_key_report_mapping import COF_KEY_REPORT_MAPPING
-from config.key_report_mappings.cof_r2_key_report_mapping import (
-    COF_R2_KEY_REPORT_MAPPING,
-)
-from config.key_report_mappings.cof_r3w2_key_report_mapping import (
-    COF_R3W2_KEY_REPORT_MAPPING,
-)
-from config.key_report_mappings.mappings import ROUND_ID_TO_KEY_REPORT_MAPPING
-from config.key_report_mappings.model import extract_postcode
-from config.key_report_mappings.model import KeyReportMapping
-from db.models import Applications
-from db.models import Forms
-from db.queries.application import create_application
-from db.queries.application import create_qa_base64file
-from db.queries.application import process_files
-from db.queries.reporting.queries import export_application_statuses_to_csv
-from db.queries.reporting.queries import map_application_key_fields
 from external_services.aws import FileData
 from external_services.models.fund import Fund
+
+from application_store.config.key_report_mappings.cof_eoi_key_report_mapping import (
+    COF_EOI_KEY_REPORT_MAPPING,
+)
+from application_store.config.key_report_mappings.cof_key_report_mapping import (
+    COF_KEY_REPORT_MAPPING,
+)
+from application_store.config.key_report_mappings.cof_r2_key_report_mapping import (
+    COF_R2_KEY_REPORT_MAPPING,
+)
+from application_store.config.key_report_mappings.cof_r3w2_key_report_mapping import (
+    COF_R3W2_KEY_REPORT_MAPPING,
+)
+from application_store.config.key_report_mappings.mappings import (
+    ROUND_ID_TO_KEY_REPORT_MAPPING,
+)
+from application_store.config.key_report_mappings.model import (
+    KeyReportMapping,
+    extract_postcode,
+)
+from application_store.db.models import Applications, Forms
+from application_store.db.queries.application import (
+    create_application,
+    create_qa_base64file,
+    process_files,
+)
+from application_store.db.queries.reporting.queries import (
+    export_application_statuses_to_csv,
+    map_application_key_fields,
+)
 from tests.seed_data.application_data import expected_application_json
 
 
@@ -35,7 +47,9 @@ from tests.seed_data.application_data import expected_application_json
         ("cy", False, "en"),
     ],
 )
-def test_create_application_language_choice(mocker, fund_supports_welsh, requested_language, exp_language):
+def test_create_application_language_choice(
+    mocker, fund_supports_welsh, requested_language, exp_language
+):
     mock_fund = Fund(
         "Generated test fund no welsh",
         str(uuid4()),
@@ -51,7 +65,9 @@ def test_create_application_language_choice(mocker, fund_supports_welsh, request
         return_value="new application",
     )
 
-    create_application(account_id="test", fund_id="", round_id="", language=requested_language)
+    create_application(
+        account_id="test", fund_id="", round_id="", language=requested_language
+    )
     mock_create_app_try.assert_called_once_with(
         account_id="test",
         fund_id=ANY,
@@ -82,9 +98,13 @@ def test_application_map_contents_and_base64_convertor(mocker, app):
             [],
         )
         mocker.patch("db.queries.application.queries.get_fund", return_value=mock_fund)
-        expected_json = create_qa_base64file(expected_json["content"]["application"], True)
+        expected_json = create_qa_base64file(
+            expected_json["content"]["application"], True
+        )
 
-        assert "Jack-Simon" in base64.b64decode(expected_json["questions_file"]).decode()
+        assert (
+            "Jack-Simon" in base64.b64decode(expected_json["questions_file"]).decode()
+        )
         assert "Yes" in base64.b64decode(expected_json["questions_file"]).decode()
         assert "No" in base64.b64decode(expected_json["questions_file"]).decode()
 
@@ -93,9 +113,33 @@ def test_application_map_contents_and_base64_convertor(mocker, app):
     "application, all_application_files, expected",
     [
         pytest.param(
-            Applications(forms=[Forms(json=[{"fields": [{"key": "not_a_file_component", "answer": None}]}])]),
+            Applications(
+                forms=[
+                    Forms(
+                        json=[
+                            {
+                                "fields": [
+                                    {"key": "not_a_file_component", "answer": None}
+                                ]
+                            }
+                        ]
+                    )
+                ]
+            ),
             [FileData("app1", "form1", "path1", "component1", "file1.docx")],
-            Applications(forms=[Forms(json=[{"fields": [{"key": "not_a_file_component", "answer": None}]}])]),
+            Applications(
+                forms=[
+                    Forms(
+                        json=[
+                            {
+                                "fields": [
+                                    {"key": "not_a_file_component", "answer": None}
+                                ]
+                            }
+                        ]
+                    )
+                ]
+            ),
             id="Irrelevant components are ignored",
         ),
         pytest.param(
@@ -111,20 +155,44 @@ def test_application_map_contents_and_base64_convertor(mocker, app):
             ],
             Applications(
                 forms=[
-                    Forms(json=[{"fields": [{"key": "component1", "answer": "file1.docx"}]}]),
-                    Forms(json=[{"fields": [{"key": "component2", "answer": "file2.docx"}]}]),
+                    Forms(
+                        json=[
+                            {"fields": [{"key": "component1", "answer": "file1.docx"}]}
+                        ]
+                    ),
+                    Forms(
+                        json=[
+                            {"fields": [{"key": "component2", "answer": "file2.docx"}]}
+                        ]
+                    ),
                 ]
             ),
             id="Multiple forms all work as expected",
         ),
         pytest.param(
-            Applications(forms=[Forms(json=[{"fields": [{"key": "component1", "answer": None}]}])]),
+            Applications(
+                forms=[
+                    Forms(json=[{"fields": [{"key": "component1", "answer": None}]}])
+                ]
+            ),
             [FileData("app1", "form1", "path1", "component1", "file1.docx")],
-            Applications(forms=[Forms(json=[{"fields": [{"key": "component1", "answer": "file1.docx"}]}])]),
+            Applications(
+                forms=[
+                    Forms(
+                        json=[
+                            {"fields": [{"key": "component1", "answer": "file1.docx"}]}
+                        ]
+                    )
+                ]
+            ),
             id="Single file available for a component",
         ),
         pytest.param(
-            Applications(forms=[Forms(json=[{"fields": [{"key": "component1", "answer": None}]}])]),
+            Applications(
+                forms=[
+                    Forms(json=[{"fields": [{"key": "component1", "answer": None}]}])
+                ]
+            ),
             [
                 FileData("app1", "form1", "path1", "component1", "file1.docx"),
                 FileData("app1", "form1", "path2", "component1", "file2.pdf"),
@@ -298,7 +366,10 @@ def test_application_status_csv(data, lines_exp):
     result = export_application_statuses_to_csv(data)
     assert result
     lines = result.readlines()
-    assert lines[0].decode().strip() == "fund_id,round_id,NOT_STARTED,IN_PROGRESS,COMPLETED,SUBMITTED"
+    assert (
+        lines[0].decode().strip()
+        == "fund_id,round_id,NOT_STARTED,IN_PROGRESS,COMPLETED,SUBMITTED"
+    )
     idx = 1
     for line in lines_exp:
         assert lines[idx].decode().strip() == line
@@ -489,21 +560,46 @@ def test_extract_postcode(input_str, expected_output):
         ),
     ],
 )
-def test_map_application_key_fields(key_report_mapping: KeyReportMapping, application, expected_output):
-    result = map_application_key_fields(application, key_report_mapping.mapping, key_report_mapping.round_id)
+def test_map_application_key_fields(
+    key_report_mapping: KeyReportMapping, application, expected_output
+):
+    result = map_application_key_fields(
+        application, key_report_mapping.mapping, key_report_mapping.round_id
+    )
     assert result == expected_output
 
 
 @pytest.mark.parametrize(
     "round_id, exp_mapping",
     [
-        ("c603d114-5364-4474-a0c4-c41cbf4d3bbd", COF_R2_KEY_REPORT_MAPPING.mapping),  # COF R2W2
-        ("5cf439bf-ef6f-431e-92c5-a1d90a4dd32f", COF_R2_KEY_REPORT_MAPPING.mapping),  # COF R2W3
-        ("e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762", COF_R2_KEY_REPORT_MAPPING.mapping),  # COF R3W1
-        ("6af19a5e-9cae-4f00-9194-cf10d2d7c8a7", COF_R3W2_KEY_REPORT_MAPPING.mapping),  # COF R3W2
-        ("4efc3263-aefe-4071-b5f4-0910abec12d2", COF_KEY_REPORT_MAPPING.mapping),  # COF R3W3
-        ("33726b63-efce-4749-b149-20351346c76e", COF_KEY_REPORT_MAPPING.mapping),  # COF R4W1
-        ("6a47c649-7bac-4583-baed-9c4e7a35c8b3", COF_EOI_KEY_REPORT_MAPPING.mapping),  # COF EOI
+        (
+            "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+            COF_R2_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R2W2
+        (
+            "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f",
+            COF_R2_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R2W3
+        (
+            "e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762",
+            COF_R2_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R3W1
+        (
+            "6af19a5e-9cae-4f00-9194-cf10d2d7c8a7",
+            COF_R3W2_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R3W2
+        (
+            "4efc3263-aefe-4071-b5f4-0910abec12d2",
+            COF_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R3W3
+        (
+            "33726b63-efce-4749-b149-20351346c76e",
+            COF_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R4W1
+        (
+            "6a47c649-7bac-4583-baed-9c4e7a35c8b3",
+            COF_EOI_KEY_REPORT_MAPPING.mapping,
+        ),  # COF EOI
         ("asdf-wer-234-sdf-234", COF_R2_KEY_REPORT_MAPPING.mapping),  # any ID
     ],
 )

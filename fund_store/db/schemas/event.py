@@ -1,13 +1,10 @@
 from marshmallow import fields
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow_sqlalchemy import auto_field
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 
-from db.models.event import Event
-from db.models.event import EventType
+from fund_store.db.models.event import Event, EventType
 
 
 class EventSchema(SQLAlchemyAutoSchema):
-
     class Meta:
         model = Event
 

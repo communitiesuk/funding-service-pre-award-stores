@@ -1,4 +1,4 @@
-from external_services import get_application_sections
+from application_store.external_services import get_application_sections
 
 
 def get_form_name(section):
@@ -36,4 +36,6 @@ def get_blank_forms(fund_id: str, round_id: str, language: str):
         if not forms:
             raise Exception(f"Could not find forms for {fund_id} - {round_id}")
         return forms
-    raise Exception(f"Could not find fund round for {fund_id} - {round_id}  in fund store.")
+    raise Exception(
+        f"Could not find fund round for {fund_id} - {round_id}  in fund store."
+    )

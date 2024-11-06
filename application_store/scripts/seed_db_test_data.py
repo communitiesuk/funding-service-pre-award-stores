@@ -4,16 +4,16 @@ import click
 
 sys.path.insert(1, ".")
 
-from app import app  # noqa: E402
-from db.models.application.applications import Status  # noqa: E402
 from fsd_test_utils.test_config.useful_config import UsefulConfig  # noqa: E402
-from tests.seed_data.seed_db import seed_in_progress_application  # noqa: E402
 from tests.seed_data.seed_db import (  # noqa: E402
-    seed_not_started_application,
     seed_completed_application,
+    seed_in_progress_application,  # noqa: E402
+    seed_not_started_application,
     seed_submitted_application,
 )  # noqa: E402
 
+from app import app  # noqa: E402
+from application_store.db.models.application.applications import Status  # noqa: E402
 
 FUND_CONFIG = {
     "COF": {
@@ -85,7 +85,9 @@ FUND_CONFIG = {
     help="Target status for seeded applications",
     prompt=True,
 )
-@click.option("--count", default=1, help="Number of applications to create", prompt=True)
+@click.option(
+    "--count", default=1, help="Number of applications to create", prompt=True
+)
 def seed_applications(fund_short_code, round_short_code, account_id, status, count):
     language = "en"
 

@@ -4,9 +4,10 @@ import re
 import urllib
 from datetime import datetime
 
-from config import Config
-from db.models.application.enums import Language
 from deepdiff import DeepDiff
+
+from application_store.db.models.application.enums import Language
+from config import Config
 
 
 def get_row_by_pk(table, primary_key):
@@ -74,7 +75,11 @@ def expected_data_within_response(
     elif method == "post":
         response = test_client.post(endpoint, data=data, follow_redirects=True)
     else:
-        response = test_client.get(endpoint, follow_redirects=True, headers={"Content-Type": "application/json"})
+        response = test_client.get(
+            endpoint,
+            follow_redirects=True,
+            headers={"Content-Type": "application/json"},
+        )
     response_content = json.loads(response.content)
     diff = DeepDiff(
         expected_data,
@@ -324,11 +329,13 @@ def key_list_to_regex(
         "project_name",
         "last_edited",
         "date_submitted",
-    ]
+    ],
 ):
     exclude_regex_path_strings = [rf"root\[\d+\]\['{key}'\]" for key in exclude_keys]
 
-    exclude_regex_path_strings_nested = [rf"root\[\d+\]\['{key}'\]\[\d+\]" for key in exclude_keys]
+    exclude_regex_path_strings_nested = [
+        rf"root\[\d+\]\['{key}'\]\[\d+\]" for key in exclude_keys
+    ]
 
     regex_paths = exclude_regex_path_strings + exclude_regex_path_strings_nested
     return [re.compile(regex_string) for regex_string in regex_paths]

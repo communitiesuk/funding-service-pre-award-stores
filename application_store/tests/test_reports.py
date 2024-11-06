@@ -1,8 +1,8 @@
 import pytest
-from db.models import Applications
-from db.models.application.enums import Status
-from tests.helpers import get_row_by_pk
-from tests.helpers import test_application_data
+
+from application_store.db.models import Applications
+from application_store.db.models.application.enums import Status
+from tests.helpers import get_row_by_pk, test_application_data
 
 
 @pytest.mark.apps_to_insert(test_application_data)
@@ -14,9 +14,18 @@ def test_get_application_statuses_csv(flask_test_client, seed_application_record
 
     lines = response.content.decode("utf-8").split("\r\n")
     assert lines[0] == "fund_id,round_id,NOT_STARTED,IN_PROGRESS,COMPLETED,SUBMITTED"
-    assert f"{test_application_data[0]['fund_id']},{test_application_data[0]['round_id']},1,0,0,0" in lines
-    assert f"{test_application_data[1]['fund_id']},{test_application_data[1]['round_id']},1,0,0,0" in lines
-    assert f"{test_application_data[2]['fund_id']},{test_application_data[2]['round_id']},1,0,0,0" in lines
+    assert (
+        f"{test_application_data[0]['fund_id']},{test_application_data[0]['round_id']},1,0,0,0"
+        in lines
+    )
+    assert (
+        f"{test_application_data[1]['fund_id']},{test_application_data[1]['round_id']},1,0,0,0"
+        in lines
+    )
+    assert (
+        f"{test_application_data[2]['fund_id']},{test_application_data[2]['round_id']},1,0,0,0"
+        in lines
+    )
 
     app = get_row_by_pk(Applications, seed_application_records[0].id)
     app.status = "IN_PROGRESS"
@@ -30,9 +39,18 @@ def test_get_application_statuses_csv(flask_test_client, seed_application_record
 
     lines = response.content.decode("utf-8").split("\r\n")
     assert lines[0] == "fund_id,round_id,NOT_STARTED,IN_PROGRESS,COMPLETED,SUBMITTED"
-    assert f"{test_application_data[0]['fund_id']},{test_application_data[0]['round_id']},0,1,0,0" in lines
-    assert f"{test_application_data[1]['fund_id']},{test_application_data[1]['round_id']},1,0,0,0" in lines
-    assert f"{test_application_data[2]['fund_id']},{test_application_data[2]['round_id']},1,0,0,0" in lines
+    assert (
+        f"{test_application_data[0]['fund_id']},{test_application_data[0]['round_id']},0,1,0,0"
+        in lines
+    )
+    assert (
+        f"{test_application_data[1]['fund_id']},{test_application_data[1]['round_id']},1,0,0,0"
+        in lines
+    )
+    assert (
+        f"{test_application_data[2]['fund_id']},{test_application_data[2]['round_id']},1,0,0,0"
+        in lines
+    )
 
 
 user_lang = {
@@ -120,16 +138,26 @@ def test_get_application_statuses_json_multi_fund(
     assert result
     funds = result["metrics"]
     for fund_id in fund_ids:
-        assert len([fund["fund_id"] for fund in funds if fund["fund_id"] == fund_id]) == 1
+        assert (
+            len([fund["fund_id"] for fund in funds if fund["fund_id"] == fund_id]) == 1
+        )
         total_ip = 0
         total_ns = 0
         total_c = 0
         total_s = 0
         for f in funds:
-            total_ns += sum([r["application_statuses"]["NOT_STARTED"] for r in f["rounds"]])
-            total_ip += sum([r["application_statuses"]["IN_PROGRESS"] for r in f["rounds"]])
-            total_c += sum([r["application_statuses"]["COMPLETED"] for r in f["rounds"]])
-            total_s += sum([r["application_statuses"]["SUBMITTED"] for r in f["rounds"]])
+            total_ns += sum(
+                [r["application_statuses"]["NOT_STARTED"] for r in f["rounds"]]
+            )
+            total_ip += sum(
+                [r["application_statuses"]["IN_PROGRESS"] for r in f["rounds"]]
+            )
+            total_c += sum(
+                [r["application_statuses"]["COMPLETED"] for r in f["rounds"]]
+            )
+            total_s += sum(
+                [r["application_statuses"]["SUBMITTED"] for r in f["rounds"]]
+            )
         assert total_ns == exp_not_started
         assert total_ip == exp_in_progress
         assert total_c == exp_completed
@@ -231,7 +259,9 @@ def test_get_applications_report_by_round_is_and_fund_id(
         ]
     }
 )
-def test_get_applications_report_query_param(flask_test_client, seed_data_multiple_funds_rounds, mock_get_round):
+def test_get_applications_report_query_param(
+    flask_test_client, seed_data_multiple_funds_rounds, mock_get_round
+):
     response = flask_test_client.get(
         "/applications/reporting/key_application_metrics?status=IN_PROGRESS&"
         + f"fund_id={seed_data_multiple_funds_rounds[0].fund_id}&round_id="
@@ -244,8 +274,7 @@ def test_get_applications_report_query_param(flask_test_client, seed_data_multip
 
     lines = [line.decode("utf-8") for line in response.content.splitlines()]
     assert (
-        lines[0]
-        == "eoi_reference,organisation_name,organisation_type,asset_type,"
+        lines[0] == "eoi_reference,organisation_name,organisation_type,asset_type,"
         "geography,capital,revenue,organisation_name_nstf"
     )
 

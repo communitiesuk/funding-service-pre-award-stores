@@ -1,5 +1,7 @@
-from config.key_report_mappings.model import FormMappingItem
-from config.key_report_mappings.model import KeyReportMapping
+from application_store.config.key_report_mappings.model import (
+    FormMappingItem,
+    KeyReportMapping,
+)
 
 CYP_R1_KEY_REPORT_MAPPING = KeyReportMapping(
     round_id="888aae3d-7e2c-4523-b9c1-95952b3d1644",

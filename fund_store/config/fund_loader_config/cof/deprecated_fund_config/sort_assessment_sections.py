@@ -1,7 +1,5 @@
-from config.fund_loader_config.cof.deprecated_fund_config.assessment_section_config import (
+from fund_store.config.fund_loader_config.cof.deprecated_fund_config.assessment_section_config import (
     scored_sections,
-)
-from config.fund_loader_config.cof.deprecated_fund_config.assessment_section_config import (
     unscored_sections,
 )
 
@@ -14,7 +12,9 @@ def map_fields(fields, all_fields):
         # therefore give them the same display order
         if type(field["field_id"]) is list:
             for index, grouped_field in enumerate(field["field_id"]):
-                ordered_fields.append({"form_json_id": grouped_field, "display_order": 10 * (index + 1)})
+                ordered_fields.append(
+                    {"form_json_id": grouped_field, "display_order": 10 * (index + 1)}
+                )
                 all_fields.append(
                     {
                         "form_json_id": grouped_field,
@@ -24,7 +24,9 @@ def map_fields(fields, all_fields):
                     }
                 )
         else:
-            ordered_fields.append({"form_json_id": field["field_id"], "display_order": 10 * (index + 1)})
+            ordered_fields.append(
+                {"form_json_id": field["field_id"], "display_order": 10 * (index + 1)}
+            )
             all_fields.append(
                 {
                     "form_json_id": field["field_id"],
@@ -57,18 +59,26 @@ def alpha_numeric_sort_section(
         next_level_key = None
 
     # If there is a parent tree path then this should prepend the current tree path
-    tree_path = f"{parent_tree_path}.{current_tree_path}" if parent_tree_path else current_tree_path
+    tree_path = (
+        f"{parent_tree_path}.{current_tree_path}"
+        if parent_tree_path
+        else current_tree_path
+    )
 
     # Add current section
     new_section = {
         "section_name": section_config["id"],
         "tree_path": tree_path,
-        "weighting": section_config["weighting"] if "weighting" in section_config else None,
+        "weighting": section_config["weighting"]
+        if "weighting" in section_config
+        else None,
     }
 
     # Check if this section has field_ids and then add section
     if "answers" in section_config:
-        all_an_sorted_sections += [{**new_section, "fields": map_fields(section_config["answers"], all_fields)}]
+        all_an_sorted_sections += [
+            {**new_section, "fields": map_fields(section_config["answers"], all_fields)}
+        ]
     else:
         all_an_sorted_sections += [{**new_section}]
 
@@ -89,18 +99,28 @@ def alpha_numeric_sort_section(
 def sort_sections_from_config(sections_config, sub_keys, all_fields, starting_path):
     all_an_sorted_sections = []
     for index, sc in enumerate(sections_config):
-        alpha_numeric_sort_section(index, sc, all_an_sorted_sections, all_fields, sub_keys, starting_path, 0)
+        alpha_numeric_sort_section(
+            index, sc, all_an_sorted_sections, all_fields, sub_keys, starting_path, 0
+        )
     return all_an_sorted_sections
 
 
-def return_numerically_sorted_section_for_assessment(scored_sections, unscored_sections):
+def return_numerically_sorted_section_for_assessment(
+    scored_sections, unscored_sections
+):
     sub_keys = ["sub_criteria", "themes"]
     all_fields = []
     return {
-        "sorted_scored_sections": sort_sections_from_config(scored_sections, sub_keys, all_fields, 1),
-        "sorted_unscored_sections": sort_sections_from_config(unscored_sections, sub_keys, all_fields, 2),
+        "sorted_scored_sections": sort_sections_from_config(
+            scored_sections, sub_keys, all_fields, 1
+        ),
+        "sorted_unscored_sections": sort_sections_from_config(
+            unscored_sections, sub_keys, all_fields, 2
+        ),
         "all_fields": all_fields,
     }
 
 
-sorted_sections_and_field_ids = return_numerically_sorted_section_for_assessment(scored_sections, unscored_sections)
+sorted_sections_and_field_ids = return_numerically_sorted_section_for_assessment(
+    scored_sections, unscored_sections
+)

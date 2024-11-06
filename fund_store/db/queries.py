@@ -14,14 +14,14 @@ from sqlalchemy.sql import expression
 from sqlalchemy_utils import Ltree
 from sqlalchemy_utils.types.ltree import LQUERY
 
-from db import db
-from db.models.event import Event
-from db.models.form_name import FormName
-from db.models.fund import Fund
-from db.models.round import Round
-from db.models.section import AssessmentField
-from db.models.section import Section
-from db.models.section import SectionField
+from fund_store.db import db
+from fund_store.db.models.event import Event
+from fund_store.db.models.form_name import FormName
+from fund_store.db.models.fund import Fund
+from fund_store.db.models.round import Round
+from fund_store.db.models.section import AssessmentField
+from fund_store.db.models.section import Section
+from fund_store.db.models.section import SectionField
 
 
 def get_all_funds() -> List[Fund]:

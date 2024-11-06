@@ -9,9 +9,9 @@ from config import Config
 from flask import abort
 from flask import current_app
 
-from .models.account import Account
-from .models.fund import Fund
-from .models.round import Round
+from application_store.external_services.models.account import Account
+from application_store.external_services.models.fund import Fund
+from application_store.external_services.models.round import Round
 
 
 def get_data(endpoint: str, params: Optional[dict] = None):

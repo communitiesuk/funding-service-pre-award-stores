@@ -1,8 +1,8 @@
-from db.models import Forms
-from db.models.forms.enums import Status
 from marshmallow.fields import Enum
-from marshmallow_sqlalchemy import auto_field
-from marshmallow_sqlalchemy import SQLAlchemySchema
+from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
+
+from application_store.db.models import Forms
+from application_store.db.models.forms.enums import Status
 
 
 class FormsRunnerSchema(SQLAlchemySchema):

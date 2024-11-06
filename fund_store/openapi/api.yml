@@ -12,7 +12,7 @@ paths:
         - Funds
       summary: Returns list of all funds
       description: Returns list of all funds
-      operationId: api.routes.get_funds
+      operationId: fund_store.api.routes.get_funds
       responses:
         200:
           description: "List all funds."
@@ -30,7 +30,7 @@ paths:
                   $ref: 'components.yml#/components/schemas/Error'
   /funds/{fund_id}:
     get:
-      operationId: api.routes.get_fund
+      operationId: fund_store.api.routes.get_fund
       tags:
         - Funds
       parameters:
@@ -64,7 +64,7 @@ paths:
         - Rounds
       summary: Returns the data on a specified round for a specific fund.
       description: Given a fund ID and a round ID we return the relavant round data.
-      operationId: api.routes.get_round
+      operationId: fund_store.api.routes.get_round
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
         - $ref: "components.yml#/components/parameters/round_id"
@@ -96,7 +96,7 @@ paths:
         - Rounds
       summary: Returns the EOI decision schema for the specified round
       description: Given a fund ID and a round ID we return the relavant round data.
-      operationId: api.routes.get_eoi_deicision_schema_for_round
+      operationId: fund_store.api.routes.get_eoi_deicision_schema_for_round
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
         - $ref: "components.yml#/components/parameters/round_id"
@@ -128,7 +128,7 @@ paths:
         - Rounds
       summary: Returns the events set for the specified round
       description: Given a fund ID and a round ID we return the associated events.
-      operationId: api.routes.get_events_for_round
+      operationId: fund_store.api.routes.get_events_for_round
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
         - $ref: "components.yml#/components/parameters/round_id"
@@ -156,7 +156,7 @@ paths:
         - Rounds
       summary: Returns the event with the given fund, round and event IDs.
       description: Returns the event with the given fund, round and event IDs.
-      operationId: api.routes.get_event_for_round
+      operationId: fund_store.api.routes.get_event_for_round
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
         - $ref: "components.yml#/components/parameters/round_id"
@@ -183,7 +183,7 @@ paths:
         - Rounds
       summary: Updates the event
       description: Updates the event to be marked as processed
-      operationId: api.routes.set_round_event_to_processed
+      operationId: fund_store.api.routes.set_round_event_to_processed
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
         - $ref: "components.yml#/components/parameters/round_id"
@@ -216,7 +216,7 @@ paths:
         - Rounds
       summary: Updates the application reminder sent status to True
       description: Updates the application reminder sent status to True
-      operationId: api.routes.update_application_reminder_sent_status
+      operationId: fund_store.api.routes.update_application_reminder_sent_status
       parameters:
         - $ref: "components.yml#/components/parameters/round_id"
         - name: status
@@ -243,7 +243,7 @@ paths:
         - Static values
       summary: Returns list of all available allocations for flags for this round
       description: Returns list of all flag allocations
-      operationId: api.routes.get_available_flag_allocations
+      operationId: fund_store.api.routes.get_available_flag_allocations
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
         - $ref: "components.yml#/components/parameters/round_id"
@@ -266,7 +266,7 @@ paths:
         - Rounds
       summary: Given a fund ID we return all rounds for that fund.
       description: Given a fund ID we return all rounds for that fund.
-      operationId: api.routes.get_rounds_for_fund
+      operationId: fund_store.api.routes.get_rounds_for_fund
       parameters:
         - in: path
           name: fund_id
@@ -299,7 +299,7 @@ paths:
         - Sections
       summary: Returns the application sections for the given round
       description: Given a fund ID and a round ID we return the display sections for Application
-      operationId: api.routes.get_sections_for_round_application
+      operationId: fund_store.api.routes.get_sections_for_round_application
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
         - $ref: "components.yml#/components/parameters/round_id"
@@ -318,7 +318,7 @@ paths:
         - Sections
       summary: Returns the assessment sections for the given round
       description: Given a fund ID and a round ID we return the display sections for assessment
-      operationId: api.routes.get_sections_for_round_assessment
+      operationId: fund_store.api.routes.get_sections_for_round_assessment
       parameters:
         - $ref: "components.yml#/components/parameters/fund_id"
         - $ref: "components.yml#/components/parameters/round_id"
@@ -335,7 +335,7 @@ paths:
     get:
       summary: Returns all the event that are of a given type.
       description: Returns all the event that are of a given type.
-      operationId: api.routes.get_events_by_type
+      operationId: fund_store.api.routes.get_events_by_type
       parameters:
         - name: type
           in: path
@@ -359,7 +359,7 @@ paths:
     post:
       summary: Creates an event with the supplied parameters
       description: Returns the event that has been created
-      operationId: api.routes.create_event
+      operationId: fund_store.api.routes.create_event
       responses:
         201:
           description: SUCCESS - Event created
@@ -387,7 +387,7 @@ paths:
     get:
       summary: Returns the event with the given event ID.
       description: Returns the event with the given event ID.
-      operationId: api.routes.get_event_by_id
+      operationId: fund_store.api.routes.get_event_by_id
       parameters:
         - name: event_id
           in: path
@@ -410,7 +410,7 @@ paths:
     put:
       summary: Updates the event
       description: Updates the event to be marked as processed
-      operationId: api.routes.set_event_to_processed
+      operationId: fund_store.api.routes.set_event_to_processed
       parameters:
         - name: event_id
           in: path

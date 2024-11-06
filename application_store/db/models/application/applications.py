@@ -1,16 +1,13 @@
 import uuid
 
-from db import db
-from db.models.application.enums import Language
-from db.models.application.enums import Status
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import Column
-from sqlalchemy import DateTime
-from sqlalchemy.dialects.postgresql import ENUM
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, DateTime
+from sqlalchemy.dialects.postgresql import ENUM, UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
+from db import db
+from application_store.db.models.application.enums import Language, Status
 
 BaseModel: DefaultMeta = db.Model
 
@@ -43,10 +40,14 @@ class Applications(BaseModel):
     feedbacks = relationship("Feedback")
     end_of_application_survey = relationship("EndOfApplicationSurveyFeedback")
 
-    __table_args__ = (db.UniqueConstraint("fund_id", "round_id", "key", name="_reference"),)
+    __table_args__ = (
+        db.UniqueConstraint("fund_id", "round_id", "key", name="_reference"),
+    )
 
     def as_dict(self):
-        date_submitted = self.date_submitted.isoformat() if self.date_submitted else "null"
+        date_submitted = (
+            self.date_submitted.isoformat() if self.date_submitted else "null"
+        )
         return {
             "id": str(self.id),
             "account_id": self.account_id,

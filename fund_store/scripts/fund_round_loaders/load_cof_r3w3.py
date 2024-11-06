@@ -1,16 +1,22 @@
 # flake8: noqa
-from config.fund_loader_config.cof.cof_r3 import APPLICATION_BASE_PATH_COF_R3_W3
-from config.fund_loader_config.cof.cof_r3 import ASSESSMENT_BASE_PATH_COF_R3_W3
-from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_3_ID
-from config.fund_loader_config.cof.cof_r3 import cof_r3w3_sections
-from config.fund_loader_config.cof.cof_r3 import round_config_w3
-from db.queries import insert_base_sections
-from db.queries import insert_or_update_application_sections
-from db.queries import upsert_round_data
+from fund_store.config.fund_loader_config.cof.cof_r3 import (
+    APPLICATION_BASE_PATH_COF_R3_W3,
+)
+from fund_store.config.fund_loader_config.cof.cof_r3 import (
+    ASSESSMENT_BASE_PATH_COF_R3_W3,
+)
+from fund_store.config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_3_ID
+from fund_store.config.fund_loader_config.cof.cof_r3 import cof_r3w3_sections
+from fund_store.config.fund_loader_config.cof.cof_r3 import round_config_w3
+from fund_store.db.queries import insert_base_sections
+from fund_store.db.queries import insert_or_update_application_sections
+from fund_store.db.queries import upsert_round_data
 
 
 def main() -> None:
-    print("'insert_fund_config(...)' not required as COFR3W3 shares the same fund config from COFR3w1.")
+    print(
+        "'insert_fund_config(...)' not required as COFR3W3 shares the same fund config from COFR3w1."
+    )
     print("Inserting round data.")
     upsert_round_data(round_config_w3)
 

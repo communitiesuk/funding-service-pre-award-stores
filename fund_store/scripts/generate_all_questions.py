@@ -9,9 +9,11 @@ sys.path.insert(1, ".")
 from airium import Airium  # noqa: E402
 
 from app import create_app  # noqa: E402
-from db.models.section import Section  # noqa: E402
-from db.queries import get_application_sections_for_round  # noqa: E402
-from db.queries import get_round_by_short_name  # noqa: E402
+from fund_store.db.models.section import Section  # noqa: E402
+from fund_store.db.queries import (
+    get_application_sections_for_round,  # noqa: E402
+    get_round_by_short_name,  # noqa: E402
+)
 from scripts.all_questions.metadata_utils import (  # noqa: E402
     generate_print_data_for_sections,
 )
@@ -104,7 +106,9 @@ def print_html(sections: dict) -> str:
         for anchor, details in sections.items():
             if anchor == "assessment_display_info":
                 continue
-            air.hr(klass="govuk-section-break govuk-section-break--l govuk-section-break--visible")
+            air.hr(
+                klass="govuk-section-break govuk-section-break--l govuk-section-break--visible"
+            )
 
             # Print each section header, with anchor
             with air.h2(klass="govuk-heading-l", id=anchor):
@@ -185,10 +189,16 @@ def generate_all_questions(
     with app.app.app_context():
         round = get_round_by_short_name(fund_short_code, round_short_code)
         if not round:
-            raise NameError(f"Round {round_short_code} does not exist in fund {fund_short_code}")
-        sections: list[Section] = get_application_sections_for_round(round.fund_id, round.id)
+            raise NameError(
+                f"Round {round_short_code} does not exist in fund {fund_short_code}"
+            )
+        sections: list[Section] = get_application_sections_for_round(
+            round.fund_id, round.id
+        )
 
-        path_to_form_jsons = find_forms_dir(forms_dir, fund_short_code, round_short_code, lang)
+        path_to_form_jsons = find_forms_dir(
+            forms_dir, fund_short_code, round_short_code, lang
+        )
 
         section_map = generate_print_data_for_sections(
             sections=sections,

@@ -7,8 +7,8 @@ from sqlalchemy.sql import func
 from sqlalchemy_json import NestedMutableJson
 
 from db import db
-from db.models.application.applications import Applications
-from db.models.application.enums import Status
+from application_store.db.models.application.applications import Applications
+from application_store.db.models.application.enums import Status
 
 BaseModel: DefaultMeta = db.Model
 

@@ -4,13 +4,19 @@ from sqlalchemy_utils import Ltree
 
 import config.fund_loader_config.night_shelter.ns_r2 as ns_r2
 from db import db
-from db.models.section import Section
+from fund_store.db.models.section import Section
 
 
 def update_section_weightings(section):
-    current_app.logger.warning(f"\tSection: {section['tree_path']} ({section['section_name']['en']})")
+    current_app.logger.warning(
+        f"\tSection: {section['tree_path']} ({section['section_name']['en']})"
+    )
     current_app.logger.warning("\t\tUpdating weighting")
-    stmt = update(Section).where(Section.path == Ltree(section["tree_path"])).values(weighting=section["weighting"])
+    stmt = (
+        update(Section)
+        .where(Section.path == Ltree(section["tree_path"]))
+        .values(weighting=section["weighting"])
+    )
 
     db.session.execute(stmt)
     db.session.commit()

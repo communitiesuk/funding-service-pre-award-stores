@@ -1,13 +1,15 @@
 import pytest
 
-from db.models.fund import FundingType
-from db.queries import get_all_funds
-from db.queries import get_fund_by_id
-from db.queries import get_fund_by_short_name
-from db.queries import get_round_by_id
-from db.queries import get_round_by_short_name
-from db.queries import get_rounds_for_fund_by_id
-from db.queries import get_rounds_for_fund_by_short_name
+from fund_store.db.models.fund import FundingType
+from fund_store.db.queries import (
+    get_all_funds,
+    get_fund_by_id,
+    get_fund_by_short_name,
+    get_round_by_id,
+    get_round_by_short_name,
+    get_rounds_for_fund_by_id,
+    get_rounds_for_fund_by_short_name,
+)
 
 
 def test_get_fund_by_id(seed_dynamic_data):

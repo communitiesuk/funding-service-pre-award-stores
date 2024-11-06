@@ -4,7 +4,7 @@ from sqlalchemy import update
 import config.fund_loader_config.cof.cof_r2 as cof_r2
 import config.fund_loader_config.cof.cof_r3 as cof_r3
 from db import db
-from db.models.round import Round
+from fund_store.db.models.round import Round
 
 
 def update_rounds_with_application_guidance(rounds):
@@ -13,7 +13,9 @@ def update_rounds_with_application_guidance(rounds):
         if round.get("application_guidance"):
             current_app.logger.info("\t\tUpdating application_guidance")
             stmt = (
-                update(Round).where(Round.id == round["id"]).values(application_guidance=round["application_guidance"])
+                update(Round)
+                .where(Round.id == round["id"])
+                .values(application_guidance=round["application_guidance"])
             )
 
             db.session.execute(stmt)

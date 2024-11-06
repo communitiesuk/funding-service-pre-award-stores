@@ -1,15 +1,18 @@
 from unittest.mock import MagicMock
 
 import pytest
-from db.queries.statuses.queries import _determine_question_page_status_from_answers
-from db.queries.statuses.queries import _is_all_sections_feedback_complete
-from db.queries.statuses.queries import _is_feedback_survey_complete
-from db.queries.statuses.queries import _is_field_answered
-from db.queries.statuses.queries import _is_research_survey_complete
-from db.queries.statuses.queries import update_application_status
-from db.queries.statuses.queries import update_form_status
-from db.queries.statuses.queries import update_question_page_statuses
 from external_services.models.round import FeedbackSurveyConfig
+
+from application_store.db.queries.statuses.queries import (
+    _determine_question_page_status_from_answers,
+    _is_all_sections_feedback_complete,
+    _is_feedback_survey_complete,
+    _is_field_answered,
+    _is_research_survey_complete,
+    update_application_status,
+    update_form_status,
+    update_question_page_statuses,
+)
 
 
 @pytest.mark.parametrize(
@@ -49,7 +52,9 @@ def test_update_question_statuses_with_mocks(mocker):
         "db.queries.statuses.queries._determine_question_page_status_from_answers",
         return_value="NOT_STARTED",
     )
-    mock_answer_status = mocker.patch("db.queries.statuses.queries._determine_answer_status_for_fields")
+    mock_answer_status = mocker.patch(
+        "db.queries.statuses.queries._determine_answer_status_for_fields"
+    )
 
     test_json = [{"fields": [], "status": None}, {"fields": [], "status": None}]
 
@@ -220,7 +225,9 @@ def test_update_form_status(
                 "fields": [{"answer": mark_as_complete}],
             },
         )
-    update_form_status(form_to_update, round_mark_as_complete_enabled, is_summary_submit)
+    update_form_status(
+        form_to_update, round_mark_as_complete_enabled, is_summary_submit
+    )
     assert form_to_update.status == exp_status
     assert form_to_update.has_completed == exp_has_completed
 
@@ -267,7 +274,9 @@ def test_update_form_status(
         ),
     ],
 )
-def test_is_all_sections_feedback_complete(mocker, app_sections, feedback_for_sections, exp_result):
+def test_is_all_sections_feedback_complete(
+    mocker, app_sections, feedback_for_sections, exp_result
+):
     mocker.patch(
         "db.queries.statuses.queries.get_application_sections",
         return_value=app_sections,
@@ -315,20 +324,42 @@ def test_is_feedback_survey_complete(mocker, end_survey_data, exp_result):
         ),
         (
             MagicMock(
-                data={"research_opt_in": "agree", "contact_name": "John Doe", "contact_email": "john@example.com"}
+                data={
+                    "research_opt_in": "agree",
+                    "contact_name": "John Doe",
+                    "contact_email": "john@example.com",
+                }
             ),
             True,
         ),
         (
-            MagicMock(data={"research_opt_in": "agree", "contact_name": None, "contact_email": "john@example.com"}),
+            MagicMock(
+                data={
+                    "research_opt_in": "agree",
+                    "contact_name": None,
+                    "contact_email": "john@example.com",
+                }
+            ),
             False,
         ),
         (
-            MagicMock(data={"research_opt_in": "agree", "contact_name": "John Doe", "contact_email": None}),
+            MagicMock(
+                data={
+                    "research_opt_in": "agree",
+                    "contact_name": "John Doe",
+                    "contact_email": None,
+                }
+            ),
             False,
         ),
         (
-            MagicMock(data={"research_opt_in": "agree", "contact_name": None, "contact_email": None}),
+            MagicMock(
+                data={
+                    "research_opt_in": "agree",
+                    "contact_name": None,
+                    "contact_email": None,
+                }
+            ),
             False,
         ),
     ],

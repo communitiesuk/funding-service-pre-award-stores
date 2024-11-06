@@ -1,17 +1,12 @@
 import json
 
 import pytest
-from fsd_utils import Decision
-from fsd_utils import evaluate_response
+from fsd_utils import Decision, evaluate_response
 
-from config.fund_loader_config.cof.eoi_r1_schema import (
+from fund_store.config.fund_loader_config.cof.eoi_r1_schema import (
     COF_PLANNING_PERMISSION_CAVEAT_EN,
-)
-from config.fund_loader_config.cof.eoi_r1_schema import (
     COF_PLANNING_PERMISSION_IF_NEEDED_CAVEAT_EN,
-)
-from config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA_EN
-from config.fund_loader_config.cof.eoi_r1_schema import (
+    COF_R3_EOI_SCHEMA_EN,
     COF_SECURE_MATCH_FUNDING_CAVEAT_EN,
 )
 

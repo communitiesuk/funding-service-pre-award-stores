@@ -1,7 +1,6 @@
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow_sqlalchemy import auto_field
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 
-from db.models.round import Round
+from fund_store.db.models.round import Round
 
 
 class RoundSchema(SQLAlchemyAutoSchema):

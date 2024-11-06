@@ -2,32 +2,31 @@ import uuid
 from datetime import datetime
 from distutils.util import strtobool
 
-from flask import abort
-from flask import current_app
-from flask import jsonify
-from flask import request
+from flask import abort, current_app, jsonify, request
 from fsd_utils.locale_selector.get_lang import get_lang
 
 from db import db
-from db.models import Round
-from db.models.event import EventType
-from db.queries import create_event as create_event_in_db
-from db.queries import get_all_funds
-from db.queries import get_application_sections_for_round
-from db.queries import get_assessment_sections_for_round
-from db.queries import get_event as get_event_from_db
-from db.queries import get_events as get_events_from_db
-from db.queries import get_fund_by_id
-from db.queries import get_fund_by_short_name
-from db.queries import get_round_by_id
-from db.queries import get_round_by_short_name
-from db.queries import get_rounds_for_fund_by_id
-from db.queries import get_rounds_for_fund_by_short_name
-from db.queries import set_event_to_processed as set_event_to_processed_in_db
-from db.schemas.event import EventSchema
-from db.schemas.fund import FundSchema
-from db.schemas.round import RoundSchema
-from db.schemas.section import SECTION_SCHEMA_MAP
+from fund_store.db.models import Round
+from fund_store.db.models.event import EventType
+from fund_store.db.queries import create_event as create_event_in_db
+from fund_store.db.queries import (
+    get_all_funds,
+    get_application_sections_for_round,
+    get_assessment_sections_for_round,
+    get_fund_by_id,
+    get_fund_by_short_name,
+    get_round_by_id,
+    get_round_by_short_name,
+    get_rounds_for_fund_by_id,
+    get_rounds_for_fund_by_short_name,
+)
+from fund_store.db.queries import get_event as get_event_from_db
+from fund_store.db.queries import get_events as get_events_from_db
+from fund_store.db.queries import set_event_to_processed as set_event_to_processed_in_db
+from fund_store.db.schemas.event import EventSchema
+from fund_store.db.schemas.fund import FundSchema
+from fund_store.db.schemas.round import RoundSchema
+from fund_store.db.schemas.section import SECTION_SCHEMA_MAP
 
 
 def is_valid_uuid(value):
@@ -50,7 +49,9 @@ def filter_fund_by_lang(fund_data, lang_key: str = "en"):
     def filter_fund(data):
         data["name"] = data["name_json"].get(lang_key) or data["name_json"]["en"]
         data["title"] = data["title_json"].get(lang_key) or data["title_json"]["en"]
-        data["description"] = data["description_json"].get(lang_key) or data["description_json"]["en"]
+        data["description"] = (
+            data["description_json"].get(lang_key) or data["description_json"]["en"]
+        )
         return data
 
     if isinstance(fund_data, dict):
@@ -67,17 +68,20 @@ def filter_round_by_lang(round_data, lang_key: str = "en"):
     def filter_round(data):
         data["title"] = data["title_json"].get(lang_key) or data["title_json"]["en"]
         data["contact_us_banner"] = (
-            data["contact_us_banner_json"].get(lang_key) or data["contact_us_banner_json"].get("en")
+            data["contact_us_banner_json"].get(lang_key)
+            or data["contact_us_banner_json"].get("en")
             if data["contact_us_banner_json"]
             else ""
         )
         data["instructions"] = (
-            data["instructions_json"].get(lang_key) or data["instructions_json"].get("en")
+            data["instructions_json"].get(lang_key)
+            or data["instructions_json"].get("en")
             if data["instructions_json"]
             else ""
         )
         data["application_guidance"] = (
-            data["application_guidance_json"].get(lang_key) or data["application_guidance_json"].get("en")
+            data["application_guidance_json"].get(lang_key)
+            or data["application_guidance_json"].get("en")
             if data["application_guidance_json"]
             else ""
         )
@@ -99,7 +103,11 @@ def get_funds():
 
     if funds:
         serialiser = FundSchema()
-        return jsonify(filter_fund_by_lang(fund_data=serialiser.dump(funds, many=True), lang_key=language))
+        return jsonify(
+            filter_fund_by_lang(
+                fund_data=serialiser.dump(funds, many=True), lang_key=language
+            )
+        )
     current_app.logger.warning("No funds were found, please check this.")
     return jsonify(funds)
 
@@ -116,7 +124,9 @@ def get_fund(fund_id):
 
     if fund:
         serialiser = FundSchema()
-        return jsonify(filter_fund_by_lang(fund_data=serialiser.dump(fund), lang_key=language))
+        return jsonify(
+            filter_fund_by_lang(fund_data=serialiser.dump(fund), lang_key=language)
+        )
 
     abort(404)
 
@@ -128,7 +138,11 @@ def get_round_from_db(fund_id, round_id) -> Round:
     if use_short_name:
         round = get_round_by_short_name(fund_id, round_id)
     else:
-        round = get_round_by_id(fund_id, round_id) if is_valid_uuid(fund_id) and is_valid_uuid(round_id) else None
+        round = (
+            get_round_by_id(fund_id, round_id)
+            if is_valid_uuid(fund_id) and is_valid_uuid(round_id)
+            else None
+        )
     return round
 
 
@@ -137,7 +151,9 @@ def get_round(fund_id, round_id):
     language = request.args.get("language", "en").replace("?", "")
     if round:
         serialiser = RoundSchema()
-        return filter_round_by_lang(round_data=serialiser.dump(round), lang_key=language)
+        return filter_round_by_lang(
+            round_data=serialiser.dump(round), lang_key=language
+        )
 
     abort(404)
 
@@ -201,7 +217,9 @@ def create_event():
     if "type" not in args:
         abort(400, "Post body must contain event type field")
 
-    if "activation_date" not in args or not is_valid_isoformat_datetime(args["activation_date"]):
+    if "activation_date" not in args or not is_valid_isoformat_datetime(
+        args["activation_date"]
+    ):
         abort(400, "Activation date must be in isoformat datetime")
 
     if "processed" in args and not (is_valid_isoformat_datetime(args["processed"])):
@@ -227,7 +245,9 @@ def get_events_for_round(fund_id, round_id):
     if not is_valid_uuid(round_id):
         abort(400, "One or more IDs is not of format UUID")
 
-    only_unprocessed = request.args.get("only_unprocessed", False, type=lambda x: x.lower() == "true")
+    only_unprocessed = request.args.get(
+        "only_unprocessed", False, type=lambda x: x.lower() == "true"
+    )
     events = get_events_from_db(round_id=round_id, only_unprocessed=only_unprocessed)
     if events:
         serialiser = EventSchema()
@@ -238,7 +258,9 @@ def get_events_for_round(fund_id, round_id):
 def get_events_by_type(type):
     if not any(type == event_type.value for event_type in EventType):
         abort(400, "Event type not recognised")
-    only_unprocessed = request.args.get("only_unprocessed", False, type=lambda x: x.lower() == "true")
+    only_unprocessed = request.args.get(
+        "only_unprocessed", False, type=lambda x: x.lower() == "true"
+    )
     events = get_events_from_db(type=type, only_unprocessed=only_unprocessed)
     if events:
         serialiser = EventSchema()
@@ -293,19 +315,29 @@ def set_event_to_processed(event_id):
 
 def get_available_flag_allocations(fund_id, round_id):
     # TODO: Currently teams are hardcoded, move it to database implementation
-    from config.fund_loader_config.cof.cof_r2 import COF_ROUND_2_WINDOW_2_ID
-    from config.fund_loader_config.cof.cof_r2 import COF_ROUND_2_WINDOW_3_ID
-    from config.fund_loader_config.cof.cof_r3 import COF_FUND_ID
-    from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_1_ID
-    from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_2_ID
-    from config.fund_loader_config.cof.cof_r3 import COF_ROUND_3_WINDOW_3_ID
-    from config.fund_loader_config.cof.cof_r4 import COF_ROUND_4_WINDOW_1_ID
-    from config.fund_loader_config.cyp.cyp_r1 import CYP_FUND_ID
-    from config.fund_loader_config.cyp.cyp_r1 import CYP_ROUND_1_ID
-    from config.fund_loader_config.digital_planning.dpi_r2 import DPI_FUND_ID
-    from config.fund_loader_config.digital_planning.dpi_r2 import DPI_ROUND_2_ID
-    from config.fund_loader_config.night_shelter.ns_r2 import NIGHT_SHELTER_FUND_ID
-    from config.fund_loader_config.night_shelter.ns_r2 import NIGHT_SHELTER_ROUND_2_ID
+    from fund_store.config.fund_loader_config.cof.cof_r2 import (
+        COF_ROUND_2_WINDOW_2_ID,
+        COF_ROUND_2_WINDOW_3_ID,
+    )
+    from fund_store.config.fund_loader_config.cof.cof_r3 import (
+        COF_FUND_ID,
+        COF_ROUND_3_WINDOW_1_ID,
+        COF_ROUND_3_WINDOW_2_ID,
+        COF_ROUND_3_WINDOW_3_ID,
+    )
+    from fund_store.config.fund_loader_config.cof.cof_r4 import COF_ROUND_4_WINDOW_1_ID
+    from fund_store.config.fund_loader_config.cyp.cyp_r1 import (
+        CYP_FUND_ID,
+        CYP_ROUND_1_ID,
+    )
+    from fund_store.config.fund_loader_config.digital_planning.dpi_r2 import (
+        DPI_FUND_ID,
+        DPI_ROUND_2_ID,
+    )
+    from fund_store.config.fund_loader_config.night_shelter.ns_r2 import (
+        NIGHT_SHELTER_FUND_ID,
+        NIGHT_SHELTER_ROUND_2_ID,
+    )
 
     cof_teams = [
         {"key": "ASSESSOR", "value": "Assessor"},
@@ -358,7 +390,11 @@ def get_available_flag_allocations(fund_id, round_id):
 def update_application_reminder_sent_status(round_id):
     try:
         status = request.args.get("status")
-        round_instance = Round.query.filter_by(id=round_id).first() if is_valid_uuid(round_id) else None
+        round_instance = (
+            Round.query.filter_by(id=round_id).first()
+            if is_valid_uuid(round_id)
+            else None
+        )
 
         if not round_instance:
             return jsonify({"message": "Round ID not found"}), 404
@@ -367,11 +403,20 @@ def update_application_reminder_sent_status(round_id):
         if status.lower() == "true" and reminder_status is False:
             round_instance.application_reminder_sent = True
             db.session.commit()
-            current_app.logger.info(
-                {f"application_reminder_sent status has been updated to True for round {round_id}"}
-            ), 200
+            (
+                current_app.logger.info(
+                    {
+                        f"application_reminder_sent status has been updated to True for round {round_id}"
+                    }
+                ),
+                200,
+            )
             return (
-                jsonify({"message": f"application_reminder_sent status has been updated to True for round {round_id}"}),
+                jsonify(
+                    {
+                        "message": f"application_reminder_sent status has been updated to True for round {round_id}"
+                    }
+                ),
                 200,
             )
         else:
@@ -381,8 +426,17 @@ def update_application_reminder_sent_status(round_id):
             )
 
     except Exception as e:
-        current_app.logger.error(f"The application_reminder_sent status could not be updated {e}"), 400
+        (
+            current_app.logger.error(
+                f"The application_reminder_sent status could not be updated {e}"
+            ),
+            400,
+        )
         return (
-            jsonify({"message": f"The application_reminder_sent status could not be updated for round_id {round_id}"}),
+            jsonify(
+                {
+                    "message": f"The application_reminder_sent status could not be updated for round_id {round_id}"
+                }
+            ),
             400,
         )

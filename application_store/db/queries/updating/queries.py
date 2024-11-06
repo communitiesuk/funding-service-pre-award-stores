@@ -1,16 +1,20 @@
 import sqlalchemy
-from db import db
-from db.models.application.enums import Status as ApplicationStatus
-from db.queries.application import attempt_to_find_and_update_project_name
-from db.queries.application import get_application
-from db.queries.form import get_form
-from db.queries.statuses import update_statuses
-from flask import abort
-from flask import current_app
+from flask import abort, current_app
 from sqlalchemy import func
 
+from application_store.db.models.application.enums import Status as ApplicationStatus
+from application_store.db.queries.application import (
+    attempt_to_find_and_update_project_name,
+    get_application,
+)
+from application_store.db.queries.form import get_form
+from application_store.db.queries.statuses import update_statuses
+from db import db
 
-def update_application_and_related_form(application_id, question_json, form_name, is_summary_page_submit):
+
+def update_application_and_related_form(
+    application_id, question_json, form_name, is_summary_page_submit
+):
     application = get_application(application_id)
     if application.status == ApplicationStatus.SUBMITTED:
         current_app.logger.error(
@@ -20,12 +24,18 @@ def update_application_and_related_form(application_id, question_json, form_name
 
     application.last_edited = func.now()
     form_sql_row = get_form(application_id, form_name)
-    if (project_name := attempt_to_find_and_update_project_name(question_json, application)) is not None:
+    if (
+        project_name := attempt_to_find_and_update_project_name(
+            question_json, application
+        )
+    ) is not None:
         application.project_name = project_name
     form_sql_row.json = question_json
     update_statuses(application_id, form_name, is_summary_page_submit)
     db.session.commit()
-    current_app.logger.info(f"Application updated for application_id: '{application_id}.")
+    current_app.logger.info(
+        f"Application updated for application_id: '{application_id}."
+    )
 
 
 def update_form(application_id, form_name, question_json, is_summary_page_submit):

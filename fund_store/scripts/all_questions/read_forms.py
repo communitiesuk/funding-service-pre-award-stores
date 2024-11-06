@@ -1,6 +1,6 @@
 import os
 
-from db.models.section import Section
+from fund_store.db.models.section import Section
 
 
 def determine_display_value_for_condition(
@@ -28,8 +28,12 @@ def determine_display_value_for_condition(
         return "No" if lang == "en" else "Nac ydy"
     else:
         if list_name:
-            list_values = next(lizt["items"] for lizt in form_lists if lizt["name"] == list_name)
-            condition_text = next(item["text"] for item in list_values if item["value"] == condition_value)
+            list_values = next(
+                lizt["items"] for lizt in form_lists if lizt["name"] == list_name
+            )
+            condition_text = next(
+                item["text"] for item in list_values if item["value"] == condition_value
+            )
             return condition_text
         return condition_value
 
@@ -70,7 +74,12 @@ def determine_if_just_html_page(components: list) -> bool:
     Returns:
         bool: Whether or not they are all html display components
     """
-    return all([(c["type"].casefold() == "para" or c["type"].casefold() == "html") for c in components])
+    return all(
+        [
+            (c["type"].casefold() == "para" or c["type"].casefold() == "html")
+            for c in components
+        ]
+    )
 
 
 def remove_lowest_in_hierarchy(number_str: str) -> str:

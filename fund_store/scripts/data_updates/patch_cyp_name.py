@@ -3,13 +3,17 @@ from sqlalchemy import update
 
 import config.fund_loader_config.cyp.cyp_r1 as cyp_r1
 from db import db
-from db.models.fund import Fund
+from fund_store.db.models.fund import Fund
 
 
 def update_fund_name(fund_config):
     current_app.logger.info(f"Fund: {fund_config['short_name']}")
     current_app.logger.info("\t\tUpdating fund name")
-    stmt = update(Fund).where(Fund.id == fund_config["id"]).values(name_json=fund_config["name_json"])
+    stmt = (
+        update(Fund)
+        .where(Fund.id == fund_config["id"])
+        .values(name_json=fund_config["name_json"])
+    )
 
     db.session.execute(stmt)
     db.session.commit()

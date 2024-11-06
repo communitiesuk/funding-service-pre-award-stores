@@ -2,20 +2,22 @@
 import argparse
 import sys
 from datetime import datetime
-
 from distutils.util import strtobool
 
 sys.path.insert(1, ".")
 
 import external_services  # noqa: E402
-from app import app  # noqa: E402
-from config import Config  # noqa: E402
-from db.queries import search_applications  # noqa: E402
-from db.queries import get_forms_by_app_id  # noqa: E402
-from db.queries.application import create_qa_base64file  # noqa: E402
-from external_services.models.notification import Notification  # noqa: E402
 from external_services.data import get_fund  # noqa: E402
+from external_services.models.notification import Notification  # noqa: E402
 from flask import current_app  # noqa: E402
+
+from app import app  # noqa: E402
+from application_store.db.queries import (
+    get_forms_by_app_id,  # noqa: E402
+    search_applications,  # noqa: E402
+)
+from application_store.db.queries.application import create_qa_base64file  # noqa: E402
+from config import Config  # noqa: E402
 
 
 def send_incomplete_applications_after_deadline(
@@ -61,7 +63,9 @@ def send_incomplete_applications_after_deadline(
                 application["fund_id"] = fund_id
                 application["round_name"] = fund_rounds.get("title")
                 try:
-                    account_id = external_services.get_account(account_id=application.get("account_id"))
+                    account_id = external_services.get_account(
+                        account_id=application.get("account_id")
+                    )
                     application["account_email"] = account_id.email
                     application["account_name"] = account_id.full_name
                     applications_to_send.append({"application": application})
@@ -73,7 +77,8 @@ def send_incomplete_applications_after_deadline(
                     )
             except Exception:
                 handle_error(
-                    "Unable to retrieve forms for " + f"application id {application.get('id')}",
+                    "Unable to retrieve forms for "
+                    + f"application id {application.get('id')}",
                     send_email,
                 )
 
@@ -90,7 +95,10 @@ def send_incomplete_applications_after_deadline(
             )
             if total_applications > 0:
                 for count, application in enumerate(applications_to_send, start=1):
-                    email = {"email": application.get("account_email") for application in application.values()}
+                    email = {
+                        "email": application.get("account_email")
+                        for application in application.values()
+                    }
                     current_app.logger.info(
                         f"Sending application {count} of {total_applications} to {email.get('email')}"
                     )
@@ -100,12 +108,18 @@ def send_incomplete_applications_after_deadline(
                         to_email=email.get("email"),
                         full_name=application["application"]["account_name"],
                         content={
-                            "application": create_qa_base64file(application["application"], True),
+                            "application": create_qa_base64file(
+                                application["application"], True
+                            ),
                             "contact_help_email": application["contact_help_email"],
                         },
                     )
-                    current_app.logger.info(f"Message added to the queue msg_id: [{message_id}]")
-                current_app.logger.info(f"Sent {count} {'emails' if count > 1 else 'email'}")
+                    current_app.logger.info(
+                        f"Message added to the queue msg_id: [{message_id}]"
+                    )
+                current_app.logger.info(
+                    f"Sent {count} {'emails' if count > 1 else 'email'}"
+                )
                 return count
             else:
                 current_app.logger.warning("There are no applications to be sent.")
@@ -129,7 +143,8 @@ def handle_error(msg, throw_on_error):
 
 def get_fund_round(fund_id, round_id):
     return external_services.get_data(
-        Config.FUND_STORE_API_HOST + Config.FUND_ROUND_ENDPOINT.format(fund_id=fund_id, round_id=round_id)
+        Config.FUND_STORE_API_HOST
+        + Config.FUND_ROUND_ENDPOINT.format(fund_id=fund_id, round_id=round_id)
     )
 
 
@@ -161,12 +176,15 @@ def main() -> None:
     args = parser.parse_args()
     single_application = (
         strtobool(args.single_application)
-        if args.single_application is not None and not isinstance(args.single_application, bool)
+        if args.single_application is not None
+        and not isinstance(args.single_application, bool)
         else args.single_application
     )
 
     if single_application and args.application_id is None:
-        error_message = "The application_id argument is required if single_application is True"
+        error_message = (
+            "The application_id argument is required if single_application is True"
+        )
         current_app.logger.error(error_message)
         raise ValueError(error_message)
 

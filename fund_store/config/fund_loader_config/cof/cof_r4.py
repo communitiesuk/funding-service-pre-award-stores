@@ -3,12 +3,12 @@ import textwrap
 from datetime import datetime
 from datetime import timezone
 
-from config.fund_loader_config.cof.shared import COF_APPLICATION_GUIDANCE
-from config.fund_loader_config.cof.shared import fund_config
-from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
+from fund_store.config.fund_loader_config.cof.shared import COF_APPLICATION_GUIDANCE
+from fund_store.config.fund_loader_config.cof.shared import fund_config
+from fund_store.config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     COF_R4_W1_BASE_PATH,
 )
-from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
+from fund_store.config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     COF_R4_W2_BASE_PATH,
 )
 
@@ -23,17 +23,35 @@ APPLICATION_BASE_PATH_COF_R4_W2 = ".".join([str(COF_R4_W2_BASE_PATH), str(1)])
 ASSESSMENT_BASE_PATH_COF_R4_W2 = ".".join([str(COF_R4_W2_BASE_PATH), str(2)])
 
 
-COF_R4W1_OPENS_DATE = datetime(2024, 3, 25, 14, 00, 0, tzinfo=timezone.utc)  # 2024-03-25 14:00:00
-COF_R4W1_SEND_REMINDER_DATE = datetime(2024, 4, 8, 11, 59, 0, tzinfo=timezone.utc)  # 2024-04-08 11:59:00
-COF_R4W1_DEADLINE_DATE = datetime(2024, 4, 10, 14, 00, 0, tzinfo=timezone.utc)  # 2024-04-10 14:00:00
-COF_R4W1_ASSESSMENT_DEADLINE_DATE = datetime(2024, 6, 23, 12, 0, 0, tzinfo=timezone.utc)  # 2024-06-23 12:00:00
+COF_R4W1_OPENS_DATE = datetime(
+    2024, 3, 25, 14, 00, 0, tzinfo=timezone.utc
+)  # 2024-03-25 14:00:00
+COF_R4W1_SEND_REMINDER_DATE = datetime(
+    2024, 4, 8, 11, 59, 0, tzinfo=timezone.utc
+)  # 2024-04-08 11:59:00
+COF_R4W1_DEADLINE_DATE = datetime(
+    2024, 4, 10, 14, 00, 0, tzinfo=timezone.utc
+)  # 2024-04-10 14:00:00
+COF_R4W1_ASSESSMENT_DEADLINE_DATE = datetime(
+    2024, 6, 23, 12, 0, 0, tzinfo=timezone.utc
+)  # 2024-06-23 12:00:00
 
 
-COF_R4W2_OPENS_DATE = datetime(2024, 5, 22, 14, 00, 0, tzinfo=timezone.utc)  # 2024-05-22 14:00:00
-COF_R4W2_SEND_REMINDER_DATE = datetime(2024, 5, 22, 11, 59, 0, tzinfo=timezone.utc)  # 2024-05-22 11:59:00
-COF_R4W2_DEADLINE_DATE = datetime(2024, 6, 26, 14, 00, 0, tzinfo=timezone.utc)  # 2024-06-26 14:00:00
-COF_R4W2_ASSESSMENT_START_DATE = datetime(2024, 5, 22, 14, 00, 0, tzinfo=timezone.utc)  # 2024-05-22 14:00:00
-COF_R4W2_ASSESSMENT_DEADLINE_DATE = datetime(2024, 7, 31, 12, 0, 0, tzinfo=timezone.utc)  # 2024-07-31 12:00:00
+COF_R4W2_OPENS_DATE = datetime(
+    2024, 5, 22, 14, 00, 0, tzinfo=timezone.utc
+)  # 2024-05-22 14:00:00
+COF_R4W2_SEND_REMINDER_DATE = datetime(
+    2024, 5, 22, 11, 59, 0, tzinfo=timezone.utc
+)  # 2024-05-22 11:59:00
+COF_R4W2_DEADLINE_DATE = datetime(
+    2024, 6, 26, 14, 00, 0, tzinfo=timezone.utc
+)  # 2024-06-26 14:00:00
+COF_R4W2_ASSESSMENT_START_DATE = datetime(
+    2024, 5, 22, 14, 00, 0, tzinfo=timezone.utc
+)  # 2024-05-22 14:00:00
+COF_R4W2_ASSESSMENT_DEADLINE_DATE = datetime(
+    2024, 7, 31, 12, 0, 0, tzinfo=timezone.utc
+)  # 2024-07-31 12:00:00
 
 # Date far in the future as a temporary measure to stop this going live by accident
 COF_R4W2_HOLD_DATE = datetime(2124, 1, 1, 11, 59, 0)  # 2124-01-01 11:59:00
@@ -107,7 +125,10 @@ cof_r4w1_sections = [
         "weighting": 53,
     },
     {
-        "section_name": {"en": "3.1 Community use/significance", "cy": "3.1 Defnydd/arwyddocâd cymunedol"},
+        "section_name": {
+            "en": "3.1 Community use/significance",
+            "cy": "3.1 Defnydd/arwyddocâd cymunedol",
+        },
         "form_name_json": {
             "en": "community-use-cof",
             "cy": "defnydd-cymunedol-cof",
@@ -319,7 +340,10 @@ cof_r4w2_sections = [
         "weighting": 53,
     },
     {
-        "section_name": {"en": "3.1 Community use/significance", "cy": "3.1 Defnydd/arwyddocâd cymunedol"},
+        "section_name": {
+            "en": "3.1 Community use/significance",
+            "cy": "3.1 Defnydd/arwyddocâd cymunedol",
+        },
         "form_name_json": {
             "en": "community-use-cof",
             "cy": "defnydd-cymunedol-cof",

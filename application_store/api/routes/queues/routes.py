@@ -2,15 +2,18 @@
 import json
 from uuid import uuid4
 
-from config import Config
-from db.queries import get_application
 from flask import current_app
 from flask.views import MethodView
+
+from application_store.db.queries import get_application
+from config import Config
 
 
 class QueueView(MethodView):
     def post_submitted_application_to_assessment(self, application_id=None):
-        application_with_form_json = get_application(application_id, as_json=True, include_forms=True)
+        application_with_form_json = get_application(
+            application_id, as_json=True, include_forms=True
+        )
         # check to see if application has status submitted
         if application_with_form_json["status"] == "SUBMITTED":
             application_attributes = {
@@ -36,7 +39,9 @@ class QueueView(MethodView):
                     message_deduplication_id=str(uuid4()),  # ensures message uniqueness
                     extra_attributes=application_attributes,
                 )
-                current_app.logger.info(f"Message sent to SQS queue and message id is [{message_id}]")
+                current_app.logger.info(
+                    f"Message sent to SQS queue and message id is [{message_id}]"
+                )
                 return f"Message queued, message_id is: {message_id}.", 201
             except Exception as e:
                 current_app.logger.error("An error occurred while sending message")
@@ -55,4 +60,6 @@ class QueueView(MethodView):
         sqs_extended_client = current_app.extensions["sqs_extended_client"]
         if sqs_extended_client is not None:
             return sqs_extended_client
-        current_app.logger.error("An error occurred while sending message since client is not available")
+        current_app.logger.error(
+            "An error occurred while sending message since client is not available"
+        )

@@ -1,11 +1,13 @@
 from copy import deepcopy
 from datetime import datetime
 
+from application_store.db.models.research import ResearchSurvey
 from db import db
-from db.models.research import ResearchSurvey
 
 
-def upsert_research_survey_data(application_id, fund_id, round_id, data) -> ResearchSurvey:
+def upsert_research_survey_data(
+    application_id, fund_id, round_id, data
+) -> ResearchSurvey:
     existing_survey_data = ResearchSurvey.query.filter_by(
         application_id=application_id,
         fund_id=fund_id,

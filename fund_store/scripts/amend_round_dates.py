@@ -1,24 +1,39 @@
 #!/usr/bin/env python3
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 import click
 
-from config.fund_loader_config.cof.cof_r2 import rounds_config as cof_r2_configs
-from config.fund_loader_config.cof.cof_r3 import round_config as cof_r3w1_config
-from config.fund_loader_config.cof.cof_r3 import round_config_w2 as cof_r3w2_config
-from config.fund_loader_config.cof.cof_r3 import round_config_w3 as cof_r3w3_config
-from config.fund_loader_config.cof.cof_r4 import round_config_w1 as cof_r4w1_config
-from config.fund_loader_config.cof.cof_r4 import round_config_w2 as cof_r4w2_config
-from config.fund_loader_config.cof.eoi import round_config_eoi as cof_eoi_configs
-from config.fund_loader_config.cyp.cyp_r1 import round_config as cyp_config
-from config.fund_loader_config.digital_planning.dpi_r2 import (
+from db import db
+from fund_store.config.fund_loader_config.cof.cof_r2 import (
+    rounds_config as cof_r2_configs,
+)
+from fund_store.config.fund_loader_config.cof.cof_r3 import (
+    round_config as cof_r3w1_config,
+)
+from fund_store.config.fund_loader_config.cof.cof_r3 import (
+    round_config_w2 as cof_r3w2_config,
+)
+from fund_store.config.fund_loader_config.cof.cof_r3 import (
+    round_config_w3 as cof_r3w3_config,
+)
+from fund_store.config.fund_loader_config.cof.cof_r4 import (
+    round_config_w1 as cof_r4w1_config,
+)
+from fund_store.config.fund_loader_config.cof.cof_r4 import (
+    round_config_w2 as cof_r4w2_config,
+)
+from fund_store.config.fund_loader_config.cof.eoi import (
+    round_config_eoi as cof_eoi_configs,
+)
+from fund_store.config.fund_loader_config.cyp.cyp_r1 import round_config as cyp_config
+from fund_store.config.fund_loader_config.digital_planning.dpi_r2 import (
     round_config as dpif_config,
 )
-from config.fund_loader_config.hsra.hsra import round_config as hsra_config
-from config.fund_loader_config.night_shelter.ns_r2 import round_config as nstf_config
-from db import db
-from db.models import Round
+from fund_store.config.fund_loader_config.hsra.hsra import round_config as hsra_config
+from fund_store.config.fund_loader_config.night_shelter.ns_r2 import (
+    round_config as nstf_config,
+)
+from fund_store.db.models import Round
 
 ROUND_IDS = {
     "COF_R2W2": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
@@ -57,10 +72,18 @@ FUTURE = "future"
 DEFAULTS = {"round_short_name": None}
 
 
-def update_round_dates_in_db(round_id, application_opens, application_deadline, assessment_start, assessment_deadline):
+def update_round_dates_in_db(
+    round_id,
+    application_opens,
+    application_deadline,
+    assessment_start,
+    assessment_deadline,
+):
     round_to_update = Round.query.get(round_id)
     if not round_to_update:
-        raise ValueError(f"Round with ID {round_id} not found in database. No updates made")
+        raise ValueError(
+            f"Round with ID {round_id} not found in database. No updates made"
+        )
     date_in_past = (datetime.now() + timedelta(days=-5)).strftime("%Y-%m-%d %H:%M:%S")
     date_in_future = (datetime.now() + timedelta(days=5)).strftime("%Y-%m-%d %H:%M:%S")
     commit = False
@@ -75,7 +98,9 @@ def update_round_dates_in_db(round_id, application_opens, application_deadline, 
         elif application_opens.casefold() == FUTURE:
             round_to_update.opens = date_in_future
         else:
-            round_to_update.opens = datetime.strptime(application_opens, "%Y-%m-%d %H:%M:%S")
+            round_to_update.opens = datetime.strptime(
+                application_opens, "%Y-%m-%d %H:%M:%S"
+            )
 
     if application_deadline and not str(application_deadline).casefold() == UNCHANGED:
         commit = True
@@ -87,7 +112,9 @@ def update_round_dates_in_db(round_id, application_opens, application_deadline, 
         elif application_deadline.casefold() == FUTURE:
             round_to_update.deadline = date_in_future
         else:
-            round_to_update.deadline = datetime.strptime(application_deadline, "%Y-%m-%d %H:%M:%S")
+            round_to_update.deadline = datetime.strptime(
+                application_deadline, "%Y-%m-%d %H:%M:%S"
+            )
 
     if assessment_start and not str(assessment_start).casefold() == UNCHANGED:
         commit = True
@@ -101,7 +128,9 @@ def update_round_dates_in_db(round_id, application_opens, application_deadline, 
         elif assessment_start.casefold() == FUTURE:
             round_to_update.assessment_start = date_in_future
         else:
-            round_to_update.assessment_start = datetime.strptime(assessment_start, "%Y-%m-%d %H:%M:%S")
+            round_to_update.assessment_start = datetime.strptime(
+                assessment_start, "%Y-%m-%d %H:%M:%S"
+            )
 
     if assessment_deadline and not str(assessment_deadline).casefold() == UNCHANGED:
         commit = True
@@ -113,11 +142,15 @@ def update_round_dates_in_db(round_id, application_opens, application_deadline, 
         elif assessment_deadline.casefold() == FUTURE:
             round_to_update.assessment_deadline = date_in_future
         else:
-            round_to_update.deadline = datetime.strptime(assessment_deadline, "%Y-%m-%d %H:%M:%S")
+            round_to_update.deadline = datetime.strptime(
+                assessment_deadline, "%Y-%m-%d %H:%M:%S"
+            )
 
     if commit:
         db.session.commit()
-        print(f"Sucessfully updated the round dates for {round_to_update.short_name} [{round_id}].")
+        print(
+            f"Sucessfully updated the round dates for {round_to_update.short_name} [{round_id}]."
+        )
     else:
         print("No changes supplied")
     return
@@ -207,7 +240,13 @@ def update_round_dates(
     if not round_id:
         round_id = ROUND_IDS.get(round_short_name, None)
 
-    update_round_dates_in_db(round_id, application_opens, application_deadline, assessment_start, assessment_deadline)
+    update_round_dates_in_db(
+        round_id,
+        application_opens,
+        application_deadline,
+        assessment_start,
+        assessment_deadline,
+    )
 
 
 @cli.command
@@ -257,9 +296,11 @@ def reset_round_dates(round_id, round_short_name):
 def reset_round_dates_fab(round_id, fund_short_name, round_short_name):
     """Resets the dates for the supplied round to the dates in the fund loader config"""
     if not round_id:
-        from config.fund_loader_config.FAB import FAB_FUND_ROUND_CONFIGS
+        from fund_store.config.fund_loader_config.FAB import FAB_FUND_ROUND_CONFIGS
 
-        round_id = FAB_FUND_ROUND_CONFIGS[fund_short_name]["rounds"][round_short_name]["id"]
+        round_id = FAB_FUND_ROUND_CONFIGS[fund_short_name]["rounds"][round_short_name][
+            "id"
+        ]
 
     if not round_id:
         raise ValueError(f"Round ID does not exist for {round_short_name}")
@@ -337,15 +378,20 @@ def update_round_dates_fab(
     assessment_start=None,
     assessment_deadline=None,
 ):
-
-    from config.fund_loader_config.FAB import FAB_FUND_ROUND_CONFIGS
+    from fund_store.config.fund_loader_config.FAB import FAB_FUND_ROUND_CONFIGS
 
     round_id = FAB_FUND_ROUND_CONFIGS[fund_short_name]["rounds"][round_short_name]["id"]
 
     if not round_id:
         raise ValueError(f"Round ID does not exist for {round_short_name}")
 
-    update_round_dates_in_db(round_id, application_opens, application_deadline, assessment_start, assessment_deadline)
+    update_round_dates_in_db(
+        round_id,
+        application_opens,
+        application_deadline,
+        assessment_start,
+        assessment_deadline,
+    )
 
 
 if __name__ == "__main__":

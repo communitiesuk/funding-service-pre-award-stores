@@ -1,35 +1,37 @@
 import json
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 from unittest import mock
-from unittest.mock import ANY
-from unittest.mock import MagicMock
+from unittest.mock import ANY, MagicMock
 from uuid import uuid4
 
 import boto3
 import pytest
-from config import Config
-from db import db
-from db.models import Applications
-from db.models import ResearchSurvey
-from db.queries.application import get_all_applications
-from db.schemas import ApplicationSchema
 from external_services.models.fund import Fund
 from external_services.models.round import Round
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from moto import mock_aws
-from tests.helpers import application_expected_data
-from tests.helpers import count_fund_applications
-from tests.helpers import expected_data_within_response
-from tests.helpers import get_row_by_pk
-from tests.helpers import key_list_to_regex
-from tests.helpers import post_data
-from tests.helpers import test_application_data
-from tests.helpers import test_question_data
+
+from application_store.db.models import Applications, ResearchSurvey
+from application_store.db.queries.application import get_all_applications
+from application_store.db.schemas import ApplicationSchema
+from config import Config
+from db import db
+from tests.helpers import (
+    application_expected_data,
+    count_fund_applications,
+    expected_data_within_response,
+    get_row_by_pk,
+    key_list_to_regex,
+    post_data,
+    test_application_data,
+    test_question_data,
+)
 
 
 @pytest.mark.unique_fund_round(True)
-def test_create_application_is_successful(flask_test_client, unique_fund_round, mock_get_application_display_config):
+def test_create_application_is_successful(
+    flask_test_client, unique_fund_round, mock_get_application_display_config
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN we try to create an application
@@ -161,9 +163,13 @@ def test_create_application_creates_unique_reference(
         headers={"Content-Type": "application/json"},
         follow_redirects=True,
     )
-    assert response.status_code == 201, f"First creation failed with status {response.status_code}: {response.content}"
+    assert (
+        response.status_code == 201
+    ), f"First creation failed with status {response.status_code}: {response.content}"
     application = response.json()
-    assert application["reference"] == "TEST-TEST-ABCDEF", f"Unexpected reference: {application['reference']}"
+    assert (
+        application["reference"] == "TEST-TEST-ABCDEF"
+    ), f"Unexpected reference: {application['reference']}"
 
     # Second creation should fail
     response = flask_test_client.post(
@@ -173,10 +179,14 @@ def test_create_application_creates_unique_reference(
         follow_redirects=True,
     )
 
-    assert response.status_code == 500, f"Expected status 500, but got {response.status_code}"
+    assert (
+        response.status_code == 500
+    ), f"Expected status 500, but got {response.status_code}"
     error_data = response.json()
 
-    assert "detail" in error_data, f"Expected 'detail' in error response, got: {error_data}"
+    assert (
+        "detail" in error_data
+    ), f"Expected 'detail' in error response, got: {error_data}"
     assert (
         "Max (10) tries exceeded for create application" in error_data["detail"]
     ), f"Unexpected error message: {error_data['detail']}"
@@ -196,13 +206,17 @@ def test_get_all_applications(flask_test_client, app):
             flask_test_client,
             "/applications",
             expected_data,
-            exclude_regex_paths=key_list_to_regex(["round_name", "date_submitted", "last_edited"]),
+            exclude_regex_paths=key_list_to_regex(
+                ["round_name", "date_submitted", "last_edited"]
+            ),
         )
 
 
 @pytest.mark.apps_to_insert([{"account_id": "unique_user", "language": "en"}])
 @pytest.mark.unique_fund_round(True)
-def test_get_applications_of_account_id(flask_test_client, seed_application_records, unique_fund_round, app):
+def test_get_applications_of_account_id(
+    flask_test_client, seed_application_records, unique_fund_round, app
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN a request for applications of account_id
@@ -247,14 +261,19 @@ def test_update_section_of_application(flask_test_client, seed_application_recor
         follow_redirects=True,
     )
     assert 201 == response.status_code
-    answer_found_list = [field["answer"] not in [None, ""] for field in response.json()["questions"][0]["fields"]]
+    answer_found_list = [
+        field["answer"] not in [None, ""]
+        for field in response.json()["questions"][0]["fields"]
+    ]
     section_status = response.json()["status"]
     assert all(answer_found_list)
     assert section_status == "IN_PROGRESS"
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
-def test_update_section_of_application_with_optional_field(flask_test_client, seed_application_records):
+def test_update_section_of_application_with_optional_field(
+    flask_test_client, seed_application_records
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN A put is made with a completed section
@@ -297,7 +316,9 @@ def test_update_section_of_application_with_optional_field(flask_test_client, se
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
-def test_update_section_of_application_with_incomplete_answers(flask_test_client, seed_application_records):
+def test_update_section_of_application_with_incomplete_answers(
+    flask_test_client, seed_application_records
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN A put is made with a completed section
@@ -343,7 +364,9 @@ def test_get_application_by_application_id(flask_test_client, seed_application_r
         flask_test_client,
         f"/applications/{id}",
         expected_data,
-        exclude_regex_paths=key_list_to_regex(["reference", "started_at", "project_name", "forms"]),
+        exclude_regex_paths=key_list_to_regex(
+            ["reference", "started_at", "project_name", "forms"]
+        ),
         # Lists are annoying to deal with in deepdiff
         # especially when they contain dicts...so in this
         # instance we ignore them rather then write some
@@ -353,7 +376,9 @@ def test_get_application_by_application_id(flask_test_client, seed_application_r
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
-def test_get_application_by_application_id_and_with_qa_file(flask_test_client, seed_application_records):
+def test_get_application_by_application_id_and_with_qa_file(
+    flask_test_client, seed_application_records
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN a GET /applications/<application_id> request is sent
@@ -363,12 +388,17 @@ def test_get_application_by_application_id_and_with_qa_file(flask_test_client, s
     id = seed_application_records[0].id
     serialiser = ApplicationSchema()
     expected_data = serialiser.dump(seed_application_records[0])
-    expected_data = {**expected_data, "questions_file": "KioqKioqKioqIEdlbmVyYXRlZCB0ZXN0IGZ1bmQgKioqKioqKioqKgo="}
+    expected_data = {
+        **expected_data,
+        "questions_file": "KioqKioqKioqIEdlbmVyYXRlZCB0ZXN0IGZ1bmQgKioqKioqKioqKgo=",
+    }
     expected_data_within_response(
         flask_test_client,
         f"/applications/{id}?with_questions_file=true",
         expected_data,
-        exclude_regex_paths=key_list_to_regex(["reference", "started_at", "project_name", "forms"]),
+        exclude_regex_paths=key_list_to_regex(
+            ["reference", "started_at", "project_name", "forms"]
+        ),
         # Lists are annoying to deal with in deepdiff
         # especially when they contain dicts...so in this
         # instance we ignore them rather then write some
@@ -434,7 +464,9 @@ def testHealthcheckRoute(flask_test_client):
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
-def test_update_section_of_application_changes_last_edited_field(flask_test_client, seed_application_records):
+def test_update_section_of_application_changes_last_edited_field(
+    flask_test_client, seed_application_records
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN A put is made with a completed section
@@ -493,7 +525,9 @@ def test_update_section_of_application_changes_last_edited_field(flask_test_clie
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
-def test_update_section_of_application_does_not_change_last_edited_field(flask_test_client, seed_application_records):
+def test_update_section_of_application_does_not_change_last_edited_field(
+    flask_test_client, seed_application_records
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN A put is made with a completed section
@@ -518,7 +552,9 @@ def test_update_section_of_application_does_not_change_last_edited_field(flask_t
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
-def test_update_project_name_of_application(flask_test_client, seed_application_records):
+def test_update_project_name_of_application(
+    flask_test_client, seed_application_records
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN a put is made into the 'project information' section
@@ -584,7 +620,9 @@ def test_complete_form(flask_test_client, seed_application_records):
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
-def test_form_data_save_with_closed_round(flask_test_client, seed_application_records, mocker):
+def test_form_data_save_with_closed_round(
+    flask_test_client, seed_application_records, mocker
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN A put is made with a completed section,
@@ -592,8 +630,12 @@ def test_form_data_save_with_closed_round(flask_test_client, seed_application_re
     match the PUT'ed JSON and be marked as in-progress.
     and if the round is closed then it will give a 301 to redirect the user to fund closure notification page
     """
-    mocker.patch("db.queries.application.queries.get_round", new=generate_mock_round_closed)
-    mocker.patch("db.queries.statuses.queries.get_round", new=generate_mock_round_closed)
+    mocker.patch(
+        "db.queries.application.queries.get_round", new=generate_mock_round_closed
+    )
+    mocker.patch(
+        "db.queries.statuses.queries.get_round", new=generate_mock_round_closed
+    )
     section_put = {
         "questions": test_question_data,
         "metadata": {
@@ -611,7 +653,9 @@ def test_form_data_save_with_closed_round(flask_test_client, seed_application_re
 
 
 @pytest.mark.apps_to_insert([test_application_data[2]])
-def test_put_returns_400_on_submitted_application(flask_test_client, _db, seed_application_records):
+def test_put_returns_400_on_submitted_application(
+    flask_test_client, _db, seed_application_records
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN A there is an application with a status of SUBMITTED
@@ -655,9 +699,13 @@ def test_successful_submitted_application(
     WHEN an application is submitted
     THEN a 201 response is received in the correct format
     """
-    with mock.patch("api.routes.application.routes.ApplicationsView._get_sqs_client") as mock_get_sqs_client:
+    with mock.patch(
+        "api.routes.application.routes.ApplicationsView._get_sqs_client"
+    ) as mock_get_sqs_client:
         mock_get_sqs_client.return_value = _mock_aws_client()
-        mocker.patch("db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
+        mocker.patch(
+            "db.queries.application.queries.list_files_by_prefix", new=lambda _: []
+        )
         seed_application_records[0].status = "SUBMITTED"
 
         _db.session.add(seed_application_records[0])
@@ -670,19 +718,28 @@ def test_successful_submitted_application(
         )
 
         assert response.status_code == 201
-        assert all(k in response.json() for k in ("id", "email", "reference", "eoi_decision"))
+        assert all(
+            k in response.json() for k in ("id", "email", "reference", "eoi_decision")
+        )
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
 def test_stage_unsubmitted_application_to_queue_fails(
-    flask_test_client, mock_successful_submit_notification, _db, seed_application_records, mocker, mock_get_fund_data
+    flask_test_client,
+    mock_successful_submit_notification,
+    _db,
+    seed_application_records,
+    mocker,
+    mock_get_fund_data,
 ):
     """
     GIVEN We request to stage an unsubmitted application to the assessment queue
     WHEN an application is unsubmitted
     THEN a 400 response is received in the correct format
     """
-    mocker.patch("db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
+    mocker.patch(
+        "db.queries.application.queries.list_files_by_prefix", new=lambda _: []
+    )
     seed_application_records[0].status = "COMPLETED"
 
     _db.session.add(seed_application_records[0])
@@ -701,16 +758,25 @@ def test_stage_unsubmitted_application_to_queue_fails(
 @mock_aws
 @pytest.mark.apps_to_insert([test_application_data[0]])
 def test_stage_submitted_application_to_queue_fails(
-    flask_test_client, mock_successful_submit_notification, _db, seed_application_records, mocker, mock_get_fund_data
+    flask_test_client,
+    mock_successful_submit_notification,
+    _db,
+    seed_application_records,
+    mocker,
+    mock_get_fund_data,
 ):
     """
     GIVEN We request to stage an submitted application to the assessment queue
     WHEN an application is submitted
     THEN a 201 response is received in the correct format
     """
-    with mock.patch("api.routes.queues.routes.QueueView._get_sqs_client") as mock_get_sqs_client:
+    with mock.patch(
+        "api.routes.queues.routes.QueueView._get_sqs_client"
+    ) as mock_get_sqs_client:
         mock_get_sqs_client.return_value = _mock_aws_client()
-        mocker.patch("db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
+        mocker.patch(
+            "db.queries.application.queries.list_files_by_prefix", new=lambda _: []
+        )
         seed_application_records[0].status = "SUBMITTED"
 
         _db.session.add(seed_application_records[0])
@@ -749,7 +815,9 @@ def _mock_aws_client():
         aws_secret_access_key="secret_key",  # pragma: allowlist secret
     )
     s3_connection.create_bucket(Bucket=Config.AWS_MSG_BUCKET_NAME)
-    queue_response = sqs_connection.create_queue(QueueName="import-queue.fifo", Attributes={"FifoQueue": "true"})
+    queue_response = sqs_connection.create_queue(
+        QueueName="import-queue.fifo", Attributes={"FifoQueue": "true"}
+    )
     sqs_extended_client.sqs_client = sqs_connection
     sqs_extended_client.s3_client = s3_connection
     Config.AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = queue_response["QueueUrl"]
@@ -764,7 +832,9 @@ def generate_mock_round_closed(fund_id: str, round_id: str) -> Round:
         short_name="TEST",
         opens=(datetime.now() - timedelta(days=30)).strftime("%Y-%m-%dT%H:%M:%S"),
         deadline=(datetime.now() - timedelta(days=5)).strftime("%Y-%m-%dT%H:%M:%S"),
-        assessment_deadline=(datetime.now() + timedelta(days=10)).strftime("%Y-%m-%dT%H:%M:%S"),
+        assessment_deadline=(datetime.now() + timedelta(days=10)).strftime(
+            "%Y-%m-%dT%H:%M:%S"
+        ),
         project_name_field_id="TestFieldId",
         contact_email="test@outlook.com",
         title_json={"en": "English title", "cy": "Welsh title"},
@@ -776,7 +846,11 @@ def test_post_research_survey_data(flask_test_client, mocker):
         "application_id": "123",
         "fund_id": "fund456",
         "round_id": "round789",
-        "data": {"research_opt_in": "agree", "contact_name": "John Doe", "contact_email": "john@example.com"},
+        "data": {
+            "research_opt_in": "agree",
+            "contact_name": "John Doe",
+            "contact_email": "john@example.com",
+        },
     }
     expected_survey_data = {
         **request_data,
@@ -792,12 +866,15 @@ def test_post_research_survey_data(flask_test_client, mocker):
     retrieved_survey_data.date_submitted = expected_survey_data["date_submitted"]
 
     mock_upsert_research_survey_data = mocker.patch(
-        "api.routes.application.routes.upsert_research_survey_data", return_value=retrieved_survey_data
+        "api.routes.application.routes.upsert_research_survey_data",
+        return_value=retrieved_survey_data,
     )
     mock_update_statuses = mocker.patch("api.routes.application.routes.update_statuses")
 
     response = flask_test_client.post(
-        "/application/research", data=json.dumps(request_data), headers={"Content-Type": "application/json"}
+        "/application/research",
+        data=json.dumps(request_data),
+        headers={"Content-Type": "application/json"},
     )
 
     assert response.status_code == 201
@@ -808,7 +885,9 @@ def test_post_research_survey_data(flask_test_client, mocker):
         round_id=request_data["round_id"],
         data=request_data["data"],
     )
-    mock_update_statuses.assert_called_once_with(request_data["application_id"], form_name=None)
+    mock_update_statuses.assert_called_once_with(
+        request_data["application_id"], form_name=None
+    )
 
 
 def test_get_research_survey_data(flask_test_client, mocker):
@@ -818,7 +897,11 @@ def test_get_research_survey_data(flask_test_client, mocker):
         "application_id": "123",
         "fund_id": "fund456",
         "round_id": "round789",
-        "data": {"research_opt_in": "agree", "contact_name": "John Doe", "contact_email": "john@example.com"},
+        "data": {
+            "research_opt_in": "agree",
+            "contact_name": "John Doe",
+            "contact_email": "john@example.com",
+        },
         "date_submitted": "01-01-1000",
     }
     retrieved_survey_data = ResearchSurvey()
@@ -830,10 +913,13 @@ def test_get_research_survey_data(flask_test_client, mocker):
     retrieved_survey_data.date_submitted = expected_survey_data["date_submitted"]
 
     mock_retrieve_research_survey_data = mocker.patch(
-        "api.routes.application.routes.retrieve_research_survey_data", return_value=retrieved_survey_data
+        "api.routes.application.routes.retrieve_research_survey_data",
+        return_value=retrieved_survey_data,
     )
 
-    response = flask_test_client.get(f"/application/research?application_id={application_id}")
+    response = flask_test_client.get(
+        f"/application/research?application_id={application_id}"
+    )
 
     assert response.status_code == 200
     assert response.json() == expected_survey_data
@@ -847,8 +933,13 @@ def test_get_research_survey_data_not_found(flask_test_client, mocker):
         "api.routes.application.routes.retrieve_research_survey_data", return_value=None
     )
 
-    response = flask_test_client.get(f"/application/research?application_id={application_id}")
+    response = flask_test_client.get(
+        f"/application/research?application_id={application_id}"
+    )
 
     assert response.status_code == 404
-    assert response.json() == {"code": 404, "message": f"Research survey data for {application_id} not found"}
+    assert response.json() == {
+        "code": 404,
+        "message": f"Research survey data for {application_id} not found",
+    }
     mock_retrieve_research_survey_data.assert_called_once_with(application_id)

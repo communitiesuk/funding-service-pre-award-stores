@@ -3,11 +3,13 @@ from sqlalchemy import update
 
 import config.fund_loader_config.cof.eoi as eoi
 from db import db
-from db.models.round import Round
+from fund_store.db.models.round import Round
 
 
 def update_rounds_with_links(round_config):
-    current_app.logger.warning(f"\tRound: {round_config[0]['short_name']} ({round_config[0]['id']})")
+    current_app.logger.warning(
+        f"\tRound: {round_config[0]['short_name']} ({round_config[0]['id']})"
+    )
     current_app.logger.warning("\t\tUpdating instructions & application_guidance")
     stmt = (
         update(Round)
