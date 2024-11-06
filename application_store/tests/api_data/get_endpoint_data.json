@@ -1,0 +1,397 @@
+{
+  "account_store/accounts?email_address=a%40example.com": {
+    "account_id": "usera",
+    "email_address": "a@example.com"
+  },
+  "account_store/accounts?email_address=b%40example.com": {
+    "account_id": "userb",
+    "email_address": "b@example.com"
+  },
+  "account_store/accounts?account_id=test-user": {
+    "account_id": "test-user",
+    "email_address": "test@example.com"
+  },
+  "account_store/accounts?account_id=usera": {
+    "account_id": "usera",
+    "email_address": "a@example.com"
+  },
+  "account_store/accounts?account_id=userb": {
+    "account_id": "userb",
+    "email_address": "b@example.com"
+  },
+  "account_store/accounts?account_id=userc": {
+    "account_id": "userc",
+    "email_address": "c@example.com"
+  },
+  "fund_store/funds": [
+    {
+      "name": "COF",
+      "short_name": "COF",
+      "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+      "description": "An example fund for testing the funding service"
+    },
+    {
+      "name": "Fund B",
+      "short_name": "FUB",
+      "id": "fund-b",
+      "description": "An example fund for testing the funding service"
+    },
+    {
+      "name": "Funding Service Design",
+      "short_name": "FSD",
+      "id": "funding-service-design",
+      "description": "An example fund for testing the funding service"
+    },
+    {
+      "name": "Community Ownership Fund",
+      "short_name": "CON",
+      "id": "community-ownership-fund",
+      "description": "An example Community Ownership Fund for testing the funding service"
+    }
+  ],
+  "fund_store/funds/47aef2f5-3fcb-4d45-acb5-f0152b5f03c4": {
+    "name": "COF",
+    "short_name": "COF",
+    "id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+    "description": "An example fund for testing the funding service"
+  },
+  "fund_store/funds/fund-b": {
+    "name": "Fund B",
+    "short_name": "FUB",
+    "id": "fund-b",
+    "description": "An example fund for testing the funding service"
+  },
+  "fund_store/funds/funding-service-design": {
+    "name": "Funding Service Design",
+    "short_name": "FSD",
+    "id": "funding-service-design",
+    "description": "An example fund for testing the funding service"
+  },
+  "fund_store/funds/community-ownership-fund": {
+    "name": "COF",
+    "short_name": "CON",
+    "id": "community-ownership-fund",
+    "description": "An example Community Ownership Fund for testing the funding service"
+  },
+  "fund_store/funds/47aef2f5-3fcb-4d45-acb5-f0152b5f03c4/rounds": [
+    {
+      "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+      "short_name": "SUM",
+      "title": "Summer",
+      "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+      "opens": "2022-02-01T00:00:01",
+      "deadline": "2022-06-01T00:00:00",
+      "assessment_deadline": "2022-09-30T00:00:00",
+      "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10
+            }
+        ]
+    }
+  ],
+  "fund_store/funds/fund-b/rounds": [
+    {
+      "fund_id": "funding-a",
+      "short_name": "SUM",
+      "title": "Summer",
+      "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+      "opens": "2022-02-01T00:00:01",
+      "deadline": "2022-06-01T00:00:00",
+      "assessment_deadline": "2022-09-30T00:00:00",
+      "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10
+            }
+        ]
+    }
+  ],
+  "fund_store/funds/funding-service-design/rounds": [
+    {
+      "fund_id": "funding-service-design",
+      "title": "Spring",
+      "short_name": "SPR",
+      "id": "spring",
+      "opens": "2022-02-01T00:00:01",
+      "deadline": "2022-06-01T00:00:00",
+      "assessment_deadline": "2022-09-30T00:00:00",
+      "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10
+            }
+        ]
+    },
+    {
+      "fund_id": "funding-service-design",
+      "title": "Summer",
+      "short_name": "SUM",
+      "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+      "opens": "2022-06-01T00:00:01",
+      "deadline": "2022-08-31T00:00:00",
+      "assessment_deadline": "2022-12-30T00:00:00",
+      "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10
+            }
+        ]
+    },
+    {
+      "fund_id": "funding-service-design",
+      "title": "Autumn",
+      "short_name": "AUT",
+      "id": "autumn",
+      "opens": "2022-09-01T00:00:01",
+      "deadline": "2022-11-30T00:00:00",
+      "assessment_deadline": "2023-03-30T00:00:00",
+      "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10
+            }
+        ]
+    }
+  ],
+  "fund_store/funds/47aef2f5-3fcb-4d45-acb5-f0152b5f03c4/rounds/c603d114-5364-4474-a0c4-c41cbf4d3bbd": {
+    "fund_id": "funding-service-design",
+    "title": "Summer",
+    "short_name": "SUM",
+    "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+    "opens": "2022-02-01T00:00:01",
+    "deadline": "2022-06-01T00:00:00",
+    "assessment_deadline": "2022-09-30T00:00:00",
+    "title_json": {"en": "English fund name", "cy": "Welsh fund name"},
+    "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10
+            }
+      ],
+    "project_name_field_id":"KAgrBz"
+  },
+  "fund_store/funds/fund-b/rounds/summer": {
+    "fund_id": "funding-service-design",
+    "short_name": "SUM",
+    "title": "Spring",
+    "id": "spring",
+    "opens": "2022-02-01T00:00:01",
+    "deadline": "2022-06-01T00:00:00",
+    "round_name": "random_round_name",
+    "assessment_deadline": "2022-09-30T00:00:00",
+    "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10
+            }
+        ]
+  },
+  "fund_store/funds/funding-service-design/rounds/spring": {
+    "fund_id": "funding-service-design",
+    "short_name": "SPR",
+    "title": "Spring",
+    "id": "spring",
+    "opens": "2022-02-01T00:00:01",
+    "deadline": "2022-06-01T00:00:00",
+    "round_name": "random_round_name",
+    "assessment_deadline": "2022-09-30T00:00:00",
+    "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10
+            }
+        ]
+  },
+  "fund_store/funds/funding-service-design/rounds/c603d114-5364-4474-a0c4-c41cbf4d3bbd": {
+    "fund_id": "funding-service-design",
+    "short_name": "SUM",
+    "title": "Summer",
+    "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+    "opens": "2022-06-01T00:00:01",
+    "deadline": "2022-08-31T00:00:00",
+    "assessment_deadline": "2022-09-30T00:00:00",
+    "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10
+            }
+        ]
+  },
+  "fund_store/funds/funding-service-design/rounds/autumn": {
+    "fund_id": "funding-service-design",
+    "title": "Autumn",
+    "short_name": "AUT",
+    "id": "autumn",
+    "opens": "2022-09-01T00:00:01",
+    "deadline": "2022-11-30T00:00:00",
+    "round_name": "random_round_name",
+    "assessment_deadline": "2022-09-30T00:00:00",
+    "assessment_criteria_weighting": [
+            {
+                "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
+                "name": "Strategic case",
+                "value": 0.30
+            },
+            {
+                "id": "e557773a-74c9-43ee-a52c-88ccae279d08",
+                "name": "Management case",
+                "value": 0.30
+            },
+            {
+                "id": "9e282cdb-6c42-4430-9563-dc4995b59bdd",
+                "name": "Potential to delivery community benefits",
+                "value": 0.30
+            },
+            {
+                "id": "6020db6c-df67-4932-a2f3-2e9dd1934164",
+                "name": "Added value to the community",
+                "value": 0.10
+            }
+        ]
+  }
+}
