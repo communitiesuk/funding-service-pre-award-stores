@@ -9,8 +9,6 @@ BaseModel: DefaultMeta = db.Model
 
 
 class ResearchSurvey(BaseModel):
-    __bind_key__ = "application_store"
-
     id = db.Column(db.Integer, primary_key=True)
     application_id = db.Column(
         UUID(as_uuid=True),

@@ -51,7 +51,7 @@ def create_app() -> FlaskApp:
 
     # TODO: MARC - SORT OUT MIGRATIONS
     # Bind Flask-Migrate db utilities to Flask app
-    # migrate.init_app(flask_app, db, directory="db/migrations", render_as_batch=True)
+    migrate.init_app(flask_app, db, directory="db/migrations", render_as_batch=True)
 
     # Enable mapping of ltree datatype for sections
     psycopg2.extensions.register_adapter(

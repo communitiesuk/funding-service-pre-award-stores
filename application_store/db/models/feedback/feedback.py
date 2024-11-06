@@ -6,15 +6,14 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from sqlalchemy_json import NestedMutableJson
 
-from db import db
 from application_store.db.models.application.applications import Applications
 from application_store.db.models.application.enums import Status
+from db import db
 
 BaseModel: DefaultMeta = db.Model
 
 
 class Feedback(BaseModel):
-    __bind_key__ = "application_store"
     id = db.Column(
         "id",
         UUID(as_uuid=True),

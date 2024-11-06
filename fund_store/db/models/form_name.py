@@ -7,8 +7,6 @@ BaseModel: DefaultMeta = db.Model
 
 
 class FormName(BaseModel):
-    __bind_key__ = "fund_store"
-
     section_id = Column(
         "section_id",
         Integer,

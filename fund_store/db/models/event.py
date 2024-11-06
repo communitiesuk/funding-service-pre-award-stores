@@ -18,7 +18,6 @@ class EventType(Enum):
 
 
 class Event(BaseModel):
-    __bind_key__ = "fund_store"
     id = Column(
         "id",
         UUID(as_uuid=True),

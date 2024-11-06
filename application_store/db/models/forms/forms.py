@@ -13,7 +13,6 @@ BaseModel: DefaultMeta = db.Model
 
 class Forms(BaseModel):
     __table_args__ = (db.UniqueConstraint("id", "name"),)
-    __bind_key__ = "application_store"
 
     id = db.Column(
         "id",

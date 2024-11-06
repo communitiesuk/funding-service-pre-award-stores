@@ -12,7 +12,6 @@ BaseModel: DefaultMeta = db.Model
 
 class Round(BaseModel):
     __table_args__ = (UniqueConstraint("fund_id", "short_name"),)
-    __bind_key__ = "fund_store"
 
     id = Column(
         "id",

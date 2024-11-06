@@ -12,7 +12,6 @@ BaseModel: DefaultMeta = db.Model
 
 
 class Eligibility(BaseModel):
-    __bind_key__ = "application_store"
     id = Column(
         "id",
         UUID(as_uuid=True),

@@ -19,8 +19,6 @@ BaseModel: DefaultMeta = db.Model
 
 
 class SectionField(BaseModel):
-    __bind_key__ = "fund_store"
-
     __tablename__ = "section_field"
     section_id = Column(ForeignKey("section.id"), primary_key=True)
     field_id = Column(ForeignKey("assessment_field.id"), primary_key=True)
@@ -29,8 +27,6 @@ class SectionField(BaseModel):
 
 
 class AssessmentField(BaseModel):
-    __bind_key__ = "fund_store"
-
     id = Column(db.String, primary_key=True, nullable=False, unique=True)
     field_type = Column(
         "field_type",
@@ -46,8 +42,6 @@ class AssessmentField(BaseModel):
 
 
 class Section(BaseModel):
-    __bind_key__ = "fund_store"
-
     id = Column(
         Integer,
         autoincrement=True,

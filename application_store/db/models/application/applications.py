@@ -6,14 +6,13 @@ from sqlalchemy.dialects.postgresql import ENUM, UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
-from db import db
 from application_store.db.models.application.enums import Language, Status
+from db import db
 
 BaseModel: DefaultMeta = db.Model
 
 
 class Applications(BaseModel):
-    __bind_key__ = "application_store"
     id = Column(
         "id",
         UUID(as_uuid=True),

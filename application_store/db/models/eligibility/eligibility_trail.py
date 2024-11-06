@@ -11,7 +11,6 @@ BaseModel: DefaultMeta = db.Model
 
 
 class EligibilityUpdate(BaseModel):
-    __bind_key__ = "application_store"
     id = Column("id", UUID(as_uuid=True), default=uuid4, primary_key=True)
     date_created = Column("date_created", db.DateTime(), server_default=func.now())
     eligible = Column("eligible", db.Boolean())

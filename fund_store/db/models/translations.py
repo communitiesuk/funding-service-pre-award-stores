@@ -7,8 +7,6 @@ BaseModel: DefaultMeta = db.Model
 
 
 class Translation(BaseModel):
-    __bind_key__ = "fund_store"
-
     content_id = Column(
         "content_id",
         Integer,
