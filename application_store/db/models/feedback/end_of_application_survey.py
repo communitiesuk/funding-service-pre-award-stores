@@ -9,6 +9,7 @@ BaseModel: DefaultMeta = db.Model
 
 
 class EndOfApplicationSurveyFeedback(BaseModel):
+    __bind_key__ = "application_store"
     id = db.Column(db.Integer, primary_key=True)
     application_id = db.Column(UUID(as_uuid=True), db.ForeignKey("applications.id"), nullable=False)
     fund_id = db.Column("fund_id", db.String(), nullable=False)

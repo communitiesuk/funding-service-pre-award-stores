@@ -1,14 +1,7 @@
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import JSON
-from sqlalchemy import Column
-from sqlalchemy import ForeignKey
-from sqlalchemy import Index
-from sqlalchemy import Integer
-from sqlalchemy import func
+from sqlalchemy import JSON, Column, ForeignKey, Index, Integer, func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import foreign
-from sqlalchemy.orm import relationship
-from sqlalchemy.orm import remote
+from sqlalchemy.orm import foreign, relationship, remote
 from sqlalchemy_utils import LtreeType
 
 from db import db
@@ -26,6 +19,8 @@ BaseModel: DefaultMeta = db.Model
 
 
 class SectionField(BaseModel):
+    __bind_key__ = "fund_store"
+
     __tablename__ = "section_field"
     section_id = Column(ForeignKey("section.id"), primary_key=True)
     field_id = Column(ForeignKey("assessment_field.id"), primary_key=True)
@@ -34,6 +29,8 @@ class SectionField(BaseModel):
 
 
 class AssessmentField(BaseModel):
+    __bind_key__ = "fund_store"
+
     id = Column(db.String, primary_key=True, nullable=False, unique=True)
     field_type = Column(
         "field_type",
@@ -49,6 +46,8 @@ class AssessmentField(BaseModel):
 
 
 class Section(BaseModel):
+    __bind_key__ = "fund_store"
+
     id = Column(
         Integer,
         autoincrement=True,
@@ -87,7 +86,9 @@ class Section(BaseModel):
     )
     path = Column(LtreeType, nullable=False)
     __table_args__ = (Index("ix_sections_path", path, postgresql_using="gist"),)
-    fields = relationship("SectionField", order_by=SectionField.display_order, viewonly=True)
+    fields = relationship(
+        "SectionField", order_by=SectionField.display_order, viewonly=True
+    )
     # fields = relationship(
     #     "AssessmentField",
     #     secondary=section_field_table,

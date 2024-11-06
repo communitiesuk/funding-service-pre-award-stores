@@ -1,8 +1,5 @@
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import JSON
-from sqlalchemy import Column
-from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
+from sqlalchemy import JSON, Column, ForeignKey, Integer
 
 from db import db
 
@@ -10,6 +7,8 @@ BaseModel: DefaultMeta = db.Model
 
 
 class FormName(BaseModel):
+    __bind_key__ = "fund_store"
+
     section_id = Column(
         "section_id",
         Integer,

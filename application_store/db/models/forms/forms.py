@@ -1,10 +1,11 @@
 import uuid
 
-from db import db
-from db.models.application.applications import Applications
 from flask_sqlalchemy.model import DefaultMeta
 from sqlalchemy_json import NestedMutableJson
 from sqlalchemy_utils.types import UUIDType
+
+from db import db
+from db.models.application.applications import Applications
 
 from .enums import Status
 
@@ -13,6 +14,8 @@ BaseModel: DefaultMeta = db.Model
 
 class Forms(BaseModel):
     __table_args__ = (db.UniqueConstraint("id", "name"),)
+    __bind_key__ = "application_store"
+
     id = db.Column(
         "id",
         UUIDType(binary=False),
@@ -20,7 +23,9 @@ class Forms(BaseModel):
         primary_key=True,
         nullable=False,
     )
-    application_id = db.Column("application_id", db.ForeignKey(Applications.id), nullable=False)
+    application_id = db.Column(
+        "application_id", db.ForeignKey(Applications.id), nullable=False
+    )
     json = db.Column("json", NestedMutableJson)
     status = db.Column("status", db.Enum(Status), default="NOT_STARTED", nullable=False)
     name = db.Column("name", db.String(), nullable=False)

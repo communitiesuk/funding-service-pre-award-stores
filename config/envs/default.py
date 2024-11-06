@@ -79,9 +79,11 @@ class DefaultConfig:
         FUND_STORE_API_HOST + "/funds/{fund_id}/rounds/{round_id}/eoi_decision_schema"
     )
 
-    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL").replace(
-        "postgres://", "postgresql://"
-    )
+    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL")
+    SQLALCHEMY_BINDS = {
+        "fund_store": environ.get("FUND_DATABASE_URL"),
+        "application_store": environ.get("APPLICATION_DATABASE_URL"),
+    }
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {"future": True}
     DOCUMENT_UPLOAD_SIZE_LIMIT = 2 * 1024 * 1024

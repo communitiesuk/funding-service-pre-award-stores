@@ -2,9 +2,7 @@ import uuid
 from enum import Enum
 
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import Column
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
+from sqlalchemy import Column, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import Enum as SQLAEnum
 
@@ -20,6 +18,7 @@ class EventType(Enum):
 
 
 class Event(BaseModel):
+    __bind_key__ = "fund_store"
     id = Column(
         "id",
         UUID(as_uuid=True),
@@ -33,6 +32,8 @@ class Event(BaseModel):
         ForeignKey("round.id"),
         nullable=True,
     )
-    type = Column("type", SQLAEnum(EventType, name="event_type"), nullable=False, unique=False)
+    type = Column(
+        "type", SQLAEnum(EventType, name="event_type"), nullable=False, unique=False
+    )
     activation_date = Column("activation_date", DateTime(), nullable=False)
     processed = Column("processed", DateTime(), nullable=True)

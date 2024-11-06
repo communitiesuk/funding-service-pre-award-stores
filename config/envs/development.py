@@ -16,7 +16,7 @@ class DevelopmentConfig(DefaultConfig):
     SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ENV = "development"
 
-    # TODO: THIS NEEDS TO BE CLEANED UP
+    # TODO: MARC - THIS NEEDS TO BE CLEANED UP
     SQLALCHEMY_DATABASE_URI = environ.get(
         "DATABASE_URL",
         "postgresql://postgres:postgres@127.0.0.1:5432/fsd_fund_store_1",  # pragma: allowlist secret

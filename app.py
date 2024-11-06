@@ -13,6 +13,7 @@ from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from sqlalchemy_utils import Ltree
 
 from application_store.db.exceptions.application import ApplicationError
+from config import Config
 from openapi.utils import get_bundled_specs
 
 
@@ -23,13 +24,13 @@ def create_app() -> FlaskApp:
     )
 
     connexion_app.add_api(
-        get_bundled_specs("fund_store/openapi/api.yml"),
+        get_bundled_specs("/fund_store/openapi/api.yml"),
         validate_responses=True,
         base_path="/fund",
     )
 
     connexion_app.add_api(
-        get_bundled_specs("application_store/openapi/api.yml"),
+        get_bundled_specs("/application_store/openapi/api.yml"),
         validate_responses=True,
         resolver_error=501,
         resolver=MethodResolver("api"),
@@ -37,20 +38,20 @@ def create_app() -> FlaskApp:
     )
 
     flask_app = connexion_app.app
-    # TODO: Consolidate config
+    # TODO: MARC - Consolidate config
     flask_app.config.from_object("config.Config")
 
     # Initialize sqs extended client
     create_sqs_extended_client(flask_app)
 
-    # TODO: FIX DB
     from db import db, migrate
 
     # Bind SQLAlchemy ORM to Flask app
     db.init_app(flask_app)
 
+    # TODO: MARC - SORT OUT MIGRATIONS
     # Bind Flask-Migrate db utilities to Flask app
-    migrate.init_app(flask_app, db, directory="db/migrations", render_as_batch=True)
+    # migrate.init_app(flask_app, db, directory="db/migrations", render_as_batch=True)
 
     # Enable mapping of ltree datatype for sections
     psycopg2.extensions.register_adapter(

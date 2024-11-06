@@ -1,18 +1,18 @@
 import uuid
 
-from db import db
-from db.models.application.applications import Applications
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import Column
-from sqlalchemy import DateTime
+from sqlalchemy import Column, DateTime
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy_json import NestedMutableJson
 
+from db import db
+from db.models.application.applications import Applications
 
 BaseModel: DefaultMeta = db.Model
 
 
 class Eligibility(BaseModel):
+    __bind_key__ = "application_store"
     id = Column(
         "id",
         UUID(as_uuid=True),
@@ -23,11 +23,15 @@ class Eligibility(BaseModel):
     form_id = Column("form_id", db.String(), nullable=False)
     answers = Column("answers", NestedMutableJson)
     eligible = Column("eligible", db.Boolean(), nullable=True)
-    application_id = db.Column("application_id", db.ForeignKey(Applications.id), nullable=False)
+    application_id = db.Column(
+        "application_id", db.ForeignKey(Applications.id), nullable=False
+    )
     date_submitted = db.Column("date_submitted", DateTime())
 
     def as_dict(self):
-        date_submitted = self.date_submitted.isoformat() if self.date_submitted else "null"
+        date_submitted = (
+            self.date_submitted.isoformat() if self.date_submitted else "null"
+        )
 
         return {
             "id": str(self.id),

@@ -1,18 +1,20 @@
 import uuid
 
-from db import db
-from db.models.application.applications import Applications
-from db.models.application.enums import Status
 from flask_sqlalchemy.model import DefaultMeta
 from sqlalchemy import DateTime
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from sqlalchemy_json import NestedMutableJson
 
+from db import db
+from db.models.application.applications import Applications
+from db.models.application.enums import Status
+
 BaseModel: DefaultMeta = db.Model
 
 
 class Feedback(BaseModel):
+    __bind_key__ = "application_store"
     id = db.Column(
         "id",
         UUID(as_uuid=True),
@@ -20,7 +22,9 @@ class Feedback(BaseModel):
         primary_key=True,
         nullable=False,
     )
-    application_id = db.Column("application_id", db.ForeignKey(Applications.id), nullable=False)
+    application_id = db.Column(
+        "application_id", db.ForeignKey(Applications.id), nullable=False
+    )
     fund_id = db.Column("fund_id", db.String(), nullable=False)
     round_id = db.Column("round_id", db.String(), nullable=False)
     section_id = db.Column("section_id", db.String(), nullable=False)
@@ -31,7 +35,9 @@ class Feedback(BaseModel):
     __table_args__ = (db.UniqueConstraint("application_id", "section_id"),)
 
     def as_dict(self):
-        date_submitted = self.date_submitted.isoformat() if self.date_submitted else "null"
+        date_submitted = (
+            self.date_submitted.isoformat() if self.date_submitted else "null"
+        )
         return {
             "id": str(self.id),
             "application_id": self.application_id,
