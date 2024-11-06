@@ -7,7 +7,7 @@ from typing import Tuple
 from bs4 import BeautifulSoup, NavigableString
 
 from fund_store.db.models.section import Section
-from scripts.all_questions.read_forms import (
+from fund_store.scripts.all_questions.read_forms import (
     build_section_header,
     determine_display_value_for_condition,
     determine_if_just_html_page,

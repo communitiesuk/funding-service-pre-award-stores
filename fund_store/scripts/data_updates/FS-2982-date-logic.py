@@ -1,9 +1,9 @@
 from flask import current_app
 from sqlalchemy import update
 
-import config.fund_loader_config.cof.cof_r2 as cof_r2
-import config.fund_loader_config.cof.cof_r3 as cof_r3
-import config.fund_loader_config.night_shelter.ns_r2 as ns_r2
+import fund_store.config.fund_loader_config.cof.cof_r2 as cof_r2
+import fund_store.config.fund_loader_config.cof.cof_r3 as cof_r3
+import fund_store.config.fund_loader_config.night_shelter.ns_r2 as ns_r2
 from db import db
 from fund_store.db.models.round import Round
 
