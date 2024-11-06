@@ -1,9 +1,7 @@
 import os
 from urllib.parse import urlparse
 
-from colored import attr
-from colored import fg
-from colored import stylize
+from colored import attr, fg, stylize
 from invoke import task
 
 ECHO_STYLE = fg("light_gray") + attr("bold")
@@ -15,10 +13,10 @@ def recreate_local_db(c):
 
     # As we assume "db_name" is not yet created. First we need to connect to psql with an existing database
     # Replace database in database_url with "postgres" db
-    database_url = os.environ.get("DATABASE_URL")
-    if not database_url:
+    original_database_url = os.environ.get("DATABASE_URL")
+    if not original_database_url:
         raise Exception("Please set the environmental variable 'DATABASE_URL'!")
-    parsed_db_url = urlparse(database_url)
+    parsed_db_url = urlparse(original_database_url)
     database_host = parsed_db_url.hostname
     db_name = parsed_db_url.path.lstrip("/")
     parsed_db_url = parsed_db_url._replace(path="/postgres")
@@ -32,7 +30,7 @@ def recreate_local_db(c):
         )
     )
     c.run(f'psql {database_url} -c "CREATE DATABASE {db_name};"')
-    c.run(f'psql {database_url} -c "create extension if not exists ltree;"')
+    c.run(f'psql {original_database_url} -c "create extension if not exists ltree;"')
     print(stylize(f"{db_name} db created on {database_host}...", ECHO_STYLE))
 
 
