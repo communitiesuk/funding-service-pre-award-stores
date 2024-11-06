@@ -1,7 +1,8 @@
 # flake8 : noqa
 """Flask Unit Testing Environment Configuration."""
-from os import environ
 
+from os import environ
+import logging
 from config.envs.default import DefaultConfig
 from fsd_utils import configclass
 from fsd_utils.config.commonconfig import CommonConfig
@@ -14,6 +15,7 @@ class UnitTestingConfig(DefaultConfig):
     SESSION_COOKIE_NAME = CommonConfig.SESSION_COOKIE_NAME
     FLASK_ENV = "unit_test"
     FUND_STORE_API_HOST = DefaultConfig.TEST_FUND_STORE_API_HOST
+    FSD_LOG_LEVEL = logging.DEBUG
 
     # Security
     FORCE_HTTPS = False
@@ -23,10 +25,21 @@ class UnitTestingConfig(DefaultConfig):
         "DATABASE_URL",
         "postgresql://postgres:postgres@localhost:5432/fsd_app_store_test",  # pragma: allowlist secret
     )
+
+    # TODO: RECONCILE THIS STUFF
+    SQLALCHEMY_DATABASE_URI = environ.get(
+        "DATABASE_URL",
+        "postgresql://postgres:postgres@127.0.0.1:5432/fsd_fund_store_unit_test",  # pragma: allowlist secret
+    )
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    AWS_SECRET_ACCESS_KEY = AWS_SQS_SECRET_ACCESS_KEY = "test_secret_key"  # pragma: allowlist secret
-    AWS_ACCESS_KEY_ID = AWS_SQS_ACCESS_KEY_ID = "test_access_key"  # pragma: allowlist secret
+    AWS_SECRET_ACCESS_KEY = AWS_SQS_SECRET_ACCESS_KEY = (
+        "test_secret_key"  # pragma: allowlist secret
+    )
+    AWS_ACCESS_KEY_ID = AWS_SQS_ACCESS_KEY_ID = (
+        "test_access_key"  # pragma: allowlist secret
+    )
     USE_LOCAL_DATA = True
     AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = "fsd-queue-test"
     AWS_SQS_REGION = "eu-west-2"

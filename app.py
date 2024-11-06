@@ -43,6 +43,7 @@ def create_app() -> FlaskApp:
     # Initialize sqs extended client
     create_sqs_extended_client(flask_app)
 
+    # TODO: FIX DB
     from db import db, migrate
 
     # Bind SQLAlchemy ORM to Flask app
