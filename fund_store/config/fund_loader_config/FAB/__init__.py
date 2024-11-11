@@ -31,8 +31,9 @@ FAB_FUND_ROUND_CONFIGS = {}
 this_dir = Path("config") / "fund_loader_config" / "FAB"
 
 for file in os.listdir(this_dir):
-    if "__" in file.title():
+    if file.startswith("__") or not file.endswith(".py"):
         continue
+
     with open(this_dir / file, "r") as json_file:
 
         content = json_file.read()
