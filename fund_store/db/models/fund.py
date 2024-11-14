@@ -41,3 +41,4 @@ class Fund(BaseModel):
     owner_organisation_shortname = Column("owner_organisation_shortname", db.String(), nullable=False, unique=False)
     owner_organisation_logo_uri = Column("owner_organisation_logo_uri", db.Text(), nullable=True, unique=False)
     funding_type = Column("funding_type", SQLAEnum(FundingType, name="fundingtype"), nullable=False, unique=False)
+    ggis_scheme_reference_number = Column("ggis_scheme_reference_number", db.String(255), nullable=True, unique=False)

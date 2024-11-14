@@ -24,6 +24,7 @@ LOADER_CONFIG = {
         "name_json": {"en": "Test"},
         "title_json": {"en": "Test Fund"},
         "description_json": {"en": "test"},
+        "ggis_scheme_reference_number": "",
     },
     "round_config": {
         "id": "1a2d6043-689b-4472-a09c-fd8fcfd20151",

@@ -35,6 +35,7 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
                     "id": fund_id,
                     "short_name": "FUND",
                     "funding_type": "COMPETITIVE",
+                    "ggis_scheme_reference_number": "",
                     "rounds": [
                         {
                             "id": round_id_1,
@@ -123,6 +124,7 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
             "owner_organisation_shortname": "TON",
             "owner_organisation_logo_uri": "...",
             "funding_type": fund["funding_type"] or FundingType.COMPETITIVE,
+            "ggis_scheme_reference_number": fund["ggis_scheme_reference_number"] or "",
         }
         insert_fund_data(fund_config)
         rounds = []
@@ -202,6 +204,7 @@ def mock_get_fund_round(mocker):
         title_json={"en": "Fund 1"},
         description_json={"en": "description text"},
         funding_type=FundingType.COMPETITIVE,
+        ggis_scheme_reference_number="G2-SCH-0000092414",
     )
     round_config = {
         "id": uuid4(),

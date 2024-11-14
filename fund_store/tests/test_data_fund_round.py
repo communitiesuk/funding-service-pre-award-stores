@@ -14,6 +14,8 @@ def test_get_fund_by_id(seed_dynamic_data):
     f = get_fund_by_id(seed_dynamic_data["funds"][0]["id"])
     assert f.name_json["en"] == "Unit Test Fund 1"
     assert f.short_name == "FND1"
+    assert hasattr(f, "ggis_scheme_reference_number")
+    assert f.ggis_scheme_reference_number is None
 
 
 def test_get_fund_by_short_name(seed_dynamic_data):
