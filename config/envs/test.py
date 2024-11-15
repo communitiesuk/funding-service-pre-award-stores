@@ -2,9 +2,9 @@
 
 from fsd_utils import configclass
 
-from config.envs.default import DefaultConfig as Config
+from config.envs.aws import AwsConfig
 
 
 @configclass
-class TestConfig(Config):
+class TestConfig(AwsConfig):
     pass

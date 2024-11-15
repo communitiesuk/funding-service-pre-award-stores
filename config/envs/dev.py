@@ -4,10 +4,10 @@ import logging
 
 from fsd_utils import configclass
 
-from config.envs.default import DefaultConfig as Config
+from config.envs.aws import AwsConfig
 
 
 @configclass
-class DevConfig(Config):
+class DevConfig(AwsConfig):
     # Logging
     FSD_LOG_LEVEL = logging.INFO
