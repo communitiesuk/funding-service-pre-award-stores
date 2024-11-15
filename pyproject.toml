@@ -8,9 +8,12 @@ requires-python = ">=3.10, <3.11"
 
 dependencies = [
     "connexion[flask,swagger-ui,uvicorn]>=3.1.0",
+    "flask-migrate==4.0.7",
+    "flask-sqlalchemy==3.1.1",
     "funding-service-design-utils>=5.0.8,<6.0.0",
     "openapi-spec-validator>=0.7.1",
     "prance>=23.6.21.0",
+    "psycopg2-binary==2.9.9",
 ]
 
 [tool.ruff]
@@ -30,6 +33,7 @@ select = [
 ]
 ignore = []
 exclude = [
+    "db/migrations/versions/",
     "venv*",
     ".venv*",
     "__pycache__",
