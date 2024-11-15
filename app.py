@@ -2,7 +2,7 @@ import connexion
 from connexion import FlaskApp
 from flask import jsonify
 from fsd_utils import init_sentry
-from fsd_utils.healthchecks.checkers import FlaskRunningChecker, DbChecker
+from fsd_utils.healthchecks.checkers import DbChecker, FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
 

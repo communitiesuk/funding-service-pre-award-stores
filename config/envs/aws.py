@@ -1,6 +1,5 @@
 import json
 import os
-import ssl
 
 from fsd_utils import configclass
 

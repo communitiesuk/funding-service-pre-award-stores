@@ -18,4 +18,7 @@ class DefaultConfig(object):
     FSD_LOG_LEVEL = logging.WARNING
 
     # Database
-    SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL', "postgresql://postgres:password@localhost:5432/pre_award_stores")
+    SQLALCHEMY_DATABASE_URI = environ.get(
+        "DATABASE_URL",
+        "postgresql://postgres:password@localhost:5432/pre_award_stores",  # pragma: allowlist secret
+    )
