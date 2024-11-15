@@ -32,6 +32,9 @@ count: 1 # Number of tasks that should be running in your service.
 exec: true # Enable running commands in your container.
 network:
   connect: true # Enable Service Connect for intra-environment traffic between services.
+  vpc:
+    security_groups:
+      - from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-fsdpreawardstoresclusterSecurityGroup
 
 # storage:
 # readonly_fs: true       # Limit to read-only access to mounted root filesystems.
@@ -44,6 +47,8 @@ variables:
 
 secrets:
   SECRET_KEY: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/SECRET_KEY
+  DATABASE_URL:
+    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-fsdpreawardstoresclusterAuroraSecret
 
 # You can override any of the values defined above by environment.
 environments:
