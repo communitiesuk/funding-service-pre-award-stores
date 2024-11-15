@@ -9,8 +9,5 @@ from config.envs.default import DefaultConfig as Config
 
 @configclass
 class DevConfig(Config):
-    #  Application Config
-    SESSION_COOKIE_NAME = "session_cookie"
-
     # Logging
     FSD_LOG_LEVEL = logging.INFO

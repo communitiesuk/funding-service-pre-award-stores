@@ -12,13 +12,7 @@ from config.envs.default import DefaultConfig as Config
 class DevelopmentConfig(Config):
     #  Application Config
     SECRET_KEY = "dev"  # pragma: allowlist secret
-    SESSION_COOKIE_NAME = "session_cookie"
     FLASK_ENV = "development"
 
     # Logging
     FSD_LOG_LEVEL = logging.DEBUG
-
-    SQLALCHEMY_DATABASE_URI = environ.get(
-        "DATABASE_URL",
-        "postgresql://postgres:postgres@127.0.0.1:5432/pre_award_stores",  # pragma: allowlist secret
-    )
