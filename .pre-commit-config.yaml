@@ -25,4 +25,3 @@ repos:
             "--disable-plugin",
             "Base64HighEntropyString",
           ]
-        exclude: .env.development
