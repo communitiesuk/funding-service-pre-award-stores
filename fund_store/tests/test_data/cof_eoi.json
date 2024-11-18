@@ -1,0 +1,410 @@
+[
+    {
+        "name": "Access funding cof-eoi-declaration",
+        "questions": [
+            {
+                "question": "Declaration",
+                "fields": [
+                    {
+                        "key": "YRDRQa",
+                        "title": "I confirm",
+                        "type": "list",
+                        "answer": "confirm"
+                    }
+                ]
+            }
+        ],
+        "metadata": {
+            "isSummaryPageSubmit": true,
+            "paymentSkipped": false
+        }
+    },
+    {
+        "name": "Access funding cof-eoi-details",
+        "questions": [
+            {
+                "category": "eAEGhH",
+                "question": "Organisation names",
+                "fields": [
+                    {
+                        "key": "SMRWjl",
+                        "title": "Organisation name",
+                        "type": "text",
+                        "answer": "test org name"
+                    },
+                    {
+                        "key": "SxkwhF",
+                        "title": "Does your organisation have any alternative names?",
+                        "type": "list",
+                        "answer": false
+                    }
+                ]
+            },
+            {
+                "category": "eAEGhH",
+                "question": "Organisation address",
+                "fields": [
+                    {
+                        "key": "OpeSdM",
+                        "title": "Organisation address",
+                        "type": "text",
+                        "answer": "Line 1, null, Newport, null, NP10 8QQ"
+                    }
+                ]
+            },
+            {
+                "category": "eAEGhH",
+                "question": "How your organisation is classified",
+                "fields": [
+                    {
+                        "key": "uYiLsv",
+                        "title": "Organisation classification",
+                        "type": "list",
+                        "answer": "Charitable incorporated organisation"
+                    }
+                ]
+            },
+            {
+                "category": "eAEGhH",
+                "question": "Is your organisation subject to any insolvency actions?",
+                "fields": [
+                    {
+                        "key": "NcQSbU",
+                        "title": "Is your organisation subject to any insolvency actions?",
+                        "type": "list",
+                        "answer": false
+                    }
+                ]
+            }
+        ],
+        "metadata": {
+            "isSummaryPageSubmit": true,
+            "paymentSkipped": false
+        }
+    },
+    {
+        "name": "Access funding cof-eoi-funding",
+        "questions": [
+            {
+                "category": "seZPbt",
+                "question": "What do you plan to use COF's funding for?",
+                "fields": [
+                    {
+                        "key": "aocRmv",
+                        "title": "What do you plan to use COF's funding for?",
+                        "type": "list",
+                        "answer": [
+                            "Renovate a leasehold"
+                        ]
+                    }
+                ]
+            },
+            {
+                "category": "seZPbt",
+                "question": "Will the leasehold have at least 15 years when your organisation submits a full application?",
+                "fields": [
+                    {
+                        "key": "foQgiy",
+                        "title": "Will the leasehold have at least 15 years when your organisation submits a full application?",
+                        "type": "list",
+                        "answer": true
+                    }
+                ]
+            },
+            {
+                "category": "seZPbt",
+                "question": "How much capital funding are you requesting from COF?",
+                "fields": [
+                    {
+                        "key": "fZAMFv",
+                        "title": "How much capital funding are you requesting from COF?",
+                        "type": "text",
+                        "answer": "123123"
+                    }
+                ]
+            },
+            {
+                "category": "seZPbt",
+                "question": "Do you plan to request any revenue funding?",
+                "fields": [
+                    {
+                        "key": "oblxxv",
+                        "title": "Do you plan to request any revenue funding?",
+                        "type": "list",
+                        "answer": true
+                    }
+                ]
+            },
+            {
+                "category": "seZPbt",
+                "question": "Do you plan to secure match funding? (either cash or in-kind)",
+                "fields": [
+                    {
+                        "key": "eOWKoO",
+                        "title": "Do you plan to secure match funding?",
+                        "type": "list",
+                        "answer": true
+                    }
+                ]
+            },
+            {
+                "category": "seZPbt",
+                "question": "Where do you plan to source match funding?",
+                "fields": [
+                    {
+                        "key": "BykoQQ",
+                        "title": "In-kind match funding",
+                        "type": "list",
+                        "answer": [
+                            "Donation of services"
+                        ]
+                    },
+                    {
+                        "key": "qgytim",
+                        "title": "Cash match funding",
+                        "type": "list",
+                        "answer": [
+                            "Your own financial resources"
+                        ]
+                    },
+                    {
+                        "key": "daJkaD",
+                        "title": "Or",
+                        "type": "list",
+                        "answer": [
+                            "Not sure"
+                        ]
+                    }
+                ]
+            },
+            {
+                "category": "seZPbt",
+                "question": "Does your project include an element of housing?",
+                "fields": [
+                    {
+                        "key": "yZxdeJ",
+                        "title": "Does your project include an element of housing?",
+                        "type": "list",
+                        "answer": true
+                    }
+                ]
+            },
+            {
+                "category": "seZPbt",
+                "question": "Will you need planning permission for your project?",
+                "fields": [
+                    {
+                        "key": "UORyaF",
+                        "title": "Will you need planning permission for your project?",
+                        "type": "list",
+                        "answer": "Yes"
+                    }
+                ]
+            }
+        ],
+        "metadata": {
+            "isSummaryPageSubmit": true,
+            "paymentSkipped": false
+        }
+    },
+    {
+        "name": "Access funding cof-eoi-support",
+        "questions": [
+            {
+                "category": "IEwDfr",
+                "question": "Do you wish to be contacted by the development support provider, if eligible for in-depth support?",
+                "fields": [
+                    {
+                        "key": "iXmKyq",
+                        "title": "Do you wish to be contacted by the development support provider, if eligible for in-depth support?",
+                        "type": "list",
+                        "answer": true
+                    }
+                ]
+            },
+            {
+                "category": "IEwDfr",
+                "question": "What are the main things you feel you need support with to submit a good COF application?",
+                "fields": [
+                    {
+                        "key": "ObIBSx",
+                        "title": "What are the main things you feel you need support with to submit a good COF application?",
+                        "type": "freeText",
+                        "answer": "<p>adsfasdfasdf</p>\r\n<p>need some support with filling out the form</p>"
+                    }
+                ]
+            },
+            {
+                "category": "IEwDfr",
+                "question": "Describe your project and its aims",
+                "fields": [
+                    {
+                        "key": "MxzEYq",
+                        "title": "Describe your project and its aims",
+                        "type": "freeText",
+                        "answer": "<p>To build stuff</p>"
+                    }
+                ]
+            },
+            {
+                "category": "IEwDfr",
+                "question": "Lead contact details",
+                "fields": [
+                    {
+                        "key": "xWnVof",
+                        "title": "Name of lead contact",
+                        "type": "text",
+                        "answer": "Bandit Healer"
+                    },
+                    {
+                        "key": "NQoGIm",
+                        "title": "Lead contact email address",
+                        "type": "text",
+                        "answer": "bandit@bluey.com"
+                    },
+                    {
+                        "key": "srxZmv",
+                        "title": "Lead contact telephone number",
+                        "type": "text",
+                        "answer": "0123123123"
+                    }
+                ]
+            }
+        ],
+        "metadata": {
+            "isSummaryPageSubmit": true,
+            "paymentSkipped": false
+        }
+    },
+    {
+        "name": "Access funding cof-eoi-asset",
+        "questions": [
+            {
+                "category": "McpePG",
+                "question": "Does your organisation plan both to receive the funding and run the project?",
+                "fields": [
+                    {
+                        "key": "eEaDGz",
+                        "title": "Does your organisation plan both to receive the funding and run the project?",
+                        "type": "list",
+                        "answer": true
+                    }
+                ]
+            },
+            {
+                "category": "McpePG",
+                "question": "Type of asset",
+                "fields": [
+                    {
+                        "key": "Ihjjyi",
+                        "title": "Type of asset",
+                        "type": "list",
+                        "answer": "Community centre"
+                    }
+                ]
+            },
+            {
+                "category": "McpePG",
+                "question": "Is the asset based in the UK?",
+                "fields": [
+                    {
+                        "key": "zurxox",
+                        "title": "Is the asset based in the UK?",
+                        "type": "list",
+                        "answer": true
+                    }
+                ]
+            },
+            {
+                "category": "McpePG",
+                "question": "Address of the asset",
+                "fields": [
+                    {
+                        "key": "dnqIdW",
+                        "title": "Address of the asset",
+                        "type": "text",
+                        "answer": "asdf, null, asdf, null, NP11 3RD"
+                    }
+                ]
+            },
+            {
+                "category": "McpePG",
+                "question": "Is the asset at risk?",
+                "fields": [
+                    {
+                        "key": "lLQmNb",
+                        "title": "Is the asset at risk?",
+                        "type": "list",
+                        "answer": true
+                    }
+                ]
+            },
+            {
+                "category": "McpePG",
+                "question": "What is the risk to the asset?",
+                "fields": [
+                    {
+                        "key": "ilMbMH",
+                        "title": "What is the risk to the asset?",
+                        "type": "list",
+                        "answer": [
+                            "Closure or end of lease"
+                        ]
+                    }
+                ]
+            },
+            {
+                "category": "McpePG",
+                "question": "Has the asset ever been used by or had significance to the community?",
+                "fields": [
+                    {
+                        "key": "fBhSNc",
+                        "title": "Has the asset ever been used by or had significance to the community?",
+                        "type": "list",
+                        "answer": true
+                    }
+                ]
+            },
+            {
+                "category": "McpePG",
+                "question": "Do you already own the asset?",
+                "fields": [
+                    {
+                        "key": "cPcZos",
+                        "title": "Do you already own the asset?",
+                        "type": "list",
+                        "answer": false
+                    }
+                ]
+            },
+            {
+                "category": "McpePG",
+                "question": "Does the asset belong to a public authority?",
+                "fields": [
+                    {
+                        "key": "XuAyrs",
+                        "title": "Does the asset belong to a public authority?",
+                        "type": "list",
+                        "answer": "Yes, a town, parish or community council"
+                    }
+                ]
+            },
+            {
+                "category": "McpePG",
+                "question": "Select the option which best represents the stage you are at in purchasing the asset",
+                "fields": [
+                    {
+                        "key": "oDhZlw",
+                        "title": "Stage purchasing asset",
+                        "type": "list",
+                        "answer": "Do not know who owner is"
+                    }
+                ]
+            }
+        ],
+        "metadata": {
+            "isSummaryPageSubmit": true,
+            "paymentSkipped": false
+        }
+    }
+]

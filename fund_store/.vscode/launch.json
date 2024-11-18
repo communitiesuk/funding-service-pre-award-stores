@@ -1,0 +1,175 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Docker-Runner fund-store",
+            "type": "python",
+            "request": "attach",
+            "connect": {
+              "host": "localhost",
+              "port": 5681
+            },
+            "pathMappings": [
+              {
+                "localRoot": "${workspaceFolder}",
+                "remoteRoot": "."
+              }
+            ],
+            "justMyCode": true
+        },
+        {
+            "name": "Python: Flask",
+            "type": "python",
+            "request": "launch",
+            "module": "wsgi",
+            "envFile": "${workspaceFolder}/.env.development",
+            "args": [
+                "run",
+                "--no-debugger",
+                "--no-reload"
+            ],
+            "jinja": true,
+            "justMyCode": true
+        },
+        {
+            "name": "Upgrade DB",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "envFile": "${workspaceFolder}/.env.development",
+            "args": [
+              "db",
+              "upgrade"
+            ]
+        },
+        {
+            "name": "Recreate local DB",
+            "type": "python",
+            "request": "launch",
+            "module": "invoke",
+            "envFile": "${workspaceFolder}/.env.development",
+            "args": [
+              "recreate-local-db"
+            ]
+        },
+        {
+            "name": "Load all fund rounds",
+            "type": "python",
+            "request": "launch",
+            "module": "scripts.load_all_fund_rounds",
+            "envFile": "${workspaceFolder}/.env.development",
+        },
+        {
+            "name": "Downgrade DB",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "envFile": "${workspaceFolder}/.env.development",
+            "args": [
+              "db",
+              "downgrade",
+              "ed3a28891090" // modify the downgrade revision accordingly
+            ]
+        },
+        {
+            "name": "Prepare DB Migration",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "envFile": "${workspaceFolder}/.env.development",
+            "args": [
+              "db",
+              "migrate"
+            ]
+        },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "host": "localhost",
+            "port": 9091,
+            "cwd": "${workspaceFolder}",
+            "env": { "PYTHONPATH":"${workspaceFolder}"},
+            "envFile": "${workspaceFolder}/.env.development",
+            "justMyCode": false
+        },
+        {
+            "name": "Load FAB Round",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/fund_round_loaders/load_fund_round_from_fab.py",
+            "console": "integratedTerminal",
+            "host": "localhost",
+            "port": 9091,
+            "cwd": "${workspaceFolder}",
+            "env": { "PYTHONPATH":"${workspaceFolder}"},
+            "envFile": "${workspaceFolder}/.env.development",
+            "justMyCode": false,
+            "args": ["--fund_short_code", "COF25"]
+        },
+        {
+            "name": "Amend Round dates",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/amend_round_dates.py",
+            "console": "integratedTerminal",
+            "host": "localhost",
+            "port": 9091,
+            "cwd": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/.env.development",
+            "env": { "PYTHONPATH":"${workspaceFolder}"},
+            "justMyCode": false,
+            // modify the args accordingly
+            "args": [
+                "--round_id", "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f",
+                "--opens_date", "2022-10-04 12:00:00",
+                "--deadline_date", "2022-12-14 11:59:00",
+                "--assessment_deadline_date", "2023-03-30 12:00:00"
+            ]
+        },
+        {
+            "name": "Run Tests: All",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "envFile": "${workspaceFolder}/.env.development",
+            "console": "integratedTerminal",
+        },
+        {
+            "name": "Run Tests: Current File (debug)",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/.env.development",
+            "args": [
+                "-c",
+                "pytest.ini",
+                "${file}"
+            ],
+            "justMyCode": false
+        },
+        {
+            "name": "Run Tests: Current Function (debug)",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/.env.development",
+            "args": [
+                "-c",
+                "pytest.ini",
+                "-k",
+                "test_route_fund_dashboard_shows_flagged"// modify this accordingly
+            ],
+            "justMyCode": false
+        },
+    ]
+}

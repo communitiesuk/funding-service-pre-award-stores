@@ -1,0 +1,130 @@
+{
+    "start_page": "/intro-risk-and-deliverability",
+    "all_pages": [
+        {
+            "path": "/summary",
+            "next_paths": [],
+            "all_direct_previous": [
+                "/organisation-governance-structure"
+            ],
+            "direct_next_of_direct_previous": [
+                "/summary"
+            ],
+            "all_possible_next_of_siblings": [],
+            "all_possible_previous": [
+                "/organisation-governance-structure",
+                "/risks-to-the-project",
+                "/who-is-responsible-risk-register",
+                "/intro-risk-and-deliverability"
+            ],
+            "all_possible_previous_direct_next": [
+                "/organisation-governance-structure",
+                "/risks-to-the-project",
+                "/who-is-responsible-risk-register",
+                "/summary"
+            ],
+            "all_possible_after": []
+        },
+        {
+            "path": "/intro-risk-and-deliverability",
+            "next_paths": [
+                "/risks-to-the-project"
+            ],
+            "all_direct_previous": [],
+            "direct_next_of_direct_previous": [],
+            "all_possible_next_of_siblings": [],
+            "all_possible_previous": [],
+            "all_possible_previous_direct_next": [],
+            "all_possible_after": [
+                "/organisation-governance-structure",
+                "/risks-to-the-project",
+                "/who-is-responsible-risk-register",
+                "/summary"
+            ]
+        },
+        {
+            "path": "/risks-to-the-project",
+            "next_paths": [
+                "/who-is-responsible-risk-register"
+            ],
+            "all_direct_previous": [
+                "/intro-risk-and-deliverability"
+            ],
+            "direct_next_of_direct_previous": [
+                "/risks-to-the-project"
+            ],
+            "all_possible_next_of_siblings": [
+                "/organisation-governance-structure",
+                "/who-is-responsible-risk-register",
+                "/summary"
+            ],
+            "all_possible_previous": [
+                "/intro-risk-and-deliverability"
+            ],
+            "all_possible_previous_direct_next": [
+                "/risks-to-the-project"
+            ],
+            "all_possible_after": [
+                "/organisation-governance-structure",
+                "/who-is-responsible-risk-register",
+                "/summary"
+            ]
+        },
+        {
+            "path": "/who-is-responsible-risk-register",
+            "next_paths": [
+                "/organisation-governance-structure"
+            ],
+            "all_direct_previous": [
+                "/risks-to-the-project"
+            ],
+            "direct_next_of_direct_previous": [
+                "/who-is-responsible-risk-register"
+            ],
+            "all_possible_next_of_siblings": [
+                "/organisation-governance-structure",
+                "/summary"
+            ],
+            "all_possible_previous": [
+                "/risks-to-the-project",
+                "/intro-risk-and-deliverability"
+            ],
+            "all_possible_previous_direct_next": [
+                "/risks-to-the-project",
+                "/who-is-responsible-risk-register"
+            ],
+            "all_possible_after": [
+                "/organisation-governance-structure",
+                "/summary"
+            ]
+        },
+        {
+            "path": "/organisation-governance-structure",
+            "next_paths": [
+                "/summary"
+            ],
+            "all_direct_previous": [
+                "/who-is-responsible-risk-register"
+            ],
+            "direct_next_of_direct_previous": [
+                "/organisation-governance-structure"
+            ],
+            "all_possible_next_of_siblings": [
+                "/summary"
+            ],
+            "all_possible_previous": [
+                "/risks-to-the-project",
+                "/who-is-responsible-risk-register",
+                "/intro-risk-and-deliverability"
+            ],
+            "all_possible_previous_direct_next": [
+                "/organisation-governance-structure",
+                "/risks-to-the-project",
+                "/who-is-responsible-risk-register"
+            ],
+            "all_possible_after": [
+                "/summary"
+            ]
+        }
+    ]
+}
