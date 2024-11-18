@@ -1,0 +1,54 @@
+[project]
+name = "funding-service-pre-award-stores"
+version = "0.1.0"
+description = "The Funding Service pre-award combined stores for the MHCLG."
+readme = "README.md"
+license = "MIT License"
+requires-python = ">=3.10, <3.11"
+
+dependencies = [
+    "connexion[flask,swagger-ui,uvicorn]>=3.1.0",
+    "flask-migrate==4.0.7",
+    "flask-sqlalchemy==3.1.1",
+    "funding-service-design-utils>=5.0.8,<6.0.0",
+    "openapi-spec-validator>=0.7.1",
+    "prance>=23.6.21.0",
+    "psycopg2-binary==2.9.9",
+]
+
+[tool.ruff]
+line-length = 120
+
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle
+    "W",  # pycodestyle
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C90",  # mccabe cyclomatic complexity
+    "G",  # flake8-logging-format
+]
+ignore = []
+exclude = [
+    "db/migrations/versions/",
+    "venv*",
+    ".venv*",
+    "__pycache__",
+]
+mccabe.max-complexity = 12
+
+[tool.uv]
+
+[dependency-groups]
+dev = [
+    "debugpy>=1.8.1",
+    "pre-commit~=4.0.0",
+    "pytest>=8.2.2",
+    "pytest-env>=1.1.3",
+    "pytest-flask>=1.3.0",
+    "pytest-mock==3.14.0",
+    "ruff>=0.7.3",
+]

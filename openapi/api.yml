@@ -1,0 +1,20 @@
+openapi: "3.0.0"
+
+info:
+  title: Funding Service Design - Pre-award Stores
+  description: Pre-award stores API for MHCLG Funding Service
+  version: "0.1.0"
+
+paths:
+  /test:
+    get:
+      summary: Test
+      description: Test
+      operationId: routes.test_route
+      responses:
+        200:
+          description: "Test string."
+          content:
+            application/json:
+              schema:
+                type: string
