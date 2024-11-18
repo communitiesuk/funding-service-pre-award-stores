@@ -32,23 +32,21 @@ on:
 
 jobs:
   setup:
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/determine-jobs.yml@feature/FSPT-63-skeleton-connexion-app
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/determine-jobs.yml@main
     with:
       environment: ${{ inputs.environment }}
 
   pre_deploy_tests:
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@feature/FSPT-63-skeleton-connexion-app
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
     with:
-      # Note - no db-name, so defaults to postgres_db
       postgres_unit_testing: true
-#      db_name: pre_award_stores
 
   paketo_build:
     needs: [ setup ]
     concurrency: build-pre-award-stores-pack
     permissions:
       packages: write
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/package.yml@feature/FSPT-63-skeleton-connexion-app
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/package.yml@main
     with:
       version_to_build: ${{ github.sha }}
       owner: ${{ github.repository_owner }}
@@ -57,7 +55,7 @@ jobs:
   dev_deploy:
     needs: [ pre_deploy_tests, paketo_build, setup ]
     if: ${{ contains(fromJSON(needs.setup.outputs.jobs_to_run), 'dev') }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@feature/FSPT-63-skeleton-connexion-app
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
@@ -65,7 +63,6 @@ jobs:
       app_name: pre-award-stores
       version: sha-${{ github.sha }}
       image_location: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
-#      db_name: pre_award_stores
 
   post_dev_deploy_tests:
     needs: dev_deploy
@@ -75,7 +72,7 @@ jobs:
     secrets:
       FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
       FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@feature/FSPT-63-skeleton-connexion-app
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || true }}
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || false }}
@@ -86,7 +83,7 @@ jobs:
   test_deploy:
     needs: [ dev_deploy, post_dev_deploy_tests, paketo_build, setup ]
     if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'test') && (! contains(needs.*.result, 'failure') ) && (! contains(needs.*.result, 'cancelled') )}}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@feature/FSPT-63-skeleton-connexion-app
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
@@ -94,7 +91,6 @@ jobs:
       app_name: pre-award-stores
       version: sha-${{ github.sha }}
       image_location: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
-#      db_name: pre_award_stores
 
   post_test_deploy_tests:
     needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, paketo_build, setup ]
@@ -105,7 +101,7 @@ jobs:
     secrets:
       FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
       FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@feature/FSPT-63-skeleton-connexion-app
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || true }}
@@ -116,7 +112,7 @@ jobs:
   uat_deploy:
     needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, post_test_deploy_tests, paketo_build, setup ]
     if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'uat') && (! contains(needs.*.result, 'failure') ) && (! contains(needs.*.result, 'cancelled') )}}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@feature/FSPT-63-skeleton-connexion-app
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
@@ -124,7 +120,6 @@ jobs:
       app_name: pre-award-stores
       version: sha-${{ github.sha }}
       image_location: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
-#      db_name: pre_award_stores
 
   post_uat_deploy_tests:
     needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, post_test_deploy_tests, uat_deploy, paketo_build, setup ]
@@ -135,7 +130,7 @@ jobs:
     secrets:
       FSD_GH_APP_ID: ${{ secrets.FSD_GH_APP_ID }}
       FSD_GH_APP_KEY: ${{ secrets.FSD_GH_APP_KEY }}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@feature/FSPT-63-skeleton-connexion-app
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/post-deploy.yml@main
     with:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || true }}
@@ -146,7 +141,7 @@ jobs:
   prod_deploy:
     needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, post_test_deploy_tests, uat_deploy, post_uat_deploy_tests, paketo_build, setup ]
     if: ${{ always() && contains(fromJSON(needs.setup.outputs.jobs_to_run), 'prod') && (! contains(needs.*.result, 'failure') ) && (! contains(needs.*.result, 'cancelled') )}}
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@feature/FSPT-63-skeleton-connexion-app
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
@@ -154,4 +149,3 @@ jobs:
       app_name: pre-award-stores
       version: sha-${{ github.sha }}
       image_location: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
-#      db_name: pre_award_stores
