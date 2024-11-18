@@ -10,8 +10,10 @@ from airium import Airium  # noqa: E402
 
 from app import create_app  # noqa: E402
 from db.models.section import Section  # noqa: E402
-from db.queries import get_application_sections_for_round  # noqa: E402
-from db.queries import get_round_by_short_name  # noqa: E402
+from db.queries import (
+    get_application_sections_for_round,  # noqa: E402
+    get_round_by_short_name,  # noqa: E402
+)
 from scripts.all_questions.metadata_utils import (  # noqa: E402
     generate_print_data_for_sections,
 )
@@ -198,7 +200,7 @@ def generate_all_questions(
         )
         if include_assessment_display_info:
             to_write = {}
-            for anchor, section in section_map.items():
+            for _anchor, section in section_map.items():
                 for form_name, fields in section["assessment_display_info"].items():
                     to_write[form_name] = fields
             with open(

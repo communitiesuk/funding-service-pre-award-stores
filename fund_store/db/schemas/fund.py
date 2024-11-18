@@ -1,8 +1,7 @@
 from marshmallow import fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
-from db.models.fund import Fund
-from db.models.fund import FundingType
+from db.models.fund import Fund, FundingType
 
 
 class FundSchema(SQLAlchemyAutoSchema):

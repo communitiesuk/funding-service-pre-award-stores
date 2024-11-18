@@ -2,13 +2,7 @@ import uuid
 from datetime import datetime
 from typing import List
 
-from sqlalchemy import bindparam
-from sqlalchemy import exc
-from sqlalchemy import func
-from sqlalchemy import insert
-from sqlalchemy import select
-from sqlalchemy import text
-from sqlalchemy import update
+from sqlalchemy import bindparam, exc, func, insert, select, text, update
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.sql import expression
 from sqlalchemy_utils import Ltree
@@ -19,9 +13,7 @@ from db.models.event import Event
 from db.models.form_name import FormName
 from db.models.fund import Fund
 from db.models.round import Round
-from db.models.section import AssessmentField
-from db.models.section import Section
-from db.models.section import SectionField
+from db.models.section import AssessmentField, Section, SectionField
 
 
 def get_all_funds() -> List[Fund]:
@@ -141,7 +133,8 @@ def get_assessment_sections_for_round(
         # select(Section).join(Translation, onclause=f"section.title_content_id
         #  = translation.content_id and translation.language='{language}'",
         # isouter=True).filter(Section.path.lquery(lquery))
-        .filter(Section.path.lquery(lquery)).order_by(Section.path)
+        .filter(Section.path.lquery(lquery))
+        .order_by(Section.path)
     ).all()
 
     return assessment_sections
@@ -153,7 +146,6 @@ def create_event(
     round_id: str = None,
     processed: datetime = None,
 ) -> Event:
-
     event = Event(type=type, activation_date=activation_date, round_id=round_id, processed=processed)
     try:
         db.session.add(event)

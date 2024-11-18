@@ -1,5 +1,4 @@
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 
 from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     HSRA_BASE_PATH,

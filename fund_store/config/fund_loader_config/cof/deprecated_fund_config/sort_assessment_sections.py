@@ -1,7 +1,5 @@
 from config.fund_loader_config.cof.deprecated_fund_config.assessment_section_config import (
     scored_sections,
-)
-from config.fund_loader_config.cof.deprecated_fund_config.assessment_section_config import (
     unscored_sections,
 )
 
@@ -74,10 +72,10 @@ def alpha_numeric_sort_section(
 
     # Before continuing to the next iteration at this level, check is there are any sub_levels to iterate through
     if next_level_key:
-        for index, section_config in enumerate(section_config[next_level_key]):
+        for index, sub_section_config in enumerate(section_config[next_level_key]):
             alpha_numeric_sort_section(
                 index,
-                section_config,
+                sub_section_config,
                 all_an_sorted_sections,
                 all_fields,
                 nested_keys_in_config,

@@ -7,7 +7,13 @@ from db.models.round import Round
 
 
 def update_rounds_with_links(round_config):
-    current_app.logger.warning(f"\tRound: {round_config[0]['short_name']} ({round_config[0]['id']})")
+    current_app.logger.warning(
+        "\tRound: {round_short_name} ({round_id})",
+        extra=dict(
+            round_short_name=round_config[0]["short_name"],
+            round_id=str(round_config[0]["id"]),
+        ),
+    )
     current_app.logger.warning("\t\tUpdating instructions & application_guidance")
     stmt = (
         update(Round)

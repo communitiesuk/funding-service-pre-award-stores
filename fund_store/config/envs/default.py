@@ -2,12 +2,10 @@
 
 import logging
 from distutils.util import strtobool
-from os import environ
-from os import getenv
+from os import environ, getenv
 from pathlib import Path
 
-from fsd_utils import CommonConfig
-from fsd_utils import configclass
+from fsd_utils import CommonConfig, configclass
 
 
 @configclass

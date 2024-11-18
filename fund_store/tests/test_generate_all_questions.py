@@ -2,21 +2,27 @@ import json
 import os
 
 import pytest
+from scripts.all_questions.generate_test_data import (
+    HOW_IS_ORG_CLASSIFIED,
+    JOINT_BID,
+    START_TO_MAIN_ACTIVITIES,
+    generate_test_data,
+)
+from scripts.all_questions.metadata_utils import (
+    build_components_from_page,
+    build_hierarchy_levels_for_page,
+    build_section_header,
+    generate_metadata,
+    update_wording_for_multi_input_fields,
+)
+from scripts.all_questions.read_forms import (
+    increment_lowest_in_hierarchy,
+    remove_lowest_in_hierarchy,
+    strip_leading_numbers,
+)
+from scripts.generate_all_questions import find_forms_dir
 
 from db.models.section import Section
-from scripts.all_questions.generate_test_data import HOW_IS_ORG_CLASSIFIED
-from scripts.all_questions.generate_test_data import JOINT_BID
-from scripts.all_questions.generate_test_data import START_TO_MAIN_ACTIVITIES
-from scripts.all_questions.generate_test_data import generate_test_data
-from scripts.all_questions.metadata_utils import build_components_from_page
-from scripts.all_questions.metadata_utils import build_hierarchy_levels_for_page
-from scripts.all_questions.metadata_utils import build_section_header
-from scripts.all_questions.metadata_utils import generate_metadata
-from scripts.all_questions.metadata_utils import update_wording_for_multi_input_fields
-from scripts.all_questions.read_forms import increment_lowest_in_hierarchy
-from scripts.all_questions.read_forms import remove_lowest_in_hierarchy
-from scripts.all_questions.read_forms import strip_leading_numbers
-from scripts.generate_all_questions import find_forms_dir
 
 TEST_METADATA_FOLDER = "./tests/test_data/all_questions/metadata/"
 TEST_FORMS_FOLDER = "./tests/test_data/all_questions/forms/"

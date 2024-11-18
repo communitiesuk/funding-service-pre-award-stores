@@ -8,7 +8,13 @@ from db.models.section import Section
 
 
 def update_section_weightings(section):
-    current_app.logger.warning(f"\tSection: {section['tree_path']} ({section['section_name']['en']})")
+    current_app.logger.warning(
+        "\tSection: {section_tree_path} ({section_name})",
+        extra=dict(
+            section_tree_path=str(section["tree_path"]),
+            section_name=str(section["section_name"]["en"]),
+        ),
+    )
     current_app.logger.warning("\t\tUpdating weighting")
     stmt = update(Section).where(Section.path == Ltree(section["tree_path"])).values(weighting=section["weighting"])
 

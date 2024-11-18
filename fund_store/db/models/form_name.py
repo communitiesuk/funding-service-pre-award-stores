@@ -1,8 +1,5 @@
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import JSON
-from sqlalchemy import Column
-from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
+from sqlalchemy import JSON, Column, ForeignKey, Integer
 
 from db import db
 

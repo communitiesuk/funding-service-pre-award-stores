@@ -7,7 +7,7 @@ from db.models.fund import Fund
 
 
 def update_fund_name(fund_config):
-    current_app.logger.info(f"Fund: {fund_config['short_name']}")
+    current_app.logger.info("Fund: {fund_id}", extra=dict(fund_id=str(fund_config["id"])))
     current_app.logger.info("\t\tUpdating fund name")
     stmt = update(Fund).where(Fund.id == fund_config["id"]).values(name_json=fund_config["name_json"])
 

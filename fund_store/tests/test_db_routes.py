@@ -2,9 +2,9 @@ from copy import deepcopy
 from datetime import datetime
 from unittest.mock import patch
 
+from api.routes import is_valid_uuid
 from fsd_test_utils.test_config.useful_config import UsefulConfig
 
-from api.routes import is_valid_uuid
 from db.models.event import EventType
 
 

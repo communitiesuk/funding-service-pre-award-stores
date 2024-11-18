@@ -3,11 +3,9 @@ from enum import Enum
 from typing import List
 
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import JSON
-from sqlalchemy import Column
+from sqlalchemy import JSON, Column
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.types import Boolean
 from sqlalchemy.types import Enum as SQLAEnum
 

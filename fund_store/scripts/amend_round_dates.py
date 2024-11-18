@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 import click
 
@@ -57,7 +56,7 @@ FUTURE = "future"
 DEFAULTS = {"round_short_name": None}
 
 
-def update_round_dates_in_db(round_id, application_opens, application_deadline, assessment_start, assessment_deadline):
+def update_round_dates_in_db(round_id, application_opens, application_deadline, assessment_start, assessment_deadline):  # noqa: C901
     round_to_update = Round.query.get(round_id)
     if not round_to_update:
         raise ValueError(f"Round with ID {round_id} not found in database. No updates made")
@@ -337,7 +336,6 @@ def update_round_dates_fab(
     assessment_start=None,
     assessment_deadline=None,
 ):
-
     from config.fund_loader_config.FAB import FAB_FUND_ROUND_CONFIGS
 
     round_id = FAB_FUND_ROUND_CONFIGS[fund_short_name]["rounds"][round_short_name]["id"]

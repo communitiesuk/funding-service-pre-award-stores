@@ -1,11 +1,7 @@
 import uuid
 
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import JSON
-from sqlalchemy import Column
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
-from sqlalchemy import UniqueConstraint
+from sqlalchemy import JSON, Column, DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import Boolean
 

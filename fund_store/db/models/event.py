@@ -2,9 +2,7 @@ import uuid
 from enum import Enum
 
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import Column
-from sqlalchemy import DateTime
-from sqlalchemy import ForeignKey
+from sqlalchemy import Column, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import Enum as SQLAEnum
 

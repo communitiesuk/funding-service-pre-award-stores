@@ -10,13 +10,10 @@ from flask import Flask
 from sqlalchemy_utils import Ltree
 
 from app import create_app
-from db.models.fund import Fund
-from db.models.fund import FundingType
+from db.models.fund import Fund, FundingType
 from db.models.round import Round
 from db.models.section import Section
-from db.queries import insert_fund_data
-from db.queries import insert_sections
-from db.queries import upsert_round_data
+from db.queries import insert_fund_data, insert_sections, upsert_round_data
 
 pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
 

@@ -6,7 +6,7 @@ from db.models.section import Section
 def determine_display_value_for_condition(
     condition_value: str,
     list_name: str = None,
-    form_lists: list[dict] = [],
+    form_lists: list[dict] = None,
     lang: str = "en",
 ) -> str:
     """Determines the display value for the given condition string - either translating true/false into
@@ -22,6 +22,8 @@ def determine_display_value_for_condition(
     Returns:
         str: The display value
     """
+    if form_lists is None:
+        form_lists = []
     if condition_value.casefold() == "true":
         return "Yes" if lang == "en" else "Ydy"
     elif condition_value.casefold() == "false":

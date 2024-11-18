@@ -7,7 +7,13 @@ from db.models.round import Round
 
 
 def update_round_guidance(round_config):
-    current_app.logger.info(f"Round: {round_config['short_name']}, id: {round_config['id']}")
+    current_app.logger.info(
+        "Round: {round_short_name}, id: {round_id}",
+        extra=dict(
+            round_short_name=round_config["short_name"],
+            round_id=str(round_config["id"]),
+        ),
+    )
     current_app.logger.info("\t\tUpdating round guidance")
     stmt = update(Round).where(Round.id == round_config["id"]).values(guidance_url=round_config["guidance_url"])
 

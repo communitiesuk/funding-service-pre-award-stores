@@ -8,7 +8,10 @@ from db.models.round import Round
 
 def update_application_fields_download_available(rounds):
     for round in rounds:
-        current_app.logger.warning(f"\tRound: {round['short_name']} ({round['id']})")
+        current_app.logger.warning(
+            "\tRound: {round_short_name} ({round_id})",
+            extra=dict(round_short_name=round["short_name"], round_id=str(round["id"])),
+        )
         if round.get("application_fields_download_available"):
             current_app.logger.warning("\t\tUpdating application_fields_download_available")
             stmt = (
