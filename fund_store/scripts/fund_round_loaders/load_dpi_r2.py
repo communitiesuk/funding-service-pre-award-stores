@@ -1,15 +1,21 @@
 # flake8: noqa
-from config.fund_loader_config.digital_planning.dpi_r2 import APPLICATION_BASE_PATH
-from config.fund_loader_config.digital_planning.dpi_r2 import ASSESSMENT_BASE_PATH
-from config.fund_loader_config.digital_planning.dpi_r2 import DPI_ROUND_2_ID
-from config.fund_loader_config.digital_planning.dpi_r2 import fund_config
-from config.fund_loader_config.digital_planning.dpi_r2 import r2_application_sections
-from config.fund_loader_config.digital_planning.dpi_r2 import round_config
-from db.queries import insert_assessment_sections
-from db.queries import insert_base_sections
-from db.queries import insert_fund_data
-from db.queries import insert_or_update_application_sections
-from db.queries import upsert_round_data
+from fund_store.config.fund_loader_config.digital_planning.dpi_r2 import (
+    APPLICATION_BASE_PATH,
+)
+from fund_store.config.fund_loader_config.digital_planning.dpi_r2 import (
+    ASSESSMENT_BASE_PATH,
+)
+from fund_store.config.fund_loader_config.digital_planning.dpi_r2 import DPI_ROUND_2_ID
+from fund_store.config.fund_loader_config.digital_planning.dpi_r2 import fund_config
+from fund_store.config.fund_loader_config.digital_planning.dpi_r2 import (
+    r2_application_sections,
+)
+from fund_store.config.fund_loader_config.digital_planning.dpi_r2 import round_config
+from fund_store.db.queries import insert_assessment_sections
+from fund_store.db.queries import insert_base_sections
+from fund_store.db.queries import insert_fund_data
+from fund_store.db.queries import insert_or_update_application_sections
+from fund_store.db.queries import upsert_round_data
 
 
 def main() -> None:

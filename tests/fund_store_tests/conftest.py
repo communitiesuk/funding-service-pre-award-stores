@@ -10,12 +10,10 @@ from flask import Flask
 from sqlalchemy_utils import Ltree
 
 from app import create_app
-from db.models.fund import Fund, FundingType
-from db.models.round import Round
-from db.models.section import Section
-from db.queries import insert_fund_data, insert_sections, upsert_round_data
-
-pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
+from fund_store.db.models.fund import Fund, FundingType
+from fund_store.db.models.round import Round
+from fund_store.db.models.section import Section
+from fund_store.db.queries import insert_fund_data, insert_sections, upsert_round_data
 
 
 @pytest.fixture(scope="session")
@@ -220,13 +218,13 @@ def mock_get_fund_round(mocker):
         "support_times": "",
     }
     mock_round: Round = Round(title_json={"en": "Round 1"}, short_name="RND1", **round_config)
-    mocker.patch("api.routes.get_all_funds", return_value=[mock_fund])
-    mocker.patch("api.routes.get_fund_by_id", return_value=mock_fund)
-    mocker.patch("api.routes.get_fund_by_short_name", return_value=mock_fund)
-    mocker.patch("api.routes.get_round_by_id", return_value=mock_round)
-    mocker.patch("api.routes.get_round_by_short_name", return_value=mock_round)
-    mocker.patch("api.routes.get_rounds_for_fund_by_id", return_value=[mock_round])
-    mocker.patch("api.routes.get_rounds_for_fund_by_short_name", return_value=[mock_round])
+    mocker.patch("fund_store.api.routes.get_all_funds", return_value=[mock_fund])
+    mocker.patch("fund_store.api.routes.get_fund_by_id", return_value=mock_fund)
+    mocker.patch("fund_store.api.routes.get_fund_by_short_name", return_value=mock_fund)
+    mocker.patch("fund_store.api.routes.get_round_by_id", return_value=mock_round)
+    mocker.patch("fund_store.api.routes.get_round_by_short_name", return_value=mock_round)
+    mocker.patch("fund_store.api.routes.get_rounds_for_fund_by_id", return_value=[mock_round])
+    mocker.patch("fund_store.api.routes.get_rounds_for_fund_by_short_name", return_value=[mock_round])
 
 
 @pytest.fixture(scope="function")
@@ -250,5 +248,5 @@ def mock_get_sections(mocker):
             ),
         ],
     )
-    mocker.patch("api.routes.get_application_sections_for_round", return_value=[mock_sections])
-    mocker.patch("api.routes.get_assessment_sections_for_round", return_value=[mock_sections])
+    mocker.patch("fund_store.api.routes.get_application_sections_for_round", return_value=[mock_sections])
+    mocker.patch("fund_store.api.routes.get_assessment_sections_for_round", return_value=[mock_sections])

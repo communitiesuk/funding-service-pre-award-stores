@@ -1,12 +1,12 @@
 # flake8: noqa
 import click
 
-from config.fund_loader_config.FAB import FAB_FUND_ROUND_CONFIGS
+from fund_store.config.fund_loader_config.FAB import FAB_FUND_ROUND_CONFIGS
 from db import db
-from db.queries import insert_base_sections
-from db.queries import insert_fund_data
-from db.queries import insert_or_update_application_sections
-from db.queries import upsert_round_data
+from fund_store.db.queries import insert_base_sections
+from fund_store.db.queries import insert_fund_data
+from fund_store.db.queries import insert_or_update_application_sections
+from fund_store.db.queries import upsert_round_data
 
 
 @click.command()
@@ -26,7 +26,6 @@ def load_fund_from_fab(fund_short_code) -> None:
         insert_fund_data(FUND_CONFIG, commit=False)
 
         for round_short_name, round in FUND_CONFIG["rounds"].items():
-
             round_base_path = round["base_path"]
 
             APPLICATION_BASE_PATH = ".".join([str(round_base_path), str(1)])

@@ -2,7 +2,7 @@ from typing import List
 
 import pytest
 
-from config.fund_loader_config.cof.cof_r2 import (
+from fund_store.config.fund_loader_config.cof.cof_r2 import (
     APPLICATION_BASE_PATH,
     ASSESSMENT_BASE_PATH,
     COF_ROUND_2_WINDOW_2_ID,
@@ -10,8 +10,8 @@ from config.fund_loader_config.cof.cof_r2 import (
     fund_config,
     rounds_config,
 )
-from db.models.section import Section
-from db.queries import (
+from fund_store.db.models.section import Section
+from fund_store.db.queries import (
     get_application_sections_for_round,
     get_assessment_sections_for_round,
     insert_base_sections,

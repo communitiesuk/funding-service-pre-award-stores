@@ -1,14 +1,14 @@
 # flake8: noqa
-from config.fund_loader_config.hsra.hsra import APPLICATION_BASE_PATH_HSRA
-from config.fund_loader_config.hsra.hsra import ASSESSMENT_BASE_PATH_HSRA
-from config.fund_loader_config.hsra.hsra import HSRA_ROUND_ID
-from config.fund_loader_config.hsra.hsra import fund_config
-from config.fund_loader_config.hsra.hsra import hsra_sections
-from config.fund_loader_config.hsra.hsra import round_config
-from db.queries import insert_base_sections
-from db.queries import insert_fund_data
-from db.queries import insert_or_update_application_sections
-from db.queries import upsert_round_data
+from fund_store.config.fund_loader_config.hsra.hsra import APPLICATION_BASE_PATH_HSRA
+from fund_store.config.fund_loader_config.hsra.hsra import ASSESSMENT_BASE_PATH_HSRA
+from fund_store.config.fund_loader_config.hsra.hsra import HSRA_ROUND_ID
+from fund_store.config.fund_loader_config.hsra.hsra import fund_config
+from fund_store.config.fund_loader_config.hsra.hsra import hsra_sections
+from fund_store.config.fund_loader_config.hsra.hsra import round_config
+from fund_store.db.queries import insert_base_sections
+from fund_store.db.queries import insert_fund_data
+from fund_store.db.queries import insert_or_update_application_sections
+from fund_store.db.queries import upsert_round_data
 
 
 def main() -> None:

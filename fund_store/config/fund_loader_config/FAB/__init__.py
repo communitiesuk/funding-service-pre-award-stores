@@ -28,14 +28,13 @@ FAB_FUND_ROUND_CONFIGS example:
 
 FAB_FUND_ROUND_CONFIGS = {}
 
-this_dir = Path("config") / "fund_loader_config" / "FAB"
+this_dir = Path("fund_store") / "config" / "fund_loader_config" / "FAB"
 
 for file in os.listdir(this_dir):
     if file.startswith("__") or not file.endswith(".py"):
         continue
 
     with open(this_dir / file, "r") as json_file:
-
         content = json_file.read()
         if content.startswith("LOADER_CONFIG = "):
             content = content.split("LOADER_CONFIG = ")[1]

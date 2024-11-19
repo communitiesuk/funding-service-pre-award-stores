@@ -1,5 +1,6 @@
 import pytest
-from api.routes import filter_fund_by_lang, filter_round_by_lang
+
+from fund_store.api.routes import filter_fund_by_lang, filter_round_by_lang
 
 
 @pytest.mark.parametrize(

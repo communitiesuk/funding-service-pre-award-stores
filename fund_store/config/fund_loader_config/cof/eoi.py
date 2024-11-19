@@ -3,15 +3,15 @@ import textwrap
 from datetime import datetime
 from datetime import timezone
 
-from config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA_CY
-from config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA_EN
-from config.fund_loader_config.cof.shared import EOI_APPLICATION_GUIDANCE
-from config.fund_loader_config.cof.shared import fund_config
-from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
+from fund_store.config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA_CY
+from fund_store.config.fund_loader_config.cof.eoi_r1_schema import COF_R3_EOI_SCHEMA_EN
+from fund_store.config.fund_loader_config.cof.shared import EOI_APPLICATION_GUIDANCE
+from fund_store.config.fund_loader_config.cof.shared import fund_config
+from fund_store.config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     COF_EOI_BASE_PATH,
 )
-from config.fund_loader_config.logo import DLUHC_LOGO_PNG
-from db.models.fund import FundingType
+from fund_store.config.fund_loader_config.logo import DLUHC_LOGO_PNG
+from fund_store.db.models.fund import FundingType
 
 COF_FUND_ID = "54c11ec2-0b16-46bb-80d2-f210e47a8791"
 COF_EOI_ROUND_ID = "6a47c649-7bac-4583-baed-9c4e7a35c8b3"
