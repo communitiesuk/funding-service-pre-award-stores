@@ -1,0 +1,799 @@
+{
+    "start_page": "/intro-about-your-organisation",
+    "all_pages": [
+        {
+            "path": "/organisation-details",
+            "next_paths": [
+                "/alternative-organisation-name",
+                "/tell-us-about-your-organisations-main-activities"
+            ],
+            "all_direct_previous": [
+                "/intro-about-your-organisation"
+            ],
+            "direct_next_of_direct_previous": [
+                "/organisation-details"
+            ],
+            "all_possible_next_of_siblings": [
+                "/how-is-your-organisation-classified-other",
+                "/summary",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/charity-number",
+                "/organisation-address",
+                "/agreement-exists",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous": [
+                "/intro-about-your-organisation"
+            ],
+            "all_possible_previous_direct_next": [
+                "/organisation-details"
+            ],
+            "all_possible_after": [
+                "/how-is-your-organisation-classified-other",
+                "/summary",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/charity-number",
+                "/organisation-address",
+                "/agreement-exists",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ]
+        },
+        {
+            "path": "/tell-us-about-your-organisations-main-activities",
+            "next_paths": [
+                "/how-is-your-organisation-classified"
+            ],
+            "all_direct_previous": [
+                "/organisation-details",
+                "/alternative-organisation-name"
+            ],
+            "direct_next_of_direct_previous": [
+                "/alternative-organisation-name",
+                "/tell-us-about-your-organisations-main-activities"
+            ],
+            "all_possible_next_of_siblings": [
+                "/how-is-your-organisation-classified-other",
+                "/summary",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/charity-number",
+                "/organisation-address",
+                "/agreement-exists",
+                "/how-is-your-organisation-classified",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous": [
+                "/intro-about-your-organisation",
+                "/alternative-organisation-name",
+                "/organisation-details"
+            ],
+            "all_possible_previous_direct_next": [
+                "/alternative-organisation-name",
+                "/organisation-details",
+                "/tell-us-about-your-organisations-main-activities"
+            ],
+            "all_possible_after": [
+                "/how-is-your-organisation-classified-other",
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/agreement-exists",
+                "/how-is-your-organisation-classified",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ]
+        },
+        {
+            "path": "/how-is-your-organisation-classified",
+            "next_paths": [
+                "/how-is-your-organisation-classified-other",
+                "/charity-number",
+                "/company-registration-number"
+            ],
+            "all_direct_previous": [
+                "/tell-us-about-your-organisations-main-activities"
+            ],
+            "direct_next_of_direct_previous": [
+                "/how-is-your-organisation-classified"
+            ],
+            "all_possible_next_of_siblings": [
+                "/how-is-your-organisation-classified-other",
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous": [
+                "/intro-about-your-organisation",
+                "/alternative-organisation-name",
+                "/organisation-details",
+                "/tell-us-about-your-organisations-main-activities"
+            ],
+            "all_possible_previous_direct_next": [
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/organisation-details",
+                "/tell-us-about-your-organisations-main-activities"
+            ],
+            "all_possible_after": [
+                "/how-is-your-organisation-classified-other",
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ]
+        },
+        {
+            "path": "/how-is-your-organisation-classified-other",
+            "next_paths": [
+                "/organisation-address"
+            ],
+            "all_direct_previous": [
+                "/how-is-your-organisation-classified"
+            ],
+            "direct_next_of_direct_previous": [
+                "/company-registration-number",
+                "/how-is-your-organisation-classified-other",
+                "/charity-number"
+            ],
+            "all_possible_next_of_siblings": [
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-address",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous": [
+                "/tell-us-about-your-organisations-main-activities",
+                "/intro-about-your-organisation",
+                "/organisation-details",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified"
+            ],
+            "all_possible_previous_direct_next": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/organisation-details",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/company-registration-number"
+            ],
+            "all_possible_after": [
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-address",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/website-and-social-media"
+            ]
+        },
+        {
+            "path": "/company-registration-number",
+            "next_paths": [
+                "/organisation-address"
+            ],
+            "all_direct_previous": [
+                "/how-is-your-organisation-classified"
+            ],
+            "direct_next_of_direct_previous": [
+                "/company-registration-number",
+                "/how-is-your-organisation-classified-other",
+                "/charity-number"
+            ],
+            "all_possible_next_of_siblings": [
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-address",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous": [
+                "/tell-us-about-your-organisations-main-activities",
+                "/intro-about-your-organisation",
+                "/organisation-details",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified"
+            ],
+            "all_possible_previous_direct_next": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/organisation-details",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/company-registration-number"
+            ],
+            "all_possible_after": [
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-address",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/website-and-social-media"
+            ]
+        },
+        {
+            "path": "/charity-number",
+            "next_paths": [
+                "/organisation-address"
+            ],
+            "all_direct_previous": [
+                "/how-is-your-organisation-classified"
+            ],
+            "direct_next_of_direct_previous": [
+                "/company-registration-number",
+                "/how-is-your-organisation-classified-other",
+                "/charity-number"
+            ],
+            "all_possible_next_of_siblings": [
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-address",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous": [
+                "/tell-us-about-your-organisations-main-activities",
+                "/intro-about-your-organisation",
+                "/organisation-details",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified"
+            ],
+            "all_possible_previous_direct_next": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/organisation-details",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/company-registration-number"
+            ],
+            "all_possible_after": [
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-address",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/website-and-social-media"
+            ]
+        },
+        {
+            "path": "/alternative-organisation-name",
+            "next_paths": [
+                "/tell-us-about-your-organisations-main-activities"
+            ],
+            "all_direct_previous": [
+                "/organisation-details"
+            ],
+            "direct_next_of_direct_previous": [
+                "/alternative-organisation-name",
+                "/tell-us-about-your-organisations-main-activities"
+            ],
+            "all_possible_next_of_siblings": [
+                "/how-is-your-organisation-classified-other",
+                "/summary",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/charity-number",
+                "/organisation-address",
+                "/agreement-exists",
+                "/how-is-your-organisation-classified",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous": [
+                "/intro-about-your-organisation",
+                "/organisation-details"
+            ],
+            "all_possible_previous_direct_next": [
+                "/alternative-organisation-name",
+                "/organisation-details",
+                "/tell-us-about-your-organisations-main-activities"
+            ],
+            "all_possible_after": [
+                "/how-is-your-organisation-classified-other",
+                "/summary",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/charity-number",
+                "/organisation-address",
+                "/agreement-exists",
+                "/how-is-your-organisation-classified",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ]
+        },
+        {
+            "path": "/organisation-address",
+            "next_paths": [
+                "/alternative-organisation-address"
+            ],
+            "all_direct_previous": [
+                "/how-is-your-organisation-classified-other",
+                "/company-registration-number",
+                "/charity-number"
+            ],
+            "direct_next_of_direct_previous": [
+                "/organisation-address"
+            ],
+            "all_possible_next_of_siblings": [
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/intro-about-your-organisation",
+                "/organisation-details",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/company-registration-number"
+            ],
+            "all_possible_previous_direct_next": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/company-registration-number"
+            ],
+            "all_possible_after": [
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/website-and-social-media"
+            ]
+        },
+        {
+            "path": "/alternative-organisation-address",
+            "next_paths": [
+                "/joint-bid"
+            ],
+            "all_direct_previous": [
+                "/organisation-address"
+            ],
+            "direct_next_of_direct_previous": [
+                "/alternative-organisation-address"
+            ],
+            "all_possible_next_of_siblings": [
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/intro-about-your-organisation",
+                "/organisation-details",
+                "/charity-number",
+                "/organisation-address",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/company-registration-number"
+            ],
+            "all_possible_previous_direct_next": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/alternative-organisation-address",
+                "/company-registration-number"
+            ],
+            "all_possible_after": [
+                "/summary",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/website-and-social-media"
+            ]
+        },
+        {
+            "path": "/joint-bid",
+            "next_paths": [
+                "/partner-organisation-details",
+                "/website-and-social-media"
+            ],
+            "all_direct_previous": [
+                "/alternative-organisation-address"
+            ],
+            "direct_next_of_direct_previous": [
+                "/joint-bid"
+            ],
+            "all_possible_next_of_siblings": [
+                "/summary",
+                "/partner-organisation-details",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/intro-about-your-organisation",
+                "/organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/alternative-organisation-address",
+                "/company-registration-number"
+            ],
+            "all_possible_previous_direct_next": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/alternative-organisation-address",
+                "/company-registration-number"
+            ],
+            "all_possible_after": [
+                "/summary",
+                "/partner-organisation-details",
+                "/agreement-exists",
+                "/work-with-partner-organisations",
+                "/website-and-social-media"
+            ]
+        },
+        {
+            "path": "/partner-organisation-details",
+            "next_paths": [
+                "/work-with-partner-organisations"
+            ],
+            "all_direct_previous": [
+                "/joint-bid"
+            ],
+            "direct_next_of_direct_previous": [
+                "/partner-organisation-details",
+                "/website-and-social-media"
+            ],
+            "all_possible_next_of_siblings": [
+                "/work-with-partner-organisations",
+                "/summary",
+                "/website-and-social-media",
+                "/agreement-exists"
+            ],
+            "all_possible_previous": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/intro-about-your-organisation",
+                "/organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/alternative-organisation-address",
+                "/company-registration-number"
+            ],
+            "all_possible_previous_direct_next": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ],
+            "all_possible_after": [
+                "/work-with-partner-organisations",
+                "/summary",
+                "/website-and-social-media",
+                "/agreement-exists"
+            ]
+        },
+        {
+            "path": "/website-and-social-media",
+            "next_paths": [
+                "/summary"
+            ],
+            "all_direct_previous": [
+                "/joint-bid",
+                "/agreement-exists"
+            ],
+            "direct_next_of_direct_previous": [
+                "/partner-organisation-details",
+                "/website-and-social-media"
+            ],
+            "all_possible_next_of_siblings": [
+                "/work-with-partner-organisations",
+                "/summary",
+                "/website-and-social-media",
+                "/agreement-exists"
+            ],
+            "all_possible_previous": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/intro-about-your-organisation",
+                "/partner-organisation-details",
+                "/organisation-details",
+                "/organisation-address",
+                "/agreement-exists",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number"
+            ],
+            "all_possible_previous_direct_next": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/agreement-exists",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ],
+            "all_possible_after": [
+                "/summary"
+            ]
+        },
+        {
+            "path": "/summary",
+            "next_paths": [],
+            "all_direct_previous": [
+                "/website-and-social-media"
+            ],
+            "direct_next_of_direct_previous": [
+                "/summary"
+            ],
+            "all_possible_next_of_siblings": [],
+            "all_possible_previous": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/intro-about-your-organisation",
+                "/partner-organisation-details",
+                "/organisation-details",
+                "/organisation-address",
+                "/agreement-exists",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous_direct_next": [
+                "/how-is-your-organisation-classified-other",
+                "/summary",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/agreement-exists",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ],
+            "all_possible_after": []
+        },
+        {
+            "path": "/intro-about-your-organisation",
+            "next_paths": [
+                "/organisation-details"
+            ],
+            "all_direct_previous": [],
+            "direct_next_of_direct_previous": [],
+            "all_possible_next_of_siblings": [],
+            "all_possible_previous": [],
+            "all_possible_previous_direct_next": [],
+            "all_possible_after": [
+                "/how-is-your-organisation-classified-other",
+                "/summary",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-details",
+                "/charity-number",
+                "/organisation-address",
+                "/agreement-exists",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/work-with-partner-organisations",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ]
+        },
+        {
+            "path": "/work-with-partner-organisations",
+            "next_paths": [
+                "/agreement-exists"
+            ],
+            "all_direct_previous": [
+                "/partner-organisation-details"
+            ],
+            "direct_next_of_direct_previous": [
+                "/work-with-partner-organisations"
+            ],
+            "all_possible_next_of_siblings": [
+                "/summary",
+                "/website-and-social-media",
+                "/agreement-exists"
+            ],
+            "all_possible_previous": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/intro-about-your-organisation",
+                "/organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/how-is-your-organisation-classified",
+                "/alternative-organisation-address",
+                "/company-registration-number"
+            ],
+            "all_possible_previous_direct_next": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/work-with-partner-organisations",
+                "/how-is-your-organisation-classified",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ],
+            "all_possible_after": [
+                "/summary",
+                "/website-and-social-media",
+                "/agreement-exists"
+            ]
+        },
+        {
+            "path": "/agreement-exists",
+            "next_paths": [
+                "/website-and-social-media"
+            ],
+            "all_direct_previous": [
+                "/work-with-partner-organisations"
+            ],
+            "direct_next_of_direct_previous": [
+                "/agreement-exists"
+            ],
+            "all_possible_next_of_siblings": [
+                "/summary",
+                "/website-and-social-media"
+            ],
+            "all_possible_previous": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/intro-about-your-organisation",
+                "/organisation-details",
+                "/organisation-address",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/work-with-partner-organisations",
+                "/how-is-your-organisation-classified",
+                "/alternative-organisation-address",
+                "/company-registration-number"
+            ],
+            "all_possible_previous_direct_next": [
+                "/how-is-your-organisation-classified-other",
+                "/tell-us-about-your-organisations-main-activities",
+                "/joint-bid",
+                "/partner-organisation-details",
+                "/organisation-details",
+                "/organisation-address",
+                "/agreement-exists",
+                "/charity-number",
+                "/alternative-organisation-name",
+                "/work-with-partner-organisations",
+                "/how-is-your-organisation-classified",
+                "/alternative-organisation-address",
+                "/company-registration-number",
+                "/website-and-social-media"
+            ],
+            "all_possible_after": [
+                "/summary",
+                "/website-and-social-media"
+            ]
+        }
+    ]
+}

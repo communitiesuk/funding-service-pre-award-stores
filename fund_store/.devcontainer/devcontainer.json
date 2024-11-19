@@ -1,0 +1,19 @@
+{
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
+    "service": "fund-store",
+    "workspaceFolder": "/fund-store",
+    "shutdownAction": "none",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.debugpy",
+                "ms-python.vscode-pylance",
+                "eamodio.gitlens",
+                "ms-python.flake8",
+                "ms-python.black-formatter"
+            ]
+        }
+    }
+}
