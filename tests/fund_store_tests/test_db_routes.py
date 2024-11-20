@@ -2,10 +2,10 @@ from copy import deepcopy
 from datetime import datetime
 from unittest.mock import patch
 
-from api.routes import is_valid_uuid
 from fsd_test_utils.test_config.useful_config import UsefulConfig
 
-from db.models.event import EventType
+from fund_store.api.routes import is_valid_uuid
+from fund_store.db.models.event import EventType
 
 
 def test_valid_uuid():
@@ -31,8 +31,8 @@ def test_invalid_None_uuid():
 
 
 def test_get_fund_by_id(flask_test_client, mock_get_fund_round, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    response = flask_test_client.get("/funds/123")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    response = flask_test_client.get("/fund/funds/123")
     assert response.status_code == 200
     result = response.json()
     assert result["name"] == "Fund Name 1"
@@ -40,38 +40,38 @@ def test_get_fund_by_id(flask_test_client, mock_get_fund_round, mocker):
 
 
 def test_get_fund_by_invalid_id(flask_test_client, mocker):
-    mocker.patch("api.routes.get_fund_by_id", return_value=None)
-    response = flask_test_client.get("/funds/None")
+    mocker.patch("fund_store.api.routes.get_fund_by_id", return_value=None)
+    response = flask_test_client.get("/fund/funds/None")
     assert response.status_code == 404
 
 
 def test_get_fund_by_short_name(flask_test_client, mock_get_fund_round, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    response = flask_test_client.get("/funds/ABC?use_short_name=True")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    response = flask_test_client.get("/fund/funds/ABC?use_short_name=True")
     assert response.status_code == 200
     result = response.json()
     assert result["name"] == "Fund Name 1"
 
 
 def test_get_round_by_short_name(flask_test_client, mock_get_fund_round, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    response = flask_test_client.get("/funds/FND1/rounds/RND1?use_short_name=True")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    response = flask_test_client.get("/fund/funds/FND1/rounds/RND1?use_short_name=True")
     assert response.status_code == 200
     result = response.json()
     assert result["title"] == "Round 1"
 
 
 def test_get_eoi_decision_schema(flask_test_client, mock_get_fund_round, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    response = flask_test_client.get("/funds/FND1/rounds/RND1/eoi_decision_schema?use_short_name=True")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    response = flask_test_client.get("/fund/funds/FND1/rounds/RND1/eoi_decision_schema?use_short_name=True")
     assert response.status_code == 200
     result = response.json()
     assert result == {}
 
 
 def test_get_round_by_id(flask_test_client, mock_get_fund_round, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    response = flask_test_client.get("/funds/FND1/rounds/RND1")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    response = flask_test_client.get("/fund/funds/FND1/rounds/RND1")
     assert response.status_code == 200
     result = response.json()
     assert result["title"] == "Round 1"
@@ -79,36 +79,36 @@ def test_get_round_by_id(flask_test_client, mock_get_fund_round, mocker):
 
 
 def test_get_round_by_bad_id(flask_test_client, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    mocker.patch("api.routes.get_round_by_id", return_value=None)
-    response = flask_test_client.get("/funds/FND1/rounds/RND1")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    mocker.patch("fund_store.api.routes.get_round_by_id", return_value=None)
+    response = flask_test_client.get("/fund/funds/FND1/rounds/RND1")
     assert response.status_code == 404
 
 
 def test_get_eoi_decision_schema_bad_id(flask_test_client, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    mocker.patch("api.routes.get_round_by_id", return_value=None)
-    response = flask_test_client.get("/funds/xxxxx/rounds/xxxxx/eoi_decision_schema")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    mocker.patch("fund_store.api.routes.get_round_by_id", return_value=None)
+    response = flask_test_client.get("/fund/funds/xxxxx/rounds/xxxxx/eoi_decision_schema")
     assert response.status_code == 404
 
 
 def test_get_all_funds(flask_test_client, mock_get_fund_round):
-    response = flask_test_client.get("/funds")
+    response = flask_test_client.get("/fund/funds")
     assert response.status_code == 200
     result = response.json()
     assert result[0]["name"] == "Fund Name 1"
 
 
 def test_get_all_funds_no_data(flask_test_client, mocker):
-    mocker.patch("api.routes.get_all_funds", return_value=[])
-    response = flask_test_client.get("/funds")
+    mocker.patch("fund_store.api.routes.get_all_funds", return_value=[])
+    response = flask_test_client.get("/fund/funds")
     assert response.status_code == 200
 
 
 def test_get_app_sections_for_round(flask_test_client, mock_get_sections, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
     response = flask_test_client.get(
-        f"/funds/{UsefulConfig.COF_FUND_ID}/rounds/{UsefulConfig.COF_ROUND_2_ID}/sections/application"
+        f"/fund/funds/{UsefulConfig.COF_FUND_ID}/rounds/{UsefulConfig.COF_ROUND_2_ID}/sections/application"
     )
     assert response.status_code == 200
     result = response.json()
@@ -116,9 +116,9 @@ def test_get_app_sections_for_round(flask_test_client, mock_get_sections, mocker
 
 
 def test_get_assess_sections_for_round(flask_test_client, mock_get_sections, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
     response = flask_test_client.get(
-        f"/funds/{UsefulConfig.COF_FUND_ID}/rounds/{UsefulConfig.COF_ROUND_2_ID}/sections/assessment"
+        f"/fund/funds/{UsefulConfig.COF_FUND_ID}/rounds/{UsefulConfig.COF_ROUND_2_ID}/sections/assessment"
     )
     assert response.status_code == 200
     result = response.json()
@@ -142,14 +142,16 @@ def test_get_events_for_round(flask_test_client, mocker):
             "processed": datetime(2001, 8, 8),
         },
     ]
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
     expected_response = deepcopy(mock_events)
     for response in expected_response:
         response["activation_date"] = response["activation_date"].isoformat()
         response["processed"] = response["processed"].isoformat() if response["processed"] else None
         response["type"] = response["type"].value
-    with patch("api.routes.get_events_from_db", return_value=mock_events) as mock_get_events_for_round_from_db:
-        response = flask_test_client.get("/funds/some_fund_id/rounds/some_round_id/events?only_unprocessed=true")
+    with patch(
+        "fund_store.api.routes.get_events_from_db", return_value=mock_events
+    ) as mock_get_events_for_round_from_db:
+        response = flask_test_client.get("/fund/funds/some_fund_id/rounds/some_round_id/events?only_unprocessed=true")
 
         assert response.status_code == 200
         assert response.json() == expected_response
@@ -157,9 +159,9 @@ def test_get_events_for_round(flask_test_client, mocker):
 
 
 def test_get_events_for_round_not_found(flask_test_client, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    with patch("api.routes.get_events_from_db", return_value=None) as mock_get_events_for_round_from_db:
-        response = flask_test_client.get("/funds/some_fund_id/rounds/some_round_id/events")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    with patch("fund_store.api.routes.get_events_from_db", return_value=None) as mock_get_events_for_round_from_db:
+        response = flask_test_client.get("/fund/funds/some_fund_id/rounds/some_round_id/events")
 
         assert response.status_code == 404
         mock_get_events_for_round_from_db.assert_called_once_with(round_id="some_round_id", only_unprocessed=False)
@@ -179,9 +181,9 @@ def test_get_event(flask_test_client, mocker):
         expected_response["processed"].isoformat() if expected_response["processed"] else None
     )
     expected_response["type"] = expected_response["type"].value
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    with patch("api.routes.get_event_from_db", return_value=mock_event) as mock_get_event_from_db:
-        response = flask_test_client.get("/funds/some_fund_id/rounds/some_round_id/event/123")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    with patch("fund_store.api.routes.get_event_from_db", return_value=mock_event) as mock_get_event_from_db:
+        response = flask_test_client.get("/fund/funds/some_fund_id/rounds/some_round_id/event/123")
 
         assert response.status_code == 200
         assert response.json() == expected_response
@@ -189,9 +191,9 @@ def test_get_event(flask_test_client, mocker):
 
 
 def test_get_event_not_found(flask_test_client, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    with patch("api.routes.get_event_from_db", return_value=None) as mock_get_events_for_round_from_db:
-        response = flask_test_client.get("/funds/some_fund_id/rounds/some_round_id/event/123")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    with patch("fund_store.api.routes.get_event_from_db", return_value=None) as mock_get_events_for_round_from_db:
+        response = flask_test_client.get("/fund/funds/some_fund_id/rounds/some_round_id/event/123")
 
         assert response.status_code == 404
         mock_get_events_for_round_from_db.assert_called_once_with(round_id="some_round_id", event_id="123")
@@ -209,20 +211,20 @@ def test_set_event_to_processed(flask_test_client, mocker):
     expected_response["activation_date"] = expected_response["activation_date"].isoformat()
     expected_response["type"] = expected_response["type"].value
     expected_response["processed"] = expected_response["processed"].isoformat()
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
     with patch(
-        "api.routes.set_event_to_processed_in_db", return_value=mock_event
+        "fund_store.api.routes.set_event_to_processed_in_db", return_value=mock_event
     ) as mock_set_round_event_to_processed_in_db:
-        response = flask_test_client.put("/funds/some_fund_id/rounds/some_round_id/event/123?processed=true")
+        response = flask_test_client.put("/fund/funds/some_fund_id/rounds/some_round_id/event/123?processed=true")
 
         assert response.status_code == 200
         assert response.json() == expected_response
         mock_set_round_event_to_processed_in_db.assert_called_once_with(event_id="123", processed=True)
 
     with patch(
-        "api.routes.set_event_to_processed_in_db", return_value=mock_event
+        "fund_store.api.routes.set_event_to_processed_in_db", return_value=mock_event
     ) as mock_set_round_event_to_processed_in_db:
-        response = flask_test_client.put("/event/123?processed=true")
+        response = flask_test_client.put("/fund/event/123?processed=true")
 
         assert response.status_code == 200
         assert response.json() == expected_response
@@ -245,8 +247,10 @@ def test_get_events_by_type(flask_test_client):
         response["activation_date"] = response["activation_date"].isoformat()
         response["processed"] = response["processed"].isoformat() if response["processed"] else None
         response["type"] = response["type"].value
-    with patch("api.routes.get_events_from_db", return_value=mock_expected_events) as mock_get_events_by_type_from_db:
-        response = flask_test_client.get("/events/APPLICATION_DEADLINE_REMINDER?only_unprocessed=true")
+    with patch(
+        "fund_store.api.routes.get_events_from_db", return_value=mock_expected_events
+    ) as mock_get_events_by_type_from_db:
+        response = flask_test_client.get("/fund/events/APPLICATION_DEADLINE_REMINDER?only_unprocessed=true")
 
         assert response.status_code == 200
         assert response.json() == expected_response
@@ -256,15 +260,15 @@ def test_get_events_by_type(flask_test_client):
 
 
 def test_get_events_by_type_not_recognised(flask_test_client, mocker):
-    with patch("api.routes.get_events_from_db", return_value=None):
-        response = flask_test_client.get("/events/INVALID_TYPE")
+    with patch("fund_store.api.routes.get_events_from_db", return_value=None):
+        response = flask_test_client.get("/fund/events/INVALID_TYPE")
 
         assert response.status_code == 400
 
 
 def test_get_events_by_type_not_found(flask_test_client, mocker):
-    with patch("api.routes.get_events_from_db", return_value=None) as mock_get_events_by_type_from_db:
-        response = flask_test_client.get("/events/APPLICATION_DEADLINE_REMINDER")
+    with patch("fund_store.api.routes.get_events_from_db", return_value=None) as mock_get_events_by_type_from_db:
+        response = flask_test_client.get("/fund/events/APPLICATION_DEADLINE_REMINDER")
 
         assert response.status_code == 404
         mock_get_events_by_type_from_db.assert_called_once_with(
@@ -286,9 +290,9 @@ def test_get_event_by_id(flask_test_client, mocker):
         expected_response["processed"].isoformat() if expected_response["processed"] else None
     )
     expected_response["type"] = expected_response["type"].value
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    with patch("api.routes.get_event_from_db", return_value=mock_event) as mock_get_event_from_db:
-        response = flask_test_client.get("/event/1")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    with patch("fund_store.api.routes.get_event_from_db", return_value=mock_event) as mock_get_event_from_db:
+        response = flask_test_client.get("/fund/event/1")
 
         assert response.status_code == 200
         assert response.json() == expected_response
@@ -296,9 +300,9 @@ def test_get_event_by_id(flask_test_client, mocker):
 
 
 def test_get_event_by_id_not_found(flask_test_client, mocker):
-    mocker.patch("api.routes.is_valid_uuid", return_value=True)
-    with patch("api.routes.get_event_from_db", return_value=None) as mock_get_event_by_id_from_db:
-        response = flask_test_client.get("/event/123")
+    mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
+    with patch("fund_store.api.routes.get_event_from_db", return_value=None) as mock_get_event_by_id_from_db:
+        response = flask_test_client.get("/fund/event/123")
 
         assert response.status_code == 404
         mock_get_event_by_id_from_db.assert_called_once_with(event_id="123")
@@ -319,9 +323,9 @@ def test_create_event(flask_test_client, mocker):
     }
 
     expected_response = {"id": "1", "round_id": None, **new_event_payload}
-    mocker.patch("api.routes.create_event_in_db", return_value=mock_events)
-    with patch("api.routes.create_event_in_db", return_value=mock_events) as mock_create_event_in_db:
-        response = flask_test_client.post("/event", json=new_event_payload)
+    mocker.patch("fund_store.api.routes.create_event_in_db", return_value=mock_events)
+    with patch("fund_store.api.routes.create_event_in_db", return_value=mock_events) as mock_create_event_in_db:
+        response = flask_test_client.post("/fund/event", json=new_event_payload)
         mock_create_event_in_db.assert_called_once_with(**new_event_payload, round_id=None)
 
     assert response.status_code == 201
@@ -333,7 +337,7 @@ def test_create_event_missing_type(flask_test_client):
         "round_id": "9",
         "activation_date": datetime(2000, 10, 1).isoformat(),
     }
-    response = flask_test_client.post("/event", json=new_event_payload)
+    response = flask_test_client.post("/fund/event", json=new_event_payload)
 
     assert response.status_code == 400
     assert response.json()["detail"] == "Post body must contain event type field"

@@ -1,11 +1,11 @@
 from datetime import datetime, timezone
 
-from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
+from fund_store.config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     HSRA_BASE_PATH,
 )
-from config.fund_loader_config.hsra.shared import HSRA_APPLICATION_GUIDANCE
-from config.fund_loader_config.logo import DLUHC_LOGO_PNG
-from db.models.fund import FundingType
+from fund_store.config.fund_loader_config.hsra.shared import HSRA_APPLICATION_GUIDANCE
+from fund_store.config.fund_loader_config.logo import DLUHC_LOGO_PNG
+from fund_store.db.models.fund import FundingType
 
 HSRA_FUND_ID = "1e4bd8b0-b399-466d-bbd1-572171bbc7bd"
 HSRA_ROUND_ID = "50062ff6-e696-474d-a560-4d9af784e6e5"

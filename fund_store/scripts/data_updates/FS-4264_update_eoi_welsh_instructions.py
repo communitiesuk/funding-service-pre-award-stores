@@ -1,9 +1,9 @@
 from flask import current_app
 from sqlalchemy import update
 
-import config.fund_loader_config.cof.eoi as eoi
+import fund_store.config.fund_loader_config.cof.eoi as eoi
 from db import db
-from db.models.round import Round
+from fund_store.db.models.round import Round
 
 
 def update_rounds_with_links(round_config):

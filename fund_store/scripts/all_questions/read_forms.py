@@ -1,6 +1,6 @@
 import os
 
-from db.models.section import Section
+from fund_store.db.models.section import Section
 
 
 def determine_display_value_for_condition(

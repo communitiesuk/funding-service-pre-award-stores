@@ -7,6 +7,8 @@ from flask import Flask
 
 from app import create_app
 
+pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
+
 
 @pytest.fixture(scope="session")
 def app() -> Flask:

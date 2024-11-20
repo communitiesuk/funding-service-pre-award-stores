@@ -6,10 +6,10 @@ from flask import abort, current_app, jsonify, request
 from fsd_utils.locale_selector.get_lang import get_lang
 
 from db import db
-from db.models import Round
-from db.models.event import EventType
-from db.queries import create_event as create_event_in_db
-from db.queries import (
+from fund_store.db.models import Round
+from fund_store.db.models.event import EventType
+from fund_store.db.queries import create_event as create_event_in_db
+from fund_store.db.queries import (
     get_all_funds,
     get_application_sections_for_round,
     get_assessment_sections_for_round,
@@ -20,13 +20,13 @@ from db.queries import (
     get_rounds_for_fund_by_id,
     get_rounds_for_fund_by_short_name,
 )
-from db.queries import get_event as get_event_from_db
-from db.queries import get_events as get_events_from_db
-from db.queries import set_event_to_processed as set_event_to_processed_in_db
-from db.schemas.event import EventSchema
-from db.schemas.fund import FundSchema
-from db.schemas.round import RoundSchema
-from db.schemas.section import SECTION_SCHEMA_MAP
+from fund_store.db.queries import get_event as get_event_from_db
+from fund_store.db.queries import get_events as get_events_from_db
+from fund_store.db.queries import set_event_to_processed as set_event_to_processed_in_db
+from fund_store.db.schemas.event import EventSchema
+from fund_store.db.schemas.fund import FundSchema
+from fund_store.db.schemas.round import RoundSchema
+from fund_store.db.schemas.section import SECTION_SCHEMA_MAP
 
 
 def is_valid_uuid(value):
@@ -292,23 +292,26 @@ def set_event_to_processed(event_id):
 
 def get_available_flag_allocations(fund_id, round_id):
     # TODO: Currently teams are hardcoded, move it to database implementation
-    from config.fund_loader_config.cof.cof_r2 import (
+    from fund_store.config.fund_loader_config.cof.cof_r2 import (
         COF_ROUND_2_WINDOW_2_ID,
         COF_ROUND_2_WINDOW_3_ID,
     )
-    from config.fund_loader_config.cof.cof_r3 import (
+    from fund_store.config.fund_loader_config.cof.cof_r3 import (
         COF_FUND_ID,
         COF_ROUND_3_WINDOW_1_ID,
         COF_ROUND_3_WINDOW_2_ID,
         COF_ROUND_3_WINDOW_3_ID,
     )
-    from config.fund_loader_config.cof.cof_r4 import COF_ROUND_4_WINDOW_1_ID
-    from config.fund_loader_config.cyp.cyp_r1 import CYP_FUND_ID, CYP_ROUND_1_ID
-    from config.fund_loader_config.digital_planning.dpi_r2 import (
+    from fund_store.config.fund_loader_config.cof.cof_r4 import COF_ROUND_4_WINDOW_1_ID
+    from fund_store.config.fund_loader_config.cyp.cyp_r1 import (
+        CYP_FUND_ID,
+        CYP_ROUND_1_ID,
+    )
+    from fund_store.config.fund_loader_config.digital_planning.dpi_r2 import (
         DPI_FUND_ID,
         DPI_ROUND_2_ID,
     )
-    from config.fund_loader_config.night_shelter.ns_r2 import (
+    from fund_store.config.fund_loader_config.night_shelter.ns_r2 import (
         NIGHT_SHELTER_FUND_ID,
         NIGHT_SHELTER_ROUND_2_ID,
     )

@@ -6,7 +6,7 @@ from marshmallow.fields import Method, String
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from marshmallow_sqlalchemy.fields import Nested
 
-from db.models.section import Section, SectionField
+from fund_store.db.models.section import Section, SectionField
 
 
 class SectionFieldSchema(SQLAlchemyAutoSchema):

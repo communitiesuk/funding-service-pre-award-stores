@@ -7,6 +7,8 @@ from alembic.script import ScriptDirectory
 from alembic.script.base import _slug_re
 from flask import current_app
 
+import fund_store.db.models  # noqa
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config

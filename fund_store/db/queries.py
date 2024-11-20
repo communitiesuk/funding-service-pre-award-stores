@@ -9,11 +9,11 @@ from sqlalchemy_utils import Ltree
 from sqlalchemy_utils.types.ltree import LQUERY
 
 from db import db
-from db.models.event import Event
-from db.models.form_name import FormName
-from db.models.fund import Fund
-from db.models.round import Round
-from db.models.section import AssessmentField, Section, SectionField
+from fund_store.db.models.event import Event
+from fund_store.db.models.form_name import FormName
+from fund_store.db.models.fund import Fund
+from fund_store.db.models.round import Round
+from fund_store.db.models.section import AssessmentField, Section, SectionField
 
 
 def get_all_funds() -> List[Fund]:
@@ -146,7 +146,12 @@ def create_event(
     round_id: str = None,
     processed: datetime = None,
 ) -> Event:
-    event = Event(type=type, activation_date=activation_date, round_id=round_id, processed=processed)
+    event = Event(
+        type=type,
+        activation_date=activation_date,
+        round_id=round_id,
+        processed=processed,
+    )
     try:
         db.session.add(event)
         db.session.commit()

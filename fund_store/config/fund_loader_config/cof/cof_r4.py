@@ -3,12 +3,12 @@ import textwrap
 from datetime import datetime
 from datetime import timezone
 
-from config.fund_loader_config.cof.shared import COF_APPLICATION_GUIDANCE
-from config.fund_loader_config.cof.shared import fund_config
-from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
+from fund_store.config.fund_loader_config.cof.shared import COF_APPLICATION_GUIDANCE
+from fund_store.config.fund_loader_config.cof.shared import fund_config
+from fund_store.config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     COF_R4_W1_BASE_PATH,
 )
-from config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
+from fund_store.config.fund_loader_config.common_fund_config.fund_base_tree_paths import (
     COF_R4_W2_BASE_PATH,
 )
 
@@ -107,7 +107,10 @@ cof_r4w1_sections = [
         "weighting": 53,
     },
     {
-        "section_name": {"en": "3.1 Community use/significance", "cy": "3.1 Defnydd/arwyddocâd cymunedol"},
+        "section_name": {
+            "en": "3.1 Community use/significance",
+            "cy": "3.1 Defnydd/arwyddocâd cymunedol",
+        },
         "form_name_json": {
             "en": "community-use-cof",
             "cy": "defnydd-cymunedol-cof",
@@ -319,7 +322,10 @@ cof_r4w2_sections = [
         "weighting": 53,
     },
     {
-        "section_name": {"en": "3.1 Community use/significance", "cy": "3.1 Defnydd/arwyddocâd cymunedol"},
+        "section_name": {
+            "en": "3.1 Community use/significance",
+            "cy": "3.1 Defnydd/arwyddocâd cymunedol",
+        },
         "form_name_json": {
             "en": "community-use-cof",
             "cy": "defnydd-cymunedol-cof",

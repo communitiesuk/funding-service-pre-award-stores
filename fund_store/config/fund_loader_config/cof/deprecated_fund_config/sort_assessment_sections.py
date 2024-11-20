@@ -1,4 +1,4 @@
-from config.fund_loader_config.cof.deprecated_fund_config.assessment_section_config import (
+from fund_store.config.fund_loader_config.cof.deprecated_fund_config.assessment_section_config import (
     scored_sections,
     unscored_sections,
 )

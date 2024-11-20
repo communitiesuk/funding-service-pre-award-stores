@@ -14,7 +14,7 @@ try:
             "task",
             "run",
             "--generate-cmd",
-            f"pre-award/{environment}/{service}",
+            f"pre-award/{environment}/fsd-pre-award-stores",
         ],
         capture_output=True,
         check=True,

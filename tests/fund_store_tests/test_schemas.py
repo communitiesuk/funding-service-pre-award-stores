@@ -1,8 +1,12 @@
 import pytest
 
-from db.models import FormName
-from db.models.section import Section
-from db.schemas.section import SECTION_SCHEMA_MAP, EnglishSectionSchema, WelshSectionSchema
+from fund_store.db.models import FormName
+from fund_store.db.models.section import Section
+from fund_store.db.schemas.section import (
+    SECTION_SCHEMA_MAP,
+    EnglishSectionSchema,
+    WelshSectionSchema,
+)
 
 section = Section(
     id=1,

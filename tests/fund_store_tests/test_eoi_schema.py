@@ -3,7 +3,7 @@ import json
 import pytest
 from fsd_utils import Decision, evaluate_response
 
-from config.fund_loader_config.cof.eoi_r1_schema import (
+from fund_store.config.fund_loader_config.cof.eoi_r1_schema import (
     COF_PLANNING_PERMISSION_CAVEAT_EN,
     COF_PLANNING_PERMISSION_IF_NEEDED_CAVEAT_EN,
     COF_R3_EOI_SCHEMA_EN,
@@ -12,7 +12,7 @@ from config.fund_loader_config.cof.eoi_r1_schema import (
 
 
 def test_eoi_schema_throws_no_errors_with_all_forms():
-    with open("tests/test_data/cof_eoi.json", "r") as f:
+    with open("tests/fund_store_tests/test_data/cof_eoi.json", "r") as f:
         forms = json.loads(f.read())
     result = evaluate_response(schema=COF_R3_EOI_SCHEMA_EN, forms=forms)
 
