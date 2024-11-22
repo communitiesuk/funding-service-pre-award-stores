@@ -5,8 +5,8 @@ from typing import Optional
 import requests
 from flask import current_app
 
+from application_store.external_services.exceptions import NotificationError
 from config import Config
-from external_services.exceptions import NotificationError
 
 
 def post_data(endpoint: str, json_payload: Optional[dict] = None) -> dict:

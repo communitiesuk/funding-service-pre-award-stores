@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from db.queries.statuses.queries import (
+from application_store.db.queries.statuses.queries import (
     _determine_question_page_status_from_answers,
     _is_all_sections_feedback_complete,
     _is_feedback_survey_complete,
@@ -12,7 +12,7 @@ from db.queries.statuses.queries import (
     update_form_status,
     update_question_page_statuses,
 )
-from external_services.models.round import FeedbackSurveyConfig
+from application_store.external_services.models.round import FeedbackSurveyConfig
 
 
 @pytest.mark.parametrize(
@@ -318,20 +318,42 @@ def test_is_feedback_survey_complete(mocker, end_survey_data, exp_result):
         ),
         (
             MagicMock(
-                data={"research_opt_in": "agree", "contact_name": "John Doe", "contact_email": "john@example.com"}
+                data={
+                    "research_opt_in": "agree",
+                    "contact_name": "John Doe",
+                    "contact_email": "john@example.com",
+                }
             ),
             True,
         ),
         (
-            MagicMock(data={"research_opt_in": "agree", "contact_name": None, "contact_email": "john@example.com"}),
+            MagicMock(
+                data={
+                    "research_opt_in": "agree",
+                    "contact_name": None,
+                    "contact_email": "john@example.com",
+                }
+            ),
             False,
         ),
         (
-            MagicMock(data={"research_opt_in": "agree", "contact_name": "John Doe", "contact_email": None}),
+            MagicMock(
+                data={
+                    "research_opt_in": "agree",
+                    "contact_name": "John Doe",
+                    "contact_email": None,
+                }
+            ),
             False,
         ),
         (
-            MagicMock(data={"research_opt_in": "agree", "contact_name": None, "contact_email": None}),
+            MagicMock(
+                data={
+                    "research_opt_in": "agree",
+                    "contact_name": None,
+                    "contact_email": None,
+                }
+            ),
             False,
         ),
     ],

@@ -8,9 +8,9 @@ from fsd_utils import NotifyConstants
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from moto import mock_aws
 
+from application_store.external_services.exceptions import NotificationError
+from application_store.external_services.models.notification import Notification
 from config import Config
-from external_services.exceptions import NotificationError
-from external_services.models.notification import Notification
 
 
 class NotificationTest(unittest.TestCase):
@@ -35,10 +35,16 @@ class NotificationTest(unittest.TestCase):
                 logger=MagicMock(),
             )
             s3_connection = boto3.client(
-                "s3", region_name="us-east-1", aws_access_key_id="test_accesstoken", aws_secret_access_key="secret_key"
+                "s3",
+                region_name="us-east-1",
+                aws_access_key_id="test_accesstoken",
+                aws_secret_access_key="secret_key",  # pragma: allowlist secret
             )
             sqs_connection = boto3.client(
-                "sqs", region_name="us-east-1", aws_access_key_id="test_accesstoken", aws_secret_access_key="secret_key"
+                "sqs",
+                region_name="us-east-1",
+                aws_access_key_id="test_accesstoken",
+                aws_secret_access_key="secret_key",  # pragma: allowlist secret
             )
             s3_connection.create_bucket(Bucket=Config.AWS_MSG_BUCKET_NAME)
             queue_response = sqs_connection.create_queue(QueueName="notif-queue.fifo", Attributes={"FifoQueue": "true"})

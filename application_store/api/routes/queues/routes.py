@@ -5,8 +5,8 @@ from uuid import uuid4
 from flask import current_app
 from flask.views import MethodView
 
+from application_store.db.queries import get_application
 from config import Config
-from db.queries import get_application
 
 
 class QueueView(MethodView):

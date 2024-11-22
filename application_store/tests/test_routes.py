@@ -9,13 +9,13 @@ import pytest
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from moto import mock_aws
 
+from application_store.db.models import Applications, ResearchSurvey
+from application_store.db.queries.application import get_all_applications
+from application_store.db.schemas import ApplicationSchema
+from application_store.external_services.models.fund import Fund
+from application_store.external_services.models.round import Round
 from config import Config
 from db import db
-from db.models import Applications, ResearchSurvey
-from db.queries.application import get_all_applications
-from db.schemas import ApplicationSchema
-from external_services.models.fund import Fund
-from external_services.models.round import Round
 from tests.helpers import (
     application_expected_data,
     count_fund_applications,
@@ -363,7 +363,10 @@ def test_get_application_by_application_id_and_with_qa_file(flask_test_client, s
     id = seed_application_records[0].id
     serialiser = ApplicationSchema()
     expected_data = serialiser.dump(seed_application_records[0])
-    expected_data = {**expected_data, "questions_file": "KioqKioqKioqIEdlbmVyYXRlZCB0ZXN0IGZ1bmQgKioqKioqKioqKgo="}
+    expected_data = {
+        **expected_data,
+        "questions_file": "KioqKioqKioqIEdlbmVyYXRlZCB0ZXN0IGZ1bmQgKioqKioqKioqKgo=",
+    }
     expected_data_within_response(
         flask_test_client,
         f"/applications/{id}?with_questions_file=true",
@@ -675,7 +678,12 @@ def test_successful_submitted_application(
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
 def test_stage_unsubmitted_application_to_queue_fails(
-    flask_test_client, mock_successful_submit_notification, _db, seed_application_records, mocker, mock_get_fund_data
+    flask_test_client,
+    mock_successful_submit_notification,
+    _db,
+    seed_application_records,
+    mocker,
+    mock_get_fund_data,
 ):
     """
     GIVEN We request to stage an unsubmitted application to the assessment queue
@@ -701,7 +709,12 @@ def test_stage_unsubmitted_application_to_queue_fails(
 @mock_aws
 @pytest.mark.apps_to_insert([test_application_data[0]])
 def test_stage_submitted_application_to_queue_fails(
-    flask_test_client, mock_successful_submit_notification, _db, seed_application_records, mocker, mock_get_fund_data
+    flask_test_client,
+    mock_successful_submit_notification,
+    _db,
+    seed_application_records,
+    mocker,
+    mock_get_fund_data,
 ):
     """
     GIVEN We request to stage an submitted application to the assessment queue
@@ -776,7 +789,11 @@ def test_post_research_survey_data(flask_test_client, mocker):
         "application_id": "123",
         "fund_id": "fund456",
         "round_id": "round789",
-        "data": {"research_opt_in": "agree", "contact_name": "John Doe", "contact_email": "john@example.com"},
+        "data": {
+            "research_opt_in": "agree",
+            "contact_name": "John Doe",
+            "contact_email": "john@example.com",
+        },
     }
     expected_survey_data = {
         **request_data,
@@ -792,12 +809,15 @@ def test_post_research_survey_data(flask_test_client, mocker):
     retrieved_survey_data.date_submitted = expected_survey_data["date_submitted"]
 
     mock_upsert_research_survey_data = mocker.patch(
-        "api.routes.application.routes.upsert_research_survey_data", return_value=retrieved_survey_data
+        "api.routes.application.routes.upsert_research_survey_data",
+        return_value=retrieved_survey_data,
     )
     mock_update_statuses = mocker.patch("api.routes.application.routes.update_statuses")
 
     response = flask_test_client.post(
-        "/application/research", data=json.dumps(request_data), headers={"Content-Type": "application/json"}
+        "/application/research",
+        data=json.dumps(request_data),
+        headers={"Content-Type": "application/json"},
     )
 
     assert response.status_code == 201
@@ -818,7 +838,11 @@ def test_get_research_survey_data(flask_test_client, mocker):
         "application_id": "123",
         "fund_id": "fund456",
         "round_id": "round789",
-        "data": {"research_opt_in": "agree", "contact_name": "John Doe", "contact_email": "john@example.com"},
+        "data": {
+            "research_opt_in": "agree",
+            "contact_name": "John Doe",
+            "contact_email": "john@example.com",
+        },
         "date_submitted": "01-01-1000",
     }
     retrieved_survey_data = ResearchSurvey()
@@ -830,7 +854,8 @@ def test_get_research_survey_data(flask_test_client, mocker):
     retrieved_survey_data.date_submitted = expected_survey_data["date_submitted"]
 
     mock_retrieve_research_survey_data = mocker.patch(
-        "api.routes.application.routes.retrieve_research_survey_data", return_value=retrieved_survey_data
+        "api.routes.application.routes.retrieve_research_survey_data",
+        return_value=retrieved_survey_data,
     )
 
     response = flask_test_client.get(f"/application/research?application_id={application_id}")
@@ -850,5 +875,8 @@ def test_get_research_survey_data_not_found(flask_test_client, mocker):
     response = flask_test_client.get(f"/application/research?application_id={application_id}")
 
     assert response.status_code == 404
-    assert response.json() == {"code": 404, "message": f"Research survey data for {application_id} not found"}
+    assert response.json() == {
+        "code": 404,
+        "message": f"Research survey data for {application_id} not found",
+    }
     mock_retrieve_research_survey_data.assert_called_once_with(application_id)

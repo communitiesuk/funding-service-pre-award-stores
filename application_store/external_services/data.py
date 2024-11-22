@@ -7,11 +7,10 @@ from urllib.parse import urlencode
 import requests
 from flask import abort, current_app
 
+from application_store.external_services.models.account import Account
+from application_store.external_services.models.fund import Fund
+from application_store.external_services.models.round import Round
 from config import Config
-
-from .models.account import Account
-from .models.fund import Fund
-from .models.round import Round
 
 
 def get_data(endpoint: str, params: Optional[dict] = None):

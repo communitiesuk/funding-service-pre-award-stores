@@ -1,7 +1,7 @@
 import pytest
 
-from db.models import Applications
-from db.models.application.enums import Status
+from application_store.db.models import Applications
+from application_store.db.models.application.enums import Status
 from tests.helpers import get_row_by_pk, test_application_data
 
 

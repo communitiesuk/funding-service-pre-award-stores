@@ -1,10 +1,15 @@
 import pytest
 
-from config.key_report_mappings.cof_r3w2_key_report_mapping import (
+from application_store.config.key_report_mappings.cof_r3w2_key_report_mapping import (
     COF_R3W2_KEY_REPORT_MAPPING,
 )
-from db.models import Applications, EndOfApplicationSurveyFeedback, Feedback, Forms
-from db.queries.feedback import retrieve_all_feedbacks_and_surveys
+from application_store.db.models import (
+    Applications,
+    EndOfApplicationSurveyFeedback,
+    Feedback,
+    Forms,
+)
+from application_store.db.queries.feedback import retrieve_all_feedbacks_and_surveys
 
 app_sections = [
     {"id": 62, "title": "1. About your organisation"},

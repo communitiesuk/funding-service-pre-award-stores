@@ -3,8 +3,8 @@ from uuid import uuid4
 
 from flask import current_app
 
+from application_store.external_services.exceptions import NotificationError
 from config import Config
-from external_services.exceptions import NotificationError
 
 NOTIFICATION_CONST = "notification"
 NOTIFICATION_S3_KEY_CONST = "application/notification"

@@ -4,10 +4,10 @@ from uuid import uuid4
 
 import pytest
 
+from application_store.db.models.application.applications import Status
+from application_store.db.queries.application import get_application_status
+from application_store.db.queries.form import get_forms_by_app_id
 from config import Config
-from db.models.application.applications import Status
-from db.queries.application import get_application_status
-from db.queries.form import get_forms_by_app_id
 from scripts.seed_db_test_data import FUND_CONFIG
 from tests.seed_data.seed_db import (
     seed_completed_application,

@@ -5,10 +5,10 @@ import pytest
 from flask import Response
 
 from app import create_app
-from db.models.application.applications import Applications
-from db.queries.application import create_application
-from db.queries.form import add_new_forms
-from external_services.models.fund import Fund, Round
+from application_store.db.models.application.applications import Applications
+from application_store.db.queries.application import create_application
+from application_store.db.queries.form import add_new_forms
+from application_store.external_services.models.fund import Fund, Round
 from tests.helpers import (
     APPLICATION_DISPLAY_CONFIG,
     local_api_call,
@@ -233,7 +233,13 @@ def mock_get_random_choices(population, weights=None, *, cum_weights=None, k=1):
 
 def generate_mock_fund(fund_id: str) -> Fund:
     return Fund(
-        "Generated test fund", fund_id, "TEST", "Testing fund", True, {"en": "English title", "cy": "Welsh title"}, []
+        "Generated test fund",
+        fund_id,
+        "TEST",
+        "Testing fund",
+        True,
+        {"en": "English title", "cy": "Welsh title"},
+        [],
     )
 
 

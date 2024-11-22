@@ -1,4 +1,8 @@
-from config.key_report_mappings.model import FormMappingItem, KeyReportMapping, extract_postcode
+from application_store.config.key_report_mappings.model import (
+    FormMappingItem,
+    KeyReportMapping,
+    extract_postcode,
+)
 
 COF_EOI_KEY_REPORT_MAPPING = KeyReportMapping(
     round_id="6a47c649-7bac-4583-baed-9c4e7a35c8b3",

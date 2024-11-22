@@ -1,6 +1,6 @@
 import pytest
 
-from external_services.aws import list_files_by_prefix
+from application_store.external_services.aws import list_files_by_prefix
 
 
 # You can use this for testing the function if doing tdd.

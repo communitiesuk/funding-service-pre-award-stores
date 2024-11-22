@@ -6,8 +6,8 @@ from datetime import datetime
 
 from deepdiff import DeepDiff
 
+from application_store.db.models.application.enums import Language
 from config import Config
-from db.models.application.enums import Language
 
 
 def get_row_by_pk(table, primary_key):
@@ -75,7 +75,11 @@ def expected_data_within_response(
     elif method == "post":
         response = test_client.post(endpoint, data=data, follow_redirects=True)
     else:
-        response = test_client.get(endpoint, follow_redirects=True, headers={"Content-Type": "application/json"})
+        response = test_client.get(
+            endpoint,
+            follow_redirects=True,
+            headers={"Content-Type": "application/json"},
+        )
     response_content = json.loads(response.content)
     diff = DeepDiff(
         expected_data,

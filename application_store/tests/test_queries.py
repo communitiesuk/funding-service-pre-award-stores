@@ -4,21 +4,37 @@ from uuid import uuid4
 
 import pytest
 
-from config.key_report_mappings.cof_eoi_key_report_mapping import COF_EOI_KEY_REPORT_MAPPING
-from config.key_report_mappings.cof_key_report_mapping import COF_KEY_REPORT_MAPPING
-from config.key_report_mappings.cof_r2_key_report_mapping import (
+from application_store.config.key_report_mappings.cof_eoi_key_report_mapping import (
+    COF_EOI_KEY_REPORT_MAPPING,
+)
+from application_store.config.key_report_mappings.cof_key_report_mapping import (
+    COF_KEY_REPORT_MAPPING,
+)
+from application_store.config.key_report_mappings.cof_r2_key_report_mapping import (
     COF_R2_KEY_REPORT_MAPPING,
 )
-from config.key_report_mappings.cof_r3w2_key_report_mapping import (
+from application_store.config.key_report_mappings.cof_r3w2_key_report_mapping import (
     COF_R3W2_KEY_REPORT_MAPPING,
 )
-from config.key_report_mappings.mappings import ROUND_ID_TO_KEY_REPORT_MAPPING
-from config.key_report_mappings.model import KeyReportMapping, extract_postcode
-from db.models import Applications, Forms
-from db.queries.application import create_application, create_qa_base64file, process_files
-from db.queries.reporting.queries import export_application_statuses_to_csv, map_application_key_fields
-from external_services.aws import FileData
-from external_services.models.fund import Fund
+from application_store.config.key_report_mappings.mappings import (
+    ROUND_ID_TO_KEY_REPORT_MAPPING,
+)
+from application_store.config.key_report_mappings.model import (
+    KeyReportMapping,
+    extract_postcode,
+)
+from application_store.db.models import Applications, Forms
+from application_store.db.queries.application import (
+    create_application,
+    create_qa_base64file,
+    process_files,
+)
+from application_store.db.queries.reporting.queries import (
+    export_application_statuses_to_csv,
+    map_application_key_fields,
+)
+from application_store.external_services.aws import FileData
+from application_store.external_services.models.fund import Fund
 from tests.seed_data.application_data import expected_application_json
 
 
@@ -493,13 +509,34 @@ def test_map_application_key_fields(key_report_mapping: KeyReportMapping, applic
 @pytest.mark.parametrize(
     "round_id, exp_mapping",
     [
-        ("c603d114-5364-4474-a0c4-c41cbf4d3bbd", COF_R2_KEY_REPORT_MAPPING.mapping),  # COF R2W2
-        ("5cf439bf-ef6f-431e-92c5-a1d90a4dd32f", COF_R2_KEY_REPORT_MAPPING.mapping),  # COF R2W3
-        ("e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762", COF_R2_KEY_REPORT_MAPPING.mapping),  # COF R3W1
-        ("6af19a5e-9cae-4f00-9194-cf10d2d7c8a7", COF_R3W2_KEY_REPORT_MAPPING.mapping),  # COF R3W2
-        ("4efc3263-aefe-4071-b5f4-0910abec12d2", COF_KEY_REPORT_MAPPING.mapping),  # COF R3W3
-        ("33726b63-efce-4749-b149-20351346c76e", COF_KEY_REPORT_MAPPING.mapping),  # COF R4W1
-        ("6a47c649-7bac-4583-baed-9c4e7a35c8b3", COF_EOI_KEY_REPORT_MAPPING.mapping),  # COF EOI
+        (
+            "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
+            COF_R2_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R2W2
+        (
+            "5cf439bf-ef6f-431e-92c5-a1d90a4dd32f",
+            COF_R2_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R2W3
+        (
+            "e85ad42f-73f5-4e1b-a1eb-6bc5d7f3d762",
+            COF_R2_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R3W1
+        (
+            "6af19a5e-9cae-4f00-9194-cf10d2d7c8a7",
+            COF_R3W2_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R3W2
+        (
+            "4efc3263-aefe-4071-b5f4-0910abec12d2",
+            COF_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R3W3
+        (
+            "33726b63-efce-4749-b149-20351346c76e",
+            COF_KEY_REPORT_MAPPING.mapping,
+        ),  # COF R4W1
+        (
+            "6a47c649-7bac-4583-baed-9c4e7a35c8b3",
+            COF_EOI_KEY_REPORT_MAPPING.mapping,
+        ),  # COF EOI
         ("asdf-wer-234-sdf-234", COF_R2_KEY_REPORT_MAPPING.mapping),  # any ID
     ],
 )
