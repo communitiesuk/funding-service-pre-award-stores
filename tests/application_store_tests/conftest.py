@@ -9,16 +9,13 @@ from application_store.db.models.application.applications import Applications
 from application_store.db.queries.application import create_application
 from application_store.db.queries.form import add_new_forms
 from application_store.external_services.models.fund import Fund, Round
-from tests.helpers import (
+from tests.application_store_tests.helpers import (
     APPLICATION_DISPLAY_CONFIG,
     local_api_call,
     test_application_data,
     test_question_data,
     test_question_data_cy,
 )
-
-# Make the utils fixtures available, used in seed_application_records
-pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
 
 
 @pytest.fixture(scope="session")
@@ -168,7 +165,7 @@ def add_org_data_for_reports(application, unique_append, client):
 
     for section in sections_put:
         client.put(
-            "/applications/forms",
+            "/application/applications/forms",
             json=section,
             follow_redirects=True,
         )
@@ -250,14 +247,14 @@ def mock_get_fund(mocker):
     Used with unique_fund_round to ensure when the fund and
     round are retrieved, they match what's expected
     """
-    mocker.patch("api.routes.application.routes.get_fund", new=generate_mock_fund)
-    mocker.patch("db.queries.application.queries.get_fund", new=generate_mock_fund)
+    mocker.patch("application_store.api.routes.application.routes.get_fund", new=generate_mock_fund)
+    mocker.patch("application_store.db.queries.application.queries.get_fund", new=generate_mock_fund)
 
 
 @pytest.fixture(scope="function")
 def mock_get_application_display_config(mocker):
     mocker.patch(
-        "_helpers.form.get_application_sections",
+        "application_store._helpers.form.get_application_sections",
         return_value=APPLICATION_DISPLAY_CONFIG,
     )
 
@@ -284,10 +281,10 @@ def mock_get_round(mocker):
     Used with unique_fund_round to ensure when the fund and
     round are retrieved, they match what's expected
     """
-    mocker.patch("db.queries.application.queries.get_round", new=generate_mock_round)
-    mocker.patch("db.queries.statuses.queries.get_round", new=generate_mock_round)
+    mocker.patch("application_store.db.queries.application.queries.get_round", new=generate_mock_round)
+    mocker.patch("application_store.db.queries.statuses.queries.get_round", new=generate_mock_round)
     mocker.patch(
-        "db.schemas.application.get_round_name",
+        "application_store.db.schemas.application.get_round_name",
         return_value="Generated test round",
     )
 
@@ -296,7 +293,7 @@ def mock_get_round(mocker):
 def mock_get_data_fix(mocker):
     # mock the function in the file it is invoked (not where it is declared)
     mocker.patch(
-        "external_services.get_data",
+        "application_store.external_services.get_data",
         new=mock_get_data,
     )
 
@@ -311,7 +308,7 @@ def mock_random_choices(mocker):
 def mock_successful_submit_notification(mocker):
     # mock the function in the file it is invoked (not where it is declared)
     mocker.patch(
-        "api.routes.application.routes.Notification.send",
+        "application_store.api.routes.application.routes.Notification.send",
         lambda template, email, full_name, application: Response(200),
     )
 
@@ -320,7 +317,7 @@ def mock_successful_submit_notification(mocker):
 def mock_post_data_fix(mocker):
     # mock the function in the file it is invoked (not where it is declared)
     mocker.patch(
-        "external_services.post_data",
+        "application_store.external_services.post_data",
         new=mock_post_data,
     )
 
@@ -328,7 +325,7 @@ def mock_post_data_fix(mocker):
 @pytest.fixture(autouse=False)
 def mock_get_fund_data(mocker):
     mocker.patch(
-        "api.routes.application.routes.get_fund",
+        "application_store.api.routes.application.routes.get_fund",
         return_value=Fund(
             name="COF",
             short_name="COF",
@@ -343,7 +340,7 @@ def mock_get_fund_data(mocker):
 @pytest.fixture(autouse=False)
 def mocked_get_fund(mocker):
     return mocker.patch(
-        "scripts.send_application_on_closure.get_fund",
+        "application_store.scripts.send_application_on_closure.get_fund",
         return_value=Fund(
             name="Community Ownership Fund",
             identifier="47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",

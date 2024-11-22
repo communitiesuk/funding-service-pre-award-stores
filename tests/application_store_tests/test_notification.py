@@ -17,7 +17,9 @@ class NotificationTest(unittest.TestCase):
     @mock_aws
     @pytest.mark.usefixtures("live_server")
     def test_notification_send_success(self):
-        with mock.patch("external_services.models.notification.Notification._get_sqs_client") as mock_get_sqs_client:
+        with mock.patch(
+            "application_store.external_services.models.notification.Notification._get_sqs_client"
+        ) as mock_get_sqs_client:
             template_type = Config.NOTIFY_TEMPLATE_SUBMIT_APPLICATION
             to_email = "test@example.com"
             full_name = "John"
@@ -58,7 +60,9 @@ class NotificationTest(unittest.TestCase):
     @mock_aws
     @pytest.mark.usefixtures("live_server")
     def test_notification_send_failure(self):
-        with mock.patch("external_services.models.notification.Notification._get_sqs_client") as mock_get_sqs_client:
+        with mock.patch(
+            "application_store.external_services.models.notification.Notification._get_sqs_client"
+        ) as mock_get_sqs_client:
             template_type = Config.NOTIFY_TEMPLATE_SUBMIT_APPLICATION
             to_email = "test@example.com"
             full_name = "John"

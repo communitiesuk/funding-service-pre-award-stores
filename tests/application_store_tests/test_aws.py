@@ -28,7 +28,7 @@ def test_list_files_by_prefix_multiple_files(mocker):
         ]
     }
     mocker.patch(
-        "external_services.aws._S3_CLIENT.list_objects_v2",
+        "application_store.external_services.aws._S3_CLIENT.list_objects_v2",
         return_value=objects_response,
     )
 

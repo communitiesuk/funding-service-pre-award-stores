@@ -17,7 +17,7 @@ def seed_not_started_application(fund_config, round_config, account_id, language
 def seed_in_progress_application(fund_config, round_config, account_id, language):
     app = _seed_application(fund_config["id"], round_config["id"], account_id, language)
     with open(
-        f"tests/seed_data/{fund_config['short_code']}_{round_config['short_code']}_all_forms.json",
+        f"tests/application_store_tests/seed_data/{fund_config['short_code']}_{round_config['short_code']}_all_forms.json",
     ) as f:
         ALL_FORMS = json.load(f)
     form = [form for form in ALL_FORMS if form["name"] == round_config["project_name_form"]][0]
@@ -33,7 +33,7 @@ def seed_in_progress_application(fund_config, round_config, account_id, language
 def seed_completed_application(fund_config, round_config, account_id, language):
     app = _seed_application(fund_config["id"], round_config["id"], account_id, language)
     with open(
-        f"tests/seed_data/{fund_config['short_code']}_{round_config['short_code']}_all_forms.json",
+        f"tests/application_store_tests/seed_data/{fund_config['short_code']}_{round_config['short_code']}_all_forms.json",
     ) as f:
         ALL_FORMS = json.load(f)
     for form in ALL_FORMS:

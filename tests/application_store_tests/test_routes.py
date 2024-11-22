@@ -16,7 +16,7 @@ from application_store.external_services.models.fund import Fund
 from application_store.external_services.models.round import Round
 from config import Config
 from db import db
-from tests.helpers import (
+from tests.application_store_tests.helpers import (
     application_expected_data,
     count_fund_applications,
     expected_data_within_response,
@@ -48,10 +48,10 @@ def test_create_application_is_successful(flask_test_client, unique_fund_round, 
         "round_id": unique_fund_round[0],
         "language": "cy",
     }
-    response = post_data(flask_test_client, "/applications", application_data_a1)
+    response = post_data(flask_test_client, "/application/applications", application_data_a1)
     assert response.json()["language"] == "en"
     count_fund_applications(flask_test_client, unique_fund_round[0], 1)
-    response = post_data(flask_test_client, "/applications", application_data_a2)
+    response = post_data(flask_test_client, "/application/applications", application_data_a2)
     assert response.json()["language"] == "cy"
     count_fund_applications(flask_test_client, unique_fund_round[0], 2)
 
@@ -77,17 +77,17 @@ def test_create_application_language_choice(
         {"en": "English Fund Name", "cy": "Welsh Fund Name"},
         [],
     )
-    mocker.patch("api.routes.application.routes.get_fund", return_value=mock_fund)
+    mocker.patch("application_store.api.routes.application.routes.get_fund", return_value=mock_fund)
     blank_forms_mock = mocker.patch(
-        "api.routes.application.routes.get_blank_forms",
+        "application_store.api.routes.application.routes.get_blank_forms",
         return_value=MagicMock(),
     )
     test_application = Applications(**application_expected_data[2])
     create_application_mock = mocker.patch(
-        "api.routes.application.routes.create_application",
+        "application_store.api.routes.application.routes.create_application",
         return_value=test_application,
     )
-    mocker.patch("api.routes.application.routes.add_new_forms")
+    mocker.patch("application_store.api.routes.application.routes.add_new_forms")
 
     # Post one application and check it's created in the expected language
     application_data_a1 = {
@@ -96,7 +96,7 @@ def test_create_application_language_choice(
         "round_id": "",
         "language": requested_language,
     }
-    response = post_data(flask_test_client, "/applications", application_data_a1)
+    response = post_data(flask_test_client, "/application/applications", application_data_a1)
     assert response.status_code == 201
 
     blank_forms_mock.assert_called_once_with(
@@ -127,7 +127,7 @@ def test_create_application_creates_formatted_reference(
         "language": "en",
     }
     response = flask_test_client.post(
-        "/applications",
+        "/application/applications",
         data=json.dumps(create_application_json),
         headers={"Content-Type": "application/json"},
         follow_redirects=True,
@@ -156,7 +156,7 @@ def test_create_application_creates_unique_reference(
         "language": "en",
     }
     response = flask_test_client.post(
-        "/applications",
+        "/application/applications",
         data=json.dumps(create_application_json),
         headers={"Content-Type": "application/json"},
         follow_redirects=True,
@@ -167,7 +167,7 @@ def test_create_application_creates_unique_reference(
 
     # Second creation should fail
     response = flask_test_client.post(
-        "/applications",
+        "/application/applications",
         data=json.dumps(create_application_json),
         headers={"Content-Type": "application/json"},
         follow_redirects=True,
@@ -194,7 +194,7 @@ def test_get_all_applications(flask_test_client, app):
         expected_data = [serialiser.dump(row) for row in get_all_applications()]
         expected_data_within_response(
             flask_test_client,
-            "/applications",
+            "/application/applications",
             expected_data,
             exclude_regex_paths=key_list_to_regex(["round_name", "date_submitted", "last_edited"]),
         )
@@ -211,7 +211,7 @@ def test_get_applications_of_account_id(flask_test_client, seed_application_reco
     with app.app_context():
         expected_data_within_response(
             flask_test_client,
-            "/applications?account_id=unique_user",
+            "/application/applications?account_id=unique_user",
             [seed_application_records[0].as_dict()],
             exclude_regex_paths=key_list_to_regex(
                 [
@@ -242,7 +242,7 @@ def test_update_section_of_application(flask_test_client, seed_application_recor
         },
     }
     response = flask_test_client.put(
-        "/applications/forms",
+        "/application/applications/forms",
         json=section_put,
         follow_redirects=True,
     )
@@ -287,7 +287,7 @@ def test_update_section_of_application_with_optional_field(flask_test_client, se
         },
     }
     response = flask_test_client.put(
-        "/applications/forms",
+        "/application/applications/forms",
         json=section_put,
         follow_redirects=True,
     )
@@ -319,7 +319,7 @@ def test_update_section_of_application_with_incomplete_answers(flask_test_client
     expected_data.update({"status": "IN_PROGRESS"})
     # exclude_question_keys = ["category", "index", "id"]
     response = flask_test_client.put(
-        "/applications/forms",
+        "/application/applications/forms",
         json=section_put,
         follow_redirects=True,
     )
@@ -332,7 +332,7 @@ def test_update_section_of_application_with_incomplete_answers(flask_test_client
 def test_get_application_by_application_id(flask_test_client, seed_application_records):
     """
     GIVEN We have a functioning Application Store API
-    WHEN a GET /applications/<application_id> request is sent
+    WHEN a GET /application/applications/<application_id> request is sent
     THEN the response should contain the application object
     """
 
@@ -341,7 +341,7 @@ def test_get_application_by_application_id(flask_test_client, seed_application_r
     expected_data = serialiser.dump(seed_application_records[0])
     expected_data_within_response(
         flask_test_client,
-        f"/applications/{id}",
+        f"/application/applications/{id}",
         expected_data,
         exclude_regex_paths=key_list_to_regex(["reference", "started_at", "project_name", "forms"]),
         # Lists are annoying to deal with in deepdiff
@@ -356,7 +356,7 @@ def test_get_application_by_application_id(flask_test_client, seed_application_r
 def test_get_application_by_application_id_and_with_qa_file(flask_test_client, seed_application_records):
     """
     GIVEN We have a functioning Application Store API
-    WHEN a GET /applications/<application_id> request is sent
+    WHEN a GET /application/applications/<application_id> request is sent
     THEN the response should contain the application object
     """
 
@@ -369,7 +369,7 @@ def test_get_application_by_application_id_and_with_qa_file(flask_test_client, s
     }
     expected_data_within_response(
         flask_test_client,
-        f"/applications/{id}?with_questions_file=true",
+        f"/application/applications/{id}?with_questions_file=true",
         expected_data,
         exclude_regex_paths=key_list_to_regex(["reference", "started_at", "project_name", "forms"]),
         # Lists are annoying to deal with in deepdiff
@@ -389,14 +389,14 @@ def test_get_application_by_application_id_when_db_record_has_no_language_set(
 ):
     """
     GIVEN We have a functioning Application Store API
-    WHEN a GET /applications/<application_id> request is sent for an
+    WHEN a GET /application/applications/<application_id> request is sent for an
         application with no language set (such as a pre-language
         functionality application)
     THEN the response should contain the application object with a default
         language of english ('en')
     """
     response = flask_test_client.get(
-        f"/applications/{seed_application_records[0].id}",
+        f"/application/applications/{seed_application_records[0].id}",
         follow_redirects=True,
     )
     response_content = json.loads(response.content)
@@ -412,28 +412,18 @@ def test_get_application_by_application_id_when_db_record_has_no_language_set_an
 ):
     """
     GIVEN We have a functioning Application Store API
-    WHEN a GET /applications/<application_id> request is sent for an
+    WHEN a GET /application/applications/<application_id> request is sent for an
         application with no language set (such as a pre-language
         functionality application)
     THEN the response should contain the application object with a default
         language of english ('en')
     """
     response = flask_test_client.get(
-        f"/applications/{seed_application_records[0].id}?with_questions_file=true",
+        f"/application/applications/{seed_application_records[0].id}?with_questions_file=true",
         follow_redirects=True,
     )
     response_content = json.loads(response.content)
     assert response_content["questions_file"] is not None
-
-
-def testHealthcheckRoute(flask_test_client):
-    expected_result = {
-        "checks": [{"check_flask_running": "OK"}, {"check_db": "OK"}],
-        "version": "abc123",
-    }
-    result = flask_test_client.get("/healthcheck")
-    assert result.status_code == 200, "Unexpected status code"
-    assert result.json() == expected_result, "Unexpected json body"
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
@@ -484,7 +474,7 @@ def test_update_section_of_application_changes_last_edited_field(flask_test_clie
         },
     }
     response = flask_test_client.put(
-        "/applications/forms",
+        "/application/applications/forms",
         json=section_put,
         follow_redirects=True,
     )
@@ -511,7 +501,7 @@ def test_update_section_of_application_does_not_change_last_edited_field(flask_t
         },
     }
     flask_test_client.put(
-        "/applications/forms",
+        "/application/applications/forms",
         json=section_put,
         follow_redirects=True,
     )
@@ -551,7 +541,7 @@ def test_update_project_name_of_application(flask_test_client, seed_application_
         },
     }
     flask_test_client.put(
-        "/applications/forms",
+        "/application/applications/forms",
         json=section_put,
         follow_redirects=True,
     )
@@ -578,7 +568,7 @@ def test_complete_form(flask_test_client, seed_application_records):
         },
     }
     response = flask_test_client.put(
-        "/applications/forms",
+        "/application/applications/forms",
         json=section_put,
         follow_redirects=True,
     )
@@ -595,8 +585,8 @@ def test_form_data_save_with_closed_round(flask_test_client, seed_application_re
     match the PUT'ed JSON and be marked as in-progress.
     and if the round is closed then it will give a 301 to redirect the user to fund closure notification page
     """
-    mocker.patch("db.queries.application.queries.get_round", new=generate_mock_round_closed)
-    mocker.patch("db.queries.statuses.queries.get_round", new=generate_mock_round_closed)
+    mocker.patch("application_store.db.queries.application.queries.get_round", new=generate_mock_round_closed)
+    mocker.patch("application_store.db.queries.statuses.queries.get_round", new=generate_mock_round_closed)
     section_put = {
         "questions": test_question_data,
         "metadata": {
@@ -606,7 +596,7 @@ def test_form_data_save_with_closed_round(flask_test_client, seed_application_re
         },
     }
     response = flask_test_client.put(
-        "/applications/forms",
+        "/application/applications/forms",
         json=section_put,
         follow_redirects=True,
     )
@@ -633,7 +623,7 @@ def test_put_returns_400_on_submitted_application(flask_test_client, _db, seed_a
     }
 
     response = flask_test_client.put(
-        "/applications/forms",
+        "/application/applications/forms",
         json=section_put,
         follow_redirects=True,
     )
@@ -658,9 +648,11 @@ def test_successful_submitted_application(
     WHEN an application is submitted
     THEN a 201 response is received in the correct format
     """
-    with mock.patch("api.routes.application.routes.ApplicationsView._get_sqs_client") as mock_get_sqs_client:
+    with mock.patch(
+        "application_store.api.routes.application.routes.ApplicationsView._get_sqs_client"
+    ) as mock_get_sqs_client:
         mock_get_sqs_client.return_value = _mock_aws_client()
-        mocker.patch("db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
+        mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
         seed_application_records[0].status = "SUBMITTED"
 
         _db.session.add(seed_application_records[0])
@@ -668,7 +660,7 @@ def test_successful_submitted_application(
 
         # mock successful notification
         response = flask_test_client.post(
-            f"/applications/{seed_application_records[0].id}/submit",
+            f"/application/applications/{seed_application_records[0].id}/submit",
             follow_redirects=True,
         )
 
@@ -690,7 +682,7 @@ def test_stage_unsubmitted_application_to_queue_fails(
     WHEN an application is unsubmitted
     THEN a 400 response is received in the correct format
     """
-    mocker.patch("db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
+    mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
     seed_application_records[0].status = "COMPLETED"
 
     _db.session.add(seed_application_records[0])
@@ -698,7 +690,7 @@ def test_stage_unsubmitted_application_to_queue_fails(
 
     # mock successful notification
     response = flask_test_client.post(
-        f"/queue_for_assessment/{seed_application_records[0].id}",
+        f"/application/queue_for_assessment/{seed_application_records[0].id}",
         follow_redirects=True,
     )
 
@@ -721,9 +713,9 @@ def test_stage_submitted_application_to_queue_fails(
     WHEN an application is submitted
     THEN a 201 response is received in the correct format
     """
-    with mock.patch("api.routes.queues.routes.QueueView._get_sqs_client") as mock_get_sqs_client:
+    with mock.patch("application_store.api.routes.queues.routes.QueueView._get_sqs_client") as mock_get_sqs_client:
         mock_get_sqs_client.return_value = _mock_aws_client()
-        mocker.patch("db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
+        mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
         seed_application_records[0].status = "SUBMITTED"
 
         _db.session.add(seed_application_records[0])
@@ -731,7 +723,7 @@ def test_stage_submitted_application_to_queue_fails(
 
         # mock successful notification
         response = flask_test_client.post(
-            f"/queue_for_assessment/{seed_application_records[0].id}",
+            f"/application/queue_for_assessment/{seed_application_records[0].id}",
             follow_redirects=True,
         )
 
@@ -809,13 +801,13 @@ def test_post_research_survey_data(flask_test_client, mocker):
     retrieved_survey_data.date_submitted = expected_survey_data["date_submitted"]
 
     mock_upsert_research_survey_data = mocker.patch(
-        "api.routes.application.routes.upsert_research_survey_data",
+        "application_store.api.routes.application.routes.upsert_research_survey_data",
         return_value=retrieved_survey_data,
     )
-    mock_update_statuses = mocker.patch("api.routes.application.routes.update_statuses")
+    mock_update_statuses = mocker.patch("application_store.api.routes.application.routes.update_statuses")
 
     response = flask_test_client.post(
-        "/application/research",
+        "/application/application/research",
         data=json.dumps(request_data),
         headers={"Content-Type": "application/json"},
     )
@@ -854,11 +846,11 @@ def test_get_research_survey_data(flask_test_client, mocker):
     retrieved_survey_data.date_submitted = expected_survey_data["date_submitted"]
 
     mock_retrieve_research_survey_data = mocker.patch(
-        "api.routes.application.routes.retrieve_research_survey_data",
+        "application_store.api.routes.application.routes.retrieve_research_survey_data",
         return_value=retrieved_survey_data,
     )
 
-    response = flask_test_client.get(f"/application/research?application_id={application_id}")
+    response = flask_test_client.get(f"/application/application/research?application_id={application_id}")
 
     assert response.status_code == 200
     assert response.json() == expected_survey_data
@@ -869,10 +861,10 @@ def test_get_research_survey_data_not_found(flask_test_client, mocker):
     application_id = "app123"
 
     mock_retrieve_research_survey_data = mocker.patch(
-        "api.routes.application.routes.retrieve_research_survey_data", return_value=None
+        "application_store.api.routes.application.routes.retrieve_research_survey_data", return_value=None
     )
 
-    response = flask_test_client.get(f"/application/research?application_id={application_id}")
+    response = flask_test_client.get(f"/application/application/research?application_id={application_id}")
 
     assert response.status_code == 404
     assert response.json() == {

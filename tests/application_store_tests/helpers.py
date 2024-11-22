@@ -25,6 +25,7 @@ def local_api_call(endpoint: str, params: dict = None, method: str = "get"):
     api_data_json = os.path.join(
         Config.FLASK_ROOT,
         "tests",
+        "application_store_tests",
         "api_data",
         method.lower() + "_endpoint_data.json",
     )
@@ -147,7 +148,7 @@ def count_fund_applications(test_client, fund_id: str, expected_application_coun
         The expected number of applications for the fund
 
     """
-    fund_applications_endpoint = f"/applications?fund_id={fund_id}"
+    fund_applications_endpoint = f"/application/applications?fund_id={fund_id}"
     response = test_client.get(fund_applications_endpoint, follow_redirects=True)
     response_content = json.loads(response.content)
     error_message = (
@@ -316,9 +317,9 @@ application_expected_data = [
 
 
 def post_test_applications(client):
-    post_data(client, "/applications", test_application_data[0])
-    post_data(client, "/applications", test_application_data[1])
-    post_data(client, "/applications", test_application_data[2])
+    post_data(client, "/application/applications", test_application_data[0])
+    post_data(client, "/application/applications", test_application_data[1])
+    post_data(client, "/application/applications", test_application_data[2])
 
 
 def key_list_to_regex(

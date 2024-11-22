@@ -1,11 +1,11 @@
 import pytest
 from pytest import raises
 
-from scripts.send_application_on_closure import (
+from application_store.scripts.send_application_on_closure import (
     send_incomplete_applications_after_deadline,
 )
-from tests.conftest import get_args
-from tests.helpers import test_application_data
+from tests.application_store_tests.conftest import get_args
+from tests.application_store_tests.helpers import test_application_data
 
 # noqa
 
@@ -29,7 +29,7 @@ class TestSendAppOnClosure:
         mocked_get_fund,
     ):
         mocker.patch(
-            "scripts.send_application_on_closure.get_fund_round",
+            "application_store.scripts.send_application_on_closure.get_fund_round",
             return_value={
                 "deadline": "2022-12-01T12:00:00",
                 "round_name": "COF R2W2",
@@ -60,7 +60,7 @@ class TestSendAppOnClosure:
         round_id = unique_fund_round[1]
 
         mocker.patch(
-            "scripts.send_application_on_closure.get_fund_round",
+            "application_store.scripts.send_application_on_closure.get_fund_round",
             return_value={"deadline": "2022-01-01T12:00:00"},
         )
 
@@ -71,7 +71,7 @@ class TestSendAppOnClosure:
     @pytest.mark.unique_fund_round(True)
     def test_send_apps_send_emails_is_false(self, mocker, seed_application_records, unique_fund_round, mocked_get_fund):
         mocker.patch(
-            "scripts.send_application_on_closure.get_fund_round",
+            "application_store.scripts.send_application_on_closure.get_fund_round",
             return_value={"deadline": "2022-01-01T12:00:00"},
         )
 
@@ -89,7 +89,7 @@ class TestSendAppOnClosure:
         mocked_get_fund,
     ):
         mocker.patch(
-            "scripts.send_application_on_closure.get_fund_round",
+            "application_store.scripts.send_application_on_closure.get_fund_round",
             return_value={
                 "deadline": "2022-12-01T12:00:00",
                 "round_name": "COF R2W2",
@@ -110,7 +110,7 @@ class TestSendAppOnClosure:
         mocked_get_fund,
     ):
         mocker.patch(
-            "scripts.send_application_on_closure.get_fund_round",
+            "application_store.scripts.send_application_on_closure.get_fund_round",
             return_value={
                 "deadline": "2022-12-01T12:00:00",
                 "round_name": "COF R2W2",
@@ -140,7 +140,7 @@ class TestSendAppOnClosure:
         _db.session.commit()
 
         mocker.patch(
-            "scripts.send_application_on_closure.get_fund_round",
+            "application_store.scripts.send_application_on_closure.get_fund_round",
             return_value={
                 "deadline": "2022-12-01T12:00:00",
                 "round_name": "COF R2W2",
@@ -161,7 +161,7 @@ class TestSendAppOnClosure:
         mocked_get_fund,
     ):
         mocker.patch(
-            "scripts.send_application_on_closure.get_fund_round",
+            "application_store.scripts.send_application_on_closure.get_fund_round",
             return_value={
                 "deadline": "2022-12-01T12:00:00",
                 "round_name": "COF R2W2",
@@ -192,7 +192,7 @@ class TestSendAppOnClosure:
         mocked_get_fund,
     ):
         mocker.patch(
-            "scripts.send_application_on_closure.get_fund_round",
+            "application_store.scripts.send_application_on_closure.get_fund_round",
             return_value={
                 "deadline": "2022-12-01T12:00:00",
                 "round_name": "COF R2W2",
@@ -215,7 +215,7 @@ class TestSendAppOnClosure:
         round_id = "987gfd"
 
         mocker.patch(
-            "scripts.send_application_on_closure.get_fund_round",
+            "application_store.scripts.send_application_on_closure.get_fund_round",
             return_value={"deadline": "2025-01-01T12:00:00"},
         )
 

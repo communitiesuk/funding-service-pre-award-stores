@@ -6,10 +6,10 @@ from distutils.util import strtobool
 
 sys.path.insert(1, ".")
 
-import external_services  # noqa: E402
 from flask import current_app  # noqa: E402
 
 from app import app  # noqa: E402
+from application_store import external_services  # noqa: E402
 from application_store.db.queries import (
     get_forms_by_app_id,  # noqa: E402
     search_applications,  # noqa: E402

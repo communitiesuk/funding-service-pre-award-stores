@@ -72,7 +72,9 @@ def get_local_data(endpoint: str, params: Optional[dict] = None):
         params = {k: v for k, v in params.items() if v is not None}
         query_string = urlencode(params)
         endpoint = endpoint + "?" + query_string
-    api_data_json = os.path.join(Config.FLASK_ROOT, "tests", "api_data", "get_endpoint_data.json")
+    api_data_json = os.path.join(
+        Config.FLASK_ROOT, "tests", "application_store_tests", "api_data", "get_endpoint_data.json"
+    )
     with open(api_data_json) as json_file:
         api_data = json.load(json_file)
     if endpoint in api_data:

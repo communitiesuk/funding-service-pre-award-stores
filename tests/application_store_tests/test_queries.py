@@ -35,7 +35,7 @@ from application_store.db.queries.reporting.queries import (
 )
 from application_store.external_services.aws import FileData
 from application_store.external_services.models.fund import Fund
-from tests.seed_data.application_data import expected_application_json
+from tests.application_store_tests.seed_data.application_data import expected_application_json
 
 
 @pytest.mark.parametrize(
@@ -57,9 +57,9 @@ def test_create_application_language_choice(mocker, fund_supports_welsh, request
         {"en": "English Fund Name", "cy": "Welsh Fund Name"},
         [],
     )
-    mocker.patch("db.queries.application.queries.get_fund", return_value=mock_fund)
+    mocker.patch("application_store.db.queries.application.queries.get_fund", return_value=mock_fund)
     mock_create_app_try = mocker.patch(
-        "db.queries.application.queries._create_application_try",
+        "application_store.db.queries.application.queries._create_application_try",
         return_value="new application",
     )
 
@@ -93,7 +93,7 @@ def test_application_map_contents_and_base64_convertor(mocker, app):
             {"en": "English Fund Name"},
             [],
         )
-        mocker.patch("db.queries.application.queries.get_fund", return_value=mock_fund)
+        mocker.patch("application_store.db.queries.application.queries.get_fund", return_value=mock_fund)
         expected_json = create_qa_base64file(expected_json["content"]["application"], True)
 
         assert "Jack-Simon" in base64.b64decode(expected_json["questions_file"]).decode()

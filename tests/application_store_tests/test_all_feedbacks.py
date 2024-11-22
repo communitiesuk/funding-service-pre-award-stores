@@ -84,15 +84,15 @@ applications = [
 )
 def test_retrieve_all_feedbacks_and_surveys(mocker, app_sections, applications, report_mapping):
     mocker.patch(
-        "db.queries.feedback.queries.get_application_sections",
+        "application_store.db.queries.feedback.queries.get_application_sections",
         return_value=app_sections,
     )
     mocker.patch(
-        "db.queries.feedback.queries.get_applications",
+        "application_store.db.queries.feedback.queries.get_applications",
         return_value=applications,
     )
     mocker.patch(
-        "db.queries.feedback.queries.get_report_mapping_for_round",
+        "application_store.db.queries.feedback.queries.get_report_mapping_for_round",
         return_value=report_mapping,
     )
 
@@ -124,15 +124,15 @@ def test_api_get_all_feedbacks_and_survey_report(
     applications,
 ):
     mocker.patch(
-        "db.queries.feedback.queries.get_application_sections",
+        "application_store.db.queries.feedback.queries.get_application_sections",
         return_value=app_sections,
     )
     mocker.patch(
-        "db.queries.feedback.queries.get_applications",
+        "application_store.db.queries.feedback.queries.get_applications",
         return_value=applications,
     )
     response = flask_test_client.get(
-        "/applications/get_all_feedbacks_and_survey_report?fund_id=test_fund&round_id=test_round&status_only=SUBMITTED",
+        "/application/applications/get_all_feedbacks_and_survey_report?fund_id=test_fund&round_id=test_round&status_only=SUBMITTED",
         headers={"Content-Type": "application/vnd.ms-excel"},
         follow_redirects=True,
     )

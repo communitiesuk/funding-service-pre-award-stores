@@ -2,13 +2,13 @@ import pytest
 
 from application_store.db.models import Applications
 from application_store.db.models.application.enums import Status
-from tests.helpers import get_row_by_pk, test_application_data
+from tests.application_store_tests.helpers import get_row_by_pk, test_application_data
 
 
 @pytest.mark.apps_to_insert(test_application_data)
 def test_get_application_statuses_csv(flask_test_client, seed_application_records, _db):
     response = flask_test_client.get(
-        "/applications/reporting/applications_statuses_data",
+        "/application/applications/reporting/applications_statuses_data",
         follow_redirects=True,
     )
 
@@ -24,7 +24,7 @@ def test_get_application_statuses_csv(flask_test_client, seed_application_record
     _db.session.commit()
 
     response = flask_test_client.get(
-        "/applications/reporting/applications_statuses_data",
+        "/application/applications/reporting/applications_statuses_data",
         follow_redirects=True,
     )
 
@@ -111,7 +111,7 @@ def test_get_application_statuses_json_multi_fund(
     round_ids = [seed_data_multiple_funds_rounds[0][1][idx][0] for idx in round_idx]
     round_params = ["round_id=" + str(id) for id in round_ids]
     url = (
-        "/applications/reporting/applications_statuses_data?"
+        "/application/applications/reporting/applications_statuses_data?"
         + f"format=json&{'&'.join(fund_params)}&{'&'.join(round_params)}"
     )
     response = flask_test_client.get(url, follow_redirects=True)
@@ -168,7 +168,7 @@ def test_get_applications_report_by_application_id(
         application_id,
     )
     application.status = Status.IN_PROGRESS
-    url = "/applications/reporting/key_application_metrics" + f"/{str(application.id)}"
+    url = "/application/applications/reporting/key_application_metrics" + f"/{str(application.id)}"
     response = flask_test_client.get(
         url,
         follow_redirects=True,
@@ -197,7 +197,7 @@ def test_get_applications_report_by_round_is_and_fund_id(
     flask_test_client,
     seed_data_multiple_funds_rounds,
 ):
-    url = "/applications/reporting/key_application_metrics" + (
+    url = "/application/applications/reporting/key_application_metrics" + (
         f"?fund_id={seed_data_multiple_funds_rounds[0].fund_id}"
         + "&status=IN_PROGRESS"
         + "&round_id="
@@ -233,7 +233,7 @@ def test_get_applications_report_by_round_is_and_fund_id(
 )
 def test_get_applications_report_query_param(flask_test_client, seed_data_multiple_funds_rounds, mock_get_round):
     response = flask_test_client.get(
-        "/applications/reporting/key_application_metrics?status=IN_PROGRESS&"
+        "/application/applications/reporting/key_application_metrics?status=IN_PROGRESS&"
         + f"fund_id={seed_data_multiple_funds_rounds[0].fund_id}&round_id="
         + f"{seed_data_multiple_funds_rounds[0].round_ids[0].round_id}",
         follow_redirects=True,
