@@ -1,4 +1,7 @@
-from config.key_report_mappings.model import FormMappingItem, KeyReportMapping
+from application_store.config.key_report_mappings.model import (
+    FormMappingItem,
+    KeyReportMapping,
+)
 
 DPIF_R2_KEY_REPORT_MAPPING = KeyReportMapping(
     round_id="0059aad4-5eb5-11ee-8c99-0242ac120002",

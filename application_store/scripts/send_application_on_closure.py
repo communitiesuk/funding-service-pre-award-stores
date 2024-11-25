@@ -8,16 +8,18 @@ sys.path.insert(1, ".")
 
 from flask import current_app  # noqa: E402
 
-import external_services  # noqa: E402
 from app import app  # noqa: E402
-from config import Config  # noqa: E402
-from db.queries import (
+from application_store import external_services  # noqa: E402
+from application_store.db.queries import (
     get_forms_by_app_id,  # noqa: E402
     search_applications,  # noqa: E402
 )
-from db.queries.application import create_qa_base64file  # noqa: E402
-from external_services.data import get_fund  # noqa: E402
-from external_services.models.notification import Notification  # noqa: E402
+from application_store.db.queries.application import create_qa_base64file  # noqa: E402
+from application_store.external_services.data import get_fund  # noqa: E402
+from application_store.external_services.models.notification import (
+    Notification,  # noqa: E402
+)
+from config import Config  # noqa: E402
 
 
 def send_incomplete_applications_after_deadline(

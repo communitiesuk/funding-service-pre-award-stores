@@ -1,4 +1,4 @@
-from config.key_report_mappings.model import (
+from application_store.config.key_report_mappings.model import (
     ApplicationColumnMappingItem,
     FormMappingItem,
     KeyReportMapping,
@@ -6,7 +6,10 @@ from config.key_report_mappings.model import (
 )
 
 COF_KEY_REPORT_MAPPING = KeyReportMapping(
-    round_id=["4efc3263-aefe-4071-b5f4-0910abec12d2", "33726b63-efce-4749-b149-20351346c76e"],
+    round_id=[
+        "4efc3263-aefe-4071-b5f4-0910abec12d2",
+        "33726b63-efce-4749-b149-20351346c76e",
+    ],
     mapping=[
         FormMappingItem(
             form_name="applicant-information-cof",

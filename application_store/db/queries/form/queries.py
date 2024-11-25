@@ -1,5 +1,5 @@
+from application_store.db.models import Forms
 from db import db
-from db.models import Forms
 
 
 def add_new_forms(forms, application_id):

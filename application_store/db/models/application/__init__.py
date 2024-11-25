@@ -1,1 +1,1 @@
-from .applications import Applications  # noqa
+from application_store.db.models.application.applications import Applications  # noqa

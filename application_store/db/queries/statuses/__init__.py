@@ -1,1 +1,1 @@
-from .queries import *  # noqa
+from application_store.db.queries.statuses.queries import *  # noqa

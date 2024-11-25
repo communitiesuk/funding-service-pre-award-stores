@@ -14,7 +14,7 @@ paths:
         - reporting
       summary: Get report on started and submitted applications
       description: Get report on started and submitted applications
-      operationId: api.ApplicationsView.get_applications_statuses_report
+      operationId: application_store.api.ApplicationsView.get_applications_statuses_report
       parameters:
         - name: round_id
           in: query
@@ -57,7 +57,7 @@ paths:
         - reporting
       summary: Get the key data report on an application
       description: Get the key data report on an application
-      operationId: api.ApplicationsView.get_key_application_data_report
+      operationId: application_store.api.ApplicationsView.get_key_application_data_report
       responses:
         200:
           description: SUCCESS - Here is the report on requested application
@@ -83,7 +83,7 @@ paths:
         - reporting
       summary: Get the key data report on applications
       description: Get the key data report on applications
-      operationId: api.ApplicationsView.get_key_applications_data_report
+      operationId: application_store.api.ApplicationsView.get_key_applications_data_report
       parameters:
         - name: status
           in: query
@@ -125,7 +125,7 @@ paths:
         - applications
       summary: Update an application with new forms state
       description: Updates the form state of an application
-      operationId: api.ApplicationsView.put
+      operationId: application_store.api.ApplicationsView.put
       responses:
         201:
           description: SUCCESS - Application updated
@@ -151,7 +151,7 @@ paths:
         - survey
       summary: Retrive all section feedbacks & survey
       description: Retrive all section feedbacks & survey
-      operationId: api.ApplicationsView.get_all_feedbacks_and_survey_report
+      operationId: application_store.api.ApplicationsView.get_all_feedbacks_and_survey_report
       responses:
         200:
           description: SUCCESS - Here is the report on requested applicants feedback & survey
@@ -192,7 +192,7 @@ paths:
         - applications
       summary: Search applications
       description: List all applications
-      operationId: api.ApplicationsView.get
+      operationId: application_store.api.ApplicationsView.get
       responses:
         200:
           description: SUCCESS - A list of applications
@@ -267,7 +267,7 @@ paths:
         - applications
       summary: Post a new application
       description: Registers a new application for a user
-      operationId: api.ApplicationsView.post
+      operationId: application_store.api.ApplicationsView.post
       requestBody:
         description: Application creation parameters
         required: true
@@ -304,7 +304,7 @@ paths:
         - applications
       summary: Get a specific application
       description: Get a specific application by application id
-      operationId: api.ApplicationsView.get_by_id
+      operationId: application_store.api.ApplicationsView.get_by_id
       responses:
         200:
           description: SUCCESS - An applicaton by id
@@ -345,7 +345,7 @@ paths:
         - applications
       summary: Submit an application
       description: Application is submitted and cannot be changed from frontend
-      operationId: api.ApplicationsView.submit
+      operationId: application_store.api.ApplicationsView.submit
       parameters:
         - name: application_id
           in: path
@@ -385,7 +385,7 @@ paths:
         - feedback
       summary: Post a new feedback
       description: Create a new feedback entry
-      operationId: api.ApplicationsView.post_feedback
+      operationId: application_store.api.ApplicationsView.post_feedback
       requestBody:
         description: Feedback creation parameters
         required: true
@@ -423,7 +423,7 @@ paths:
         - feedback
       summary: Search feedback entries
       description: List all feedback entries
-      operationId: api.ApplicationsView.get_feedback_for_section
+      operationId: application_store.api.ApplicationsView.get_feedback_for_section
       responses:
         200:
           description: SUCCESS - A list of feedback entries
@@ -468,7 +468,7 @@ paths:
       tags:
         - survey
       summary: Post end of application survey data
-      operationId: api.ApplicationsView.post_end_of_application_survey_data
+      operationId: application_store.api.ApplicationsView.post_end_of_application_survey_data
       requestBody:
         required: true
         content:
@@ -493,7 +493,7 @@ paths:
       tags:
         - survey
       summary: Get end of application survey data
-      operationId: api.ApplicationsView.get_end_of_application_survey_data
+      operationId: application_store.api.ApplicationsView.get_end_of_application_survey_data
       parameters:
         - in: query
           name: application_id
@@ -526,7 +526,7 @@ paths:
       tags:
         - survey
       summary: Post contact details for research survey
-      operationId: api.ApplicationsView.post_research_survey_data
+      operationId: application_store.api.ApplicationsView.post_research_survey_data
       requestBody:
         required: true
         content:
@@ -550,7 +550,7 @@ paths:
       tags:
         - survey
       summary: Get contact details for research survey
-      operationId: api.ApplicationsView.get_research_survey_data
+      operationId: application_store.api.ApplicationsView.get_research_survey_data
       parameters:
         - in: query
           name: application_id
@@ -578,7 +578,7 @@ paths:
         - SQS (queues)
       summary: post an application (if it has the status submitted) to the assessment import queue
       description: post an application (if it has the status submitted) to assessment import queue
-      operationId: api.QueueView.post_submitted_application_to_assessment
+      operationId: application_store.api.QueueView.post_submitted_application_to_assessment
       parameters:
         - name: application_id
           in: path

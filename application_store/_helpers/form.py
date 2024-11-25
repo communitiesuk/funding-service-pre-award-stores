@@ -1,4 +1,4 @@
-from external_services import get_application_sections
+from application_store.external_services import get_application_sections
 
 
 def get_form_name(section):

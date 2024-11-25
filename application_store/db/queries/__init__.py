@@ -1,4 +1,4 @@
-from .application import (
+from application_store.db.queries.application import (
     create_application,
     get_application,
     get_applications,
@@ -7,16 +7,23 @@ from .application import (
     search_applications,
     submit_application,
 )
-from .feedback import get_feedback, upsert_feedback
-from .form import add_new_forms, get_form, get_forms_by_app_id
-from .reporting import (
+from application_store.db.queries.feedback import get_feedback, upsert_feedback
+from application_store.db.queries.form import (
+    add_new_forms,
+    get_form,
+    get_forms_by_app_id,
+)
+from application_store.db.queries.reporting import (
     export_json_to_csv,
     export_json_to_excel,
     get_general_status_applications_report,
     get_key_report_field_headers,
     get_report_for_applications,
 )
-from .updating import update_application_and_related_form, update_form
+from application_store.db.queries.updating import (
+    update_application_and_related_form,
+    update_form,
+)
 
 __all__ = [
     create_application,

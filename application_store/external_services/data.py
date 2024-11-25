@@ -7,11 +7,10 @@ from urllib.parse import urlencode
 import requests
 from flask import abort, current_app
 
+from application_store.external_services.models.account import Account
+from application_store.external_services.models.fund import Fund
+from application_store.external_services.models.round import Round
 from config import Config
-
-from .models.account import Account
-from .models.fund import Fund
-from .models.round import Round
 
 
 def get_data(endpoint: str, params: Optional[dict] = None):
@@ -73,7 +72,9 @@ def get_local_data(endpoint: str, params: Optional[dict] = None):
         params = {k: v for k, v in params.items() if v is not None}
         query_string = urlencode(params)
         endpoint = endpoint + "?" + query_string
-    api_data_json = os.path.join(Config.FLASK_ROOT, "tests", "api_data", "get_endpoint_data.json")
+    api_data_json = os.path.join(
+        Config.FLASK_ROOT, "tests", "application_store_tests", "api_data", "get_endpoint_data.json"
+    )
     with open(api_data_json) as json_file:
         api_data = json.load(json_file)
     if endpoint in api_data:
