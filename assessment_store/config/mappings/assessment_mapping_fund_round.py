@@ -49,6 +49,9 @@ from config.mappings.cof_mapping_parts.r4w2_scored_criteria import (
 from config.mappings.cof_mapping_parts.r4w2_unscored_sections import (
     unscored_sections as cof_unscored_sections_r4w2,
 )
+from config.mappings.ctdf_mapping_parts.r1_unscored_sections import (
+    unscored_sections as ctdf_unscored_sections,
+)
 from config.mappings.cyp_mapping_parts.r1_scored_criteria import (
     scored_criteria as cyp_scored_criteria_r1,
 )
@@ -101,6 +104,9 @@ DPIF_ROUND_2_ID = "0059aad4-5eb5-11ee-8c99-0242ac120002"
 
 HSRA_FUND_ID = "1e4bd8b0-b399-466d-bbd1-572171bbc7bd"
 HSRA_ROUND_ID = "50062ff6-e696-474d-a560-4d9af784e6e5"
+
+CTDF_FUND_ID = "3dcfa617-cff8-4c2c-9edd-9568aa367d13"
+CTDF_ROUND_1_ID = "7ecd7d64-1854-44ab-a10c-a7af4b8d68e1"
 
 # ASSESSMENT DISPLAY CONFIGURATION
 
@@ -175,6 +181,11 @@ fund_round_to_assessment_mapping = {
         "unscored_sections": hsra_unscored_sections,
         "scored_criteria": hsra_scored_criteria,
     },
+    f"{CTDF_FUND_ID}:{CTDF_ROUND_1_ID}": {
+        "schema_id": "ctdf_r1_assessment",
+        "unscored_sections": ctdf_unscored_sections,
+        "scored_criteria": [],
+    },
 }
 
 # Key information for header fields (within JSON)
@@ -184,6 +195,12 @@ fund_round_to_assessment_mapping = {
 
 
 fund_round_data_key_mappings = {
+    "CTDFCR1": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
+    },
     "COFR2W2": {
         "location": "yEmHpp",
         "asset_type": "yaQoxU",
@@ -1148,6 +1165,11 @@ applicant_info_mapping = {
 # APPLICATION SEEDING CONFIGURATION
 
 fund_round_mapping_config = {
+    "CTDFCR1": {
+        "fund_id": CTDF_FUND_ID,
+        "round_id": CTDF_ROUND_1_ID,
+        "type_of_application": "CTDF",
+    },
     "COFR2W2": {
         "fund_id": COF_FUND_ID,
         "round_id": COF_ROUND_2_ID,
