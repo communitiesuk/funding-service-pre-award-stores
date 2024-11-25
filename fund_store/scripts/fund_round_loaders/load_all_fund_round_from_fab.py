@@ -22,7 +22,8 @@ def load_fund_from_fab() -> None:
         if file_name in skip_files:
             continue
 
-        fund_short_code = module_name[:-3].upper()
+        # file names should inlcude the round short name "_" separated
+        fund_short_code = module_name[:-3].upper().split("_")[0]
         FUND_CONFIG = FAB_FUND_ROUND_CONFIGS.get(fund_short_code, None)
         if not FUND_CONFIG:
             raise ValueError(f"Config for fund {fund_short_code} does not exist")
