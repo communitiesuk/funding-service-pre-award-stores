@@ -69,8 +69,6 @@ environments:
     count:
       spot: 1
   test:
-    deployment:
-      rolling: 'recreate'
     cpu: 1024
     memory: 2048
     count:
