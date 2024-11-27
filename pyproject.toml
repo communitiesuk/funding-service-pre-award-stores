@@ -34,7 +34,7 @@ dependencies = [
     "sqlalchemy-utils==0.41.2",
     "sqlalchemy[mypy]==2.0.36",
     "swagger-ui-bundle==1.1.0",
-    "uvicorn==0.30.3",
+    "uvicorn==0.32.1",
 ]
 
 [tool.ruff]
