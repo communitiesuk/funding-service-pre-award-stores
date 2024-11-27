@@ -1,4 +1,4 @@
-from config.key_report_mappings.model import (
+from application_store.config.key_report_mappings.model import (
     ApplicationColumnMappingItem,
     FormMappingItem,
     KeyReportMapping,

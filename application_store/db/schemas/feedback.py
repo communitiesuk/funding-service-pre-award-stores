@@ -1,8 +1,8 @@
 from marshmallow.fields import DateTime, Enum
 from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
 
-from db.models import Feedback
-from db.models.feedback.enums import Status
+from application_store.db.models import Feedback
+from application_store.db.models.feedback.enums import Status
 
 
 class FeedbackSchema(SQLAlchemySchema):

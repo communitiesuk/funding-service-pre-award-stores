@@ -5,8 +5,8 @@ from typing import Optional
 import requests
 from flask import current_app
 
+from application_store.external_services.exceptions import NotificationError
 from config import Config
-from external_services.exceptions import NotificationError
 
 
 def post_data(endpoint: str, json_payload: Optional[dict] = None) -> dict:
@@ -41,7 +41,9 @@ def post_data(endpoint: str, json_payload: Optional[dict] = None) -> dict:
 
 
 def post_local_data(endpoint):
-    api_data_json = os.path.join(Config.FLASK_ROOT, "tests", "api_data", "post_endpoint_data.json")
+    api_data_json = os.path.join(
+        Config.FLASK_ROOT, "tests", "application_store_tests", "api_data", "post_endpoint_data.json"
+    )
     with open(api_data_json) as json_file:
         api_data = json.load(json_file)
     if endpoint in api_data:

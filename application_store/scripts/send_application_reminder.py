@@ -9,11 +9,15 @@ import pytz  # noqa: E402
 import requests  # noqa: E402
 from flask import current_app  # noqa: E402
 
-import external_services  # noqa: E402
+from application_store import external_services  # noqa: E402
+from application_store.db.queries import search_applications  # noqa: E402
+from application_store.external_services.exceptions import (
+    NotificationError,  # noqa: E402
+)
+from application_store.external_services.models.notification import (
+    Notification,  # noqa: E402
+)
 from config import Config  # noqa: E402
-from db.queries import search_applications  # noqa: E402
-from external_services.exceptions import NotificationError  # noqa: E402
-from external_services.models.notification import Notification  # noqa: E402
 
 
 def application_deadline_reminder(flask_app):  # noqa:C901 from before ruff

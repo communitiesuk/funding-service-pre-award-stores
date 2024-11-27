@@ -7,6 +7,7 @@ from alembic.script import ScriptDirectory
 from alembic.script.base import _slug_re
 from flask import current_app
 
+import application_store.db.models  # noqa
 import fund_store.db.models  # noqa
 
 # this is the Alembic Config object, which provides
