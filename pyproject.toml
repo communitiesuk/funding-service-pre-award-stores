@@ -21,7 +21,7 @@ dependencies = [
     "funding-service-design-utils==5.1.5",
     "invoke==2.2.0",
     "jsonpath-rw-ext==1.2.2",
-    "marshmallow-sqlalchemy==1.0.0",
+    "marshmallow-sqlalchemy==1.1.0",
     "openapi-spec-validator==0.7.1",
     "openpyxl==3.1.5",
     "pandas==2.2.2",
