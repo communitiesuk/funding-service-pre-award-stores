@@ -39,7 +39,10 @@ def calculate_overall_score_percentage_for_application(application):
     highest_possible_weighted_score_for_round = 0
     if mapping["scored_criteria"] == []:
         # We have no scoring config for this round (possibly an EOI)
-        current_app.logger.info(f"No scoring config found for {application['fund_id']}:{application['round_id']}")
+        current_app.logger.info(
+            "No scoring config found for {fund_id}:{round_id}",
+            extra=dict(fund_id=application["fund_id"], round_id=application["round_id"]),
+        )
         return None
 
     # Combine mapping and highest possible score calculation

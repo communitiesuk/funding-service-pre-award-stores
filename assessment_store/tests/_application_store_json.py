@@ -1,3 +1,5 @@
+# ruff: noqa: E501
+
 from string import Template
 
 application_store_json_template = Template(

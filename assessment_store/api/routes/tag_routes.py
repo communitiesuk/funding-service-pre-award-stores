@@ -74,7 +74,7 @@ def add_tag_for_fund_round(fund_id, round_id):
         serialiser = TagSchema()
         serialised_tags = [serialiser.dump(r) for r in inserted_tags]
         return serialised_tags
-    current_app.logger.error(f"Add tags attempt failed for tags: {tags}.")
+    current_app.logger.error("Add tags attempt failed for tags: {tags}.", extra=dict(tags=tags))
     abort(404)
 
 
@@ -98,7 +98,7 @@ def update_tags_for_fund_round(fund_id, round_id):
         serialiser = TagSchema()
         serialised_tags = [serialiser.dump(r) for r in updated_tags]
         return serialised_tags
-    current_app.logger.error(f"Update tags attempt failed for tags: {tags}.")
+    current_app.logger.error("Update tags attempt failed for tags: {tags}.", extra=dict(tags=tags))
     abort(404)
 
 
@@ -122,7 +122,10 @@ def associate_tags_with_assessment(application_id):
 
 
 def get_active_tags_associated_with_assessment(application_id):
-    current_app.logger.info(f"Getting tags associated with assessment with application_id: {application_id}.")
+    current_app.logger.info(
+        "Getting tags associated with assessment with application_id: {application_id}.",
+        extra=dict(application_id=application_id),
+    )
     associated_tags = select_active_tags_associated_with_assessment(application_id)
     if associated_tags:
         serialiser = JoinedTagAssociationSchema()
@@ -132,7 +135,9 @@ def get_active_tags_associated_with_assessment(application_id):
 
 
 def get_all_tags_associated_with_application(application_id):
-    current_app.logger.info(f"Getting tags associated with with application_id: {application_id}.")
+    current_app.logger.info(
+        "Getting tags associated with with application_id: {application_id}.", extra=dict(application_id=application_id)
+    )
     associated_tags = select_all_tags_associated_with_application(application_id)
     if associated_tags:
         serialiser = JoinedTagAssociationSchema()

@@ -92,5 +92,6 @@ def test_send_notification_email_failure(
     send_notification_email(test_application, "user1", "assigner1", "assignment_template")
 
     mock_logger.info.assert_called_with(
-        "Could not send email for template: assignment_template, user: user1, application app1"
+        "Could not send email for template: {template}, user: {user_id}, application {application_id}",
+        extra={"template": "assignment_template", "user_id": "user1", "application_id": "app1"},
     )

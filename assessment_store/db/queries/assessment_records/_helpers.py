@@ -223,7 +223,9 @@ def filter_tags(incoming_tags, existing_tags):
             None,
         )
         if _incoming_tag:
-            current_app.logger.info(f"Tag id is already associated: {existing_tag_id}")
+            current_app.logger.info(
+                "Tag id is already associated: {existing_tag_id}", extra=dict(existing_tag_id=existing_tag_id)
+            )
         else:
             filtered_tags.append(existing_tag_list)
     return filtered_tags

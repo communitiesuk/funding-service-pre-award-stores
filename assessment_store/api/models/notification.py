@@ -31,7 +31,10 @@ class Notification:
             "full_name": full_name,
             "content": content,
         }
-        current_app.logger.info(f" json payload '{template_type}' to '{to_email}'.")
+        current_app.logger.info(
+            " json payload '{template_type}' to '{to_email}'.",
+            extra=dict(template_type=template_type, to_email=to_email),
+        )
         try:
             sqs_extended_client = Notification._get_sqs_client()
             message_id = sqs_extended_client.submit_single_message(
@@ -46,11 +49,12 @@ class Notification:
                     },
                 },
             )
-            current_app.logger.info(f"Message sent to SQS queue and message id is [{message_id}]")
+            current_app.logger.info(
+                "Message sent to SQS queue and message id is [{message_id}]", extra=dict(message_id=message_id)
+            )
             return message_id
-        except Exception as e:
-            current_app.logger.error("An error occurred while sending message")
-            current_app.logger.error(e)
+        except Exception:
+            current_app.logger.exception("An error occurred while sending message")
 
     @staticmethod
     def _get_sqs_client():

@@ -143,7 +143,9 @@ def get_scoring_system_for_round_id(round_id: str) -> dict:
 
         metadata_serialiser = ScoringSystemMetadata()
         processed_scoring_system = metadata_serialiser.dump(scoring_system_instance)
-        app.logger.warning(f"No scoring system found for round_id: {round_id}. Defaulting to OneToFive")
+        app.logger.warning(
+            "No scoring system found for round_id: {round_id}. Defaulting to OneToFive", extra=dict(round_id=round_id)
+        )
     return processed_scoring_system
 
 

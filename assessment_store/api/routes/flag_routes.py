@@ -70,14 +70,14 @@ def get_team_flag_stats(
 
 
 def get_flag(flag_id: str):
-    current_app.logger.info(f"Get flags for id {flag_id}")
+    current_app.logger.info("Get flags for id {flag_id}", extra=dict(flag_id=flag_id))
     flags = get_flag_by_id(flag_id)
     flag_schema = AssessmentFlagSchema()
     return flag_schema.dump(flags, many=True)[0]
 
 
 def get_all_flags_for_application(application_id):
-    current_app.logger.info(f"Get all flags for application {application_id}")
+    current_app.logger.info("Get all flags for application {application_id}", extra=dict(application_id=application_id))
     flags = get_flags_for_application(application_id)
     flag_schema = AssessmentFlagSchema()
     return flag_schema.dump(flags, many=True)
@@ -85,7 +85,9 @@ def get_all_flags_for_application(application_id):
 
 def create_flag_for_application():
     create_flag_json = request.json
-    current_app.logger.info(f"Create flag for application {create_flag_json['application_id']}")
+    current_app.logger.info(
+        "Create flag for application {application_id}", extra=dict(application_id=create_flag_json["application_id"])
+    )
     created_flag = add_flag_for_application(**create_flag_json)
     return AssessmentFlagSchema().dump(created_flag)
 
