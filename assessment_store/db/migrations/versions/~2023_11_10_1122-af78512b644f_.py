@@ -72,7 +72,7 @@ def downgrade():
         else:
             comments_update_dict[comment_id] = [{"id": id, "comment": comment, "date_created": date_created}]
 
-    for comment_id, date_created in comments:
+    for comment_id, _date_created in comments:
         for i_comment_id, val in comments_update_dict.items():
             val = sorted(val, key=lambda x: x["date_created"])
             if comment_id == i_comment_id:
