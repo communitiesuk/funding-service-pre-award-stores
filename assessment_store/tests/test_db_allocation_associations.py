@@ -122,8 +122,8 @@ def test_create_user_application_association(_db, seed_application_records):
     assert {"assigner": assigner_id, "status": "activated"} == list(new_association.log.values())[0]
     try:
         datetime.fromisoformat(list(new_association.log.keys())[0])
-    except ValueError:
-        raise AssertionError("log keys should be in isoformat")
+    except ValueError as e:
+        raise AssertionError("log keys should be in isoformat") from e
 
 
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])

@@ -101,11 +101,11 @@ def update_tags(tags, fund_id, round_id):
             tag.type_id = tag_type_id if tag_type_id is not None else tag.type_id
             tag.active = active_status if active_status is not None else tag.active
 
-        except NoResultFound:
+        except NoResultFound as e:
             # If the tag doesn't exist, raise an error
             raise ValueError(
                 f"Tag with id '{tag_id}' does not exist for fund_id '{fund_id}' and round_id '{round_id}'."
-            )
+            ) from e
 
         updated_tags.append(tag)
 

@@ -77,8 +77,8 @@ def test_non_blob_columns_mutable(_db, seed_application_records):
         picked_row = get_assessment_record(seed_application_records[0]["application_id"])
         picked_row.workflow_status = "IN_PROGRESS"
         _db.session.commit()
-    except sqlalchemy.exc.InternalError:
-        raise AssertionError
+    except sqlalchemy.exc.InternalError as e:
+        raise AssertionError from e
     finally:
         _db.session.rollback()
 
