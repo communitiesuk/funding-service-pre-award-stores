@@ -76,7 +76,7 @@ def downgrade():
         for i_comment_id, val in comments_update_dict.items():
             val = sorted(val, key=lambda x: x["date_created"])
             if comment_id == i_comment_id:
-                update_query = sa.text("UPDATE comments SET comment = :comment" " WHERE comment_id = :comment_id")
+                update_query = sa.text("UPDATE comments SET comment = :comment WHERE comment_id = :comment_id")
                 params = {
                     "comment_id": comment_id,
                     "comment": val[-1]["comment"],

@@ -139,7 +139,7 @@ def get_dynamic_rows(
                 funding_type = choice(funding_types)
                 org_name = choice(org_names)
 
-                project_name = f"{choice(verbs)} the" f" {choice(adjects)} {picked_place[0]} in {picked_city[0]}"
+                project_name = f"{choice(verbs)} the {choice(adjects)} {picked_place[0]} in {picked_city[0]}"
 
                 short_ref = application_short_ref_prefix + "-" + "".join(sample(ascii_uppercase, 6))
 

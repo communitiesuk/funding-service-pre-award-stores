@@ -37,7 +37,7 @@ def upgrade():
         on_entity="public.assessment_records",
         is_constraint=False,
         definition=(
-            "BEFORE UPDATE\n    ON assessment_records\n    FOR EACH ROW\n   " " EXECUTE PROCEDURE block_blob_mutate()"
+            "BEFORE UPDATE\n    ON assessment_records\n    FOR EACH ROW\n    EXECUTE PROCEDURE block_blob_mutate()"
         ),
     )
     op.create_entity(public_assessment_records_block_updates_on_app_blob)
@@ -53,7 +53,7 @@ def downgrade():
         on_entity="public.assessment_records",
         is_constraint=False,
         definition=(
-            "BEFORE UPDATE\n    ON assessment_records\n    FOR EACH ROW\n   " " EXECUTE PROCEDURE block_blob_mutate()"
+            "BEFORE UPDATE\n    ON assessment_records\n    FOR EACH ROW\n    EXECUTE PROCEDURE block_blob_mutate()"
         ),
     )
     op.drop_entity(public_assessment_records_block_updates_on_app_blob)

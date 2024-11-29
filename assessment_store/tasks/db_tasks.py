@@ -82,7 +82,7 @@ def seed_dev_db(c, fundround=None, appcount=None):
             if not choosing:
                 fund_round = fund_round_mapping_config[fundround]
                 apps = int(appcount)
-                print(f"Seeding {apps} applications for " f"fund_round: '{fundround}'")
+                print(f"Seeding {apps} applications for fund_round: '{fundround}'")
 
             while choosing:
                 new_line = "\n"
@@ -95,9 +95,9 @@ def seed_dev_db(c, fundround=None, appcount=None):
                     ),
                 )
                 fund_round = fund_round_mapping_config[fundround]
-                apps = int(_echo_input("How many applications?" f"{new_line} > "))
+                apps = int(_echo_input("How many applications?{new_line} > "))
                 choosing = (
-                    not _echo_input(f"Would you like to insert {apps} applications" f" for {fundround}? y/n \n").lower()
+                    not _echo_input(f"Would you like to insert {apps} applications for {fundround}? y/n \n").lower()
                     == "y"
                 )
 
@@ -107,7 +107,7 @@ def seed_dev_db(c, fundround=None, appcount=None):
 
             upgrade()
 
-            _echo_print(f"Seeding db {Config.SQLALCHEMY_DATABASE_URI} with" f" {apps} test rows.")
+            _echo_print(f"Seeding db {Config.SQLALCHEMY_DATABASE_URI} with {apps} test rows.")
             seed_database_for_fund_round(apps, {fundround: fund_round})
 
             _echo_print(f"Seeding db {Config.SQLALCHEMY_DATABASE_URI} complete.")

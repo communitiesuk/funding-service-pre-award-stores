@@ -38,9 +38,7 @@ def upgrade():
     old_type.drop(op.get_bind(), checkfirst=False)
     # Create and convert to the "new" status type
     new_type.create(op.get_bind(), checkfirst=False)
-    op.execute(
-        f"ALTER TABLE comments ALTER COLUMN comment_type TYPE {enum_name}" f" USING comment_type::text::{enum_name}"
-    )
+    op.execute(f"ALTER TABLE comments ALTER COLUMN comment_type TYPE {enum_name} USING comment_type::text::{enum_name}")
     tmp_type.drop(op.get_bind(), checkfirst=False)
 
 
@@ -56,7 +54,5 @@ def downgrade():
     new_type.drop(op.get_bind(), checkfirst=False)
     # Create and convert to the "new" status type
     old_type.create(op.get_bind(), checkfirst=False)
-    op.execute(
-        f"ALTER TABLE comments ALTER COLUMN comment_type TYPE {enum_name}" f" USING comment_type::text::{enum_name}"
-    )
+    op.execute(f"ALTER TABLE comments ALTER COLUMN comment_type TYPE {enum_name} USING comment_type::text::{enum_name}")
     tmp_type.drop(op.get_bind(), checkfirst=False)

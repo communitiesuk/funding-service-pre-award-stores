@@ -149,7 +149,7 @@ def get_all_location_data(just_postcodes) -> dict:
             postcode = postcode_data_item["query"]
             location_data = extract_location_data(postcode_data_item)
             if location_data[postcode]["error"]:
-                print("There was a problem extracting address" f" information for postcode: {postcode}.")
+                print("There was a problem extracting address information for postcode: {postcode}.")
                 fail_count += 1
             postcodes_to_location_data[postcode] = location_data[postcode]
     print(f"Failed to retrieve address information for {fail_count} postcodes.")
@@ -166,7 +166,7 @@ def update_db_with_location_data(application_ids_to_postcodes, postcodes_to_loca
         }
         for application_id, postcode in application_ids_to_postcodes.items()
     ]
-    print("Updating assessment records with postcode matched address" " information.")
+    print("Updating assessment records with postcode matched address information.")
     bulk_update_location_jsonb_blob(application_ids_to_location_data)
 
 

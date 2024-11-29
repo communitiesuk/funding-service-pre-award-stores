@@ -288,7 +288,7 @@ def bulk_insert_application_record(
 
         if derived_values["location_json_blob"]["error"]:
             current_app.logger.error(
-                "Location key not found or invalid postcode provided for the " "application: {short_id}.",
+                "Location key not found or invalid postcode provided for the application: {short_id}.",
                 extra=dict(short_id=derived_values["short_id"]),
             )
 
@@ -319,7 +319,7 @@ def bulk_insert_application_record(
             print(f"Error occurred while inserting application {row['application_id']}, error: {e}")
             raise e
 
-    print("Inserted application_ids (i.e. application rows) :" f" {[row['application_id'] for row in rows]}")
+    print("Inserted application_ids (i.e. application rows) : {[row['application_id'] for row in rows]}")
     return rows
 
 
