@@ -2,9 +2,10 @@ import traceback
 from typing import Dict
 
 import requests
+from flask import current_app
+
 from api.models.notification import Notification
 from config import Config  # noqa: E402
-from flask import current_app
 
 
 def get_data(endpoint: str, payload: Dict = None):
@@ -30,7 +31,10 @@ def get_data(endpoint: str, payload: Dict = None):
 
 
 def get_account_data(account_id: str):
-    return get_data(Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT, {"account_id": account_id})
+    return get_data(
+        Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT,
+        {"account_id": account_id},
+    )
 
 
 def get_fund_data(fund_id: str):

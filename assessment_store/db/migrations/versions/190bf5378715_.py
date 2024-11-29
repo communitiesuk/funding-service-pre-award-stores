@@ -5,6 +5,7 @@ Revises: 910aa9530de5
 Create Date: 2022-11-21 13:54:55.349527
 
 """
+
 from alembic import op
 from alembic_utils.pg_function import PGFunction
 from alembic_utils.pg_trigger import PGTrigger

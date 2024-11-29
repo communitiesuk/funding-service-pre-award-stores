@@ -1,5 +1,3 @@
-from .scores import AssessmentRound
-from .scores import Score
-from .scores import ScoringSystem
+from .scores import AssessmentRound, Score, ScoringSystem
 
 __all__ = ["Score", "AssessmentRound", "ScoringSystem"]

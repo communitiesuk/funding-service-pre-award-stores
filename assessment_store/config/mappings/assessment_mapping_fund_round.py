@@ -372,7 +372,10 @@ applicant_info_mapping = {
                     "en": {"title": "Your expression of interest (EOI) application reference"},
                     "cy": {"title": "Cyfeirnod eich ffurflen mynegi diddordeb (EOI)."},
                 },
-                "YdtlQZ": {"en": {"title": "Organisation name"}, "cy": {"title": "Enw'r sefydliad"}},
+                "YdtlQZ": {
+                    "en": {"title": "Organisation name"},
+                    "cy": {"title": "Enw'r sefydliad"},
+                },
                 "lajFtB": {
                     "en": {
                         "title": "Type of organisation",
@@ -383,8 +386,14 @@ applicant_info_mapping = {
                         "field_type": "radiosField",
                     },
                 },
-                "aHIGbK": {"en": {"title": "Charity number"}, "cy": {"title": "Rhif elusen"}},
-                "GlPmCX": {"en": {"title": "Company registration number"}, "cy": {"title": "Rhif cofrestru'r cwmni"}},
+                "aHIGbK": {
+                    "en": {"title": "Charity number"},
+                    "cy": {"title": "Rhif elusen"},
+                },
+                "GlPmCX": {
+                    "en": {"title": "Company registration number"},
+                    "cy": {"title": "Rhif cofrestru'r cwmni"},
+                },
                 "oXGwlA": {
                     "en": {
                         "title": "Asset type",
@@ -395,17 +404,30 @@ applicant_info_mapping = {
                         "field_type": "radiosField",
                     },
                 },
-                "aJGyCR": {"en": {"title": "Type of asset (other)"}, "cy": {"title": "Math o eiddo (arall)"}},
+                "aJGyCR": {
+                    "en": {"title": "Type of asset (other)"},
+                    "cy": {"title": "Math o eiddo (arall)"},
+                },
                 "EfdliG": {
                     "en": {"title": "Postcode of asset", "field_type": "uk_postcode"},
                     "cy": {"title": "Cod post o ased", "field_type": "uk_postcode"},
                 },
-                "ABROnB": {"en": {"title": "Capital funding request"}, "cy": {"title": "Cais cyllido cyfalaf"}},
+                "ABROnB": {
+                    "en": {"title": "Capital funding request"},
+                    "cy": {"title": "Cais cyllido cyfalaf"},
+                },
                 "tSKhQQ": {
-                    "en": {"title": "Revenue costs (optional)", "field_type": "sum_list", "field_to_sum": "UyaAHw"},
+                    "en": {
+                        "title": "Revenue costs (optional)",
+                        "field_type": "sum_list",
+                        "field_to_sum": "UyaAHw",
+                    },
                     "cy": {"title": "Costau refeniw (dewisol)"},
                 },
-                "apGjFS": {"en": {"title": "Project name"}, "cy": {"title": "Enw'r prosiect"}},
+                "apGjFS": {
+                    "en": {"title": "Project name"},
+                    "cy": {"title": "Enw'r prosiect"},
+                },
             }
         },
         "OUTPUT_TRACKER": {},
@@ -449,7 +471,10 @@ applicant_info_mapping = {
                     "en": {"title": "Your expression of interest (EOI) application reference"},
                     "cy": {"title": "Cyfeirnod eich ffurflen mynegi diddordeb (EOI)."},
                 },
-                "YdtlQZ": {"en": {"title": "Organisation name"}, "cy": {"title": "Enw'r sefydliad"}},
+                "YdtlQZ": {
+                    "en": {"title": "Organisation name"},
+                    "cy": {"title": "Enw'r sefydliad"},
+                },
                 "lajFtB": {
                     "en": {
                         "title": "Type of organisation",
@@ -460,8 +485,14 @@ applicant_info_mapping = {
                         "field_type": "radiosField",
                     },
                 },
-                "aHIGbK": {"en": {"title": "Charity number"}, "cy": {"title": "Rhif elusen"}},
-                "GlPmCX": {"en": {"title": "Company registration number"}, "cy": {"title": "Rhif cofrestru'r cwmni"}},
+                "aHIGbK": {
+                    "en": {"title": "Charity number"},
+                    "cy": {"title": "Rhif elusen"},
+                },
+                "GlPmCX": {
+                    "en": {"title": "Company registration number"},
+                    "cy": {"title": "Rhif cofrestru'r cwmni"},
+                },
                 "oXGwlA": {
                     "en": {
                         "title": "Asset type",
@@ -472,17 +503,30 @@ applicant_info_mapping = {
                         "field_type": "radiosField",
                     },
                 },
-                "aJGyCR": {"en": {"title": "Type of asset (other)"}, "cy": {"title": "Math o eiddo (arall)"}},
+                "aJGyCR": {
+                    "en": {"title": "Type of asset (other)"},
+                    "cy": {"title": "Math o eiddo (arall)"},
+                },
                 "EfdliG": {
                     "en": {"title": "Postcode of asset", "field_type": "uk_postcode"},
                     "cy": {"title": "Cod post o ased", "field_type": "uk_postcode"},
                 },
-                "ABROnB": {"en": {"title": "Capital funding request"}, "cy": {"title": "Cais cyllido cyfalaf"}},
+                "ABROnB": {
+                    "en": {"title": "Capital funding request"},
+                    "cy": {"title": "Cais cyllido cyfalaf"},
+                },
                 "tSKhQQ": {
-                    "en": {"title": "Revenue costs (optional)", "field_type": "sum_list", "field_to_sum": "UyaAHw"},
+                    "en": {
+                        "title": "Revenue costs (optional)",
+                        "field_type": "sum_list",
+                        "field_to_sum": "UyaAHw",
+                    },
                     "cy": {"title": "Costau refeniw (dewisol)"},
                 },
-                "apGjFS": {"en": {"title": "Project name"}, "cy": {"title": "Enw'r prosiect"}},
+                "apGjFS": {
+                    "en": {"title": "Project name"},
+                    "cy": {"title": "Enw'r prosiect"},
+                },
             }
         },
         "OUTPUT_TRACKER": {},
@@ -508,28 +552,40 @@ applicant_info_mapping = {
                     },
                 },
                 "zurxox": {
-                    "en": {"title": "Is the asset based in the UK?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Is the asset based in the UK?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A yw'r ased yn y DU?",
                         "field_type": "yesNoField",
                     },
                 },
                 "dnqIdW": {
-                    "en": {"title": "Address of the asset", "field_type": "ukAddressField"},
+                    "en": {
+                        "title": "Address of the asset",
+                        "field_type": "ukAddressField",
+                    },
                     "cy": {
                         "title": "Cyfeiriad yr ased",
                         "field_type": "ukAddressField",
                     },
                 },
                 "lLQmNb": {
-                    "en": {"title": "Is the asset at risk?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Is the asset at risk?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A yw'r ased mewn perygl?",
                         "field_type": "yesNoField",
                     },
                 },
                 "ilMbMH": {
-                    "en": {"title": "What is the risk to the asset?", "field_type": "checkboxesField"},
+                    "en": {
+                        "title": "What is the risk to the asset?",
+                        "field_type": "checkboxesField",
+                    },
                     "cy": {
                         "title": "Beth yw'r perygl i'r ased?",
                         "field_type": "checkboxesField",
@@ -546,21 +602,30 @@ applicant_info_mapping = {
                     },
                 },
                 "cPcZos": {
-                    "en": {"title": "Do you already own the asset?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Do you already own the asset?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A ydych eisoes yn berchen ar yr ased?",
                         "field_type": "yesNoField",
                     },
                 },
                 "jOpXfi": {
-                    "en": {"title": "Help with public authority", "field_type": "details"},
+                    "en": {
+                        "title": "Help with public authority",
+                        "field_type": "details",
+                    },
                     "cy": {
                         "title": "Help gydag awdurdod cyhoeddus",
                         "field_type": "details",
                     },
                 },
                 "XuAyrs": {
-                    "en": {"title": "Does the asset belong to a public authority?", "field_type": "radiosField"},
+                    "en": {
+                        "title": "Does the asset belong to a public authority?",
+                        "field_type": "radiosField",
+                    },
                     "cy": {
                         "title": "A yw'r ased yn perthyn i awdurdod cyhoeddus?",
                         "field_type": "radiosField",
@@ -594,28 +659,40 @@ applicant_info_mapping = {
                     },
                 },
                 "SxkwhF": {
-                    "en": {"title": "Does your organisation have any alternative names?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Does your organisation have any alternative names?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A oes gan eich sefydliad unrhyw enwau amgen?",
                         "field_type": "yesNoField",
                     },
                 },
                 "OpeSdM": {
-                    "en": {"title": "Organisation address", "field_type": "ukAddressField"},
+                    "en": {
+                        "title": "Organisation address",
+                        "field_type": "ukAddressField",
+                    },
                     "cy": {
                         "title": "Cyfeiriad y sefydliad",
                         "field_type": "ukAddressField",
                     },
                 },
                 "Fepkam": {
-                    "en": {"title": "Help with organisation type", "field_type": "details"},
+                    "en": {
+                        "title": "Help with organisation type",
+                        "field_type": "details",
+                    },
                     "cy": {
                         "title": "Help gyda'r math o sefydliad",
                         "field_type": "details",
                     },
                 },
                 "uYiLsv": {
-                    "en": {"title": "Organisation classification", "field_type": "radiosField"},
+                    "en": {
+                        "title": "Organisation classification",
+                        "field_type": "radiosField",
+                    },
                     "cy": {
                         "title": "Dosbarthiad y sefydliad",
                         "field_type": "radiosField",
@@ -660,7 +737,10 @@ applicant_info_mapping = {
                     },
                 },
                 "aocRmv": {
-                    "en": {"title": "What do you plan to use COF's funding for?", "field_type": "checkboxesField"},
+                    "en": {
+                        "title": "What do you plan to use COF's funding for?",
+                        "field_type": "checkboxesField",
+                    },
                     "cy": {
                         "title": "At ba ddiben ydych chi'n bwriadu defnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol?",
                         "field_type": "checkboxesField",
@@ -687,35 +767,50 @@ applicant_info_mapping = {
                     },
                 },
                 "oblxxv": {
-                    "en": {"title": "Do you plan to request any revenue funding?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Do you plan to request any revenue funding?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A ydych yn bwriadu gwneud cais am unrhyw gyllid refeniw?",
                         "field_type": "yesNoField",
                     },
                 },
                 "eOWKoO": {
-                    "en": {"title": "Do you plan to secure match funding?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Do you plan to secure match funding?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A ydych yn bwriadu sicrhau arian cyfatebol?",
                         "field_type": "yesNoField",
                     },
                 },
                 "BykoQQ": {
-                    "en": {"title": "Where do you plan to source match funding?", "field_type": "checkboxesField"},
+                    "en": {
+                        "title": "Where do you plan to source match funding?",
+                        "field_type": "checkboxesField",
+                    },
                     "cy": {
                         "title": "O ble rydych yn bwriadu cael arian cyfatebol?",
                         "field_type": "checkboxesField",
                     },
                 },
                 "yZxdeJ": {
-                    "en": {"title": "Does your project include an element of housing?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Does your project include an element of housing?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A yw eich prosiect yn cynnwys elfen dai?",
                         "field_type": "yesNoField",
                     },
                 },
                 "UORyaF": {
-                    "en": {"title": "Will you need planning permission for your project?", "field_type": "radiosField"},
+                    "en": {
+                        "title": "Will you need planning permission for your project?",
+                        "field_type": "radiosField",
+                    },
                     "cy": {
                         "title": "A fydd angen caniatâd cynllunio ar gyfer eich prosiect?",
                         "field_type": "radiosField",
@@ -732,7 +827,10 @@ applicant_info_mapping = {
                     },
                 },
                 "kWRuac": {
-                    "en": {"title": "What progress have you made to secure this funding?", "field_type": "radiosField"},
+                    "en": {
+                        "title": "What progress have you made to secure this funding?",
+                        "field_type": "radiosField",
+                    },
                     "cy": {
                         "title": "Pa gynnydd ydych chi wedi'i wneud i sicrhau'r arian hwn?",
                         "field_type": "radiosField",
@@ -759,7 +857,10 @@ applicant_info_mapping = {
                     },
                 },
                 "MxzEYq": {
-                    "en": {"title": "Describe your project and its aims", "field_type": "freeTextField"},
+                    "en": {
+                        "title": "Describe your project and its aims",
+                        "field_type": "freeTextField",
+                    },
                     "cy": {
                         "title": "Disgrifiwch eich prosiect a'i nodau",
                         "field_type": "freeTextField",
@@ -773,14 +874,20 @@ applicant_info_mapping = {
                     },
                 },
                 "NQoGIm": {
-                    "en": {"title": "Lead contact email address", "field_type": "emailAddressField"},
+                    "en": {
+                        "title": "Lead contact email address",
+                        "field_type": "emailAddressField",
+                    },
                     "cy": {
                         "title": "Cyfeiriad e-bost y prif unigolyn cyswllt",
                         "field_type": "emailAddressField",
                     },
                 },
                 "srxZmv": {
-                    "en": {"title": "Lead contact telephone number", "field_type": "telephoneNumberField"},
+                    "en": {
+                        "title": "Lead contact telephone number",
+                        "field_type": "telephoneNumberField",
+                    },
                     "cy": {
                         "title": "Rhif ffôn y prif unigolyn cyswllt",
                         "field_type": "telephoneNumberField",
@@ -811,28 +918,40 @@ applicant_info_mapping = {
                     },
                 },
                 "zurxox": {
-                    "en": {"title": "Is the asset based in the UK?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Is the asset based in the UK?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A yw'r ased yn y DU?",
                         "field_type": "yesNoField",
                     },
                 },
                 "dnqIdW": {
-                    "en": {"title": "Address of the asset", "field_type": "ukAddressField"},
+                    "en": {
+                        "title": "Address of the asset",
+                        "field_type": "ukAddressField",
+                    },
                     "cy": {
                         "title": "Cyfeiriad yr ased",
                         "field_type": "ukAddressField",
                     },
                 },
                 "lLQmNb": {
-                    "en": {"title": "Is the asset at risk?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Is the asset at risk?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A yw'r ased mewn perygl?",
                         "field_type": "yesNoField",
                     },
                 },
                 "ilMbMH": {
-                    "en": {"title": "What is the risk to the asset?", "field_type": "checkboxesField"},
+                    "en": {
+                        "title": "What is the risk to the asset?",
+                        "field_type": "checkboxesField",
+                    },
                     "cy": {
                         "title": "Beth yw'r perygl i'r ased?",
                         "field_type": "checkboxesField",
@@ -849,21 +968,30 @@ applicant_info_mapping = {
                     },
                 },
                 "cPcZos": {
-                    "en": {"title": "Do you already own the asset?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Do you already own the asset?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A ydych eisoes yn berchen ar yr ased?",
                         "field_type": "yesNoField",
                     },
                 },
                 "jOpXfi": {
-                    "en": {"title": "Help with public authority", "field_type": "details"},
+                    "en": {
+                        "title": "Help with public authority",
+                        "field_type": "details",
+                    },
                     "cy": {
                         "title": "Help gydag awdurdod cyhoeddus",
                         "field_type": "details",
                     },
                 },
                 "XuAyrs": {
-                    "en": {"title": "Does the asset belong to a public authority?", "field_type": "radiosField"},
+                    "en": {
+                        "title": "Does the asset belong to a public authority?",
+                        "field_type": "radiosField",
+                    },
                     "cy": {
                         "title": "A yw'r ased yn perthyn i awdurdod cyhoeddus?",
                         "field_type": "radiosField",
@@ -897,28 +1025,40 @@ applicant_info_mapping = {
                     },
                 },
                 "SxkwhF": {
-                    "en": {"title": "Does your organisation have any alternative names?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Does your organisation have any alternative names?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A oes gan eich sefydliad unrhyw enwau amgen?",
                         "field_type": "yesNoField",
                     },
                 },
                 "OpeSdM": {
-                    "en": {"title": "Organisation address", "field_type": "ukAddressField"},
+                    "en": {
+                        "title": "Organisation address",
+                        "field_type": "ukAddressField",
+                    },
                     "cy": {
                         "title": "Cyfeiriad y sefydliad",
                         "field_type": "ukAddressField",
                     },
                 },
                 "Fepkam": {
-                    "en": {"title": "Help with organisation type", "field_type": "details"},
+                    "en": {
+                        "title": "Help with organisation type",
+                        "field_type": "details",
+                    },
                     "cy": {
                         "title": "Help gyda'r math o sefydliad",
                         "field_type": "details",
                     },
                 },
                 "uYiLsv": {
-                    "en": {"title": "Organisation classification", "field_type": "radiosField"},
+                    "en": {
+                        "title": "Organisation classification",
+                        "field_type": "radiosField",
+                    },
                     "cy": {
                         "title": "Dosbarthiad y sefydliad",
                         "field_type": "radiosField",
@@ -963,7 +1103,10 @@ applicant_info_mapping = {
                     },
                 },
                 "aocRmv": {
-                    "en": {"title": "What do you plan to use COF's funding for?", "field_type": "checkboxesField"},
+                    "en": {
+                        "title": "What do you plan to use COF's funding for?",
+                        "field_type": "checkboxesField",
+                    },
                     "cy": {
                         "title": "At ba ddiben ydych chi'n bwriadu defnyddio cyllid o'r Gronfa Perchnogaeth Gymunedol?",
                         "field_type": "checkboxesField",
@@ -990,35 +1133,50 @@ applicant_info_mapping = {
                     },
                 },
                 "oblxxv": {
-                    "en": {"title": "Do you plan to request any revenue funding?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Do you plan to request any revenue funding?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A ydych yn bwriadu gwneud cais am unrhyw gyllid refeniw?",
                         "field_type": "yesNoField",
                     },
                 },
                 "eOWKoO": {
-                    "en": {"title": "Do you plan to secure match funding?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Do you plan to secure match funding?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A ydych yn bwriadu sicrhau arian cyfatebol?",
                         "field_type": "yesNoField",
                     },
                 },
                 "BykoQQ": {
-                    "en": {"title": "Where do you plan to source match funding?", "field_type": "checkboxesField"},
+                    "en": {
+                        "title": "Where do you plan to source match funding?",
+                        "field_type": "checkboxesField",
+                    },
                     "cy": {
                         "title": "O ble rydych yn bwriadu cael arian cyfatebol?",
                         "field_type": "checkboxesField",
                     },
                 },
                 "yZxdeJ": {
-                    "en": {"title": "Does your project include an element of housing?", "field_type": "yesNoField"},
+                    "en": {
+                        "title": "Does your project include an element of housing?",
+                        "field_type": "yesNoField",
+                    },
                     "cy": {
                         "title": "A yw eich prosiect yn cynnwys elfen dai?",
                         "field_type": "yesNoField",
                     },
                 },
                 "UORyaF": {
-                    "en": {"title": "Will you need planning permission for your project?", "field_type": "radiosField"},
+                    "en": {
+                        "title": "Will you need planning permission for your project?",
+                        "field_type": "radiosField",
+                    },
                     "cy": {
                         "title": "A fydd angen caniatâd cynllunio ar gyfer eich prosiect?",
                         "field_type": "radiosField",
@@ -1035,7 +1193,10 @@ applicant_info_mapping = {
                     },
                 },
                 "kWRuac": {
-                    "en": {"title": "What progress have you made to secure this funding?", "field_type": "radiosField"},
+                    "en": {
+                        "title": "What progress have you made to secure this funding?",
+                        "field_type": "radiosField",
+                    },
                     "cy": {
                         "title": "Pa gynnydd ydych chi wedi'i wneud i sicrhau'r arian hwn?",
                         "field_type": "radiosField",
@@ -1062,7 +1223,10 @@ applicant_info_mapping = {
                     },
                 },
                 "MxzEYq": {
-                    "en": {"title": "Describe your project and its aims", "field_type": "freeTextField"},
+                    "en": {
+                        "title": "Describe your project and its aims",
+                        "field_type": "freeTextField",
+                    },
                     "cy": {
                         "title": "Disgrifiwch eich prosiect a'i nodau",
                         "field_type": "freeTextField",
@@ -1076,14 +1240,20 @@ applicant_info_mapping = {
                     },
                 },
                 "NQoGIm": {
-                    "en": {"title": "Lead contact email address", "field_type": "emailAddressField"},
+                    "en": {
+                        "title": "Lead contact email address",
+                        "field_type": "emailAddressField",
+                    },
                     "cy": {
                         "title": "Cyfeiriad e-bost y prif unigolyn cyswllt",
                         "field_type": "emailAddressField",
                     },
                 },
                 "srxZmv": {
-                    "en": {"title": "Lead contact telephone number", "field_type": "telephoneNumberField"},
+                    "en": {
+                        "title": "Lead contact telephone number",
+                        "field_type": "telephoneNumberField",
+                    },
                     "cy": {
                         "title": "Rhif ffôn y prif unigolyn cyswllt",
                         "field_type": "telephoneNumberField",
@@ -1247,6 +1417,9 @@ fund_round_mapping_config = {
 }
 
 fund_round_mapping_config_with_round_id = {
-    v["round_id"]: {"fund_id": v["fund_id"], "type_of_application": v["type_of_application"]}
+    v["round_id"]: {
+        "fund_id": v["fund_id"],
+        "type_of_application": v["type_of_application"],
+    }
     for k, v in fund_round_mapping_config.items()
 }

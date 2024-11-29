@@ -7,22 +7,22 @@ sys.path.insert(1, ".")
 
 
 # from app import app  # noqa: E402
-from db.queries.assessment_records.queries import (  # noqa: E402
-    get_application_jsonb_blob,  # noqa: E402
-)  # noqa: E402
+from distutils.util import strtobool  # noqa: E402
+
 from config.mappings.assessment_mapping_fund_round import (  # noqa: E402
     fund_round_mapping_config,  # noqa: E402
 )  # noqa: E402
-from distutils.util import strtobool  # noqa: E402
+from db.queries.assessment_records.queries import (  # noqa: E402
+    get_application_jsonb_blob,  # noqa: E402
+)  # noqa: E402
 from scripts.location_utils import (  # noqa: E402
     get_all_application_ids_for_fund_round,  # noqa: E402
+    get_all_location_data,  # noqa: E402
+    get_application_form,  # noqa: E402
+    get_postcode_from_questions,  # noqa: E402
+    update_db_with_location_data,  # noqa: E402
+    write_locations_to_csv,  # noqa: E402
 )  # noqa: E402
-from scripts.location_utils import get_all_location_data  # noqa: E402
-from scripts.location_utils import get_application_form  # noqa: E402
-from scripts.location_utils import get_postcode_from_questions  # noqa: E402
-from scripts.location_utils import update_db_with_location_data  # noqa: E402
-from scripts.location_utils import write_locations_to_csv  # noqa: E402
-
 
 local_workspace = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 file_locations_csv = local_workspace + "/locations.csv"

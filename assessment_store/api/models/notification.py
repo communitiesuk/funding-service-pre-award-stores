@@ -1,8 +1,9 @@
 import json
 from uuid import uuid4
 
-from config import Config
 from flask import current_app
+
+from config import Config
 
 NOTIFICATION_CONST = "notification"
 NOTIFICATION_S3_KEY_CONST = "application/notification"

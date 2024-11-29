@@ -1,17 +1,19 @@
-from .assessment_records.queries import bulk_insert_application_record
-from .assessment_records.queries import delete_assessment_record
-from .assessment_records.queries import find_answer_by_key_runner
-from .assessment_records.queries import get_metadata_for_fund_round_id
-from .assessment_records.queries import insert_application_record
-from .comments.queries import create_comment
-from .comments.queries import get_comments_from_db
+from .assessment_records.queries import (
+    bulk_insert_application_record,
+    delete_assessment_record,
+    find_answer_by_key_runner,
+    get_metadata_for_fund_round_id,
+    insert_application_record,
+)
+from .comments.queries import create_comment, get_comments_from_db
 from .progress.queries import get_progress_for_app
-from .scores.queries import _insert_scoring_system
-from .scores.queries import create_score_for_app_sub_crit
-from .scores.queries import get_scores_for_app_sub_crit
-from .scores.queries import get_scoring_system_for_round_id
-from .tags.queries import insert_tags
-from .tags.queries import select_tags_for_fund_round
+from .scores.queries import (
+    _insert_scoring_system,
+    create_score_for_app_sub_crit,
+    get_scores_for_app_sub_crit,
+    get_scoring_system_for_round_id,
+)
+from .tags.queries import insert_tags, select_tags_for_fund_round
 
 __all__ = [
     "select_tags_for_fund_round",

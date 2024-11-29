@@ -1,10 +1,10 @@
 from typing import Dict
 
+from sqlalchemy import select
+
 from db import db
 from db.models.flags.assessment_flag import AssessmentFlag
-from db.models.flags.flag_update import FlagStatus
-from db.models.flags.flag_update import FlagUpdate
-from sqlalchemy import select
+from db.models.flags.flag_update import FlagStatus, FlagUpdate
 
 
 def get_flags_for_application(application_id):

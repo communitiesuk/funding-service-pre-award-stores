@@ -5,22 +5,15 @@ Tangential structures such as triggers and ENUMS are kept in other
 files.
 
 """
-from db import db
-from db.models.assessment_record.enums import Language
-from db.models.assessment_record.enums import Status
+
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import cast
-from sqlalchemy import Column
-from sqlalchemy import Computed
-from sqlalchemy import func
-from sqlalchemy import Index
-from sqlalchemy.dialects.postgresql import ENUM
-from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.dialects.postgresql import TEXT
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import column_property
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Computed, Index, cast, func
+from sqlalchemy.dialects.postgresql import ENUM, JSONB, TEXT, UUID
+from sqlalchemy.orm import column_property, relationship
 from sqlalchemy.types import Boolean
+
+from db import db
+from db.models.assessment_record.enums import Language, Status
 
 BaseModel: DefaultMeta = db.Model
 

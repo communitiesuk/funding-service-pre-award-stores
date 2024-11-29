@@ -1,14 +1,15 @@
-from db.queries.assessment_records.queries import create_user_application_association
-from db.queries.assessment_records.queries import get_metadata_for_application
-from db.queries.assessment_records.queries import get_user_application_associations
+from flask import abort, current_app, request
+from fsd_utils.config.notify_constants import NotifyConstants
+
+from db.queries.assessment_records.queries import (
+    create_user_application_association,
+    get_metadata_for_application,
+    get_user_application_associations,
+)
 from db.queries.assessment_records.queries import (
     update_user_application_association as update_user_application_association_db,
 )
 from db.schemas.schemas import AllocationAssociationSchema
-from flask import abort
-from flask import current_app
-from flask import request
-from fsd_utils.config.notify_constants import NotifyConstants
 from services.data_services import send_notification_email
 
 
@@ -126,7 +127,10 @@ def update_user_application_association(application_id, user_id):
     send_email = args.get("send_email")
     active = args.get("active")
     association = update_user_application_association_db(
-        application_id=application_id, user_id=user_id, active=active, assigner_id=args["assigner_id"]
+        application_id=application_id,
+        user_id=user_id,
+        active=active,
+        assigner_id=args["assigner_id"],
     )
 
     if association:

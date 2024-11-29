@@ -1,24 +1,24 @@
-from db.queries.assessment_records.queries import associate_assessment_tags
+from flask import Response, abort, current_app, request
+
 from db.queries.assessment_records.queries import (
+    associate_assessment_tags,
     select_active_tags_associated_with_assessment,
-)
-from db.queries.assessment_records.queries import (
     select_all_tags_associated_with_application,
 )
-from db.queries.tags.queries import get_tag_by_id
-from db.queries.tags.queries import insert_tags
-from db.queries.tags.queries import select_tags_for_fund_round
-from db.queries.tags.queries import select_tags_types
-from db.queries.tags.queries import update_tags
-from db.schemas.schemas import JoinedTagAssociationSchema
-from db.schemas.schemas import JoinedTagSchema
-from db.schemas.schemas import TagAssociationSchema
-from db.schemas.schemas import TagSchema
-from db.schemas.schemas import TagTypeSchema
-from flask import abort
-from flask import current_app
-from flask import request
-from flask import Response
+from db.queries.tags.queries import (
+    get_tag_by_id,
+    insert_tags,
+    select_tags_for_fund_round,
+    select_tags_types,
+    update_tags,
+)
+from db.schemas.schemas import (
+    JoinedTagAssociationSchema,
+    JoinedTagSchema,
+    TagAssociationSchema,
+    TagSchema,
+    TagTypeSchema,
+)
 
 
 def get_tags_for_fund_round(
@@ -112,7 +112,7 @@ def get_tag(fund_id, round_id, tag_id):
 def associate_tags_with_assessment(application_id):
     args = request.get_json()
     tags = args
-    current_app.logger.info(f"Associating tag with assessment")
+    current_app.logger.info("Associating tag with assessment")
     associated_tags = associate_assessment_tags(application_id, tags)
 
     if associated_tags:

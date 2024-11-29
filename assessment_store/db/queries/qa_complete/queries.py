@@ -3,6 +3,7 @@
 Joins allowed.
 
 """
+
 from typing import Dict
 
 from db import db

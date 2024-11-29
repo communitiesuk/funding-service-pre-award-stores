@@ -1,17 +1,20 @@
 from uuid import UUID
 
 import pytest
-from config.mappings.assessment_mapping_fund_round import applicant_info_mapping
-from config.mappings.assessment_mapping_fund_round import COF25_EOI_FUND_ID
-from config.mappings.assessment_mapping_fund_round import COF25_EOI_ROUND_ID
-from config.mappings.assessment_mapping_fund_round import COF25_FUND_ID
-from config.mappings.assessment_mapping_fund_round import COF25_ROUND_ID
-from config.mappings.assessment_mapping_fund_round import COF_EOI_FUND_ID
-from config.mappings.assessment_mapping_fund_round import COF_EOI_ROUND_ID
-from config.mappings.assessment_mapping_fund_round import fund_round_data_key_mappings
-from config.mappings.assessment_mapping_fund_round import fund_round_mapping_config
-from config.mappings.assessment_mapping_fund_round import fund_round_mapping_config_with_round_id
-from config.mappings.assessment_mapping_fund_round import fund_round_to_assessment_mapping
+
+from config.mappings.assessment_mapping_fund_round import (
+    COF25_EOI_FUND_ID,
+    COF25_EOI_ROUND_ID,
+    COF25_FUND_ID,
+    COF25_ROUND_ID,
+    COF_EOI_FUND_ID,
+    COF_EOI_ROUND_ID,
+    applicant_info_mapping,
+    fund_round_data_key_mappings,
+    fund_round_mapping_config,
+    fund_round_mapping_config_with_round_id,
+    fund_round_to_assessment_mapping,
+)
 
 
 def test_fund_round_ids_are_valid_uuids():
@@ -56,7 +59,13 @@ def test_fund_round_to_assessment_mapping_structure():
 def test_fund_round_data_key_mappings_structure():
     """Test the structure of fund_round_data_key_mappings."""
     expected_keys_eoi = ["location", "asset_type", "funding_one", "funding_two"]
-    expected_keys_cof = ["location", "asset_type", "funding_one", "funding_two", "funding_field_type"]
+    expected_keys_cof = [
+        "location",
+        "asset_type",
+        "funding_one",
+        "funding_two",
+        "funding_field_type",
+    ]
 
     assert "COFEOI" in fund_round_data_key_mappings
     assert "COF25EOI" in fund_round_data_key_mappings
@@ -101,9 +110,9 @@ def test_form_fields_structure():
         "COF25_FUND_ID": COF25_FUND_ID,
     }
 
-    for fund_name, fund_id in fund_ids.items():
+    for _fund_name, fund_id in fund_ids.items():
         form_fields = applicant_info_mapping[fund_id]["ASSESSOR_EXPORT"]["form_fields"]
-        for field_id, field_data in form_fields.items():
+        for _field_id, field_data in form_fields.items():
             check_field_structure(field_data)
 
 
@@ -124,7 +133,7 @@ def test_fund_round_mapping_config_structure():
 def test_fund_round_mapping_config_with_round_id_generation():
     """Test the generation of fund_round_mapping_config_with_round_id."""
     # Check that all round IDs from the original config are present as keys
-    for config_key, config in fund_round_mapping_config.items():
+    for _config_key, config in fund_round_mapping_config.items():
         round_id = config["round_id"]
         assert round_id in fund_round_mapping_config_with_round_id
 

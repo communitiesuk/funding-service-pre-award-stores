@@ -1,14 +1,14 @@
 """The module containing all code related to the `comments` table within the
 Postgres db."""
+
 import uuid
+
+from sqlalchemy import ForeignKey, func
+from sqlalchemy.dialects.postgresql import ENUM, UUID
+from sqlalchemy.orm import relationship
 
 from db import db
 from db.models.comment.enums import CommentType
-from sqlalchemy import ForeignKey
-from sqlalchemy import func
-from sqlalchemy.dialects.postgresql import ENUM
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
 
 
 class Comment(db.Model):

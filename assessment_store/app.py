@@ -1,19 +1,19 @@
 from os import getenv
 
 import connexion
-from _helpers.task_executer_service import AssessmentTaskExecutorService
 from apscheduler.schedulers.background import BackgroundScheduler
-from config import Config
 from connexion import FlaskApp
 from connexion.resolver import MethodViewResolver
 from fsd_utils import init_sentry
-from fsd_utils.healthchecks.checkers import DbChecker
-from fsd_utils.healthchecks.checkers import FlaskRunningChecker
+from fsd_utils.healthchecks.checkers import DbChecker, FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from fsd_utils.sqs_scheduler.context_aware_executor import ContextAwareExecutor
 from fsd_utils.sqs_scheduler.scheduler_service import scheduler_executor
+
+from _helpers.task_executer_service import AssessmentTaskExecutorService
+from config import Config
 from openapi.utils import get_bundled_specs
 
 
@@ -55,7 +55,9 @@ def create_app() -> FlaskApp:
     create_sqs_extended_client(flask_app)
 
     executor = ContextAwareExecutor(
-        max_workers=Config.TASK_EXECUTOR_MAX_THREAD, thread_name_prefix="NotifTask", flask_app=flask_app
+        max_workers=Config.TASK_EXECUTOR_MAX_THREAD,
+        thread_name_prefix="NotifTask",
+        flask_app=flask_app,
     )
     # Configure Task Executor service
     task_executor_service = AssessmentTaskExecutorService(

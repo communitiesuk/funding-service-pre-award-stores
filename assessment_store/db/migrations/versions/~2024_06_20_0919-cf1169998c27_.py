@@ -5,6 +5,7 @@ Revises: c0fd614c99ea
 Create Date: 2024-06-20 09:19:33.420477
 
 """
+
 import sqlalchemy as sa
 from alembic import op
 from sqlalchemy.dialects import postgresql
@@ -22,7 +23,12 @@ def upgrade():
         "allocation_association",
         sa.Column("application_id", sa.UUID(), nullable=False),
         sa.Column("user_id", sa.UUID(), nullable=False),
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.text("now()"), nullable=True),
+        sa.Column(
+            "created_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.text("now()"),
+            nullable=True,
+        ),
         sa.Column("active", sa.Boolean(), nullable=False),
         sa.Column("log", postgresql.JSONB(astext_type=sa.Text()), nullable=False),
         sa.ForeignKeyConstraint(

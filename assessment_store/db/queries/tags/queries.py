@@ -1,14 +1,13 @@
 from typing import List
 
+from flask import current_app
+from sqlalchemy import distinct, func, or_
+from sqlalchemy.exc import NoResultFound
+
 from db import db
 from db.models.assessment_record.tag_association import TagAssociation
 from db.models.tag.tag_types import TagType
 from db.models.tag.tags import Tag
-from flask import current_app
-from sqlalchemy import distinct
-from sqlalchemy import func
-from sqlalchemy import or_
-from sqlalchemy.exc import NoResultFound
 
 
 def insert_tags(tags, fund_id, round_id):

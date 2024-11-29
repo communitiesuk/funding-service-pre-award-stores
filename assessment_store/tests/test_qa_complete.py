@@ -1,6 +1,7 @@
 import pytest
-from db.queries.qa_complete.queries import create_qa_complete_record
+
 from db.queries.qa_complete.queries import (
+    create_qa_complete_record,
     get_qa_complete_record_for_application,
 )
 from tests._helpers import get_assessment_record

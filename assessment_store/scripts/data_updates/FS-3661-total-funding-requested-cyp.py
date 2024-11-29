@@ -1,11 +1,11 @@
+from flask import current_app
+from sqlalchemy import select, update
+
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_data_key_mappings,
 )
 from db import db
 from db.models import AssessmentRecord
-from flask import current_app
-from sqlalchemy import select
-from sqlalchemy import update
 
 
 def update_funding_amount_requested_for_cyp():

@@ -2,10 +2,9 @@ import random
 
 import pytest
 import sqlalchemy
-from config.mappings.assessment_mapping_fund_round import applicant_info_mapping
-from config.mappings.assessment_mapping_fund_round import COF_FUND_ID
-from db.models import Comment
-from db.models import Score
+
+from config.mappings.assessment_mapping_fund_round import COF_FUND_ID, applicant_info_mapping
+from db.models import Comment, Score
 from db.models.assessment_record.assessment_records import AssessmentRecord
 from db.models.assessment_record.enums import Status
 from db.models.comment import CommentsUpdate
@@ -13,14 +12,16 @@ from db.models.comment.enums import CommentType
 from db.queries import find_answer_by_key_runner
 from db.queries.assessment_records.queries import (
     bulk_update_location_jsonb_blob,
+    find_assessor_task_list_state,
+    get_assessment_export_data,
+    get_export_data,
 )
-from db.queries.assessment_records.queries import find_assessor_task_list_state
-from db.queries.assessment_records.queries import get_assessment_export_data
-from db.queries.assessment_records.queries import get_export_data
-from db.queries.comments.queries import create_comment
-from db.queries.comments.queries import get_comments_from_db
-from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
-from db.queries.comments.queries import update_comment
+from db.queries.comments.queries import (
+    create_comment,
+    get_comments_from_db,
+    get_sub_criteria_to_has_comment_map,
+    update_comment,
+)
 from db.queries.scores.queries import create_score_for_app_sub_crit
 from tests._expected_responses import BULK_UPDATE_LOCATION_JSONB_BLOB
 from tests._helpers import get_assessment_record
@@ -563,7 +564,13 @@ def test_output_tracker_columns_remain_same_for_scored_and_unscored_reports(seed
 def test_get_cof_r4w1_export_data_en(seed_application_records):
     app_id = test_input_data[4]["id"]
     test_record = get_assessment_record(app_id)
-    result = get_export_data("round_id", "ASSESSOR_EXPORT", applicant_info_mapping[COF_FUND_ID], [test_record], "en")
+    result = get_export_data(
+        "round_id",
+        "ASSESSOR_EXPORT",
+        applicant_info_mapping[COF_FUND_ID],
+        [test_record],
+        "en",
+    )
     assert len(result) == 1
     assert str(result[0]["Application ID"]) == app_id
     assert result[0]["Name of lead contact"] == "test lead person"
@@ -581,7 +588,13 @@ def test_get_cof_r4w1_export_data_en(seed_application_records):
 def test_get_cof_r4w1_export_data_cy(seed_application_records):
     app_id = test_input_data[5]["id"]
     test_record = get_assessment_record(app_id)
-    result = get_export_data("round_id", "ASSESSOR_EXPORT", applicant_info_mapping[COF_FUND_ID], [test_record], "cy")
+    result = get_export_data(
+        "round_id",
+        "ASSESSOR_EXPORT",
+        applicant_info_mapping[COF_FUND_ID],
+        [test_record],
+        "cy",
+    )
     assert len(result) == 1
     assert str(result[0]["Application ID"]) == app_id
     assert result[0]["Enw'r cyswllt arweiniol"] == "asdf"

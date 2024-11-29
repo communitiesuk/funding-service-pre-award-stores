@@ -1,8 +1,8 @@
 import copy
 
+from flask import abort, current_app
+
 from config import Config
-from flask import abort
-from flask import current_app
 
 
 def get_all_subcriteria(fund_id, round_id, language):

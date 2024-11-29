@@ -1,12 +1,14 @@
+from flask import current_app, request
+
 from db.models.flags.flag_update import FlagStatus
 from db.queries import get_metadata_for_fund_round_id
-from db.queries.flags.queries import add_flag_for_application
-from db.queries.flags.queries import add_update_to_assessment_flag
-from db.queries.flags.queries import get_flag_by_id
-from db.queries.flags.queries import get_flags_for_application
+from db.queries.flags.queries import (
+    add_flag_for_application,
+    add_update_to_assessment_flag,
+    get_flag_by_id,
+    get_flags_for_application,
+)
 from db.schemas.schemas import AssessmentFlagSchema
-from flask import current_app
-from flask import request
 
 
 def _fix_country(country):
@@ -89,7 +91,7 @@ def create_flag_for_application():
 
 
 def update_flag_for_application():
-    current_app.logger.info(f"Update flag")
+    current_app.logger.info("Update flag")
     update_flag_json = request.json
     updated_flag = add_update_to_assessment_flag(**update_flag_json)
     return AssessmentFlagSchema().dump(updated_flag)

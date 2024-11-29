@@ -3,20 +3,18 @@
 Joins allowed.
 
 """
+
 import uuid
 from typing import Dict
 
-from db import db
-from db.models import AssessmentRecord
-from db.models.score import AssessmentRound
-from db.models.score import Score
-from db.models.score import ScoringSystem
-from db.schemas import AssessmentRoundMetadata
-from db.schemas import ScoreMetadata
-from db.schemas import ScoringSystemMetadata
 from flask import current_app as app
 from sqlalchemy import select
 from sqlalchemy.orm.exc import NoResultFound
+
+from db import db
+from db.models import AssessmentRecord
+from db.models.score import AssessmentRound, Score, ScoringSystem
+from db.schemas import AssessmentRoundMetadata, ScoreMetadata, ScoringSystemMetadata
 
 
 def get_scores_for_app_sub_crit(

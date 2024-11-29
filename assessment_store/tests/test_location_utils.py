@@ -2,11 +2,13 @@ import csv
 import json
 import os
 
-from scripts.location_utils import extract_location_data
-from scripts.location_utils import get_all_location_data
-from scripts.location_utils import get_application_form
-from scripts.location_utils import get_postcode_from_questions
-from scripts.location_utils import write_locations_to_csv
+from scripts.location_utils import (
+    extract_location_data,
+    get_all_location_data,
+    get_application_form,
+    get_postcode_from_questions,
+    write_locations_to_csv,
+)
 
 
 def test_get_application_form():

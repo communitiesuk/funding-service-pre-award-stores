@@ -3,11 +3,12 @@ from datetime import datetime
 
 import jsonpath_rw_ext
 import requests
+from flask import current_app
+
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_data_key_mappings,
 )
 from db.models.assessment_record import TagAssociation
-from flask import current_app
 
 
 def get_answer_value(application_json, answer_key):
@@ -123,9 +124,9 @@ def derive_application_values(application_json):
 
     derived_values["application_id"] = application_id
     if application_json["project_name"] is None and fund_round_shortname == "COFEOI":
-        derived_values[
-            "project_name"
-        ] = ""  # EOI does not have a project name form compoent. Maybe this has to become nullable?
+        derived_values["project_name"] = (
+            ""  # EOI does not have a project name form compoent. Maybe this has to become nullable?
+        )
     else:
         derived_values["project_name"] = application_json["project_name"]
 

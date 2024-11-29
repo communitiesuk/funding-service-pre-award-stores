@@ -1,14 +1,12 @@
 from enum import IntEnum
 from uuid import uuid4
 
-from db import db
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import Column
-from sqlalchemy import ForeignKey
-from sqlalchemy import String
-from sqlalchemy.dialects.postgresql import ENUM
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy.dialects.postgresql import ENUM, UUID
 from sqlalchemy.sql import func
+
+from db import db
 
 BaseModel: DefaultMeta = db.Model
 

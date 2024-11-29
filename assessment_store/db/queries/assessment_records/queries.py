@@ -3,49 +3,36 @@
 Joins allowed.
 
 """
+
 import json
-from datetime import datetime
-from datetime import timezone
-from typing import Dict
-from typing import List
+from datetime import datetime, timezone
+from typing import Dict, List
 
 from bs4 import BeautifulSoup
+from flask import current_app
+from sqlalchemy import String, and_, bindparam, cast, desc, exc, func, or_, select, update
+from sqlalchemy.dialects.postgresql import insert as postgres_insert
+from sqlalchemy.orm import aliased, defer, load_only, selectinload
+
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config_with_round_id,
 )
 from db import db
-from db.models.assessment_record import AssessmentRecord
-from db.models.assessment_record import TagAssociation
+from db.models.assessment_record import AssessmentRecord, TagAssociation
 from db.models.assessment_record.allocation_association import AllocationAssociation
 from db.models.assessment_record.enums import Status
 from db.models.flags.flag_update import FlagStatus
 from db.models.score import Score
 from db.models.tag.tag_types import TagType
 from db.models.tag.tags import Tag
-from db.queries.assessment_records._helpers import derive_application_values
-from db.queries.assessment_records._helpers import filter_tags
-from db.queries.assessment_records._helpers import get_existing_tags
-from db.queries.assessment_records._helpers import update_tag_associations
-from db.schemas import AssessmentRecordMetadata
-from db.schemas import AssessmentSubCriteriaMetadata
-from db.schemas import AssessorTaskListMetadata
-from flask import current_app
+from db.queries.assessment_records._helpers import (
+    derive_application_values,
+    filter_tags,
+    get_existing_tags,
+    update_tag_associations,
+)
+from db.schemas import AssessmentRecordMetadata, AssessmentSubCriteriaMetadata, AssessorTaskListMetadata
 from services.data_services import get_account_name
-from sqlalchemy import and_
-from sqlalchemy import bindparam
-from sqlalchemy import cast
-from sqlalchemy import desc
-from sqlalchemy import exc
-from sqlalchemy import func
-from sqlalchemy import or_
-from sqlalchemy import select
-from sqlalchemy import String
-from sqlalchemy import update
-from sqlalchemy.dialects.postgresql import insert as postgres_insert
-from sqlalchemy.orm import aliased
-from sqlalchemy.orm import defer
-from sqlalchemy.orm import load_only
-from sqlalchemy.orm import selectinload
 
 
 def get_metadata_for_application(
@@ -73,7 +60,7 @@ def get_metadata_for_fund_round_id(
     status: str = "",
     search_in: str = "",
     funding_type: str = "",
-    countries: List[str] = ["all"],
+    countries: List[str] | None = None,
     filter_by_tag: str = "",
     country: str = "",
     region: str = "",
@@ -94,6 +81,8 @@ def get_metadata_for_fund_round_id(
     :return: A list of dictionaries.
 
     """
+    if countries is None:
+        countries = ["all"]
 
     statement = (
         select(AssessmentRecord)
@@ -104,7 +93,8 @@ def get_metadata_for_fund_round_id(
             selectinload(AssessmentRecord.flags),
             selectinload(AssessmentRecord.user_associations),
             selectinload(AssessmentRecord.tag_associations).selectinload(TagAssociation.tag).selectinload(Tag.tag_type),
-        ).where(
+        )
+        .where(
             AssessmentRecord.fund_id == fund_id,
             AssessmentRecord.round_id == round_id,
             AssessmentRecord.is_withdrawn == False,  # noqa: E712
@@ -943,7 +933,7 @@ def get_export_data(
 def add_missing_elements_with_empty_values(applicant_info, form_fields, language):
     result_data = applicant_info.copy()
 
-    for key, value in form_fields.items():
+    for _key, value in form_fields.items():
         title = value[language]["title"]
         if title not in result_data:
             result_data[title] = ""
@@ -1003,7 +993,12 @@ def create_user_application_association(application_id, user_id, assigner_id):
         application_id=application_id,
         assigner_id=assigner_id,
         active=True,
-        log={datetime.now(tz=timezone.utc).isoformat(): {"status": "activated", "assigner": str(assigner_id)}},
+        log={
+            datetime.now(tz=timezone.utc).isoformat(): {
+                "status": "activated",
+                "assigner": str(assigner_id),
+            }
+        },
     )
     try:
         db.session.add(allocation_association)
@@ -1019,7 +1014,10 @@ def create_user_application_association(application_id, user_id, assigner_id):
 def update_user_application_association(application_id, user_id, active, assigner_id):
     allocation_association = (
         db.session.query(AllocationAssociation)
-        .filter(AllocationAssociation.application_id == application_id, AllocationAssociation.user_id == user_id)
+        .filter(
+            AllocationAssociation.application_id == application_id,
+            AllocationAssociation.user_id == user_id,
+        )
         .one_or_none()
     )
     allocation_association.assigner_id = assigner_id

@@ -1,6 +1,7 @@
 import json
 
 import pytest
+
 from db.queries.assessment_records._helpers import derive_application_values
 
 
@@ -51,9 +52,9 @@ def test_derive_cof_values_location_present_no_error(postcode, expected_country,
     with open(single_application_json, "r") as f:
         loaded_test_json = json.load(f)
         # set mock location in json
-        loaded_test_json["forms"][12]["questions"][2]["fields"][0][
-            "answer"
-        ] = f"Test Address,null, Test Town Or City,null, {postcode}"
+        loaded_test_json["forms"][12]["questions"][2]["fields"][0]["answer"] = (
+            f"Test Address,null, Test Town Or City,null, {postcode}"
+        )
 
     derived_fields = derive_application_values(loaded_test_json)
     assert "TEST-REF" == derived_fields["short_id"], "Wrong Short ID"

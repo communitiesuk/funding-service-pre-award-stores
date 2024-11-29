@@ -1,13 +1,12 @@
 import csv
 
 import requests
+
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_data_key_mappings,
 )
 from db.queries.assessment_records.queries import (
     bulk_update_location_jsonb_blob,
-)
-from db.queries.assessment_records.queries import (
     get_metadata_for_fund_round_id,
 )
 

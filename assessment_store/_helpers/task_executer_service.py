@@ -1,9 +1,10 @@
 import json
 import threading
 
+from fsd_utils.sqs_scheduler.task_executer_service import TaskExecutorService
+
 from config.mappings.assessment_mapping_fund_round import fund_round_data_key_mappings
 from db.queries import bulk_insert_application_record
-from fsd_utils.sqs_scheduler.task_executer_service import TaskExecutorService
 
 
 class AssessmentTaskExecutorService(TaskExecutorService):

@@ -2,13 +2,14 @@
 import argparse
 
 import requests
+from fsd_utils import CommonConfig  # noqa: E402
+
 from app import app  # noqa: E402
 from config import Config  # noqa: E402
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config,
 )
 from db.queries import bulk_insert_application_record  # noqa: E402
-from fsd_utils import CommonConfig  # noqa: E402
 
 
 def init_argparse() -> argparse.ArgumentParser:

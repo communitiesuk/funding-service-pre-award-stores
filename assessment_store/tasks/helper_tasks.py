@@ -19,9 +19,7 @@ def _env_var(key, value):
 
 
 def _echo_print(to_print):
-    from colored import attr
-    from colored import fg
-    from colored import stylize
+    from colored import attr, fg, stylize
 
     ECHO_STYLE = fg("blue") + attr("bold")
 
@@ -29,9 +27,7 @@ def _echo_print(to_print):
 
 
 def _error_print(to_print):
-    from colored import attr
-    from colored import fg
-    from colored import stylize
+    from colored import attr, fg, stylize
 
     ECHO_STYLE = fg("red") + attr("bold")
 
@@ -39,9 +35,7 @@ def _error_print(to_print):
 
 
 def _echo_input(to_print):
-    from colored import attr
-    from colored import fg
-    from colored import stylize
+    from colored import attr, fg, stylize
 
     ECHO_STYLE = fg("blue") + attr("bold")
 

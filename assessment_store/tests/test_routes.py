@@ -5,20 +5,21 @@ from unittest import mock
 from uuid import uuid4
 
 import pytest
-from api.routes.assessment_routes import calculate_overall_score_percentage_for_application
+
+from api.routes.assessment_routes import (
+    calculate_overall_score_percentage_for_application,
+)
 from config.mappings.assessment_mapping_fund_round import (
     applicant_info_mapping,
 )
 from db.models.flags.assessment_flag import AssessmentFlag
 from db.models.flags.flag_update import FlagStatus
 from db.models.tag.tags import Tag
-from db.queries.flags.queries import add_flag_for_application
-from db.queries.flags.queries import add_update_to_assessment_flag
+from db.queries.flags.queries import add_flag_for_application, add_update_to_assessment_flag
 from db.queries.qa_complete.queries import create_qa_complete_record
 from tests._expected_responses import APPLICATION_METADATA_RESPONSE
 from tests.conftest import test_input_data
-from tests.test_data.flags import add_flag_update_request_json
-from tests.test_data.flags import create_flag_request_json
+from tests.test_data.flags import add_flag_update_request_json, create_flag_request_json
 
 COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
@@ -468,7 +469,8 @@ def test_get_all_users_associated_with_application(flask_test_client):
     expected_response[1]["created_at"] = expected_response[1]["created_at"].isoformat()
 
     with mock.patch(
-        "api.routes.user_routes.get_user_application_associations", return_value=mock_users
+        "api.routes.user_routes.get_user_application_associations",
+        return_value=mock_users,
     ) as mock_get_users:
         response = flask_test_client.get("/application/app1/users")
 
@@ -491,7 +493,8 @@ def test_get_user_application_association(flask_test_client):
     expected_response["created_at"] = expected_response["created_at"].isoformat()
 
     with mock.patch(
-        "api.routes.user_routes.get_user_application_associations", return_value=[mock_association]
+        "api.routes.user_routes.get_user_application_associations",
+        return_value=[mock_association],
     ) as mock_get_association:
         response = flask_test_client.get("/application/app1/user/user1")
 
@@ -514,13 +517,17 @@ def test_add_user_application_association(flask_test_client, send_email_value):
     expected_response = deepcopy(mock_association)
     expected_response["created_at"] = expected_response["created_at"].isoformat()
 
-    with mock.patch(
-        "api.routes.user_routes.create_user_application_association", return_value=mock_association
-    ) as mock_create_association, mock.patch("api.routes.user_routes.get_metadata_for_application"), mock.patch(
-        "api.routes.user_routes.send_notification_email"
-    ) as mock_notify_email:
+    with (
+        mock.patch(
+            "api.routes.user_routes.create_user_application_association",
+            return_value=mock_association,
+        ) as mock_create_association,
+        mock.patch("api.routes.user_routes.get_metadata_for_application"),
+        mock.patch("api.routes.user_routes.send_notification_email") as mock_notify_email,
+    ):
         response = flask_test_client.post(
-            "/application/app1/user/user1", json={"assigner_id": "assigner1", "send_email": send_email_value}
+            "/application/app1/user/user1",
+            json={"assigner_id": "assigner1", "send_email": send_email_value},
         )
 
         assert response.status_code == 201
@@ -546,20 +553,30 @@ def test_update_user_application_association(flask_test_client, send_email_value
     expected_response = deepcopy(mock_association)
     expected_response["created_at"] = expected_response["created_at"].isoformat()
 
-    with mock.patch(
-        "api.routes.user_routes.update_user_application_association_db", return_value=mock_association
-    ) as mock_update_association, mock.patch("api.routes.user_routes.get_metadata_for_application"), mock.patch(
-        "api.routes.user_routes.send_notification_email"
-    ) as mock_notify_email:
+    with (
+        mock.patch(
+            "api.routes.user_routes.update_user_application_association_db",
+            return_value=mock_association,
+        ) as mock_update_association,
+        mock.patch("api.routes.user_routes.get_metadata_for_application"),
+        mock.patch("api.routes.user_routes.send_notification_email") as mock_notify_email,
+    ):
         response = flask_test_client.put(
             "/application/app1/user/user1",
-            json={"active": "false", "assigner_id": "assigner1", "send_email": send_email_value},
+            json={
+                "active": "false",
+                "assigner_id": "assigner1",
+                "send_email": send_email_value,
+            },
         )
 
         assert response.status_code == 200
         assert response.json() == expected_response
         mock_update_association.assert_called_once_with(
-            application_id="app1", user_id="user1", active="false", assigner_id="assigner1"
+            application_id="app1",
+            user_id="user1",
+            active="false",
+            assigner_id="assigner1",
         )
         if send_email_value:
             mock_notify_email.assert_called_once()
@@ -592,7 +609,8 @@ def test_get_all_applications_associated_with_user(flask_test_client):
     expected_response[1]["created_at"] = expected_response[1]["created_at"].isoformat()
 
     with mock.patch(
-        "api.routes.user_routes.get_user_application_associations", return_value=mock_applications
+        "api.routes.user_routes.get_user_application_associations",
+        return_value=mock_applications,
     ) as mock_get_applications:
         response = flask_test_client.get("/user/user1/applications")
 
@@ -626,7 +644,8 @@ def test_get_all_applications_assigned_by_user(flask_test_client):
     expected_response[1]["created_at"] = expected_response[1]["created_at"].isoformat()
 
     with mock.patch(
-        "api.routes.user_routes.get_user_application_associations", return_value=mock_applications
+        "api.routes.user_routes.get_user_application_associations",
+        return_value=mock_applications,
     ) as mock_get_applications:
         response = flask_test_client.get("/user/assigner1/assignees")
 
@@ -644,7 +663,11 @@ sub_criteria_scores = {"sub1": 3, "sub2": 4, "sub3": 5}
 mapping_config = {
     f"{COF_FUND_ID}:{COF_ROUND_2_ID}": {
         "scored_criteria": [
-            {"id": "criteria1", "weighting": 2, "sub_criteria": [{"id": "sub1"}, {"id": "sub2"}]},
+            {
+                "id": "criteria1",
+                "weighting": 2,
+                "sub_criteria": [{"id": "sub1"}, {"id": "sub2"}],
+            },
             {"id": "criteria2", "weighting": 1, "sub_criteria": [{"id": "sub3"}]},
         ]
     }
@@ -653,13 +676,17 @@ mapping_config = {
 
 @pytest.fixture
 def mock_get_scoring_system(mocker):
-    return mocker.patch("api.routes.assessment_routes.get_scoring_system_for_round_id", return_value=scoring_system)
+    return mocker.patch(
+        "api.routes.assessment_routes.get_scoring_system_for_round_id",
+        return_value=scoring_system,
+    )
 
 
 @pytest.fixture
 def mock_get_scores(mocker):
     return mocker.patch(
-        "api.routes.assessment_routes.get_sub_criteria_to_latest_score_map", return_value=sub_criteria_scores
+        "api.routes.assessment_routes.get_sub_criteria_to_latest_score_map",
+        return_value=sub_criteria_scores,
     )
 
 

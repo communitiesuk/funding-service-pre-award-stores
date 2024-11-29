@@ -2,8 +2,9 @@ import enum
 import inspect
 from dataclasses import dataclass
 
-from api.models.theme import Theme
 from dataclass_dict_convert import dataclass_dict_convert
+
+from api.models.theme import Theme
 
 
 @dataclass_dict_convert()

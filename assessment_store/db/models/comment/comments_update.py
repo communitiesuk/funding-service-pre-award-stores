@@ -1,12 +1,12 @@
 """The module containing all code related to the `comments` table within the
 Postgres db."""
+
 import uuid
 
-from db import db
-from sqlalchemy import Column
-from sqlalchemy import ForeignKey
-from sqlalchemy import func
+from sqlalchemy import Column, ForeignKey, func
 from sqlalchemy.dialects.postgresql import UUID
+
+from db import db
 
 
 class CommentsUpdate(db.Model):

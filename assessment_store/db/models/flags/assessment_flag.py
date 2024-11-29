@@ -1,15 +1,12 @@
 from uuid import uuid4
 
+from flask_sqlalchemy.model import DefaultMeta
+from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy.dialects.postgresql import ARRAY, ENUM, UUID
+from sqlalchemy.orm import relationship
+
 from db import db
 from db.models.flags.flag_update import FlagStatus
-from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import Column
-from sqlalchemy import ForeignKey
-from sqlalchemy import String
-from sqlalchemy.dialects.postgresql import ARRAY
-from sqlalchemy.dialects.postgresql import ENUM
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
 
 BaseModel: DefaultMeta = db.Model
 
