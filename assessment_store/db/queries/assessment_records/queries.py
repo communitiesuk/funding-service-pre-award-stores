@@ -52,7 +52,7 @@ def get_metadata_for_application(
     return metadata_serializer.dump(result)
 
 
-def get_metadata_for_fund_round_id(
+def get_metadata_for_fund_round_id(  # noqa: C901 - historical sadness
     fund_id: str,
     round_id: str,
     search_term: str = "",
@@ -884,7 +884,7 @@ def get_assessment_export_data(fund_id: str, round_id: str, report_type: str, li
     return obj
 
 
-def get_export_data(
+def get_export_data(  # noqa: C901 - historical sadness
     round_id: str,
     report_type: str,
     list_of_fields: dict,

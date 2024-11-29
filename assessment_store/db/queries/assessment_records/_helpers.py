@@ -61,7 +61,7 @@ def get_location_json_from_postcode(raw_postcode):
     return location_data
 
 
-def derive_application_values(application_json):
+def derive_application_values(application_json):  # noqa: C901 - historical sadness
     # TODO: implement mapping function to match
     #  fund+round fields to derived values
     derived_values = {}
