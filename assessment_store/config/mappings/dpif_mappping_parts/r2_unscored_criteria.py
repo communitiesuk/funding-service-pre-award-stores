@@ -1,5 +1,4 @@
-# flake8: noqa
-# Ignore line length
+# ruff: noqa: E501
 
 unscored_sections = [
     {

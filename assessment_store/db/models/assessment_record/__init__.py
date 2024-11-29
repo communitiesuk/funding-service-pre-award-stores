@@ -1,4 +1,3 @@
-# flake8: noqa
 from .allocation_association import AllocationAssociation
 from .assessment_records import AssessmentRecord
 from .db_utils import *

@@ -1,4 +1,3 @@
-# flake8: noqa
 from db.models.flags.flag_update import FlagStatus
 from db.queries import get_metadata_for_fund_round_id
 from db.queries.flags.queries import add_flag_for_application

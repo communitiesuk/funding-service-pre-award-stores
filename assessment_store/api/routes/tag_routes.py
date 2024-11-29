@@ -1,4 +1,3 @@
-# flake8: noqa
 from db.queries.assessment_records.queries import associate_assessment_tags
 from db.queries.assessment_records.queries import (
     select_active_tags_associated_with_assessment,

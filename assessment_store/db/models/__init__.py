@@ -1,4 +1,3 @@
-# flake8: noqa
 from db.models.assessment_record import AllocationAssociation
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record import TagAssociation

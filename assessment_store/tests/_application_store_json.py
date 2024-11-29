@@ -1,4 +1,3 @@
-# flake8: noqa
 from string import Template
 
 application_store_json_template = Template(

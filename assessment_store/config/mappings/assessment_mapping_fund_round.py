@@ -1,4 +1,3 @@
-# flake8: noqa
 from uuid import uuid4
 
 from config.mappings.cof_mapping_parts.cof25_r1_scored_criteria import (
