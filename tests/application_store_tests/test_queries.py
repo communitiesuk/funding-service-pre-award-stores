@@ -229,12 +229,13 @@ def test_process_files(application, all_application_files, expected):
                                 "IN_PROGRESS": 2,
                                 "COMPLETED": 3,
                                 "SUBMITTED": 4,
+                                "CHANGES_REQUESTED": 0,
                             },
                         }
                     ],
                 }
             ],
-            ["111,r1r1r1,1,2,3,4"],
+            ["111,r1r1r1,1,2,3,4,0"],
         ),
         (
             [
@@ -248,6 +249,7 @@ def test_process_files(application, all_application_files, expected):
                                 "IN_PROGRESS": 2,
                                 "COMPLETED": 3,
                                 "SUBMITTED": 4,
+                                "CHANGES_REQUESTED": 0,
                             },
                         },
                         {
@@ -257,12 +259,13 @@ def test_process_files(application, all_application_files, expected):
                                 "IN_PROGRESS": 3,
                                 "COMPLETED": 4,
                                 "SUBMITTED": 5,
+                                "CHANGES_REQUESTED": 0,
                             },
                         },
                     ],
                 }
             ],
-            ["111,r1r1r1,1,2,3,4", "111,r2,2,3,4,5"],
+            ["111,r1r1r1,1,2,3,4,0", "111,r2,2,3,4,5,0"],
         ),
         (
             [
@@ -276,6 +279,7 @@ def test_process_files(application, all_application_files, expected):
                                 "IN_PROGRESS": 2,
                                 "COMPLETED": 3,
                                 "SUBMITTED": 4,
+                                "CHANGES_REQUESTED": 0,
                             },
                         },
                         {
@@ -285,6 +289,7 @@ def test_process_files(application, all_application_files, expected):
                                 "IN_PROGRESS": 0,
                                 "COMPLETED": 0,
                                 "SUBMITTED": 4,
+                                "CHANGES_REQUESTED": 0,
                             },
                         },
                     ],
@@ -299,12 +304,13 @@ def test_process_files(application, all_application_files, expected):
                                 "IN_PROGRESS": 2,
                                 "COMPLETED": 1,
                                 "SUBMITTED": 6,
+                                "CHANGES_REQUESTED": 0,
                             },
                         },
                     ],
                 },
             ],
-            ["f1,r1,1,2,3,4", "f1,r2,0,0,0,4", "f2,r1,2,2,1,6"],
+            ["f1,r1,1,2,3,4,0", "f1,r2,0,0,0,4,0", "f2,r1,2,2,1,6,0"],
         ),
     ],
 )
@@ -312,7 +318,7 @@ def test_application_status_csv(data, lines_exp):
     result = export_application_statuses_to_csv(data)
     assert result
     lines = result.readlines()
-    assert lines[0].decode().strip() == "fund_id,round_id,NOT_STARTED,IN_PROGRESS,COMPLETED,SUBMITTED"
+    assert lines[0].decode().strip() == "fund_id,round_id,NOT_STARTED,IN_PROGRESS,COMPLETED,SUBMITTED,CHANGES_REQUESTED"
     idx = 1
     for line in lines_exp:
         assert lines[idx].decode().strip() == line
