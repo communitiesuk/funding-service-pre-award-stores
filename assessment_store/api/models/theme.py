@@ -2,8 +2,9 @@ import inspect
 from dataclasses import dataclass
 from typing import List
 
-from api.models.answer import Answer
 from dataclass_dict_convert import dataclass_dict_convert
+
+from api.models.answer import Answer
 
 
 @dataclass_dict_convert()

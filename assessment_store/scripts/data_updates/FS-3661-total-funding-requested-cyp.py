@@ -1,11 +1,11 @@
+from flask import current_app
+from sqlalchemy import select, update
+
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_data_key_mappings,
 )
 from db import db
 from db.models import AssessmentRecord
-from flask import current_app
-from sqlalchemy import select
-from sqlalchemy import update
 
 
 def update_funding_amount_requested_for_cyp():
@@ -20,7 +20,9 @@ def update_funding_amount_requested_for_cyp():
     cyp_records = db.session.execute(select_assessment_records_for_round_stmt)
 
     for application_id, jsonb_blob in cyp_records:
-        current_app.logger.info(f"Processing application id {application_id}.")
+        current_app.logger.info(
+            "Processing application id {application_id}.", extra=dict(application_id=application_id)
+        )
         total_funding = 0
         for key in fund_round_data_key_mappings["CYPR1"]["funding_two"]:
             total_funding = total_funding + int(
@@ -34,7 +36,10 @@ def update_funding_amount_requested_for_cyp():
             )
 
         new_funding_amount_requested = total_funding
-        current_app.logger.info(f"New funding amount requested: {new_funding_amount_requested}")
+        current_app.logger.info(
+            "New funding amount requested: {new_funding_amount_requested}",
+            extra=dict(new_funding_amount_requested=new_funding_amount_requested),
+        )
         update_statement = (
             update(AssessmentRecord)
             .values(funding_amount_requested=new_funding_amount_requested)

@@ -2,13 +2,11 @@
 from datetime import datetime
 
 import click
+
 from db import db
-from db.models.assessment_record import AssessmentRecord
-from db.models.assessment_record import TagAssociation
-from db.models.comment import Comment
-from db.models.comment import CommentsUpdate
-from db.models.flags import AssessmentFlag
-from db.models.flags import FlagUpdate
+from db.models.assessment_record import AssessmentRecord, TagAssociation
+from db.models.comment import Comment, CommentsUpdate
+from db.models.flags import AssessmentFlag, FlagUpdate
 from db.models.qa_complete import QaComplete
 from db.models.score import Score
 
@@ -65,7 +63,13 @@ def cli(ctx, q):
 
 @cli.command()
 @click.option("-id", prompt=True)
-@click.option("-c", "--do-commit", flag_value=True, default=False, help="Whether to commit changes to DB")
+@click.option(
+    "-c",
+    "--do-commit",
+    flag_value=True,
+    default=False,
+    help="Whether to commit changes to DB",
+)
 @click.pass_context
 def delete_assessment_record(ctx, id, do_commit):
     """Deletes a single assessment record, along with child records (tags,
@@ -78,7 +82,13 @@ def delete_assessment_record(ctx, id, do_commit):
 
 @cli.command()
 @click.option("-r", "--round-id", prompt=True)
-@click.option("-c", "--do-commit", flag_value=True, default=False, help="Whether to commit changes to DB")
+@click.option(
+    "-c",
+    "--do-commit",
+    flag_value=True,
+    default=False,
+    help="Whether to commit changes to DB",
+)
 @click.pass_context
 def delete_all_assessments_in_round(ctx, round_id, do_commit):
     """Deletes all assessment records in a round, along with their child records

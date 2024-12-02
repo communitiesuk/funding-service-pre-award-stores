@@ -1,7 +1,8 @@
 """Flask Unit Testing Environment Configuration."""
+
+from fsd_utils import CommonConfig, configclass
+
 from config.envs.default import DefaultConfig
-from fsd_utils import CommonConfig
-from fsd_utils import configclass
 
 
 @configclass

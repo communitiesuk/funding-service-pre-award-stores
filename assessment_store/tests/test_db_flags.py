@@ -1,19 +1,19 @@
 from uuid import uuid4
 
 import pytest
+from sqlalchemy import select
+
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record.enums import Status
 from db.models.flags.flag_update import FlagStatus
 from db.queries.flags.queries import (
     add_flag_for_application,
+    add_update_to_assessment_flag,
+    get_flags_for_application,
 )
-from db.queries.flags.queries import add_update_to_assessment_flag
-from db.queries.flags.queries import get_flags_for_application
-from sqlalchemy import select
 from tests._helpers import get_assessment_record
 from tests.conftest import test_input_data
-from tests.test_data.flags import add_flag_update_request_json
-from tests.test_data.flags import flag_config
+from tests.test_data.flags import add_flag_update_request_json, flag_config
 
 
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])

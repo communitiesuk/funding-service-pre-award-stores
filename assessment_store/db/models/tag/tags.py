@@ -1,17 +1,13 @@
 import re
 import uuid
 
-from db import db
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import Column
-from sqlalchemy import ForeignKey
-from sqlalchemy import func
-from sqlalchemy import Index
-from sqlalchemy import text
+from sqlalchemy import Column, ForeignKey, Index, func, text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.event import listens_for
-from sqlalchemy.orm import relationship
-from sqlalchemy.orm import validates
+from sqlalchemy.orm import relationship, validates
+
+from db import db
 
 BaseModel: DefaultMeta = db.Model
 

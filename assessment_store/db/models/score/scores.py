@@ -1,13 +1,14 @@
 """The module containing all code related to the `scores` table within the
 Postgres db."""
+
 import uuid
+
+from sqlalchemy import ForeignKey
+from sqlalchemy.dialects.postgresql import ENUM, UUID
+from sqlalchemy.sql import func
 
 from db import db
 from db.models.score.enums import ScoringSystem
-from sqlalchemy import ForeignKey
-from sqlalchemy.dialects.postgresql import ENUM
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.sql import func
 
 
 class Score(db.Model):
@@ -37,11 +38,20 @@ class AssessmentRound(db.Model):
 
     __tablename__ = "assessment_round"
 
-    round_id = db.Column("round_id", UUID(as_uuid=True), default=uuid.uuid4, primary_key=True, nullable=False)
+    round_id = db.Column(
+        "round_id",
+        UUID(as_uuid=True),
+        default=uuid.uuid4,
+        primary_key=True,
+        nullable=False,
+    )
 
     # link to the scoring system table
     scoring_system_id = db.Column(
-        "scoring_system_id", UUID(as_uuid=True), ForeignKey("scoring_system.id"), nullable=False
+        "scoring_system_id",
+        UUID(as_uuid=True),
+        ForeignKey("scoring_system.id"),
+        nullable=False,
     )
 
 

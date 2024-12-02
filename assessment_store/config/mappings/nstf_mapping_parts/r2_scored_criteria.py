@@ -1,5 +1,4 @@
-# flake8: noqa
-# Ignore line length
+# ruff: noqa: E501
 
 scored_criteria = [
     {

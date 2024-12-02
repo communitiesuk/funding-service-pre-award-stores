@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+
 from services.data_services import send_notification_email
 
 
@@ -26,7 +27,12 @@ def test_send_notification_email(
     expected_message_in_content,
     app,
 ):
-    test_application = {"application_id": "app1", "fund_id": "fund1", "short_id": "APP123", "project_name": "Project X"}
+    test_application = {
+        "application_id": "app1",
+        "fund_id": "fund1",
+        "short_id": "APP123",
+        "project_name": "Project X",
+    }
 
     mock_get_account_data.side_effect = [
         {"email_address": "user@example.com", "full_name": "User One"},  # user data
@@ -56,12 +62,25 @@ def test_send_notification_email(
 @mock.patch("services.data_services.get_account_data")
 @mock.patch("services.data_services.get_fund_data")
 @mock.patch("services.data_services.create_assessment_url_for_application")
-@mock.patch("services.data_services.Notification.send", side_effect=Exception("Error sending notification"))
+@mock.patch(
+    "services.data_services.Notification.send",
+    side_effect=Exception("Error sending notification"),
+)
 @mock.patch("services.data_services.current_app.logger")
 def test_send_notification_email_failure(
-    mock_logger, mock_notification_send, mock_assessment_url, mock_get_fund_data, mock_get_account_data, app
+    mock_logger,
+    mock_notification_send,
+    mock_assessment_url,
+    mock_get_fund_data,
+    mock_get_account_data,
+    app,
 ):
-    test_application = {"application_id": "app1", "fund_id": "fund1", "short_id": "APP123", "project_name": "Project X"}
+    test_application = {
+        "application_id": "app1",
+        "fund_id": "fund1",
+        "short_id": "APP123",
+        "project_name": "Project X",
+    }
 
     mock_get_account_data.side_effect = [
         {"email_address": "user@example.com", "full_name": "User One"},  # user data
@@ -73,5 +92,6 @@ def test_send_notification_email_failure(
     send_notification_email(test_application, "user1", "assigner1", "assignment_template")
 
     mock_logger.info.assert_called_with(
-        "Could not send email for template: assignment_template, user: user1, application app1"
+        "Could not send email for template: {template}, user: {user_id}, application {application_id}",
+        extra={"template": "assignment_template", "user_id": "user1", "application_id": "app1"},
     )

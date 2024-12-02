@@ -1,10 +1,10 @@
 from alembic_utils.pg_extension import PGExtension
 from alembic_utils.pg_function import PGFunction
 from alembic_utils.pg_trigger import PGTrigger
+from sqlalchemy import event, text
+
 from db.models.comment import Comment
 from db.models.score import Score
-from sqlalchemy import event
-from sqlalchemy import text
 
 # A method of imposing a database level block to mutating application json.
 

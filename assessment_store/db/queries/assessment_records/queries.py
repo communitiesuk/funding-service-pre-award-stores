@@ -3,49 +3,36 @@
 Joins allowed.
 
 """
+
 import json
-from datetime import datetime
-from datetime import timezone
-from typing import Dict
-from typing import List
+from datetime import datetime, timezone
+from typing import Dict, List
 
 from bs4 import BeautifulSoup
+from flask import current_app
+from sqlalchemy import String, and_, bindparam, cast, desc, exc, func, or_, select, update
+from sqlalchemy.dialects.postgresql import insert as postgres_insert
+from sqlalchemy.orm import aliased, defer, load_only, selectinload
+
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config_with_round_id,
 )
 from db import db
-from db.models.assessment_record import AssessmentRecord
-from db.models.assessment_record import TagAssociation
+from db.models.assessment_record import AssessmentRecord, TagAssociation
 from db.models.assessment_record.allocation_association import AllocationAssociation
 from db.models.assessment_record.enums import Status
 from db.models.flags.flag_update import FlagStatus
 from db.models.score import Score
 from db.models.tag.tag_types import TagType
 from db.models.tag.tags import Tag
-from db.queries.assessment_records._helpers import derive_application_values
-from db.queries.assessment_records._helpers import filter_tags
-from db.queries.assessment_records._helpers import get_existing_tags
-from db.queries.assessment_records._helpers import update_tag_associations
-from db.schemas import AssessmentRecordMetadata
-from db.schemas import AssessmentSubCriteriaMetadata
-from db.schemas import AssessorTaskListMetadata
-from flask import current_app
+from db.queries.assessment_records._helpers import (
+    derive_application_values,
+    filter_tags,
+    get_existing_tags,
+    update_tag_associations,
+)
+from db.schemas import AssessmentRecordMetadata, AssessmentSubCriteriaMetadata, AssessorTaskListMetadata
 from services.data_services import get_account_name
-from sqlalchemy import and_
-from sqlalchemy import bindparam
-from sqlalchemy import cast
-from sqlalchemy import desc
-from sqlalchemy import exc
-from sqlalchemy import func
-from sqlalchemy import or_
-from sqlalchemy import select
-from sqlalchemy import String
-from sqlalchemy import update
-from sqlalchemy.dialects.postgresql import insert as postgres_insert
-from sqlalchemy.orm import aliased
-from sqlalchemy.orm import defer
-from sqlalchemy.orm import load_only
-from sqlalchemy.orm import selectinload
 
 
 def get_metadata_for_application(
@@ -65,7 +52,7 @@ def get_metadata_for_application(
     return metadata_serializer.dump(result)
 
 
-def get_metadata_for_fund_round_id(
+def get_metadata_for_fund_round_id(  # noqa: C901 - historical sadness
     fund_id: str,
     round_id: str,
     search_term: str = "",
@@ -73,7 +60,7 @@ def get_metadata_for_fund_round_id(
     status: str = "",
     search_in: str = "",
     funding_type: str = "",
-    countries: List[str] = ["all"],
+    countries: List[str] | None = None,
     filter_by_tag: str = "",
     country: str = "",
     region: str = "",
@@ -94,6 +81,8 @@ def get_metadata_for_fund_round_id(
     :return: A list of dictionaries.
 
     """
+    if countries is None:
+        countries = ["all"]
 
     statement = (
         select(AssessmentRecord)
@@ -104,14 +93,18 @@ def get_metadata_for_fund_round_id(
             selectinload(AssessmentRecord.flags),
             selectinload(AssessmentRecord.user_associations),
             selectinload(AssessmentRecord.tag_associations).selectinload(TagAssociation.tag).selectinload(Tag.tag_type),
-        ).where(
+        )
+        .where(
             AssessmentRecord.fund_id == fund_id,
             AssessmentRecord.round_id == round_id,
             AssessmentRecord.is_withdrawn == False,  # noqa: E712
         )
     )
     if search_term != "":
-        current_app.logger.info(f"Performing assessment search on search term: {search_term} in fields {search_in}")
+        current_app.logger.info(
+            "Performing assessment search on search term: {search_term} in fields {search_in}",
+            extra=dict(search_term=search_term, search_in=search_in),
+        )
         search_term = search_term.replace(" ", "%")
 
         filters = []
@@ -142,28 +135,35 @@ def get_metadata_for_fund_round_id(
         statement = statement.where(AssessmentRecord.application_id.in_(record_ids_with_tag_id))
 
     if "all" not in countries:
-        current_app.logger.info(f"Performing assessment search on countries: {countries}.")
+        current_app.logger.info(
+            "Performing assessment search on countries: {countries}.", extra=dict(countries=countries)
+        )
         statement = statement.where(AssessmentRecord.location_json_blob["country"].astext.ilike(func.any_(countries)))
 
     if asset_type != "ALL" and asset_type != "":
-        current_app.logger.info(f"Performing assessment search on asset type: {asset_type}.")
+        current_app.logger.info(
+            "Performing assessment search on asset type: {asset_type}.", extra=dict(asset_type=asset_type)
+        )
         statement = statement.where(AssessmentRecord.asset_type == asset_type)
 
     if country != "" and country != "ALL":
-        current_app.logger.info(f"Performing assessment search on country: {country}.")
+        current_app.logger.info("Performing assessment search on country: {country}.", extra=dict(country=country))
         statement = statement.where(AssessmentRecord.location_json_blob["country"].astext == country)
 
     if region != "" and region != "ALL":
-        current_app.logger.info(f"Performing assessment search on region: {region}.")
+        current_app.logger.info("Performing assessment search on region: {region}.", extra=dict(region=region))
         statement = statement.where(AssessmentRecord.location_json_blob["region"].astext == region)
 
     if datasets != "" and datasets != "ALL":
         datasets = True if str(datasets).lower() == "yes" or datasets is True else False
-        current_app.logger.info(f"Performing assessment search on datasets: {datasets}.")
+        current_app.logger.info("Performing assessment search on datasets: {datasets}.", extra=dict(datasets=datasets))
         statement = statement.where(cast(AssessmentRecord.datasets, String) == str(datasets).lower())
 
     if publish_datasets != "" and publish_datasets != "ALL":
-        current_app.logger.info(f"Performing assessment search on publish_datasets: {publish_datasets}.")
+        current_app.logger.info(
+            "Performing assessment search on publish_datasets: {publish_datasets}.",
+            extra=dict(publish_datasets=publish_datasets),
+        )
         if publish_datasets == "None":
             statement = statement.where(AssessmentRecord.publish_datasets.is_(None))
         else:
@@ -171,11 +171,16 @@ def get_metadata_for_fund_round_id(
 
     if team_in_place != "" and team_in_place != "ALL":
         team_in_place = True if str(team_in_place).lower() == "yes" or team_in_place is True else False
-        current_app.logger.info(f"Performing assessment search on team_in_place: {team_in_place}.")
+        current_app.logger.info(
+            "Performing assessment search on team_in_place: {team_in_place}.", extra=dict(team_in_place=team_in_place)
+        )
         statement = statement.where(cast(AssessmentRecord.team_in_place, String) == str(team_in_place).lower())
 
     if local_authority != "" and local_authority != "ALL":
-        current_app.logger.info(f"Performing assessment search on local_authority: {local_authority}.")
+        current_app.logger.info(
+            "Performing assessment search on local_authority: {local_authority}.",
+            extra=dict(local_authority=local_authority),
+        )
 
         subquery = (
             select(AssessmentRecord.application_id).where(
@@ -190,7 +195,10 @@ def get_metadata_for_fund_round_id(
         statement = statement.where(AssessmentRecord.application_id.in_(subquery))
 
     if joint_application != "" and joint_application != "ALL" and joint_application in ["true", "false"]:
-        current_app.logger.info(f"Performing assessment search on joint_application: {joint_application}.")
+        current_app.logger.info(
+            "Performing assessment search on joint_application: {joint_application}.",
+            extra=dict(joint_application=joint_application),
+        )
 
         subquery = (
             select(AssessmentRecord.application_id).where(
@@ -204,7 +212,9 @@ def get_metadata_for_fund_round_id(
         statement = statement.where(AssessmentRecord.application_id.in_(subquery))
 
     if funding_type != "ALL" and funding_type != "":
-        current_app.logger.info(f"Performing assessment search on funding type: {funding_type}.")
+        current_app.logger.info(
+            "Performing assessment search on funding type: {funding_type}.", extra=dict(funding_type=funding_type)
+        )
         # TODO SS figure out how to stop double quoting this - it works but is ugly
         # it's because when we retrieve the json element as funding_type, we get it as a json element, not pure text,
         # so it has the double quotes from the json so we have to include them in the comparison
@@ -278,8 +288,8 @@ def bulk_insert_application_record(
 
         if derived_values["location_json_blob"]["error"]:
             current_app.logger.error(
-                "Location key not found or invalid postcode provided for the "
-                f"application: {derived_values['short_id']}."
+                "Location key not found or invalid postcode provided for the application: {short_id}.",
+                extra=dict(short_id=derived_values["short_id"]),
             )
 
         row = {
@@ -309,7 +319,7 @@ def bulk_insert_application_record(
             print(f"Error occurred while inserting application {row['application_id']}, error: {e}")
             raise e
 
-    print("Inserted application_ids (i.e. application rows) :" f" {[row['application_id'] for row in rows]}")
+    print("Inserted application_ids (i.e. application rows) : {[row['application_id'] for row in rows]}")
     return rows
 
 
@@ -552,7 +562,10 @@ def bulk_update_location_jsonb_blob(application_ids_to_location_data):
 
 
 def update_status_to_completed(application_id):
-    current_app.logger.info("Updating application status to COMPLETED" f" for application: {application_id}.")
+    current_app.logger.info(
+        "Updating application status to COMPLETED for application: {application_id}.",
+        extra=dict(application_id=application_id),
+    )
     db.session.query(AssessmentRecord).filter(AssessmentRecord.application_id == application_id).update(
         {AssessmentRecord.workflow_status: Status.COMPLETED},
         synchronize_session=False,
@@ -660,7 +673,9 @@ def associate_assessment_tags(application_id, tags: List):
 
         if incoming_tag_id and not _existing_tags:
             # If no existing tags are found, create a new tag(s) with incoming tags info.
-            current_app.logger.info(f"Creating new tag(s) for {incoming_tag_id}")
+            current_app.logger.info(
+                "Creating new tag(s) for {incoming_tag_id}", extra=dict(incoming_tag_id=incoming_tag_id)
+            )
             create_tag(application_id, incoming_tag_id, True, incoming_user_id)
 
         if incoming_tag_id and _existing_tags:
@@ -674,9 +689,13 @@ def associate_assessment_tags(application_id, tags: List):
                 )[1]
                 # If it's already associated, skip, otherwise, create a new associated tag.
                 if most_recent_tag.associated:
-                    current_app.logger.info(f"Tag is alreday associated: {most_recent_tag.tag_id}")
+                    current_app.logger.info(
+                        "Tag is alreday associated: {tag_id}", extra=dict(tag_id=most_recent_tag.tag_id)
+                    )
                 else:
-                    current_app.logger.info(f"Creating new tag: {incoming_tag_id}")
+                    current_app.logger.info(
+                        "Creating new tag: {incoming_tag_id}", extra=dict(incoming_tag_id=incoming_tag_id)
+                    )
                     create_tag(
                         application_id,
                         incoming_tag_id,
@@ -684,7 +703,9 @@ def associate_assessment_tags(application_id, tags: List):
                         incoming_user_id,
                     )
             else:
-                current_app.logger.info(f"Creating new tag: {incoming_tag_id}")
+                current_app.logger.info(
+                    "Creating new tag: {incoming_tag_id}", extra=dict(incoming_tag_id=incoming_tag_id)
+                )
                 create_tag(application_id, incoming_tag_id, True, incoming_user_id)
 
         if not incoming_tag_id:
@@ -692,7 +713,10 @@ def associate_assessment_tags(application_id, tags: List):
             for filterted_tag in filterted_tags:
                 most_recent_tag = max(filterted_tag, key=lambda x: x[0])[1]
                 if most_recent_tag.associated:
-                    current_app.logger.info(f"Dis-associating existing associated tag_id: {most_recent_tag.tag_id}")
+                    current_app.logger.info(
+                        "Dis-associating existing associated tag_id: {tag_id}",
+                        extra=dict(tag_id=most_recent_tag.tag_id),
+                    )
                     create_tag(
                         application_id,
                         most_recent_tag.tag_id,
@@ -790,7 +814,7 @@ def select_active_tags_associated_with_assessment(application_id):
         return associated_tags
 
     except Exception as e:
-        current_app.logger.error(f"Error: {e}")
+        current_app.logger.exception("Error")
         raise e
 
 
@@ -860,7 +884,7 @@ def get_assessment_export_data(fund_id: str, round_id: str, report_type: str, li
     return obj
 
 
-def get_export_data(
+def get_export_data(  # noqa: C901 - historical sadness
     round_id: str,
     report_type: str,
     list_of_fields: dict,
@@ -943,7 +967,7 @@ def get_export_data(
 def add_missing_elements_with_empty_values(applicant_info, form_fields, language):
     result_data = applicant_info.copy()
 
-    for key, value in form_fields.items():
+    for _key, value in form_fields.items():
         title = value[language]["title"]
         if title not in result_data:
             result_data[title] = ""
@@ -1003,7 +1027,12 @@ def create_user_application_association(application_id, user_id, assigner_id):
         application_id=application_id,
         assigner_id=assigner_id,
         active=True,
-        log={datetime.now(tz=timezone.utc).isoformat(): {"status": "activated", "assigner": str(assigner_id)}},
+        log={
+            datetime.now(tz=timezone.utc).isoformat(): {
+                "status": "activated",
+                "assigner": str(assigner_id),
+            }
+        },
     )
     try:
         db.session.add(allocation_association)
@@ -1019,7 +1048,10 @@ def create_user_application_association(application_id, user_id, assigner_id):
 def update_user_application_association(application_id, user_id, active, assigner_id):
     allocation_association = (
         db.session.query(AllocationAssociation)
-        .filter(AllocationAssociation.application_id == application_id, AllocationAssociation.user_id == user_id)
+        .filter(
+            AllocationAssociation.application_id == application_id,
+            AllocationAssociation.user_id == user_id,
+        )
         .one_or_none()
     )
     allocation_association.assigner_id = assigner_id

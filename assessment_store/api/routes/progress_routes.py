@@ -1,9 +1,10 @@
 import copy
 from typing import List
 
+from flask import request
+
 from config import Config
 from db.queries.progress.queries import get_progress_for_app
-from flask import request
 
 
 def post_progress_for_applications(fund_id, round_id) -> List[dict]:

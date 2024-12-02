@@ -1,11 +1,8 @@
-# flake8: noqa
-from typing import Dict
-from typing import List
+from typing import Dict, List
 
-from db.queries import create_score_for_app_sub_crit
-from db.queries import get_scores_for_app_sub_crit
-from db.queries import get_scoring_system_for_round_id
 from flask import request
+
+from db.queries import create_score_for_app_sub_crit, get_scores_for_app_sub_crit, get_scoring_system_for_round_id
 
 
 def get_scoring_system_name_for_round_id(round_id: str) -> dict:
@@ -18,7 +15,10 @@ def get_scoring_system_name_for_round_id(round_id: str) -> dict:
     """
 
     scoring_system = get_scoring_system_for_round_id(round_id)
-    return {"round_id": round_id, "scoring_system": scoring_system["scoring_system_name"].name}
+    return {
+        "round_id": round_id,
+        "scoring_system": scoring_system["scoring_system_name"].name,
+    }
 
 
 def get_score_for_application_sub_criteria(

@@ -1,41 +1,18 @@
-from tests._application_store_json import application_store_json_template
 from tests._application_store_json import (
+    application_store_json_template,
     cof25_eoi_application_store_json_template,
-)
-from tests._application_store_json import (
     cof25r1_application_store_json_template,
-)
-from tests._application_store_json import (
     cof_eoi_application_store_json_template,
-)
-from tests._application_store_json import (
     cofr3w1_application_store_json_template,
-)
-from tests._application_store_json import (
     cofr3w2_application_store_json_template,
-)
-from tests._application_store_json import (
     cofr3w3_application_store_json_template,
-)
-from tests._application_store_json import (
     cofr4w1_application_store_json_template,
-)
-from tests._application_store_json import (
     cofr4w2_application_store_json_template,
-)
-from tests._application_store_json import (
     cypr1_application_store_json_template,
-)
-from tests._application_store_json import (
     dpifr2_application_store_json_template,
-)
-from tests._application_store_json import (
     hsra1_application_store_json_template,
-)
-from tests._application_store_json import (
     nstfr2_application_store_json_template,
 )
-
 
 # Put a sample of output data (from application store) for a fund-round here
 mappings_application_store_json = {
@@ -143,7 +120,7 @@ def get_dynamic_rows(
         ("3050", "850"),
     ]
 
-    for count, fund_id in enumerate(funds):
+    for _count, fund_id in enumerate(funds):
         print("fund id:", fund_id)
 
         rounds = [fund_round_config["round_id"]] if fund_round_config else [uuid4() for _ in range(number_of_rounds)]
@@ -162,7 +139,7 @@ def get_dynamic_rows(
                 funding_type = choice(funding_types)
                 org_name = choice(org_names)
 
-                project_name = f"{choice(verbs)} the" f" {choice(adjects)} {picked_place[0]} in {picked_city[0]}"
+                project_name = f"{choice(verbs)} the {choice(adjects)} {picked_place[0]} in {picked_city[0]}"
 
                 short_ref = application_short_ref_prefix + "-" + "".join(sample(ascii_uppercase, 6))
 

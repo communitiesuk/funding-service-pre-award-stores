@@ -1,7 +1,6 @@
-# flake8: noqa
 from db.queries.assessment_records.queries import get_metadata_for_application
-from db.queries.qa_complete.queries import create_qa_complete_record
 from db.queries.qa_complete.queries import (
+    create_qa_complete_record,
     get_qa_complete_record_for_application,
 )
 

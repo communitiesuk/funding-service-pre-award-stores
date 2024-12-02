@@ -2,10 +2,10 @@ import copy
 import json
 from uuid import UUID
 
+from flask import current_app, make_response
+
 from config import Config
 from db.models.assessment_record.enums import Status
-from flask import current_app
-from flask import make_response
 
 
 def compress_response(data):

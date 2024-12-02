@@ -1,14 +1,15 @@
-from db.queries.assessment_records.queries import create_user_application_association
-from db.queries.assessment_records.queries import get_metadata_for_application
-from db.queries.assessment_records.queries import get_user_application_associations
+from flask import abort, current_app, request
+from fsd_utils.config.notify_constants import NotifyConstants
+
+from db.queries.assessment_records.queries import (
+    create_user_application_association,
+    get_metadata_for_application,
+    get_user_application_associations,
+)
 from db.queries.assessment_records.queries import (
     update_user_application_association as update_user_application_association_db,
 )
 from db.schemas.schemas import AllocationAssociationSchema
-from flask import abort
-from flask import current_app
-from flask import request
-from fsd_utils.config.notify_constants import NotifyConstants
 from services.data_services import send_notification_email
 
 
@@ -31,7 +32,10 @@ def get_all_users_associated_with_application(application_id, active=None):
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(associations, many=True)
 
-    current_app.logger.error(f"Could not find any users associated with application {application_id}")
+    current_app.logger.error(
+        "Could not find any users associated with application {application_id}",
+        extra=dict(application_id=application_id),
+    )
     abort(404)
 
 
@@ -55,7 +59,10 @@ def get_user_application_association(application_id, user_id):
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(association[0])
 
-    current_app.logger.error(f"Could not find association between {user_id} and application {application_id}")
+    current_app.logger.error(
+        "Could not find association between {user_id} and application {application_id}",
+        extra=dict(user_id=user_id, application_id=application_id),
+    )
     abort(404)
 
 
@@ -96,7 +103,10 @@ def add_user_application_association(application_id, user_id):
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(association), 201
 
-    current_app.logger.error(f"Could not create association between {user_id} and application {application_id}")
+    current_app.logger.error(
+        "Could not create association between {user_id} and application {application_id}",
+        extra=dict(user_id=user_id, application_id=application_id),
+    )
     abort(404)
 
 
@@ -126,7 +136,10 @@ def update_user_application_association(application_id, user_id):
     send_email = args.get("send_email")
     active = args.get("active")
     association = update_user_application_association_db(
-        application_id=application_id, user_id=user_id, active=active, assigner_id=args["assigner_id"]
+        application_id=application_id,
+        user_id=user_id,
+        active=active,
+        assigner_id=args["assigner_id"],
     )
 
     if association:
@@ -145,7 +158,10 @@ def update_user_application_association(application_id, user_id):
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(association)
 
-    current_app.logger.error(f"Could not update association between {user_id} and application {application_id}")
+    current_app.logger.error(
+        "Could not update association between {user_id} and application {application_id}",
+        extra=dict(user_id=user_id, application_id=application_id),
+    )
     abort(404)
 
 
@@ -168,7 +184,9 @@ def get_all_applications_associated_with_user(user_id, active=None):
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(associations, many=True)
 
-    current_app.logger.error(f"Could not find any applications associated with user {user_id}")
+    current_app.logger.error(
+        "Could not find any applications associated with user {user_id}", extra=dict(user_id=user_id)
+    )
     abort(404)
 
 
@@ -191,5 +209,7 @@ def get_all_associations_assigned_by_user(assigner_id, active=None):
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(associations, many=True)
 
-    current_app.logger.error(f"Could not find any applications assigned by user {assigner_id}")
+    current_app.logger.error(
+        "Could not find any applications assigned by user {assigner_id}", extra=dict(assigner_id=assigner_id)
+    )
     abort(404)

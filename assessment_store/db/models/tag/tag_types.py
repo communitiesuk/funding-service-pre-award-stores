@@ -1,9 +1,10 @@
 import uuid
 
-from db import db
 from flask_sqlalchemy.model import DefaultMeta
 from sqlalchemy import Column
 from sqlalchemy.dialects.postgresql import UUID
+
+from db import db
 
 BaseModel: DefaultMeta = db.Model
 

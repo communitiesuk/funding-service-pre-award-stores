@@ -1,39 +1,35 @@
 repos:
-- repo: https://github.com/psf/black
-  rev: 23.10.1
-  hooks:
-  - id: black
-    language_version: python3
-    args:
-      - --target-version=py310
--   repo: https://github.com/PyCQA/flake8
-    rev: 7.0.0
+  - repo: https://github.com/PyCQA/docformatter
+    # We are pinning a specific hash here because the current latest released version (v1.7.5) is
+    # incompatible with pre-commit v4+
+    # issue: https://github.com/PyCQA/docformatter/issues/289
+    rev: eb1df347edd128b30cd3368dddc3aa65edcfac38
     hooks:
-    - id: flake8
-      additional_dependencies: [Flake8-pyproject]
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.5.0
-  hooks:
-    - id: trailing-whitespace
-    - id: end-of-file-fixer
-    - id: check-ast
-- repo: https://github.com/asottile/reorder-python-imports
-  rev: v3.12.0
-  hooks:
-    - id: reorder-python-imports
-      name: Reorder Python imports (src, tests)
-      args: ["--application-directories", "src"]
-- repo: https://github.com/PyCQA/docformatter
-  # We are pinning a specific hash here because the current latest released version (v1.7.5) is
-  # incompatible with pre-commit v4+
-  # issue: https://github.com/PyCQA/docformatter/issues/289
-  rev: eb1df347edd128b30cd3368dddc3aa65edcfac38
-  hooks:
-    - id: docformatter
-      additional_dependencies: [tomli]
-- repo: https://github.com/Yelp/detect-secrets
-  rev: v1.4.0
-  hooks:
-  -   id: detect-secrets
-      args: ['--disable-plugin', 'HexHighEntropyString']
-      exclude: .env.development
+      - id: docformatter
+        additional_dependencies: [tomli]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-ast
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version. If bumping this, please also bump requirements-dev.in
+    rev: v0.7.4
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [--fix]
+      # Run the formatter.
+      - id: ruff-format
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args:
+          [
+            "--disable-plugin",
+            "HexHighEntropyString",
+            "--disable-plugin",
+            "Base64HighEntropyString",
+          ]

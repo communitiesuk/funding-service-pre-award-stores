@@ -5,6 +5,7 @@ Revises: f0625240974a
 Create Date: 2023-11-10 11:22:18.680876
 
 """
+
 import uuid
 
 import sqlalchemy as sa
@@ -71,11 +72,11 @@ def downgrade():
         else:
             comments_update_dict[comment_id] = [{"id": id, "comment": comment, "date_created": date_created}]
 
-    for comment_id, date_created in comments:
+    for comment_id, _date_created in comments:
         for i_comment_id, val in comments_update_dict.items():
             val = sorted(val, key=lambda x: x["date_created"])
             if comment_id == i_comment_id:
-                update_query = sa.text("UPDATE comments SET comment = :comment" " WHERE comment_id = :comment_id")
+                update_query = sa.text("UPDATE comments SET comment = :comment WHERE comment_id = :comment_id")
                 params = {
                     "comment_id": comment_id,
                     "comment": val[-1]["comment"],

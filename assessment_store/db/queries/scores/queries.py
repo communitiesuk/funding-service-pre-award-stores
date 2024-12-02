@@ -3,20 +3,18 @@
 Joins allowed.
 
 """
+
 import uuid
 from typing import Dict
 
-from db import db
-from db.models import AssessmentRecord
-from db.models.score import AssessmentRound
-from db.models.score import Score
-from db.models.score import ScoringSystem
-from db.schemas import AssessmentRoundMetadata
-from db.schemas import ScoreMetadata
-from db.schemas import ScoringSystemMetadata
 from flask import current_app as app
 from sqlalchemy import select
 from sqlalchemy.orm.exc import NoResultFound
+
+from db import db
+from db.models import AssessmentRecord
+from db.models.score import AssessmentRound, Score, ScoringSystem
+from db.schemas import AssessmentRoundMetadata, ScoreMetadata, ScoringSystemMetadata
 
 
 def get_scores_for_app_sub_crit(
@@ -145,7 +143,9 @@ def get_scoring_system_for_round_id(round_id: str) -> dict:
 
         metadata_serialiser = ScoringSystemMetadata()
         processed_scoring_system = metadata_serialiser.dump(scoring_system_instance)
-        app.logger.warning(f"No scoring system found for round_id: {round_id}. Defaulting to OneToFive")
+        app.logger.warning(
+            "No scoring system found for round_id: {round_id}. Defaulting to OneToFive", extra=dict(round_id=round_id)
+        )
     return processed_scoring_system
 
 

@@ -3,13 +3,14 @@ import os
 from collections import defaultdict
 from statistics import mean
 
-from config import Config
-from db import db
 from rich import print as fancy_print
 from rich.syntax import Syntax
 from rich.text import Text
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
+
+from config import Config
+from db import db
 
 query_info = {
     "queries_types": defaultdict(int),

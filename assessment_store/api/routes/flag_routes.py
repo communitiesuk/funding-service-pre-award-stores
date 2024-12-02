@@ -1,13 +1,14 @@
-# flake8: noqa
+from flask import current_app, request
+
 from db.models.flags.flag_update import FlagStatus
 from db.queries import get_metadata_for_fund_round_id
-from db.queries.flags.queries import add_flag_for_application
-from db.queries.flags.queries import add_update_to_assessment_flag
-from db.queries.flags.queries import get_flag_by_id
-from db.queries.flags.queries import get_flags_for_application
+from db.queries.flags.queries import (
+    add_flag_for_application,
+    add_update_to_assessment_flag,
+    get_flag_by_id,
+    get_flags_for_application,
+)
 from db.schemas.schemas import AssessmentFlagSchema
-from flask import current_app
-from flask import request
 
 
 def _fix_country(country):
@@ -69,14 +70,14 @@ def get_team_flag_stats(
 
 
 def get_flag(flag_id: str):
-    current_app.logger.info(f"Get flags for id {flag_id}")
+    current_app.logger.info("Get flags for id {flag_id}", extra=dict(flag_id=flag_id))
     flags = get_flag_by_id(flag_id)
     flag_schema = AssessmentFlagSchema()
     return flag_schema.dump(flags, many=True)[0]
 
 
 def get_all_flags_for_application(application_id):
-    current_app.logger.info(f"Get all flags for application {application_id}")
+    current_app.logger.info("Get all flags for application {application_id}", extra=dict(application_id=application_id))
     flags = get_flags_for_application(application_id)
     flag_schema = AssessmentFlagSchema()
     return flag_schema.dump(flags, many=True)
@@ -84,13 +85,15 @@ def get_all_flags_for_application(application_id):
 
 def create_flag_for_application():
     create_flag_json = request.json
-    current_app.logger.info(f"Create flag for application {create_flag_json['application_id']}")
+    current_app.logger.info(
+        "Create flag for application {application_id}", extra=dict(application_id=create_flag_json["application_id"])
+    )
     created_flag = add_flag_for_application(**create_flag_json)
     return AssessmentFlagSchema().dump(created_flag)
 
 
 def update_flag_for_application():
-    current_app.logger.info(f"Update flag")
+    current_app.logger.info("Update flag")
     update_flag_json = request.json
     updated_flag = add_update_to_assessment_flag(**update_flag_json)
     return AssessmentFlagSchema().dump(updated_flag)

@@ -1,19 +1,22 @@
-import traceback
 from typing import Dict
 
 import requests
+from flask import current_app
+
 from api.models.notification import Notification
 from config import Config  # noqa: E402
-from flask import current_app
 
 
 def get_data(endpoint: str, payload: Dict = None):
     try:
         if payload:
-            current_app.logger.info(f"Fetching data from '{endpoint}', with payload: {payload}.")
+            current_app.logger.info(
+                "Fetching data from '{endpoint}', with payload: {payload}.",
+                extra=dict(endpoint=endpoint, payload=payload),
+            )
             response = requests.get(endpoint, payload)
         else:
-            current_app.logger.info(f"Fetching data from '{endpoint}'.")
+            current_app.logger.info("Fetching data from '{endpoint}'.", extra=dict(endpoint=endpoint))
             response = requests.get(endpoint)
         if response.status_code == 200:
             if "application/json" == response.headers["Content-Type"]:
@@ -21,16 +24,20 @@ def get_data(endpoint: str, payload: Dict = None):
             else:
                 return response.content
         elif response.status_code == 204:
-            current_app.logger.warning("Request successful but no resources returned for endpoint" f" '{endpoint}'.")
+            current_app.logger.warning(
+                "Request successful but no resources returned for endpoint '{endpoint}'.", extra=dict(endpoint=endpoint)
+            )
         else:
-            current_app.logger.error(f"Could not get data for endpoint '{endpoint}' ")
-    except requests.exceptions.RequestException as e:
-        stack_trace = traceback.format_exc()
-        current_app.logger.error(f"{e}\n{stack_trace}")
+            current_app.logger.error("Could not get data for endpoint '{endpoint}' ", extra=dict(endpoint=endpoint))
+    except requests.exceptions.RequestException:
+        current_app.logger.exception("Unable to get_data")
 
 
 def get_account_data(account_id: str):
-    return get_data(Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT, {"account_id": account_id})
+    return get_data(
+        Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT,
+        {"account_id": account_id},
+    )
 
 
 def get_fund_data(fund_id: str):
@@ -77,11 +84,11 @@ def send_notification_email(application, user_id, assigner_id, template, message
             user_response["full_name"] if user_response["full_name"] else None,
             content,
         )
-        current_app.logger.info(f"Message added to the queue msg_id: [{message_id}]")
+        current_app.logger.info("Message added to the queue msg_id: [{message_id}]", extra=dict(message_id=message_id))
     except Exception:
         current_app.logger.info(
-            f"Could not send email for template: {template}, user: {user_id}, "
-            f"application {application['application_id']}"
+            "Could not send email for template: {template}, user: {user_id}, application {application_id}",
+            extra=dict(template=template, user_id=user_id, application_id=application["application_id"]),
         )
 
 

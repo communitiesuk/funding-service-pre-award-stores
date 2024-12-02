@@ -3,16 +3,17 @@
 Joins allowed.
 
 """
+
 from collections import defaultdict
 from typing import Dict
+
+from sqlalchemy import and_, select
 
 from db import db
 from db.models.comment.comments import Comment
 from db.models.comment.comments_update import CommentsUpdate
 from db.models.comment.enums import CommentType
 from db.schemas import CommentMetadata
-from sqlalchemy import and_
-from sqlalchemy import select
 
 
 def get_comments_from_db(

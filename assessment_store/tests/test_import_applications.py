@@ -3,10 +3,11 @@ from argparse import Namespace
 from unittest import mock
 
 import pytest
+from requests import Response
+
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config,
 )
-from requests import Response
 from scripts.import_from_application import main
 from tests._helpers import row_data
 

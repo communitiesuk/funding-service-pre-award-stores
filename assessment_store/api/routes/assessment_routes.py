@@ -1,15 +1,12 @@
-# flake8: noqa
 import copy
-from typing import Dict
-from typing import List
+from typing import Dict, List
+
+from flask import current_app, request
 
 from api.models.sub_criteria import SubCriteria
-from api.routes._helpers import compress_response
-from api.routes._helpers import transform_to_assessor_task_list_metadata
+from api.routes._helpers import compress_response, transform_to_assessor_task_list_metadata
 from api.routes.subcriterias.get_sub_criteria import (
     get_all_subcriteria,
-)
-from api.routes.subcriterias.get_sub_criteria import (
     return_subcriteria_from_mapping,
 )
 from config import Config
@@ -18,22 +15,19 @@ from config.mappings.assessment_mapping_fund_round import (
 )
 from db.models.flags.flag_update import FlagStatus
 from db.queries import get_metadata_for_fund_round_id
-from db.queries.assessment_records.queries import find_assessor_task_list_state
-from db.queries.assessment_records.queries import get_application_jsonb_blob
-from db.queries.assessment_records.queries import get_assessment_export_data
 from db.queries.assessment_records.queries import (
+    find_assessor_task_list_state,
+    get_application_jsonb_blob,
+    get_assessment_export_data,
     get_assessment_sub_critera_state,
+    get_metadata_for_application,
+    update_status_to_completed,
 )
-from db.queries.assessment_records.queries import get_metadata_for_application
-from db.queries.assessment_records.queries import update_status_to_completed
 from db.queries.comments.queries import get_sub_criteria_to_has_comment_map
 from db.queries.qa_complete.queries import (
     get_qa_complete_record_for_application,
 )
-from db.queries.scores.queries import get_scoring_system_for_round_id
-from db.queries.scores.queries import get_sub_criteria_to_latest_score_map
-from flask import current_app
-from flask import request
+from db.queries.scores.queries import get_scoring_system_for_round_id, get_sub_criteria_to_latest_score_map
 
 
 def calculate_overall_score_percentage_for_application(application):
@@ -45,7 +39,10 @@ def calculate_overall_score_percentage_for_application(application):
     highest_possible_weighted_score_for_round = 0
     if mapping["scored_criteria"] == []:
         # We have no scoring config for this round (possibly an EOI)
-        current_app.logger.info(f"No scoring config found for {application['fund_id']}:{application['round_id']}")
+        current_app.logger.info(
+            "No scoring config found for {fund_id}:{round_id}",
+            extra=dict(fund_id=application["fund_id"], round_id=application["round_id"]),
+        )
         return None
 
     # Combine mapping and highest possible score calculation

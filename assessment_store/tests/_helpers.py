@@ -1,14 +1,13 @@
 from contextlib import contextmanager
 
-from db import db
-from db.models.assessment_record import AssessmentRecord
-from db.queries import bulk_insert_application_record
-from sqlalchemy import event
-from sqlalchemy import func
-from sqlalchemy import select
+from sqlalchemy import event, func, select
 from sqlalchemy.engine import Engine
 from sqlalchemy.inspection import inspect
 from sqlalchemy.orm import defer
+
+from db import db
+from db.models.assessment_record import AssessmentRecord
+from db.queries import bulk_insert_application_record
 from tests._db_seed_data import get_dynamic_rows
 
 
@@ -56,7 +55,8 @@ def get_rows_by_filters(fund_id, round_id, filters):
     stmt = (
         select(AssessmentRecord)
         # Dont load json into memory
-        .options(defer(AssessmentRecord.jsonb_blob)).where(
+        .options(defer(AssessmentRecord.jsonb_blob))
+        .where(
             AssessmentRecord.fund_id == fund_id,
             AssessmentRecord.round_id == round_id,
             *filters,
@@ -77,7 +77,8 @@ def get_assessment_record(application_id):
     stmt = (
         select(AssessmentRecord)
         # Dont load json into memory
-        .options(defer(AssessmentRecord.jsonb_blob)).where(
+        .options(defer(AssessmentRecord.jsonb_blob))
+        .where(
             AssessmentRecord.application_id == application_id,
         )
     )

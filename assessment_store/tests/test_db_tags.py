@@ -2,12 +2,11 @@ import random
 from uuid import uuid4
 
 import pytest
-from api.routes.tag_routes import get_tags_for_fund_round
-from api.routes.tag_routes import update_tags_for_fund_round
+
+from api.routes.tag_routes import get_tags_for_fund_round, update_tags_for_fund_round
 from app import app
 from db.queries.assessment_records.queries import associate_assessment_tags
-from db.queries.tags.queries import get_tag_by_id
-from db.queries.tags.queries import insert_tags
+from db.queries.tags.queries import get_tag_by_id, insert_tags
 from tests.conftest import test_input_data
 
 # _db.session.remove()

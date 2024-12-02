@@ -3,10 +3,12 @@
 Joins allowed.
 
 """
+
+from sqlalchemy import func
+
 from db import db
 from db.models.score import Score
 from db.schemas.schemas import ProgressSchema
-from sqlalchemy import func
 
 
 def get_progress_for_app(application_ids=None):

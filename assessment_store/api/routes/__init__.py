@@ -1,39 +1,44 @@
-from .assessment_routes import all_assessments_for_fund_round_id
-from .assessment_routes import assessment_metadata_for_application_id
-from .assessment_routes import assessment_stats_for_fund_round_id
-from .assessment_routes import assessment_stats_for_multiple_round_ids
-from .assessment_routes import get_application_data_for_export
-from .assessment_routes import get_application_json
-from .assessment_routes import get_application_json_and_sub_criterias
-from .assessment_routes import get_assessor_task_list_state
-from .assessment_routes import get_banner_state
-from .assessment_routes import sub_criteria
-from .assessment_routes import update_ar_status_to_completed
-from .comment_routes import get_comments
-from .comment_routes import post_comments
-from .comment_routes import put_comments
-from .flag_routes import create_flag_for_application
-from .flag_routes import get_all_flags_for_application
-from .flag_routes import get_flag
-from .flag_routes import get_team_flag_stats
-from .flag_routes import update_flag_for_application
-from .progress_routes import get_progress_for_applications
-from .progress_routes import post_progress_for_applications
-from .qa_complete_routes import post_qa_complete_for_application
-from .qa_complete_routes import qa_complete_record_for_application
-from .score_routes import get_score_for_application_sub_criteria
-from .score_routes import get_scoring_system_name_for_round_id
-from .score_routes import post_score_for_application_sub_criteria
-from .tag_routes import add_tag_for_fund_round
-from .tag_routes import associate_tags_with_assessment
-from .tag_routes import get_active_tags_associated_with_assessment
-from .tag_routes import get_tag
-from .tag_routes import get_tags_for_fund_round
-from .user_routes import add_user_application_association
-from .user_routes import get_all_users_associated_with_application
-from .user_routes import get_user_application_association
-from .user_routes import update_user_application_association
-
+from .assessment_routes import (
+    all_assessments_for_fund_round_id,
+    assessment_metadata_for_application_id,
+    assessment_stats_for_fund_round_id,
+    assessment_stats_for_multiple_round_ids,
+    get_application_data_for_export,
+    get_application_json,
+    get_application_json_and_sub_criterias,
+    get_assessor_task_list_state,
+    get_banner_state,
+    sub_criteria,
+    update_ar_status_to_completed,
+)
+from .comment_routes import get_comments, post_comments, put_comments
+from .flag_routes import (
+    create_flag_for_application,
+    get_all_flags_for_application,
+    get_flag,
+    get_team_flag_stats,
+    update_flag_for_application,
+)
+from .progress_routes import get_progress_for_applications, post_progress_for_applications
+from .qa_complete_routes import post_qa_complete_for_application, qa_complete_record_for_application
+from .score_routes import (
+    get_score_for_application_sub_criteria,
+    get_scoring_system_name_for_round_id,
+    post_score_for_application_sub_criteria,
+)
+from .tag_routes import (
+    add_tag_for_fund_round,
+    associate_tags_with_assessment,
+    get_active_tags_associated_with_assessment,
+    get_tag,
+    get_tags_for_fund_round,
+)
+from .user_routes import (
+    add_user_application_association,
+    get_all_users_associated_with_application,
+    get_user_application_association,
+    update_user_application_association,
+)
 
 __all__ = [
     "all_assessments_for_fund_round_id",

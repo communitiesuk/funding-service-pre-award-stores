@@ -3,24 +3,22 @@ import random
 from uuid import uuid4
 
 import pytest
+
 from app import create_app
 from db.models import AssessmentRound
 from db.models.assessment_record import AssessmentRecord
 from db.models.assessment_record.allocation_association import AllocationAssociation
 from db.models.assessment_record.tag_association import TagAssociation
-from db.models.comment import Comment
-from db.models.comment import CommentsUpdate
+from db.models.comment import Comment, CommentsUpdate
 from db.models.flags.assessment_flag import AssessmentFlag
 from db.models.flags.flag_update import FlagUpdate
 from db.models.qa_complete import QaComplete
 from db.models.score import Score
 from db.models.tag.tag_types import TagType
 from db.queries import bulk_insert_application_record
-from db.queries.scores.queries import _insert_scoring_system
-from db.queries.scores.queries import insert_scoring_system_for_round_id
+from db.queries.scores.queries import _insert_scoring_system, insert_scoring_system_for_round_id
 from db.queries.tags.queries import insert_tags
-from db.schemas.schemas import TagSchema
-from db.schemas.schemas import TagTypeSchema
+from db.schemas.schemas import TagSchema, TagTypeSchema
 from tests._sql_infos import attach_listeners
 
 # Loads the fixtures in this module in utils to create and

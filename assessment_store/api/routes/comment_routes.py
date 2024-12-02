@@ -1,9 +1,8 @@
 from typing import Dict
 
-from db.queries.comments import create_comment
-from db.queries.comments import get_comments_from_db
-from db.queries.comments import update_comment
 from flask import request
+
+from db.queries.comments import create_comment, get_comments_from_db, update_comment
 
 
 def get_comments(

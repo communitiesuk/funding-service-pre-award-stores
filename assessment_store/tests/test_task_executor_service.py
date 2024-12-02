@@ -1,16 +1,16 @@
 import time
 import unittest
-from unittest.mock import MagicMock
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 from uuid import uuid4
 
 import boto3
 import pytest
-from _helpers.task_executer_service import TaskExecutorService
-from config import Config
 from fsd_utils.sqs_scheduler.context_aware_executor import ContextAwareExecutor
 from moto import mock_aws
 from sqlalchemy.exc import SQLAlchemyError
+
+from _helpers.task_executer_service import TaskExecutorService
+from config import Config
 from tests.test_data.test_data_util import send_message_to_queue
 
 
@@ -41,10 +41,16 @@ class TestAssessmentTaskExecutorService(unittest.TestCase):
         self.flask_app = MagicMock()
         self.executor = ContextAwareExecutor(max_workers=10, thread_name_prefix="NotifTask", flask_app=self.flask_app)
         s3_connection = boto3.client(
-            "s3", region_name="us-east-1", aws_access_key_id="test_accesstoken", aws_secret_access_key="secret_key"
+            "s3",
+            region_name="us-east-1",
+            aws_access_key_id="test_accesstoken",
+            aws_secret_access_key="secret_key",  # pragma: allowlist secret
         )
         sqs_connection = boto3.client(
-            "sqs", region_name="us-east-1", aws_access_key_id="test_accesstoken", aws_secret_access_key="secret_key"
+            "sqs",
+            region_name="us-east-1",
+            aws_access_key_id="test_accesstoken",
+            aws_secret_access_key="secret_key",  # pragma: allowlist secret
         )
         s3_connection.create_bucket(Bucket=Config.AWS_MSG_BUCKET_NAME)
         self.queue_response = sqs_connection.create_queue(
@@ -69,9 +75,12 @@ class TestAssessmentTaskExecutorService(unittest.TestCase):
         self.task_executor.sqs_extended_client.s3_client = s3_connection
 
     def _add_data_to_queue(self):
-        for x in range(1):
+        for _x in range(1):
             application_attributes = {
-                "application_id": {"StringValue": "8be9756e-8404-4d79-9b70-abf15066845f", "DataType": "String"},
+                "application_id": {
+                    "StringValue": "8be9756e-8404-4d79-9b70-abf15066845f",
+                    "DataType": "String",
+                },
                 "S3Key": {
                     "StringValue": "assessment",
                     "DataType": "String",

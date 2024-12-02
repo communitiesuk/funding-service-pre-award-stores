@@ -3,11 +3,12 @@ from datetime import datetime
 
 import jsonpath_rw_ext
 import requests
+from flask import current_app
+
 from config.mappings.assessment_mapping_fund_round import (
     fund_round_data_key_mappings,
 )
 from db.models.assessment_record import TagAssociation
-from flask import current_app
 
 
 def get_answer_value(application_json, answer_key):
@@ -60,7 +61,7 @@ def get_location_json_from_postcode(raw_postcode):
     return location_data
 
 
-def derive_application_values(application_json):
+def derive_application_values(application_json):  # noqa: C901 - historical sadness
     # TODO: implement mapping function to match
     #  fund+round fields to derived values
     derived_values = {}
@@ -123,9 +124,9 @@ def derive_application_values(application_json):
 
     derived_values["application_id"] = application_id
     if application_json["project_name"] is None and fund_round_shortname == "COFEOI":
-        derived_values[
-            "project_name"
-        ] = ""  # EOI does not have a project name form compoent. Maybe this has to become nullable?
+        derived_values["project_name"] = (
+            ""  # EOI does not have a project name form compoent. Maybe this has to become nullable?
+        )
     else:
         derived_values["project_name"] = application_json["project_name"]
 
@@ -222,7 +223,9 @@ def filter_tags(incoming_tags, existing_tags):
             None,
         )
         if _incoming_tag:
-            current_app.logger.info(f"Tag id is already associated: {existing_tag_id}")
+            current_app.logger.info(
+                "Tag id is already associated: {existing_tag_id}", extra=dict(existing_tag_id=existing_tag_id)
+            )
         else:
             filtered_tags.append(existing_tag_list)
     return filtered_tags

@@ -1,14 +1,13 @@
 from typing import List
 
+from flask import current_app
+from sqlalchemy import distinct, func, or_
+from sqlalchemy.exc import NoResultFound
+
 from db import db
 from db.models.assessment_record.tag_association import TagAssociation
 from db.models.tag.tag_types import TagType
 from db.models.tag.tags import Tag
-from flask import current_app
-from sqlalchemy import distinct
-from sqlalchemy import func
-from sqlalchemy import or_
-from sqlalchemy.exc import NoResultFound
 
 
 def insert_tags(tags, fund_id, round_id):
@@ -47,8 +46,7 @@ def insert_tags(tags, fund_id, round_id):
             db.session.flush()  # Flush changes to trigger validation
         except Exception as e:
             db.session.rollback()
-            current_app.logger.error(f"Error inserting tag '{value}': {str(e)}")
-            raise ValueError(f"Error inserting tag '{value}': {str(e)}")
+            raise ValueError(f"Error inserting tag '{value}': {str(e)}") from e
 
         inserted_tags.append(tag)
 
@@ -56,8 +54,7 @@ def insert_tags(tags, fund_id, round_id):
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        current_app.logger.error(f"Error inserting tags: {str(e)}")
-        raise ValueError(f"Error inserting tags: {str(e)}")
+        raise ValueError(f"Error inserting tags: {str(e)}") from e
     return inserted_tags
 
 
@@ -104,11 +101,11 @@ def update_tags(tags, fund_id, round_id):
             tag.type_id = tag_type_id if tag_type_id is not None else tag.type_id
             tag.active = active_status if active_status is not None else tag.active
 
-        except NoResultFound:
+        except NoResultFound as e:
             # If the tag doesn't exist, raise an error
             raise ValueError(
                 f"Tag with id '{tag_id}' does not exist for fund_id '{fund_id}' and round_id '{round_id}'."
-            )
+            ) from e
 
         updated_tags.append(tag)
 
@@ -116,8 +113,7 @@ def update_tags(tags, fund_id, round_id):
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        current_app.logger.error(f"Error updating tags: {str(e)}")
-        raise ValueError(f"Error updating tags: {str(e)}")
+        raise ValueError(f"Error updating tags: {str(e)}") from e
     return updated_tags
 
 
@@ -147,7 +143,10 @@ def select_tags_for_fund_round(
         .where(Tag.round_id == round_id)
     )
     if search_term != "":
-        current_app.logger.info(f"Performing tag search on search term: {search_term} in fields {search_in}")
+        current_app.logger.info(
+            "Performing tag search on search term: {search_term} in fields {search_in}",
+            extra=dict(search_term=search_term, search_in=search_in),
+        )
         # using % for sql LIKE search
         search_term = search_term.replace(" ", "%")
 
