@@ -1,9 +1,9 @@
 from jsonschema import validate
 
-from config import Config
-from config.mappings.assessment_mapping_schema import (
+from assessment_store.config.mappings.assessment_mapping_schema import (
     top_level_assessment_mapping_schema as schema,
 )
+from config import Config
 
 
 def test_assessment_mapping_conforms_to_schema():

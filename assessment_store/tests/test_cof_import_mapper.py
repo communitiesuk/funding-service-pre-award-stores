@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from db.queries.assessment_records._helpers import derive_application_values
+from assessment_store.db.queries.assessment_records._helpers import derive_application_values
 
 
 @pytest.fixture(scope="function")

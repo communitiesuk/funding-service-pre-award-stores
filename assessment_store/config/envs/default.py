@@ -5,7 +5,7 @@ from pathlib import Path
 
 from fsd_utils import CommonConfig, configclass
 
-from config.mappings.assessment_mapping_fund_round import (
+from assessment_store.config.mappings.assessment_mapping_fund_round import (
     fund_round_to_assessment_mapping,
 )
 

@@ -3,12 +3,12 @@ from datetime import datetime
 
 import click
 
+from assessment_store.db.models.assessment_record import AssessmentRecord, TagAssociation
+from assessment_store.db.models.comment import Comment, CommentsUpdate
+from assessment_store.db.models.flags import AssessmentFlag, FlagUpdate
+from assessment_store.db.models.qa_complete import QaComplete
+from assessment_store.db.models.score import Score
 from db import db
-from db.models.assessment_record import AssessmentRecord, TagAssociation
-from db.models.comment import Comment, CommentsUpdate
-from db.models.flags import AssessmentFlag, FlagUpdate
-from db.models.qa_complete import QaComplete
-from db.models.score import Score
 
 
 def delete_single_assessment(application_id: str, do_commit: bool = False):

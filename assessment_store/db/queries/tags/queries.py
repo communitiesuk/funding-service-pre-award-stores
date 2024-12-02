@@ -4,10 +4,10 @@ from flask import current_app
 from sqlalchemy import distinct, func, or_
 from sqlalchemy.exc import NoResultFound
 
+from assessment_store.db.models.assessment_record.tag_association import TagAssociation
+from assessment_store.db.models.tag.tag_types import TagType
+from assessment_store.db.models.tag.tags import Tag
 from db import db
-from db.models.assessment_record.tag_association import TagAssociation
-from db.models.tag.tag_types import TagType
-from db.models.tag.tags import Tag
 
 
 def insert_tags(tags, fund_id, round_id):

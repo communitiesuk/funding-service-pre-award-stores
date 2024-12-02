@@ -7,8 +7,8 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import ENUM, UUID
 from sqlalchemy.sql import func
 
+from assessment_store.db.models.score.enums import ScoringSystem
 from db import db
-from db.models.score.enums import ScoringSystem
 
 
 class Score(db.Model):

@@ -3,7 +3,7 @@ from typing import Dict
 import requests
 from flask import current_app
 
-from api.models.notification import Notification
+from assessment_store.api.models.notification import Notification
 from config import Config  # noqa: E402
 
 

@@ -2,18 +2,18 @@ from marshmallow import Schema, fields
 from marshmallow.fields import UUID, Boolean, Enum, Field, Integer, Method, Nested, String
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 
-from db.models.assessment_record import AssessmentRecord
-from db.models.assessment_record.allocation_association import AllocationAssociation
-from db.models.assessment_record.enums import Language, Status
-from db.models.assessment_record.tag_association import TagAssociation
-from db.models.comment import Comment, CommentsUpdate
-from db.models.comment.enums import CommentType
-from db.models.flags.assessment_flag import AssessmentFlag
-from db.models.flags.flag_update import FlagUpdate
-from db.models.qa_complete import QaComplete
-from db.models.score import AssessmentRound, Score, ScoringSystem
-from db.models.tag.tag_types import TagType
-from db.models.tag.tags import Tag
+from assessment_store.db.models.assessment_record import AssessmentRecord
+from assessment_store.db.models.assessment_record.allocation_association import AllocationAssociation
+from assessment_store.db.models.assessment_record.enums import Language, Status
+from assessment_store.db.models.assessment_record.tag_association import TagAssociation
+from assessment_store.db.models.comment import Comment, CommentsUpdate
+from assessment_store.db.models.comment.enums import CommentType
+from assessment_store.db.models.flags.assessment_flag import AssessmentFlag
+from assessment_store.db.models.flags.flag_update import FlagUpdate
+from assessment_store.db.models.qa_complete import QaComplete
+from assessment_store.db.models.score import AssessmentRound, Score, ScoringSystem
+from assessment_store.db.models.tag.tag_types import TagType
+from assessment_store.db.models.tag.tags import Tag
 
 
 class AssessmentRecordMetadata(SQLAlchemyAutoSchema):

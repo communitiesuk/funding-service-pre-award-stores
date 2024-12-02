@@ -2,7 +2,7 @@ from uuid import UUID
 
 import pytest
 
-from config.mappings.assessment_mapping_fund_round import (
+from assessment_store.config.mappings.assessment_mapping_fund_round import (
     COF25_EOI_FUND_ID,
     COF25_EOI_ROUND_ID,
     COF25_FUND_ID,
