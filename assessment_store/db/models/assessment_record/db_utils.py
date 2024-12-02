@@ -35,7 +35,7 @@ block_json_updates_trig = PGTrigger(
     on_entity="assessment_records",
 )
 
-extension = PGExtension(
+pg_trgm_extension = PGExtension(
     schema="public",
     signature="pg_trgm",
 )

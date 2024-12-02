@@ -5,11 +5,19 @@ from pathlib import Path
 from alembic import context
 from alembic.script import ScriptDirectory
 from alembic.script.base import _slug_re
+from alembic_utils.replaceable_entity import register_entities
 from flask import current_app
 
 import application_store.db.models  # noqa
 import assessment_store.db.models  # noqa
 import fund_store.db.models  # noqa
+from assessment_store.db.models.assessment_record import block_json_func, block_json_updates_trig
+from assessment_store.db.models.assessment_record.db_utils import pg_trgm_extension
+
+# Comment this out if the functions/trigs refer to tables
+# which havent been migrated yet. These must be in a seperate
+# migration to table creation.
+register_entities([block_json_func, block_json_updates_trig, pg_trgm_extension, fund_store.db.models.ltree_extension])
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
