@@ -5,10 +5,10 @@ import jsonpath_rw_ext
 import requests
 from flask import current_app
 
-from config.mappings.assessment_mapping_fund_round import (
+from assessment_store.config.mappings.assessment_mapping_fund_round import (
     fund_round_data_key_mappings,
 )
-from db.models.assessment_record import TagAssociation
+from assessment_store.db.models.assessment_record import TagAssociation
 
 
 def get_answer_value(application_json, answer_key):

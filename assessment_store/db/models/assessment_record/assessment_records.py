@@ -12,8 +12,8 @@ from sqlalchemy.dialects.postgresql import ENUM, JSONB, TEXT, UUID
 from sqlalchemy.orm import column_property, relationship
 from sqlalchemy.types import Boolean
 
+from assessment_store.db.models.assessment_record.enums import Language, Status
 from db import db
-from db.models.assessment_record.enums import Language, Status
 
 BaseModel: DefaultMeta = db.Model
 

@@ -9,9 +9,9 @@ from fsd_utils.sqs_scheduler.context_aware_executor import ContextAwareExecutor
 from moto import mock_aws
 from sqlalchemy.exc import SQLAlchemyError
 
-from _helpers.task_executer_service import TaskExecutorService
+from assessment_store._helpers.task_executer_service import TaskExecutorService
+from assessment_store.tests.test_data.test_data_util import send_message_to_queue
 from config import Config
-from tests.test_data.test_data_util import send_message_to_queue
 
 
 class TestAssessmentTaskExecutorService(unittest.TestCase):

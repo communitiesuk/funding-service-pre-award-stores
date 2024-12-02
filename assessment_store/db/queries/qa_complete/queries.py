@@ -6,9 +6,9 @@ Joins allowed.
 
 from typing import Dict
 
+from assessment_store.db.models.qa_complete.qa_complete import QaComplete
+from assessment_store.db.schemas.schemas import QaCompleteMetadata
 from db import db
-from db.models.qa_complete.qa_complete import QaComplete
-from db.schemas.schemas import QaCompleteMetadata
 
 
 def create_qa_complete_record(

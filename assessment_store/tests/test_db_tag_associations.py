@@ -1,14 +1,14 @@
 import pytest
 from sqlalchemy import select
 
-from api.routes.tag_routes import (
+from app import app
+from assessment_store.api.routes.tag_routes import (
     get_active_tags_associated_with_assessment,
     update_tags_for_fund_round,
 )
-from app import app
-from db.models.assessment_record import AssessmentRecord
-from db.queries.assessment_records.queries import associate_assessment_tags
-from tests.conftest import test_input_data
+from assessment_store.db.models.assessment_record import AssessmentRecord
+from assessment_store.db.queries.assessment_records.queries import associate_assessment_tags
+from assessment_store.tests.conftest import test_input_data
 
 
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])

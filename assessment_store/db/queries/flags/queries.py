@@ -2,9 +2,9 @@ from typing import Dict
 
 from sqlalchemy import select
 
+from assessment_store.db.models.flags.assessment_flag import AssessmentFlag
+from assessment_store.db.models.flags.flag_update import FlagStatus, FlagUpdate
 from db import db
-from db.models.flags.assessment_flag import AssessmentFlag
-from db.models.flags.flag_update import FlagStatus, FlagUpdate
 
 
 def get_flags_for_application(application_id):

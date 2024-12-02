@@ -14,25 +14,29 @@ from sqlalchemy import String, and_, bindparam, cast, desc, exc, func, or_, sele
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.orm import aliased, defer, load_only, selectinload
 
-from config.mappings.assessment_mapping_fund_round import (
+from assessment_store.config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config_with_round_id,
 )
-from db import db
-from db.models.assessment_record import AssessmentRecord, TagAssociation
-from db.models.assessment_record.allocation_association import AllocationAssociation
-from db.models.assessment_record.enums import Status
-from db.models.flags.flag_update import FlagStatus
-from db.models.score import Score
-from db.models.tag.tag_types import TagType
-from db.models.tag.tags import Tag
-from db.queries.assessment_records._helpers import (
+from assessment_store.db.models.assessment_record import AssessmentRecord, TagAssociation
+from assessment_store.db.models.assessment_record.allocation_association import AllocationAssociation
+from assessment_store.db.models.assessment_record.enums import Status
+from assessment_store.db.models.flags.flag_update import FlagStatus
+from assessment_store.db.models.score import Score
+from assessment_store.db.models.tag.tag_types import TagType
+from assessment_store.db.models.tag.tags import Tag
+from assessment_store.db.queries.assessment_records._helpers import (
     derive_application_values,
     filter_tags,
     get_existing_tags,
     update_tag_associations,
 )
-from db.schemas import AssessmentRecordMetadata, AssessmentSubCriteriaMetadata, AssessorTaskListMetadata
-from services.data_services import get_account_name
+from assessment_store.db.schemas import (
+    AssessmentRecordMetadata,
+    AssessmentSubCriteriaMetadata,
+    AssessorTaskListMetadata,
+)
+from assessment_store.services.data_services import get_account_name
+from db import db
 
 
 def get_metadata_for_application(

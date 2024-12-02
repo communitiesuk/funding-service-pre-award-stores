@@ -7,6 +7,10 @@ from pathlib import Path
 
 from fsd_utils import CommonConfig, configclass
 
+from assessment_store.config.mappings.assessment_mapping_fund_round import (
+    fund_round_to_assessment_mapping,
+)
+
 
 @configclass
 class DefaultConfig(object):
@@ -26,6 +30,8 @@ class DefaultConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {"future": True}
 
+    ASSESSMENT_MAPPING_CONFIG = fund_round_to_assessment_mapping
+
     #  APIs
     TEST_FUND_STORE_API_HOST = "fund_store"
     TEST_ACCOUNT_STORE_API_HOST = "account_store"
@@ -44,20 +50,8 @@ class DefaultConfig(object):
     NOTIFY_TEMPLATE_EOI_PASS = "Full pass"
     NOTIFY_TEMPLATE_EOI_PASS_W_CAVEATS = "Pass with caveats"
 
-    if "PRIMARY_QUEUE_URL" in environ:
-        AWS_REGION = AWS_SQS_REGION = environ.get("AWS_REGION")
-        AWS_BUCKET_NAME = environ.get("AWS_BUCKET_NAME")
-        AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = environ.get("PRIMARY_QUEUE_URL")
-        AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = environ.get("DEAD_LETTER_QUEUE_URL")
-    else:
-        AWS_ACCESS_KEY_ID = AWS_SQS_ACCESS_KEY_ID = environ.get("AWS_ACCESS_KEY_ID")
-        AWS_SECRET_ACCESS_KEY = AWS_SQS_SECRET_ACCESS_KEY = environ.get("AWS_SECRET_ACCESS_KEY")
-        AWS_BUCKET_NAME = environ.get("AWS_BUCKET_NAME")
-        AWS_REGION = AWS_SQS_REGION = environ.get("AWS_REGION")
-        AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = environ.get("AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL")
-        AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = environ.get("AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL")
-
     # Account Store Endpoints
+    ACCOUNT_ENDPOINT = CommonConfig.ACCOUNT_ENDPOINT
     ACCOUNTS_ENDPOINT = "/accounts"
 
     # Fund Store Endpoints
@@ -73,6 +67,15 @@ class DefaultConfig(object):
 
     DOCUMENT_UPLOAD_SIZE_LIMIT = 2 * 1024 * 1024
 
+    # Application Store
+    APPLICATION_STORE_API_HOST = CommonConfig.APPLICATION_STORE_API_HOST
+    APPLICATIONS_ENDPOINT = CommonConfig.APPLICATIONS_ENDPOINT
+    APPLICATION_ENDPOINT = CommonConfig.APPLICATION_ENDPOINT
+
+    # Assessment frontend details
+    ASSESSMENT_FRONTEND_HOST = environ.get("ASSESSMENT_FRONTEND_HOST")
+    ASSESSMENT_APPLICATION_ENDPOINT = "/assess/application/{application_id}"
+
     # ---------------
     # AWS Overall Config
     # ---------------
@@ -85,9 +88,30 @@ class DefaultConfig(object):
     # S3 Config
     # ---------------
     AWS_MSG_BUCKET_NAME = environ.get("AWS_MSG_BUCKET_NAME")
+    AWS_BUCKET_NAME = environ.get("AWS_BUCKET_NAME")
 
     # ---------------
     # SQS Config
     # ---------------
     AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL")
     AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL")
+
+    if "PRIMARY_QUEUE_URL" in environ:
+        AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = environ.get("PRIMARY_QUEUE_URL")
+        AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = environ.get("DEAD_LETTER_QUEUE_URL")
+    else:
+        AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = environ.get("AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL")
+        AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = environ.get("AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL")
+    SQS_WAIT_TIME = int(environ.get("SQS_WAIT_TIME", 2))  # max time to wait (in sec) before returning
+    SQS_BATCH_SIZE = int(environ.get("SQS_BATCH_SIZE", 1))  # MaxNumber Of Messages to process
+    SQS_VISIBILITY_TIME = int(
+        environ.get("SQS_VISIBILITY_TIME", 1)
+    )  # time for message to temporarily invisible to others (in sec)
+    SQS_RECEIVE_MESSAGE_CYCLE_TIME = int(
+        environ.get("SQS_RECEIVE_MESSAGE_CYCLE_TIME", 60)
+    )  # Run the job every 'x' seconds
+
+    # ---------------
+    # Task Executor Config
+    # ---------------
+    TASK_EXECUTOR_MAX_THREAD = int(environ.get("TASK_EXECUTOR_MAX_THREAD", 5))  # max amount of threads

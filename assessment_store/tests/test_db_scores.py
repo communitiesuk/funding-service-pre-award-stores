@@ -4,16 +4,16 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from api.routes import get_scoring_system_name_for_round_id
-from api.routes.progress_routes import get_progress_for_applications
-from db.models import Score
-from db.queries.scores.queries import (
+from assessment_store.api.routes import get_scoring_system_name_for_round_id
+from assessment_store.api.routes.progress_routes import get_progress_for_applications
+from assessment_store.db.models import Score
+from assessment_store.db.queries.scores.queries import (
     create_score_for_app_sub_crit,
     get_scores_for_app_sub_crit,
     get_sub_criteria_to_latest_score_map,
 )
-from tests._helpers import get_assessment_record
-from tests.conftest import test_input_data
+from assessment_store.tests._helpers import get_assessment_record
+from assessment_store.tests.conftest import test_input_data
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])

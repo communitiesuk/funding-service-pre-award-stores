@@ -1,16 +1,16 @@
 from flask import abort, current_app, request
 from fsd_utils.config.notify_constants import NotifyConstants
 
-from db.queries.assessment_records.queries import (
+from assessment_store.db.queries.assessment_records.queries import (
     create_user_application_association,
     get_metadata_for_application,
     get_user_application_associations,
 )
-from db.queries.assessment_records.queries import (
+from assessment_store.db.queries.assessment_records.queries import (
     update_user_application_association as update_user_application_association_db,
 )
-from db.schemas.schemas import AllocationAssociationSchema
-from services.data_services import send_notification_email
+from assessment_store.db.schemas.schemas import AllocationAssociationSchema
+from assessment_store.services.data_services import send_notification_email
 
 
 def get_all_users_associated_with_application(application_id, active=None):

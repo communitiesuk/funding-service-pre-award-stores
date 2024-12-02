@@ -2,79 +2,79 @@
 
 from uuid import uuid4
 
-from config.mappings.cof_mapping_parts.cof25_r1_scored_criteria import (
+from assessment_store.config.mappings.cof_mapping_parts.cof25_r1_scored_criteria import (
     scored_criteria as cof25_scored_criteria_r1,
 )
-from config.mappings.cof_mapping_parts.cof25_r1_unscored_sections import (
+from assessment_store.config.mappings.cof_mapping_parts.cof25_r1_unscored_sections import (
     unscored_sections as cof25_unscored_sections_r1,
 )
-from config.mappings.cof_mapping_parts.eoi25_unscored_sections import (
+from assessment_store.config.mappings.cof_mapping_parts.eoi25_unscored_sections import (
     unscored_sections as cof25_unscored_sections_eoi,
 )
-from config.mappings.cof_mapping_parts.eoi_unscored_sections import (
+from assessment_store.config.mappings.cof_mapping_parts.eoi_unscored_sections import (
     unscored_sections as cof_unscored_sections_eoi,
 )
-from config.mappings.cof_mapping_parts.r2_scored_criteria import (
+from assessment_store.config.mappings.cof_mapping_parts.r2_scored_criteria import (
     scored_criteria as cof_scored_criteria_r2,
 )
-from config.mappings.cof_mapping_parts.r2_unscored_sections import (
+from assessment_store.config.mappings.cof_mapping_parts.r2_unscored_sections import (
     unscored_sections as cof_unscored_sections_r2,
 )
-from config.mappings.cof_mapping_parts.r3_scored_criteria import (
+from assessment_store.config.mappings.cof_mapping_parts.r3_scored_criteria import (
     scored_criteria as cof_scored_criteria_r3,
 )
-from config.mappings.cof_mapping_parts.r3_unscored_sections import (
+from assessment_store.config.mappings.cof_mapping_parts.r3_unscored_sections import (
     unscored_sections as cof_unscored_sections_r3,
 )
-from config.mappings.cof_mapping_parts.r3w2_scored_criteria import (
+from assessment_store.config.mappings.cof_mapping_parts.r3w2_scored_criteria import (
     scored_criteria as cof_scored_criteria_r3w2,
 )
-from config.mappings.cof_mapping_parts.r3w2_unscored_sections import (
+from assessment_store.config.mappings.cof_mapping_parts.r3w2_unscored_sections import (
     unscored_sections as cof_unscored_sections_r3w2,
 )
-from config.mappings.cof_mapping_parts.r3w3_scored_criteria import (
+from assessment_store.config.mappings.cof_mapping_parts.r3w3_scored_criteria import (
     scored_criteria as cof_scored_criteria_r3w3,
 )
-from config.mappings.cof_mapping_parts.r3w3_unscored_sections import (
+from assessment_store.config.mappings.cof_mapping_parts.r3w3_unscored_sections import (
     unscored_sections as cof_unscored_sections_r3w3,
 )
-from config.mappings.cof_mapping_parts.r4w1_scored_criteria import (
+from assessment_store.config.mappings.cof_mapping_parts.r4w1_scored_criteria import (
     scored_criteria as cof_scored_criteria_r4w1,
 )
-from config.mappings.cof_mapping_parts.r4w1_unscored_sections import (
+from assessment_store.config.mappings.cof_mapping_parts.r4w1_unscored_sections import (
     unscored_sections as cof_unscored_sections_r4w1,
 )
-from config.mappings.cof_mapping_parts.r4w2_scored_criteria import (
+from assessment_store.config.mappings.cof_mapping_parts.r4w2_scored_criteria import (
     scored_criteria as cof_scored_criteria_r4w2,
 )
-from config.mappings.cof_mapping_parts.r4w2_unscored_sections import (
+from assessment_store.config.mappings.cof_mapping_parts.r4w2_unscored_sections import (
     unscored_sections as cof_unscored_sections_r4w2,
 )
-from config.mappings.ctdf_mapping_parts.r1_unscored_sections import (
+from assessment_store.config.mappings.ctdf_mapping_parts.r1_unscored_sections import (
     unscored_sections as ctdf_unscored_sections,
 )
-from config.mappings.cyp_mapping_parts.r1_scored_criteria import (
+from assessment_store.config.mappings.cyp_mapping_parts.r1_scored_criteria import (
     scored_criteria as cyp_scored_criteria_r1,
 )
-from config.mappings.cyp_mapping_parts.r1_unscored_criteria import (
+from assessment_store.config.mappings.cyp_mapping_parts.r1_unscored_criteria import (
     unscored_sections as cyp_unscored_sections_r1,
 )
-from config.mappings.dpif_mappping_parts.r2_scored_criteria import (
+from assessment_store.config.mappings.dpif_mappping_parts.r2_scored_criteria import (
     scored_criteria as dpif_scored_criteria,
 )
-from config.mappings.dpif_mappping_parts.r2_unscored_criteria import (
+from assessment_store.config.mappings.dpif_mappping_parts.r2_unscored_criteria import (
     unscored_sections as dpif_unscored_sections,
 )
-from config.mappings.hsra_mapping_parts.r1_scored_criteria import (
+from assessment_store.config.mappings.hsra_mapping_parts.r1_scored_criteria import (
     scored_criteria as hsra_scored_criteria,
 )
-from config.mappings.hsra_mapping_parts.r1_unscored_sections import (
+from assessment_store.config.mappings.hsra_mapping_parts.r1_unscored_sections import (
     unscored_sections as hsra_unscored_sections,
 )
-from config.mappings.nstf_mapping_parts.r2_scored_criteria import (
+from assessment_store.config.mappings.nstf_mapping_parts.r2_scored_criteria import (
     scored_criteria as nstf_scored_criteria,
 )
-from config.mappings.nstf_mapping_parts.r2_unscored_sections import (
+from assessment_store.config.mappings.nstf_mapping_parts.r2_unscored_sections import (
     unscored_sections as nstf_unscored_sections,
 )
 

@@ -2,7 +2,7 @@ from unittest import mock
 
 import pytest
 
-from services.data_services import send_notification_email
+from assessment_store.services.data_services import send_notification_email
 
 
 @pytest.mark.parametrize(

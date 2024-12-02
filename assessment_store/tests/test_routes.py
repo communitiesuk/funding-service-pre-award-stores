@@ -6,20 +6,20 @@ from uuid import uuid4
 
 import pytest
 
-from api.routes.assessment_routes import (
+from assessment_store.api.routes.assessment_routes import (
     calculate_overall_score_percentage_for_application,
 )
-from config.mappings.assessment_mapping_fund_round import (
+from assessment_store.config.mappings.assessment_mapping_fund_round import (
     applicant_info_mapping,
 )
-from db.models.flags.assessment_flag import AssessmentFlag
-from db.models.flags.flag_update import FlagStatus
-from db.models.tag.tags import Tag
-from db.queries.flags.queries import add_flag_for_application, add_update_to_assessment_flag
-from db.queries.qa_complete.queries import create_qa_complete_record
-from tests._expected_responses import APPLICATION_METADATA_RESPONSE
-from tests.conftest import test_input_data
-from tests.test_data.flags import add_flag_update_request_json, create_flag_request_json
+from assessment_store.db.models.flags.assessment_flag import AssessmentFlag
+from assessment_store.db.models.flags.flag_update import FlagStatus
+from assessment_store.db.models.tag.tags import Tag
+from assessment_store.db.queries.flags.queries import add_flag_for_application, add_update_to_assessment_flag
+from assessment_store.db.queries.qa_complete.queries import create_qa_complete_record
+from assessment_store.tests._expected_responses import APPLICATION_METADATA_RESPONSE
+from assessment_store.tests.conftest import test_input_data
+from assessment_store.tests.test_data.flags import add_flag_update_request_json, create_flag_request_json
 
 COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"

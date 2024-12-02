@@ -3,29 +3,29 @@ import random
 import pytest
 import sqlalchemy
 
-from config.mappings.assessment_mapping_fund_round import COF_FUND_ID, applicant_info_mapping
-from db.models import Comment, Score
-from db.models.assessment_record.assessment_records import AssessmentRecord
-from db.models.assessment_record.enums import Status
-from db.models.comment import CommentsUpdate
-from db.models.comment.enums import CommentType
-from db.queries import find_answer_by_key_runner
-from db.queries.assessment_records.queries import (
+from assessment_store.config.mappings.assessment_mapping_fund_round import COF_FUND_ID, applicant_info_mapping
+from assessment_store.db.models import Comment, Score
+from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
+from assessment_store.db.models.assessment_record.enums import Status
+from assessment_store.db.models.comment import CommentsUpdate
+from assessment_store.db.models.comment.enums import CommentType
+from assessment_store.db.queries import find_answer_by_key_runner
+from assessment_store.db.queries.assessment_records.queries import (
     bulk_update_location_jsonb_blob,
     find_assessor_task_list_state,
     get_assessment_export_data,
     get_export_data,
 )
-from db.queries.comments.queries import (
+from assessment_store.db.queries.comments.queries import (
     create_comment,
     get_comments_from_db,
     get_sub_criteria_to_has_comment_map,
     update_comment,
 )
-from db.queries.scores.queries import create_score_for_app_sub_crit
-from tests._expected_responses import BULK_UPDATE_LOCATION_JSONB_BLOB
-from tests._helpers import get_assessment_record
-from tests.conftest import test_input_data
+from assessment_store.db.queries.scores.queries import create_score_for_app_sub_crit
+from assessment_store.tests._expected_responses import BULK_UPDATE_LOCATION_JSONB_BLOB
+from assessment_store.tests._helpers import get_assessment_record
+from assessment_store.tests.conftest import test_input_data
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])

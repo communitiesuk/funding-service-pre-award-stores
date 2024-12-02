@@ -2,7 +2,7 @@ import csv
 import json
 import os
 
-from scripts.location_utils import (
+from assessment_store.scripts.location_utils import (
     extract_location_data,
     get_all_location_data,
     get_application_form,

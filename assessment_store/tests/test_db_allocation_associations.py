@@ -3,13 +3,13 @@ from datetime import datetime, timezone
 
 import pytest
 
-from db.models.assessment_record.allocation_association import AllocationAssociation
-from db.queries.assessment_records.queries import (
+from assessment_store.db.models.assessment_record.allocation_association import AllocationAssociation
+from assessment_store.db.queries.assessment_records.queries import (
     create_user_application_association,
     get_user_application_associations,
     update_user_application_association,
 )
-from tests.conftest import test_input_data
+from assessment_store.tests.conftest import test_input_data
 
 
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])
