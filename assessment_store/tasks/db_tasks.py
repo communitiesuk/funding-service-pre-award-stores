@@ -119,3 +119,56 @@ def create_seeded_db(c):
 
     bootstrap_dev_db(c)
     seed_dev_db(c)
+
+
+@task
+def seed_local_assessment_store_db(c):
+    with _env_var("FLASK_ENV", "development"):
+        with connexionapp.app.app_context():
+            import uuid
+
+            from assessment_store.db.models.score import AssessmentRound, ScoringSystem
+            from db import db
+            from fund_store.db.models.round import Round
+
+            # Insert scoring systems
+            one_to_five_id = str(uuid.uuid4())  # Generate a UUID for OneToFive
+            zero_to_three_id = str(uuid.uuid4())  # Generate a UUID for OneToThree
+
+            scoring_system_data = [
+                {
+                    "id": one_to_five_id,
+                    "scoring_system_name": "OneToFive",
+                    "minimum_score": 1,
+                    "maximum_score": 5,
+                },
+                {
+                    "id": zero_to_three_id,
+                    "scoring_system_name": "ZeroToThree",
+                    "minimum_score": 0,
+                    "maximum_score": 3,
+                },
+            ]
+
+            one_to_five = (
+                db.session.query(ScoringSystem).filter(ScoringSystem.scoring_system_name == "OneToFive").one_or_none()
+            )
+            zero_to_three = (
+                db.session.query(ScoringSystem).filter(ScoringSystem.scoring_system_name == "ZeroToThree").one_or_none()
+            )
+
+            if one_to_five is None and zero_to_three is None:
+                for dictionary in scoring_system_data:
+                    db.session.add(ScoringSystem(**dictionary))
+            else:
+                one_to_five_id = one_to_five.id
+                zero_to_three_id = zero_to_three.id
+
+            round_ids = db.session.query(Round).with_entities(Round.id).all()
+
+            for (id,) in round_ids:
+                db.session.merge(AssessmentRound(round_id=id, scoring_system_id=one_to_five_id))
+
+            _echo_print("Seeding DB with assessment_round data and scoring_system data")
+
+            db.session.commit()
