@@ -10,6 +10,8 @@ from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from moto import mock_aws
 
 from application_store.db.models import Applications, ResearchSurvey
+from application_store.db.models.application.enums import Status as ApplicationStatus
+from application_store.db.models.forms.enums import Status
 from application_store.db.queries.application import get_all_applications
 from application_store.db.schemas import ApplicationSchema
 from application_store.external_services.models.fund import Fund
@@ -655,6 +657,9 @@ def test_successful_submitted_application(
         mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
         seed_application_records[0].status = "SUBMITTED"
 
+        for form in seed_application_records[0].forms:
+            form.feedback_message = "Test feedback message"
+
         _db.session.add(seed_application_records[0])
         _db.session.commit()
 
@@ -666,6 +671,11 @@ def test_successful_submitted_application(
 
         assert response.status_code == 201
         assert all(k in response.json() for k in ("id", "email", "reference", "eoi_decision"))
+
+        updated_applications = get_row_by_pk(Applications, seed_application_records[0].id)
+        _db.session.refresh(updated_applications)
+        for form in updated_applications.forms:
+            assert form.feedback_message is None
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
@@ -872,3 +882,41 @@ def test_get_research_survey_data_not_found(flask_test_client, mocker):
         "message": f"Research survey data for {application_id} not found",
     }
     mock_retrieve_research_survey_data.assert_called_once_with(application_id)
+
+
+def test_post_request_changes_for_application(flask_test_client, seed_data_multiple_funds_rounds):
+    application_id = seed_data_multiple_funds_rounds[0].round_ids[0].application_ids[0]
+    application = get_row_by_pk(Applications, application_id)
+
+    assert application.status != "CHANGES_REQUESTED"
+
+    for form in application.forms:
+        assert form.status != "CHANGES_REQUESTED"
+
+    request_body = {
+        "field_ids": ["yEmHpp", "data"],
+        "feedback_message": "There is a typo!",
+    }
+
+    response = flask_test_client.post(
+        f"/application/application/{application.id}/request_changes",
+        json=request_body,
+    )
+
+    assert response.status_code == 204
+
+    updated_application = get_row_by_pk(Applications, application.id)
+    db.session.refresh(updated_application)
+
+    assert updated_application.status == ApplicationStatus.CHANGES_REQUESTED
+
+    for form in updated_application.forms:
+        db.session.refresh(form)
+        for category in form.json:
+            for field in category["fields"]:
+                if field["key"] not in ["yEmHpp", "data"]:
+                    continue
+
+                assert form.status == Status.CHANGES_REQUESTED
+                assert form.has_completed is False
+                assert form.feedback_message == "There is a typo!"

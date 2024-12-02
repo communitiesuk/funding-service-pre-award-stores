@@ -31,6 +31,7 @@ from application_store.db.queries import (
     upsert_feedback,
 )
 from application_store.db.queries.application import create_qa_base64file
+from application_store.db.queries.application.queries import patch_application
 from application_store.db.queries.feedback import (
     retrieve_all_feedbacks_and_surveys,
     retrieve_end_of_application_survey_data,
@@ -443,3 +444,23 @@ class ApplicationsView(MethodView):
             "code": 404,
             "message": f"Research survey data for {application_id} not found",
         }, 404
+
+    def post_request_changes(self, application_id: str):
+        try:
+            application = get_application(
+                application_id,
+                include_forms=True,
+            )
+        except NoResultFound:
+            return {
+                "code": 404,
+                "message": f"Application {application_id} not found",
+            }, 404
+
+        args = request.get_json()
+
+        patch_application(
+            application=application,
+            field_ids=args["field_ids"],
+            message=args["feedback_message"],
+        )

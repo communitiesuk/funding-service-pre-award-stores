@@ -16,6 +16,7 @@ from sqlalchemy.sql.expression import Select
 from application_store.db.exceptions import ApplicationError
 from application_store.db.models import Applications
 from application_store.db.models.application.enums import Status as ApplicationStatus
+from application_store.db.models.forms.enums import Status
 from application_store.db.schemas import ApplicationSchema
 from application_store.external_services import get_fund, get_round
 from application_store.external_services.aws import FileData, list_files_by_prefix
@@ -248,6 +249,9 @@ def submit_application(application_id) -> Applications:
     all_application_files = list_files_by_prefix(application_id)
     application = process_files(application, all_application_files)
 
+    for form in application.forms:
+        form.feedback_message = None
+
     application.status = "SUBMITTED"
     db.session.commit()
     return application
@@ -305,3 +309,25 @@ def attempt_to_find_and_update_project_name(question_json, application) -> None:
         for field in question["fields"]:
             if field["key"] == project_name_field_id and "answer" in field.keys():
                 return field["answer"]
+
+
+def patch_application(application: Applications, field_ids: list, message: str):
+    application_should_update = False
+    for form in application.forms:
+        form_should_update = False
+        for category in form.json:
+            for field in category["fields"]:
+                if field["key"] in field_ids:
+                    form.status = Status.CHANGES_REQUESTED
+                    form.has_completed = False
+                    form.feedback_message = message
+                    form_should_update = True
+                    application_should_update = True
+
+                if field["key"] == "markAsComplete" and form_should_update:
+                    field["answer"] = False
+
+    if application_should_update:
+        application.status = ApplicationStatus.CHANGES_REQUESTED
+
+    db.session.commit()
