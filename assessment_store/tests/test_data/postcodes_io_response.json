@@ -1,0 +1,104 @@
+{
+    "status": 200,
+    "result": [
+        {
+            "query": "TE42NF",
+            "result": null
+        },
+        {
+            "query": "PL13RE",
+            "result": {
+                "postcode": "PL1 3RE",
+                "quality": 1,
+                "eastings": 246295,
+                "northings": 54004,
+                "country": "England",
+                "nhs_ha": "South West",
+                "longitude": -4.162536,
+                "latitude": 50.365813,
+                "european_electoral_region": "South West",
+                "primary_care_trust": "Plymouth Teaching",
+                "region": "South West",
+                "lsoa": "Plymouth 029D",
+                "msoa": "Plymouth 029",
+                "incode": "3RE",
+                "outcode": "PL1",
+                "parliamentary_constituency": "Plymouth, Sutton and Devonport",
+                "admin_district": "Plymouth",
+                "parish": "Plymouth, unparished area",
+                "admin_county": null,
+                "date_of_introduction": "198001",
+                "admin_ward": "St. Peter and the Waterfront",
+                "ced": null,
+                "ccg": "NHS Devon",
+                "nuts": "Plymouth",
+                "pfa": "Devon & Cornwall",
+                "codes": {
+                    "admin_district": "E06000026",
+                    "admin_county": "E99999999",
+                    "admin_ward": "E05002094",
+                    "parish": "E43000021",
+                    "parliamentary_constituency": "E14000880",
+                    "ccg": "E38000230",
+                    "ccg_id": "15N",
+                    "ced": "E99999999",
+                    "nuts": "TLK41",
+                    "lsoa": "E01015157",
+                    "msoa": "E02003150",
+                    "lau2": "E06000026",
+                    "pfa": "E23000035"
+                }
+            }
+        },
+
+        {
+            "query": "NP20 3EB",
+            "result": {
+                "postcode": "NP20 3EB",
+                "quality": 1,
+                "eastings": 329996,
+                "northings": 187551,
+                "country": "Wales",
+                "nhs_ha": "Aneurin Bevan University Health Board",
+                "longitude": -3.011719,
+                "latitude": 51.582451,
+                "european_electoral_region": "Wales",
+                "primary_care_trust": "Aneurin Bevan University Health Board",
+                "region": null,
+                "lsoa": "Newport 017A",
+                "msoa": "Newport 017",
+                "incode": "3EB",
+                "outcode": "NP20",
+                "parliamentary_constituency": "Newport West",
+                "admin_district": "Newport",
+                "parish": "Gaer",
+                "admin_county": null,
+                "date_of_introduction": "199906",
+                "admin_ward": "Gaer",
+                "ced": null,
+                "ccg": "Aneurin Bevan University",
+                "nuts": "Monmouthshire and Newport",
+                "pfa": "Gwent",
+                "codes": {
+                    "admin_district": "W06000022",
+                    "admin_county": "W99999999",
+                    "admin_ward": "W05001633",
+                    "parish": "W04000815",
+                    "parliamentary_constituency": "W07000056",
+                    "ccg": "W11000028",
+                    "ccg_id": "7A6",
+                    "ced": "W99999999",
+                    "nuts": "TLL21",
+                    "lsoa": "W01001629",
+                    "msoa": "W02000363",
+                    "lau2": "W06000022",
+                    "pfa": "W15000002"
+                }
+            }
+        },
+        {
+            "query": "QQ127QQ",
+            "result": null
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{% extends "default/index.html.jinja2" %}
+
+{% block content %}
+    <header class="pdoc">
+        {% block logo %}
+        <a href="/">
+            <img class="logo" src="data:image/svg+xml,{% filter urlencode %}{% include "logo.svg" %}{% endfilter %}"
+                    alt="Department for Levelling Up, Housing and Communities logo"/>
+        </a>
+        {% endblock %}
+        {% if search %}
+            <input type="search" placeholder="Search API Documentation..." aria-label="search box">
+        {% endif %}
+    </header>
+    <main class="pdoc">
+    <h1>
+        <a href="{{env["VERSION_LINK"] | default("") }}">
+            {{ "Version: " + env["VERSION"] | default("") }}
+        </a>
+    </h1>
+
+    {% filter to_html %}
+    {% include 'INDEX.md' %}
+    {% endfilter %}
+    {% filter to_html %}
+    {% include 'README.md' %}
+    {% endfilter %}
+    {% filter to_html %}
+    {% include 'TASKS.md' %}
+    {% endfilter %}
+    {% filter to_html %}
+    {% include 'CHANGELOG.md' %}
+    {% endfilter %}
+    </main>
+    {% if search %}
+        {% include "search.html.jinja2" %}
+    {% endif %}
+{% endblock %}
