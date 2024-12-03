@@ -6,7 +6,7 @@ sys.path.insert(1, ".")
 from invoke import task  # noqa:E402
 
 from app import app as connexionapp  # noqa:E402
-from tasks.helper_tasks import (
+from assessment_store.tasks.helper_tasks import (
     _echo_input,  # noqa:E402
     _echo_print,  # noqa:E402
     _env_var,  # noqa:E402
@@ -49,7 +49,7 @@ def bootstrap_dev_db(c):
 def generate_test_data(c):
     import json
 
-    from tests._db_seed_data import get_dynamic_rows
+    from assessment_store.tests._db_seed_data import get_dynamic_rows
 
     _echo_print("Generating data.")
     rows = [json.loads(row) for row in get_dynamic_rows(3, 3, 10)]
@@ -72,11 +72,11 @@ def seed_dev_db(c, fundround=None, appcount=None):
 
     with _env_var("FLASK_ENV", "development"):
         with connexionapp.app.app_context():
-            from config import Config
-            from config.mappings.assessment_mapping_fund_round import (
+            from assessment_store.config.mappings.assessment_mapping_fund_round import (
                 fund_round_mapping_config,
             )
-            from tests._helpers import seed_database_for_fund_round
+            from assessment_store.tests._helpers import seed_database_for_fund_round
+            from config import Config
 
             choosing = not bool(fundround and appcount)
             if not choosing:
@@ -119,3 +119,91 @@ def create_seeded_db(c):
 
     bootstrap_dev_db(c)
     seed_dev_db(c)
+
+
+@task
+def seed_local_assessment_store_db(c):
+    with _env_var("FLASK_ENV", "development"):
+        with connexionapp.app.app_context():
+            import uuid
+
+            from assessment_store.db.models.score import AssessmentRound, ScoringSystem
+            from assessment_store.db.models.tag import TagType
+            from db import db
+            from fund_store.db.models.round import Round
+
+            # Insert scoring systems
+            one_to_five_id = str(uuid.uuid4())  # Generate a UUID for OneToFive
+            zero_to_three_id = str(uuid.uuid4())  # Generate a UUID for OneToThree
+
+            scoring_system_data = [
+                {
+                    "id": one_to_five_id,
+                    "scoring_system_name": "OneToFive",
+                    "minimum_score": 1,
+                    "maximum_score": 5,
+                },
+                {
+                    "id": zero_to_three_id,
+                    "scoring_system_name": "ZeroToThree",
+                    "minimum_score": 0,
+                    "maximum_score": 3,
+                },
+            ]
+
+            one_to_five = (
+                db.session.query(ScoringSystem).filter(ScoringSystem.scoring_system_name == "OneToFive").one_or_none()
+            )
+            zero_to_three = (
+                db.session.query(ScoringSystem).filter(ScoringSystem.scoring_system_name == "ZeroToThree").one_or_none()
+            )
+
+            if one_to_five is None and zero_to_three is None:
+                for dictionary in scoring_system_data:
+                    db.session.add(ScoringSystem(**dictionary))
+            else:
+                one_to_five_id = one_to_five.id
+                zero_to_three_id = zero_to_three.id
+
+            round_ids = db.session.query(Round).with_entities(Round.id).all()
+
+            for (id,) in round_ids:
+                db.session.merge(AssessmentRound(round_id=id, scoring_system_id=one_to_five_id))
+
+            _echo_print("Seeding DB with assessment_round data and scoring_system data")
+
+            tag_types_data = [
+                TagType(
+                    id=str(uuid.uuid4()),
+                    purpose="GENERAL",
+                    description="Use to categorise projects, such as by organisation or location",
+                ),
+                TagType(
+                    id=str(uuid.uuid4()),
+                    purpose="PEOPLE",
+                    description="Use these tags to assign assessments to team members. "
+                    "Note you cannot send notifications using tags",
+                ),
+                TagType(
+                    id=str(uuid.uuid4()),
+                    purpose="POSITIVE",
+                    description="Use to indicate that a project has passed an assessment stage or is recommended",
+                ),
+                TagType(
+                    id=str(uuid.uuid4()),
+                    purpose="NEGATIVE",
+                    description="Use to indicate that a project has failed an assessment stage or is not recommended",
+                ),
+                TagType(
+                    id=str(uuid.uuid4()),
+                    purpose="ACTION",
+                    description="Use to recommend an action, such as further discussion",
+                ),
+            ]
+
+            for tag_type in tag_types_data:
+                existing_tag_type = db.session.query(TagType).where(TagType.purpose == tag_type.purpose).one_or_none()
+                if not existing_tag_type:
+                    db.session.add(tag_type)
+            db.session.commit()
+            _echo_print("Seeded DB with tag type data")

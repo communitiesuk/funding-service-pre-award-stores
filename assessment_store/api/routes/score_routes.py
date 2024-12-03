@@ -2,7 +2,11 @@ from typing import Dict, List
 
 from flask import request
 
-from db.queries import create_score_for_app_sub_crit, get_scores_for_app_sub_crit, get_scoring_system_for_round_id
+from assessment_store.db.queries import (
+    create_score_for_app_sub_crit,
+    get_scores_for_app_sub_crit,
+    get_scoring_system_for_round_id,
+)
 
 
 def get_scoring_system_name_for_round_id(round_id: str) -> dict:
