@@ -31,7 +31,7 @@ class Round:
     short_name: str
     contact_email: str
     title_json: str
-    prospectus_link: str
+    prospectus_url: str
     project_name_field_id: Optional[str] = None
     mark_as_complete_enabled: bool = False
     is_expression_of_interest: bool = False
@@ -59,5 +59,5 @@ class Round:
             mark_as_complete_enabled=data.get("mark_as_complete_enabled") or False,
             is_expression_of_interest=data.get("is_expression_of_interest") or False,
             title_json=data["title_json"],
-            prospectus_link=data["prospectus"],
+            prospectus_url=data["prospectus"],
         )

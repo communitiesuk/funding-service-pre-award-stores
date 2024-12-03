@@ -197,7 +197,7 @@ class ApplicationsView(MethodView):
                 **application_with_form_json,
                 "fund_name": fund_name,
                 "round_name": round_name,
-                "prospectus_url": round_data.prospectus_link,
+                "prospectus_url": round_data.prospectus_url,
             }
 
             self._send_submit_queue(application_id, application_with_form_json)
