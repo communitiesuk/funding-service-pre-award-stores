@@ -23,9 +23,9 @@ from assessment_store.db.queries.comments.queries import (
     update_comment,
 )
 from assessment_store.db.queries.scores.queries import create_score_for_app_sub_crit
-from assessment_store.tests._expected_responses import BULK_UPDATE_LOCATION_JSONB_BLOB
-from assessment_store.tests._helpers import get_assessment_record
-from assessment_store.tests.conftest import test_input_data
+from tests.assessment_store_tests._expected_responses import BULK_UPDATE_LOCATION_JSONB_BLOB
+from tests.assessment_store_tests._helpers import get_assessment_record
+from tests.assessment_store_tests.conftest import test_input_data
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
@@ -419,7 +419,7 @@ def test_bulk_update_location_json_blob(
 @pytest.mark.apps_to_insert([test_input_data[0]])
 def test_output_tracker_data(seed_application_records, mocker):
     mocker.patch(
-        "db.queries.assessment_records.queries.get_account_name",
+        "assessment_store.db.queries.assessment_records.queries.get_account_name",
         return_value="Test user",
     )
     # TODO expand this test with more scenarios
@@ -473,7 +473,7 @@ def test_output_tracker_data(seed_application_records, mocker):
 @pytest.mark.apps_to_insert([test_input_data[0]])
 def test_output_tracker_with_no_scores_data(seed_application_records, mocker):
     mocker.patch(
-        "db.queries.assessment_records.queries.get_account_name",
+        "assessment_store.db.queries.assessment_records.queries.get_account_name",
         return_value="Test user",
     )
 
@@ -511,7 +511,7 @@ def test_output_tracker_with_no_scores_data(seed_application_records, mocker):
 @pytest.mark.apps_to_insert([test_input_data[0]])
 def test_output_tracker_columns_remain_same_for_scored_and_unscored_reports(seed_application_records, mocker):
     mocker.patch(
-        "db.queries.assessment_records.queries.get_account_name",
+        "assessment_store.db.queries.assessment_records.queries.get_account_name",
         return_value="Test user",
     )
 

@@ -8,7 +8,7 @@ from assessment_store.api.routes.tag_routes import (
 )
 from assessment_store.db.models.assessment_record import AssessmentRecord
 from assessment_store.db.queries.assessment_records.queries import associate_assessment_tags
-from assessment_store.tests.conftest import test_input_data
+from tests.assessment_store_tests.conftest import test_input_data
 
 
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])

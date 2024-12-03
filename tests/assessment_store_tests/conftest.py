@@ -19,12 +19,9 @@ from assessment_store.db.queries import bulk_insert_application_record
 from assessment_store.db.queries.scores.queries import _insert_scoring_system, insert_scoring_system_for_round_id
 from assessment_store.db.queries.tags.queries import insert_tags
 from assessment_store.db.schemas.schemas import TagSchema, TagTypeSchema
-from assessment_store.tests._sql_infos import attach_listeners
+from tests.assessment_store_tests._sql_infos import attach_listeners
 
-# Loads the fixtures in this module in utils to create and
-# clear the unit test DB
-pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
-with open("tests/test_data/hand-crafted-apps.json", "r") as f:
+with open("tests/assessment_store_tests/test_data/hand-crafted-apps.json", "r") as f:
     test_input_data = json.load(f)
 
 

@@ -7,7 +7,7 @@ from app import app
 from assessment_store.api.routes.tag_routes import get_tags_for_fund_round, update_tags_for_fund_round
 from assessment_store.db.queries.assessment_records.queries import associate_assessment_tags
 from assessment_store.db.queries.tags.queries import get_tag_by_id, insert_tags
-from assessment_store.tests.conftest import test_input_data
+from tests.assessment_store_tests.conftest import test_input_data
 
 # _db.session.remove()
 # This operation cleans up the session resources and ensures that

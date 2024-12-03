@@ -16,14 +16,14 @@ def mock_data_key_mappings(monkeypatch):
         }
     }
     monkeypatch.setattr(
-        "db.queries.assessment_records._helpers.fund_round_data_key_mappings",
+        "assessment_store.db.queries.assessment_records._helpers.fund_round_data_key_mappings",
         fund_round_data_key_mappings,
     )
     yield
 
 
 def test_derive_cof_values_no_location(mock_data_key_mappings):
-    single_application_json = "tests/test_data/single_application_no_location.json"
+    single_application_json = "tests/assessment_store_tests/test_data/single_application_no_location.json"
 
     with open(single_application_json, "r") as f:
         loaded_test_json = json.load(f)
@@ -47,7 +47,7 @@ def test_derive_cof_values_no_location(mock_data_key_mappings):
     ],
 )
 def test_derive_cof_values_location_present_no_error(postcode, expected_country, mock_data_key_mappings):
-    single_application_json = "tests/test_data/single_application_no_location.json"
+    single_application_json = "tests/assessment_store_tests/test_data/single_application_no_location.json"
 
     with open(single_application_json, "r") as f:
         loaded_test_json = json.load(f)
@@ -64,7 +64,7 @@ def test_derive_cof_values_location_present_no_error(postcode, expected_country,
 
 
 def test_derive_cof_values_location_present_with_error(mock_data_key_mappings):
-    single_application_json = "tests/test_data/single_application_no_location.json"
+    single_application_json = "tests/assessment_store_tests/test_data/single_application_no_location.json"
 
     with open(single_application_json, "r") as f:
         loaded_test_json = json.load(f)

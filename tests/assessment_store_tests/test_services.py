@@ -12,11 +12,11 @@ from assessment_store.services.data_services import send_notification_email
         ("This is a custom message", True),  # Case with a custom message
     ],
 )
-@mock.patch("services.data_services.get_account_data")
-@mock.patch("services.data_services.get_fund_data")
-@mock.patch("services.data_services.create_assessment_url_for_application")
-@mock.patch("services.data_services.Notification.send")
-@mock.patch("services.data_services.current_app.logger")
+@mock.patch("assessment_store.services.data_services.get_account_data")
+@mock.patch("assessment_store.services.data_services.get_fund_data")
+@mock.patch("assessment_store.services.data_services.create_assessment_url_for_application")
+@mock.patch("assessment_store.services.data_services.Notification.send")
+@mock.patch("assessment_store.services.data_services.current_app.logger")
 def test_send_notification_email(
     mock_logger,
     mock_notification_send,
@@ -59,14 +59,14 @@ def test_send_notification_email(
     mock_notification_send.assert_called_once_with("assignment_template", "user@example.com", "User One", content)
 
 
-@mock.patch("services.data_services.get_account_data")
-@mock.patch("services.data_services.get_fund_data")
-@mock.patch("services.data_services.create_assessment_url_for_application")
+@mock.patch("assessment_store.services.data_services.get_account_data")
+@mock.patch("assessment_store.services.data_services.get_fund_data")
+@mock.patch("assessment_store.services.data_services.create_assessment_url_for_application")
 @mock.patch(
-    "services.data_services.Notification.send",
+    "assessment_store.services.data_services.Notification.send",
     side_effect=Exception("Error sending notification"),
 )
-@mock.patch("services.data_services.current_app.logger")
+@mock.patch("assessment_store.services.data_services.current_app.logger")
 def test_send_notification_email_failure(
     mock_logger,
     mock_notification_send,

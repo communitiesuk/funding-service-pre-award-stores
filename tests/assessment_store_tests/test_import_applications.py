@@ -9,7 +9,7 @@ from assessment_store.config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config,
 )
 from assessment_store.scripts.import_from_application import main
-from assessment_store.tests._helpers import row_data
+from tests.assessment_store_tests._helpers import row_data
 
 
 @pytest.fixture(scope="function")
@@ -64,7 +64,7 @@ def mock_bulk_insert_application_records(mock_request_get_application):
         for app_json in application_json_list
     ]
     with mock.patch(
-        "scripts.import_from_application.bulk_insert_application_record",
+        "assessment_store.scripts.import_from_application.bulk_insert_application_record",
         return_value=mock_db_session,
     ):
         yield

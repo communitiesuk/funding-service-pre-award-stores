@@ -10,8 +10,8 @@ from moto import mock_aws
 from sqlalchemy.exc import SQLAlchemyError
 
 from assessment_store._helpers.task_executer_service import TaskExecutorService
-from assessment_store.tests.test_data.test_data_util import send_message_to_queue
 from config import Config
+from tests.assessment_store_tests.test_data.test_data_util import send_message_to_queue
 
 
 class TestAssessmentTaskExecutorService(unittest.TestCase):
@@ -27,7 +27,7 @@ class TestAssessmentTaskExecutorService(unittest.TestCase):
 
     @mock_aws
     @pytest.mark.usefixtures("live_server")
-    @patch("db.queries.assessment_records.queries.db.session.execute")
+    @patch("assessment_store.db.queries.assessment_records.queries.db.session.execute")
     def test_message_in_mock_environment_processing_with_errors(self, mocked_execute):
         self._mock_aws_client()
         self._add_data_to_queue()

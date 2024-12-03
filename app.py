@@ -84,7 +84,7 @@ def create_app() -> FlaskApp:
     @flask_app.errorhandler(404)
     def not_found(error):
         return (
-            jsonify({"code": 404, "message": "Requested URL was not found on the server"}),
+            jsonify({"code": 404, "message": str(error) or "Requested URL was not found on the server"}),
             404,
         )
 

@@ -7,8 +7,8 @@ from sqlalchemy.orm import defer
 
 from assessment_store.db.models.assessment_record import AssessmentRecord
 from assessment_store.db.queries import bulk_insert_application_record
-from assessment_store.tests._db_seed_data import get_dynamic_rows
 from db import db
+from tests.assessment_store_tests._db_seed_data import get_dynamic_rows
 
 
 @contextmanager

@@ -17,9 +17,9 @@ from assessment_store.db.models.flags.flag_update import FlagStatus
 from assessment_store.db.models.tag.tags import Tag
 from assessment_store.db.queries.flags.queries import add_flag_for_application, add_update_to_assessment_flag
 from assessment_store.db.queries.qa_complete.queries import create_qa_complete_record
-from assessment_store.tests._expected_responses import APPLICATION_METADATA_RESPONSE
-from assessment_store.tests.conftest import test_input_data
-from assessment_store.tests.test_data.flags import add_flag_update_request_json, create_flag_request_json
+from tests.assessment_store_tests._expected_responses import APPLICATION_METADATA_RESPONSE
+from tests.assessment_store_tests.conftest import test_input_data
+from tests.assessment_store_tests.test_data.flags import add_flag_update_request_json, create_flag_request_json
 
 COF_FUND_ID = "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4"
 COF_ROUND_2_ID = "c603d114-5364-4474-a0c4-c41cbf4d3bbd"
@@ -34,15 +34,15 @@ def test_get_assessments_stats(flask_test_client, seed_application_records, seed
     round_id = seed_application_records[0]["round_id"]
 
     # Get test applications
-    applications = flask_test_client.get(f"/application_overviews/{fund_id}/{round_id}").json()
+    applications = flask_test_client.get(f"/assessment/application_overviews/{fund_id}/{round_id}").json()
 
-    request = flask_test_client.post(f"/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
+    request = flask_test_client.post(f"/assessment/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
     assessment_stats = request.json().get(round_id)
     assert assessment_stats["qa_completed"] == 0
 
     create_qa_complete_record(applications[0]["application_id"], "usera")
 
-    request = flask_test_client.post(f"/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
+    request = flask_test_client.post(f"/assessment/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
     assessment_stats = request.json().get(round_id)
     assert assessment_stats["qa_completed"] == 1
 
@@ -57,7 +57,7 @@ def test_get_assessments_stats(flask_test_client, seed_application_records, seed
         allocation="Assessor",
     ).id
 
-    request = flask_test_client.post(f"/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
+    request = flask_test_client.post(f"/assessment/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
     assessment_stats = request.json().get(round_id)
     assert assessment_stats["flagged"] == 1
     assert assessment_stats["qa_completed"] == 1
@@ -70,7 +70,7 @@ def test_get_assessments_stats(flask_test_client, seed_application_records, seed
         assessment_flag_id=flag_id,
     )
 
-    request = flask_test_client.post(f"/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
+    request = flask_test_client.post(f"/assessment/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
     assessment_stats = request.json().get(round_id)
 
     assert assessment_stats["flagged"] == 0
@@ -91,7 +91,9 @@ def test_gets_all_apps_for_fund_round(request, flask_test_client, seed_applicati
     random_fund_id = picked_row["fund_id"]
     application_id = picked_row["application_id"]
 
-    response_jsons = flask_test_client.get(f"/application_overviews/{random_fund_id}/{random_round_id}").json()
+    response_jsons = flask_test_client.get(
+        f"/assessment/application_overviews/{random_fund_id}/{random_round_id}"
+    ).json()
 
     assert len(response_jsons) == apps_per_round
 
@@ -150,7 +152,9 @@ def test_gets_all_apps_for_fund_round(request, flask_test_client, seed_applicati
         allocation="Assessor",
     )
 
-    response_with_flag_json = flask_test_client.get(f"/application_overviews/{random_fund_id}/{random_round_id}").json()
+    response_with_flag_json = flask_test_client.get(
+        f"/assessment/application_overviews/{random_fund_id}/{random_round_id}"
+    ).json()
 
     application_to_check = None
     for application in response_with_flag_json:
@@ -202,14 +206,16 @@ def test_gets_all_apps_for_fund_round(request, flask_test_client, seed_applicati
 )
 @pytest.mark.apps_to_insert(test_input_data)
 def test_search(url, expected_count, flask_test_client, seed_application_records):
-    response_json = flask_test_client.get("/application_overviews/" + url).json()
+    response_json = flask_test_client.get("/assessment/application_overviews/" + url).json()
 
     assert len(response_json) == expected_count
 
 
 @pytest.mark.skip(reason="used for tdd only")
 def test_get_application_metadata_for_application_id(flask_test_client):
-    response_json = flask_test_client.get("/application_overviews/a3ec41db-3eac-4220-90db-c92dea049c00").json()
+    response_json = flask_test_client.get(
+        "/assessment/application_overviews/a3ec41db-3eac-4220-90db-c92dea049c00"
+    ).json()
 
     assert response_json == APPLICATION_METADATA_RESPONSE
 
@@ -221,7 +227,9 @@ def test_get_sub_criteria(flask_test_client, seed_application_records):
 
     sub_criteria_id = "benefits"
     application_id = seed_application_records[0]["application_id"]
-    response_json = flask_test_client.get(f"/sub_criteria_overview/{application_id}/{sub_criteria_id}").json()
+    response_json = flask_test_client.get(
+        f"/assessment/sub_criteria_overview/{application_id}/{sub_criteria_id}"
+    ).json()
     # The order of themes within a sub_criteria is important,
     # ensure it is preserved
     expected_theme_order = ["community_use", "risk_loss_impact"]
@@ -240,11 +248,10 @@ def test_get_sub_criteria_metadata_for_false_sub_criteria_id(flask_test_client, 
 
     sub_criteria_id = "does-not-exist"
     application_id = seed_application_records[0]["application_id"]
-    response = flask_test_client.get(f"/sub_criteria_overview/{application_id}/{sub_criteria_id}").json()
+    response = flask_test_client.get(f"/assessment/sub_criteria_overview/{application_id}" f"/{sub_criteria_id}").json()
 
-    assert response["status"] == 404
-    assert response["title"] == "Not Found"
-    assert response["detail"] == "sub_criteria: 'does-not-exist' not found."
+    assert response["code"] == 404
+    assert "sub_criteria: 'does-not-exist' not found." in response["message"]
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
@@ -254,7 +261,7 @@ def test_update_ar_status_to_completed(request, flask_test_client, seed_applicat
     updated to COMPLETED."""
 
     application_id = seed_application_records[0]["application_id"]
-    response = flask_test_client.post(f"/application/{application_id}/status/complete")
+    response = flask_test_client.post(f"/assessment/application/{application_id}/status/complete")
 
     assert response.status_code == 204
 
@@ -262,7 +269,7 @@ def test_update_ar_status_to_completed(request, flask_test_client, seed_applicat
 @pytest.mark.apps_to_insert([test_input_data[0]])
 def test_get_application_json(flask_test_client, seed_application_records):
     application_id = seed_application_records[0]["application_id"]
-    response = flask_test_client.get(f"/application/{application_id}/json")
+    response = flask_test_client.get(f"/assessment/application/{application_id}/json")
     assert 200 == response.status_code
 
     json_blob = response.json()
@@ -281,10 +288,10 @@ expected_flag = AssessmentFlag(
 
 def test_get_flags(flask_test_client, mocker):
     mocker.patch(
-        "api.routes.flag_routes.get_flags_for_application",
+        "assessment_store.api.routes.flag_routes.get_flags_for_application",
         return_value=[expected_flag],
     )
-    response = flask_test_client.get("/flags/app_id")
+    response = flask_test_client.get("/assessment/flags/app_id")
     assert response.status_code == 200
     assert len(response.json()) == 1
     assert response.json()[0]["id"] == str(expected_flag.id)
@@ -296,7 +303,7 @@ def test_get_team_flag_stats(flask_test_client, seed_application_records):
     round_id = seed_application_records[0]["round_id"]
 
     # Get test applications
-    applications = flask_test_client.get(f"/application_overviews/{fund_id}/{round_id}").json()
+    applications = flask_test_client.get(f"/assessment/application_overviews/{fund_id}/{round_id}").json()
 
     # Add a RAISED flag for the first application
     # so that one result from the set is flagged as RAISED
@@ -310,7 +317,7 @@ def test_get_team_flag_stats(flask_test_client, seed_application_records):
         allocation="ASSESSOR",
     )
 
-    response = flask_test_client.get(f"/assessments/get-team-flag-stats/{fund_id}/{round_id}")
+    response = flask_test_client.get(f"/assessment/assessments/get-team-flag-stats/{fund_id}/{round_id}")
 
     assert response.status_code == 200
     assert len(response.json()) == 1
@@ -341,7 +348,7 @@ def test_get_team_flag_stats(flask_test_client, seed_application_records):
         allocation="LEAD_ASSESSOR",
     )
 
-    response = flask_test_client.get(f"/assessments/get-team-flag-stats/{fund_id}/{round_id}")
+    response = flask_test_client.get(f"/assessment/assessments/get-team-flag-stats/{fund_id}/{round_id}")
 
     assert response.status_code == 200
     assert len(response.json()) == 2
@@ -357,11 +364,11 @@ def test_create_flag(flask_test_client):
         "application_id": str(uuid4()),
     }
     with mock.patch(
-        "api.routes.flag_routes.add_flag_for_application",
+        "assessment_store.api.routes.flag_routes.add_flag_for_application",
         return_value=expected_flag,
     ) as create_mock:
         response = flask_test_client.post(
-            "/flags/",
+            "/assessment/flags/",
             data=json.dumps(request_body),
             headers={"Content-Type": "application/json"},
         )
@@ -376,11 +383,11 @@ def test_update_flag(flask_test_client):
         "assessment_flag_id": str(uuid4()),
     }
     with mock.patch(
-        "api.routes.flag_routes.add_update_to_assessment_flag",
+        "assessment_store.api.routes.flag_routes.add_update_to_assessment_flag",
         return_value=expected_flag,
     ) as update_mock:
         response = flask_test_client.put(
-            "/flags/",
+            "/assessment/flags/",
             data=json.dumps(request_body),
             headers={"Content-Type": "application/json"},
         )
@@ -400,16 +407,16 @@ def test_get_tag(flask_test_client, mocker):
         round_id=uuid4(),
         type_id=uuid4(),
     )
-    with mocker.patch("api.routes.tag_routes.get_tag_by_id", return_value=mock_tag):
-        response = flask_test_client.get("/funds/test-fund/rounds/round-id/tags/tag-id")
+    with mocker.patch("assessment_store.api.routes.tag_routes.get_tag_by_id", return_value=mock_tag):
+        response = flask_test_client.get("/assessment/funds/test-fund/rounds/round-id/tags/tag-id")
         assert response.status_code == 200
         assert response.json()
         assert response.json()["id"] == str(tag_id)
 
 
 def test_get_tag_none_exists(flask_test_client, mocker):
-    with mocker.patch("api.routes.tag_routes.get_tag_by_id", return_value=None):
-        response = flask_test_client.get("/funds/test-fund/rounds/round-id/tags/tag-id")
+    with mocker.patch("assessment_store.api.routes.tag_routes.get_tag_by_id", return_value=None):
+        response = flask_test_client.get("/assessment/funds/test-fund/rounds/round-id/tags/tag-id")
         assert response.status_code == 404
 
 
@@ -434,7 +441,7 @@ def test_get_application_fields_export(flask_test_client, seed_application_recor
         },
     )
 
-    result = flask_test_client.get(f"/application_fields_export/{fund_id}/{round_id}/ASSESSOR_EXPORT").json()  # noqa
+    result = flask_test_client.get(f"/assessment/application_fields_export/{fund_id}/{round_id}/ASSESSOR_EXPORT").json()  # noqa
 
     # TODO add some test data for cy_list
     assert len(result["en_list"]) == 4
@@ -469,10 +476,10 @@ def test_get_all_users_associated_with_application(flask_test_client):
     expected_response[1]["created_at"] = expected_response[1]["created_at"].isoformat()
 
     with mock.patch(
-        "api.routes.user_routes.get_user_application_associations",
+        "assessment_store.api.routes.user_routes.get_user_application_associations",
         return_value=mock_users,
     ) as mock_get_users:
-        response = flask_test_client.get("/application/app1/users")
+        response = flask_test_client.get("/assessment/application/app1/users")
 
         assert response.status_code == 200
         assert response.json() == expected_response
@@ -493,10 +500,10 @@ def test_get_user_application_association(flask_test_client):
     expected_response["created_at"] = expected_response["created_at"].isoformat()
 
     with mock.patch(
-        "api.routes.user_routes.get_user_application_associations",
+        "assessment_store.api.routes.user_routes.get_user_application_associations",
         return_value=[mock_association],
     ) as mock_get_association:
-        response = flask_test_client.get("/application/app1/user/user1")
+        response = flask_test_client.get("/assessment/application/app1/user/user1")
 
         assert response.status_code == 200
         assert response.json() == expected_response
@@ -519,14 +526,14 @@ def test_add_user_application_association(flask_test_client, send_email_value):
 
     with (
         mock.patch(
-            "api.routes.user_routes.create_user_application_association",
+            "assessment_store.api.routes.user_routes.create_user_application_association",
             return_value=mock_association,
         ) as mock_create_association,
-        mock.patch("api.routes.user_routes.get_metadata_for_application"),
-        mock.patch("api.routes.user_routes.send_notification_email") as mock_notify_email,
+        mock.patch("assessment_store.api.routes.user_routes.get_metadata_for_application"),
+        mock.patch("assessment_store.api.routes.user_routes.send_notification_email") as mock_notify_email,
     ):
         response = flask_test_client.post(
-            "/application/app1/user/user1",
+            "/assessment/application/app1/user/user1",
             json={"assigner_id": "assigner1", "send_email": send_email_value},
         )
 
@@ -555,14 +562,14 @@ def test_update_user_application_association(flask_test_client, send_email_value
 
     with (
         mock.patch(
-            "api.routes.user_routes.update_user_application_association_db",
+            "assessment_store.api.routes.user_routes.update_user_application_association_db",
             return_value=mock_association,
         ) as mock_update_association,
-        mock.patch("api.routes.user_routes.get_metadata_for_application"),
-        mock.patch("api.routes.user_routes.send_notification_email") as mock_notify_email,
+        mock.patch("assessment_store.api.routes.user_routes.get_metadata_for_application"),
+        mock.patch("assessment_store.api.routes.user_routes.send_notification_email") as mock_notify_email,
     ):
         response = flask_test_client.put(
-            "/application/app1/user/user1",
+            "/assessment/application/app1/user/user1",
             json={
                 "active": "false",
                 "assigner_id": "assigner1",
@@ -609,10 +616,10 @@ def test_get_all_applications_associated_with_user(flask_test_client):
     expected_response[1]["created_at"] = expected_response[1]["created_at"].isoformat()
 
     with mock.patch(
-        "api.routes.user_routes.get_user_application_associations",
+        "assessment_store.api.routes.user_routes.get_user_application_associations",
         return_value=mock_applications,
     ) as mock_get_applications:
-        response = flask_test_client.get("/user/user1/applications")
+        response = flask_test_client.get("/assessment/user/user1/applications")
 
         assert response.status_code == 200
         assert response.json() == expected_response
@@ -644,10 +651,10 @@ def test_get_all_applications_assigned_by_user(flask_test_client):
     expected_response[1]["created_at"] = expected_response[1]["created_at"].isoformat()
 
     with mock.patch(
-        "api.routes.user_routes.get_user_application_associations",
+        "assessment_store.api.routes.user_routes.get_user_application_associations",
         return_value=mock_applications,
     ) as mock_get_applications:
-        response = flask_test_client.get("/user/assigner1/assignees")
+        response = flask_test_client.get("/assessment/user/assigner1/assignees")
 
         assert response.status_code == 200
         assert response.json() == expected_response
@@ -677,7 +684,7 @@ mapping_config = {
 @pytest.fixture
 def mock_get_scoring_system(mocker):
     return mocker.patch(
-        "api.routes.assessment_routes.get_scoring_system_for_round_id",
+        "assessment_store.api.routes.assessment_routes.get_scoring_system_for_round_id",
         return_value=scoring_system,
     )
 
@@ -685,13 +692,13 @@ def mock_get_scoring_system(mocker):
 @pytest.fixture
 def mock_get_scores(mocker):
     return mocker.patch(
-        "api.routes.assessment_routes.get_sub_criteria_to_latest_score_map",
+        "assessment_store.api.routes.assessment_routes.get_sub_criteria_to_latest_score_map",
         return_value=sub_criteria_scores,
     )
 
 
 def test_calculate_overall_score_percentage_for_application(mocker, mock_get_scores, mock_get_scoring_system):
-    mock_config = mocker.patch("api.routes.assessment_routes.Config")
+    mock_config = mocker.patch("assessment_store.api.routes.assessment_routes.Config")
     mock_config.ASSESSMENT_MAPPING_CONFIG = mapping_config
     result = calculate_overall_score_percentage_for_application(app)
     expected_score = ((3 * 2 + 4 * 2 + 5 * 1) / (5 * 2 * 2 + 5 * 1 * 1)) * 100
@@ -699,7 +706,7 @@ def test_calculate_overall_score_percentage_for_application(mocker, mock_get_sco
 
 
 def test_with_no_sub_criteria_scores(mocker, mock_get_scores, mock_get_scoring_system):
-    mock_config = mocker.patch("api.routes.assessment_routes.Config")
+    mock_config = mocker.patch("assessment_store.api.routes.assessment_routes.Config")
     mock_config.ASSESSMENT_MAPPING_CONFIG = mapping_config
     mock_get_scores.return_value = {}
     result = calculate_overall_score_percentage_for_application(app)
@@ -707,7 +714,7 @@ def test_with_no_sub_criteria_scores(mocker, mock_get_scores, mock_get_scoring_s
 
 
 def test_with_invalid_application_id(mocker, mock_get_scores, mock_get_scoring_system):
-    mock_config = mocker.patch("api.routes.assessment_routes.Config")
+    mock_config = mocker.patch("assessment_store.api.routes.assessment_routes.Config")
     mock_config.ASSESSMENT_MAPPING_CONFIG = mapping_config
     mock_get_scores.side_effect = KeyError("Invalid application ID")
     with pytest.raises(KeyError):
@@ -715,7 +722,7 @@ def test_with_invalid_application_id(mocker, mock_get_scores, mock_get_scoring_s
 
 
 def test_no_scored_criteria_exists(mocker, mock_get_scores, mock_get_scoring_system):
-    mock_config = mocker.patch("api.routes.assessment_routes.Config")
+    mock_config = mocker.patch("assessment_store.api.routes.assessment_routes.Config")
     mock_config.ASSESSMENT_MAPPING_CONFIG = {f"{COF_FUND_ID}:{COF_ROUND_2_ID}": {"scored_criteria": []}}
     result = calculate_overall_score_percentage_for_application(app)
     assert result is None, "The result should be 0 when there are no scored criteria"

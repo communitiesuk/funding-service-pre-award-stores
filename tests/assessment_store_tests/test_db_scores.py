@@ -12,8 +12,8 @@ from assessment_store.db.queries.scores.queries import (
     get_scores_for_app_sub_crit,
     get_sub_criteria_to_latest_score_map,
 )
-from assessment_store.tests._helpers import get_assessment_record
-from assessment_store.tests.conftest import test_input_data
+from tests.assessment_store_tests._helpers import get_assessment_record
+from tests.assessment_store_tests.conftest import test_input_data
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])

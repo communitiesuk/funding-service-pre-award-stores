@@ -1,4 +1,4 @@
-from assessment_store.tests._application_store_json import (
+from tests.assessment_store_tests._application_store_json import (
     application_store_json_template,
     cof25_eoi_application_store_json_template,
     cof25r1_application_store_json_template,

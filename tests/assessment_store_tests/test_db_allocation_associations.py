@@ -9,7 +9,7 @@ from assessment_store.db.queries.assessment_records.queries import (
     get_user_application_associations,
     update_user_application_association,
 )
-from assessment_store.tests.conftest import test_input_data
+from tests.assessment_store_tests.conftest import test_input_data
 
 
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])
