@@ -128,6 +128,7 @@ def seed_local_assessment_store_db(c):
             import uuid
 
             from assessment_store.db.models.score import AssessmentRound, ScoringSystem
+            from assessment_store.db.models.tag import TagType
             from db import db
             from fund_store.db.models.round import Round
 
@@ -171,4 +172,38 @@ def seed_local_assessment_store_db(c):
 
             _echo_print("Seeding DB with assessment_round data and scoring_system data")
 
+            tag_types_data = [
+                TagType(
+                    id=str(uuid.uuid4()),
+                    purpose="GENERAL",
+                    description="Use to categorise projects, such as by organisation or location",
+                ),
+                TagType(
+                    id=str(uuid.uuid4()),
+                    purpose="PEOPLE",
+                    description="Use these tags to assign assessments to team members. "
+                    "Note you cannot send notifications using tags",
+                ),
+                TagType(
+                    id=str(uuid.uuid4()),
+                    purpose="POSITIVE",
+                    description="Use to indicate that a project has passed an assessment stage or is recommended",
+                ),
+                TagType(
+                    id=str(uuid.uuid4()),
+                    purpose="NEGATIVE",
+                    description="Use to indicate that a project has failed an assessment stage or is not recommended",
+                ),
+                TagType(
+                    id=str(uuid.uuid4()),
+                    purpose="ACTION",
+                    description="Use to recommend an action, such as further discussion",
+                ),
+            ]
+
+            for tag_type in tag_types_data:
+                existing_tag_type = db.session.query(TagType).where(TagType.purpose == tag_type.purpose).one_or_none()
+                if not existing_tag_type:
+                    db.session.add(tag_type)
             db.session.commit()
+            _echo_print("Seeded DB with tag type data")
