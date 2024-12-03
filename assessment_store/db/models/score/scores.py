@@ -51,7 +51,7 @@ class AssessmentRound(db.Model):
         "scoring_system_id",
         UUID(as_uuid=True),
         ForeignKey("scoring_system.id"),
-        nullable=False,
+        nullable=True,
     )
 
 
