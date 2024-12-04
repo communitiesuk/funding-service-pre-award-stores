@@ -26,7 +26,7 @@ image:
   port: 8080
 
 cpu: 1024 # Number of CPU units for the task.
-memory: 1024 # Amount of memory in MiB used by the task.
+memory: 2048 # Amount of memory in MiB used by the task.
 platform: linux/x86_64 # See https://aws.github.io/copilot-cli/docs/manifest/backend-service/#platform
 count: 1 # Number of tasks that should be running in your service.
 exec: true # Enable running commands in your container.
