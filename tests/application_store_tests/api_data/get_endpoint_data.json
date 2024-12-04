@@ -82,6 +82,7 @@
       "opens": "2022-02-01T00:00:01",
       "deadline": "2022-06-01T00:00:00",
       "assessment_deadline": "2022-09-30T00:00:00",
+      "prospectus": "http://test.com",
       "assessment_criteria_weighting": [
             {
                 "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
@@ -115,6 +116,7 @@
       "opens": "2022-02-01T00:00:01",
       "deadline": "2022-06-01T00:00:00",
       "assessment_deadline": "2022-09-30T00:00:00",
+      "prospectus": "http://test.com",
       "assessment_criteria_weighting": [
             {
                 "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
@@ -148,6 +150,7 @@
       "opens": "2022-02-01T00:00:01",
       "deadline": "2022-06-01T00:00:00",
       "assessment_deadline": "2022-09-30T00:00:00",
+      "prospectus": "http://test.com",
       "assessment_criteria_weighting": [
             {
                 "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
@@ -179,6 +182,7 @@
       "opens": "2022-06-01T00:00:01",
       "deadline": "2022-08-31T00:00:00",
       "assessment_deadline": "2022-12-30T00:00:00",
+      "prospectus": "http://test.com",
       "assessment_criteria_weighting": [
             {
                 "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
@@ -210,6 +214,7 @@
       "opens": "2022-09-01T00:00:01",
       "deadline": "2022-11-30T00:00:00",
       "assessment_deadline": "2023-03-30T00:00:00",
+      "prospectus": "http://test.com",
       "assessment_criteria_weighting": [
             {
                 "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
@@ -243,6 +248,7 @@
     "deadline": "2022-06-01T00:00:00",
     "assessment_deadline": "2022-09-30T00:00:00",
     "title_json": {"en": "English fund name", "cy": "Welsh fund name"},
+    "prospectus": "http://test.com",
     "assessment_criteria_weighting": [
             {
                 "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
@@ -276,6 +282,7 @@
     "deadline": "2022-06-01T00:00:00",
     "round_name": "random_round_name",
     "assessment_deadline": "2022-09-30T00:00:00",
+    "prospectus": "http://test.com",
     "assessment_criteria_weighting": [
             {
                 "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",
@@ -307,6 +314,7 @@
     "opens": "2022-02-01T00:00:01",
     "deadline": "2022-06-01T00:00:00",
     "round_name": "random_round_name",
+    "prospectus": "http://test.com",
     "assessment_deadline": "2022-09-30T00:00:00",
     "assessment_criteria_weighting": [
             {
@@ -338,6 +346,7 @@
     "id": "c603d114-5364-4474-a0c4-c41cbf4d3bbd",
     "opens": "2022-06-01T00:00:01",
     "deadline": "2022-08-31T00:00:00",
+    "prospectus": "http://test.com",
     "assessment_deadline": "2022-09-30T00:00:00",
     "assessment_criteria_weighting": [
             {
@@ -371,6 +380,7 @@
     "deadline": "2022-11-30T00:00:00",
     "round_name": "random_round_name",
     "assessment_deadline": "2022-09-30T00:00:00",
+    "prospectus": "http://test.com",
     "assessment_criteria_weighting": [
             {
                 "id": "e2fd30d2-9207-421c-b8b3-c961bcee138b",

@@ -773,6 +773,7 @@ def generate_mock_round_closed(fund_id: str, round_id: str) -> Round:
         project_name_field_id="TestFieldId",
         contact_email="test@outlook.com",
         title_json={"en": "English title", "cy": "Welsh title"},
+        prospectus_url="http://test.com",
     )
 
 
