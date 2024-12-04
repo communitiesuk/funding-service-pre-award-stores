@@ -1,14 +1,14 @@
 from flask import current_app, request
 
-from db.models.flags.flag_update import FlagStatus
-from db.queries import get_metadata_for_fund_round_id
-from db.queries.flags.queries import (
+from assessment_store.db.models.flags.flag_update import FlagStatus
+from assessment_store.db.queries import get_metadata_for_fund_round_id
+from assessment_store.db.queries.flags.queries import (
     add_flag_for_application,
     add_update_to_assessment_flag,
     get_flag_by_id,
     get_flags_for_application,
 )
-from db.schemas.schemas import AssessmentFlagSchema
+from assessment_store.db.schemas.schemas import AssessmentFlagSchema
 
 
 def _fix_country(country):

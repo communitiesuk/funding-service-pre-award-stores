@@ -5,8 +5,8 @@ from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, UUID
 from sqlalchemy.orm import relationship
 
+from assessment_store.db.models.flags.flag_update import FlagStatus
 from db import db
-from db.models.flags.flag_update import FlagStatus
 
 BaseModel: DefaultMeta = db.Model
 

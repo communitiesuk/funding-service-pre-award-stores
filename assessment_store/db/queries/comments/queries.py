@@ -9,11 +9,11 @@ from typing import Dict
 
 from sqlalchemy import and_, select
 
+from assessment_store.db.models.comment.comments import Comment
+from assessment_store.db.models.comment.comments_update import CommentsUpdate
+from assessment_store.db.models.comment.enums import CommentType
+from assessment_store.db.schemas import CommentMetadata
 from db import db
-from db.models.comment.comments import Comment
-from db.models.comment.comments_update import CommentsUpdate
-from db.models.comment.enums import CommentType
-from db.schemas import CommentMetadata
 
 
 def get_comments_from_db(

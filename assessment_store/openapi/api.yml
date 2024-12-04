@@ -151,7 +151,7 @@ paths:
         - assessments
       summary: Search assessments
       description: List all assessments
-      operationId: api.routes.all_assessments_for_fund_round_id
+      operationId: assessment_store.api.routes.all_assessments_for_fund_round_id
       responses:
         200:
           description: SUCCESS - A list of assessments
@@ -233,7 +233,7 @@ paths:
         - assessments
       summary: Get assessment stats for multiple rounds
       description: Get a selection of required metrics for multiple rounds
-      operationId: api.routes.assessment_stats_for_multiple_round_ids
+      operationId: assessment_store.api.routes.assessment_stats_for_multiple_round_ids
       responses:
         200:
           description: SUCCESS - A mapping of round_id to a collection of assessment metrics
@@ -311,7 +311,7 @@ paths:
         - assessments
       summary: Get assessment stats
       description: Get a selection of required metrics
-      operationId: api.routes.assessment_stats_for_fund_round_id
+      operationId: assessment_store.api.routes.assessment_stats_for_fund_round_id
       responses:
         200:
           description: SUCCESS - A collection of assessment metrics
@@ -387,7 +387,7 @@ paths:
         - assessments
       summary: Get team flagging stats
       description: Get a selection of required metrics
-      operationId: api.routes.get_team_flag_stats
+      operationId: assessment_store.api.routes.get_team_flag_stats
       responses:
         200:
           description: SUCCESS - A collection of assessment metrics
@@ -402,7 +402,7 @@ paths:
         - scores
       summary: get score for subcriteria in application
       description: get a score for a subcriteria in an application
-      operationId: api.routes.get_score_for_application_sub_criteria
+      operationId: assessment_store.api.routes.get_score_for_application_sub_criteria
       responses:
         200:
           description: SUCCESS - Score for Subcriteria in Application
@@ -453,7 +453,7 @@ paths:
         - scores
       summary: post score for subcriteria in application
       description: post a score for a subcriteria in an application
-      operationId: api.routes.post_score_for_application_sub_criteria
+      operationId: assessment_store.api.routes.post_score_for_application_sub_criteria
       requestBody:
         description: Score creation parameters
         required: true
@@ -492,7 +492,7 @@ paths:
         - flags
       summary: get assessment flag data by flag id
       description: get assessment flag data by flag id
-      operationId: api.routes.get_flag
+      operationId: assessment_store.api.routes.get_flag
       responses:
         200:
           description: SUCCESS - Flags
@@ -525,7 +525,7 @@ paths:
         - assessments
       summary: Sub criteria
       description: Returns sub criteria metadata and themes for an applications sub-criteria
-      operationId: api.routes.sub_criteria
+      operationId: assessment_store.api.routes.sub_criteria
       responses:
         200:
           description: SUCCESS - A subcriteria
@@ -546,7 +546,7 @@ paths:
         - assessments
       summary: Retrieve the metadata for a specific application ID
       description: Retrieve the metadata for a specific application ID
-      operationId: api.routes.assessment_metadata_for_application_id
+      operationId: assessment_store.api.routes.assessment_metadata_for_application_id
       responses:
         200:
           description: SUCCESS - application metadata
@@ -568,7 +568,7 @@ paths:
         - assessments
       summary: Retrieve the full application JSON blob for this applicaiton ID
       description: Retrieve the full application JSON blob for this applicaiton ID
-      operationId: api.routes.get_application_json
+      operationId: assessment_store.api.routes.get_application_json
       responses:
         200:
           description: SUCCESS - application json
@@ -589,7 +589,7 @@ paths:
         - assessments
       summary: Update application status to completed
       description: Update application status to completed
-      operationId: api.routes.update_ar_status_to_completed
+      operationId: assessment_store.api.routes.update_ar_status_to_completed
       responses:
        204:
           description: Successfully updated application status to completed.
@@ -607,7 +607,7 @@ paths:
         - assessments
       summary: Banner state
       description: Returns state of banner for an application
-      operationId: api.routes.get_banner_state
+      operationId: assessment_store.api.routes.get_banner_state
       responses:
         200:
           description: SUCCESS - Banner state
@@ -644,7 +644,7 @@ paths:
         - assessments
       summary: Retrieves data to populate the assessors task list page for a given application
       description: Retrieves data to populate the assessors task list page for a given application
-      operationId: api.routes.get_assessor_task_list_state
+      operationId: assessment_store.api.routes.get_assessor_task_list_state
       responses:
         200:
           description: SUCCESS - Accessor task list state
@@ -666,7 +666,7 @@ paths:
         - assessments
       summary: Retrieves application json and sub criterias
       description: Retrieves application json and sub criterias
-      operationId: api.routes.get_application_json_and_sub_criterias
+      operationId: assessment_store.api.routes.get_application_json_and_sub_criterias
       responses:
         200:
           description: SUCCESS
@@ -686,7 +686,7 @@ paths:
         - comments
       summary: get comments for subcriteria in application
       description: get comments in an application
-      operationId: api.routes.get_comments
+      operationId: assessment_store.api.routes.get_comments
       responses:
         200:
           description: SUCCESS - A list of comments
@@ -742,7 +742,7 @@ paths:
         - comments
       summary: post a comment for subcriteria in application
       description: post a comment for a subcriteria in an application
-      operationId: api.routes.post_comments
+      operationId: assessment_store.api.routes.post_comments
       requestBody:
         description: Comment creation parameters
         required: true
@@ -771,7 +771,7 @@ paths:
         - comments
       summary: update a comment for subcriteria in application
       description: edit a comment for a subcriteria in an application
-      operationId: api.routes.put_comments
+      operationId: assessment_store.api.routes.put_comments
       requestBody:
         description: Comment creation parameters
         required: true
@@ -810,7 +810,7 @@ paths:
         - progress
       summary: post % progress for an application
       description: get % progress for an application
-      operationId: api.routes.post_progress_for_applications
+      operationId: assessment_store.api.routes.post_progress_for_applications
       responses:
         200:
           description: SUCCESS - % progress for an application
@@ -842,7 +842,7 @@ paths:
         - progress
       summary: get % progress for an application
       description: get % progress for an application
-      operationId: api.routes.get_progress_for_applications
+      operationId: assessment_store.api.routes.get_progress_for_applications
       responses:
         200:
           description: SUCCESS - % progress for an application
@@ -871,7 +871,7 @@ paths:
       tags:
         - flags
       summary: get all flags for an application, with updates
-      operationId: api.routes.get_all_flags_for_application
+      operationId: assessment_store.api.routes.get_all_flags_for_application
       parameters:
       - name: application_id
         in: path
@@ -891,7 +891,7 @@ paths:
         - flags
       summary: create a new flag for an application
       description: post a flag for an application
-      operationId: api.routes.create_flag_for_application
+      operationId: assessment_store.api.routes.create_flag_for_application
       requestBody:
         description: Flag creation parameters
         required: true
@@ -929,7 +929,7 @@ paths:
         - flags
       summary: update a flag for an application
       description: put a flag for an application
-      operationId: api.routes.update_flag_for_application
+      operationId: assessment_store.api.routes.update_flag_for_application
       requestBody:
         description: Flag update parameters
         required: true
@@ -968,7 +968,7 @@ paths:
         - qa_complete
       summary: create a qa_complete record for an application
       description: post a qa_complete record for an application
-      operationId: api.routes.post_qa_complete_for_application
+      operationId: assessment_store.api.routes.post_qa_complete_for_application
       parameters:
       - name: application_id
         in: path
@@ -1006,7 +1006,7 @@ paths:
         - qa_complete
       summary: get qa_complete record for application
       description: get qa_complete record for application
-      operationId: api.routes.qa_complete_record_for_application
+      operationId: assessment_store.api.routes.qa_complete_record_for_application
       parameters:
       - name: application_id
         in: path
@@ -1039,7 +1039,7 @@ paths:
         - tag management
       summary: Get all active tag associations for an assessment
       description: returns all active tag associations for an assessment
-      operationId: api.routes.tag_routes.get_active_tags_associated_with_assessment
+      operationId: assessment_store.api.routes.tag_routes.get_active_tags_associated_with_assessment
       parameters:
         - name: application_id
           in: path
@@ -1060,7 +1060,7 @@ paths:
         - tag management
       summary: Put a list of tags associated with an assessment
       description: Put a list of tags associated with an assessment
-      operationId: api.routes.tag_routes.associate_tags_with_assessment
+      operationId: assessment_store.api.routes.tag_routes.associate_tags_with_assessment
       parameters:
         - name: application_id
           in: path
@@ -1092,7 +1092,7 @@ paths:
         - tag management
       summary: Get all tags associated to application_id
       description: returns all active tag associations for an application
-      operationId: api.routes.tag_routes.get_all_tags_associated_with_application
+      operationId: assessment_store.api.routes.tag_routes.get_all_tags_associated_with_application
       parameters:
         - name: application_id
           in: path
@@ -1114,7 +1114,7 @@ paths:
         - tag management
       summary: Get a specific tag
       description: Returns the tag
-      operationId: api.routes.tag_routes.get_tag
+      operationId: assessment_store.api.routes.tag_routes.get_tag
       parameters:
         - in: path
           name: fund_id
@@ -1150,7 +1150,7 @@ paths:
         - tag management
       summary: Get all the tags associated with the provided fund ID and a round ID.
       description: Returns the tags associated with the provided fund ID and a round ID.
-      operationId: api.routes.tag_routes.get_tags_for_fund_round
+      operationId: assessment_store.api.routes.tag_routes.get_tags_for_fund_round
       parameters:
         - in: path
           name: fund_id
@@ -1202,7 +1202,7 @@ paths:
         - tag management
       summary: Post a new tag for a fund round
       description: Post a new tag for a fund round
-      operationId: api.routes.tag_routes.add_tag_for_fund_round
+      operationId: assessment_store.api.routes.tag_routes.add_tag_for_fund_round
       parameters:
         - in: path
           name: fund_id
@@ -1235,7 +1235,7 @@ paths:
         - tag management
       summary: Update a tag for a fund round
       description: Update a tag for a fund round
-      operationId: api.routes.tag_routes.update_tags_for_fund_round
+      operationId: assessment_store.api.routes.tag_routes.update_tags_for_fund_round
       parameters:
         - in: path
           name: fund_id
@@ -1272,7 +1272,7 @@ paths:
         - tag management
       summary: Get all tag types
       description: returns all tag types
-      operationId: api.routes.tag_routes.get_tag_types
+      operationId: assessment_store.api.routes.tag_routes.get_tag_types
       responses:
         200:
           description: SUCCESS - A list of tag types
@@ -1307,7 +1307,7 @@ paths:
           - assessments
         summary: Search assessments for export by fields
         description: List all assessments for export
-        operationId: api.routes.get_application_data_for_export
+        operationId: assessment_store.api.routes.get_application_data_for_export
         responses:
           200:
             description: SUCCESS - A list of assessments information for export
@@ -1328,7 +1328,7 @@ paths:
           - scores
         summary: Return assessment scoring system for a round
         description: Return assessment scoring system for a round
-        operationId: api.routes.get_scoring_system_name_for_round_id
+        operationId: assessment_store.api.routes.get_scoring_system_name_for_round_id
         responses:
           200:
             description: SUCCESS - A list of tag types
@@ -1344,7 +1344,7 @@ paths:
         - application user association
       summary: Get all users that are assigned the application
       description: returns all users assigned to the application
-      operationId: api.routes.user_routes.get_all_users_associated_with_application
+      operationId: assessment_store.api.routes.user_routes.get_all_users_associated_with_application
       parameters:
         - name: application_id
           in: path
@@ -1371,7 +1371,7 @@ paths:
         - application user association
       summary: Get the association corresponding to the user and the application
       description: returns the assocation for the user and application, if it exists
-      operationId: api.routes.user_routes.get_user_application_association
+      operationId: assessment_store.api.routes.user_routes.get_user_application_association
       parameters:
         - name: application_id
           in: path
@@ -1397,7 +1397,7 @@ paths:
         - application user association
       summary: Create a new association between user and application
       description: Post a new association between user and application
-      operationId: api.routes.user_routes.add_user_application_association
+      operationId: assessment_store.api.routes.user_routes.add_user_application_association
       parameters:
         - name: application_id
           in: path
@@ -1436,7 +1436,7 @@ paths:
         - application user association
       summary: Activate or deactivate an association between a user and an application
       description: Activate or deactivate an between a user and an application
-      operationId: api.routes.user_routes.update_user_application_association
+      operationId: assessment_store.api.routes.user_routes.update_user_application_association
       parameters:
         - in: path
           name: application_id
@@ -1472,7 +1472,7 @@ paths:
         - application user association
       summary: Get all applications that are assigned to the user
       description: returns all applications assigned to the user
-      operationId: api.routes.user_routes.get_all_applications_associated_with_user
+      operationId: assessment_store.api.routes.user_routes.get_all_applications_associated_with_user
       parameters:
         - name: user_id
           in: path
@@ -1499,7 +1499,7 @@ paths:
         - application user association
       summary: Get all users associations that have been assigned by the user
       description: returns all users associations that have been assigned by the user
-      operationId: api.routes.user_routes.get_all_associations_assigned_by_user
+      operationId: assessment_store.api.routes.user_routes.get_all_associations_assigned_by_user
       parameters:
         - name: assigner_id
           in: path

@@ -3,8 +3,8 @@ from typing import List
 
 from flask import request
 
+from assessment_store.db.queries.progress.queries import get_progress_for_app
 from config import Config
-from db.queries.progress.queries import get_progress_for_app
 
 
 def post_progress_for_applications(fund_id, round_id) -> List[dict]:

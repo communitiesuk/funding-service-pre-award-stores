@@ -8,7 +8,6 @@ Parameters:
   Name:
     Type: String
     Description: The name of the service, job, or workflow being deployed.
-  # Customize your Aurora Serverless cluster by setting the default value of the following parameters.
 
 Resources:
   AssessmentImportQueuePolicy:
@@ -21,6 +20,8 @@ Resources:
             Effect: Allow
             Action:
               - sqs:SendMessage
+              - sqs:ReceiveMessage
+              - sqs:DeleteMessage
             Resource:
               - Fn::ImportValue: !Sub ${App}-${Env}-AssessmentImportQueueArn
 
@@ -28,4 +29,3 @@ Outputs:
   AssessmentImportQueuePolicyArn:
     Description: "The ARN of the ManagedPolicy to attach to the task role."
     Value: !Ref AssessmentImportQueuePolicy
-
