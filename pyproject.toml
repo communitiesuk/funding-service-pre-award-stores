@@ -82,5 +82,5 @@ dev = [
     "pytest-html>=3.2.0",
     "ruff==0.7.4",
     "click==8.1.7",
-    "moto[s3,sqs]==5.0.10",
+    "moto[s3,sqs]==5.0.14",
 ]

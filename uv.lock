@@ -693,7 +693,7 @@ dev = [
     { name = "deepdiff", specifier = "==8.0.1" },
     { name = "invoke", specifier = "==2.2.0" },
     { name = "json2html", specifier = "==1.3.0" },
-    { name = "moto", extras = ["s3", "sqs"], specifier = "==5.0.10" },
+    { name = "moto", extras = ["s3", "sqs"], specifier = "==5.0.14" },
     { name = "pre-commit", specifier = "==4.0.1" },
     { name = "pytest", specifier = "==8.3.3" },
     { name = "pytest-env", specifier = "==1.1.5" },
@@ -1035,7 +1035,7 @@ wheels = [
 
 [[package]]
 name = "moto"
-version = "5.0.10"
+version = "5.0.14"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "boto3" },
@@ -1048,9 +1048,9 @@ dependencies = [
     { name = "werkzeug" },
     { name = "xmltodict" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c8/1b/12b17b06189f5e75c034fc022697424143a42102fb9b740fc6ed0d9a1e2d/moto-5.0.10.tar.gz", hash = "sha256:eff37363221c93ea44f95721ae0ddb56f977fe70437a041b6cc641ee90266279", size = 5284881 }
+sdist = { url = "https://files.pythonhosted.org/packages/2b/47/09b9b781b8d5ccd3f679ead35d9e938c88ef1c2709abf99259fad1b6e1d4/moto-5.0.14.tar.gz", hash = "sha256:0f849243269fd03372426c302b18cb605302da32620d7f0266be6a40735b2acd", size = 5436824 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e0/b1/06cfa8ce22a12d9ca465a92eb91eb9c900acd071c2ea31430efbbf25974d/moto-5.0.10-py2.py3-none-any.whl", hash = "sha256:9ffae2f64cc8fe95b9a12d63ae7268a7d6bea9993b922905b5abd8197d852cd0", size = 3720138 },
+    { url = "https://files.pythonhosted.org/packages/67/21/6b487ce8fb0827d21e8cd558f09ae9469fa251503ffd3cd59e4cb116372e/moto-5.0.14-py2.py3-none-any.whl", hash = "sha256:c738ffe85d3844ef37b865951736c4faf2e0f3e4f05db87bdad97a6c01b88174", size = 3656832 },
 ]
 
 [package.optional-dependencies]
@@ -1306,11 +1306,11 @@ wheels = [
 
 [[package]]
 name = "py-partiql-parser"
-version = "0.5.5"
+version = "0.5.6"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/f6/a1/7d4e17588f17f904746ca5f1b60d21432f1abbc67f41a574d7f46afb9e4b/py_partiql_parser-0.5.5.tar.gz", hash = "sha256:ed07f8edf4b55e295cab4f5fd3e2ba3196cee48a43fe210d53ddd6ffce1cf1ff", size = 16927 }
+sdist = { url = "https://files.pythonhosted.org/packages/de/91/9d499c960abea0efda9e81aa62bd8dd1eab1daa12db9b3b0064fe2f8b3c7/py_partiql_parser-0.5.6.tar.gz", hash = "sha256:6339f6bf85573a35686529fc3f491302e71dd091711dfe8df3be89a93767f97b", size = 16926 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f9/57/6188aa69b7b46e819a40bfd8b1013b3922fe8ee50aaf9efad8d928b913c2/py_partiql_parser-0.5.5-py2.py3-none-any.whl", hash = "sha256:90d278818385bd60c602410c953ee78f04ece599d8cd21c656fc5e47399577a1", size = 23243 },
+    { url = "https://files.pythonhosted.org/packages/2c/24/46262d45ee9e54a181c440fe1a3d87fd538d69f10c8311f699e555119d1f/py_partiql_parser-0.5.6-py2.py3-none-any.whl", hash = "sha256:622d7b0444becd08c1f4e9e73b31690f4b1c309ab6e5ed45bf607fe71319309f", size = 23237 },
 ]
 
 [[package]]
