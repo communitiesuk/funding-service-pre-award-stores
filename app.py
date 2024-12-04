@@ -31,11 +31,6 @@ def create_app() -> FlaskApp:
     )
 
     connexion_app.add_api(
-        get_bundled_specs("/openapi/api.yml"),
-        validate_responses=True,
-    )
-
-    connexion_app.add_api(
         get_bundled_specs("/fund_store/openapi/api.yml"),
         validate_responses=True,
         base_path="/fund",
