@@ -61,9 +61,8 @@ jobs:
     with:
       environment: dev
       app_name: pre-award-stores
-      version: sha-${{ github.sha }}
-      image_location: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
       db_name: pre_award_stores
+      image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_dev_deploy_tests:
     needs: dev_deploy
@@ -93,9 +92,8 @@ jobs:
     with:
       environment: test
       app_name: pre-award-stores
-      version: sha-${{ github.sha }}
-      image_location: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
       db_name: pre_award_stores
+      image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_test_deploy_tests:
     needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, paketo_build, setup ]
@@ -126,9 +124,8 @@ jobs:
     with:
       environment: uat
       app_name: pre-award-stores
-      version: sha-${{ github.sha }}
-      image_location: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
       db_name: pre_award_stores
+      image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_uat_deploy_tests:
     needs: [ dev_deploy, post_dev_deploy_tests, test_deploy, post_test_deploy_tests, uat_deploy, paketo_build, setup ]
@@ -159,6 +156,5 @@ jobs:
     with:
       environment: prod
       app_name: pre-award-stores
-      version: sha-${{ github.sha }}
-      image_location: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.sha }}
       db_name: pre_award_stores
+      image_location: ${{ needs.paketo_build.outputs.image_location }}
