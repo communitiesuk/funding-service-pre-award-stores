@@ -50,6 +50,9 @@ from assessment_store.config.mappings.cof_mapping_parts.r4w2_scored_criteria imp
 from assessment_store.config.mappings.cof_mapping_parts.r4w2_unscored_sections import (
     unscored_sections as cof_unscored_sections_r4w2,
 )
+from assessment_store.config.mappings.ctdf_mapping_parts.r1_scored_sections import (
+    scored_sections as ctdf_scored_sections,
+)
 from assessment_store.config.mappings.ctdf_mapping_parts.r1_unscored_sections import (
     unscored_sections as ctdf_unscored_sections,
 )
@@ -185,7 +188,7 @@ fund_round_to_assessment_mapping = {
     f"{CTDF_FUND_ID}:{CTDF_ROUND_1_ID}": {
         "schema_id": "ctdf_r1_assessment",
         "unscored_sections": ctdf_unscored_sections,
-        "scored_criteria": [],
+        "scored_criteria": ctdf_scored_sections,
     },
 }
 

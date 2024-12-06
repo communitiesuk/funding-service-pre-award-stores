@@ -24,25 +24,6 @@ unscored_sections = [
                     }
                 ],
             },
-            {
-                "id": "organisation_name",
-                "name": "Organisation name",
-                "themes": [
-                    {
-                        "id": "organisation_name",
-                        "name": "Organisation name",
-                        "answers": [
-                            {
-                                "field_id": "yptqZX",
-                                "form_name": "organisation-name-sample",
-                                "field_type": "textField",
-                                "presentation_type": "text",
-                                "question": "Organisation name",
-                            }
-                        ],
-                    }
-                ],
-            },
         ],
     }
 ]

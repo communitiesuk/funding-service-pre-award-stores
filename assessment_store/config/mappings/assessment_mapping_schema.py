@@ -149,7 +149,7 @@ scored_criteria_schema = {
             "weighting": {
                 "type": "number",
                 "exclusiveMinimum": 0,
-                "exclusiveMaximum": 1,
+                "inclusiveMaximum": 1,
             },
             "sub_criteria": sub_criteria_schema,
         },
