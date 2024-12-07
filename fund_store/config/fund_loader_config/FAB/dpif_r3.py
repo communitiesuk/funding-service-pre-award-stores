@@ -1,3 +1,5 @@
+# ruff: noqa: E501
+
 LOADER_CONFIG = {
     "sections_config": [
         {"section_name": {"en": "1. Before you start", "cy": ""}, "tree_path": "1047.1.1", "requires_feedback": None},
@@ -119,7 +121,7 @@ LOADER_CONFIG = {
             "is_section_feedback_optional": "false",
             "is_research_survey_optional": "false",
         },
-        "eligibility_config": {"has_eligibility": "false"},
+        "eligibility_config": {"has_eligibility": False},
         "title_json": {"en": "Apply for funding to begin your digital planning improvement journey", "cy": None},
         "contact_us_banner_json": {
             "en": "Contact the Digital Planning Improvement Fund if you have any questions.",
