@@ -68,6 +68,12 @@ from assessment_store.config.mappings.dpif_mappping_parts.r2_scored_criteria imp
 from assessment_store.config.mappings.dpif_mappping_parts.r2_unscored_criteria import (
     unscored_sections as dpif_unscored_sections,
 )
+from assessment_store.config.mappings.dpif_mappping_parts.r3_scored_criteria import (
+    scored_criteria as dpif_scored_criteria_r3,
+)
+from assessment_store.config.mappings.dpif_mappping_parts.r3_unscored_criteria import (
+    unscored_sections as dpif_unscored_sections_r3,
+)
 from assessment_store.config.mappings.hsra_mapping_parts.r1_scored_criteria import (
     scored_criteria as hsra_scored_criteria,
 )
@@ -105,6 +111,7 @@ CYP_ROUND_1_ID = "888aae3d-7e2c-4523-b9c1-95952b3d1644"
 
 DPIF_FUND_ID = "f493d512-5eb4-11ee-8c99-0242ac120002"
 DPIF_ROUND_2_ID = "0059aad4-5eb5-11ee-8c99-0242ac120002"
+DPIF_ROUND_3_ID = "ac835965-e8c9-4356-b486-c0c016dbb634"
 
 HSRA_FUND_ID = "1e4bd8b0-b399-466d-bbd1-572171bbc7bd"
 HSRA_ROUND_ID = "50062ff6-e696-474d-a560-4d9af784e6e5"
@@ -115,10 +122,10 @@ CTDF_ROUND_1_ID = "7ecd7d64-1854-44ab-a10c-a7af4b8d68e1"
 # ASSESSMENT DISPLAY CONFIGURATION
 
 fund_round_to_assessment_mapping = {
-    "f493d512-5eb4-11ee-8c99-0242ac120002:ac835965-e8c9-4356-b486-c0c016dbb634": {
+    f"{DPIF_FUND_ID}:{DPIF_ROUND_3_ID}": {
         "schema_id": "DPIF_R3_assessment",
-        "unscored_sections": [],
-        "scored_criteria": [],
+        "unscored_sections": dpif_unscored_sections_r3,
+        "scored_criteria": dpif_scored_criteria_r3,
     },
     f"{COF_FUND_ID}:{COF_ROUND_2_ID}": {
         "schema_id": "cof_r2w2_assessment",
@@ -1351,8 +1358,8 @@ applicant_info_mapping = {
 
 fund_round_mapping_config = {
     "DPIFR3": {
-        "fund_id": "f493d512-5eb4-11ee-8c99-0242ac120002",
-        "round_id": "ac835965-e8c9-4356-b486-c0c016dbb634",
+        "fund_id": DPIF_FUND_ID,
+        "round_id": DPIF_ROUND_3_ID,
         "type_of_application": "DPIF",
     },
     "CTDFCR1": {
