@@ -115,6 +115,11 @@ CTDF_ROUND_1_ID = "7ecd7d64-1854-44ab-a10c-a7af4b8d68e1"
 # ASSESSMENT DISPLAY CONFIGURATION
 
 fund_round_to_assessment_mapping = {
+    "f493d512-5eb4-11ee-8c99-0242ac120002:ac835965-e8c9-4356-b486-c0c016dbb634": {
+        "schema_id": "DPIF_R3_assessment",
+        "unscored_sections": [],
+        "scored_criteria": [],
+    },
     f"{COF_FUND_ID}:{COF_ROUND_2_ID}": {
         "schema_id": "cof_r2w2_assessment",
         "unscored_sections": cof_unscored_sections_r2,
@@ -199,6 +204,12 @@ fund_round_to_assessment_mapping = {
 
 
 fund_round_data_key_mappings = {
+    "DPIFR3": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
+    },
     "CTDFCR1": {
         "location": None,
         "asset_type": None,
@@ -1339,6 +1350,11 @@ applicant_info_mapping = {
 # APPLICATION SEEDING CONFIGURATION
 
 fund_round_mapping_config = {
+    "DPIFR3": {
+        "fund_id": "f493d512-5eb4-11ee-8c99-0242ac120002",
+        "round_id": "ac835965-e8c9-4356-b486-c0c016dbb634",
+        "type_of_application": "DPIF",
+    },
     "CTDFCR1": {
         "fund_id": CTDF_FUND_ID,
         "round_id": CTDF_ROUND_1_ID,
