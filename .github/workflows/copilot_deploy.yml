@@ -60,7 +60,7 @@ jobs:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
       environment: dev
-      app_name: frontend
+      app_name: pre-award-frontend
       image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_dev_deploy_tests:
@@ -79,7 +79,7 @@ jobs:
       run_performance_tests: ${{ inputs.run_performance_tests || true }}
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || false }}
       run_e2e_tests_application: ${{ inputs.run_e2e_tests_application || false }}
-      app_name: frontend
+      app_name: pre-award-frontend
       environment: dev
 
   test_deploy:
@@ -90,7 +90,7 @@ jobs:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
       environment: test
-      app_name: frontend
+      app_name: pre-award-frontend
       image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_test_deploy_tests:
@@ -110,7 +110,7 @@ jobs:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || false }}
       run_e2e_tests_application: ${{ inputs.run_e2e_tests_application || true }}
-      app_name: frontend
+      app_name: pre-award-frontend
       environment: test
 
   uat_deploy:
@@ -121,7 +121,7 @@ jobs:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
       environment: uat
-      app_name: frontend
+      app_name: pre-award-frontend
       image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_uat_deploy_tests:
@@ -141,7 +141,7 @@ jobs:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || false }}
       run_e2e_tests_application: ${{ inputs.run_e2e_tests_application || true }}
-      app_name: frontend
+      app_name: pre-award-frontend
       environment: uat
 
   prod_deploy:
@@ -152,5 +152,5 @@ jobs:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
     with:
       environment: prod
-      app_name: frontend
+      app_name: pre-award-frontend
       image_location: ${{ needs.paketo_build.outputs.image_location }}
