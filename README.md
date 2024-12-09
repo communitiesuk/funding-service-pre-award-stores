@@ -1,15 +1,14 @@
-# funding-service-design-frontend
+# funding-service-pre-award-frontend
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-[![CodeQL](https://github.com/communitiesuk/funding-service-design-frontend/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/communitiesuk/funding-service-design-frontend/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/communitiesuk/funding-service-pre-award-frontend/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/communitiesuk/funding-service-pre-award-frontend/actions/workflows/codeql-analysis.yml)
 
 This service provides the main frontend for Access Funding (application)
 
 [Developer setup guide](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-setup.md)
 
 This service depends on:
-- [Application Store](https://github.com/communitiesuk/funding-service-design-application-store)
-- [Fund Store](https://github.com/communitiesuk/funding-service-design-fund-store)
+- [Pre-Award Stores](https://github.com/communitiesuk/funding-service-pre-award-stores)
 - [Authenticator](https://github.com/communitiesuk/funding-service-design-authenticator)
 - [Account Store](https://github.com/communitiesuk/funding-service-design-account-store)
 - [Form Runner](https://github.com/communitiesuk/digital-form-builder)
@@ -27,6 +26,7 @@ Tasks to extract and update translations are available in `tasks.py`. See [here]
 
 # Builds and Deploys
 Details on how our pipelines work and the release process is available [here](https://dluhcdigital.atlassian.net/wiki/spaces/FS/pages/73695505/How+do+we+deploy+our+code+to+prod)
+
 ## Paketo
 Paketo is used to build the docker image which gets deployed to our test and production environments. Details available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-paketo.md)
 
@@ -46,5 +46,5 @@ Paketo is used to build the docker image which gets deployed to our test and pro
 
 ## Copilot
 Copilot is used for infrastructure deployment. Instructions are available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-copilot.md), with the following values for the frontend:
-- service-name: fsd-frontend
-- image-name: funding-service-design-frontend
+- service-name: fs-pre-award-frontend
+- image-name: funding-service-pre-award-frontend

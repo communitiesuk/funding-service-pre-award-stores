@@ -486,7 +486,7 @@ wheels = [
 ]
 
 [[package]]
-name = "funding-service-design-frontend"
+name = "funding-service-pre-award-frontend"
 version = "0.1.1"
 source = { virtual = "." }
 dependencies = [

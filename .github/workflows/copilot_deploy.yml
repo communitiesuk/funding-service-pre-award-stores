@@ -49,7 +49,7 @@ jobs:
     with:
       version_to_build: sha-${{ github.sha }}
       owner: ${{ github.repository_owner }}
-      application: funding-service-design-frontend
+      application: funding-service-pre-award-frontend
       assets_required: true
 
   dev_deploy:
