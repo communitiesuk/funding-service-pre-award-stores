@@ -46,7 +46,8 @@ network:
 # Pass environment variables as key value pairs.
 variables:
   ACCOUNT_STORE_API_HOST: "http://fsd-account-store:8080"
-  APPLICANT_FRONTEND_HOST: "https://frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  APPLY_HOST: "frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  APPLICANT_FRONTEND_HOST: "https://frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"  # TODO: remove me when all frontends combined
   AUTHENTICATOR_HOST: "https://authenticator.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   COOKIE_DOMAIN: ".test.levellingup.gov.uk"
   FLASK_ENV: ${COPILOT_ENVIRONMENT_NAME}
@@ -139,7 +140,8 @@ environments:
     variables:
       COOKIE_DOMAIN: ".levellingup.gov.uk"
       AUTHENTICATOR_HOST: "https://authenticator.access-funding.levellingup.gov.uk"
-      APPLICANT_FRONTEND_HOST: "https://frontend.access-funding.levellingup.gov.uk"
+      APPLY_HOST: "frontend.access-funding.levellingup.gov.uk"
+      APPLICANT_FRONTEND_HOST: "https://frontend.access-funding.levellingup.gov.uk"  # TODO: remove me when all frontends combined
       ASSESSMENT_FRONTEND_HOST: "https://assessment.access-funding.levellingup.gov.uk"
       FORMS_SERVICE_PUBLIC_HOST: "https://forms.access-funding.levellingup.gov.uk"
       FLASK_ENV: production

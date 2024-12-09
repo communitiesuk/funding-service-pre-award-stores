@@ -19,6 +19,8 @@ class DefaultConfig:
     MAINTENANCE_MODE = strtobool(getenv("MAINTENANCE_MODE", "False"))
     MAINTENANCE_END_TIME = getenv("MAINTENANCE_END_TIME", "soon")
 
+    APPLY_HOST = getenv("APPLY_HOST", "frontend.levellingup.gov.localhost:3008")
+
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
     LOCAL_SERVICE_NAME = "local_flask"

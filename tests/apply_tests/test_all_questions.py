@@ -67,8 +67,8 @@ def test_determine_template_name(
     assert result == exp_template_name
 
 
-def test_all_questions_page_from_short_name(flask_test_client, mocker):
-    response: test.TestResponse = flask_test_client.get("/all_questions/COF/R2W3?lang=en")
+def test_all_questions_page_from_short_name(apply_test_client, mocker):
+    response: test.TestResponse = apply_test_client.get("/all_questions/COF/R2W3?lang=en")
     assert response.status_code == 200
     soup = BeautifulSoup(response.data, "html.parser")
     assert soup.find("h1").text == "Full list of application questions"

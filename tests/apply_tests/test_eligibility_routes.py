@@ -32,7 +32,7 @@ default_hsra_fund_fields = {
 }
 
 
-def test_eligibility_result(client, mocker, mock_login, templates_rendered):
+def test_eligibility_result(apply_test_client, mocker, mock_login, templates_rendered):
     def mock_fund_and_round(short_name, round_id, title):
         mocker.patch(
             "apply.helpers.get_fund_data_by_short_name",
@@ -54,7 +54,7 @@ def test_eligibility_result(client, mocker, mock_login, templates_rendered):
 
     # Test eligibility result with redirect_to_eligible_round parameter
     mock_fund_and_round("RP", "hsra-rp", "Refurbishment Project")
-    result = client.get("eligibility-result/hsra/vr?redirect_to_eligible_round=RP")
+    result = apply_test_client.get("/eligibility-result/hsra/vr?redirect_to_eligible_round=RP")
     assert result.status_code == 200
     assert len(templates_rendered) == 1
     rendered_template = templates_rendered[0]
@@ -63,7 +63,7 @@ def test_eligibility_result(client, mocker, mock_login, templates_rendered):
 
     # Test eligibility result without redirect_to_eligible_round parameter
     mock_fund_and_round("VR", "hsra-vr", "Vacancy Register")
-    result = client.get("eligibility-result/hsra/vr")
+    result = apply_test_client.get("/eligibility-result/hsra/vr")
     assert result.status_code == 200
     assert len(templates_rendered) == 2
     rendered_template = templates_rendered[1]

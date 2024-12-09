@@ -31,7 +31,7 @@ from config import Config
 def create_app() -> Flask:  # noqa: C901
     init_sentry()
 
-    flask_app = Flask(__name__, static_url_path="/assets", static_folder='static')
+    flask_app = Flask(__name__, static_url_path="/assets", static_folder='static', host_matching=True, static_host="<host_from_current_request>")
 
     flask_app.config.from_object("config.Config")
 
@@ -78,11 +78,11 @@ def create_app() -> Flask:  # noqa: C901
 
     flask_app.register_error_handler(404, not_found)
     flask_app.register_error_handler(500, internal_server_error)
-    flask_app.register_blueprint(default_bp)
-    flask_app.register_blueprint(application_bp)
-    flask_app.register_blueprint(content_bp)
-    flask_app.register_blueprint(eligibility_bp)
-    flask_app.register_blueprint(account_bp)
+    flask_app.register_blueprint(default_bp, host=flask_app.config['APPLY_HOST'])
+    flask_app.register_blueprint(application_bp, host=flask_app.config['APPLY_HOST'])
+    flask_app.register_blueprint(content_bp, host=flask_app.config['APPLY_HOST'])
+    flask_app.register_blueprint(eligibility_bp, host=flask_app.config['APPLY_HOST'])
+    flask_app.register_blueprint(account_bp, host=flask_app.config['APPLY_HOST'])
     flask_app.jinja_env.filters["datetime_format_short_month"] = datetime_format_short_month
     flask_app.jinja_env.filters["datetime_format_full_month"] = datetime_format_full_month
     flask_app.jinja_env.filters["string_to_datetime"] = string_to_datetime
@@ -92,6 +92,16 @@ def create_app() -> Flask:  # noqa: C901
     flask_app.jinja_env.filters["snake_case_to_human"] = snake_case_to_human
     flask_app.jinja_env.filters["kebab_case_to_human"] = kebab_case_to_human
     flask_app.jinja_env.filters["status_translation"] = status_translation
+
+    @flask_app.url_defaults
+    def inject_host_from_current_request(endpoint, values):
+        if app.url_map.is_endpoint_expecting(endpoint, "host_from_current_request"):
+            values["host_from_current_request"] = request.host
+
+    @flask_app.url_value_preprocessor
+    def pop_host_from_current_request(endpoint, values):
+        if values is not None:
+            values.pop("host_from_current_request", None)
 
     @flask_app.context_processor
     def inject_global_constants():

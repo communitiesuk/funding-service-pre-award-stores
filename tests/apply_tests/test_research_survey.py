@@ -14,7 +14,7 @@ def application_id():
 @patch("apply.default.application_routes.get_research_survey_from_store")
 @patch("apply.default.application_routes.determine_round_status", lambda x: MagicMock(is_open=True))
 def test_round_research_intro_get(
-    mock_get_survey, mock_get_round, mock_get_app, flask_test_client, application_id, mock_login
+    mock_get_survey, mock_get_round, mock_get_app, apply_test_client, application_id, mock_login
 ):
     mock_get_app.return_value = MagicMock(
         fund_id="test_fund", round_id="test_round", language="en", account_id="test-user"
@@ -22,7 +22,7 @@ def test_round_research_intro_get(
     mock_get_round.return_value = MagicMock(feedback_survey_config=MagicMock(has_research_survey=True))
     mock_get_survey.return_value = None
 
-    response = flask_test_client.get(url_for("application_routes.round_research_intro", application_id=application_id))
+    response = apply_test_client.get(url_for("application_routes.round_research_intro", application_id=application_id))
     assert response.status_code == 200
     assert b"research_opt_in" in response.data
 
@@ -33,7 +33,7 @@ def test_round_research_intro_get(
 @patch("apply.default.application_routes.post_research_survey_to_store")
 @patch("apply.default.application_routes.determine_round_status", lambda x: MagicMock(is_open=True))
 def test_round_research_intro_post(
-    mock_post_survey, mock_get_survey, mock_get_round, mock_get_app, flask_test_client, application_id, mock_login
+    mock_post_survey, mock_get_survey, mock_get_round, mock_get_app, apply_test_client, application_id, mock_login
 ):
     mock_get_app.return_value = MagicMock(
         fund_id="test_fund", round_id="test_round", language="en", account_id="test-user"
@@ -42,7 +42,7 @@ def test_round_research_intro_post(
     mock_post_survey.return_value = MagicMock(data={"research_opt_in": "agree"})
     mock_get_survey.return_value = None
 
-    response = flask_test_client.post(
+    response = apply_test_client.post(
         url_for("application_routes.round_research_intro", application_id=application_id),
         data={"application_id": application_id, "research_opt_in": "agree"},
     )
@@ -57,7 +57,7 @@ def test_round_research_intro_post(
 @patch("apply.default.application_routes.get_research_survey_from_store")
 @patch("apply.default.application_routes.determine_round_status", lambda x: MagicMock(is_open=True))
 def test_round_research_contact_details_get(
-    mock_get_survey, mock_get_round, mock_get_app, flask_test_client, application_id, mock_login
+    mock_get_survey, mock_get_round, mock_get_app, apply_test_client, application_id, mock_login
 ):
     mock_get_app.return_value = MagicMock(
         fund_id="test_fund", round_id="test_round", language="en", account_id="test-user"
@@ -65,7 +65,7 @@ def test_round_research_contact_details_get(
     mock_get_round.return_value = MagicMock(feedback_survey_config=MagicMock(has_research_survey=True))
     mock_get_survey.return_value = None
 
-    response = flask_test_client.get(
+    response = apply_test_client.get(
         url_for("application_routes.round_research_contact_details", application_id=application_id)
     )
     assert response.status_code == 200
@@ -79,7 +79,7 @@ def test_round_research_contact_details_get(
 @patch("apply.default.application_routes.post_research_survey_to_store")
 @patch("apply.default.application_routes.determine_round_status", lambda x: MagicMock(is_open=True))
 def test_round_research_contact_details_post(
-    mock_post_survey, mock_get_survey, mock_get_round, mock_get_app, flask_test_client, application_id, mock_login
+    mock_post_survey, mock_get_survey, mock_get_round, mock_get_app, apply_test_client, application_id, mock_login
 ):
     mock_get_app.return_value = MagicMock(
         fund_id="test_fund", round_id="test_round", language="en", account_id="test-user"
@@ -88,7 +88,7 @@ def test_round_research_contact_details_post(
     mock_post_survey.return_value = MagicMock(data={"contact_name": "some_value", "contact_email": "another_value"})
     mock_get_survey.return_value = None
 
-    response = flask_test_client.post(
+    response = apply_test_client.post(
         url_for("application_routes.round_research_contact_details", application_id=application_id),
         data={"application_id": application_id, "contact_name": "some_value", "contact_email": "test@email.com"},
     )

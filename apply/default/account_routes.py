@@ -1,5 +1,5 @@
 import requests
-from flask import Blueprint, current_app, g, make_response, redirect, render_template, request, url_for
+from flask import current_app, g, make_response, redirect, render_template, request, url_for
 from flask_babel import force_locale
 from fsd_utils.authentication.decorators import login_required
 from fsd_utils.locale_selector.get_lang import get_lang
@@ -12,6 +12,7 @@ from apply.default.data import (
     get_all_rounds_for_fund,
     search_applications,
 )
+from common.blueprints import Blueprint
 from apply.helpers import get_fund, get_fund_and_round, get_ttl_hash
 from apply.models.application_summary import ApplicationSummary
 from config import Config

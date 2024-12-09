@@ -11,7 +11,7 @@ from apply.models.fund import Fund
 from tests.apply_tests.api_data.test_data import TEST_APPLICATION_SUMMARIES, TEST_FUNDS_DATA, TEST_ROUNDS_DATA
 
 
-def test_dodgy_url_returns_404(flask_test_client):
+def test_dodgy_url_returns_404(apply_test_client):
     """
     GIVEN Our Flask Hello World Application
     WHEN a invalid route is requested
@@ -20,12 +20,12 @@ def test_dodgy_url_returns_404(flask_test_client):
     If this test succeedes then our flask application's
     routes are correctly initialised.
     """
-    response = flask_test_client.get("/rubbish", follow_redirects=True)
+    response = apply_test_client.get("/rubbish", follow_redirects=True)
     assert response.status_code == 404
 
 
-def test_page_footer_includes_correct_title_and_link_text(flask_test_client):
-    response = flask_test_client.get("/", follow_redirects=True)
+def test_page_footer_includes_correct_title_and_link_text(apply_test_client):
+    response = apply_test_client.get("/", follow_redirects=True)
     soup = BeautifulSoup(response.data, "html.parser")
     assert all(
         [
@@ -250,8 +250,8 @@ def test_find_round_in_request(
     assert round.short_name == expected_round.short_name
 
 
-def test_healthcheck(flask_test_client):
-    response = flask_test_client.get("/healthcheck")
+def test_healthcheck(apply_test_client):
+    response = apply_test_client.get("/healthcheck")
 
     expected_dict = {
         "checks": [{"check_flask_running": "OK"}],

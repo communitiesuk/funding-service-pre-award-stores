@@ -39,29 +39,29 @@ def mock_applications(mocker):
     )
 
 
-def test_tasklist_route(flask_test_client, mocker, mock_login, mock_applications):
+def test_tasklist_route(apply_test_client, mocker, mock_login, mock_applications):
     mocker.patch(
         "apply.default.application_routes.get_application_data",
         return_value=TEST_APPLICATION_EN,
     )
-    response = flask_test_client.get("tasklist/test-application-id", follow_redirects=True)
+    response = apply_test_client.get("tasklist/test-application-id", follow_redirects=True)
     assert response.status_code == 200
     assert b"Help with filling out your application" in response.data
     assert b"Test Section 1" in response.data
     assert b"Risk" in response.data
 
 
-def test_tasklist_route_after_deadline(flask_test_client, mocker, mock_login, mock_applications):
+def test_tasklist_route_after_deadline(apply_test_client, mocker, mock_login, mock_applications):
     mocker.patch(
         "apply.default.application_routes.determine_round_status",
         return_value=RoundStatus(True, False, False),
     )
-    response = flask_test_client.get("tasklist/test-application-id", follow_redirects=False)
+    response = apply_test_client.get("tasklist/test-application-id", follow_redirects=False)
     assert response.status_code == 302
     assert "/account" == response.location
 
 
-def test_tasklist_for_submit_application_route(flask_test_client, mocker, mock_login):
+def test_tasklist_for_submit_application_route(apply_test_client, mocker, mock_login):
     mocker.patch(
         "apply.default.application_routes.get_application_data",
         return_value=SUBMITTED_APPLICATION,
@@ -79,7 +79,7 @@ def test_tasklist_for_submit_application_route(flask_test_client, mocker, mock_l
         "apply.default.account_routes.build_application_data_for_display",
         return_value=TEST_DISPLAY_DATA,
     )
-    response = flask_test_client.get("tasklist/test-application-submit", follow_redirects=True)
+    response = apply_test_client.get("tasklist/test-application-submit", follow_redirects=True)
     assert response.status_code == 200
     get_apps_mock.assert_called_once_with(
         search_params={
@@ -91,12 +91,12 @@ def test_tasklist_for_submit_application_route(flask_test_client, mocker, mock_l
     )
 
 
-def test_language_cookie_update_welsh_to_english(flask_test_client, mocker, mock_login, mock_applications):
+def test_language_cookie_update_welsh_to_english(apply_test_client, mocker, mock_login, mock_applications):
     # set language cookie to welsh
-    flask_test_client.set_cookie(domain="/", key="language", value="cy")
+    apply_test_client.set_cookie(domain="/", key="language", value="cy")
 
     # request an english application
-    response = flask_test_client.get("tasklist/test-application-id", follow_redirects=True)
+    response = apply_test_client.get("tasklist/test-application-id", follow_redirects=True)
 
     # check cookie has been set to english
     assert response.status_code == 200
@@ -108,9 +108,9 @@ def test_language_cookie_update_welsh_to_english(flask_test_client, mocker, mock
     assert soup.find("span", class_="app-service-name").text == "Apply for fund for testing"
 
 
-def test_language_cookie_update_english_to_welsh(flask_test_client, mocker, mock_login, mock_applications):
+def test_language_cookie_update_english_to_welsh(apply_test_client, mocker, mock_login, mock_applications):
     # set language cookie to english
-    flask_test_client.set_cookie(domain="/", key="language", value="en")
+    apply_test_client.set_cookie(domain="/", key="language", value="en")
 
     # return welsh fund
     mocker.patch(
@@ -124,7 +124,7 @@ def test_language_cookie_update_english_to_welsh(flask_test_client, mocker, mock
     )
 
     # request a welsh application
-    response = flask_test_client.get("tasklist/test-welsh-id", follow_redirects=True)
+    response = apply_test_client.get("tasklist/test-welsh-id", follow_redirects=True)
 
     # check cookie has been set to welsh
     assert response.status_code == 200

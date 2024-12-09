@@ -1,11 +1,15 @@
 import multiprocessing
 import platform
+from typing import Any
 
 import pytest
 from flask import template_rendered
+from flask.testing import FlaskClient
+from werkzeug.test import TestResponse
 
 from app import create_app
 from apply.models.fund import Fund
+from config.envs.unit_test import UnitTestConfig
 from tests.apply_tests.api_data.test_data import TEST_FUNDS_DATA, TEST_ROUNDS_DATA
 
 if platform.system() == "Darwin":
@@ -66,13 +70,29 @@ def app():
     yield create_app()
 
 
+class _ApplyFlaskClient(FlaskClient):
+    def open(
+        self,
+        *args: Any,
+        buffered: bool = False,
+        follow_redirects: bool = False,
+        **kwargs: Any,
+    ) -> TestResponse:
+        if "headers" in kwargs:
+            kwargs["headers"].setdefault("Host", UnitTestConfig.APPLY_HOST)
+        else:
+            kwargs.setdefault("headers", {"Host": UnitTestConfig.APPLY_HOST})
+        return super().open(*args, buffered=buffered, follow_redirects=follow_redirects, **kwargs)
+
+
 @pytest.fixture()
-def flask_test_client(app):
+def apply_test_client(app):
     """
     Creates the test client we will be using to test the responses
     from our app, this is a test fixture.
     :return: A flask test client.
     """
+    app.test_client_class = _ApplyFlaskClient
     with app.test_client() as test_client:
         yield test_client
 
