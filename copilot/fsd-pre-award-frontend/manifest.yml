@@ -53,7 +53,7 @@ variables:
   FORMS_SERVICE_PUBLIC_HOST: "https://forms.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   REDIS_INSTANCE_URI:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-MagicLinksRedisInstanceURI
-  SENTRY_DSN: "https://3c6d2fd1e3824aecb3826a7d640b29a9@o1432034.ingest.sentry.io/4503897449103360"
+  SENTRY_DSN: "https://42dcacbe0128a0f861dda0e4408f540e@o1432034.ingest.us.sentry.io/4508438427205632"
 
 secrets:
   FUND_STORE_API_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/FUND_STORE_API_HOST
