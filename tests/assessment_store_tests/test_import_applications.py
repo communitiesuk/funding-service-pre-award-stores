@@ -1,12 +1,19 @@
 import json
 from argparse import Namespace
 from unittest import mock
+from uuid import uuid4
 
 import pytest
 from requests import Response
 
 from assessment_store.config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config,
+)
+from assessment_store.db.models.assessment_record.assessment_records import (
+    AssessmentRecord,
+)
+from assessment_store.db.queries.assessment_records.queries import (
+    insert_application_record,
 )
 from assessment_store.scripts.import_from_application import main
 from tests.assessment_store_tests._helpers import row_data
@@ -111,3 +118,117 @@ def test_import_application_with_roundid(
     assert len(inserted_rows) == appcount
     assert inserted_rows[0].round_id == roundid
     assert app_type in inserted_rows[0].short_ref
+
+
+@pytest.mark.parametrize("application_type, is_json", [("CTDF", True), (None, True)])
+@pytest.mark.apps_to_insert([])
+def test_insert_application_record(
+    ctdf_application,
+    application_type,
+    is_json,
+    mocker,
+    seed_application_records,
+    _db,
+):
+    ctdf_application["application_id"] = str(uuid4())
+    mocker.patch(
+        "assessment_store.db.queries.assessment_records.queries.derive_application_values",
+        return_value={
+            "application_id": ctdf_application["application_id"],
+            "project_name": ctdf_application["project_name"],
+            "short_id": ctdf_application["reference"],
+            "fund_id": ctdf_application["fund_id"],
+            "round_id": ctdf_application["round_id"],
+            "funding_amount_requested": 0,
+            "asset_type": "test",
+            "language": ctdf_application["language"],
+            "location_json_blob": {
+                "error": False,
+                "county": "Not Available",
+                "region": "Not Available",
+                "country": "Not Available",
+                "constituency": "Not Available",
+                "postcode": "Not Available",
+            },
+        },
+    )
+
+    result = insert_application_record(
+        application_json_string=ctdf_application,
+        application_type=application_type,
+        is_json=is_json,
+    )
+    assert result
+
+    inserted_record = (
+        _db.session.query(AssessmentRecord)
+        .where(AssessmentRecord.application_id == ctdf_application["application_id"])
+        .one_or_none()
+    )
+    assert inserted_record
+
+
+@pytest.mark.apps_to_insert([])
+def test_insert_application_record_duplicate(mocker, seed_application_records, _db, ctdf_application):
+    ctdf_application["application_id"] = str(uuid4())
+    derived_values = {
+        "application_id": ctdf_application["application_id"],
+        "project_name": ctdf_application["project_name"],
+        "short_id": ctdf_application["reference"],
+        "fund_id": ctdf_application["fund_id"],
+        "round_id": ctdf_application["round_id"],
+        "funding_amount_requested": 0,
+        "asset_type": "test",
+        "language": ctdf_application["language"],
+        "location_json_blob": {
+            "error": False,
+            "county": "Not Available",
+            "region": "Not Available",
+            "country": "Not Available",
+            "constituency": "Not Available",
+            "postcode": "Not Available",
+        },
+    }
+
+    mocker.patch(
+        "assessment_store.db.queries.assessment_records.queries.derive_application_values",
+        return_value=derived_values,
+    )
+
+    result = insert_application_record(
+        application_json_string=ctdf_application,
+        application_type=None,
+        is_json=True,
+    )
+    assert result
+
+    inserted_record = (
+        _db.session.query(AssessmentRecord)
+        .where(AssessmentRecord.application_id == ctdf_application["application_id"])
+        .one_or_none()
+    )
+    assert inserted_record
+    assert inserted_record.asset_type == "test"
+
+    # Update the data and attempt insert of duplicate row - should do nothing and not update
+
+    derived_values["asset_type"] = "updated row"
+    mocker.patch(
+        "assessment_store.db.queries.assessment_records.queries.derive_application_values",
+        return_value=derived_values,
+    )
+
+    result2 = insert_application_record(
+        application_json_string=ctdf_application,
+        application_type=None,
+        is_json=True,
+    )
+    assert result2
+
+    inserted_record2 = (
+        _db.session.query(AssessmentRecord)
+        .where(AssessmentRecord.application_id == ctdf_application["application_id"])
+        .one_or_none()
+    )
+    assert inserted_record2
+    assert inserted_record2.asset_type == "test"
