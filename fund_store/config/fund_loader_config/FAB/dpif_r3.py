@@ -98,7 +98,7 @@ LOADER_CONFIG = {
             "en": "You must have received an invitation to apply, which should include the fund's prospectus. If you have not received the prospectus, contact digitalplanningteam@communities.gov.uk",
             "cy": None,
         },
-        "feedback_link": "",
+        "feedback_link": "https://forms.office.com/e/USFFFFyaNV",
         "project_name_field_id": "JAAhRP",
         "application_guidance_json": {
             "en": "What we'll ask you for\r\n\r\nWe have outlined the information needed to complete the application form in our prospectus. If you have not received the prospectus, contact digitalplanningteam@communities.gov.uk\r\n",
