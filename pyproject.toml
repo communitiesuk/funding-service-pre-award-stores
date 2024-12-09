@@ -60,7 +60,7 @@ exclude = [
     "venv*",
     ".venv*",
     "__pycache__",
-    "fund_store/config/fund_loader_config/FAB/"
+    "fund_store/config/fund_loader_config/FAB/*"
 ]
 mccabe.max-complexity = 12
 

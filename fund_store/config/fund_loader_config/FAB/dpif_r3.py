@@ -1,5 +1,3 @@
-# ruff: noqa: E501
-
 LOADER_CONFIG = {
     "sections_config": [
         {"section_name": {"en": "1. Before you start", "cy": ""}, "tree_path": "1047.1.1", "requires_feedback": None},
