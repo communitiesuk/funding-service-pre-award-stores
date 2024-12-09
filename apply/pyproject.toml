@@ -1,0 +1,73 @@
+[project]
+name = "funding-service-design-frontend"
+version = "0.1.1"
+description = "The funding service design frontend for the DLUHC."
+authors = ["Evoco Digital Services"]
+license = "MIT License"
+
+requires-python = "~=3.10.0"
+dependencies = [
+    "email-validator==2.1.1",
+    "flask-babel==2.0.0",
+    "flask-compress==1.14",
+    "flask-talisman==1.1.0",
+    "flask-wtf==1.2.1",
+    "flask==2.3.3",
+    "funding-service-design-utils[toggles]==5.2.0",
+    "govuk-frontend-jinja==2.7.0",
+    "python-slugify==8.0.4",
+    "requests==2.32.3",
+]
+
+[tool.djlint]
+# run with : `djlint path/to/file.html --reformat --format-css --format-js`
+#   this is deliberately commented out.  we don't want to format these tags as
+#   it will introduce new lines and tabs, making the translation matching brittle.
+# custom_blocks="trans,endtrans"
+max_line_length=1000        # high limit, we don't want line breaks for translations.
+max_attribute_length=1000   # ^^^
+exclude=".venv,venv"
+profile="jinja2"
+
+[tool.ruff]
+line-length = 120
+
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle
+    "W",  # pycodestyle
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C90",  # mccabe cyclomatic complexity
+    "G",  # flake8-logging-format
+]
+ignore = []
+exclude = [
+    "db/migrations/versions/",
+    "venv*",
+    ".venv*",
+    "__pycache__",
+    "fund_store/config/fund_loader_config/FAB/"
+]
+mccabe.max-complexity = 12
+
+[tool.uv]
+
+[dependency-groups]
+dev = [
+    "beautifulsoup4==4.12.3",
+    "debugpy==1.8.9",
+    "deepdiff==6.7.1",
+    "dparse==0.6.4",
+    "invoke==2.2.0",
+    "pre-commit==4.0.1",
+    "pytest==8.2.1",
+    "pytest-env==1.1.3",
+    "pytest-flask==1.3.0",
+    "pytest-mock==3.12.0",
+    "requests-mock==1.11.0",
+    "ruff==0.8.2",
+]
