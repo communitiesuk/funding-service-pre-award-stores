@@ -862,7 +862,7 @@ class TestRoutes:
         assert (
             302 == response.status_code
         ), "Commenter should receive a 302 to authenticator when trying to access the sub criteria scoring page"
-        params = {"roles_required": "TF_LEAD_ASSESSOR|TF_ASSESSOR"}
+        params = {"roles_required": "TF_LEAD_ASSESSOR%7CTF_ASSESSOR"}
         encoded_params = urllib.parse.urlencode(params)
         assert (
             response.location == f"https://authenticator/service/user?{encoded_params}"  # noqa
