@@ -10,4 +10,11 @@
         "strings": false
     },
     "editor.quickSuggestionsDelay": 10,
+    "[python]": {
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit",
+      },
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "charliermarsh.ruff"
+    }
 }
