@@ -245,6 +245,7 @@ def insert_fund_data(fund_config, commit: bool = True):
                 owner_organisation_name=bindparam("owner_organisation_name"),
                 owner_organisation_shortname=bindparam("owner_organisation_shortname"),
                 owner_organisation_logo_uri=bindparam("owner_organisation_logo_uri"),
+                ggis_scheme_reference_number=bindparam("ggis_scheme_reference_number"),
                 funding_type=bindparam("funding_type"),
             )
         )
@@ -259,6 +260,7 @@ def insert_fund_data(fund_config, commit: bool = True):
                 "owner_organisation_name": bindparam("owner_organisation_name"),
                 "owner_organisation_shortname": bindparam("owner_organisation_shortname"),
                 "owner_organisation_logo_uri": bindparam("owner_organisation_logo_uri"),
+                "ggis_scheme_reference_number": bindparam("ggis_scheme_reference_number"),
                 "funding_type": bindparam("funding_type"),
             },
         )
@@ -275,6 +277,7 @@ def insert_fund_data(fund_config, commit: bool = True):
         "owner_organisation_name": fund_config["owner_organisation_name"],
         "owner_organisation_shortname": fund_config["owner_organisation_shortname"],
         "owner_organisation_logo_uri": fund_config["owner_organisation_logo_uri"],
+        "ggis_scheme_reference_number": fund_config["ggis_scheme_reference_number"],
         "funding_type": fund_config["funding_type"],
     }
 

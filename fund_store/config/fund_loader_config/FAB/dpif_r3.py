@@ -67,10 +67,10 @@ LOADER_CONFIG = {
         "owner_organisation_name": "None",
         "owner_organisation_shortname": "None",
         "owner_organisation_logo_uri": "None",
-        "ggis_scheme_reference_number": "",
+        "ggis_scheme_reference_number": "G2-SCH-2022-09-11723",
         "funding_type": "UNCOMPETED",
         "name_json": {"en": "Digital Planning Improvement Fund", "cy": ""},
-        "title_json": {"en": "Apply for funding to begin your digital planning improvement journey", "cy": ""},
+        "title_json": {"en": "funding to begin your digital planning improvement journey", "cy": ""},
         "description_json": {
             "en": "The Digital Planning Improvement Fund will provide local planning authorities with the funding and support to adopt modern planning practices within planning data, digital capabilities and development management software.",
             "cy": "",
@@ -93,7 +93,7 @@ LOADER_CONFIG = {
         "contact_phone": "",
         "contact_textphone": "",
         "support_times": "9am to 5pm",
-        "support_days": "Monday to Friday (except public holidays)",
+        "support_days": "Monday to Friday",
         "instructions_json": {
             "en": "You must have received an invitation to apply, which should include the fund's prospectus. If you have not received the prospectus, contact digitalplanningteam@communities.gov.uk",
             "cy": None,
@@ -101,7 +101,18 @@ LOADER_CONFIG = {
         "feedback_link": "https://forms.office.com/e/USFFFFyaNV",
         "project_name_field_id": "JAAhRP",
         "application_guidance_json": {
-            "en": "What we'll ask you for\r\n\r\nWe have outlined the information needed to complete the application form in our prospectus. If you have not received the prospectus, contact digitalplanningteam@communities.gov.uk\r\n",
+            "en": ""
+                  "<h2 class='govuk-heading govuk-heading-s'>"
+                  "What we'll ask you for"
+                  "</h2>"
+                  "<p class='govuk-body'>"
+                  "We have outlined the information needed to complete the application form in our "
+                  "<a href='https://www.localdigital.gov.uk/digital-planning/digital-planning-improvement-fund-2024/'>prospectus</a>. "
+                  "If you have not received the prospectus, contact digitalplanningteam@communities.gov.uk."
+                  "</p>"
+                  "<p class='govuk-body'>You can "
+                  "<a href='{all_questions_url}'>preview the full list of application questions</a>."
+                  "</p>",
             "cy": None,
         },
         "guidance_url": "https://docs.google.com/document/d/1cF5eKphoBWEUe0Zv5HBwv0R3n1svCk16kUFRJhKnIQY",
@@ -120,9 +131,9 @@ LOADER_CONFIG = {
             "is_research_survey_optional": False,
         },
         "eligibility_config": {"has_eligibility": False},
-        "title_json": {"en": "Apply for funding to begin your digital planning improvement journey", "cy": None},
+        "title_json": {"en": "Round 3", "cy": None},
         "contact_us_banner_json": {
-            "en": "Contact the Digital Planning Improvement Fund if you have any questions.",
+            "en": "<p  class='govuk-body'>Contact the Digital Planning Improvement Fund if you have any questions.</p>",
             "cy": None,
         },
     },
