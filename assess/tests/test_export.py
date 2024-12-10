@@ -3,7 +3,7 @@ from unittest import mock
 from fsd_utils import extract_questions_and_answers, generate_text_of_application
 
 import app as flask_app
-from app.blueprints.assessments.helpers import get_files_for_application_upload_fields
+from assess.assessments.helpers import get_files_for_application_upload_fields
 from tests.api_data.example_application_answers import test_application_answers
 from tests.api_data.example_application_json_blob import single_application_json_blob
 

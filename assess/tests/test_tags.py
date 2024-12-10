@@ -3,14 +3,14 @@ from unittest import mock
 import pytest
 from bs4 import BeautifulSoup
 
-from app.blueprints.services.data_services import (
+from assess.services.data_services import (
     get_associated_tags_for_application,
     get_tags_for_fund_round,
     post_new_tag_for_fund_round,
     update_associated_tags,
 )
-from app.blueprints.tagging.models.tag import Tag
-from app.blueprints.tagging.routes import FLAG_ERROR_MESSAGE
+from assess.tagging.models.tag import Tag
+from assess.tagging.routes import FLAG_ERROR_MESSAGE
 from tests.api_data.test_data import test_fund_id, test_round_id
 
 test_tags_inactive = [

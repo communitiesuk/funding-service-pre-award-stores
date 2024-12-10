@@ -4,53 +4,53 @@ import pytest  # noqa
 from flask import Flask
 
 import app
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import (
     ANSWER_NOT_PROVIDED_DEFAULT,
 )
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import (
     AboveQuestionAnswerPair,
 )
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import (
     AboveQuestionAnswerPairHref,
 )
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import (
     ApplicantResponseComponent,
 )
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import (
     BesideQuestionAnswerPair,
 )
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import (
     BesideQuestionAnswerPairHref,
 )
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import (
     FormattedBesideQuestionAnswerPair,
 )
-from app.blueprints.assessments.models.applicants_response import MonetaryKeyValues
-from app.blueprints.assessments.models.applicants_response import NewAddAnotherTable
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import MonetaryKeyValues
+from assess.assessments.models.applicants_response import NewAddAnotherTable
+from assess.assessments.models.applicants_response import (
     QuestionAboveHrefAnswerList,
 )
-from app.blueprints.assessments.models.applicants_response import QuestionHeading
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import QuestionHeading
+from assess.assessments.models.applicants_response import (
     _convert_checkbox_items,
 )
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import (
     _convert_heading_description_amount,
 )
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import (
     _convert_non_number_grouped_fields,
 )
-from app.blueprints.assessments.models.applicants_response import _flatten_field_ids
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import _flatten_field_ids
+from assess.assessments.models.applicants_response import (
     _make_field_ids_hashable,
 )
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.models.applicants_response import (
     _ui_component_from_factory,
 )
-from app.blueprints.assessments.models.applicants_response import create_ui_components
-from app.blueprints.assessments.models.applicants_response import sanitise_html
-from app.blueprints.assessments.routes import assessment_bp
-from app.blueprints.shared.filters import format_address
+from assess.assessments.models.applicants_response import create_ui_components
+from assess.assessments.models.applicants_response import sanitise_html
+from assess.assessments.routes import assessment_bp
+from assess.shared.filters import format_address
 from tests.api_data.test_data import TestSanitiseData
 
 

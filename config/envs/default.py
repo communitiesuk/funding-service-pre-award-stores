@@ -21,6 +21,7 @@ class DefaultConfig:
     MAINTENANCE_END_TIME = getenv("MAINTENANCE_END_TIME", "soon")
 
     APPLY_HOST = getenv("APPLY_HOST", "frontend.levellingup.gov.localhost:3008")
+    ASSESS_HOST = getenv("ASSESS_HOST", "assessment.levellingup.gov.localhost:3010")
 
     # assess STATIC_URL_PATH = "app/static"
     STATIC_FOLDER = "static"
@@ -313,4 +314,3 @@ class DefaultConfig:
         AWS_BUCKET_NAME = environ.get("COPILOT_AWS_BUCKET_NAME")
         AWS_REGION = environ.get("AWS_REGION")
         ASSETS_AUTO_BUILD = False
-

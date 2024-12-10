@@ -7,8 +7,8 @@ from flask import g, get_template_attribute, render_template_string
 from flask_wtf.csrf import generate_csrf
 from fsd_utils.authentication.models import User
 
-from app.blueprints.assessments.forms.comments_form import CommentsForm
-from app.blueprints.assessments.models.applicants_response import (
+from assess.assessments.forms.comments_form import CommentsForm
+from assess.assessments.models.applicants_response import (
     AboveQuestionAnswerPair,
     AboveQuestionAnswerPairHref,
     AboveQuestionAnswerPairHtml,
@@ -20,12 +20,12 @@ from app.blueprints.assessments.models.applicants_response import (
     QuestionAboveHrefAnswerList,
     QuestionHeading,
 )
-from app.blueprints.assessments.models.round_status import RoundStatus
-from app.blueprints.authentication.validation import AssessmentAccessController
-from app.blueprints.scoring.forms.rescore_form import RescoreForm
-from app.blueprints.scoring.forms.scores_and_justifications import OneToFiveScoreForm, ZeroToThreeScoreForm
-from app.blueprints.services.models.assessor_task_list import _Criteria, _CriteriaSubCriteria, _SubCriteria
-from app.blueprints.shared.filters import format_address
+from assess.assessments.models.round_status import RoundStatus
+from assess.authentication.validation import AssessmentAccessController
+from assess.scoring.forms.rescore_form import RescoreForm
+from assess.scoring.forms.scores_and_justifications import OneToFiveScoreForm, ZeroToThreeScoreForm
+from assess.services.models.assessor_task_list import _Criteria, _CriteriaSubCriteria, _SubCriteria
+from assess.shared.filters import format_address
 
 
 def default_flask_g():
@@ -44,7 +44,7 @@ class TestJinjaMacros(object):
         with app.test_request_context():
             rendered_html = render_template_string(
                 "{{criteria_element(criteria, name_classes, application_id, max_possible_sub_criteria_score)}}",
-                criteria_element=get_template_attribute("macros/criteria_element.html", "criteria_element"),
+                criteria_element=get_template_attribute("assess/macros/criteria_element.html", "criteria_element"),
                 criteria=_Criteria(
                     name="Example title",
                     total_criteria_score=2,
@@ -112,7 +112,7 @@ class TestJinjaMacros(object):
             g.access_controller = AssessmentAccessController("COF")
             rendered_html = render_template_string(
                 "{{criteria_element(criteria, name_classes, application_id)}}",
-                criteria_element=get_template_attribute("macros/criteria_element.html", "criteria_element"),
+                criteria_element=get_template_attribute("assess/macros/criteria_element.html", "criteria_element"),
                 criteria=_Criteria(
                     name="Example title",
                     total_criteria_score=0,
@@ -152,7 +152,7 @@ class TestJinjaMacros(object):
         with app.test_request_context():
             rendered_html = render_template_string(
                 "{{section_element(name, sub_criterias, application_id)}}",
-                section_element=get_template_attribute("macros/section_element.html", "section_element"),
+                section_element=get_template_attribute("assess/macros/section_element.html", "section_element"),
                 name="Example title",
                 sub_criterias=[
                     _SubCriteria(
@@ -191,7 +191,7 @@ class TestJinjaMacros(object):
             form.score.errors = error_present
             rendered_html = render_template_string(
                 "{{scores(form)}}",
-                scores=get_template_attribute("macros/scores.html", "scores"),
+                scores=get_template_attribute("assess/macros/scores.html", "scores"),
                 form=form,
             )
 
@@ -218,7 +218,7 @@ class TestJinjaMacros(object):
         with app.test_request_context():
             rendered_html = render_template_string(
                 "{{comment_box(comment_form)}}",
-                comment_box=get_template_attribute("macros/comments_box.html", "comment_box"),
+                comment_box=get_template_attribute("assess/macros/comments_box.html", "comment_box"),
                 comment_form=CommentsForm(),
             )
 
@@ -238,7 +238,7 @@ class TestJinjaMacros(object):
             form.justification.errors = True
             rendered_html = render_template_string(
                 "{{justification(form)}}",
-                justification=get_template_attribute("macros/justification.html", "justification"),
+                justification=get_template_attribute("assess/macros/justification.html", "justification"),
                 form=form,
             )
 
@@ -264,7 +264,7 @@ class TestJinjaMacros(object):
             rendered_html = render_template_string(
                 "{{ monetary_key_values(meta) }}",
                 monetary_key_values=get_template_attribute(
-                    "macros/theme/monetary_key_values.jinja2",
+                    "assess/macros/theme/monetary_key_values.jinja2",
                     "monetary_key_values",
                 ),
                 meta=meta,
@@ -294,7 +294,7 @@ class TestJinjaMacros(object):
             rendered_html = render_template_string(
                 "{{ new_add_another_table(meta) }}",
                 new_add_another_table=get_template_attribute(
-                    "macros/theme/new_add_another_table.jinja2",
+                    "assess/macros/theme/new_add_another_table.jinja2",
                     "new_add_another_table",
                 ),
                 meta=meta,
@@ -344,7 +344,7 @@ class TestJinjaMacros(object):
 
             rendered_html = render_template_string(
                 f"{{{{ {macro_name}(meta) }}}}",
-                **{macro_name: get_template_attribute(f"macros/theme/{macro_name}.jinja2", macro_name)},
+                **{macro_name: get_template_attribute(f"assess/macros/theme/{macro_name}.jinja2", macro_name)},
                 meta=meta,
             )
 
@@ -363,7 +363,7 @@ class TestJinjaMacros(object):
             rendered_html = render_template_string(
                 "{{ question_above_answer_html(meta) }}",
                 question_above_answer_html=get_template_attribute(
-                    "macros/theme/question_above_answer_html.jinja2",
+                    "assess/macros/theme/question_above_answer_html.jinja2",
                     "question_above_answer_html",
                 ),
                 meta=meta,
@@ -390,7 +390,7 @@ class TestJinjaMacros(object):
 
             rendered_html = render_template_string(
                 f"{{{{ {macro_name}(meta) }}}}",
-                **{macro_name: get_template_attribute(f"macros/theme/{macro_name}.jinja2", macro_name)},
+                **{macro_name: get_template_attribute(f"assess/macros/theme/{macro_name}.jinja2", macro_name)},
                 meta=meta,
             )
 
@@ -415,7 +415,7 @@ class TestJinjaMacros(object):
             rendered_html = render_template_string(
                 "{{ question_above_href_answer_list(meta) }}",
                 question_above_href_answer_list=get_template_attribute(
-                    "macros/theme/question_above_href_answer_list.jinja2",
+                    "assess/macros/theme/question_above_href_answer_list.jinja2",
                     "question_above_href_answer_list",
                 ),
                 meta=meta,
@@ -441,7 +441,7 @@ class TestJinjaMacros(object):
             rendered_html = render_template_string(
                 "{{ question_beside_with_formatted_answer(meta) }}",
                 question_beside_with_formatted_answer=get_template_attribute(
-                    "macros/theme/question_beside_with_formatted_answer.jinja2",
+                    "assess/macros/theme/question_beside_with_formatted_answer.jinja2",
                     "question_beside_with_formatted_answer",
                 ),
                 meta=meta,
@@ -533,7 +533,7 @@ class TestJinjaMacros(object):
 
             rendered_html = render_template_string(
                 "{{ theme([meta]) }}",
-                theme=get_template_attribute("macros/theme.html", "theme"),
+                theme=get_template_attribute("assess/macros/theme.html", "theme"),
                 meta=meta,
             )
 
@@ -573,7 +573,7 @@ class TestJinjaMacros(object):
                 "{{ banner_summary(fund_name, fund_short_name, project_reference,"
                 " project_name, funding_amount_requested, assessment_status,"
                 " flag_status, display_status, is_eoi_round) }}",
-                banner_summary=get_template_attribute("macros/banner_summary.html", "banner_summary"),
+                banner_summary=get_template_attribute("assess/macros/banner_summary.html", "banner_summary"),
                 fund_name=fund_name,
                 fund_short_name=fund_short_name,
                 project_reference=project_reference,
@@ -640,7 +640,7 @@ class TestJinjaMacros(object):
                 "{{ banner_summary(fund_name, fund_short_name, project_reference,"
                 " project_name, funding_amount_requested, assessment_status,"
                 " flag_status) }}",
-                banner_summary=get_template_attribute("macros/banner_summary.html", "banner_summary"),
+                banner_summary=get_template_attribute("assess/macros/banner_summary.html", "banner_summary"),
                 fund_name=fund_name,
                 fund_short_name=fund_short_name,
                 project_reference=project_reference,
@@ -658,7 +658,7 @@ class TestJinjaMacros(object):
             rendered_html = render_template_string(
                 "{{flag_application_button(12345)}}",
                 flag_application_button=get_template_attribute(
-                    "macros/flag_application_button.html",
+                    "assess/macros/flag_application_button.html",
                     "flag_application_button",
                 ),
             )
@@ -684,7 +684,7 @@ class TestJinjaMacros(object):
             rendered_html = render_template_string(
                 "{{mark_qa_complete_button(12345)}}",
                 mark_qa_complete_button=get_template_attribute(
-                    "macros/mark_qa_complete_button.html",
+                    "assess/macros/mark_qa_complete_button.html",
                     "mark_qa_complete_button",
                 ),
             )
@@ -701,7 +701,7 @@ class TestJinjaMacros(object):
         with app.test_request_context():
             rendered_html = render_template_string(
                 "{{assessment_stopped(flag, user_info)}}",
-                assessment_stopped=get_template_attribute("macros/assessment_flag.html", "assessment_stopped"),
+                assessment_stopped=get_template_attribute("assess/macros/assessment_flag.html", "assessment_stopped"),
                 flag={
                     "latest_status": {"name": "STOPPED"},
                     "latest_allocation": "Team A",
@@ -753,7 +753,7 @@ class TestJinjaMacros(object):
         with app.test_request_context():
             rendered_html = render_template_string(
                 "{{assessment_flagged(state, flag, user_info, state)}}",
-                assessment_flagged=get_template_attribute("macros/assessment_flag.html", "assessment_flagged"),
+                assessment_flagged=get_template_attribute("assess/macros/assessment_flag.html", "assessment_flagged"),
                 state=type(
                     "State",
                     (),
@@ -813,7 +813,7 @@ class TestJinjaMacros(object):
         with app.test_request_context():
             rendered_html = render_template_string(
                 "{{assessment_complete(state, csrf_token, application_id)}}",
-                assessment_complete=get_template_attribute("macros/assessment_completion.html", "assessment_complete"),
+                assessment_complete=get_template_attribute("assess/macros/assessment_completion.html", "assessment_complete"),
                 state=type("State", (), {"workflow_status": "COMPLETED"})(),
                 csrf_token=generate_csrf(),
                 application_id=1,
@@ -830,7 +830,7 @@ class TestJinjaMacros(object):
         with app.test_request_context():
             rendered_html = render_template_string(
                 "{{assessment_complete(state, srf_token, application_id)}}",
-                assessment_complete=get_template_attribute("macros/assessment_completion.html", "assessment_complete"),
+                assessment_complete=get_template_attribute("assess/macros/assessment_completion.html", "assessment_complete"),
                 state=type("State", (), {"workflow_status": "IN_PROGRESS"})(),
                 csrf_token=generate_csrf(),
                 application_id=1,
@@ -853,7 +853,7 @@ class TestJinjaMacros(object):
         with app.test_request_context():
             rendered_html = render_template_string(
                 "{{sub_criteria_heading(sub_criteria, score_form, rescore_form)}}",
-                sub_criteria_heading=get_template_attribute("macros/sub_criteria_heading.html", "sub_criteria_heading"),
+                sub_criteria_heading=get_template_attribute("assess/macros/sub_criteria_heading.html", "sub_criteria_heading"),
                 score_form=OneToFiveScoreForm() if has_forms else None,
                 rescore_form=RescoreForm() if has_forms else None,
                 sub_criteria=sub_criteria,
@@ -887,7 +887,7 @@ class TestJinjaMacros(object):
         with app.test_request_context():
             rendered_html = render_template_string(
                 "{{assessment_status(round_status)}}",
-                assessment_status=get_template_attribute("macros/fund_dashboard_summary.html", "assessment_status"),
+                assessment_status=get_template_attribute("assess/macros/fund_dashboard_summary.html", "assessment_status"),
                 round_status=RoundStatus(
                     application_not_yet_open,
                     application_open,
@@ -1049,7 +1049,7 @@ class TestJinjaMacros(object):
             rendered_html = render_template_string(
                 "{{round_links(access_controller, assessments_href, download_available, export_href,"
                 " feedback_export_href,assessment_tracker_href, round_status)}}",
-                round_links=get_template_attribute("macros/fund_dashboard_summary.html", "round_links"),
+                round_links=get_template_attribute("assess/macros/fund_dashboard_summary.html", "round_links"),
                 access_controller=mock_access_controller,
                 assessments_href="assessments_href",
                 download_available=download_available,

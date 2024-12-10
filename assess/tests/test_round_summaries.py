@@ -2,10 +2,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from app.blueprints.assessments.models.round_status import RoundStatus
-from app.blueprints.assessments.models.round_summary import create_round_summaries
-from app.blueprints.services.models.round import Round
-from config.display_value_mappings import ALL_VALUE
+from assess.assessments.models.round_status import RoundStatus
+from assess.assessments.models.round_summary import create_round_summaries
+from assess.services.models.round import Round
+from assess.config.display_value_mappings import ALL_VALUE
 
 
 @pytest.fixture(autouse=True)

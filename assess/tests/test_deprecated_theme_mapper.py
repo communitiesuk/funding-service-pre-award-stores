@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from app.blueprints.themes.deprecated_theme_mapper import (
+from assess.themes.deprecated_theme_mapper import (
     deprecated_sort_add_another_component_contents,
     format_add_another_component_contents,
 )

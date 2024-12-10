@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 import pytest
 from werkzeug.exceptions import NotFound
 
-from app.blueprints.assessments.models.file_factory import (
+from assess.assessments.models.file_factory import (
     ApplicationFileRepresentationArgs,
     generate_file_content,
 )

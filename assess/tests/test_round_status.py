@@ -2,8 +2,8 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from app.blueprints.assessments.models.round_status import RoundStatus, determine_round_status
-from app.blueprints.services.models.round import Round
+from assess.assessments.models.round_status import RoundStatus, determine_round_status
+from assess.services.models.round import Round
 
 
 def test_determine_round_status_open():

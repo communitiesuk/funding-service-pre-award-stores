@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import pytest
 
-from app.blueprints.assessments.pdf_generator import PDFCreationException, generate_pdf
+from assess.assessments.pdf_generator import PDFCreationException, generate_pdf
 
 
 @pytest.fixture

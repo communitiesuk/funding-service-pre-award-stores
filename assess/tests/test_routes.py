@@ -5,9 +5,9 @@ import pytest
 from bs4 import BeautifulSoup
 from flask import session
 
-from app.blueprints.assessments.models.round_status import RoundStatus
-from app.blueprints.assessments.models.round_summary import RoundSummary, Stats
-from app.blueprints.services.models.flag import Flag
+from assess.assessments.models.round_status import RoundStatus
+from assess.assessments.models.round_summary import RoundSummary, Stats
+from assess.services.models.flag import Flag
 from tests.api_data.test_data import fund_specific_claim_map
 from tests.conftest import create_valid_token, test_commenter_claims, test_lead_assessor_claims
 
@@ -1453,7 +1453,7 @@ class TestRoutes:
             mock_download_file.assert_called_once_with("some file contents", "mock_mimetype", "business_plan.txt")
 
     def test_get_file(self, flask_test_client):
-        from app.blueprints.assessments.routes import download_file
+        from assess.assessments.routes import download_file
 
         response = download_file("file_data", "text/plain", "file_name.abc")
         assert "text/plain" in response.content_type

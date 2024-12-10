@@ -1,14 +1,14 @@
 import pytest
 from flask import Flask
 
-from app.blueprints.services.data_services import (
+from assess.services.data_services import (
     get_all_fund_short_codes,
     get_application_overviews,
     get_comments,
     get_fund,
     get_round,
 )
-from app.blueprints.services.models.fund import Fund
+from assess.services.models.fund import Fund
 from tests.api_data.test_data import mock_api_results
 
 

@@ -10,10 +10,10 @@ import pytest
 import werkzeug.test
 from flask import template_rendered
 
-from app.blueprints.assessments.models.round_status import RoundStatus
-from app.blueprints.services.models.assessor_task_list import AssessorTaskList
-from app.blueprints.shared.helpers import get_ttl_hash
-from app.blueprints.tagging.models.tag import AssociatedTag, Tag, TagType
+from assess.assessments.models.round_status import RoundStatus
+from assess.services.models.assessor_task_list import AssessorTaskList
+from assess.shared.helpers import get_ttl_hash
+from assess.tagging.models.tag import AssociatedTag, Tag, TagType
 from config import Config
 from create_app import create_app
 from tests.api_data.example_get_full_application import mock_full_application_json
@@ -178,7 +178,7 @@ def flask_test_maintenance_client(request, user_token=None):
 
 @pytest.fixture(scope="function")
 def mock_get_sub_criteria_banner_state(request):
-    from app.blueprints.services.models.banner import Banner
+    from assess.services.models.banner import Banner
 
     marker = request.node.get_closest_marker("application_id")
     application_id = marker.args[0]
@@ -202,7 +202,7 @@ def mock_get_sub_criteria_banner_state(request):
 
 @pytest.fixture(scope="function")
 def mock_get_fund(mocker):
-    from app.blueprints.services.models.fund import Fund
+    from assess.services.models.fund import Fund
 
     mock_fund_info = Fund.from_json(mock_api_results["fund_store/funds/{fund_id}"])
 
@@ -227,7 +227,7 @@ def mock_get_fund(mocker):
 
 @pytest.fixture(scope="function")
 def mock_get_funds():
-    from app.blueprints.services.models.fund import Fund
+    from assess.services.models.fund import Fund
 
     mock_fund_info = [
         Fund.from_json(mock_api_results["fund_store/funds/{fund_id}"]),
@@ -280,7 +280,7 @@ def mocks_for_file_export_download(mocker):
 
 @pytest.fixture(scope="function")
 def mock_get_round(mocker):
-    from app.blueprints.services.models.round import Round
+    from assess.services.models.round import Round
 
     mock_funcs = [
         "app.blueprints.assessments.routes.get_round",
@@ -301,7 +301,7 @@ def mock_get_round(mocker):
 
 @pytest.fixture(scope="function")
 def mock_get_rounds(request, mocker):
-    from app.blueprints.services.models.round import Round
+    from assess.services.models.round import Round
 
     marker = request.node.get_closest_marker("mock_parameters")
     func_calls = [
@@ -492,7 +492,7 @@ def mock_get_teams_flag_stats(mocker):
 
 @pytest.fixture(scope="function")
 def mock_get_flags(request, mocker):
-    from app.blueprints.services.models.flag import Flag
+    from assess.services.models.flag import Flag
 
     marker = request.node.get_closest_marker("application_id")
     application_id = marker.args[0]
@@ -556,7 +556,7 @@ def mock_get_qa_complete(request, mocker):
 
 @pytest.fixture(scope="function")
 def mock_get_flag(request, mocker):
-    from app.blueprints.services.models.flag import Flag
+    from assess.services.models.flag import Flag
 
     marker = request.node.get_closest_marker("flag_id")
     flag_id = marker.args[0]
@@ -600,7 +600,7 @@ def mock_get_bulk_accounts(request, mocker):
 def mock_get_sub_criteria(request, mocker):
     application_id = request.node.get_closest_marker("application_id").args[0]
     sub_criteria_id = request.node.get_closest_marker("sub_criteria_id").args[0]
-    from app.blueprints.services.models.sub_criteria import SubCriteria
+    from assess.services.models.sub_criteria import SubCriteria
 
     mock_funcs = [
         "app.blueprints.assessments.routes.get_sub_criteria",

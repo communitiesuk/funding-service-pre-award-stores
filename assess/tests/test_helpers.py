@@ -3,18 +3,18 @@ from collections import OrderedDict
 import pytest
 from werkzeug.exceptions import HTTPException
 
-from app.blueprints.assessments.helpers import (
+from assess.assessments.helpers import (
     generate_assessment_info_csv,
     generate_csv_of_application,
     generate_maps_from_form_names,
     set_assigned_info_in_overview,
     sort_assigned_column,
 )
-from app.blueprints.scoring.forms.scores_and_justifications import OneToFiveScoreForm, ZeroToThreeScoreForm
-from app.blueprints.scoring.helpers import get_scoring_class
-from app.blueprints.services.models.flag import Flag
-from app.blueprints.services.models.fund import Fund
-from app.blueprints.shared.helpers import determine_display_status, is_flaggable, process_assessments_stats
+from assess.scoring.forms.scores_and_justifications import OneToFiveScoreForm, ZeroToThreeScoreForm
+from assess.scoring.helpers import get_scoring_class
+from assess.services.models.flag import Flag
+from assess.services.models.fund import Fund
+from assess.shared.helpers import determine_display_status, is_flaggable, process_assessments_stats
 
 RAISED_FLAG = [
     Flag.from_dict(

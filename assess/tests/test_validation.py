@@ -5,8 +5,8 @@ import pytest
 import werkzeug
 from werkzeug.exceptions import HTTPException
 
-from app.blueprints.assessments.models.round_status import RoundStatus
-from app.blueprints.authentication.validation import (
+from assess.assessments.models.round_status import RoundStatus
+from assess.authentication.validation import (
     _get_all_country_roles,
     _get_all_users_roles,
     _get_roles_by_fund_short_name,
@@ -19,7 +19,7 @@ from app.blueprints.authentication.validation import (
     has_devolved_authority_validation,
     has_relevant_country_role,
 )
-from app.blueprints.services.models.fund import Fund
+from assess.services.models.fund import Fund
 
 
 class _MockUser:

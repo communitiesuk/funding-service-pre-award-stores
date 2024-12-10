@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 import pytest
 
-from app.blueprints.assessments.models.location_data import LocationData
+from assess.assessments.models.location_data import LocationData
 
 # Given data
 input_data_list = [

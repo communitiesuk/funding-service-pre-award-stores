@@ -1,7 +1,7 @@
 import time
 
-from app.blueprints.services.data_services import get_fund
-from app.blueprints.shared.helpers import get_ttl_hash
+from assess.services.data_services import get_fund
+from assess.shared.helpers import get_ttl_hash
 
 
 def test_get_fund_lru_cache(mocker):

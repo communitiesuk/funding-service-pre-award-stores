@@ -1,8 +1,8 @@
 import pytest
 
-from app.blueprints.shared.filters import (
+from assess.shared.filters import (
     all_caps_to_human,
-    datetime_format,
+    assess_datetime_format,
     datetime_format_24hr,
     format_address,
     format_date,
@@ -16,7 +16,7 @@ from app.blueprints.shared.filters import (
 class TestFilters(object):
     def test_datetime(self):
         time_in = "2023-01-30T12:00:00"
-        result = datetime_format(time_in, "%d %B %Y at %H:%M")
+        result = assess_datetime_format(time_in, "%d %B %Y at %H:%M")
         assert "30 January 2023 at 12:00pm" == result, "Wrong format returned"
 
     def test_caps_to_human(self):

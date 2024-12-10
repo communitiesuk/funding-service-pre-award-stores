@@ -1,7 +1,7 @@
 import pytest
 
-from app.blueprints.services.models.assessor_task_list import AssessorTaskList
-from app.blueprints.services.shared_data_helpers import get_state_for_tasklist_banner
+from assess.services.models.assessor_task_list import AssessorTaskList
+from assess.services.shared_data_helpers import get_state_for_tasklist_banner
 
 
 def mock_task_list(sections=None, criterias=None):

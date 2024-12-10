@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask
 
-from app.blueprints.assessments.activity_trail import AssociatedTags, BaseModel, add_user_info, get_user_info
+from assess.assessments.activity_trail import AssociatedTags, BaseModel, add_user_info, get_user_info
 
 
 class TestActivityTrail:
