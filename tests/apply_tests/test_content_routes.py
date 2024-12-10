@@ -27,8 +27,8 @@ from bs4 import BeautifulSoup
         ),
     ],
 )
-def test_contact_us(flask_test_client, url, expected_email, expected_title):
-    response = flask_test_client.get(url)
+def test_contact_us(apply_test_client, url, expected_email, expected_title):
+    response = apply_test_client.get(url)
 
     soup = BeautifulSoup(response.data, "html.parser")
 
@@ -61,8 +61,8 @@ def test_contact_us(flask_test_client, url, expected_email, expected_title):
         ("/privacy?fund=cof&round=bad", 302, "http://privacy.com"),
     ],
 )
-def test_privacy(flask_test_client, url, expected_status, expected_redirect):
-    response = flask_test_client.get(url, follow_redirects=False)
+def test_privacy(apply_test_client, url, expected_status, expected_redirect):
+    response = apply_test_client.get(url, follow_redirects=False)
     assert response.status_code == expected_status
     assert response.location == expected_redirect
 
@@ -79,7 +79,7 @@ def test_privacy(flask_test_client, url, expected_status, expected_redirect):
         ("/feedback?fund=cof&round=bad", 302, "http://feedback.com"),
     ],
 )
-def test_feedback(flask_test_client, url, expected_status, expected_redirect):
-    response = flask_test_client.get(url, follow_redirects=False)
+def test_feedback(apply_test_client, url, expected_status, expected_redirect):
+    response = apply_test_client.get(url, follow_redirects=False)
     assert response.status_code == expected_status
     assert response.location == expected_redirect

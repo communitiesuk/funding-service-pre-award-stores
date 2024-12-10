@@ -2,7 +2,7 @@ from functools import wraps
 from http.client import METHOD_NOT_ALLOWED
 
 import requests
-from flask import Blueprint, abort, current_app, g, make_response, redirect, render_template, request, url_for
+from flask import abort, current_app, g, make_response, redirect, render_template, request, url_for
 from flask_babel import force_locale, gettext
 from flask_wtf import FlaskForm
 from fsd_utils import Decision
@@ -43,6 +43,7 @@ from apply.helpers import (
     get_section_feedback_data,
     get_token_to_return_to_application,
 )
+from common.blueprints import Blueprint
 from apply.models.statuses import get_formatted
 from config import Config
 

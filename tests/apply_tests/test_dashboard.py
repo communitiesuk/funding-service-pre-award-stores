@@ -71,7 +71,7 @@ def test_serialise_application_summary():
     ],
 )
 def test_dashboard_route_search_call(
-    flask_test_client,
+        apply_test_client,
     mocker,
     app,
     mock_login,
@@ -91,7 +91,7 @@ def test_dashboard_route_search_call(
         "apply.default.account_routes.build_application_data_for_display",
         return_value=TEST_DISPLAY_DATA,
     )
-    response = flask_test_client.get("/account", follow_redirects=True)
+    response = apply_test_client.get("/account", follow_redirects=True)
     assert response.status_code == 200
 
     get_apps_mock.assert_called_once_with(search_params=expected_search_params, as_dict=False)
@@ -107,7 +107,7 @@ def test_dashboard_route_search_call(
     ],
 )
 def test_dashboard_template_rendered(
-    flask_test_client,
+        apply_test_client,
     mock_login,
     mocker,
     templates_rendered,
@@ -123,7 +123,7 @@ def test_dashboard_template_rendered(
         return_value=TEST_DISPLAY_DATA,
     )
 
-    response = flask_test_client.get(f"/account{query_string}", follow_redirects=True)
+    response = apply_test_client.get(f"/account{query_string}", follow_redirects=True)
     assert response.status_code == 200
     assert 1 == len(templates_rendered)
     rendered_template = templates_rendered[0]
@@ -131,7 +131,7 @@ def test_dashboard_template_rendered(
 
 
 def test_dashboard_eoi_suffix(
-    flask_test_client,
+        apply_test_client,
     mock_login,
     mocker,
 ):
@@ -143,7 +143,7 @@ def test_dashboard_eoi_suffix(
     )
     mocker.patch("apply.default.account_routes.build_application_data_for_display", return_value=eoi_data)
 
-    response = flask_test_client.get("/account", follow_redirects=True)
+    response = apply_test_client.get("/account", follow_redirects=True)
 
     assert response.status_code == 200
     soup = BeautifulSoup(response.data, "html.parser")
@@ -162,7 +162,7 @@ def test_dashboard_eoi_suffix(
     ],
 )
 def test_dashboard_language(
-    flask_test_client,
+        apply_test_client,
     mock_login,
     mocker,
     query_string,
@@ -194,12 +194,12 @@ def test_dashboard_language(
             },
         ),
     )
-    response = flask_test_client.get(f"/account{query_string}", follow_redirects=True)
+    response = apply_test_client.get(f"/account{query_string}", follow_redirects=True)
     assert response.status_code == 200
     assert exp_response_language == get_language_cookie_value(response=response)
 
 
-def test_dashboard_route(flask_test_client, mocker, mock_login):
+def test_dashboard_route(apply_test_client, mocker, mock_login):
     mocker.patch(
         "apply.default.account_routes.search_applications",
         return_value=TEST_APPLICATION_SUMMARIES,
@@ -208,7 +208,7 @@ def test_dashboard_route(flask_test_client, mocker, mock_login):
         "apply.default.account_routes.build_application_data_for_display",
         return_value=TEST_DISPLAY_DATA,
     )
-    response = flask_test_client.get("/account?fund=COF&round=R2W3", follow_redirects=True)
+    response = apply_test_client.get("/account?fund=COF&round=R2W3", follow_redirects=True)
     assert response.status_code == 200
 
     soup = BeautifulSoup(response.data, "html.parser")
@@ -241,26 +241,26 @@ def test_dashboard_route(flask_test_client, mocker, mock_login):
 
 @pytest.mark.skip(reason="Logic covered in build data for display")
 def test_submitted_dashboard_route_shows_no_application_link(
-    flask_test_client, mocker, mock_login, mock_get_fund_round
+        apply_test_client, mocker, mock_login, mock_get_fund_round
 ):
     mocker.patch(
         "apply.default.account_routes.get_applications_for_account",
         return_value=TEST_SUBMITTED_APPLICATION_STORE_DATA,
     )
-    response = flask_test_client.get("/account", follow_redirects=True)
+    response = apply_test_client.get("/account", follow_redirects=True)
     assert response.status_code == 200
     # there should be no link to application on the page
     assert b"Continue application" not in response.data
     assert b"Submitted" in response.data
 
 
-def test_dashboard_route_no_applications(flask_test_client, mocker, mock_login):
+def test_dashboard_route_no_applications(apply_test_client, mocker, mock_login):
     mocker.patch(
         "apply.default.account_routes.search_applications",
         return_value=[],
     )
 
-    response = flask_test_client.get("/account", follow_redirects=True)
+    response = apply_test_client.get("/account", follow_redirects=True)
     assert response.status_code == 200
 
     assert b"""<h1 class="govuk-heading-xl">All applications</h1>""" in response.data
@@ -504,7 +504,7 @@ def test_filter_funds_by_short_name(funds, filter_value, expected_count, mocker)
     ],
 )
 def test_create_new_application(
-    flask_test_client,
+        apply_test_client,
     mocker,
     app,
     mock_login,
@@ -525,7 +525,7 @@ def test_create_new_application(
 
     request_mock = mocker.patch("apply.default.account_routes.request")
     request_mock.form = mock.MagicMock()
-    response = flask_test_client.post("/account/new", follow_redirects=False)
+    response = apply_test_client.post("/account/new", follow_redirects=False)
     assert 302 == response.status_code
     # assert the request to app store to create the application uses the expected language
     post_request.assert_called_once_with(

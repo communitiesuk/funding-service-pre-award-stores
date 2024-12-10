@@ -20,7 +20,7 @@ class TestUserValidation:
     TEST_USER = "test-user"
     REHYDRATION_TOKEN = "test_token"
 
-    def test_continue_application_correct_user(self, flask_test_client, mocker, mock_login):
+    def test_continue_application_correct_user(self, apply_test_client, mocker, mock_login):
         mocker.patch(
             "apply.default.application_routes.get_application_data",
             return_value=TEST_APPLICATIONS[0],
@@ -38,11 +38,11 @@ class TestUserValidation:
             return_value=RoundStatus(False, False, True),
         )
         expected_redirect_url = DefaultConfig.FORM_REHYDRATION_URL.format(rehydration_token=self.REHYDRATION_TOKEN)
-        response = flask_test_client.get(f"/continue_application/{self.TEST_ID}", follow_redirects=False)
+        response = apply_test_client.get(f"/continue_application/{self.TEST_ID}", follow_redirects=False)
         assert 302 == response.status_code, "Incorrect status code"
         assert expected_redirect_url == response.location, "Incorrect redirect url"
 
-    def test_continue_application_bad_user(self, flask_test_client, mocker, monkeypatch):
+    def test_continue_application_bad_user(self, apply_test_client, mocker, monkeypatch):
         monkeypatch.setattr(
             "fsd_utils.authentication.decorators._check_access_token",
             lambda return_app: {
@@ -57,14 +57,14 @@ class TestUserValidation:
             return_value=TEST_APPLICATIONS[0],
         )
 
-        response = flask_test_client.get(f"/continue_application/{self.TEST_ID}", follow_redirects=False)
+        response = apply_test_client.get(f"/continue_application/{self.TEST_ID}", follow_redirects=False)
         assert 401 == response.status_code, "Incorrect status code"
 
         soup = BeautifulSoup(response.data, "html.parser")
         assert "Sorry, there is a problem with the service" in soup.find("h1")
         assert any("Try again later." in p for p in soup.find_all("p", class_="govuk-body"))
 
-    def test_tasklist_correct_user(self, flask_test_client, mocker, mock_login):
+    def test_tasklist_correct_user(self, apply_test_client, mocker, mock_login):
         mocker.patch(
             "apply.default.application_routes.get_application_data",
             return_value=TEST_APPLICATIONS[0],
@@ -78,12 +78,12 @@ class TestUserValidation:
             return_value=RoundStatus(False, False, True),
         )
 
-        response = flask_test_client.get(f"/tasklist/{self.TEST_ID}", follow_redirects=False)
+        response = apply_test_client.get(f"/tasklist/{self.TEST_ID}", follow_redirects=False)
         assert 200 == response.status_code, "Incorrect status code"
         assert b"<title>Task List" in response.data
         assert b"TEST-REF</dd>" in response.data
 
-    def test_tasklist_bad_user(self, flask_test_client, mocker, monkeypatch):
+    def test_tasklist_bad_user(self, apply_test_client, mocker, monkeypatch):
         monkeypatch.setattr(
             "fsd_utils.authentication.decorators._check_access_token",
             lambda return_app: {
@@ -98,14 +98,14 @@ class TestUserValidation:
             return_value=TEST_APPLICATIONS[0],
         )
 
-        response = flask_test_client.get(f"/tasklist/{self.TEST_ID}", follow_redirects=False)
+        response = apply_test_client.get(f"/tasklist/{self.TEST_ID}", follow_redirects=False)
         assert 401 == response.status_code, "Incorrect status code"
 
         soup = BeautifulSoup(response.data, "html.parser")
         assert "Sorry, there is a problem with the service" in soup.find("h1")
         assert any("Try again later." in p for p in soup.find_all("p", class_="govuk-body"))
 
-    def test_submit_correct_user(self, flask_test_client, mocker, mock_login):
+    def test_submit_correct_user(self, apply_test_client, mocker, mock_login):
         mocker.patch(
             "apply.default.application_routes.get_application_data",
             return_value=TEST_APPLICATIONS[0],
@@ -123,7 +123,7 @@ class TestUserValidation:
             },
         )
 
-        response = flask_test_client.post(
+        response = apply_test_client.post(
             "/submit_application",
             data={"application_id": self.TEST_ID},
             follow_redirects=False,
@@ -132,7 +132,7 @@ class TestUserValidation:
         assert b"Application complete" in response.data
         assert b"Your reference number<br><strong>ABC-123</strong>" in response.data
 
-    def test_submit_correct_user_bad_dates(self, flask_test_client, mocker, mock_login):
+    def test_submit_correct_user_bad_dates(self, apply_test_client, mocker, mock_login):
         mocker.patch(
             "apply.default.application_routes.get_application_data",
             return_value=TEST_APPLICATIONS[0],
@@ -142,7 +142,7 @@ class TestUserValidation:
             return_value=RoundStatus(True, True, False),
         )
 
-        response = flask_test_client.post(
+        response = apply_test_client.post(
             "/submit_application",
             data={"application_id": self.TEST_ID},
             follow_redirects=False,
@@ -150,7 +150,7 @@ class TestUserValidation:
         assert response.status_code == 302
         assert "/account" == response.location
 
-    def test_submit_bad_user(self, flask_test_client, mocker, monkeypatch):
+    def test_submit_bad_user(self, apply_test_client, mocker, monkeypatch):
         monkeypatch.setattr(
             "fsd_utils.authentication.decorators._check_access_token",
             lambda return_app: {
@@ -165,7 +165,7 @@ class TestUserValidation:
             return_value=TEST_APPLICATIONS[0],
         )
 
-        response = flask_test_client.post(
+        response = apply_test_client.post(
             "/submit_application",
             data={"application_id": self.TEST_ID},
             follow_redirects=False,
