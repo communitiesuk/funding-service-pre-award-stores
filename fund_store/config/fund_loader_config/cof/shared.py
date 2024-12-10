@@ -31,6 +31,7 @@ fund_config = {
     "owner_organisation_name": "Department for Levelling Up, Housing and Communities",
     "owner_organisation_shortname": "DLUHC",
     "owner_organisation_logo_uri": DLUHC_LOGO_PNG,
+    "ggis_scheme_reference_number": "",
 }
 
 COF_APPLICATION_GUIDANCE = {
