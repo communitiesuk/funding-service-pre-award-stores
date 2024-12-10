@@ -1,5 +1,19 @@
 from operator import itemgetter
 
+from flask import current_app
+from fsd_utils import Decision
+from fsd_utils.config.notify_constants import NotifyConstants
+
+from application_store.config.key_report_mappings.mappings import (
+    ROUND_ID_TO_KEY_REPORT_MAPPING,
+)
+from application_store.db.queries.application import create_qa_base64file
+from application_store.db.queries.reporting.queries import (
+    map_application_key_fields,
+)
+from application_store.external_services.models.notification import Notification
+from config import Config
+
 
 def order_applications(applications, order_by, order_rev):
     """
@@ -19,3 +33,60 @@ def order_applications(applications, order_by, order_rev):
             reverse=int(order_rev),
         )
     return applications
+
+
+def send_submit_notification(
+    application_with_form_json,
+    should_send_email,
+    eoi_results,
+    account,
+    application_with_form_json_and_fund_name,
+    application,
+    round_data,
+):
+    if eoi_results:
+        eoi_decision = eoi_results["decision"]
+        full_name = (
+            account.full_name
+            if account.full_name
+            else map_application_key_fields(
+                application_with_form_json,
+                ROUND_ID_TO_KEY_REPORT_MAPPING[application.round_id],
+                application.round_id,
+            ).get("lead_contact_name", "")
+        )
+        contents = {
+            NotifyConstants.APPLICATION_FIELD: application_with_form_json_and_fund_name,
+            NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_data.contact_email,
+            NotifyConstants.APPLICATION_CAVEATS: eoi_results["caveats"],
+        }
+        if Decision(eoi_decision) == Decision.PASS:  # EOI Full pass
+            notify_template = Config.NOTIFY_TEMPLATE_EOI_PASS
+
+        elif Decision(eoi_decision) == Decision.PASS_WITH_CAVEATS:  # EOI Pass with caveats
+            notify_template = Config.NOTIFY_TEMPLATE_EOI_PASS_W_CAVEATS
+        else:
+            notify_template = None
+            should_send_email = False
+    else:
+        notify_template = Config.NOTIFY_TEMPLATE_SUBMIT_APPLICATION
+        eoi_decision = None
+        full_name = account.full_name
+        contents = {
+            NotifyConstants.APPLICATION_FIELD: application_with_form_json_and_fund_name,
+            NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_data.contact_email,
+        }
+
+    if should_send_email:
+        contents["application"] = create_qa_base64file(contents.get("application"), True)
+        del contents["application"]["forms"]
+        message_id = Notification.send(
+            notify_template,
+            account.email,
+            full_name.title() if full_name else None,
+            contents,
+        )
+        current_app.logger.info(
+            "Message added to the queue msg_id: [{message_id}]",
+            extra=dict(message_id=message_id),
+        )
