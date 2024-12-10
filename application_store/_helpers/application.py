@@ -37,7 +37,7 @@ def order_applications(applications, order_by, order_rev):
     return applications
 
 
-def send_submit_notification(application_data, account, contact_email, eoi_results=None):
+def send_submit_notification(application_data, account, contact_email, eoi_results=None, should_send_email=False):
     if eoi_results:
         full_name = (
             account.full_name

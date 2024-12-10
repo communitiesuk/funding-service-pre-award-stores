@@ -207,6 +207,7 @@ class ApplicationsView(MethodView):
                 contact_email=round_data.contact_email,
                 application_data=application_with_form_json_and_fund_name,
                 should_send_email=should_send_email,
+                account=account,
             )
             return {
                 "id": application_id,
