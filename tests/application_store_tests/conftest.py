@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 
 import pytest
-from flask import Response
 
 from app import create_app
 from application_store.db.models.application.applications import Applications
@@ -309,8 +308,8 @@ def mock_random_choices(mocker):
 def mock_successful_submit_notification(mocker):
     # mock the function in the file it is invoked (not where it is declared)
     mocker.patch(
-        "application_store.api.routes.application.routes.Notification.send",
-        lambda template, email, full_name, application: Response(200),
+        "application_store.api.routes.application.routes.send_submit_notification",
+        return_value=None,
     )
 
 
