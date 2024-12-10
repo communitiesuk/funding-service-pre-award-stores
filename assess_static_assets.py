@@ -1,12 +1,12 @@
 """Compile static assets."""
-
+import os
 from os import path
 
 from flask import Flask
 from flask_assets import Bundle, Environment
 
 
-def init_assets(app=None, auto_build=False, static_folder="static/assess"):
+def init_assets(app=None, auto_build=False, static_folder="static"):
     app = app or Flask(__name__, static_folder=static_folder)
     with app.app_context():
         env = Environment(app)
@@ -24,12 +24,12 @@ def init_assets(app=None, auto_build=False, static_folder="static/assess"):
             "./js/components/*/*.js",
             "./js/init.js",
             filters="jsmin",
-            output="js/main.min.js",
+            output="assess/js/main.min.js",
         )
         css = Bundle(
             "./css/*.css",
             filters="cssmin",
-            output="css/main.min.css",
+            output="assess/css/main.min.css",
             extra={"rel": "stylesheet/css"},
         )
 
@@ -40,7 +40,8 @@ def init_assets(app=None, auto_build=False, static_folder="static/assess"):
         return bundles
 
 
-def build_bundles(static_folder="static/assess"):
+def build_bundles(static_folder="static"):
+    os.makedirs(static_folder, exist_ok=True)
     bundles = init_assets(static_folder=static_folder)
     for bundle in bundles:
         bundle.build()

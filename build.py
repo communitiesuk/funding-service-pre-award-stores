@@ -140,7 +140,7 @@ def build_assess_assets(static_dist_root="static/assess", remove_existing=False)
         if os.path.exists(relative_dist_root):
             shutil.rmtree(relative_dist_root)
     build_some_assess_assets(static_dist_root=static_dist_root)
-    assess_static_assets.build_bundles(static_folder=static_dist_root)
+    assess_static_assets.build_bundles(static_folder='static')
 
 
 if __name__ == "__main__":

@@ -40,6 +40,7 @@ jobs:
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
     with:
       postgres_unit_testing: false
+      assets_required: true
 
   paketo_build:
     needs: [ setup ]
