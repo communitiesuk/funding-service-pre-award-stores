@@ -51,6 +51,7 @@ from application_store.external_services import (
 from application_store.external_services.exceptions import (
     NotificationError,
 )
+from assessment_store.db.queries.assessment_records.queries import insert_application_record
 
 
 class ApplicationsView(MethodView):
@@ -190,6 +191,9 @@ class ApplicationsView(MethodView):
                 "round_name": round_name,
                 "prospectus_url": round_data.prospectus_url,
             }
+            insert_application_record(
+                application_json_string=application_with_form_json, application_type=None, is_json=True
+            )
 
             if round_data.is_expression_of_interest:
                 eoi_results = self.get_application_eoi_response(application_with_form_json)

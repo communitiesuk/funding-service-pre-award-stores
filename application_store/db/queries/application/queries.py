@@ -19,7 +19,6 @@ from application_store.db.models.application.enums import Status as ApplicationS
 from application_store.db.schemas import ApplicationSchema
 from application_store.external_services import get_fund, get_round
 from application_store.external_services.aws import FileData, list_files_by_prefix
-from assessment_store.db.queries.assessment_records.queries import insert_application_record
 from config import Config
 from db import db
 
@@ -248,8 +247,6 @@ def submit_application(application_id) -> Applications:
 
     all_application_files = list_files_by_prefix(application_id)
     application = process_files(application, all_application_files)
-
-    insert_application_record(application_json_string=application, application_type=None, is_json=True)
 
     application.status = "SUBMITTED"
     db.session.commit()
