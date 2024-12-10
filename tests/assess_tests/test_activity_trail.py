@@ -26,7 +26,7 @@ class TestActivityTrail:
     def test_get_user_info(self, list_data, mocker):
         # Patching the get_bulk_accounts_dict function
         mocker.patch(
-            "app.blueprints.assessments.activity_trail.get_bulk_accounts_dict",
+            "assess.assessments.activity_trail.get_bulk_accounts_dict",
             return_value=self._accounts_list,
         )
 
@@ -37,7 +37,7 @@ class TestActivityTrail:
     def test_add_user_info(self, mocker):
         with self.test_app.app_context():
             mocker.patch(
-                "app.blueprints.assessments.activity_trail.get_user_info",
+                "assess.assessments.activity_trail.get_user_info",
                 return_value=self._accounts_list,
             )
             result = add_user_info(self.list_data_class, self.state)

@@ -27,9 +27,9 @@
               <span class="govuk-warning-text__assistive">Warning</span>
               Editing or deactivating this tag will change it on
               {% if tag.tag_association_count != 1 %}
-                {{ count }} tagged assessments.
+                {{ tag.tag_association_count }} tagged assessments.
               {% else %}
-                {{ count }} tagged assessment.
+                {{ tag.tag_association_count }} tagged assessment.
               {% endif %}
             </strong>
           </div>

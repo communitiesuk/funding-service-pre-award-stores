@@ -8,18 +8,19 @@ from flask import session
 from assess.assessments.models.round_status import RoundStatus
 from assess.assessments.models.round_summary import RoundSummary, Stats
 from assess.services.models.flag import Flag
-from tests.api_data.test_data import fund_specific_claim_map
-from tests.conftest import create_valid_token, test_commenter_claims, test_lead_assessor_claims
+from config.envs.unit_test import UnitTestConfig
+from tests.assess_tests.api_data.test_data import fund_specific_claim_map
+from tests.assess_tests.conftest import create_valid_token, test_commenter_claims, test_lead_assessor_claims
 
 
 class TestRoutes:
     @pytest.mark.mock_parameters(
         {
             "get_assessment_stats_path": [
-                "app.blueprints.assessments.models.round_summary.get_assessments_stats",
+                "assess.assessments.models.round_summary.get_assessments_stats",
             ],
             "get_rounds_path": [
-                "app.blueprints.assessments.models.round_summary.get_rounds",
+                "assess.assessments.models.round_summary.get_rounds",
             ],
             "fund_id": "test-fund",
             "round_id": "test-round",
@@ -27,12 +28,12 @@ class TestRoutes:
     )
     def test_route_landing(
         self,
-        flask_test_client,
+            assess_test_client,
         mock_get_funds,
         mock_get_rounds,
         mock_get_assessment_stats,
     ):
-        response = flask_test_client.get("/assess/assessor_tool_dashboard/")
+        response = assess_test_client.get("/assess/assessor_tool_dashboard/")
         assert 200 == response.status_code, "Wrong status code on response"
         soup = BeautifulSoup(response.data, "html.parser")
         assert (
@@ -64,10 +65,10 @@ class TestRoutes:
     @pytest.mark.mock_parameters(
         {
             "get_assessment_stats_path": [
-                "app.blueprints.assessments.models.round_summary.get_assessments_stats",
+                "assess.assessments.models.round_summary.get_assessments_stats",
             ],
             "get_rounds_path": [
-                "app.blueprints.assessments.models.round_summary.get_rounds",
+                "assess.assessments.models.round_summary.get_rounds",
             ],
             "fund_id": "test-fund",
             "round_id": "test-round",
@@ -79,7 +80,7 @@ class TestRoutes:
     )
     def test_route_landing_export_link_visibility(
         self,
-        flask_test_client,
+            assess_test_client,
         mock_get_funds,
         mocker,
         exp_link_count,
@@ -89,7 +90,7 @@ class TestRoutes:
         access_controller_mock = mock.MagicMock()
         access_controller_mock.is_lead_assessor = mock_is_lead_assessor
         mocker.patch(
-            "app.blueprints.assessments.routes.create_round_summaries",
+            "assess.assessments.routes.create_round_summaries",
             return_value=[
                 RoundSummary(
                     status=RoundStatus(False, False, True, True, True, False),
@@ -117,8 +118,8 @@ class TestRoutes:
             ],
         )
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
-        response = flask_test_client.get("/assess/assessor_tool_dashboard/")
+        assess_test_client.set_cookie("fsd_user_token", token)
+        response = assess_test_client.get("/assess/assessor_tool_dashboard/")
         assert 200 == response.status_code, "Wrong status code on response"
         soup = BeautifulSoup(response.data, "html.parser")
 
@@ -139,7 +140,7 @@ class TestRoutes:
     def test_route_fund_dashboard_for_assessor(
         self,
         request,
-        flask_test_client,
+        assess_test_client,
         mock_get_funds,
         mock_get_round,
         mock_get_fund,
@@ -152,12 +153,12 @@ class TestRoutes:
         fund_short_name,
         round_short_name,
     ):
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(fund_specific_claim_map[fund_short_name]["ASSESSOR"]),
         )
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/fund_dashboard/{fund_short_name}/{round_short_name}",
             follow_redirects=True,
         )
@@ -193,7 +194,7 @@ class TestRoutes:
             "£7,000.00",
             "Gallery",
             "England",
-            "1 tag\n                                \n\n\n\n\n                                    Tag one red",
+            "1 tag\n                            \n\n\n\n\n                                Tag one red",
             "Flagged for test_team",
             "-",
             "04/01/2024 at 15:54",
@@ -238,8 +239,7 @@ class TestRoutes:
     @pytest.mark.application_id("resolved_app")
     def test_route_fund_dashboard_for_lead_assessor(
         self,
-        request,
-        flask_test_client,
+        assess_test_client,
         mock_get_funds,
         mock_get_round,
         mock_get_fund,
@@ -252,11 +252,11 @@ class TestRoutes:
         fund_short_name,
         round_short_name,
     ):
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
         )
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/fund_dashboard/{fund_short_name}/{round_short_name}",
             follow_redirects=True,
         )
@@ -292,7 +292,7 @@ class TestRoutes:
             "£7,000.00",
             "Gallery",
             "England",
-            "1 tag\n                                \n\n\n\n\n                                    Tag one red",
+            "1 tag\n                            \n\n\n\n\n                                Tag one red",
             "Flagged for test_team",
             "-",
             "04/01/2024 at 15:54",
@@ -366,7 +366,7 @@ class TestRoutes:
     def test_team_stats_are_present(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_funds,
         mock_get_round,
         mock_get_fund,
@@ -381,12 +381,12 @@ class TestRoutes:
         fund_short_name = params["fund_short_name"]
         round_short_name = params["round_short_name"]
 
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
         )
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/fund_dashboard/{fund_short_name}/{round_short_name}",
             follow_redirects=True,
             query_string={"status": "QA_COMPLETE"},
@@ -412,7 +412,7 @@ class TestRoutes:
     def test_route_fund_dashboard_filter_not_assigned(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_funds,
         mock_get_round,
         mock_get_fund,
@@ -427,12 +427,12 @@ class TestRoutes:
         fund_short_name = params["fund_short_name"]
         round_short_name = params["round_short_name"]
 
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
         )
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/fund_dashboard/{fund_short_name}/{round_short_name}",
             follow_redirects=True,
             query_string={"assigned_to": "Not assigned"},
@@ -478,7 +478,7 @@ class TestRoutes:
     def test_route_fund_dashboard_filter_session_persistence(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         app,
         mock_get_funds,
         mock_get_round,
@@ -495,12 +495,12 @@ class TestRoutes:
         round_short_name = params["round_short_name"]
         expected_search_params = params["expected_search_params"]
 
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
         )
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/fund_dashboard/{fund_short_name}/{round_short_name}",
             follow_redirects=True,
             query_string=expected_search_params,
@@ -508,7 +508,7 @@ class TestRoutes:
 
         assert 200 == response.status_code, "Wrong status code on response"
 
-        with flask_test_client.session_transaction() as sess:
+        with assess_test_client.session_transaction() as sess:
             assert sess is not None
             assert sess.get(f"filter_params_{fund_short_name.upper()}_{round_short_name.upper()}") == {
                 "search_term": "",
@@ -534,7 +534,7 @@ class TestRoutes:
     def test_route_fund_dashboard_filter_status(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_fund,
         mock_get_funds,
         mock_get_round,
@@ -548,7 +548,7 @@ class TestRoutes:
         fund_short_name = params["fund_short_name"]
         round_short_name = params["round_short_name"]
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/fund_dashboard/{fund_short_name}/{round_short_name}",
             follow_redirects=True,
             query_string={"status": "QA_COMPLETE"},
@@ -577,7 +577,7 @@ class TestRoutes:
     def test_route_fund_dashboard_filter_asset_type(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_fund,
         mock_get_funds,
         mock_get_round,
@@ -591,7 +591,7 @@ class TestRoutes:
         fund_short_name = params["fund_short_name"]
         round_short_name = params["round_short_name"]
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/fund_dashboard/{fund_short_name}/{round_short_name}",
             follow_redirects=True,
             query_string={"asset_type": "pub"},
@@ -620,7 +620,7 @@ class TestRoutes:
     def test_route_fund_dashboard_search_term(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_fund,
         mock_get_funds,
         mock_get_round,
@@ -634,7 +634,7 @@ class TestRoutes:
         fund_short_name = params["fund_short_name"]
         round_short_name = params["round_short_name"]
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/fund_dashboard/{fund_short_name}/{round_short_name}",
             follow_redirects=True,
             query_string={"search_term": "hello"},
@@ -664,7 +664,7 @@ class TestRoutes:
     def test_route_fund_dashboard_clear_filters(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_fund,
         mock_get_funds,
         mock_get_round,
@@ -678,7 +678,7 @@ class TestRoutes:
         fund_short_name = params["fund_short_name"]
         round_short_name = params["round_short_name"]
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/fund_dashboard/{fund_short_name}/{round_short_name}",
             follow_redirects=True,
             query_string={
@@ -723,7 +723,7 @@ class TestRoutes:
     def test_route_fund_dashboard_sort_column(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_fund,
         mock_get_funds,
         mock_get_round,
@@ -737,7 +737,7 @@ class TestRoutes:
         mock_get_active_tags_for_fund_round,
         mock_get_tag_types,
     ):
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(fund_specific_claim_map["COF"]["ASSESSOR"]),
         )
@@ -746,7 +746,7 @@ class TestRoutes:
         fund_short_name = params["fund_short_name"]
         round_short_name = params["round_short_name"]
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/fund_dashboard/{fund_short_name}/{round_short_name}",
             follow_redirects=True,
             query_string={
@@ -808,7 +808,7 @@ class TestRoutes:
     @pytest.mark.sub_criteria_id("test_sub_criteria_id")
     def test_route_sub_criteria_scoring(
         self,
-        flask_test_client,
+            assess_test_client,
         request,
         mock_get_sub_criteria,
         mock_get_fund,
@@ -827,10 +827,10 @@ class TestRoutes:
         # Use unittest.mock to create a mock object for get_scores_and_justification # noqa
 
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
 
         # Send a request to the route you want to test
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/application_id/{application_id}/sub_criteria_id/{sub_criteria_id}/score"  # noqa
         )
 
@@ -845,7 +845,7 @@ class TestRoutes:
 
     def test_route_sub_criteria_scoring_inaccessible_to_commenters(
         self,
-        flask_test_client,
+        assess_test_client,
         mock_get_funds,
         mock_get_application_metadata,
         mock_get_fund,
@@ -853,43 +853,43 @@ class TestRoutes:
     ):
         # Mocking fsd-user-token cookie
         token = create_valid_token(test_commenter_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
 
         # Send a request to the route you want to test
-        response = flask_test_client.get("/assess/application_id/app_123/sub_criteria_id/1a2b3c4d/score")  # noqa
+        response = assess_test_client.get("http://assessment.levellingup.gov.localhost:3010/assess/application_id/app_123/sub_criteria_id/1a2b3c4d/score")  # noqa
 
         # Assert that the response has the expected status code
         assert (
             302 == response.status_code
         ), "Commenter should receive a 302 to authenticator when trying to access the sub criteria scoring page"
-        params = {"roles_required": "TF_LEAD_ASSESSOR%7CTF_ASSESSOR"}
+        params = {"roles_required": "TF_LEAD_ASSESSOR|TF_ASSESSOR"}
         encoded_params = urllib.parse.urlencode(params)
         assert (
-            response.location == f"https://authenticator/service/user?{encoded_params}"  # noqa
+            response.location == f"https://authenticator.levellingup.gov.localhost:4004/service/user?{encoded_params}"  # noqa
         )
 
-    def test_homepage_route_accessible(self, flask_test_client, mock_get_funds):
+    def test_homepage_route_accessible(self, assess_test_client, mock_get_funds):
         # Remove fsd-user-token cookie
-        flask_test_client.set_cookie("fsd_user_token", "")
+        assess_test_client.set_cookie("fsd_user_token", "")
 
         # Send a request to the homepage "/" route
-        response = flask_test_client.get("/")
+        response = assess_test_client.get("/")
 
         # Assert that the response has the expected status code
         assert 200 == response.status_code, "Homepage route should be accessible"
 
         # Send a request to the root route
-        response = flask_test_client.get("", follow_redirects=True)
+        response = assess_test_client.get("", follow_redirects=True)
 
         # Assert that the response has the expected status code
         assert 200 == response.status_code, "Homepage route should be accessible"
 
-    def test_healthcheck_route_accessible(self, flask_test_client, mock_get_funds):
+    def test_healthcheck_route_accessible(self, assess_test_client, mock_get_funds):
         # Remove fsd-user-token cookie
-        flask_test_client.set_cookie("fsd_user_token", "")
+        assess_test_client.set_cookie("fsd_user_token", "")
 
         # Send a request to the /healthcheck route
-        response = flask_test_client.get("/healthcheck")  # noqa
+        response = assess_test_client.get("/healthcheck")  # noqa
 
         # Assert that the response has the expected status code
         assert 200 == response.status_code, "Healthcheck route should be accessible"
@@ -898,7 +898,7 @@ class TestRoutes:
     def test_flag_route_already_flagged(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_flags,
         mock_get_available_teams,
         mock_get_assessor_tasklist_state,
@@ -910,9 +910,9 @@ class TestRoutes:
     ):
         application_id = request.node.get_closest_marker("application_id").args[0]
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
 
-        response = flask_test_client.get(f"assess/flag/{application_id}")
+        response = assess_test_client.get(f"assess/flag/{application_id}")
 
         assert response.status_code == 200
 
@@ -921,7 +921,7 @@ class TestRoutes:
     def test_flag_route_works_for_application_with_latest_resolved_flag(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_flags,
         mock_get_available_teams,
         mock_get_flag,
@@ -935,9 +935,9 @@ class TestRoutes:
         marker = request.node.get_closest_marker("application_id")
         application_id = marker.args[0]
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
 
-        response = flask_test_client.get(f"assess/flag/{application_id}")
+        response = assess_test_client.get(f"assess/flag/{application_id}")
 
         assert response.status_code == 200
 
@@ -945,7 +945,7 @@ class TestRoutes:
     def test_application_route_should_show_stopped_flag(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_assessor_tasklist_state,
         mock_get_fund,
         mock_get_funds,
@@ -961,9 +961,9 @@ class TestRoutes:
         marker = request.node.get_closest_marker("application_id")
         application_id = marker.args[0]
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
 
-        response = flask_test_client.get(f"assess/application/{application_id}")
+        response = assess_test_client.get(f"assess/application/{application_id}")
 
         assert 200 == response.status_code, "Wrong status code on response"
         soup = BeautifulSoup(response.data, "html.parser")
@@ -978,7 +978,7 @@ class TestRoutes:
     def test_application_route_should_show_resolved_flag(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_assessor_tasklist_state,
         mock_get_fund,
         mock_get_funds,
@@ -994,9 +994,9 @@ class TestRoutes:
         marker = request.node.get_closest_marker("application_id")
         application_id = marker.args[0]
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
 
-        response = flask_test_client.get(f"assess/application/{application_id}")
+        response = assess_test_client.get(f"assess/application/{application_id}")
 
         assert response.status_code == 200
         assert b"Remove flag" not in response.data
@@ -1007,7 +1007,7 @@ class TestRoutes:
     @pytest.mark.application_id("resolved_app")
     def test_flag_route_submit_flag(
         self,
-        flask_test_client,
+            assess_test_client,
         mocker,
         mock_get_assessor_tasklist_state,
         mock_get_available_teams,
@@ -1019,10 +1019,10 @@ class TestRoutes:
         mock_get_sub_criteria_banner_state,
     ):
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
         session["csrf_token"] = "test"
 
-        response = flask_test_client.post(
+        response = assess_test_client.post(
             "assess/flag/resolved_app",
             data={
                 "justification": "Test justification",
@@ -1039,7 +1039,7 @@ class TestRoutes:
     def test_flag_route_get_resolve_flag(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_flags,
         mock_get_flag,
         mock_get_assessor_tasklist_state,
@@ -1050,10 +1050,10 @@ class TestRoutes:
         mock_get_application_metadata,
     ):
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
         application_id = request.node.get_closest_marker("application_id").args[0]
         flag_id = request.node.get_closest_marker("flag_id").args[0]
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"assess/resolve_flag/{application_id}?flag_id={flag_id}",
         )
 
@@ -1088,13 +1088,13 @@ class TestRoutes:
             )
         }
     )
-    @pytest.mark.submit_flag_paths(["app.blueprints.flagging.helpers.submit_flag"])
+    @pytest.mark.submit_flag_paths(["assess.flagging.helpers.submit_flag"])
     @pytest.mark.application_id("flagged_app")
     @pytest.mark.flag_id("flagged_app")
     def test_post_resolved_flag(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mocker,
         mock_get_flags,
         mock_get_flag,
@@ -1106,11 +1106,11 @@ class TestRoutes:
         mock_submit_flag,
     ):
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
         application_id = request.node.get_closest_marker("application_id").args[0]
         flag_id = request.node.get_closest_marker("flag_id").args[0]
 
-        response = flask_test_client.post(
+        response = assess_test_client.post(
             f"assess/resolve_flag/{application_id}?flag_id={flag_id}",
             data={
                 "resolution_flag": "RESOLVED",
@@ -1126,7 +1126,7 @@ class TestRoutes:
     def test_flag_route_get_continue_application(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_flags,
         mock_get_flag,
         mock_get_sub_criteria_banner_state,
@@ -1139,9 +1139,9 @@ class TestRoutes:
         application_id = request.node.get_closest_marker("application_id").args[0]
         flag_id = request.node.get_closest_marker("flag_id").args[0]
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/continue_assessment/{application_id}?flag_id={flag_id}",
         )
 
@@ -1173,13 +1173,13 @@ class TestRoutes:
             )
         }
     )
-    @pytest.mark.submit_flag_paths(["app.blueprints.flagging.helpers.submit_flag"])
+    @pytest.mark.submit_flag_paths(["assess.flagging.helpers.submit_flag"])
     @pytest.mark.application_id("stopped_app")
     @pytest.mark.flag_id("stopped_app")
     def test_post_continue_application(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mocker,
         mock_get_funds,
         mock_get_application_metadata,
@@ -1191,9 +1191,9 @@ class TestRoutes:
     ):
         flag_id = request.node.get_closest_marker("flag_id").args[0]
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
 
-        response = flask_test_client.post(
+        response = assess_test_client.post(
             f"assess/continue_assessment/stopped_app?flag_id={flag_id}",
             data={
                 "reason": "We should continue the application.",
@@ -1207,7 +1207,7 @@ class TestRoutes:
     def test_qa_complete_flag_displayed(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_round,
         mock_get_assessor_tasklist_state,
         mock_get_flags,
@@ -1222,9 +1222,9 @@ class TestRoutes:
         mock_get_scoring_system,
     ):
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
         application_id = request.node.get_closest_marker("application_id").args[0]
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"assess/application/{application_id}",
         )
 
@@ -1236,7 +1236,7 @@ class TestRoutes:
     def test_qa_completed_flagged_application(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_assessor_tasklist_state,
         mock_get_fund,
         mock_get_funds,
@@ -1250,12 +1250,12 @@ class TestRoutes:
         mock_get_scoring_system,
     ):
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
 
         marker = request.node.get_closest_marker("application_id")
         application_id = marker.args[0]
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"assess/application/{application_id}",
         )
 
@@ -1283,7 +1283,7 @@ class TestRoutes:
     def test_route_fund_dashboard_shows_flagged(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_funds,
         mock_get_fund,
         mock_get_round,
@@ -1293,7 +1293,7 @@ class TestRoutes:
         mock_get_active_tags_for_fund_round,
         mock_get_tag_types,
     ):
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(fund_specific_claim_map["COF"]["ASSESSOR"]),
         )
@@ -1301,7 +1301,7 @@ class TestRoutes:
         params = request.node.get_closest_marker("mock_parameters").args[0]
         fund_short_name = params["fund_short_name"]
         round_short_name = params["round_short_name"]
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/fund_dashboard/{fund_short_name}/{round_short_name}",
             follow_redirects=True,
         )
@@ -1325,7 +1325,7 @@ class TestRoutes:
     def test_page_title_subcriteria_theme_match(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         mock_get_sub_criteria,
         mock_get_fund,
         mock_get_funds,
@@ -1339,12 +1339,12 @@ class TestRoutes:
     ):
         # Mocking fsd-user-token cookie
         token = create_valid_token(test_commenter_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
 
         application_id = request.node.get_closest_marker("application_id").args[0]
         sub_criteria_id = request.node.get_closest_marker("sub_criteria_id").args[0]
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/application_id/{application_id}/sub_criteria_id/{sub_criteria_id}"  # noqa
         )
         soup = BeautifulSoup(response.data, "html.parser")
@@ -1356,7 +1356,7 @@ class TestRoutes:
     @pytest.mark.application_id("resolved_app")
     def test_get_docs_for_download(
         self,
-        flask_test_client,
+            assess_test_client,
         request,
         mock_get_assessor_tasklist_state,
         mock_get_fund,
@@ -1372,30 +1372,30 @@ class TestRoutes:
         application_id = marker.args[0]
 
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
         mocker.patch(
-            "app.blueprints.assessments.routes.get_application_json",
+            "assess.assessments.routes.get_application_json",
             return_value={"jsonb_blob": "mock"},
         )
         with mock.patch(
-            "app.blueprints.assessments.routes.get_files_for_application_upload_fields",
+            "assess.assessments.routes.get_files_for_application_upload_fields",
             return_value=[
                 ("sample1.doc", "mock/url/for/get/file"),
                 ("sample2.doc", "mock/url/for/get/file"),
             ],
         ):
-            response = flask_test_client.get(f"/assess/application/{application_id}/export")
+            response = assess_test_client.get(f"/assess/application/{application_id}/export")
             assert 200 == response.status_code
             assert 1 == len(templates_rendered)
             rendered_template = templates_rendered[0]
-            assert "contract_downloads.html" == rendered_template[0].name
+            assert "assessments/contract_downloads.html" == rendered_template[0].name
             assert application_id == rendered_template[1]["application_id"]
             assert b"sample1.doc" in response.data
             assert b"sample2.doc" in response.data
 
     def test_download_q_and_a(
         self,
-        flask_test_client,
+            assess_test_client,
         mock_get_fund,
         mock_get_round,
         mock_get_funds,
@@ -1404,8 +1404,8 @@ class TestRoutes:
         mocks_for_file_export_download,
     ):
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
-        response = flask_test_client.get("/assess/application/test_app_id/export/test_short_id/answers.txt")
+        assess_test_client.set_cookie("fsd_user_token", token)
+        response = assess_test_client.get("/assess/application/test_app_id/export/test_short_id/answers.txt")
         sample_1 = "Project information"
         sample_2 = "Q) Have you been given"
         assert response.status_code == 200
@@ -1414,20 +1414,20 @@ class TestRoutes:
 
     def test_get_file_with_short_id(
         self,
-        flask_test_client,
+            assess_test_client,
         mocker,
         mock_get_funds,
         mock_get_fund,
         mock_get_application_metadata,
     ):
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
         mocker.patch(
-            "app.blueprints.assessments.routes.get_file_for_download_from_aws",
+            "assess.assessments.routes.get_file_for_download_from_aws",
             return_value=("some file contents", "mock_mimetype"),
         )
-        with mock.patch("app.blueprints.assessments.routes.download_file", return_value="") as mock_download_file:
-            flask_test_client.get("/assess/application/abc123/export/business_plan.txt?short_id=QWERTY")  # noqa
+        with mock.patch("assess.assessments.routes.download_file", return_value="") as mock_download_file:
+            assess_test_client.get("/assess/application/abc123/export/business_plan.txt?short_id=QWERTY")  # noqa
             mock_download_file.assert_called_once_with(
                 "some file contents",
                 "mock_mimetype",
@@ -1436,23 +1436,23 @@ class TestRoutes:
 
     def test_get_file_without_short_id(
         self,
-        flask_test_client,
+            assess_test_client,
         mocker,
         mock_get_funds,
         mock_get_fund,
         mock_get_application_metadata,
     ):
         token = create_valid_token(test_lead_assessor_claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
         mocker.patch(
-            "app.blueprints.assessments.routes.get_file_for_download_from_aws",
+            "assess.assessments.routes.get_file_for_download_from_aws",
             return_value=("some file contents", "mock_mimetype"),
         )
-        with mock.patch("app.blueprints.assessments.routes.download_file", return_value="") as mock_download_file:
-            flask_test_client.get("/assess/application/abc123/export/business_plan.txt")
+        with mock.patch("assess.assessments.routes.download_file", return_value="") as mock_download_file:
+            assess_test_client.get("/assess/application/abc123/export/business_plan.txt")
             mock_download_file.assert_called_once_with("some file contents", "mock_mimetype", "business_plan.txt")
 
-    def test_get_file(self, flask_test_client):
+    def test_get_file(self, assess_test_client):
         from assess.assessments.routes import download_file
 
         response = download_file("file_data", "text/plain", "file_name.abc")
@@ -1468,7 +1468,7 @@ class TestRoutes:
     ],
 )
 def test_download_application_answers(
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_application_metadata,
     mock_get_fund,
@@ -1479,9 +1479,9 @@ def test_download_application_answers(
     mocks_for_file_export_download,
 ):
     token = create_valid_token(test_lead_assessor_claims)
-    flask_test_client.set_cookie("fsd_user_token", token)
+    assess_test_client.set_cookie("fsd_user_token", token)
     url = f"/assess/application/123/export/456/answers.{file_extension}"
-    response = flask_test_client.get(url)
+    response = assess_test_client.get(url)
 
     assert response.status_code == 200
 
@@ -1490,7 +1490,7 @@ def test_download_application_answers(
 
 
 def test_download_application_answers_invalid_file_type(
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_application_metadata,
     mock_get_round,
@@ -1499,6 +1499,6 @@ def test_download_application_answers_invalid_file_type(
     mocks_for_file_export_download,
 ):
     token = create_valid_token(test_lead_assessor_claims)
-    flask_test_client.set_cookie("fsd_user_token", token)
-    response = flask_test_client.get("/assess/application/123/export/456/answers.invalid")
+    assess_test_client.set_cookie("fsd_user_token", token)
+    response = assess_test_client.get("/assess/application/123/export/456/answers.invalid")
     assert response.status_code == 404

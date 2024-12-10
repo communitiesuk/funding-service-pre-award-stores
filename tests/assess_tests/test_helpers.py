@@ -274,14 +274,14 @@ def test_process_assessment_stats(input_data, expected_response):
     ],
 )
 def test_get_scoring_class(
-    flask_test_client,
+        assess_test_client,
     mocker,
     returned_scoring_system,
     expect_exception,
     scoring_class,
 ):
     mocker.patch(
-        "app.blueprints.scoring.helpers.get_scoring_system",
+        "assess.scoring.helpers.get_scoring_system",
         return_value=returned_scoring_system,
     )
 

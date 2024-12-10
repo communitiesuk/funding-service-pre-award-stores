@@ -9,7 +9,7 @@ from assess.services.data_services import (
     get_round,
 )
 from assess.services.models.fund import Fund
-from tests.api_data.test_data import mock_api_results
+from tests.assess_tests.api_data.test_data import mock_api_results
 
 
 class TestDataOperations:
@@ -18,7 +18,7 @@ class TestDataOperations:
     def test_get_fund(self, mocker):
         mock_fund_result = mock_api_results["fund_store/funds/{fund_id}"]
         get_data_mock = mocker.patch(
-            "app.blueprints.services.data_services.get_data",
+            "assess.services.data_services.get_data",
             return_value=mock_fund_result,
         )
         arg = "test-fund"
@@ -31,7 +31,7 @@ class TestDataOperations:
     def test_get_round(self, mocker):
         mock_round_result = mock_api_results["fund_store/funds/{fund_id}/rounds/{round_id}"]
         get_data_mock = mocker.patch(
-            "app.blueprints.services.data_services.get_data",
+            "assess.services.data_services.get_data",
             return_value=mock_round_result,
         )
         args = ("test-fund", "test-round")
@@ -44,7 +44,7 @@ class TestDataOperations:
     def test_get_application_overviews(self, mocker):
         mock_fund_result = mock_api_results["assessment_store/application_overviews/{fund_id}/{round_id}?"]
         get_data_mock = mocker.patch(
-            "app.blueprints.services.data_services.get_data",
+            "assess.services.data_services.get_data",
             return_value=mock_fund_result,
         )
 
@@ -69,7 +69,7 @@ class TestDataOperations:
             "asset_type=gallery&local_authority=wokefield&status=STOPPED"
         ]
         get_data_mock = mocker.patch(
-            "app.blueprints.services.data_services.get_data",
+            "assess.services.data_services.get_data",
             return_value=mock_overview_result,
         )
 
@@ -92,7 +92,7 @@ class TestDataOperations:
     def test_get_comments(self, mocker):
         mock_comments_result = mock_api_results["assessment_store/comment?"]
         get_data_mock = mocker.patch(
-            "app.blueprints.services.data_services.get_data",
+            "assess.services.data_services.get_data",
             return_value=mock_comments_result,
         )
         args = ("resolved_app", "test_sub_criteria_id", "test_theme_id")
@@ -121,7 +121,7 @@ class TestDataOperations:
 )
 def test_get_all_fund_short_codes(mock_get_all_funds_response, exp_result, mocker):
     mocker.patch(
-        "app.blueprints.services.data_services.get_funds",
+        "assess.services.data_services.get_funds",
         return_value=mock_get_all_funds_response,
     )
     result = get_all_fund_short_codes()

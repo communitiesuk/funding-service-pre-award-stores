@@ -3,7 +3,7 @@ import json  # noqa
 import pytest  # noqa
 from flask import Flask
 
-import app
+import assess
 from assess.assessments.models.applicants_response import (
     ANSWER_NOT_PROVIDED_DEFAULT,
 )
@@ -51,7 +51,7 @@ from assess.assessments.models.applicants_response import create_ui_components
 from assess.assessments.models.applicants_response import sanitise_html
 from assess.assessments.routes import assessment_bp
 from assess.shared.filters import format_address
-from tests.api_data.test_data import TestSanitiseData
+from tests.assess_tests.api_data.test_data import TestSanitiseData
 
 
 class TestApplicantResponseComponentConcreteSubclasses:
@@ -882,7 +882,7 @@ def test_create_ui_components_retains_order(monkeypatch):
     ]
 
     monkeypatch.setattr(
-        app.blueprints.assessments.models.applicants_response,
+        assess.assessments.models.applicants_response,
         "list_files_in_folder",
         lambda x: ["form_name/path/name/filename.png"],
     )

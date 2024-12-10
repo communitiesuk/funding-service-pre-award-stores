@@ -191,7 +191,7 @@ def test_deprecated_sort_add_another_component_contents_log_when_no_answer(
     monkeypatch,
 ):
     current_app = Mock()
-    monkeypatch.setattr("app.blueprints.themes.deprecated_theme_mapper.current_app", current_app)
+    monkeypatch.setattr("assess.themes.deprecated_theme_mapper.current_app", current_app)
 
     themes_answers = [
         {

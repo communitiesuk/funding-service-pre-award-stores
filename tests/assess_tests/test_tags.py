@@ -11,7 +11,7 @@ from assess.services.data_services import (
 )
 from assess.tagging.models.tag import Tag
 from assess.tagging.routes import FLAG_ERROR_MESSAGE
-from tests.api_data.test_data import test_fund_id, test_round_id
+from tests.assess_tests.api_data.test_data import test_fund_id, test_round_id
 
 test_tags_inactive = [
     {
@@ -155,11 +155,11 @@ def test_change_tags_route_no_tags(
     mock_get_round,
 ):
     mocker.patch(
-        "app.blueprints.tagging.routes.get_tags_for_fund_round",
+        "assess.tagging.routes.get_tags_for_fund_round",
         return_value=[],
     )
     mocker.patch(
-        "app.blueprints.tagging.routes.get_associated_tags_for_application",
+        "assess.tagging.routes.get_associated_tags_for_application",
         return_value=[],
     )
     response = client_with_valid_session.get("/assess/application/app_id/tags")
@@ -174,7 +174,7 @@ def test_change_tags_route_no_tags(
     )
 
 
-def test_post_new_tag_for_fund_round_returns_True(flask_test_client):
+def test_post_new_tag_for_fund_round_returns_True(assess_test_client):
     with mock.patch("requests.post") as mock_post:
         mock_response = mock.Mock()
         mock_response.ok = True
@@ -194,7 +194,7 @@ def test_post_new_tag_for_fund_round_returns_True(flask_test_client):
 
 @pytest.mark.mock_parameters(
     {
-        "get_rounds_path": "app.blueprints.assessments.routes.get_round",
+        "get_rounds_path": "assess.assessments.routes.get_round",
     }
 )
 @pytest.mark.parametrize(
@@ -224,7 +224,7 @@ def test_create_tag_initial_render_get(
 
 @pytest.mark.mock_parameters(
     {
-        "get_rounds_path": "app.blueprints.assessments.routes.get_round",
+        "get_rounds_path": "assess.assessments.routes.get_round",
     }
 )
 def test_create_tag_invalid_form_post(
@@ -259,7 +259,7 @@ def test_create_tag_invalid_form_post(
 
 @pytest.mark.mock_parameters(
     {
-        "get_rounds_path": "app.blueprints.assessments.routes.get_round",
+        "get_rounds_path": "assess.assessments.routes.get_round",
     }
 )
 def test_create_tag_invalid_character_post(
@@ -291,7 +291,7 @@ def test_create_tag_invalid_character_post(
 
 @pytest.mark.mock_parameters(
     {
-        "get_rounds_path": "app.blueprints.assessments.routes.get_round",
+        "get_rounds_path": "assess.assessments.routes.get_round",
     }
 )
 def test_create_duplicate_tag_fails(
@@ -332,7 +332,7 @@ def test_create_duplicate_tag_fails(
 )
 @pytest.mark.mock_parameters(
     {
-        "get_rounds_path": "app.blueprints.assessments.routes.get_round",
+        "get_rounds_path": "assess.assessments.routes.get_round",
     }
 )
 def test_manage_tag_page_renders_with_active_tags(
@@ -364,7 +364,7 @@ def test_manage_tag_page_renders_with_active_tags(
 )
 @pytest.mark.mock_parameters(
     {
-        "get_rounds_path": "app.blueprints.assessments.routes.get_round",
+        "get_rounds_path": "assess.assessments.routes.get_round",
     }
 )
 def test_manage_tag_page_renders_with_inactive_tags(
@@ -389,7 +389,7 @@ def test_manage_tag_page_renders_with_inactive_tags(
 
 @pytest.mark.mock_parameters(
     {
-        "get_rounds_path": "app.blueprints.assessments.routes.get_round",
+        "get_rounds_path": "assess.assessments.routes.get_round",
     }
 )
 def test_get_deactivate_route(
@@ -410,7 +410,7 @@ def test_get_deactivate_route(
 
 @pytest.mark.mock_parameters(
     {
-        "get_rounds_path": "app.blueprints.assessments.routes.get_round",
+        "get_rounds_path": "assess.assessments.routes.get_round",
     }
 )
 @pytest.mark.tag_updated_bool(True)
@@ -505,7 +505,7 @@ def test_create_tag_shows_error_if_valid_form_post_but_request_fails(
     mocker,
 ):
     mocker.patch(
-        "app.blueprints.tagging.routes.post_new_tag_for_fund_round",
+        "assess.tagging.routes.post_new_tag_for_fund_round",
         return_value=lambda *_: False,
     )
 
@@ -521,7 +521,7 @@ def test_create_tag_shows_error_if_valid_form_post_but_request_fails(
 
 @pytest.mark.mock_parameters(
     {
-        "get_rounds_path": "app.blueprints.assessments.routes.get_round",
+        "get_rounds_path": "assess.assessments.routes.get_round",
     }
 )
 def test_create_tag_valid_form_post(
@@ -533,7 +533,7 @@ def test_create_tag_valid_form_post(
     mocker,
 ):
     mocker.patch(
-        "app.blueprints.tagging.routes.post_new_tag_for_fund_round",
+        "assess.tagging.routes.post_new_tag_for_fund_round",
         return_value=lambda *_: True,
     )
 
@@ -549,7 +549,7 @@ def test_create_tag_valid_form_post(
 
 @pytest.mark.mock_parameters(
     {
-        "get_rounds_path": "app.blueprints.assessments.routes.get_round",
+        "get_rounds_path": "assess.assessments.routes.get_round",
     }
 )
 def test_create_tag_valid_form_go_back_post(
@@ -561,7 +561,7 @@ def test_create_tag_valid_form_go_back_post(
     mocker,
 ):
     mocker.patch(
-        "app.blueprints.tagging.routes.post_new_tag_for_fund_round",
+        "assess.tagging.routes.post_new_tag_for_fund_round",
         return_value=lambda *_: True,
     )
 
@@ -577,9 +577,9 @@ def test_create_tag_valid_form_go_back_post(
 # Test Functions
 
 
-def test_get_available_active_tags(flask_test_client):
+def test_get_available_active_tags(assess_test_client):
     with mock.patch(
-        "app.blueprints.services.data_services.get_data",
+        "assess.services.data_services.get_data",
         return_value=test_tags_active,
     ) as mock_get_data:
         result = get_tags_for_fund_round("test_fund", "test_round", {"tag_status": "True"})
@@ -589,9 +589,9 @@ def test_get_available_active_tags(flask_test_client):
         assert result[0].value == "Val 1"
 
 
-def test_get_available_inactive_tags(flask_test_client):
+def test_get_available_inactive_tags(assess_test_client):
     with mock.patch(
-        "app.blueprints.services.data_services.get_data",
+        "assess.services.data_services.get_data",
         return_value=test_tags_inactive,
     ) as mock_get_data:
         result = get_tags_for_fund_round("test_fund", "test_round", {"tag_status": "False"})
@@ -601,15 +601,15 @@ def test_get_available_inactive_tags(flask_test_client):
         assert result[0].value == "Val 1 INACTIVE"
 
 
-def test_get_available_tags_no_tags(flask_test_client):
-    with mock.patch("app.blueprints.services.data_services.get_data", return_value=[]):
+def test_get_available_tags_no_tags(assess_test_client):
+    with mock.patch("assess.services.data_services.get_data", return_value=[]):
         result = get_tags_for_fund_round("test_fund", "test_round", "")
         assert len(result) == 0
 
 
-def test_get_associated_tags_for_applications(flask_test_client):
+def test_get_associated_tags_for_applications(assess_test_client):
     with mock.patch(
-        "app.blueprints.services.data_services.get_data",
+        "assess.services.data_services.get_data",
         return_value=[
             {
                 "application_id": "155df6dc-541e-4d7c-82bb-9d8e3b7e52ef",
@@ -626,7 +626,7 @@ def test_get_associated_tags_for_applications(flask_test_client):
         assert result[0].value == "test tag"
 
 
-def test_update_associated_tag_returns_true(flask_test_client):
+def test_update_associated_tag_returns_true(assess_test_client):
     with mock.patch("requests.put") as mock_put:
         mock_response = mock.Mock()
         mock_response.ok = True
@@ -658,7 +658,7 @@ def mock_get_fund_round(
     mock_get_fund,
 ):
     mocker.patch(
-        "app.blueprints.tagging.routes.get_fund_round",
+        "assess.tagging.routes.get_fund_round",
         return_value={
             "fund_name": "test-fund",
             "round_name": "round 1",
@@ -681,7 +681,7 @@ def mock_get_tag_and_count(mocker):
         type_id="abcabc",
         tag_association_count=count,
     )
-    mocker.patch("app.blueprints.tagging.routes.get_tag", return_value=mock_tag)
+    mocker.patch("assess.tagging.routes.get_tag", return_value=mock_tag)
     yield (tag_id, count)
 
 
@@ -722,7 +722,7 @@ def test_edit_tag_post(
     mock_get_round,
 ):
     mocker.patch(
-        "app.blueprints.tagging.routes.update_tag",
+        "assess.tagging.routes.update_tag",
         return_value=return_from_data,
     )
     response = client_with_valid_session.post(

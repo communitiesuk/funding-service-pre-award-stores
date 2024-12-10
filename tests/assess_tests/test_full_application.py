@@ -53,7 +53,7 @@ def test_from_data(
 ):
     mock_args.round.all_uploaded_documents_section_available = all_docs_available
     mock_args.round.display_logo_on_pdf_exports = display_logo
-    with app.test_request_context():
+    with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
         context = FullApplicationPdfContext.from_data(mock_args)
 
         assert context.title == "Fund Name"

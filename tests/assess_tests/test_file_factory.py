@@ -7,6 +7,7 @@ from assess.assessments.models.file_factory import (
     ApplicationFileRepresentationArgs,
     generate_file_content,
 )
+from config.envs.unit_test import UnitTestConfig
 
 
 @pytest.fixture
@@ -44,14 +45,14 @@ def test_generate_file_content_supported_types(file_type, expected_function, app
     mocked_response = MagicMock()
     mocked_response.seek = lambda _: None
     mocker.patch(
-        f"app.blueprints.assessments.models.file_factory.{expected_function}",
+        f"assess.assessments.models.file_factory.{expected_function}",
         return_value=mocked_response,
     )
     mocker.patch(
-        "app.blueprints.assessments.models.file_factory.send_file",
+        "assess.assessments.models.file_factory.send_file",
         return_value=MagicMock(),
     )
-    with app.test_request_context():
+    with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
         result = generate_file_content(application_args, file_type)
         assert result is not None
 

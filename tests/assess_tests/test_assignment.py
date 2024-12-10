@@ -5,8 +5,8 @@ import pytest
 from bs4 import BeautifulSoup
 from flask import url_for
 
-from tests.api_data.test_data import fund_specific_claim_map, resolved_app_id, stopped_app_id
-from tests.conftest import create_valid_token
+from tests.assess_tests.api_data.test_data import fund_specific_claim_map, resolved_app_id, stopped_app_id
+from tests.assess_tests.conftest import create_valid_token
 
 
 # Test assign_assessments route
@@ -26,7 +26,7 @@ from tests.conftest import create_valid_token
 )
 def test_assign_assessments_get(
     request,
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -41,12 +41,12 @@ def test_assign_assessments_get(
     fund_short_name = params["fund_short_name"]
     round_short_name = params["round_short_name"]
 
-    flask_test_client.set_cookie(
+    assess_test_client.set_cookie(
         "fsd_user_token",
         create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
     )
 
-    response = flask_test_client.get(
+    response = assess_test_client.get(
         url_for(
             "assessment_bp.assign_assessments",
             fund_short_name=fund_short_name,
@@ -73,7 +73,7 @@ def test_assign_assessments_get(
 )
 def test_assign_assessments_post(
     request,
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -85,7 +85,7 @@ def test_assign_assessments_post(
     fund_short_name = params["fund_short_name"]
     round_short_name = params["round_short_name"]
 
-    flask_test_client.set_cookie(
+    assess_test_client.set_cookie(
         "fsd_user_token",
         create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
     )
@@ -104,7 +104,7 @@ def test_assign_assessments_post(
         "Content-Type": "application/x-www-form-urlencoded",
     }
 
-    response = flask_test_client.post(
+    response = assess_test_client.post(
         url_for(
             "assessment_bp.assign_assessments",
             fund_short_name=fund_short_name,
@@ -143,7 +143,7 @@ def test_assign_assessments_post(
 )
 def test_assessor_type_post(
     request,
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -155,7 +155,7 @@ def test_assessor_type_post(
     fund_short_name = params["fund_short_name"]
     round_short_name = params["round_short_name"]
 
-    flask_test_client.set_cookie(
+    assess_test_client.set_cookie(
         "fsd_user_token",
         create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
     )
@@ -175,10 +175,10 @@ def test_assessor_type_post(
     }
 
     with mock.patch(
-        "app.blueprints.assessments.routes.get_application_assignments",
+        "assess.assessments.routes.get_application_assignments",
         return_value=[{"user_id": "user2"}],
     ):
-        response = flask_test_client.post(
+        response = assess_test_client.post(
             url_for(
                 "assessment_bp.assessor_type",
                 fund_short_name=fund_short_name,
@@ -242,7 +242,7 @@ def test_assessor_type_post(
 )
 def test_assessor_type_post_existing_assignment(
     request,
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -254,7 +254,7 @@ def test_assessor_type_post_existing_assignment(
     fund_short_name = params["fund_short_name"]
     round_short_name = params["round_short_name"]
 
-    flask_test_client.set_cookie(
+    assess_test_client.set_cookie(
         "fsd_user_token",
         create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
     )
@@ -274,10 +274,10 @@ def test_assessor_type_post_existing_assignment(
     }
 
     with mock.patch(
-        "app.blueprints.assessments.routes.get_application_assignments",
+        "assess.assessments.routes.get_application_assignments",
         return_value=[{"user_id": "cof-lead-assessor"}],
     ):
-        response = flask_test_client.post(
+        response = assess_test_client.post(
             url_for(
                 "assessment_bp.assessor_type",
                 fund_short_name=fund_short_name,
@@ -331,7 +331,7 @@ def test_assessor_type_post_existing_assignment(
 )
 def test_assessor_type_list_post(
     request,
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -344,7 +344,7 @@ def test_assessor_type_list_post(
     fund_short_name = params["fund_short_name"]
     round_short_name = params["round_short_name"]
 
-    flask_test_client.set_cookie(
+    assess_test_client.set_cookie(
         "fsd_user_token",
         create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
     )
@@ -362,7 +362,7 @@ def test_assessor_type_list_post(
             _external=True,
         ),
     }
-    response = flask_test_client.post(
+    response = assess_test_client.post(
         url_for(
             "assessment_bp.assessor_type_list",
             fund_short_name=fund_short_name,
@@ -403,7 +403,7 @@ def test_assessor_type_list_post(
 )
 def test_assignment_overview_remove_assessor(
     request,
-    flask_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -416,7 +416,7 @@ def test_assignment_overview_remove_assessor(
     fund_short_name = params["fund_short_name"]
     round_short_name = params["round_short_name"]
 
-    flask_test_client.set_cookie(
+    assess_test_client.set_cookie(
         "fsd_user_token",
         create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
     )
@@ -437,7 +437,7 @@ def test_assignment_overview_remove_assessor(
         "assigned_users": [fund_specific_claim_map[fund_short_name]["ASSESSOR"]["accountId"]],
     }
 
-    response = flask_test_client.post(
+    response = assess_test_client.post(
         url_for(
             "assessment_bp.assessor_type_list",
             fund_short_name=fund_short_name,
@@ -464,7 +464,7 @@ def test_assignment_overview_remove_assessor(
 )
 def test_assignment_overview_add_and_remove_assessors(
     request,
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -477,7 +477,7 @@ def test_assignment_overview_add_and_remove_assessors(
     fund_short_name = params["fund_short_name"]
     round_short_name = params["round_short_name"]
 
-    flask_test_client.set_cookie(
+    assess_test_client.set_cookie(
         "fsd_user_token",
         create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
     )
@@ -504,7 +504,7 @@ def test_assignment_overview_add_and_remove_assessors(
         ],
     }
 
-    response = flask_test_client.post(
+    response = assess_test_client.post(
         url_for(
             "assessment_bp.assessor_type_list",
             fund_short_name=fund_short_name,
@@ -542,7 +542,7 @@ def test_assignment_overview_add_and_remove_assessors(
 )
 def test_assignment_overview_post_new_and_exising(
     request,
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -557,7 +557,7 @@ def test_assignment_overview_post_new_and_exising(
     fund_short_name = params["fund_short_name"]
     round_short_name = params["round_short_name"]
 
-    flask_test_client.set_cookie(
+    assess_test_client.set_cookie(
         "fsd_user_token",
         create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
     )
@@ -585,14 +585,14 @@ def test_assignment_overview_post_new_and_exising(
     }
     with (
         mock.patch(
-            "app.blueprints.assessments.routes.get_application_assignments",
+            "assess.assessments.routes.get_application_assignments",
             return_value=[{"user_id": user_2}],
         ),
         mock.patch(
-            "app.blueprints.assessments.routes.assign_user_to_assessment",
+            "assess.assessments.routes.assign_user_to_assessment",
         ) as mock_assign_user_to_assessment_1,
     ):
-        response = flask_test_client.post(
+        response = assess_test_client.post(
             url_for(
                 "assessment_bp.assignment_overview",
                 fund_short_name=fund_short_name,
@@ -667,7 +667,7 @@ def test_assignment_overview_post_new_and_exising(
 )
 def test_assignment_overview_post_add_and_remove(
     request,
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -682,7 +682,7 @@ def test_assignment_overview_post_add_and_remove(
     fund_short_name = params["fund_short_name"]
     round_short_name = params["round_short_name"]
 
-    flask_test_client.set_cookie(
+    assess_test_client.set_cookie(
         "fsd_user_token",
         create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
     )
@@ -709,14 +709,14 @@ def test_assignment_overview_post_add_and_remove(
     }
     with (
         mock.patch(
-            "app.blueprints.assessments.routes.get_application_assignments",
+            "assess.assessments.routes.get_application_assignments",
             return_value=[{"user_id": user_2}, {"user_id": user_3}],
         ),
         mock.patch(
-            "app.blueprints.assessments.routes.assign_user_to_assessment",
+            "assess.assessments.routes.assign_user_to_assessment",
         ) as mock_assign_user_to_assessment_1,
     ):
-        response = flask_test_client.post(
+        response = assess_test_client.post(
             url_for(
                 "assessment_bp.assignment_overview",
                 fund_short_name=fund_short_name,
@@ -766,7 +766,7 @@ def test_assignment_overview_post_add_and_remove(
 )
 def test_assignment_multiple_users_multiple_messages(
     request,
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -778,7 +778,7 @@ def test_assignment_multiple_users_multiple_messages(
     fund_short_name = params["fund_short_name"]
     round_short_name = params["round_short_name"]
 
-    flask_test_client.set_cookie(
+    assess_test_client.set_cookie(
         "fsd_user_token",
         create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
     )
@@ -804,7 +804,7 @@ def test_assignment_multiple_users_multiple_messages(
         ),
     }
 
-    response = flask_test_client.post(
+    response = assess_test_client.post(
         url_for(
             "assessment_bp.assignment_overview",
             fund_short_name=fund_short_name,
@@ -837,7 +837,7 @@ def test_assignment_multiple_users_multiple_messages(
 )
 def test_assignment_overview_cancel_messages(
     request,
-    flask_test_client,
+        assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -850,7 +850,7 @@ def test_assignment_overview_cancel_messages(
     fund_short_name = params["fund_short_name"]
     round_short_name = params["round_short_name"]
 
-    flask_test_client.set_cookie(
+    assess_test_client.set_cookie(
         "fsd_user_token",
         create_valid_token(fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]),
     )
@@ -876,7 +876,7 @@ def test_assignment_overview_cancel_messages(
         ),
     }
 
-    response = flask_test_client.post(
+    response = assess_test_client.post(
         url_for(
             "assessment_bp.assessor_comments",
             fund_short_name=fund_short_name,

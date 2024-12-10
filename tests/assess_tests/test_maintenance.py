@@ -1,17 +1,17 @@
 import pytest
 from bs4 import BeautifulSoup
 
-from tests.api_data.test_data import fund_specific_claim_map
-from tests.conftest import create_valid_token
+from tests.assess_tests.api_data.test_data import fund_specific_claim_map
+from tests.assess_tests.conftest import create_valid_token
 
 
 @pytest.mark.mock_parameters(
     {
         "get_assessment_stats_path": [
-            "app.blueprints.assessments.models.round_summary.get_assessments_stats",
+            "assess.assessments.models.round_summary.get_assessments_stats",
         ],
         "get_rounds_path": [
-            "app.blueprints.assessments.models.round_summary.get_rounds",
+            "assess.assessments.models.round_summary.get_rounds",
         ],
         "fund_id": "test-fund",
         "round_id": "test-round",

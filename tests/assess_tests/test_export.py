@@ -2,10 +2,10 @@ from unittest import mock
 
 from fsd_utils import extract_questions_and_answers, generate_text_of_application
 
-import app as flask_app
+import assess
 from assess.assessments.helpers import get_files_for_application_upload_fields
-from tests.api_data.example_application_answers import test_application_answers
-from tests.api_data.example_application_json_blob import single_application_json_blob
+from tests.assess_tests.api_data.example_application_answers import test_application_answers
+from tests.assess_tests.api_data.example_application_json_blob import single_application_json_blob
 
 
 class TestExport:
@@ -45,13 +45,13 @@ class TestExport:
             }
 
         monkeypatch.setattr(
-            flask_app.blueprints.services.aws._S3_CLIENT,
+            assess.services.aws._S3_CLIENT,
             "list_objects_v2",
             mock_list_objects_v2,
         )
 
         with mock.patch(
-            "app.blueprints.assessments.helpers.url_for",
+            "assess.assessments.helpers.url_for",
             return_value="dummy/path/to/file.dmp",
         ):
             ans = get_files_for_application_upload_fields(
@@ -65,7 +65,7 @@ class TestExport:
             ("awskey123123123123123/sample1.doc", "dummy/path/to/file.dmp"),
             (
                 "filename1.png",
-                "/assess/application/app_id/export/"
+                "http://assessment.levellingup.gov.localhost:3010/assess/application/app_id/export/"
                 "form_name%252Fpath%252Fname%252Ffilename1.png?short_id=d_id&quoted=True",
             ),
         ]

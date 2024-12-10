@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from flask import g
 
 from config import Config
-from tests.conftest import (
+from tests.assess_tests.conftest import (
     create_invalid_token,
     create_valid_token,
     test_assessor_claims,
@@ -14,7 +14,7 @@ from tests.conftest import (
 
 
 class TestAuthorisation:
-    def test_any_unauthorised_route_redirects_to_home(self, flask_test_client, mock_get_funds):
+    def test_any_unauthorised_route_redirects_to_home(self, assess_test_client, mock_get_funds):
         """
         GIVEN an unauthorised user
         WHEN the user tries to access any route
@@ -26,13 +26,13 @@ class TestAuthorisation:
 
         """
         # Set user auth cookie to none
-        flask_test_client.set_cookie("fsd_user_token", "")
-        response = flask_test_client.get("/any-route")
+        assess_test_client.set_cookie("fsd_user_token", "")
+        response = assess_test_client.get("/any-route")
 
         assert response.status_code == 302
         assert response.location == "/"
 
-    def test_any_invalid_token_route_redirects_to_home(self, flask_test_client, mock_get_funds):
+    def test_any_invalid_token_route_redirects_to_home(self, assess_test_client, mock_get_funds):
         """
         GIVEN an unauthorised user
         WHEN the user tries to access any route
@@ -44,16 +44,16 @@ class TestAuthorisation:
 
         """
         # Set user auth cookie to invalid token
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_invalid_token(),
         )
-        response = flask_test_client.get("/any-route")
+        response = assess_test_client.get("/any-route")
 
         assert response.status_code == 302
         assert response.location == "/"
 
-    def test_any_unauthorised_visit_to_route_prompts_user_to_sign_in(self, flask_test_client, mock_get_funds):
+    def test_any_unauthorised_visit_to_route_prompts_user_to_sign_in(self, assess_test_client, mock_get_funds):
         """
         GIVEN an unauthorised user
         WHEN the user visits the homepage "/"
@@ -65,17 +65,17 @@ class TestAuthorisation:
 
         """
         # Set user auth cookie to none
-        flask_test_client.set_cookie("fsd_user_token", "")
-        response = flask_test_client.get("/")
+        assess_test_client.set_cookie("fsd_user_token", "")
+        response = assess_test_client.get("/")
         assert response.status_code == 200
         assert b"Welcome to the assessment tool" in response.data
         assert (
-            b'<a href="https://authenticator/sso/login" role="button"'
+            b'<a href="https://authenticator.levellingup.gov.localhost:4004/sso/login" role="button"'
             b' draggable="false" class="govuk-button"'
             b' data-module="govuk-button">' in response.data
         )
 
-    def test_roleless_user_redirected_to_roles_error(self, flask_test_client, mock_get_funds):
+    def test_roleless_user_redirected_to_roles_error(self, assess_test_client, mock_get_funds):
         """
         GIVEN an authorised user with no roles
         WHEN the user tries to access any route
@@ -86,24 +86,24 @@ class TestAuthorisation:
         Returns:
 
         """
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(test_roleless_user_claims),
         )
-        response = flask_test_client.get("/any-route")
+        response = assess_test_client.get("/any-route")
 
         assert response.status_code == 302
         assert response.location == (
-            "https://authenticator/service/user?roles_required=TF_COMMENTER%7CNSTF_COMMENTER"
-            + "%7CCYP_COMMENTER%7CCOF_COMMENTER%7CDPIF_COMMENTER"
+            "https://authenticator.levellingup.gov.localhost:4004/service/user?"
+            "roles_required=TF_COMMENTER|NSTF_COMMENTER|CYP_COMMENTER|COF_COMMENTER|DPIF_COMMENTER"
         )
 
     @pytest.mark.mock_parameters(
         {
             "get_assessment_stats_path": [
-                "app.blueprints.assessments.models.round_summary.get_assessments_stats",
+                "assess.assessments.models.round_summary.get_assessments_stats",
             ],
-            "get_rounds_path": ["app.blueprints.assessments.models.round_summary.get_rounds"],
+            "get_rounds_path": ["assess.assessments.models.round_summary.get_rounds"],
             "fund_id": "test-fund",
             "round_id": "test-round",
         }
@@ -118,7 +118,7 @@ class TestAuthorisation:
     )
     def test_authorised_roles_redirected_to_dashboard(
         self,
-        flask_test_client,
+            assess_test_client,
         creds,
         templates_rendered,
         mock_get_funds,
@@ -135,19 +135,19 @@ class TestAuthorisation:
         Returns:
 
         """
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(creds),
         )
-        response = flask_test_client.get("/")
+        response = assess_test_client.get("/")
         assert response.status_code == 302
         assert response.location == Config.DASHBOARD_ROUTE
 
-        response = flask_test_client.get("/", follow_redirects=True)
+        response = assess_test_client.get("/", follow_redirects=True)
         assert 200 == response.status_code
         assert 1 == len(templates_rendered)
         rendered_template = templates_rendered[0]
-        assert "assessor_tool_dashboard.html" == rendered_template[0].name
+        assert "assessments/assessor_tool_dashboard.html" == rendered_template[0].name
 
     @pytest.mark.parametrize(
         "claims,ability_to_score",
@@ -161,7 +161,7 @@ class TestAuthorisation:
     @pytest.mark.sub_criteria_id("test_sub_criteria_id")
     def test_scoring_permissions_for_users(
         self,
-        flask_test_client,
+            assess_test_client,
         request,
         mock_get_sub_criteria,
         mock_get_fund,
@@ -178,13 +178,13 @@ class TestAuthorisation:
     ):
         # Mocking fsd-user-token cookie
         token = create_valid_token(claims)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
 
         # Send a request to the route you want to test
         application_id = request.node.get_closest_marker("application_id").args[0]
         sub_criteria_id = request.node.get_closest_marker("sub_criteria_id").args[0]
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/application_id/{application_id}/sub_criteria_id/{sub_criteria_id}"  # noqa
         )
 
@@ -217,7 +217,7 @@ class TestAuthorisation:
     @pytest.mark.sub_criteria_id("test_sub_criteria_id")
     def test_different_user_levels_see_correct_comments_on_sub_criteria_view(
         self,
-        flask_test_client,
+            assess_test_client,
         request,
         claim,
         expect_all_comments_available,
@@ -247,7 +247,7 @@ class TestAuthorisation:
         Returns:
 
         """
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(claim),
         )
@@ -256,7 +256,7 @@ class TestAuthorisation:
         application_id = request.node.get_closest_marker("application_id").args[0]
         sub_criteria_id = request.node.get_closest_marker("sub_criteria_id").args[0]
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/application_id/{application_id}/sub_criteria_id/{sub_criteria_id}",  # noqa
             follow_redirects=True,
         )
@@ -302,7 +302,7 @@ class TestAuthorisation:
     def test_different_user_levels_see_comment_history_on_sub_criteria_view(
         self,
         mocker,
-        flask_test_client,
+            assess_test_client,
         request,
         claim,
         mock_get_sub_criteria,
@@ -331,7 +331,7 @@ class TestAuthorisation:
         Returns:
 
         """
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(claim),
         )
@@ -342,7 +342,7 @@ class TestAuthorisation:
 
         (
             mocker.patch(
-                "app.blueprints.assessments.routes.get_comments",
+                "assess.assessments.routes.get_comments",
                 return_value=[
                     {
                         "id": "test_id_1",
@@ -385,7 +385,7 @@ class TestAuthorisation:
             ),
         )
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/application_id/{application_id}/sub_criteria_id/{sub_criteria_id}",  # noqa
             follow_redirects=True,
         )
@@ -406,7 +406,7 @@ class TestAuthorisation:
                 assert "See history" not in comment_str
 
         # Assert contents in comments history page
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"/assess/application_id/{application_id}/sub_criteria_id/{sub_criteria_id}?comment_id=test_id_1&show_comment_history=1",  # noqa
             follow_redirects=True,
         )
@@ -430,7 +430,7 @@ class TestAuthorisation:
     @pytest.mark.flag_id("stopped_app")
     def test_user_levels_have_correct_permissions_to_restart_an_assessment_commenter_assessor(
         self,
-        flask_test_client,
+            assess_test_client,
         request,
         claim,
         mock_get_flags,
@@ -449,13 +449,13 @@ class TestAuthorisation:
             - assessor role cannot continue assessment
         """
         application_id = request.node.get_closest_marker("application_id").args[0]
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(claim),
         )
 
         with pytest.raises(RuntimeError) as exec_info:
-            flask_test_client.get(
+            assess_test_client.get(
                 f"assess/continue_assessment/{application_id}",
                 follow_redirects=True,
             )
@@ -466,7 +466,7 @@ class TestAuthorisation:
     @pytest.mark.flag_id("stopped_app")
     def test_user_levels_have_correct_permissions_to_restart_an_assessment_lead(
         self,
-        flask_test_client,
+            assess_test_client,
         request,
         mock_get_flags,
         mock_get_flag,
@@ -486,12 +486,12 @@ class TestAuthorisation:
         claim = test_lead_assessor_claims
         application_id = request.node.get_closest_marker("application_id").args[0]
         flag_id = request.node.get_closest_marker("flag_id").args[0]
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(claim),
         )
 
-        response = flask_test_client.get(
+        response = assess_test_client.get(
             f"assess/continue_assessment/{application_id}?flag_id={flag_id}",
             follow_redirects=True,
         )
@@ -511,7 +511,7 @@ class TestAuthorisation:
     def test_different_user_levels_have_correct_flagging_permissions(
         self,
         request,
-        flask_test_client,
+            assess_test_client,
         claim,
         expect_flagging,
         mock_get_flags,
@@ -534,21 +534,21 @@ class TestAuthorisation:
 
         application_id = request.node.get_closest_marker("application_id").args[0]
 
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(claim),
         )
 
         if not expect_flagging:
             with pytest.raises(RuntimeError) as exec_info:
-                flask_test_client.get(
+                assess_test_client.get(
                     f"assess/flag/{application_id}",
                     follow_redirects=True,
                 )
             # Tries to redirect to authenticator
             assert str(exec_info.value) == "Following external redirects is not supported."
         else:
-            response = flask_test_client.get(
+            response = assess_test_client.get(
                 f"assess/flag/{application_id}",
                 follow_redirects=True,
             )
@@ -567,7 +567,7 @@ class TestAuthorisation:
     @pytest.mark.flag_id("resolved_app")
     def test_different_user_levels_have_correct_permissions_to_resolve_flag(
         self,
-        flask_test_client,
+            assess_test_client,
         request,
         claim,
         expect_flagging,
@@ -592,20 +592,20 @@ class TestAuthorisation:
 
         flag_id = request.node.get_closest_marker("flag_id").args[0]
 
-        flask_test_client.set_cookie(
+        assess_test_client.set_cookie(
             "fsd_user_token",
             create_valid_token(claim),
         )
         if not expect_flagging:
             with pytest.raises(RuntimeError) as exec_info:
-                flask_test_client.get(
+                assess_test_client.get(
                     f"assess/resolve_flag/{application_id}",
                     follow_redirects=True,
                 )
             # Tries to redirect to authenticator
             assert str(exec_info.value) == "Following external redirects is not supported."
         else:
-            response = flask_test_client.get(
+            response = assess_test_client.get(
                 f"assess/resolve_flag/{application_id}?flag_id={flag_id}",
                 follow_redirects=True,
             )
@@ -625,7 +625,7 @@ class TestAuthorisation:
     @pytest.mark.application_id("flagged_qa_completed_app")
     def test_resolve_flag_option_shows_for_correct_permissions(
         self,
-        flask_test_client,
+            assess_test_client,
         request,
         user_account,
         expect_flagging,
@@ -642,10 +642,10 @@ class TestAuthorisation:
         mock_get_scoring_system,
     ):
         token = create_valid_token(user_account)
-        flask_test_client.set_cookie("fsd_user_token", token)
+        assess_test_client.set_cookie("fsd_user_token", token)
         application_id = request.node.get_closest_marker("application_id").args[0]
 
-        response = flask_test_client.get(f"assess/application/{application_id}")
+        response = assess_test_client.get(f"assess/application/{application_id}")
         assert response.status_code == 200
         if expect_flagging:
             assert b"Resolve flag" in response.data

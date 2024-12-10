@@ -130,7 +130,7 @@ def continue_assessment(application_id):
         justification=form.reason.data,
         section=["NA"],
         state=get_state_for_tasklist_banner(application_id),
-        page_to_render="continue_assessment.html",
+        page_to_render="flagging/continue_assessment.html",
         reason_to_flag=flag_data.updates[-1]["justification"],
         allocated_team=flag_data.updates[-1]["allocation"],
         flag_id=flag_id,

@@ -87,9 +87,18 @@ def create_app() -> Flask:  # noqa: C901
     flask_app.jinja_env.trim_blocks = True
     flask_app.jinja_env.lstrip_blocks = True
     flask_app.jinja_env.add_extension("jinja2.ext.i18n")
-    flask_app.jinja_env.filters["datetime_format"] = datetime_format
     flask_app.jinja_env.globals["get_lang"] = get_lang
     flask_app.jinja_env.globals["pgettext"] = pgettext
+
+    flask_app.jinja_env.filters["datetime_format_short_month"] = datetime_format_short_month
+    flask_app.jinja_env.filters["datetime_format_full_month"] = datetime_format_full_month
+    flask_app.jinja_env.filters["string_to_datetime"] = string_to_datetime
+    flask_app.jinja_env.filters["custom_format_datetime"] = custom_format_datetime
+    flask_app.jinja_env.filters["date_format_short_month"] = date_format_short_month
+    flask_app.jinja_env.filters["datetime_format"] = datetime_format
+    flask_app.jinja_env.filters["snake_case_to_human"] = snake_case_to_human
+    flask_app.jinja_env.filters["kebab_case_to_human"] = kebab_case_to_human
+    flask_app.jinja_env.filters["status_translation"] = status_translation
 
     # Assess filters
     flask_app.jinja_env.filters["ast_literal_eval"] = ast_literal_eval
@@ -131,26 +140,12 @@ def create_app() -> Flask:  # noqa: C901
     from assess.scoring.routes import scoring_bp
     from assess.assessments.routes import assessment_bp
 
+    # These are required to associated errorhandlers and before/after request decorators with their blueprints
+    import assess.blueprint_middleware
+    import apply.default.error_routes
+
     flask_app.register_error_handler(404, not_found)
     flask_app.register_error_handler(500, internal_server_error)
-
-    from assess.error_handlers import register_error_handlers as register_assess_error_handlers
-    from apply.default.error_routes import register_error_handlers as register_apply_error_handlers
-
-    register_apply_error_handlers()
-    register_assess_error_handlers()
-
-    @shared_bp.before_request
-    @tagging_bp.before_request
-    @flagging_bp.before_request
-    @scoring_bp.before_request
-    @assessment_bp.before_request
-    @login_requested
-    def assess_ensure_minimum_required_roles():
-        return auth_protect(
-            minimum_roles_required=["COMMENTER"],
-            unprotected_routes=["/", "/healthcheck", "/cookie_policy"],
-        )
 
     flask_app.register_blueprint(default_bp, host=flask_app.config['APPLY_HOST'])
     flask_app.register_blueprint(application_bp, host=flask_app.config['APPLY_HOST'])
@@ -163,16 +158,6 @@ def create_app() -> Flask:  # noqa: C901
     flask_app.register_blueprint(flagging_bp, host=flask_app.config['ASSESS_HOST'])
     flask_app.register_blueprint(scoring_bp, host=flask_app.config['ASSESS_HOST'])
     flask_app.register_blueprint(assessment_bp, host=flask_app.config['ASSESS_HOST'])
-
-    flask_app.jinja_env.filters["datetime_format_short_month"] = datetime_format_short_month
-    flask_app.jinja_env.filters["datetime_format_full_month"] = datetime_format_full_month
-    flask_app.jinja_env.filters["string_to_datetime"] = string_to_datetime
-    flask_app.jinja_env.filters["custom_format_datetime"] = custom_format_datetime
-    flask_app.jinja_env.filters["date_format_short_month"] = date_format_short_month
-    flask_app.jinja_env.filters["datetime_format"] = datetime_format
-    flask_app.jinja_env.filters["snake_case_to_human"] = snake_case_to_human
-    flask_app.jinja_env.filters["kebab_case_to_human"] = kebab_case_to_human
-    flask_app.jinja_env.filters["status_translation"] = status_translation
 
     @flask_app.url_defaults
     def inject_host_from_current_request(endpoint, values):

@@ -26,6 +26,7 @@ from assess.scoring.forms.rescore_form import RescoreForm
 from assess.scoring.forms.scores_and_justifications import OneToFiveScoreForm, ZeroToThreeScoreForm
 from assess.services.models.assessor_task_list import _Criteria, _CriteriaSubCriteria, _SubCriteria
 from assess.shared.filters import format_address
+from config.envs.unit_test import UnitTestConfig
 
 
 def default_flask_g():
@@ -41,7 +42,7 @@ def default_flask_g():
 
 class TestJinjaMacros(object):
     def test_criteria_macro_lead_assessor(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{criteria_element(criteria, name_classes, application_id, max_possible_sub_criteria_score)}}",
                 criteria_element=get_template_attribute("assess/macros/criteria_element.html", "criteria_element"),
@@ -102,7 +103,7 @@ class TestJinjaMacros(object):
             ), "Should have 2 of 8 score"
 
     def test_criteria_macro_commenter(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             g.user = User(
                 full_name="Test Commenter",
                 email="test@example.com",
@@ -149,7 +150,7 @@ class TestJinjaMacros(object):
             assert not soup.find("th", text="Score out of 5"), "Should not have Score out of 5 column"
 
     def test_section_macro(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{section_element(name, sub_criterias, application_id)}}",
                 section_element=get_template_attribute("assess/macros/section_element.html", "section_element"),
@@ -186,7 +187,7 @@ class TestJinjaMacros(object):
         expected_score_option_count,
         error_present,
     ):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             form = scoring_system_form()
             form.score.errors = error_present
             rendered_html = render_template_string(
@@ -215,7 +216,7 @@ class TestJinjaMacros(object):
                 assert soup.find("p", {"class": "govuk-error-message"}) == None  # noqa
 
     def test_comment_macro(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{comment_box(comment_form)}}",
                 comment_box=get_template_attribute("assess/macros/comments_box.html", "comment_box"),
@@ -233,7 +234,7 @@ class TestJinjaMacros(object):
             assert save_comment_button is not None, "Save comment button not found"
 
     def test_justification_macro(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             form = OneToFiveScoreForm()
             form.justification.errors = True
             rendered_html = render_template_string(
@@ -253,7 +254,7 @@ class TestJinjaMacros(object):
             assert error_message is not None, "Intentional error not found"
 
     def test_monetary_key_values(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             meta = MonetaryKeyValues.from_dict(
                 {
                     "question": ("Test Caption", "Test Description"),
@@ -280,7 +281,7 @@ class TestJinjaMacros(object):
             assert soup.find("td", text="£150.00"), "Total not found"
 
     def test_new_add_another_table(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             meta = NewAddAnotherTable.from_dict(
                 {
                     "question": "Test Caption",
@@ -339,7 +340,7 @@ class TestJinjaMacros(object):
         ],
     )
     def test_question_above_answer(self, app, clazz, macro_name, answer, expected):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             meta = clazz.from_dict({"question": "Test Question", "answer": answer})
 
             rendered_html = render_template_string(
@@ -352,7 +353,7 @@ class TestJinjaMacros(object):
             assert expected in rendered_html, "Answer not found"
 
     def test_question_above_answer_html(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             meta = AboveQuestionAnswerPairHtml.from_dict(
                 {
                     "question": "Test Caption",
@@ -382,7 +383,7 @@ class TestJinjaMacros(object):
         ],
     )
     def test_question_above_href_answer(self, app, clazz, macro_name):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             meta = clazz.from_dict(
                 {"question": "Test Question", "answer": "Test Answer"},
                 href="http://www.example.com",
@@ -403,7 +404,7 @@ class TestJinjaMacros(object):
             assert any(href in rendered_html for href in allowlist), "Link href not found"
 
     def test_question_above_href_answer_list(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             meta = QuestionAboveHrefAnswerList.from_dict(
                 {"question": "Test Question"},
                 key_to_url_dict={
@@ -429,7 +430,7 @@ class TestJinjaMacros(object):
             assert not soup.find(text="Not provided."), "Unexpected 'Not provided."
 
     def test_question_beside_with_formatted_answer_multiline(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             meta = FormattedBesideQuestionAnswerPair.from_dict(
                 {
                     "question": "Test Question",
@@ -528,7 +529,7 @@ class TestJinjaMacros(object):
         ],
     )
     def test_theme_mapping_works_based_on_meta_key(self, app, clazz, arguments, expected_unique_id):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             meta = clazz.from_dict(**arguments)
 
             rendered_html = render_template_string(
@@ -568,7 +569,7 @@ class TestJinjaMacros(object):
         funding_amount_requested = 123456.78
         assessment_status = "Submitted"
         flag_status = "Flagged"
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{ banner_summary(fund_name, fund_short_name, project_reference,"
                 " project_name, funding_amount_requested, assessment_status,"
@@ -635,7 +636,7 @@ class TestJinjaMacros(object):
         funding_amount_requested = 123456.78
         assessment_status = "In progress"
         flag_status = "Stopped"
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{ banner_summary(fund_name, fund_short_name, project_reference,"
                 " project_name, funding_amount_requested, assessment_status,"
@@ -654,7 +655,7 @@ class TestJinjaMacros(object):
             assert "Stopped" in rendered_html
 
     def test_flag_application_button(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{flag_application_button(12345)}}",
                 flag_application_button=get_template_attribute(
@@ -680,7 +681,7 @@ class TestJinjaMacros(object):
             assert flag_link.text.strip() == "Flag application", "Flag application button text does not match"
 
     def test_mark_qa_complete_button(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{mark_qa_complete_button(12345)}}",
                 mark_qa_complete_button=get_template_attribute(
@@ -698,7 +699,7 @@ class TestJinjaMacros(object):
             assert button_element is not None, "Mark QA complete button not found"
 
     def test_stopped_assessment_flag(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{assessment_stopped(flag, user_info)}}",
                 assessment_stopped=get_template_attribute("assess/macros/assessment_flag.html", "assessment_stopped"),
@@ -750,7 +751,7 @@ class TestJinjaMacros(object):
                 "parent_section_name": "Parent Test section",
             }
 
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{assessment_flagged(state, flag, user_info, state)}}",
                 assessment_flagged=get_template_attribute("assess/macros/assessment_flag.html", "assessment_flagged"),
@@ -810,7 +811,7 @@ class TestJinjaMacros(object):
             ), "Date created not found"
 
     def test_assessment_completion_state_completed(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{assessment_complete(state, csrf_token, application_id)}}",
                 assessment_complete=get_template_attribute("assess/macros/assessment_completion.html", "assessment_complete"),
@@ -827,7 +828,7 @@ class TestJinjaMacros(object):
             assert soup.find("p", class_="govuk-body").string == "You have marked this assessment as complete."
 
     def test_assessment_completion_flagged(self, app):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{assessment_complete(state, srf_token, application_id)}}",
                 assessment_complete=get_template_attribute("assess/macros/assessment_completion.html", "assessment_complete"),
@@ -850,7 +851,7 @@ class TestJinjaMacros(object):
         ],
     )
     def test_sub_criteria_heading(self, app, sub_criteria, expected_heading, has_forms):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{sub_criteria_heading(sub_criteria, score_form, rescore_form)}}",
                 sub_criteria_heading=get_template_attribute("assess/macros/sub_criteria_heading.html", "sub_criteria_heading"),
@@ -884,7 +885,7 @@ class TestJinjaMacros(object):
         exp_colour_class,
         exp_text,
     ):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{assessment_status(round_status)}}",
                 assessment_status=get_template_attribute("assess/macros/fund_dashboard_summary.html", "assessment_status"),
@@ -1043,7 +1044,7 @@ class TestJinjaMacros(object):
         has_application_closed,
         exp_links_text,
     ):
-        with app.test_request_context():
+        with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             mock_access_controller = MagicMock()
             mock_access_controller.is_lead_assessor = is_lead_assessor
             rendered_html = render_template_string(
