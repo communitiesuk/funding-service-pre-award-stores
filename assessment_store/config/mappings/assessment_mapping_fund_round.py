@@ -122,6 +122,11 @@ CTDF_ROUND_1_ID = "7ecd7d64-1854-44ab-a10c-a7af4b8d68e1"
 # ASSESSMENT DISPLAY CONFIGURATION
 
 fund_round_to_assessment_mapping = {
+    "b1c13e1e-8fda-41bd-8abb-28e56f9d9322:f1d514da-0282-4a96-82c4-25c09645d0b0": {
+        "schema_id": "lpdf_r1_assessment",
+        "unscored_sections": [],
+        "scored_criteria": [],
+    },
     "f97e3930-ab32-4353-84a6-3053d05382ae:e480f03f-e3e0-4bd0-9026-dfed52cc3982": {
         "schema_id": "gbrf_r1_assessment",
         "unscored_sections": [],
@@ -216,6 +221,12 @@ fund_round_to_assessment_mapping = {
 
 
 fund_round_data_key_mappings = {
+    "lpdfr1": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
+    },
     "gbrfr1": {
         "location": None,
         "asset_type": None,
@@ -1368,6 +1379,11 @@ applicant_info_mapping = {
 # APPLICATION SEEDING CONFIGURATION
 
 fund_round_mapping_config = {
+    "lpdfr1": {
+        "fund_id": "b1c13e1e-8fda-41bd-8abb-28e56f9d9322",
+        "round_id": "f1d514da-0282-4a96-82c4-25c09645d0b0",
+        "type_of_application": "lpdf",
+    },
     "gbrfr1": {
         "fund_id": "f97e3930-ab32-4353-84a6-3053d05382ae",
         "round_id": "e480f03f-e3e0-4bd0-9026-dfed52cc3982",
