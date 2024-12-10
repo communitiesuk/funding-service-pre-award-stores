@@ -13,6 +13,8 @@ http:
   path: '/'
   # You can specify a custom health check path. The default is "/".
   healthcheck: '/healthcheck'
+
+  # wants to be a list of [assessment., frontend.] - do this in a separate commit when doing copilot deploys
   alias: frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk
 
 # Configuration for your containers and service.
@@ -48,13 +50,14 @@ variables:
   ACCOUNT_STORE_API_HOST: "http://fsd-account-store:8080"
   APPLY_HOST: "frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   APPLICANT_FRONTEND_HOST: "https://frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"  # TODO: remove me when all frontends combined
-  AUTHENTICATOR_HOST: "https://authenticator.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   COOKIE_DOMAIN: ".test.levellingup.gov.uk"
   FLASK_ENV: ${COPILOT_ENVIRONMENT_NAME}
   FORMS_SERVICE_PUBLIC_HOST: "https://forms.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   REDIS_INSTANCE_URI:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-MagicLinksRedisInstanceURI
   SENTRY_DSN: "https://42dcacbe0128a0f861dda0e4408f540e@o1432034.ingest.us.sentry.io/4508438427205632"
+  COPILOT_AWS_BUCKET_NAME:
+    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-FormUploadsBucket
 
 secrets:
   FUND_STORE_API_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/FUND_STORE_API_HOST
@@ -63,6 +66,8 @@ secrets:
   SECRET_KEY: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/SECRET_KEY
   MAINTENANCE_MODE: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/FSD_FRONTEND_MAINTENANCE_MODE
   MAINTENANCE_END_TIME: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/FSD_FRONTEND_MAINTENANCE_END_TIME
+  ASSESSMENT_STORE_API_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/ASSESSMENT_STORE_API_HOST
+  AUTHENTICATOR_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/AUTHENTICATOR_HOST
 
 # You can override any of the values defined above by environment.
 environments:
@@ -106,6 +111,7 @@ environments:
         port: 8080
   uat:
     http:
+      # wants to be a list of [assessment., frontend.] - do this in a separate commit when doing copilot deploys
       alias: "frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
       target_container: nginx
       healthcheck:
@@ -135,11 +141,11 @@ environments:
           BASIC_AUTH_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_PASSWORD
   prod:
     http:
+      # wants to be a list of [assessment., frontend.] - do this in a separate commit when doing copilot deploys
       alias: frontend.access-funding.levellingup.gov.uk
       hosted_zone: Z0686469NF3ZJTU9I02M
     variables:
       COOKIE_DOMAIN: ".levellingup.gov.uk"
-      AUTHENTICATOR_HOST: "https://authenticator.access-funding.levellingup.gov.uk"
       APPLY_HOST: "frontend.access-funding.levellingup.gov.uk"
       APPLICANT_FRONTEND_HOST: "https://frontend.access-funding.levellingup.gov.uk"  # TODO: remove me when all frontends combined
       ASSESSMENT_FRONTEND_HOST: "https://assessment.access-funding.levellingup.gov.uk"
