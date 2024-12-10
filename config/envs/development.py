@@ -1,5 +1,6 @@
 """Flask Local Development Environment Configuration."""
 
+import base64
 import logging
 from distutils.util import strtobool
 from os import getenv

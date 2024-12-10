@@ -1,5 +1,8 @@
 """Flask Local Development Environment Configuration."""
 
+import base64
+from os import getenv
+
 from fsd_utils import configclass, CommonConfig
 
 from config.envs.default import DefaultConfig
@@ -36,5 +39,3 @@ class UnitTestConfig(DefaultConfig):
     AWS_REGION = "eu-west-2"
 
     SHOW_ALL_ROUNDS = True
-
-
