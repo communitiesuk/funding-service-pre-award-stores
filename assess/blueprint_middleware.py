@@ -67,8 +67,16 @@ def internal_server_error(error):
 @flagging_bp.before_request
 @scoring_bp.before_request
 @assessment_bp.before_request
-@login_requested
 def assess_ensure_minimum_required_roles():
+    if request.endpoint.endswith('.static'):
+        return
+
+    @login_requested
+    def check_auth():
+        pass
+
+    check_auth()
+
     return auth_protect(
         minimum_roles_required=["COMMENTER"],
         unprotected_routes=["/", "/healthcheck", "/cookie_policy"],
