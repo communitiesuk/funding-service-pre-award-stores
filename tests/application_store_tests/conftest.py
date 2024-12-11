@@ -283,6 +283,7 @@ def mock_get_round(mocker):
     """
     mocker.patch("application_store.db.queries.application.queries.get_round", new=generate_mock_round)
     mocker.patch("application_store.db.queries.statuses.queries.get_round", new=generate_mock_round)
+    mocker.patch("application_store.api.routes.application.routes.get_round", new=generate_mock_round)
     mocker.patch(
         "application_store.db.schemas.application.get_round_name",
         return_value="Generated test round",

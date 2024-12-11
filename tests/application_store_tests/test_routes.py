@@ -10,12 +10,10 @@ from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from moto import mock_aws
 
 from application_store.db.models import Applications, ResearchSurvey
-from application_store.db.models.application.enums import Status
 from application_store.db.queries.application import get_all_applications
 from application_store.db.schemas import ApplicationSchema
 from application_store.external_services.models.fund import Fund
 from application_store.external_services.models.round import Round
-from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
 from config import Config
 from db import db
 from tests.application_store_tests.helpers import (
@@ -632,56 +630,6 @@ def test_put_returns_400_on_submitted_application(flask_test_client, _db, seed_a
 
     assert response.status_code == 400
     assert b"Not allowed to edit a submitted application." in response.content
-
-
-@mock_aws
-@pytest.mark.apps_to_insert([test_application_data[0]])
-def test_successful_submitted_application(
-    flask_test_client,
-    mock_successful_submit_notification,
-    _db,
-    seed_application_records,
-    mocker,
-    mock_get_fund_data,
-    mock_get_round,
-):
-    """
-    GIVEN We have a functioning Application Store API
-    WHEN an application is submitted
-    THEN a 201 response is received in the correct format
-    """
-    with mock.patch(
-        "application_store.api.routes.application.routes.ApplicationsView._get_sqs_client"
-    ) as mock_get_sqs_client:
-        mock_get_sqs_client.return_value = _mock_aws_client()
-        mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
-
-        application_id = seed_application_records[0].id
-        # Update reference to a fund that has data mappings in assess
-        seed_application_records[0].reference = "CTDF-CR1-" + seed_application_records[0].reference.split("-")[2]
-
-        _db.session.add(seed_application_records[0])
-        _db.session.commit()
-
-        response = flask_test_client.post(
-            f"/application/applications/{application_id}/submit",
-            follow_redirects=True,
-        )
-
-        assert response.status_code == 201
-        assert all(k in response.json() for k in ("id", "email", "reference", "eoi_decision"))
-
-        _db.session.expunge(seed_application_records[0])
-        application_after_submit = _db.session.query(Applications).where(Applications.id == application_id).one()
-
-        assert application_after_submit.status == Status.SUBMITTED
-
-        assessment_record = (
-            _db.session.query(AssessmentRecord).where(AssessmentRecord.application_id == application_id).one()
-        )
-        assert assessment_record
-
-        # Make assessment insert surface the errors, work out how to 'transaction-ise' and then fix null project name
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])

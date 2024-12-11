@@ -175,87 +175,58 @@ class ApplicationsView(MethodView):
         if request.args.get("dont_send_email") == "true":
             should_send_email = False
 
+        # Do the submission
         try:
             application = submit_application(application_id)
         except SubmitError as submit_error:
-            current_app.log_exception(submit_error)
-            return f"Unable to submit application {submit_error.application_id}", 500
+            return {"message": f"Unable to submit application {submit_error.application_id}"}, 500
 
+        # Get EOI decision
+        fund_id = get_fund_id(application_id)
+        round_data = get_round(fund_id, application.round_id)
+        application_with_form_json = get_application(application_id, as_json=True, include_forms=True)
+        if round_data.is_expression_of_interest:
+            eoi_results = self.get_application_eoi_response(application_with_form_json)
+            eoi_decision = eoi_results["decision"]
+        else:
+            eoi_results = None
+            eoi_decision = None
+
+        # Send notification
         try:
-            # All this stuff below is just needed to send the email!!
-            fund_id = get_fund_id(application_id)
-            fund_data = get_fund(fund_id)
-            account = get_account(account_id=application.account_id)
-            round_data = get_round(fund_id, application.round_id)
-            application_with_form_json = get_application(application_id, as_json=True, include_forms=True)
-            language = application_with_form_json["language"]
-            fund_name = fund_data.name_json[language]
-            round_name = round_data.title_json[language]
-            application_with_form_json_and_fund_name = {
-                **application_with_form_json,
-                "fund_name": fund_name,
-                "round_name": round_name,
-                "prospectus_url": round_data.prospectus_url,
-            }
+            if should_send_email:
+                fund_data = get_fund(fund_id)
+                account = get_account(account_id=application.account_id)
+                language = application_with_form_json["language"]
+                application_with_form_json_and_fund_name = {
+                    **application_with_form_json,
+                    "fund_name": fund_data.name_json[language],
+                    "round_name": round_data.title_json[language],
+                    "prospectus_url": round_data.prospectus_url,
+                }
 
-            if round_data.is_expression_of_interest:
-                eoi_results = self.get_application_eoi_response(application_with_form_json)
-                eoi_decision = eoi_results["decision"]
-            else:
-                eoi_results = None
-                eoi_decision = None
-
-            send_submit_notification(
-                application_with_form_json=application_with_form_json,
-                should_send_email=should_send_email,
-                eoi_results=eoi_results,
-                account=account,
-                application_with_form_json_and_fund_name=application_with_form_json_and_fund_name,
-                application=application,
-                round_data=round_data,
-            )
-            return {
-                "id": application_id,
-                "reference": application_with_form_json["reference"],
-                "email": account.email,
-                "eoi_decision": eoi_decision,
-            }, 201
+                send_submit_notification(
+                    application_with_form_json=application_with_form_json,
+                    eoi_results=eoi_results,
+                    account=account,
+                    application_with_form_json_and_fund_name=application_with_form_json_and_fund_name,
+                    application=application,
+                    round_data=round_data,
+                )
 
         except NotificationError as e:
             current_app.logger.exception(
                 "Notification error on sending SUBMIT notification for application {application_id}",
+                exc_info=e,
                 extra=dict(application_id=application_id),
             )
-            return str(e), 500, {"x-error": "notification error"}
 
-    # def _send_submit_queue(self, application_id, application_with_form_json):
-    #     """
-    #     Send message to sqs queue once application is submitted
-    #     """
-    #     application_attributes = {
-    #         "application_id": {"StringValue": application_id, "DataType": "String"},
-    #         "S3Key": {
-    #             "StringValue": "submit",
-    #             "DataType": "String",
-    #         },
-    #     }
-    #     try:
-    #         sqs_extended_client = self._get_sqs_client()
-    #         message_id = sqs_extended_client.submit_single_message(
-    #             queue_url=Config.AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL,
-    #             message=json.dumps(application_with_form_json),
-    #             message_group_id="import_applications_group",
-    #             message_deduplication_id=str(uuid4()),  # ensures message uniqueness
-    #             extra_attributes=application_attributes,
-    #         )
-    #         current_app.logger.info(
-    #             "Message sent to SQS queue and message id is [{message_id}]",
-    #             extra=dict(message_id=message_id),
-    #         )
-    #     except Exception as e:
-    #         current_app.logger.error("An error occurred while sending message")
-    #         current_app.logger.error(e)
-    #         raise SubmitError(message="Sorry, cannot submit the message") from e
+        return {
+            "id": application_id,
+            "reference": application_with_form_json["reference"],
+            "email": account.email,
+            "eoi_decision": eoi_decision,
+        }, 201
 
     def post_feedback(self):
         args = request.get_json()

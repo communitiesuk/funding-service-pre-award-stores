@@ -271,22 +271,28 @@ def submit_application(application_id) -> Applications:
             AssessmentRecord.application_id
         )
 
-        print(f"Attempting insert of application {row['application_id']}")
         result = db.session.execute(upsert_rows_stmt)
 
         # Check if the inserted application is in result
         inserted_application_ids = [item.application_id for item in result]
         if not len(inserted_application_ids):
-            print(f"Application id already exist in the database: {row['application_id']}")
+            current_app.logger.warning(
+                "Application already exists in the database: {app_id}", extra=dict(app_id=row["application_id"])
+            )
         else:
-            print(f"Successfully inserted application_id  : {row['application_id']} ")
+            current_app.logger.info(
+                "Successfully inserted application: {app_id}", extra=dict(app_id=row["application_id"])
+            )
         db.session.commit()
     except exc.SQLAlchemyError as e:
         db.session.rollback()
-        print(f"Error occurred while inserting application {row['application_id']}, error: {e}")
+        current_app.logger.error(
+            msg="Error occurred while submitting application {application_id}",
+            exc_info=e,
+            extra=dict(application_id=row["application_id"]),
+        )
         raise SubmitError(application_id=application_id) from e
 
-    db.session.commit()
     return application
 
 
