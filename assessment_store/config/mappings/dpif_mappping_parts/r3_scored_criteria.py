@@ -41,6 +41,20 @@ scored_criteria = [
                         "name": "Roles and recruitment",
                         "answers": [
                             {
+                                "field_id": "vuZiab",
+                                "form_name": "dpif-roles-and-recruitment",
+                                "field_type": "yesNoField",
+                                "presentation_type": "text",
+                                "question": "Do you have a team in place ready to deliver the project?",
+                            },
+                            {
+                                "field_id": "hBGcPv",
+                                "form_name": "dpif-roles-and-recruitment",
+                                "field_type": "freeTextField",
+                                "presentation_type": "text",
+                                "question": "Tell us about the shape of the project team",
+                            },
+                            {
                                 "field_id": "gSQPxs",
                                 "form_name": "dpif-roles-and-recruitment",
                                 "field_type": "yesNoField",
@@ -48,11 +62,11 @@ scored_criteria = [
                                 "question": "Will you need to backfill any roles in your organisation?",
                             },
                             {
-                                "field_id": "vwXfgR",
+                                "field_id": "KEnthg",
                                 "form_name": "dpif-roles-and-recruitment",
-                                "field_type": "freeTextField",
+                                "field_type": "numberField",
                                 "presentation_type": "text",
-                                "question": "Roles and recruitment",
+                                "question": "What is the estimated cost of backfilling roles?",
                             },
                             {
                                 "field_id": "pRqIkv",
@@ -76,31 +90,10 @@ scored_criteria = [
                                 "question": "Project lead last name",
                             },
                             {
-                                "field_id": "hBGcPv",
-                                "form_name": "dpif-roles-and-recruitment",
-                                "field_type": "freeTextField",
-                                "presentation_type": "text",
-                                "question": "Tell us about the shape of the project team",
-                            },
-                            {
-                                "field_id": "vuZiab",
-                                "form_name": "dpif-roles-and-recruitment",
-                                "field_type": "yesNoField",
-                                "presentation_type": "text",
-                                "question": "Do you have a team in place ready to deliver the project?",
-                            },
-                            {
-                                "field_id": "KEnthg",
-                                "form_name": "dpif-roles-and-recruitment",
-                                "field_type": "numberField",
-                                "presentation_type": "text",
-                                "question": "What is the estimated cost of backfilling roles?",
-                            },
-                            {
                                 "field_id": "apcoeU",
                                 "form_name": "dpif-roles-and-recruitment",
                                 "field_type": "freeTextField",
-                                "presentation_type": "text",
+                                "presentation_type": "free_text",
                                 "question": "How will you make sure you have a team in place ready to deliver the project?",
                             },
                         ],
@@ -168,6 +161,13 @@ scored_criteria = [
                         "name": "Dataset information",
                         "answers": [
                             {
+                                "field_id": "BQKLZz",
+                                "form_name": "dpif-dataset-information",
+                                "field_type": "yesNoField",
+                                "presentation_type": "text",
+                                "question": "Does your organisation collect at least one of the datasets?",
+                            },
+                            {
                                 "field_id": "PfjXKB",
                                 "form_name": "dpif-dataset-information",
                                 "field_type": "checkboxesField",
@@ -203,25 +203,18 @@ scored_criteria = [
                                 "question": "Which format is your dataset in for tree preservation orders?",
                             },
                             {
-                                "field_id": "iGqOjq",
-                                "form_name": "dpif-dataset-information",
-                                "field_type": "freeTextField",
-                                "presentation_type": "free_text",
-                                "question": "What are the current known issues and challenges you have with data quality and publication?",
-                            },
-                            {
-                                "field_id": "BQKLZz",
-                                "form_name": "dpif-dataset-information",
-                                "field_type": "yesNoField",
-                                "presentation_type": "text",
-                                "question": "Does your organisation collect at least one of the datasets?",
-                            },
-                            {
                                 "field_id": "WSaPbE",
                                 "form_name": "dpif-dataset-information",
                                 "field_type": "radiosField",
                                 "presentation_type": "text",
                                 "question": "How long do you think it will take your organisation to publish all 4 datasets?",
+                            },
+                            {
+                                "field_id": "iGqOjq",
+                                "form_name": "dpif-dataset-information",
+                                "field_type": "freeTextField",
+                                "presentation_type": "free_text",
+                                "question": "What are the current known issues and challenges you have with data quality and publication?",
                             },
                         ],
                     }
