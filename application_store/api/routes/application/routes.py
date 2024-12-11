@@ -8,6 +8,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from application_store._helpers import get_blank_forms, order_applications
 from application_store._helpers.application import send_submit_notification
+from application_store.db.exceptions.submit import SubmitError
 from application_store.db.models.application.enums import Status
 from application_store.db.queries import (
     add_new_forms,
@@ -51,7 +52,6 @@ from application_store.external_services import (
 from application_store.external_services.exceptions import (
     NotificationError,
 )
-from assessment_store.db.queries.assessment_records.queries import insert_application_record
 
 
 class ApplicationsView(MethodView):
@@ -176,9 +176,15 @@ class ApplicationsView(MethodView):
             should_send_email = False
 
         try:
+            application = submit_application(application_id)
+        except SubmitError as submit_error:
+            current_app.log_exception(submit_error)
+            return f"Unable to submit application {submit_error.application_id}", 500
+
+        try:
+            # All this stuff below is just needed to send the email!!
             fund_id = get_fund_id(application_id)
             fund_data = get_fund(fund_id)
-            application = submit_application(application_id)
             account = get_account(account_id=application.account_id)
             round_data = get_round(fund_id, application.round_id)
             application_with_form_json = get_application(application_id, as_json=True, include_forms=True)
@@ -191,9 +197,6 @@ class ApplicationsView(MethodView):
                 "round_name": round_name,
                 "prospectus_url": round_data.prospectus_url,
             }
-            insert_application_record(
-                application_json_string=application_with_form_json, application_type=None, is_json=True
-            )
 
             if round_data.is_expression_of_interest:
                 eoi_results = self.get_application_eoi_response(application_with_form_json)
@@ -217,24 +220,13 @@ class ApplicationsView(MethodView):
                 "email": account.email,
                 "eoi_decision": eoi_decision,
             }, 201
-        except KeyError as e:
-            current_app.logger.exception(
-                "Key error on processing application submissionfor application: '{application_id}'",
-                extra=dict(application_id=application_id),
-            )
-            return str(e), 500, {"x-error": "key error"}
+
         except NotificationError as e:
             current_app.logger.exception(
                 "Notification error on sending SUBMIT notification for application {application_id}",
                 extra=dict(application_id=application_id),
             )
             return str(e), 500, {"x-error": "notification error"}
-        except Exception as e:
-            current_app.logger.exception(
-                "Error on sending SUBMIT notification for application {application_id}",
-                extra=dict(application_id=application_id),
-            )
-            return str(e), 500, {"x-error": "Error"}
 
     # def _send_submit_queue(self, application_id, application_with_form_json):
     #     """
