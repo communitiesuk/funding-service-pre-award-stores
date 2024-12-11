@@ -277,7 +277,7 @@ def insert_fund_data(fund_config, commit: bool = True):
         "owner_organisation_name": fund_config["owner_organisation_name"],
         "owner_organisation_shortname": fund_config["owner_organisation_shortname"],
         "owner_organisation_logo_uri": fund_config["owner_organisation_logo_uri"],
-        "ggis_scheme_reference_number": fund_config["ggis_scheme_reference_number"] if 'ggis_scheme_reference_number' in fund_config else None,
+        "ggis_scheme_reference_number": fund_config.get("ggis_scheme_reference_number"),
         "funding_type": fund_config["funding_type"],
     }
 
