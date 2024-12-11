@@ -5,7 +5,7 @@ from assess.authentication.auth import auth_protect
 
 
 def not_found(error):
-    current_app.logger.error(error)
+    current_app.logger.debug(error)
 
     if request.host == current_app.config['ASSESS_HOST']:
         @login_requested
