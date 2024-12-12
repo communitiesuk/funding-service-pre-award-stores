@@ -122,11 +122,19 @@ CTDF_ROUND_1_ID = "7ecd7d64-1854-44ab-a10c-a7af4b8d68e1"
 GBRF_FUND_ID = "f97e3930-ab32-4353-84a6-3053d05382ae"
 GBRF_ROUND_1_ID = "e480f03f-e3e0-4bd0-9026-dfed52cc3982"
 
+LPDF_FUND_ID = "b1c13e1e-8fda-41bd-8abb-28e56f9d9322"
+LPDF_ROUND_1_ID = "f1d514da-0282-4a96-82c4-25c09645d0b0"
+
 # ASSESSMENT DISPLAY CONFIGURATION
 
 fund_round_to_assessment_mapping = {
     f"{GBRF_FUND_ID}:{GBRF_ROUND_1_ID}": {
         "schema_id": "gbrf_r1_assessment",
+        "unscored_sections": [],
+        "scored_criteria": [],
+    },
+    f"{LPDF_FUND_ID}:{LPDF_ROUND_1_ID}": {
+        "schema_id": "lpdf_r1_assessment",
         "unscored_sections": [],
         "scored_criteria": [],
     },
@@ -220,6 +228,12 @@ fund_round_to_assessment_mapping = {
 
 fund_round_data_key_mappings = {
     "GBRFR1": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
+    },
+    "LPDFR1": {
         "location": None,
         "asset_type": None,
         "funding_one": None,
@@ -1375,6 +1389,11 @@ fund_round_mapping_config = {
         "fund_id": GBRF_FUND_ID,
         "round_id": GBRF_ROUND_1_ID,
         "type_of_application": "GBRF",
+    },
+    "LPDFR1": {
+        "fund_id": LPDF_FUND_ID,
+        "round_id": LPDF_ROUND_1_ID,
+        "type_of_application": "LPDF",
     },
     "DPIFR3": {
         "fund_id": DPIF_FUND_ID,

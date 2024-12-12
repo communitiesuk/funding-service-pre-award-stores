@@ -72,6 +72,7 @@ LOADER_CONFIG = {
         "is_expression_of_interest": False,
         "eoi_decision_schema": {"en": {}, "cy": {}},
         "feedback_survey_config": {
+<<<<<<< HEAD
             "has_feedback_survey": True,
             "has_section_feedback": False,
             "has_research_survey": False,
@@ -80,6 +81,16 @@ LOADER_CONFIG = {
             "is_research_survey_optional": False,
         },
         "eligibility_config": {"has_eligibility": True},
+=======
+            "has_feedback_survey": False,
+            "has_section_feedback": False,
+            "has_research_survey": False,
+            "is_feedback_survey_optional": False,
+            "is_section_feedback_optional": False,
+            "is_research_survey_optional": False,
+        },
+        "eligibility_config": {"has_eligibility": False},
+>>>>>>> de86c813 (Adding LPDF R1 config)
         "title_json": {"en": "Round 1", "cy": None},
         "contact_us_banner_json": {"en": None, "cy": None},
     },
