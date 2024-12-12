@@ -119,9 +119,17 @@ HSRA_ROUND_ID = "50062ff6-e696-474d-a560-4d9af784e6e5"
 CTDF_FUND_ID = "3dcfa617-cff8-4c2c-9edd-9568aa367d13"
 CTDF_ROUND_1_ID = "7ecd7d64-1854-44ab-a10c-a7af4b8d68e1"
 
+GBRF_FUND_ID = "f97e3930-ab32-4353-84a6-3053d05382ae"
+GBRF_ROUND_1_ID = "e480f03f-e3e0-4bd0-9026-dfed52cc3982"
+
 # ASSESSMENT DISPLAY CONFIGURATION
 
 fund_round_to_assessment_mapping = {
+    f"{GBRF_FUND_ID}:{GBRF_ROUND_1_ID}": {
+        "schema_id": "gbrf_r1_assessment",
+        "unscored_sections": [],
+        "scored_criteria": [],
+    },
     f"{DPIF_FUND_ID}:{DPIF_ROUND_3_ID}": {
         "schema_id": "DPIF_R3_assessment",
         "unscored_sections": dpif_unscored_sections_r3,
@@ -211,6 +219,12 @@ fund_round_to_assessment_mapping = {
 
 
 fund_round_data_key_mappings = {
+    "GBRFR1": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
+    },
     "DPIFR3": {
         "location": None,
         "asset_type": None,
@@ -1357,6 +1371,11 @@ applicant_info_mapping = {
 # APPLICATION SEEDING CONFIGURATION
 
 fund_round_mapping_config = {
+    "GBRFR1": {
+        "fund_id": GBRF_FUND_ID,
+        "round_id": GBRF_ROUND_1_ID,
+        "type_of_application": "GBRF",
+    },
     "DPIFR3": {
         "fund_id": DPIF_FUND_ID,
         "round_id": DPIF_ROUND_3_ID,
