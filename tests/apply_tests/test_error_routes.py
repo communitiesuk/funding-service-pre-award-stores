@@ -6,4 +6,5 @@ def test_404(client):
 
     assert response.status_code == 404
     soup = BeautifulSoup(response.data, "html.parser")
-    assert "fundingservice.support@communities.gov.uk" in soup.find("li").text
+    link = soup.find("a", href="https://mhclgdigital.atlassian.net/servicedesk/customer/portal/5/group/68")
+    assert link is not None
