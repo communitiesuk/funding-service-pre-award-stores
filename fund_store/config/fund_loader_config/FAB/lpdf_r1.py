@@ -33,7 +33,7 @@ LOADER_CONFIG = {
         "ggis_scheme_reference_number": "G2-SCH-2023-03-12555",
         "funding_type": "COMPETITIVE",
         "name_json": {"en": "Local Plans Delivery Fund", "cy": ""},
-        "title_json": {"en": "local plan funding", "cy": ""},
+        "title_json": {"en": "Local Plan Funding", "cy": ""},
         "description_json": {
             "en": "To ensure that local authorities are well-equipped and supported to implement the changes in the revised National Planning Policy Framework (NPPF), the Government has announced funding to support local planning authorities with local plan delivery and Green Belt reviews. A total of £14.8m is available across both funds to support local planning authorities with these costs. Eligible local planning authorities are invited to submit an Expression of Interest (EOI) form by 17 January 2025 to request a share of this funding. The eligibility criteria are set out below. Local planning authorities must meet all criteria to be awarded a share of this funding. Successful local authorities will be notified that they will receive funding on or around 10 February, and payments are expected to be made by 19 February 2025.",
             "cy": "",

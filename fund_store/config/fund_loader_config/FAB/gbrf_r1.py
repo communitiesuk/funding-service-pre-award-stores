@@ -33,7 +33,7 @@ LOADER_CONFIG = {
         "ggis_scheme_reference_number": "G2-SCH-2023-03-12555",
         "funding_type": "COMPETITIVE",
         "name_json": {"en": "Green Belt Review Funding", "cy": ""},
-        "title_json": {"en": "green belt funding", "cy": ""},
+        "title_json": {"en": "Green Belt Funding", "cy": ""},
         "description_json": {
             "en": "To ensure that local authorities are well-equipped and supported to implement the changes in the National Planning Policy Framework (NPPF), the Government has announced funding to provide additional support to local authorities that will need to undertake a Green Belt review, in the form of a direct financial contribution towards their costs. Local authorities that need to undertake a Green Belt review to accommodate an increase in their local housing need as a result of the NPPF changes will be able to submit an Expression of Interest (EOI) for a share of the Fund, up to a maximum of £70k per local authority. The funding will provide a direct financial contribution to eligible local authorities to enable them to complete their Green Belt review.\u202f\u202fSuccessful local authorities will be notified that they will receive funding on or around 10 February, and payments are expected to be made by 19 February 2025. ",
             "cy": "",
@@ -49,7 +49,7 @@ LOADER_CONFIG = {
         "application_reminder_sent": False,
         "reminder_date": "2025-01-10T11:00:00",
         "assessment_deadline": "2025-01-31T17:00:00",
-        "prospectus": "blank.blank",
+        "prospectus": "",
         "privacy_notice": "https://www.gov.uk/government/publications/local-plan-delivery-and-green-belt-reviews-expression-of-interest/funding-to-support-local-authorities-with-the-costs-of-local-plan-delivery-and-green-belt-reviews-privacy-notice",
         "reference_contact_page_over_email": False,
         "contact_email": "LocalPlansandGreenBeltFunding@communities.gov.uk",
@@ -59,7 +59,7 @@ LOADER_CONFIG = {
         "support_days": "Monday to Friday",
         "instructions_json": {"en": None, "cy": None},
         "feedback_link": "",
-        "project_name_field_id": "nmKurP",
+        "project_name_field_id": "RoLhhf",
         "application_guidance_json": {
             "en": "<h2 class='govuk-heading govuk-heading-s'>What we'll ask you for</h2> <p class='govuk-body'>You can preview the <a href='{all_questions_url}'>full list of application questions</a>.</p>",
             "cy": None,
