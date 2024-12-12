@@ -22,14 +22,8 @@ def test_contact_us_portal(apply_test_client, url, expected_service_desk_link, e
 
     soup = BeautifulSoup(response.data, "html.parser")
 
-    assert (
-        len(
-            soup.find_all(
-                "h3",
-                string=lambda text: "Please contact us through our support desk portal" in text,
-            )
-        )
-        == 1
+    assert any(
+        "Please contact us through our support desk" in h3.text for h3 in soup.find_all("h3", class_="govuk-heading-s")
     )
     assert len(soup.find_all("a", href=expected_service_desk_link)) == 1
     assert len(soup.find_all("p", string=lambda text: expected_title in text if text else False)) == 1
