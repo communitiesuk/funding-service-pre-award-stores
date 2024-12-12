@@ -17,8 +17,8 @@ from bs4 import BeautifulSoup
         ),
     ],
 )
-def test_contact_us_portal(flask_test_client, url, expected_service_desk_link, expected_title):
-    response = flask_test_client.get(url)
+def test_contact_us_portal(apply_test_client, url, expected_service_desk_link, expected_title):
+    response = apply_test_client.get(url)
 
     soup = BeautifulSoup(response.data, "html.parser")
 
