@@ -5,6 +5,7 @@ FLASK_RUN_HOST=localhost
 # Below credentials belongs to local development server. Do not commit any external services credentials
 DATABASE_URL=postgresql://postgres:password@localhost:5432/pre_award_stores # pragma: allowlist secret
 FUND_STORE_API_HOST=http://localhost:3012/fund
+# assume this will have to update to http://localhost:3012/account following the next step
 ACCOUNT_STORE_API_HOST=http://localhost:3003
 APPLICATION_STORE_API_HOST=http://localhost:3012/application
 AWS_ACCESS_KEY_ID=FSDIOSFODNN7EXAMPLE
