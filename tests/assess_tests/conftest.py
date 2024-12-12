@@ -1,5 +1,3 @@
-import multiprocessing
-import platform
 import typing as t
 from collections import OrderedDict
 from contextlib import contextmanager
@@ -11,17 +9,17 @@ from unittest import mock
 import jwt as jwt
 import pytest
 import werkzeug
-from flask.sessions import SessionMixin
-from werkzeug.test import TestResponse
 from flask import template_rendered
+from flask.sessions import SessionMixin
 from flask.testing import FlaskClient
+from werkzeug.test import TestResponse
 
+from app import create_app
 from assess.assessments.models.round_status import RoundStatus
 from assess.services.models.assessor_task_list import AssessorTaskList
 from assess.shared.helpers import get_ttl_hash
 from assess.tagging.models.tag import AssociatedTag, Tag, TagType
 from config import Config
-from app import create_app
 from config.envs.unit_test import UnitTestConfig
 from tests.assess_tests.api_data.example_get_full_application import mock_full_application_json
 from tests.assess_tests.api_data.test_data import fund_specific_claim_map, mock_api_results
@@ -111,13 +109,11 @@ class _AssessFlaskClient(FlaskClient):
         **kwargs: t.Any,
     ) -> None:
         if domain is None:
-            domain = self.application.config['ASSESS_HOST']
+            domain = self.application.config["ASSESS_HOST"]
         super().set_cookie(key, value, domain=domain, origin_only=origin_only, path=path, **kwargs)
 
     @contextmanager
-    def session_transaction(
-        self, *args: t.Any, **kwargs: t.Any
-    ) -> t.Generator[SessionMixin, None, None]:
+    def session_transaction(self, *args: t.Any, **kwargs: t.Any) -> t.Generator[SessionMixin, None, None]:
         if "headers" in kwargs:
             kwargs["headers"].setdefault("Host", UnitTestConfig.ASSESS_HOST)
         else:

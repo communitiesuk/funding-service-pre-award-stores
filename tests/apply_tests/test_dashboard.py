@@ -71,7 +71,7 @@ def test_serialise_application_summary():
     ],
 )
 def test_dashboard_route_search_call(
-        apply_test_client,
+    apply_test_client,
     mocker,
     app,
     mock_login,
@@ -107,7 +107,7 @@ def test_dashboard_route_search_call(
     ],
 )
 def test_dashboard_template_rendered(
-        apply_test_client,
+    apply_test_client,
     mock_login,
     mocker,
     templates_rendered,
@@ -131,7 +131,7 @@ def test_dashboard_template_rendered(
 
 
 def test_dashboard_eoi_suffix(
-        apply_test_client,
+    apply_test_client,
     mock_login,
     mocker,
 ):
@@ -162,7 +162,7 @@ def test_dashboard_eoi_suffix(
     ],
 )
 def test_dashboard_language(
-        apply_test_client,
+    apply_test_client,
     mock_login,
     mocker,
     query_string,
@@ -241,7 +241,7 @@ def test_dashboard_route(apply_test_client, mocker, mock_login):
 
 @pytest.mark.skip(reason="Logic covered in build data for display")
 def test_submitted_dashboard_route_shows_no_application_link(
-        apply_test_client, mocker, mock_login, mock_get_fund_round
+    apply_test_client, mocker, mock_login, mock_get_fund_round
 ):
     mocker.patch(
         "apply.default.account_routes.get_applications_for_account",
@@ -504,7 +504,7 @@ def test_filter_funds_by_short_name(funds, filter_value, expected_count, mocker)
     ],
 )
 def test_create_new_application(
-        apply_test_client,
+    apply_test_client,
     mocker,
     app,
     mock_login,

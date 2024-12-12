@@ -26,7 +26,7 @@ from tests.assess_tests.conftest import create_valid_token
 )
 def test_assign_assessments_get(
     request,
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -73,7 +73,7 @@ def test_assign_assessments_get(
 )
 def test_assign_assessments_post(
     request,
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -143,7 +143,7 @@ def test_assign_assessments_post(
 )
 def test_assessor_type_post(
     request,
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -242,7 +242,7 @@ def test_assessor_type_post(
 )
 def test_assessor_type_post_existing_assignment(
     request,
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -331,7 +331,7 @@ def test_assessor_type_post_existing_assignment(
 )
 def test_assessor_type_list_post(
     request,
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -464,7 +464,7 @@ def test_assignment_overview_remove_assessor(
 )
 def test_assignment_overview_add_and_remove_assessors(
     request,
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -542,7 +542,7 @@ def test_assignment_overview_add_and_remove_assessors(
 )
 def test_assignment_overview_post_new_and_exising(
     request,
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -667,7 +667,7 @@ def test_assignment_overview_post_new_and_exising(
 )
 def test_assignment_overview_post_add_and_remove(
     request,
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -766,7 +766,7 @@ def test_assignment_overview_post_add_and_remove(
 )
 def test_assignment_multiple_users_multiple_messages(
     request,
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,
@@ -837,7 +837,7 @@ def test_assignment_multiple_users_multiple_messages(
 )
 def test_assignment_overview_cancel_messages(
     request,
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_round,
     mock_get_fund,

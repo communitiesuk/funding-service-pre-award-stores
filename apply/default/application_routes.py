@@ -43,8 +43,8 @@ from apply.helpers import (
     get_section_feedback_data,
     get_token_to_return_to_application,
 )
-from common.blueprints import Blueprint
 from apply.models.statuses import get_formatted
+from common.blueprints import Blueprint
 from config import Config
 
 application_bp = Blueprint("application_routes", __name__, template_folder="templates")

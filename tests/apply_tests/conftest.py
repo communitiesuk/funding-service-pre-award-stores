@@ -1,5 +1,3 @@
-import multiprocessing
-import platform
 from typing import Any
 
 import pytest
@@ -7,7 +5,6 @@ from flask import template_rendered
 from flask.testing import FlaskClient
 from werkzeug.test import TestResponse
 
-from app import create_app
 from apply.models.fund import Fund
 from config.envs.unit_test import UnitTestConfig
 from tests.apply_tests.api_data.test_data import TEST_FUNDS_DATA, TEST_ROUNDS_DATA

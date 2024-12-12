@@ -118,7 +118,7 @@ class TestAuthorisation:
     )
     def test_authorised_roles_redirected_to_dashboard(
         self,
-            assess_test_client,
+        assess_test_client,
         creds,
         templates_rendered,
         mock_get_funds,
@@ -161,7 +161,7 @@ class TestAuthorisation:
     @pytest.mark.sub_criteria_id("test_sub_criteria_id")
     def test_scoring_permissions_for_users(
         self,
-            assess_test_client,
+        assess_test_client,
         request,
         mock_get_sub_criteria,
         mock_get_fund,
@@ -217,7 +217,7 @@ class TestAuthorisation:
     @pytest.mark.sub_criteria_id("test_sub_criteria_id")
     def test_different_user_levels_see_correct_comments_on_sub_criteria_view(
         self,
-            assess_test_client,
+        assess_test_client,
         request,
         claim,
         expect_all_comments_available,
@@ -302,7 +302,7 @@ class TestAuthorisation:
     def test_different_user_levels_see_comment_history_on_sub_criteria_view(
         self,
         mocker,
-            assess_test_client,
+        assess_test_client,
         request,
         claim,
         mock_get_sub_criteria,
@@ -430,7 +430,7 @@ class TestAuthorisation:
     @pytest.mark.flag_id("stopped_app")
     def test_user_levels_have_correct_permissions_to_restart_an_assessment_commenter_assessor(
         self,
-            assess_test_client,
+        assess_test_client,
         request,
         claim,
         mock_get_flags,
@@ -466,7 +466,7 @@ class TestAuthorisation:
     @pytest.mark.flag_id("stopped_app")
     def test_user_levels_have_correct_permissions_to_restart_an_assessment_lead(
         self,
-            assess_test_client,
+        assess_test_client,
         request,
         mock_get_flags,
         mock_get_flag,
@@ -511,7 +511,7 @@ class TestAuthorisation:
     def test_different_user_levels_have_correct_flagging_permissions(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         claim,
         expect_flagging,
         mock_get_flags,
@@ -567,7 +567,7 @@ class TestAuthorisation:
     @pytest.mark.flag_id("resolved_app")
     def test_different_user_levels_have_correct_permissions_to_resolve_flag(
         self,
-            assess_test_client,
+        assess_test_client,
         request,
         claim,
         expect_flagging,
@@ -625,7 +625,7 @@ class TestAuthorisation:
     @pytest.mark.application_id("flagged_qa_completed_app")
     def test_resolve_flag_option_shows_for_correct_permissions(
         self,
-            assess_test_client,
+        assess_test_client,
         request,
         user_account,
         expect_flagging,

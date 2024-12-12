@@ -1,4 +1,3 @@
-import glob
 import os
 import shutil
 import urllib.request
@@ -76,7 +75,9 @@ def build_some_assess_assets(static_dist_root="static/assess"):
 
     # Checks if GovUK Frontend Assets already built
     if os.path.exists(DIST_PATH):
-        print("GovUK Frontend assets already built.If you require a rebuild manually run build.build_some_assess_assets")
+        print(
+            "GovUK Frontend assets already built.If you require a rebuild manually run build.build_some_assess_assets"
+        )
         return True
 
     # Download zips from GOVUK_URL
@@ -107,7 +108,6 @@ def build_some_assess_assets(static_dist_root="static/assess"):
     print("Moving files from " + ASSETS_PATH + " to " + DIST_PATH)
     for file_to_move in os.listdir(ASSETS_PATH):
         shutil.move("/".join([ASSETS_PATH, file_to_move]), DIST_PATH)
-
 
     # Copy css
     os.makedirs("./static/assess/styles")
@@ -140,7 +140,7 @@ def build_assess_assets(static_dist_root="static/assess", remove_existing=False)
         if os.path.exists(relative_dist_root):
             shutil.rmtree(relative_dist_root)
     build_some_assess_assets(static_dist_root=static_dist_root)
-    assess_static_assets.build_bundles(static_folder='static')
+    assess_static_assets.build_bundles(static_folder="static")
 
 
 if __name__ == "__main__":

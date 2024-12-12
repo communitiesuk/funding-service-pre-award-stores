@@ -26,7 +26,11 @@ def eligiblity_result(fund_short_name, round_name):
     fund, round = get_fund_and_round(fund_short_name=fund_short_name, round_short_name=round_name)
     current_app.logger.info("Eligibility return url: {return_url}", extra=dict(return_url=return_url))
     return render_template(
-        "apply/eligibility_result.html", fund_id=round.fund_id, round_id=round.id, fund_title=fund.title, backLink=return_url
+        "apply/eligibility_result.html",
+        fund_id=round.fund_id,
+        round_id=round.id,
+        fund_title=fund.title,
+        backLink=return_url,
     )
 
 

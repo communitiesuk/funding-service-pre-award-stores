@@ -8,6 +8,7 @@ from assess.scoring.routes import scoring_bp
 from assess.shared.routes import shared_bp
 from assess.tagging.routes import tagging_bp
 
+
 @assessment_bp.errorhandler(404)
 @flagging_bp.errorhandler(404)
 @scoring_bp.errorhandler(404)
@@ -37,6 +38,7 @@ def forbidden(error):
         403,
     )
 
+
 @assessment_bp.errorhandler(503)
 @flagging_bp.errorhandler(503)
 @scoring_bp.errorhandler(503)
@@ -44,7 +46,6 @@ def forbidden(error):
 @tagging_bp.errorhandler(503)
 def error_503(error):
     return render_template("assess/maintenance.html"), 503
-
 
 
 @assessment_bp.errorhandler(500)
@@ -68,7 +69,7 @@ def internal_server_error(error):
 @scoring_bp.before_request
 @assessment_bp.before_request
 def assess_ensure_minimum_required_roles():
-    if request.endpoint.endswith('.static'):
+    if request.endpoint.endswith(".static"):
         return
 
     @login_requested

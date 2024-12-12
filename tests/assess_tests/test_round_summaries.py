@@ -4,8 +4,8 @@ import pytest
 
 from assess.assessments.models.round_status import RoundStatus
 from assess.assessments.models.round_summary import create_round_summaries
-from assess.services.models.round import Round
 from assess.config.display_value_mappings import ALL_VALUE
+from assess.services.models.round import Round
 
 
 @pytest.fixture(autouse=True)

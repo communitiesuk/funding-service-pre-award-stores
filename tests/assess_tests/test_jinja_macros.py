@@ -26,7 +26,6 @@ from assess.scoring.forms.rescore_form import RescoreForm
 from assess.scoring.forms.scores_and_justifications import OneToFiveScoreForm, ZeroToThreeScoreForm
 from assess.services.models.assessor_task_list import _Criteria, _CriteriaSubCriteria, _SubCriteria
 from assess.shared.filters import format_address
-from config.envs.unit_test import UnitTestConfig
 
 
 def default_flask_g():
@@ -814,7 +813,9 @@ class TestJinjaMacros(object):
         with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{assessment_complete(state, csrf_token, application_id)}}",
-                assessment_complete=get_template_attribute("assess/macros/assessment_completion.html", "assessment_complete"),
+                assessment_complete=get_template_attribute(
+                    "assess/macros/assessment_completion.html", "assessment_complete"
+                ),
                 state=type("State", (), {"workflow_status": "COMPLETED"})(),
                 csrf_token=generate_csrf(),
                 application_id=1,
@@ -831,7 +832,9 @@ class TestJinjaMacros(object):
         with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{assessment_complete(state, srf_token, application_id)}}",
-                assessment_complete=get_template_attribute("assess/macros/assessment_completion.html", "assessment_complete"),
+                assessment_complete=get_template_attribute(
+                    "assess/macros/assessment_completion.html", "assessment_complete"
+                ),
                 state=type("State", (), {"workflow_status": "IN_PROGRESS"})(),
                 csrf_token=generate_csrf(),
                 application_id=1,
@@ -854,7 +857,9 @@ class TestJinjaMacros(object):
         with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{sub_criteria_heading(sub_criteria, score_form, rescore_form)}}",
-                sub_criteria_heading=get_template_attribute("assess/macros/sub_criteria_heading.html", "sub_criteria_heading"),
+                sub_criteria_heading=get_template_attribute(
+                    "assess/macros/sub_criteria_heading.html", "sub_criteria_heading"
+                ),
                 score_form=OneToFiveScoreForm() if has_forms else None,
                 rescore_form=RescoreForm() if has_forms else None,
                 sub_criteria=sub_criteria,
@@ -888,7 +893,9 @@ class TestJinjaMacros(object):
         with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
             rendered_html = render_template_string(
                 "{{assessment_status(round_status)}}",
-                assessment_status=get_template_attribute("assess/macros/fund_dashboard_summary.html", "assessment_status"),
+                assessment_status=get_template_attribute(
+                    "assess/macros/fund_dashboard_summary.html", "assessment_status"
+                ),
                 round_status=RoundStatus(
                     application_not_yet_open,
                     application_open,

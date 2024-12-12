@@ -10,6 +10,7 @@ from fsd_utils import NotifyConstants
 from fsd_utils.mapping.application.application_utils import format_answer, simplify_title
 
 from assess.assessments.models.common import Option, OptionGroup
+from assess.config.display_value_mappings import assessment_statuses
 from assess.services.aws import generate_url, list_files_by_prefix
 from assess.services.models.flag import FlagType
 from assess.services.models.fund import Fund
@@ -17,7 +18,6 @@ from assess.shared.filters import utc_to_bst
 from assess.shared.helpers import determine_display_status
 from assess.tagging.models.tag import AssociatedTag
 from config import Config
-from assess.config.display_value_mappings import assessment_statuses
 
 
 def get_team_flag_stats(application_overviews) -> List[Dict]:

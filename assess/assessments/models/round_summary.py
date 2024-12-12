@@ -10,11 +10,11 @@ from assess.authentication.validation import (
     get_countries_from_roles,
     has_devolved_authority_validation,
 )
+from assess.config.display_value_mappings import LandingFilters
 from assess.services.data_services import get_application_stats, get_assessments_stats, get_rounds
 from assess.services.models.fund import Fund
 from assess.shared.helpers import get_ttl_hash
 from config import Config
-from assess.config.display_value_mappings import LandingFilters
 
 
 @dataclass
