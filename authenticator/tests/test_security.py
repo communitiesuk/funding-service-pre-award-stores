@@ -7,7 +7,6 @@ import base64
 import pytest
 from jwt import decode
 from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError
-
 from security.utils import create_token, validate_token
 
 

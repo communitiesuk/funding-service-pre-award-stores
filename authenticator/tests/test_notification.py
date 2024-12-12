@@ -4,9 +4,8 @@ from unittest.mock import MagicMock
 import boto3
 import pytest
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
-from moto import mock_aws
-
 from models.notification import Config, Notification, NotificationError
+from moto import mock_aws
 
 
 @pytest.fixture

@@ -1,7 +1,6 @@
 import pytest
 from flask import session
 from fsd_utils.authentication.utils import validate_token_rs256
-
 from testing.mocks.mocks.msal import (
     ConfidentialClientApplication,
     HijackedConfidentialClientApplication,

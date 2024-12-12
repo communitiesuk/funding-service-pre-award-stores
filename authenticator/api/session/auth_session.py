@@ -5,12 +5,12 @@ import jwt
 from flask import abort, current_app, make_response, redirect, request, session, url_for
 from flask.views import MethodView
 from fsd_utils import clear_sentry
+from models.magic_link import MagicLinkMethods
+from security.utils import create_token, decode_with_options, validate_token
 
 from api.responses import error_response
 from api.session.exceptions import SessionCreateError
 from config import Config
-from models.magic_link import MagicLinkMethods
-from security.utils import create_token, decode_with_options, validate_token
 
 if TYPE_CHECKING:
     from models.account import Account as Account

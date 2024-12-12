@@ -38,28 +38,6 @@ max_attribute_length=1000   # ^^^
 exclude=".venv,venv"
 profile="jinja2"
 
-[tool.ruff]
-line-length = 120
-
-target-version = "py310"
-
-[tool.ruff.lint]
-select = [
-    "E",  # pycodestyle
-    "W",  # pycodestyle
-    "F",  # pyflakes
-    "I",  # isort
-    "B",  # flake8-bugbear
-    "C90",  # mccabe cyclomatic complexity
-    "G",  # flake8-logging-format
-]
-ignore = []
-exclude = [
-    ".venv*",
-    "__pycache__",
-]
-mccabe.max-complexity = 12
-
 [tool.uv]
 
 [dependency-groups]

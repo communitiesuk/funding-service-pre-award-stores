@@ -5,10 +5,10 @@ import requests
 from flask import abort, current_app, make_response, redirect, request, session
 from flask.views import MethodView
 from fsd_utils import clear_sentry
+from models.account import AccountMethods
 
 from api.session.auth_session import AuthSessionView
 from config import Config
-from models.account import AccountMethods
 
 
 class SsoView(MethodView):

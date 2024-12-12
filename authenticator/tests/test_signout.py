@@ -6,9 +6,9 @@ from unittest.mock import PropertyMock, patch
 
 import pytest
 from bs4 import BeautifulSoup
+from security.utils import create_token, validate_token
 
 from config.envs.default import SafeAppConfig
-from security.utils import create_token, validate_token
 
 
 @pytest.mark.usefixtures("flask_test_client")

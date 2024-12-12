@@ -5,11 +5,11 @@ from urllib.parse import urlencode, urljoin
 from flask import current_app, g, redirect, request, url_for
 from flask.views import MethodView
 from fsd_utils.authentication.decorators import login_requested
+from models.account import AccountMethods
+from models.magic_link import MagicLinkMethods
 
 from api.session.auth_session import AuthSessionView
 from config import Config
-from models.account import AccountMethods
-from models.magic_link import MagicLinkMethods
 
 
 class MagicLinksView(MagicLinkMethods, MethodView):

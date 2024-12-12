@@ -5,9 +5,9 @@ Test session functionality
 from unittest.mock import PropertyMock, patch
 
 import pytest
+from security.utils import validate_token
 
 from config.envs.default import SafeAppConfig
-from security.utils import validate_token
 
 
 @pytest.mark.usefixtures("flask_test_client")

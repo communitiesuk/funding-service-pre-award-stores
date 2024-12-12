@@ -1,5 +1,4 @@
 import pytest
-
 from models.account import Account, AccountMethods
 from models.fund import Fund
 from models.round import Round
