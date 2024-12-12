@@ -58,7 +58,7 @@ LOADER_CONFIG = {
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
         "instructions_json": {"en": None, "cy": None},
-        "feedback_link": "",
+        "feedback_link": "https://fsd-pre-award.herokuapp.com/s44-assessment/satisfaction-survey/application/end-of-application-survey/eoa-satisfaction-survey-01",
         "project_name_field_id": "RoLhhf",
         "application_guidance_json": {
             "en": "<h2 class='govuk-heading govuk-heading-s'>What we'll ask you for</h2> <p class='govuk-body'>You can preview the <a href='{all_questions_url}'>full list of application questions</a>.</p>",
