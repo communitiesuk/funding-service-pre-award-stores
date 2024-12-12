@@ -46,8 +46,10 @@ class DevelopmentConfig(DefaultConfig):
         "roles": [
             "GBRF_ASSESSOR",
             "GBRF_LEAD_ASSESSOR",
+            "GBRF_COMMENTER",
             "LPDF_ASSESSOR",
             "LPDF_LEAD_ASSESSOR",
+            "LPDF_COMMENTER",
             "COF_LEAD_ASSESSOR",
             "COF_ASSESSOR",
             "COF_COMMENTER",
