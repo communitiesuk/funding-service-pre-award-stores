@@ -74,7 +74,7 @@ class DevelopmentConfig(DefaultConfig):
             "CTDF_ASSESSOR",
         ],
         "highest_role_map": {
-            "GBRF": "DEBUG_USER_ROLE",
+            "GBRF": DEBUG_USER_ROLE,
             "LPDF": DEBUG_USER_ROLE,
             "CTDF": DEBUG_USER_ROLE,
             "COF": DEBUG_USER_ROLE,
