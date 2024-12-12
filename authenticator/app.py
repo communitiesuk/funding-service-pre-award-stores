@@ -1,13 +1,7 @@
 from copy import deepcopy
 from os import getenv
-from pathlib import Path
-from typing import Any, Dict
 from urllib.parse import urlencode, urljoin
 
-import connexion
-import prance
-import static_assets
-from connexion.resolver import MethodViewResolver
 from flask import Flask, request
 from flask_assets import Environment
 from flask_babel import Babel, gettext
@@ -29,31 +23,16 @@ from config import Config
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
 
-def get_bundled_specs(main_file: Path) -> Dict[str, Any]:
-    parser = prance.ResolvingParser(main_file, strict=False)
-    parser.parse()
-    return parser.specification
-
-
 def create_app() -> Flask:
     init_sentry()
 
-    # Initialise Connexion Flask App
-    connexion_options = Config.CONNEXION_OPTIONS
-    connexion_app = connexion.FlaskApp(
-        "Authenticator",
-        specification_dir="/openapi/",
-        options=connexion_options,
-        server_args={"static_url_path": "/assets"},
-    )
-    connexion_app.add_api(
-        get_bundled_specs(Config.FLASK_ROOT + "/openapi/api.yml"),
-        validate_responses=True,
-        resolver=MethodViewResolver("api"),
+    flask_app = Flask(
+        __name__,
+        static_url_path="/assets",
+        static_folder="static",
     )
 
     # Configure Flask App
-    flask_app = connexion_app.app
     flask_app.config.from_object("config.Config")
     flask_app.static_folder = Config.STATIC_FOLDER
     flask_app.jinja_loader = ChoiceLoader(
@@ -151,13 +130,22 @@ def create_app() -> Flask:
         flask_app.register_blueprint(magic_links_bp)
         flask_app.register_blueprint(sso_bp)
         flask_app.register_blueprint(user_bp)
+
+        from api.magic_links.routes import api_magic_link_bp
+        from api.session.auth_session import api_sessions_bp
+        from api.sso.routes import api_sso_bp
+
+        flask_app.register_blueprint(api_magic_link_bp)
+        flask_app.register_blueprint(api_sso_bp)
+        flask_app.register_blueprint(api_sessions_bp)
+
         flask_app.jinja_env.filters["datetime_format"] = datetime_format
 
         # Bundle and compile assets
         assets = Environment()
         assets.init_app(flask_app)
 
-        static_assets.init_assets(
+        static_assets.init_assets(  # noqa
             flask_app,
             auto_build=Config.ASSETS_AUTO_BUILD,
             static_folder=Config.STATIC_FOLDER,
