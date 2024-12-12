@@ -1,0 +1,302 @@
+
+{% extends "base.html" %}
+{%- from 'govuk_frontend_jinja/components/inset-text/macro.html' import govukInsetText -%}
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
+
+{% from "partials/file-formats.html" import file_formats %}
+{% set pageHeading %}{% trans %}Full list of application questions{% endtrans %}{% endset %}
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">{% trans %}{{ fund_title }}{% endtrans %}&nbsp;
+        {% trans %}{{ round_title }}{% endtrans %}
+        </span>
+        <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+<div class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m ">
+    Table of contents
+  </h2>
+  <ol class="govuk-list govuk-list--number">
+    <li>
+      <a class="govuk-link" href="#local-authority-details">
+        Local authority details
+      </a>
+    </li>
+    <li>
+      <a class="govuk-link" href="#spending-proposals">
+        Spending proposals
+      </a>
+    </li>
+    <li>
+      <a class="govuk-link" href="#declarations">
+        Declarations
+      </a>
+    </li>
+  </ol>
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+  <h2 class="govuk-heading-l" id="local-authority-details">
+    1. Local authority details
+  </h2>
+  <h3 class="govuk-heading-m">
+    1.1. Local authority details
+  </h3>
+  <h4 class="govuk-heading-s">
+    1.1.1. Your local authority name
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Local authority name
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        Cambridgeshire County Council
+      </li>
+      <li class="">
+        Derbyshire County Council
+      </li>
+      <li class="">
+        Devon County Council
+      </li>
+      <li class="">
+        East Sussex County Council
+      </li>
+      <li class="">
+        Essex County Council
+      </li>
+      <li class="">
+        Gloucestershire County Council
+      </li>
+      <li class="">
+        Hampshire County Council
+      </li>
+      <li class="">
+        Hertfordshire County Council
+      </li>
+      <li class="">
+        Kent County Council
+      </li>
+      <li class="">
+        Lancashire County Council
+      </li>
+      <li class="">
+        Leicestershire County Council
+      </li>
+    </ul>
+  </div>
+  <h4 class="govuk-heading-s">
+    1.1.2. Lead contact details
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      The main point of contact for this application.
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Lead contact first name
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Lead contact last name
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Lead contact job title
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Lead contact email address
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    1.1.3. Is this expression of interest being submitted jointly with another local authority?
+  </h4>
+  <div class="govuk-body all-questions-component">
+  </div>
+  <h4 class="govuk-heading-s">
+    1.1.3.2. Tell us which local authorities you are submitting this joint expression of interest with
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      If there is more than one other local authority, use a comma to separate the names.
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Do you have agreement from all of the local authorities involved in this joint expression of interest?
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    1.1.3.3. Which local authority will act as the accountable body for the funding and monitoring?
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Accountable local authority
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        Cambridgeshire County Council
+      </li>
+      <li class="">
+        Derbyshire County Council
+      </li>
+      <li class="">
+        Devon County Council
+      </li>
+      <li class="">
+        East Sussex County Council
+      </li>
+      <li class="">
+        Essex County Council
+      </li>
+      <li class="">
+        Gloucestershire County Council
+      </li>
+      <li class="">
+        Hampshire County Council
+      </li>
+      <li class="">
+        Hertfordshire County Council
+      </li>
+      <li class="">
+        Kent County Council
+      </li>
+      <li class="">
+        Lancashire County Council
+      </li>
+      <li class="">
+        Leicestershire County Council
+      </li>
+    </ul>
+  </div>
+  <h4 class="govuk-heading-s">
+    1.1.4. Check your answers
+  </h4>
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+  <h2 class="govuk-heading-l" id="spending-proposals">
+    2. Spending proposals
+  </h2>
+  <h3 class="govuk-heading-m">
+    2.1. Spending proposals
+  </h3>
+  <h4 class="govuk-heading-s">
+    2.1.1. Which types of activities will this funding will be used to support?
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Which types of activities will this funding will be used to support?
+    </p>
+    <p class="govuk-body">
+      Select all that apply
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        Preparing or updating the plan evidence base  
+      </li>
+      <li class="">
+        Updating technical studies 
+      </li>
+      <li class="">
+        Additional site assessments 
+      </li>
+      <li class="">
+        Consultation or engagement work  
+      </li>
+      <li class="">
+        Hiring additional staff 
+      </li>
+      <li class="">
+        Hiring consultants 
+      </li>
+      <li class="">
+        Other
+      </li>
+    </ul>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.1.2. Tell us what other types of activities this funding will be used to support
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      (Max 250 words)
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.2. Check your answers
+  </h4>
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+  <h2 class="govuk-heading-l" id="declarations">
+    3. Declarations
+  </h2>
+  <h3 class="govuk-heading-m">
+    3.1. Declarations
+  </h3>
+  <h4 class="govuk-heading-s">
+    3.1.1. Declarations
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        I confirm our emerging local plan will be at Regulation 19 stage on 12 March 2025
+      </li>
+    </ul>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        I confirm our new local housing need figure will be 25% or more greater than the housing requirement in your emerging local plan
+      </li>
+    </ul>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        I agree to revise our plan to reflect the revised NPPF (National Planning Policy Framework) and new LHN (local housing need) prior to submitting the document for examination
+      </li>
+    </ul>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        I confirm I anticipate submitting our plan in the current system (by June or December 2026)
+      </li>
+    </ul>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        I agree to respond to MHCLG’s request to submit an updated Local Development Scheme (LDS)
+      </li>
+    </ul>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        I agree to collaborate with MHCLG over monitoring and evaluation requirements
+      </li>
+    </ul>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        I confirm our section 151 officer, or deputy section 151 officer, is aware of this submission
+      </li>
+    </ul>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        I commit to have proposals in place by March 2025 on how we will spend the funding
+      </li>
+    </ul>
+  </div>
+  <h4 class="govuk-heading-s">
+    3.1.2. Check your answers
+  </h4>
+</div>
+    </div>
+</div>
+{% endblock content %}
