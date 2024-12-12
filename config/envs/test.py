@@ -3,7 +3,7 @@
 import base64
 from os import environ
 
-from fsd_utils import configclass, CommonConfig
+from fsd_utils import CommonConfig, configclass
 
 from config.envs.default import DefaultConfig
 
@@ -16,4 +16,3 @@ class TestConfig(DefaultConfig):
     LRU_CACHE_TIME = 300  # in seconds
 
     FEATURE_CONFIG = {"TAGGING": True, "ASSESSMENT_ASSIGNMENT": True, **CommonConfig.dev_feature_configuration}
-

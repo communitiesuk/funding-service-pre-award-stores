@@ -4,6 +4,7 @@ from typing import Dict
 from flask import current_app, flash, g, redirect, render_template, request, url_for
 
 from assess.authentication.validation import check_access_application_id, check_access_fund_id_round_id
+from assess.config.display_value_mappings import search_params_tag
 from assess.services.data_services import (
     get_associated_tags_for_application,
     get_fund,
@@ -27,9 +28,8 @@ from assess.tagging.forms.tags import (
     TagAssociationForm,
 )
 from assess.tagging.models.tag import TagType
-from config import Config
 from common.blueprints import Blueprint
-from assess.config.display_value_mappings import search_params_tag
+from config import Config
 
 TAG_DEACTIVATE_ERROR_MESSAGE = "Tag not deactivated."
 TAG_REACTIVATE_ERROR_MESSAGE = "Tag not reactivated."

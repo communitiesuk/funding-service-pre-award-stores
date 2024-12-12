@@ -20,7 +20,6 @@ from assess.authentication.validation import (
     has_relevant_country_role,
 )
 from assess.services.models.fund import Fund
-from config.envs.unit_test import UnitTestConfig
 
 
 class _MockUser:
@@ -173,7 +172,10 @@ def test_check_access_application_id_throws_404_when_no_application_id(app):
     # GIVEN no application id in the request
     # WHEN the check_access_application_id decorator is applied to a function
     # THEN a 404 is thrown
-    with pytest.raises(werkzeug.exceptions.NotFound), app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
+    with (
+        pytest.raises(werkzeug.exceptions.NotFound),
+        app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}),
+    ):
         _dummy_function_check_access_application_id()
 
 

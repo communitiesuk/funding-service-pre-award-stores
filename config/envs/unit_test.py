@@ -3,7 +3,7 @@
 import base64
 from os import getenv
 
-from fsd_utils import configclass, CommonConfig
+from fsd_utils import CommonConfig, configclass
 
 from config.envs.default import DefaultConfig
 

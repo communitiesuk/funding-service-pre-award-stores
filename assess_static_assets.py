@@ -1,4 +1,5 @@
 """Compile static assets."""
+
 import os
 from os import path
 

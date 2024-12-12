@@ -1,13 +1,12 @@
 from os import getenv
 
-from flask import Flask, current_app, make_response, render_template, request, url_for, g, Response
+from flask import Flask, current_app, g, make_response, render_template, request, url_for
 from flask_assets import Environment
 from flask_babel import Babel, gettext, pgettext
 from flask_compress import Compress
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
 from fsd_utils import LanguageSelector, init_sentry
-from fsd_utils.authentication.decorators import login_requested
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.locale_selector.get_lang import get_lang
@@ -15,6 +14,7 @@ from fsd_utils.logging import logging
 from fsd_utils.toggles.toggles import create_toggles_client, initialise_toggles_redis_store, load_toggles
 from jinja2 import ChoiceLoader, PackageLoader, PrefixLoader
 
+import assess_static_assets
 from apply.filters import (
     custom_format_datetime,
     date_format_short_month,
@@ -26,13 +26,12 @@ from apply.filters import (
     status_translation,
     string_to_datetime,
 )
-import assess_static_assets
-from assess.authentication.auth import auth_protect
+from apply.helpers import find_fund_and_round_in_request, find_fund_in_request
 from assess.shared.filters import (
     add_to_dict,
     all_caps_to_human,
-    ast_literal_eval,
     assess_datetime_format,
+    ast_literal_eval,
     datetime_format_24hr,
     format_address,
     format_project_ref,
@@ -41,14 +40,19 @@ from assess.shared.filters import (
     slash_separated_day_month_year,
     utc_to_bst,
 )
-from apply.helpers import find_fund_and_round_in_request, find_fund_in_request
 from config import Config
 
 
 def create_app() -> Flask:  # noqa: C901
     init_sentry()
 
-    flask_app = Flask(__name__, static_url_path="/assets", static_folder='static', host_matching=True, static_host="<host_from_current_request>")
+    flask_app = Flask(
+        __name__,
+        static_url_path="/assets",
+        static_folder="static",
+        host_matching=True,
+        static_host="<host_from_current_request>",
+    )
 
     flask_app.config.from_object("config.Config")
 
@@ -70,16 +74,13 @@ def create_app() -> Flask:  # noqa: C901
     flask_app.jinja_loader = ChoiceLoader(
         [
             PackageLoader("apply"),
-
             PackageLoader("assess"),
-
             # move everything into one templates folder for assess rather than nesting in blueprints
             PackageLoader("assess.shared"),
             PackageLoader("assess.assessments"),
             PackageLoader("assess.flagging"),
             PackageLoader("assess.tagging"),
             PackageLoader("assess.scoring"),
-
             PrefixLoader({"govuk_frontend_jinja": PackageLoader("govuk_frontend_jinja")}),
         ]
     )
@@ -126,38 +127,36 @@ def create_app() -> Flask:  # noqa: C901
 
     Compress(flask_app)
 
+    # These are required to associated errorhandlers and before/after request decorators with their blueprints
+    import assess.blueprint_middleware  # noqa
+    import apply.default.error_routes  # noqa
 
     from apply.default.account_routes import account_bp
     from apply.default.application_routes import application_bp
     from apply.default.content_routes import content_bp
     from apply.default.eligibility_routes import eligibility_bp
-    from common.error_routes import not_found, internal_server_error
     from apply.default.routes import default_bp
-
-    from assess.shared.routes import shared_bp
-    from assess.tagging.routes import tagging_bp
+    from assess.assessments.routes import assessment_bp
     from assess.flagging.routes import flagging_bp
     from assess.scoring.routes import scoring_bp
-    from assess.assessments.routes import assessment_bp
-
-    # These are required to associated errorhandlers and before/after request decorators with their blueprints
-    import assess.blueprint_middleware
-    import apply.default.error_routes
+    from assess.shared.routes import shared_bp
+    from assess.tagging.routes import tagging_bp
+    from common.error_routes import internal_server_error, not_found
 
     flask_app.register_error_handler(404, not_found)
     flask_app.register_error_handler(500, internal_server_error)
 
-    flask_app.register_blueprint(default_bp, host=flask_app.config['APPLY_HOST'])
-    flask_app.register_blueprint(application_bp, host=flask_app.config['APPLY_HOST'])
-    flask_app.register_blueprint(content_bp, host=flask_app.config['APPLY_HOST'])
-    flask_app.register_blueprint(eligibility_bp, host=flask_app.config['APPLY_HOST'])
-    flask_app.register_blueprint(account_bp, host=flask_app.config['APPLY_HOST'])
+    flask_app.register_blueprint(default_bp, host=flask_app.config["APPLY_HOST"])
+    flask_app.register_blueprint(application_bp, host=flask_app.config["APPLY_HOST"])
+    flask_app.register_blueprint(content_bp, host=flask_app.config["APPLY_HOST"])
+    flask_app.register_blueprint(eligibility_bp, host=flask_app.config["APPLY_HOST"])
+    flask_app.register_blueprint(account_bp, host=flask_app.config["APPLY_HOST"])
 
-    flask_app.register_blueprint(shared_bp, host=flask_app.config['ASSESS_HOST'])
-    flask_app.register_blueprint(tagging_bp, host=flask_app.config['ASSESS_HOST'])
-    flask_app.register_blueprint(flagging_bp, host=flask_app.config['ASSESS_HOST'])
-    flask_app.register_blueprint(scoring_bp, host=flask_app.config['ASSESS_HOST'])
-    flask_app.register_blueprint(assessment_bp, host=flask_app.config['ASSESS_HOST'])
+    flask_app.register_blueprint(shared_bp, host=flask_app.config["ASSESS_HOST"])
+    flask_app.register_blueprint(tagging_bp, host=flask_app.config["ASSESS_HOST"])
+    flask_app.register_blueprint(flagging_bp, host=flask_app.config["ASSESS_HOST"])
+    flask_app.register_blueprint(scoring_bp, host=flask_app.config["ASSESS_HOST"])
+    flask_app.register_blueprint(assessment_bp, host=flask_app.config["ASSESS_HOST"])
 
     @flask_app.url_defaults
     def inject_host_from_current_request(endpoint, values):
@@ -171,7 +170,7 @@ def create_app() -> Flask:  # noqa: C901
 
     @flask_app.context_processor
     def inject_global_constants():
-        if request.host == current_app.config['APPLY_HOST']:
+        if request.host == current_app.config["APPLY_HOST"]:
             return dict(
                 stage="beta",
                 service_meta_author="Department for Levelling up Housing and Communities",
@@ -179,7 +178,7 @@ def create_app() -> Flask:  # noqa: C901
                 if toggle_client
                 else {},
             )
-        elif request.host == current_app.config['ASSESS_HOST']:
+        elif request.host == current_app.config["ASSESS_HOST"]:
             return dict(
                 stage="beta",
                 service_title="Assessment Hub – GOV.UK",
@@ -279,7 +278,7 @@ def create_app() -> Flask:  # noqa: C901
                 "Application is in the Maintenance mode reach url: {url}", extra=dict(url=request.url)
             )
 
-            if request.host == current_app.config['ASSESS_HOST']:
+            if request.host == current_app.config["ASSESS_HOST"]:
                 maintenance_template = "assess/maintenance.html"
             else:
                 maintenance_template = "apply/maintenance.html"

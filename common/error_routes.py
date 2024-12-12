@@ -1,4 +1,4 @@
-from flask import request, current_app, render_template, redirect
+from flask import current_app, redirect, render_template, request
 from fsd_utils.authentication.decorators import login_requested
 
 from assess.authentication.auth import auth_protect
@@ -7,7 +7,8 @@ from assess.authentication.auth import auth_protect
 def not_found(error):
     current_app.logger.debug(error)
 
-    if request.host == current_app.config['ASSESS_HOST']:
+    if request.host == current_app.config["ASSESS_HOST"]:
+
         @login_requested
         def check_auth():
             pass
@@ -17,15 +18,15 @@ def not_found(error):
         return auth_protect(
             minimum_roles_required=["COMMENTER"],
             unprotected_routes=["/", "/healthcheck", "/cookie_policy"],
-        ) or redirect('/')
+        ) or redirect("/")
 
     return render_template("apply/404.html", is_error=True), 404
-    
+
 
 def internal_server_error(error):
     current_app.logger.error(error)
 
-    if request.host == current_app.config['ASSESS_HOST']:
+    if request.host == current_app.config["ASSESS_HOST"]:
         return render_template("assess/500.html", is_error=True), 500
 
     return render_template("apply/500.html", is_error=True), 500

@@ -12,9 +12,9 @@ from apply.default.data import (
     get_all_rounds_for_fund,
     search_applications,
 )
-from common.blueprints import Blueprint
 from apply.helpers import get_fund, get_fund_and_round, get_ttl_hash
 from apply.models.application_summary import ApplicationSummary
+from common.blueprints import Blueprint
 from config import Config
 
 account_bp = Blueprint("account_routes", __name__, template_folder="templates")

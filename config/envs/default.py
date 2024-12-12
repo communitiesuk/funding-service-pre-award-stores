@@ -1,9 +1,9 @@
 """Flask configuration."""
 
 import base64
+import os
 from distutils.util import strtobool
 from os import environ, getenv
-import os
 from pathlib import Path
 
 from fsd_utils import CommonConfig, configclass
@@ -23,7 +23,7 @@ class DefaultConfig:
     APPLY_HOST = getenv("APPLY_HOST", "frontend.levellingup.gov.localhost:3008")
     ASSESS_HOST = getenv("ASSESS_HOST", "assessment.levellingup.gov.localhost:3010")
 
-    # assess STATIC_URL_PATH = "app/static"
+    # assess STATIC_URL_PATH = "app/static"
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
     LOCAL_SERVICE_NAME = "local_flask"
@@ -88,7 +88,7 @@ class DefaultConfig:
     FORM_GET_REHYDRATION_TOKEN_URL = (FORMS_SERVICE_PRIVATE_HOST or FORMS_SERVICE_PUBLIC_HOST) + "/session/{form_name}"
 
     FORM_REHYDRATION_URL = (FORMS_SERVICE_PRIVATE_HOST or FORMS_SERVICE_PUBLIC_HOST) + "/session/{rehydration_token}"
-    
+
     # Content Security Policy
     SECURE_CSP = {
         "default-src": "'self'",
@@ -172,10 +172,10 @@ class DefaultConfig:
     # Assess config
     TEXT_AREA_INPUT_MAX_CHARACTERS = 10000
     FSD_LOG_LEVEL = CommonConfig.FSD_LOG_LEVEL
-    
+
     ASSESSMENT_HUB_ROUTE = "/assess"
     DASHBOARD_ROUTE = "/assess/assessor_tool_dashboard"
-    
+
     SSO_LOGIN_URL = AUTHENTICATOR_HOST + "/sso/login"
     SSO_LOGOUT_URL = AUTHENTICATOR_HOST + "/sso/logout"
 
@@ -187,7 +187,7 @@ class DefaultConfig:
     # TODO: Rework on the avialable teams allocated after implemented in fundstore
     GET_AVIALABLE_TEAMS_FOR_FUND = FUND_STORE_API_HOST + "/funds/{fund_id}/rounds/{round_id}/available_flag_allocations"
 
-     # Round Store Endpoints
+    # Round Store Endpoints
 
     ROUNDS_ENDPOINT = CommonConfig.ROUNDS_ENDPOINT
     ROUND_ENDPOINT = CommonConfig.ROUND_ENDPOINT + "?use_short_name={use_short_name}"

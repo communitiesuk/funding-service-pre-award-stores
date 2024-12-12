@@ -80,6 +80,16 @@ from assess.authentication.validation import (
     check_access_fund_short_name_round_sn,
     has_access_to_fund,
 )
+from assess.config.display_value_mappings import (
+    assessment_statuses,
+    asset_types,
+    cohort,
+    dpi_filters,
+    funding_types,
+    joint_application_options,
+    landing_filters,
+    search_params_default,
+)
 from assess.scoring.helpers import get_scoring_class
 from assess.services.aws import get_file_for_download_from_aws
 from assess.services.data_services import (
@@ -132,16 +142,6 @@ from assess.themes.deprecated_theme_mapper import (
 )
 from common.blueprints import Blueprint
 from config import Config
-from assess.config.display_value_mappings import (
-    assessment_statuses,
-    asset_types,
-    cohort,
-    dpi_filters,
-    funding_types,
-    joint_application_options,
-    landing_filters,
-    search_params_default,
-)
 
 ASSESSMENT_TOOL_DASHBOARD_PATH = "/assess/assessor_tool_dashboard/"
 

@@ -274,7 +274,7 @@ def test_process_assessment_stats(input_data, expected_response):
     ],
 )
 def test_get_scoring_class(
-        assess_test_client,
+    assess_test_client,
     mocker,
     returned_scoring_system,
     expect_exception,

@@ -8,7 +8,6 @@ from flask import session
 from assess.assessments.models.round_status import RoundStatus
 from assess.assessments.models.round_summary import RoundSummary, Stats
 from assess.services.models.flag import Flag
-from config.envs.unit_test import UnitTestConfig
 from tests.assess_tests.api_data.test_data import fund_specific_claim_map
 from tests.assess_tests.conftest import create_valid_token, test_commenter_claims, test_lead_assessor_claims
 
@@ -28,7 +27,7 @@ class TestRoutes:
     )
     def test_route_landing(
         self,
-            assess_test_client,
+        assess_test_client,
         mock_get_funds,
         mock_get_rounds,
         mock_get_assessment_stats,
@@ -80,7 +79,7 @@ class TestRoutes:
     )
     def test_route_landing_export_link_visibility(
         self,
-            assess_test_client,
+        assess_test_client,
         mock_get_funds,
         mocker,
         exp_link_count,
@@ -366,7 +365,7 @@ class TestRoutes:
     def test_team_stats_are_present(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_funds,
         mock_get_round,
         mock_get_fund,
@@ -412,7 +411,7 @@ class TestRoutes:
     def test_route_fund_dashboard_filter_not_assigned(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_funds,
         mock_get_round,
         mock_get_fund,
@@ -478,7 +477,7 @@ class TestRoutes:
     def test_route_fund_dashboard_filter_session_persistence(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         app,
         mock_get_funds,
         mock_get_round,
@@ -534,7 +533,7 @@ class TestRoutes:
     def test_route_fund_dashboard_filter_status(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_fund,
         mock_get_funds,
         mock_get_round,
@@ -577,7 +576,7 @@ class TestRoutes:
     def test_route_fund_dashboard_filter_asset_type(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_fund,
         mock_get_funds,
         mock_get_round,
@@ -620,7 +619,7 @@ class TestRoutes:
     def test_route_fund_dashboard_search_term(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_fund,
         mock_get_funds,
         mock_get_round,
@@ -664,7 +663,7 @@ class TestRoutes:
     def test_route_fund_dashboard_clear_filters(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_fund,
         mock_get_funds,
         mock_get_round,
@@ -723,7 +722,7 @@ class TestRoutes:
     def test_route_fund_dashboard_sort_column(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_fund,
         mock_get_funds,
         mock_get_round,
@@ -808,7 +807,7 @@ class TestRoutes:
     @pytest.mark.sub_criteria_id("test_sub_criteria_id")
     def test_route_sub_criteria_scoring(
         self,
-            assess_test_client,
+        assess_test_client,
         request,
         mock_get_sub_criteria,
         mock_get_fund,
@@ -856,7 +855,9 @@ class TestRoutes:
         assess_test_client.set_cookie("fsd_user_token", token)
 
         # Send a request to the route you want to test
-        response = assess_test_client.get("http://assessment.levellingup.gov.localhost:3010/assess/application_id/app_123/sub_criteria_id/1a2b3c4d/score")  # noqa
+        response = assess_test_client.get(
+            "http://assessment.levellingup.gov.localhost:3010/assess/application_id/app_123/sub_criteria_id/1a2b3c4d/score"
+        )  # noqa
 
         # Assert that the response has the expected status code
         assert (
@@ -898,7 +899,7 @@ class TestRoutes:
     def test_flag_route_already_flagged(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_flags,
         mock_get_available_teams,
         mock_get_assessor_tasklist_state,
@@ -921,7 +922,7 @@ class TestRoutes:
     def test_flag_route_works_for_application_with_latest_resolved_flag(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_flags,
         mock_get_available_teams,
         mock_get_flag,
@@ -945,7 +946,7 @@ class TestRoutes:
     def test_application_route_should_show_stopped_flag(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_assessor_tasklist_state,
         mock_get_fund,
         mock_get_funds,
@@ -978,7 +979,7 @@ class TestRoutes:
     def test_application_route_should_show_resolved_flag(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_assessor_tasklist_state,
         mock_get_fund,
         mock_get_funds,
@@ -1007,7 +1008,7 @@ class TestRoutes:
     @pytest.mark.application_id("resolved_app")
     def test_flag_route_submit_flag(
         self,
-            assess_test_client,
+        assess_test_client,
         mocker,
         mock_get_assessor_tasklist_state,
         mock_get_available_teams,
@@ -1039,7 +1040,7 @@ class TestRoutes:
     def test_flag_route_get_resolve_flag(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_flags,
         mock_get_flag,
         mock_get_assessor_tasklist_state,
@@ -1094,7 +1095,7 @@ class TestRoutes:
     def test_post_resolved_flag(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mocker,
         mock_get_flags,
         mock_get_flag,
@@ -1126,7 +1127,7 @@ class TestRoutes:
     def test_flag_route_get_continue_application(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_flags,
         mock_get_flag,
         mock_get_sub_criteria_banner_state,
@@ -1179,7 +1180,7 @@ class TestRoutes:
     def test_post_continue_application(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mocker,
         mock_get_funds,
         mock_get_application_metadata,
@@ -1207,7 +1208,7 @@ class TestRoutes:
     def test_qa_complete_flag_displayed(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_round,
         mock_get_assessor_tasklist_state,
         mock_get_flags,
@@ -1236,7 +1237,7 @@ class TestRoutes:
     def test_qa_completed_flagged_application(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_assessor_tasklist_state,
         mock_get_fund,
         mock_get_funds,
@@ -1283,7 +1284,7 @@ class TestRoutes:
     def test_route_fund_dashboard_shows_flagged(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_funds,
         mock_get_fund,
         mock_get_round,
@@ -1325,7 +1326,7 @@ class TestRoutes:
     def test_page_title_subcriteria_theme_match(
         self,
         request,
-            assess_test_client,
+        assess_test_client,
         mock_get_sub_criteria,
         mock_get_fund,
         mock_get_funds,
@@ -1356,7 +1357,7 @@ class TestRoutes:
     @pytest.mark.application_id("resolved_app")
     def test_get_docs_for_download(
         self,
-            assess_test_client,
+        assess_test_client,
         request,
         mock_get_assessor_tasklist_state,
         mock_get_fund,
@@ -1395,7 +1396,7 @@ class TestRoutes:
 
     def test_download_q_and_a(
         self,
-            assess_test_client,
+        assess_test_client,
         mock_get_fund,
         mock_get_round,
         mock_get_funds,
@@ -1414,7 +1415,7 @@ class TestRoutes:
 
     def test_get_file_with_short_id(
         self,
-            assess_test_client,
+        assess_test_client,
         mocker,
         mock_get_funds,
         mock_get_fund,
@@ -1436,7 +1437,7 @@ class TestRoutes:
 
     def test_get_file_without_short_id(
         self,
-            assess_test_client,
+        assess_test_client,
         mocker,
         mock_get_funds,
         mock_get_fund,
@@ -1468,7 +1469,7 @@ class TestRoutes:
     ],
 )
 def test_download_application_answers(
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_application_metadata,
     mock_get_fund,
@@ -1490,7 +1491,7 @@ def test_download_application_answers(
 
 
 def test_download_application_answers_invalid_file_type(
-        assess_test_client,
+    assess_test_client,
     mock_get_funds,
     mock_get_application_metadata,
     mock_get_round,

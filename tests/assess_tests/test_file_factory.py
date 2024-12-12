@@ -7,7 +7,6 @@ from assess.assessments.models.file_factory import (
     ApplicationFileRepresentationArgs,
     generate_file_content,
 )
-from config.envs.unit_test import UnitTestConfig
 
 
 @pytest.fixture
