@@ -58,7 +58,7 @@ LOADER_CONFIG = {
         "support_times": "9am to 5pm",
         "support_days": "Monday to Friday",
         "instructions_json": {"en": None, "cy": None},
-        "feedback_link": "https://fsd-pre-award.herokuapp.com/s44-assessment/satisfaction-survey/application/end-of-application-survey/eoa-satisfaction-survey-01",
+        "feedback_link": "",
         "project_name_field_id": "RoLhhf",
         "application_guidance_json": {
             "en": "<h2 class='govuk-heading govuk-heading-s'>What we'll ask you for</h2> <p class='govuk-body'>You can preview the <a href='{all_questions_url}'>full list of application questions</a>.</p>",
@@ -72,7 +72,6 @@ LOADER_CONFIG = {
         "is_expression_of_interest": False,
         "eoi_decision_schema": {"en": {}, "cy": {}},
         "feedback_survey_config": {
-<<<<<<< HEAD
             "has_feedback_survey": True,
             "has_section_feedback": False,
             "has_research_survey": False,
@@ -81,16 +80,6 @@ LOADER_CONFIG = {
             "is_research_survey_optional": False,
         },
         "eligibility_config": {"has_eligibility": True},
-=======
-            "has_feedback_survey": False,
-            "has_section_feedback": False,
-            "has_research_survey": False,
-            "is_feedback_survey_optional": False,
-            "is_section_feedback_optional": False,
-            "is_research_survey_optional": False,
-        },
-        "eligibility_config": {"has_eligibility": False},
->>>>>>> de86c813 (Adding LPDF R1 config)
         "title_json": {"en": "Round 1", "cy": None},
         "contact_us_banner_json": {"en": None, "cy": None},
     },
