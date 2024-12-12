@@ -285,3 +285,6 @@ Please provide the `--fund_id`, `--round_id` and any additional arguments as sho
       "--write_csv", "False"]
   },
  ```
+
+# Account Store Specifics
+
