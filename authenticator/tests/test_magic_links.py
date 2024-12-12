@@ -5,15 +5,15 @@ Test magic links functionality
 import unittest.mock
 from unittest import mock
 
-import pytest
-from bs4 import BeautifulSoup
-
 import frontend
+import pytest
 from api.session.auth_session import AuthSessionView
-from app import app
+from bs4 import BeautifulSoup
 from frontend.magic_links.forms import EmailForm
 from models.account import AccountMethods
 from security.utils import validate_token
+
+from app import app
 
 
 @pytest.mark.usefixtures("flask_test_client")

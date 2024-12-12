@@ -10,9 +10,9 @@ from urllib.parse import urljoin
 
 from flask import current_app
 from flask_redis import FlaskRedis
+from security.utils import create_token
 
 from config import Config
-from security.utils import create_token
 
 if TYPE_CHECKING:
     from models.account import Account as Account

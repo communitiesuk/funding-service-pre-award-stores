@@ -1,9 +1,9 @@
 import pytest
 from flask import current_app
-
-from app import create_app
 from models.account import AccountMethods
 from testing.mocks.mocks import *  # noqa
+
+from app import create_app
 
 
 @pytest.fixture
