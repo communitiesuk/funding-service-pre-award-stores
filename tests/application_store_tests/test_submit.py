@@ -2,24 +2,29 @@ import pytest
 
 from application_store.db.exceptions.submit import SubmitError
 from application_store.db.models.application.applications import Applications
-from application_store.db.models.application.enums import Language
 from application_store.db.models.application.enums import Status as ApplicationStatus
 from application_store.db.queries.application.queries import submit_application
 from application_store.external_services.exceptions import NotificationError
-from assessment_store.config.mappings.assessment_mapping_fund_round import CTDF_FUND_ID, CTDF_ROUND_1_ID
 from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
 
 
-@pytest.mark.apps_to_insert(
-    [
-        {
-            "account_id": "usera",
-            "fund_id": CTDF_FUND_ID,
-            "round_id": CTDF_ROUND_1_ID,
-            "language": Language.en,
-        },
-    ]
-)
+@pytest.fixture(scope="function")
+def mock_data_key_mappings(monkeypatch):
+    fund_round_data_key_mappings = {
+        "TESTTEST": {
+            "location": None,
+            "asset_type": None,
+            "funding_one": None,
+            "funding_two": None,
+        }
+    }
+    monkeypatch.setattr(
+        "assessment_store.db.queries.assessment_records._helpers.fund_round_data_key_mappings",
+        fund_round_data_key_mappings,
+    )
+    yield
+
+
 def test_submit_route_success(
     flask_test_client,
     mock_successful_submit_notification,
@@ -28,22 +33,11 @@ def test_submit_route_success(
     mocker,
     mock_get_fund_data,
     mock_get_round,
+    mock_data_key_mappings,
 ):
     mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
     target_application = seed_application_records[0]
     application_id = target_application.id
-    # project_info_form = next(form for form in target_application.forms if form.name == "project-information")
-    # project_info_form.json = [
-    #     {
-    #         "category": "FabDefault",
-    #         "question": "Project name",
-    #         "fields": [{"key": "VcyKVN", "title": "Project name", "type": "text", "answer": "unit test"}],
-    #         "status": "COMPLETED",
-    #     },
-    # ]
-
-    # Update reference to a fund that has data mappings in assess
-    target_application.reference = "CTDF-CR1-" + seed_application_records[0].reference.split("-")[2]
     target_application.project_name = "unit test project"
 
     _db.session.add(target_application)
@@ -88,10 +82,9 @@ def test_submit_route_submit_error(
     assert response.json()["message"] == f"Unable to submit application {application_id}"
 
 
-def test_submit_application_raises_error_on_db_violation(seed_application_records, mocker, _db):
+def test_submit_application_raises_error_on_db_violation(seed_application_records, mocker, _db, mock_data_key_mappings):
     mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
     target_application = seed_application_records[0]
-    target_application.reference = "CTDF-CR1-" + seed_application_records[0].reference.split("-")[2]
     target_application.project_name = None  # will cause not null constraint violation
 
     _db.session.add(target_application)
@@ -102,11 +95,12 @@ def test_submit_application_raises_error_on_db_violation(seed_application_record
         assert str(se) == f"Unable to submit application {application_id}"
 
 
-def test_submit_application_route_succeeds_on_notify_error(seed_application_records, mocker, _db, flask_test_client):
+def test_submit_application_route_succeeds_on_notify_error(
+    seed_application_records, mocker, _db, flask_test_client, mock_data_key_mappings
+):
     mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
     target_application = seed_application_records[0]
     application_id = target_application.id
-    target_application.reference = "CTDF-CR1-" + seed_application_records[0].reference.split("-")[2]
     target_application.project_name = "unit test project"
 
     _db.session.add(target_application)
