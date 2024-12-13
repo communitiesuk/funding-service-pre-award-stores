@@ -1,9 +1,4 @@
 {
-    "python.testing.pytestArgs": [
-        "tests"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true,
     "editor.quickSuggestions": {
         "other": true,
         "comments": false,
@@ -16,5 +11,10 @@
       },
       "editor.formatOnSave": true,
       "editor.defaultFormatter": "charliermarsh.ruff"
-    }
+    },
+    "python.testing.pytestArgs": [
+      "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }

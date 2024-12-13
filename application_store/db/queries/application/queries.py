@@ -246,12 +246,13 @@ def submit_application(application_id) -> Applications:
         extra=dict(application_id=application_id),
     )
     try:
-        application = get_application(application_id)
-        application.date_submitted = datetime.now(timezone.utc).isoformat()
+        application = get_application(application_id, include_forms=True)
 
         all_application_files = list_files_by_prefix(application_id)
         application = process_files(application, all_application_files)
 
+        # Mark the application as submitted
+        application.date_submitted = datetime.now(timezone.utc)
         application.status = ApplicationStatus.SUBMITTED
 
         application_type = "".join(application.reference.split("-")[:1])
@@ -262,7 +263,7 @@ def submit_application(application_id) -> Applications:
 
         row = {
             **derived_values,
-            "jsonb_blob": application.as_dict(),
+            "jsonb_blob": ApplicationSchema().dump(application),
             "type_of_application": application_type,
         }
         stmt = postgres_insert(AssessmentRecord).values([row])

@@ -56,10 +56,11 @@ def test_submit_route_success(
 
     assert application_after_submit.status == ApplicationStatus.SUBMITTED
 
-    assessment_record = (
+    assessment_record: AssessmentRecord = (
         _db.session.query(AssessmentRecord).where(AssessmentRecord.application_id == application_id).one()
     )
     assert assessment_record
+    assert assessment_record.jsonb_blob["forms"]
 
 
 def test_submit_route_submit_error(

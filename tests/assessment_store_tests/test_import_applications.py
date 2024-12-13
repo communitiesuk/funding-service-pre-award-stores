@@ -12,9 +12,7 @@ from assessment_store.config.mappings.assessment_mapping_fund_round import (
 from assessment_store.db.models.assessment_record.assessment_records import (
     AssessmentRecord,
 )
-from assessment_store.db.queries.assessment_records.queries import (
-    insert_application_record,
-)
+from assessment_store.db.queries.assessment_records.queries import bulk_insert_application_record
 from assessment_store.scripts.import_from_application import main
 from tests.assessment_store_tests._helpers import row_data
 
@@ -153,8 +151,8 @@ def test_insert_application_record(
         },
     )
 
-    result = insert_application_record(
-        application_json_string=ctdf_application,
+    result = bulk_insert_application_record(
+        application_json_strings=[ctdf_application],
         application_type=application_type,
         is_json=is_json,
     )
@@ -195,8 +193,8 @@ def test_insert_application_record_duplicate(mocker, seed_application_records, _
         return_value=derived_values,
     )
 
-    result = insert_application_record(
-        application_json_string=ctdf_application,
+    result = bulk_insert_application_record(
+        application_json_strings=[ctdf_application],
         application_type=None,
         is_json=True,
     )
@@ -218,8 +216,8 @@ def test_insert_application_record_duplicate(mocker, seed_application_records, _
         return_value=derived_values,
     )
 
-    result2 = insert_application_record(
-        application_json_string=ctdf_application,
+    result2 = bulk_insert_application_record(
+        application_json_strings=[ctdf_application],
         application_type=None,
         is_json=True,
     )

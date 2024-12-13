@@ -310,12 +310,6 @@ class ApplicationsView(MethodView):
         result = evaluate_response(eoi_schema, application["forms"])
         return result
 
-    def _get_sqs_client(self):
-        sqs_extended_client = current_app.extensions["sqs_extended_client"]
-        if sqs_extended_client is not None:
-            return sqs_extended_client
-        current_app.logger.error("An error occurred while sending message since client is not available")
-
     def post_research_survey_data(self):
         """
         Endpoint to post research survey data.
