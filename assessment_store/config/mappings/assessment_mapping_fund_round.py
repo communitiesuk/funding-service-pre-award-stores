@@ -74,11 +74,17 @@ from assessment_store.config.mappings.dpif_mappping_parts.r3_scored_criteria imp
 from assessment_store.config.mappings.dpif_mappping_parts.r3_unscored_criteria import (
     unscored_sections as dpif_unscored_sections_r3,
 )
+from assessment_store.config.mappings.gbrf_mapping_parts.r1_unscored_criteria import (
+    unscored_sections as gbrf_unscored_sections,
+)
 from assessment_store.config.mappings.hsra_mapping_parts.r1_scored_criteria import (
     scored_criteria as hsra_scored_criteria,
 )
 from assessment_store.config.mappings.hsra_mapping_parts.r1_unscored_sections import (
     unscored_sections as hsra_unscored_sections,
+)
+from assessment_store.config.mappings.lpdf_mapping_parts.r1_unscored_criteria import (
+    unscored_sections as lpdf_unscored_sections,
 )
 from assessment_store.config.mappings.nstf_mapping_parts.r2_scored_criteria import (
     scored_criteria as nstf_scored_criteria,
@@ -130,12 +136,12 @@ LPDF_ROUND_1_ID = "f1d514da-0282-4a96-82c4-25c09645d0b0"
 fund_round_to_assessment_mapping = {
     f"{GBRF_FUND_ID}:{GBRF_ROUND_1_ID}": {
         "schema_id": "gbrf_r1_assessment",
-        "unscored_sections": [],
+        "unscored_sections": gbrf_unscored_sections,
         "scored_criteria": [],
     },
     f"{LPDF_FUND_ID}:{LPDF_ROUND_1_ID}": {
         "schema_id": "lpdf_r1_assessment",
-        "unscored_sections": [],
+        "unscored_sections": lpdf_unscored_sections,
         "scored_criteria": [],
     },
     f"{DPIF_FUND_ID}:{DPIF_ROUND_3_ID}": {
