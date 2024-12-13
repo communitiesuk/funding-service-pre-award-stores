@@ -38,17 +38,21 @@
                 {{ round_closed_warning(fund_name, round_title, submission_deadline) }}
             {% endif %}
             {{ available_in_language(inset=True, warn=False, welsh_available=welsh_available) }}
+            {% if instruction_text %}
             <p class="govuk-body">
                 {{ instruction_text|safe }}
             </p>
+            {% endif %}
+            {% if prospectus_link %}
             <p class="govuk-body">
                 <a class="govuk-link" href="{{ prospectus_link }}">{% trans %}Read the fund's prospectus{% endtrans %}</a>
                 {% if is_expression_of_interest %}
-                     {% trans %}before you start.{% endtrans %}
+                    {% trans %}before you start.{% endtrans %}
                 {% else %}
-                     {% trans %}before you apply.{% endtrans %}
+                    {% trans %}before you apply.{% endtrans %}
                 {% endif %}
             </p>
+            {% endif %}
             {% if submission_deadline|length and not is_expression_of_interest %}
             <p class="govuk-body">
                 <strong>{% trans %}Submission deadline:{% endtrans %} </strong> {{
