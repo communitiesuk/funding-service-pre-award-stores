@@ -74,11 +74,17 @@ from assessment_store.config.mappings.dpif_mappping_parts.r3_scored_criteria imp
 from assessment_store.config.mappings.dpif_mappping_parts.r3_unscored_criteria import (
     unscored_sections as dpif_unscored_sections_r3,
 )
+from assessment_store.config.mappings.gbrf_mapping_parts.r1_unscored_criteria import (
+    unscored_sections as gbrf_unscored_sections,
+)
 from assessment_store.config.mappings.hsra_mapping_parts.r1_scored_criteria import (
     scored_criteria as hsra_scored_criteria,
 )
 from assessment_store.config.mappings.hsra_mapping_parts.r1_unscored_sections import (
     unscored_sections as hsra_unscored_sections,
+)
+from assessment_store.config.mappings.lpdf_mapping_parts.r1_unscored_criteria import (
+    unscored_sections as lpdf_unscored_sections,
 )
 from assessment_store.config.mappings.nstf_mapping_parts.r2_scored_criteria import (
     scored_criteria as nstf_scored_criteria,
@@ -119,9 +125,25 @@ HSRA_ROUND_ID = "50062ff6-e696-474d-a560-4d9af784e6e5"
 CTDF_FUND_ID = "3dcfa617-cff8-4c2c-9edd-9568aa367d13"
 CTDF_ROUND_1_ID = "7ecd7d64-1854-44ab-a10c-a7af4b8d68e1"
 
+GBRF_FUND_ID = "f97e3930-ab32-4353-84a6-3053d05382ae"
+GBRF_ROUND_1_ID = "e480f03f-e3e0-4bd0-9026-dfed52cc3982"
+
+LPDF_FUND_ID = "b1c13e1e-8fda-41bd-8abb-28e56f9d9322"
+LPDF_ROUND_1_ID = "f1d514da-0282-4a96-82c4-25c09645d0b0"
+
 # ASSESSMENT DISPLAY CONFIGURATION
 
 fund_round_to_assessment_mapping = {
+    f"{GBRF_FUND_ID}:{GBRF_ROUND_1_ID}": {
+        "schema_id": "gbrf_r1_assessment",
+        "unscored_sections": gbrf_unscored_sections,
+        "scored_criteria": [],
+    },
+    f"{LPDF_FUND_ID}:{LPDF_ROUND_1_ID}": {
+        "schema_id": "lpdf_r1_assessment",
+        "unscored_sections": lpdf_unscored_sections,
+        "scored_criteria": [],
+    },
     f"{DPIF_FUND_ID}:{DPIF_ROUND_3_ID}": {
         "schema_id": "DPIF_R3_assessment",
         "unscored_sections": dpif_unscored_sections_r3,
@@ -211,6 +233,18 @@ fund_round_to_assessment_mapping = {
 
 
 fund_round_data_key_mappings = {
+    "GBRFR1": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
+    },
+    "LPDFR1": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
+    },
     "DPIFR3": {
         "location": None,
         "asset_type": None,
@@ -1357,6 +1391,16 @@ applicant_info_mapping = {
 # APPLICATION SEEDING CONFIGURATION
 
 fund_round_mapping_config = {
+    "GBRFR1": {
+        "fund_id": GBRF_FUND_ID,
+        "round_id": GBRF_ROUND_1_ID,
+        "type_of_application": "GBRF",
+    },
+    "LPDFR1": {
+        "fund_id": LPDF_FUND_ID,
+        "round_id": LPDF_ROUND_1_ID,
+        "type_of_application": "LPDF",
+    },
     "DPIFR3": {
         "fund_id": DPIF_FUND_ID,
         "round_id": DPIF_ROUND_3_ID,
