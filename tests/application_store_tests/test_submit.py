@@ -93,7 +93,8 @@ def test_submit_application_raises_error_on_db_violation(seed_application_record
     application_id = target_application.id
     with pytest.raises(SubmitError) as se:
         submit_application(application_id)
-        assert str(se) == f"Unable to submit application {application_id}"
+    assert type(se.value) is SubmitError
+    assert str(se.value).startswith(f"Unable to submit application [{application_id}]")
 
 
 def test_submit_application_route_succeeds_on_notify_error(
