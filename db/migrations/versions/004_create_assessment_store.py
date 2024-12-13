@@ -8,8 +8,8 @@ Create Date: 2024-12-02 12:20:57.830366
 
 import sqlalchemy as sa
 from alembic import op
-from sqlalchemy.dialects import postgresql
 from alembic_utils.pg_extension import PGExtension
+from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
 revision = "004_create_assessment_store"

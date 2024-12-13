@@ -102,17 +102,17 @@ LOADER_CONFIG = {
         "project_name_field_id": "JAAhRP",
         "application_guidance_json": {
             "en": ""
-                  "<h2 class='govuk-heading govuk-heading-s'>"
-                  "What we'll ask you for"
-                  "</h2>"
-                  "<p class='govuk-body'>"
-                  "We have outlined the information needed to complete the application form in our "
-                  "<a href='https://www.localdigital.gov.uk/digital-planning/digital-planning-improvement-fund-2024/'>prospectus</a>. "
-                  "If you have not received the prospectus, contact digitalplanningteam@communities.gov.uk."
-                  "</p>"
-                  "<p class='govuk-body'>You can "
-                  "<a href='{all_questions_url}'>preview the full list of application questions</a>."
-                  "</p>",
+            "<h2 class='govuk-heading govuk-heading-s'>"
+            "What we'll ask you for"
+            "</h2>"
+            "<p class='govuk-body'>"
+            "We have outlined the information needed to complete the application form in our "
+            "<a href='https://www.localdigital.gov.uk/digital-planning/digital-planning-improvement-fund-2024/'>prospectus</a>. "
+            "If you have not received the prospectus, contact digitalplanningteam@communities.gov.uk."
+            "</p>"
+            "<p class='govuk-body'>You can "
+            "<a href='{all_questions_url}'>preview the full list of application questions</a>."
+            "</p>",
             "cy": None,
         },
         "guidance_url": "https://docs.google.com/document/d/1cF5eKphoBWEUe0Zv5HBwv0R3n1svCk16kUFRJhKnIQY",

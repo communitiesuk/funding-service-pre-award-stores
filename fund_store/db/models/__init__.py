@@ -4,9 +4,11 @@ from .event import Event  # noqa
 from .form_name import FormName  # noqa
 from .fund import Fund  # noqa
 from .round import Round  # noqa
-from .section import AssessmentField  # noqa
-from .section import Section  # noqa
-from .section import SectionField  # noqa
+from .section import (
+    AssessmentField,  # noqa
+    Section,  # noqa
+    SectionField,  # noqa
+)
 
 # from .translations import Translation  # noqa
 
