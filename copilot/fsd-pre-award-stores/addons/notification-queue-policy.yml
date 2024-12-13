@@ -27,4 +27,3 @@ Outputs:
   NotificationQueuePolicyArn:
     Description: "The ARN of the ManagedPolicy to attach to the task role."
     Value: !Ref NotificationQueuePolicy
-
