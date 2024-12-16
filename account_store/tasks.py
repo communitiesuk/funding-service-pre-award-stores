@@ -6,9 +6,9 @@ from colored import fg
 from colored import stylize
 from invoke import task
 from app import app as connexionapp
-from db.models.account import Account
+from account_store.db.models.account import Account
 from sqlalchemy import select
-from db.models.role import Role  # noqa:E402
+from account_store.db.models.role import Role  # noqa:E402
 
 ECHO_STYLE = fg("blue") + attr("bold")
 DB_NAME = "fsd_account_store_dev"

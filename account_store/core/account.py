@@ -14,10 +14,10 @@ from sqlalchemy import or_
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
-from db import db
-from db.models.account import Account
-from db.models.role import Role
-from db.schemas.account import AccountSchema
+from account_store.db import db
+from account_store.db.models.account import Account
+from account_store.db.models.role import Role
+from account_store.db.schemas.account import AccountSchema
 
 
 def get_account(
