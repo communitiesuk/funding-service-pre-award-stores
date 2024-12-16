@@ -2,7 +2,7 @@ import uuid  # noqa
 
 from sqlalchemy.dialects.postgresql import UUID
 
-from account_store.db import db
+from db import db
 from account_store.db.models.account import Account
 
 

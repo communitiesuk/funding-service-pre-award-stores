@@ -415,6 +415,28 @@ wheels = [
 ]
 
 [[package]]
+name = "dnspython"
+version = "2.7.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b5/4a/263763cb2ba3816dd94b08ad3a33d5fdae34ecb856678773cc40a3605829/dnspython-2.7.0.tar.gz", hash = "sha256:ce9c432eda0dc91cf618a5cedf1a4e142651196bbcd2c80e89ed5a907e5cfaf1", size = 345197 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/68/1b/e0a87d256e40e8c888847551b20a017a6b98139178505dc7ffb96f04e954/dnspython-2.7.0-py3-none-any.whl", hash = "sha256:b4c34b7d10b51bcc3a5071e7b8dee77939f1e878477eeecc965e9835f63c6c86", size = 313632 },
+]
+
+[[package]]
+name = "email-validator"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dnspython" },
+    { name = "idna" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/48/ce/13508a1ec3f8bb981ae4ca79ea40384becc868bfae97fd1c942bb3a001b1/email_validator-2.2.0.tar.gz", hash = "sha256:cb690f344c617a714f22e66ae771445a1ceb46821152df8e165c5f9a364582b7", size = 48967 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d7/ee/bf0adb559ad3c786f12bcbc9296b3f5675f529199bef03e2df281fa1fadb/email_validator-2.2.0-py3-none-any.whl", hash = "sha256:561977c2d73ce3611850a06fa56b414621e0c8faa9d66f2611407d87465da631", size = 33521 },
+]
+
+[[package]]
 name = "et-xmlfile"
 version = "2.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -501,6 +523,19 @@ wheels = [
 ]
 
 [[package]]
+name = "flask-marshmallow"
+version = "1.2.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "flask" },
+    { name = "marshmallow" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bf/9c/0c0cee00441981502358b4bc6e3d1b21247d3d80a277dde18bf3d0ad7426/flask_marshmallow-1.2.1.tar.gz", hash = "sha256:00ee96399ed664963afff3b5d6ee518640b0f91dbc2aace2b5abcf32f40ef23a", size = 40752 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/68/58/b20b1c8e3174479ea23388d61a9772132586ff492a280acbc84082a2a176/flask_marshmallow-1.2.1-py3-none-any.whl", hash = "sha256:10b5048ecfaa26f7c8d0aed7d81083164450e6be8e81c04b3d4a586b3f7b6678", size = 12093 },
+]
+
+[[package]]
 name = "flask-migrate"
 version = "4.0.7"
 source = { registry = "https://pypi.org/simple" }
@@ -568,7 +603,7 @@ sdist = { url = "https://files.pythonhosted.org/packages/13/ce/18f6d9969416d8c9e
 
 [[package]]
 name = "funding-service-design-utils"
-version = "5.1.5"
+version = "5.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beautifulsoup4" },
@@ -589,9 +624,9 @@ dependencies = [
     { name = "sentry-sdk", extra = ["flask"] },
     { name = "sqlalchemy-utils" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/88/23/eeb6917cf0afbc55596a1d3f8f65ebcdbe843bf0092d1ad48e8be8b7c3a1/funding_service_design_utils-5.1.5.tar.gz", hash = "sha256:e5bdd17ed323316d1ab3ff4cd50e67f3998590e25da72d064d018dadf6eec6a9", size = 66862 }
+sdist = { url = "https://files.pythonhosted.org/packages/9b/81/2bcd26a1aa5cfb5bdce53690267a9e120f0304f8c90f009d763c448c71c3/funding_service_design_utils-5.3.0.tar.gz", hash = "sha256:b9329ffb4c68a19001018053c6c012fa2a1860cb7eff08ead7a55e56d4cfc45a", size = 67512 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/37/f9/a252776eb791af4c2656b61e085a8a797b759b6158f70fc0f389687a4880/funding_service_design_utils-5.1.5-py3-none-any.whl", hash = "sha256:174692a111b35607baffb8630f361f71cb4cf32ac688903addbeb793e7a03f55", size = 80613 },
+    { url = "https://files.pythonhosted.org/packages/93/a9/1f5ef585e8f1b9dc4f3df6befea5f8158148f8f8f72c9eed6f491b495093/funding_service_design_utils-5.3.0-py3-none-any.whl", hash = "sha256:f845540f9cdbf30c1e2d2c956f5570187792eeb7a137f702adbbf4196a0a4d00", size = 81252 },
 ]
 
 [[package]]
@@ -606,15 +641,19 @@ dependencies = [
     { name = "colored" },
     { name = "connexion", extra = ["flask", "swagger-ui", "uvicorn"] },
     { name = "dataclass-dict-convert" },
+    { name = "email-validator" },
     { name = "flask" },
     { name = "flask-apscheduler" },
     { name = "flask-json" },
+    { name = "flask-marshmallow" },
     { name = "flask-migrate" },
     { name = "flask-restx" },
     { name = "flask-sqlalchemy" },
     { name = "funding-service-design-utils" },
+    { name = "greenlet" },
     { name = "invoke" },
     { name = "jsonpath-rw-ext" },
+    { name = "marshmallow-enum" },
     { name = "marshmallow-sqlalchemy" },
     { name = "openapi-spec-validator" },
     { name = "openpyxl" },
@@ -623,6 +662,7 @@ dependencies = [
     { name = "psycopg2-binary" },
     { name = "python-dateutil" },
     { name = "requests" },
+    { name = "shortuuid" },
     { name = "slugify" },
     { name = "sqlalchemy", extra = ["mypy"] },
     { name = "sqlalchemy-json" },
@@ -631,7 +671,7 @@ dependencies = [
     { name = "uvicorn" },
 ]
 
-[package.dev-dependencies]
+[package.dependency-groups]
 dev = [
     { name = "asserts" },
     { name = "click" },
@@ -659,15 +699,19 @@ requires-dist = [
     { name = "colored", specifier = "==2.2.4" },
     { name = "connexion", extras = ["flask", "swagger-ui", "uvicorn"], specifier = "==3.1.0" },
     { name = "dataclass-dict-convert", specifier = "==1.7.3" },
+    { name = "email-validator", specifier = "==2.2.0" },
     { name = "flask", specifier = "==3.0.3" },
     { name = "flask-apscheduler", specifier = "==1.13.1" },
     { name = "flask-json", specifier = "==0.4.0" },
+    { name = "flask-marshmallow", specifier = "==1.2.1" },
     { name = "flask-migrate", specifier = "==4.0.7" },
     { name = "flask-restx", specifier = "==1.3.0" },
     { name = "flask-sqlalchemy", specifier = "==3.1.1" },
-    { name = "funding-service-design-utils", specifier = "==5.1.5" },
+    { name = "funding-service-design-utils", specifier = "==5.3.0" },
+    { name = "greenlet", specifier = "==3.1.1" },
     { name = "invoke", specifier = "==2.2.0" },
     { name = "jsonpath-rw-ext", specifier = "==1.2.2" },
+    { name = "marshmallow-enum", specifier = "==1.5.1" },
     { name = "marshmallow-sqlalchemy", specifier = "==1.0.0" },
     { name = "openapi-spec-validator", specifier = "==0.7.1" },
     { name = "openpyxl", specifier = "==3.1.5" },
@@ -676,6 +720,7 @@ requires-dist = [
     { name = "psycopg2-binary", specifier = "==2.9.9" },
     { name = "python-dateutil", specifier = "==2.9.0.post0" },
     { name = "requests", specifier = "==2.32.3" },
+    { name = "shortuuid", specifier = "==1.0.13" },
     { name = "slugify", specifier = "==0.0.1" },
     { name = "sqlalchemy", extras = ["mypy"], specifier = "==2.0.36" },
     { name = "sqlalchemy-json", specifier = "==0.7.0" },
@@ -684,7 +729,7 @@ requires-dist = [
     { name = "uvicorn", specifier = "==0.30.3" },
 ]
 
-[package.metadata.requires-dev]
+[package.metadata.dependency-groups]
 dev = [
     { name = "asserts", specifier = "==0.13.1" },
     { name = "click", specifier = "==8.1.7" },
@@ -1009,6 +1054,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/6d/30/14d8609f65c8aeddddd3181c06d2c9582da6278f063b27c910bbf9903441/marshmallow-3.23.1.tar.gz", hash = "sha256:3a8dfda6edd8dcdbf216c0ede1d1e78d230a6dc9c5a088f58c4083b974a0d468", size = 177488 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ac/a7/a78ff54e67ef92a3d12126b98eb98ab8abab3de4a8c46d240c87e514d6bb/marshmallow-3.23.1-py3-none-any.whl", hash = "sha256:fece2eb2c941180ea1b7fcbd4a83c51bfdd50093fdd3ad2585ee5e1df2508491", size = 49488 },
+]
+
+[[package]]
+name = "marshmallow-enum"
+version = "1.5.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "marshmallow" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8e/8c/ceecdce57dfd37913143087fffd15f38562a94f0d22823e3c66eac0dca31/marshmallow-enum-1.5.1.tar.gz", hash = "sha256:38e697e11f45a8e64b4a1e664000897c659b60aa57bfa18d44e226a9920b6e58", size = 4013 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c6/59/ef3a3dc499be447098d4a89399beb869f813fee1b5a57d5d79dee2c1bf51/marshmallow_enum-1.5.1-py2.py3-none-any.whl", hash = "sha256:57161ab3dbfde4f57adeb12090f39592e992b9c86d206d02f6bd03ebec60f072", size = 4186 },
 ]
 
 [[package]]
@@ -1629,6 +1686,7 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/7f/b7/20c6f3c0b656fe609675d69bc135c03aac9e3865912444be6339207b6648/ruamel.yaml.clib-0.2.12-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:f66efbc1caa63c088dead1c4170d148eabc9b80d95fb75b6c92ac0aad2437d76", size = 686712 },
     { url = "https://files.pythonhosted.org/packages/cd/11/d12dbf683471f888d354dac59593873c2b45feb193c5e3e0f2ebf85e68b9/ruamel.yaml.clib-0.2.12-cp310-cp310-musllinux_1_1_i686.whl", hash = "sha256:22353049ba4181685023b25b5b51a574bce33e7f51c759371a7422dcae5402a6", size = 663936 },
     { url = "https://files.pythonhosted.org/packages/72/14/4c268f5077db5c83f743ee1daeb236269fa8577133a5cfa49f8b382baf13/ruamel.yaml.clib-0.2.12-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:932205970b9f9991b34f55136be327501903f7c66830e9760a8ffb15b07f05cd", size = 696580 },
+    { url = "https://files.pythonhosted.org/packages/30/fc/8cd12f189c6405a4c1cf37bd633aa740a9538c8e40497c231072d0fef5cf/ruamel.yaml.clib-0.2.12-cp310-cp310-musllinux_1_2_aarch64.whl", hash = "sha256:a52d48f4e7bf9005e8f0a89209bf9a73f7190ddf0489eee5eb51377385f59f2a", size = 663393 },
     { url = "https://files.pythonhosted.org/packages/80/29/c0a017b704aaf3cbf704989785cd9c5d5b8ccec2dae6ac0c53833c84e677/ruamel.yaml.clib-0.2.12-cp310-cp310-win32.whl", hash = "sha256:3eac5a91891ceb88138c113f9db04f3cebdae277f5d44eaa3651a4f573e6a5da", size = 100326 },
     { url = "https://files.pythonhosted.org/packages/3a/65/fa39d74db4e2d0cd252355732d966a460a41cd01c6353b820a0952432839/ruamel.yaml.clib-0.2.12-cp310-cp310-win_amd64.whl", hash = "sha256:ab007f2f5a87bd08ab1499bdf96f3d5c6ad4dcfa364884cb4549aa0154b13a28", size = 118079 },
 ]
@@ -1688,6 +1746,15 @@ flask = [
     { name = "blinker" },
     { name = "flask" },
     { name = "markupsafe" },
+]
+
+[[package]]
+name = "shortuuid"
+version = "1.0.13"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/8c/e2/bcf761f3bff95856203f9559baf3741c416071dd200c0fc19fad7f078f86/shortuuid-1.0.13.tar.gz", hash = "sha256:3bb9cf07f606260584b1df46399c0b87dd84773e7b25912b7e391e30797c5e72", size = 9662 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c0/44/21d6bf170bf40b41396480d8d49ad640bca3f2b02139cd52aa1e272830a5/shortuuid-1.0.13-py3-none-any.whl", hash = "sha256:a482a497300b49b4953e15108a7913244e1bb0d41f9d332f5e9925dba33a3c5a", size = 10529 },
 ]
 
 [[package]]

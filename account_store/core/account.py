@@ -14,7 +14,7 @@ from sqlalchemy import or_
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
-from account_store.db import db
+from db import db
 from account_store.db.models.account import Account
 from account_store.db.models.role import Role
 from account_store.db.schemas.account import AccountSchema
