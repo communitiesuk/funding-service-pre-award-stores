@@ -1,13 +1,13 @@
-from contextlib import contextmanager
 import os
+from contextlib import contextmanager
 from uuid import uuid4
-from colored import attr
-from colored import fg
-from colored import stylize
+
+from colored import attr, fg, stylize
 from invoke import task
+from sqlalchemy import select
+
 from app import app as connexionapp
 from db.models.account import Account
-from sqlalchemy import select
 from db.models.role import Role  # noqa:E402
 
 ECHO_STYLE = fg("blue") + attr("bold")
@@ -38,11 +38,7 @@ def seed_local_account_store(c):
             from db import db
 
             LEAD_ASSESSOR = "lead_assessor@example.com"
-            lead_assessor_account = (
-                db.session.query(Account)
-                .where(Account.email == LEAD_ASSESSOR)
-                .one_or_none()
-            )
+            lead_assessor_account = db.session.query(Account).where(Account.email == LEAD_ASSESSOR).one_or_none()
             if not lead_assessor_account:
                 # Create account
                 account_id = uuid4()
@@ -54,9 +50,7 @@ def seed_local_account_store(c):
                 print("Lead assessor account already exists")
                 account_id = lead_assessor_account.id
 
-            lead_assessor_roles = db.session.scalars(
-                select(Role.role).where(Role.account_id == account_id)
-            ).all()
+            lead_assessor_roles = db.session.scalars(select(Role.role).where(Role.account_id == account_id)).all()
 
             roles_to_add = []
 
@@ -66,9 +60,7 @@ def seed_local_account_store(c):
                 "CTDF_COMMENTER",
             ]:
                 if required_role not in lead_assessor_roles:
-                    la_role = Role(
-                        id=uuid4(), account_id=account_id, role=required_role
-                    )
+                    la_role = Role(id=uuid4(), account_id=account_id, role=required_role)
                     roles_to_add.append(la_role)
                     print(f"Creating role {required_role} for lead assessor")
 

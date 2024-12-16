@@ -32,13 +32,9 @@ def expected_data_within_response(
 
     """
     if method == "put":
-        response = test_client.put(
-            endpoint, data=data, json=json, follow_redirects=True
-        )
+        response = test_client.put(endpoint, data=data, json=json, follow_redirects=True)
     elif method == "post":
-        response = test_client.post(
-            endpoint, data=data, json=json, follow_redirects=True
-        )
+        response = test_client.post(endpoint, data=data, json=json, follow_redirects=True)
     else:
         response = test_client.get(endpoint, follow_redirects=True)
 
@@ -56,7 +52,7 @@ def expected_data_within_response(
     assert diff == {}, error_message
 
 
-def key_list_to_regex(exclude_keys: List[str] = []):
+def key_list_to_regex(exclude_keys: List[str] | None = None):
     """
     Helper function to go with DeepDiff expected_data_within_response()
     Converts a list of dictionary keys eg. ['account_id','timestamp']
@@ -68,6 +64,8 @@ def key_list_to_regex(exclude_keys: List[str] = []):
     :param exclude_keys: a list of dictionary keys eg. ['account_id']
     :return:
     """
+    if exclude_keys is None:
+        exclude_keys = []
     exclude_regex_path_strings = [rf"root\['{key}'\]" for key in exclude_keys]
     regex_paths = exclude_regex_path_strings
     return [re.compile(regex_string) for regex_string in regex_paths]
