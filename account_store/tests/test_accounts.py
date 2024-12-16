@@ -6,10 +6,10 @@ import uuid
 
 import pytest
 
-from tests.conftest import test_user_1
-from tests.conftest import test_user_2
-from tests.conftest import test_user_to_update
-from tests.helpers import expected_data_within_response
+from account_store.tests.conftest import test_user_1
+from account_store.tests.conftest import test_user_2
+from account_store.tests.conftest import test_user_to_update
+from account_store.tests.helpers import expected_data_within_response
 
 
 class TestAccountsPost:
