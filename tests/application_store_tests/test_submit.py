@@ -32,8 +32,36 @@ def mock_data_key_mappings(monkeypatch):
     yield
 
 
-def test_submit_application_with_location_bad_key(_db, app, clear_test_data, mocker, monkeypatch):
+@pytest.fixture
+def setup_completed_application(
+    _db,
+    app,
+    clear_test_data,
+    mocker,
+):
     mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
+    with open("tests/application_store_tests/seed_data/COF_R4W2_all_forms.json", "r") as f:
+        cof_application = json.load(f)
+        forms = cof_application["forms"]
+    empty_forms = [form["name"] for form in forms]
+    target_application = create_application(
+        account_id=uuid4(), fund_id=COF_FUND_ID, round_id=COF_ROUND_4_W2_ID, language="en"
+    )
+    target_application.project_name = "test"
+    application_id = target_application.id
+    add_new_forms(forms=empty_forms, application_id=application_id)
+
+    for form in forms:
+        update_form(
+            application_id,
+            form["name"],
+            form["questions"],
+            True,
+        )
+    yield application_id
+
+
+def test_submit_application_with_location_bad_key(_db, monkeypatch, setup_completed_application):
     fund_round_data_key_mappings = {
         "TESTTEST": {
             "location": "badkey",
@@ -46,27 +74,9 @@ def test_submit_application_with_location_bad_key(_db, app, clear_test_data, moc
         "assessment_store.db.queries.assessment_records._helpers.fund_round_data_key_mappings",
         fund_round_data_key_mappings,
     )
-    with open("tests/application_store_tests/seed_data/COF_R4W2_all_forms.json", "r") as f:
-        cof_application = json.load(f)
-        forms = cof_application["forms"]
-    empty_forms = [form["name"] for form in forms]
-    target_application = create_application(
-        account_id=uuid4(), fund_id=COF_FUND_ID, round_id=COF_ROUND_4_W2_ID, language="en"
-    )
-    target_application.project_name = "test"
-    application_id = target_application.id
-    add_new_forms(forms=empty_forms, application_id=application_id)
-
-    for form in forms:
-        update_form(
-            application_id,
-            form["name"],
-            form["questions"],
-            True,
-        )
+    application_id = setup_completed_application
 
     submit_application(application_id)
-
     assessment_record: AssessmentRecord = (
         _db.session.query(AssessmentRecord).where(AssessmentRecord.application_id == application_id).one()
     )
@@ -75,8 +85,7 @@ def test_submit_application_with_location_bad_key(_db, app, clear_test_data, moc
     assert assessment_record.location_json_blob["error"] is True
 
 
-def test_submit_application_with_location(_db, app, clear_test_data, mocker, monkeypatch):
-    mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
+def test_submit_application_with_location(_db, setup_completed_application, monkeypatch):
     fund_round_data_key_mappings = {
         "TESTTEST": {
             "location": "EfdliG",
@@ -89,30 +98,10 @@ def test_submit_application_with_location(_db, app, clear_test_data, mocker, mon
         "assessment_store.db.queries.assessment_records._helpers.fund_round_data_key_mappings",
         fund_round_data_key_mappings,
     )
-    with open("tests/application_store_tests/seed_data/COF_R4W2_all_forms.json", "r") as f:
-        cof_application = json.load(f)
-        forms = cof_application["forms"]
-    # target_application = create_app_with_blank_forms(
-    #     {"account_id": uuid4(), "fund_id": COF_FUND_ID, "round_id": COF_ROUND_4_W2_ID, "language": "en"}
-    # )
-    empty_forms = [form["name"] for form in forms]
-    target_application = create_application(
-        account_id=uuid4(), fund_id=COF_FUND_ID, round_id=COF_ROUND_4_W2_ID, language="en"
-    )
-    target_application.project_name = "test"
-    application_id = target_application.id
-    add_new_forms(forms=empty_forms, application_id=application_id)
 
-    for form in forms:
-        update_form(
-            application_id,
-            form["name"],
-            form["questions"],
-            True,
-        )
+    application_id = setup_completed_application
 
     submit_application(application_id)
-
     assessment_record: AssessmentRecord = (
         _db.session.query(AssessmentRecord).where(AssessmentRecord.application_id == application_id).one()
     )
