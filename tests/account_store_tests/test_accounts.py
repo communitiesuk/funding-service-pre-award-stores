@@ -6,8 +6,10 @@ import uuid
 
 import pytest
 
-from tests.conftest import test_user_1, test_user_2, test_user_to_update
-from tests.helpers import expected_data_within_response
+from tests.account_store_tests.conftest import test_user_1
+from tests.account_store_tests.conftest import test_user_2
+from tests.account_store_tests.conftest import test_user_to_update
+from tests.account_store_tests.helpers import expected_data_within_response
 
 
 class TestAccountsPost:
@@ -24,7 +26,7 @@ class TestAccountsPost:
 
         email = "person1@example.com"
         params = {"email_address": email}
-        url = "/accounts"
+        url = "/account/accounts"
 
         response = flask_test_client.post(url, json=params)
 
@@ -46,7 +48,7 @@ class TestAccountsPost:
 
         email = "person2@example.com"
         params = {"email_address": email}
-        url = "/accounts"
+        url = "/account/accounts"
 
         first_response = flask_test_client.post(url, json=params)
 
@@ -75,7 +77,7 @@ class TestAccountsPost:
             "email_address": email,
             "azure_ad_subject_id": azure_ad_subject_id,
         }
-        url = "/accounts"
+        url = "/account/accounts"
 
         response = flask_test_client.post(url, json=params)
 
@@ -104,7 +106,7 @@ class TestAccountsPost:
             "email_address": email1,
             "azure_ad_subject_id": azure_ad_subject_id,
         }
-        url = "/accounts"
+        url = "/account/accounts"
 
         first_response = flask_test_client.post(url, json=params)
 
@@ -162,7 +164,7 @@ class TestAccountsGet:
         expected_status_code,
         expected_user_result,
     ):
-        url = "/accounts?"
+        url = "/account/accounts?"
         for key in url_params_map.keys():
             url += f"{key}={url_params_map[key]}&"
         response = flask_test_client.get(url)
@@ -197,7 +199,7 @@ class TestAccountsGet:
         expected_status_code,
         expected_user_results,
     ):
-        url = "/bulk-accounts?"
+        url = "/account/bulk-accounts?"
         for id in account_ids:
             url += f"account_id={id}&"
         response = flask_test_client.get(url)
@@ -225,7 +227,7 @@ class TestAccountsPut:
             "full_name": new_full_name,
             "azure_ad_subject_id": new_azure_ad_subject_id,
         }
-        url = "/accounts/" + account_id
+        url = "/account/accounts/" + account_id
 
         expected_response_data = {
             "account_id": account_id,
@@ -266,7 +268,7 @@ class TestAccountsPut:
             "roles": new_roles,
             "full_name": new_full_name,
         }
-        url = "/accounts/" + account_id
+        url = "/account/accounts/" + account_id
 
         response = flask_test_client.put(url, json=params)
 
@@ -292,7 +294,7 @@ class TestAccountsPut:
             "roles": new_roles,
             "azure_ad_subject_id": "subject_id_x",
         }
-        url = "/accounts/" + account_id
+        url = "/account/accounts/" + account_id
 
         response = flask_test_client.put(url, json=params)
         assert response.status_code == 201
@@ -322,7 +324,7 @@ class TestAccountsPut:
             "roles": new_roles,
             "azure_ad_subject_id": "subject_id_x",
         }
-        url = "/accounts/" + account_id
+        url = "/account/accounts/" + account_id
 
         response = flask_test_client.put(url, json=params)
 
@@ -330,13 +332,17 @@ class TestAccountsPut:
 
     def test_update_email_with_existing_email(self, flask_test_client, clear_test_data):
         existing_email_address = "already_exists@example.com"
-        flask_test_client.post("/accounts", json={"email_address": existing_email_address})
-        created_response = flask_test_client.post("/accounts", json={"email_address": "new_account@example.com"})
+        flask_test_client.post(
+            "/account/accounts", json={"email_address": existing_email_address}
+        )
+        created_response = flask_test_client.post(
+            "/account/accounts", json={"email_address": "new_account@example.com"}
+        )
 
         account_id = created_response.json()["account_id"]
 
         update_response = flask_test_client.put(
-            f"/accounts/{account_id}",
+            f"/account/accounts/{account_id}",
             json={
                 "email_address": existing_email_address,
                 "roles": ["COF_COMMENTER"],
@@ -377,7 +383,7 @@ class TestGetAccountsForFund:
         ]
     )
     def test_successful_retrieval(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.get("/accounts/fund/COF")
+        response = flask_test_client.get("/account/accounts/fund/COF")
         assert response.status_code == 200
         assert len(response.json()) == 3
 
@@ -398,7 +404,13 @@ class TestGetAccountsForFund:
         ]
     )
     def test_assessors_only(self, flask_test_client, seed_test_data_fn):
+<<<<<<< HEAD:account_store/tests/test_accounts.py
         response = flask_test_client.get("/accounts/fund/COF?include_assessors=true&include_commenters=false")
+=======
+        response = flask_test_client.get(
+            "/account/accounts/fund/COF?include_assessors=true&include_commenters=false"
+        )
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
         assert response.status_code == 200
         assert len(response.json()) == 1  # Only the assessor should be returned
         assert all("ASSESSOR" in role for role in response.json()[0]["roles"])
@@ -420,14 +432,20 @@ class TestGetAccountsForFund:
         ]
     )
     def test_commenters_only(self, flask_test_client, seed_test_data_fn):
+<<<<<<< HEAD:account_store/tests/test_accounts.py
         response = flask_test_client.get("/accounts/fund/COF?include_assessors=false&include_commenters=true")
+=======
+        response = flask_test_client.get(
+            "/account/accounts/fund/COF?include_assessors=false&include_commenters=true"
+        )
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
         assert response.status_code == 200
         assert len(response.json()) == 1  # Only the commenter should be returned
         assert all("COMMENTER" in role for role in response.json()[0]["roles"])
 
     @pytest.mark.user_config([])  # No users configured
     def test_no_matching_accounts(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.get("/accounts/fund/unknownfund")
+        response = flask_test_client.get("/account/accounts/fund/unknownfund")
         assert response.status_code == 404
         assert response.json() == {"error": "No matching accounts found"}
 
@@ -442,7 +460,13 @@ class TestGetAccountsForFund:
         ]
     )
     def test_bad_request(self, flask_test_client, seed_test_data_fn):
+<<<<<<< HEAD:account_store/tests/test_accounts.py
         response = flask_test_client.get("/accounts/fund/COF?include_assessors=false&include_commenters=false")
+=======
+        response = flask_test_client.get(
+            "/account/accounts/fund/COF?include_assessors=false&include_commenters=false"
+        )
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
         assert response.status_code == 400
         assert response.json() == {"error": "One of include_assessors or include_commenters must be true"}
 
@@ -476,24 +500,47 @@ class TestGetAccountsForFund:
     ]
 )
 class TestAccountSearch:
+<<<<<<< HEAD:account_store/tests/test_accounts.py
     def test_search_all_accounts_no_json_body(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.post("/accounts/search")
+=======
+    def test_search_all_accounts_no_json_body(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post("/account/accounts/search")
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
 
         assert response.status_code == 200
 
         accounts = response.json()
         assert len(accounts) == 4
 
+<<<<<<< HEAD:account_store/tests/test_accounts.py
     def test_search_all_accounts_empty_json_body(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.post("/accounts/search", json={})
+=======
+    def test_search_all_accounts_empty_json_body(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post("/account/accounts/search", json={})
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
 
         assert response.status_code == 200
 
         accounts = response.json()
         assert len(accounts) == 4
 
+<<<<<<< HEAD:account_store/tests/test_accounts.py
     def test_search_all_accounts_by_email_domain(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.post("/accounts/search", json={"email_domain": "example.com"})
+=======
+    def test_search_all_accounts_by_email_domain(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/account/accounts/search", json={"email_domain": "example.com"}
+        )
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
 
         assert response.status_code == 200
 
@@ -502,7 +549,13 @@ class TestAccountSearch:
         assert accounts[0]["email_address"] == "assessor-1@example.com"
 
     def test_search_all_accounts_by_roles(self, flask_test_client, seed_test_data_fn):
+<<<<<<< HEAD:account_store/tests/test_accounts.py
         response = flask_test_client.post("/accounts/search", json={"roles": ["SECTION_151"]})
+=======
+        response = flask_test_client.post(
+            "/account/accounts/search", json={"roles": ["SECTION_151"]}
+        )
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
 
         assert response.status_code == 200
 
@@ -510,8 +563,17 @@ class TestAccountSearch:
         assert len(accounts) == 1
         assert accounts[0]["email_address"] == "section-151@communities.gov.uk"
 
+<<<<<<< HEAD:account_store/tests/test_accounts.py
     def test_search_all_accounts_by_multiple_roles(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.post("/accounts/search", json={"roles": ["COF_ASSESSOR_R1", "COF_COMMENTER_R2"]})
+=======
+    def test_search_all_accounts_by_multiple_roles(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/account/accounts/search", json={"roles": ["COF_ASSESSOR_R1", "COF_COMMENTER_R2"]}
+        )
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
 
         assert response.status_code == 200
 
@@ -520,16 +582,34 @@ class TestAccountSearch:
         assert accounts[0]["email_address"] == "assessor-1@example.com"
         assert accounts[1]["email_address"] == "assessor-2@communities.gov.uk"
 
+<<<<<<< HEAD:account_store/tests/test_accounts.py
     def test_search_all_accounts_by_roles_case_sensitive(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.post("/accounts/search", json={"roles": ["section_151"]})
+=======
+    def test_search_all_accounts_by_roles_case_sensitive(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/account/accounts/search", json={"roles": ["section_151"]}
+        )
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
 
         assert response.status_code == 200
 
         accounts = response.json()
         assert len(accounts) == 0
 
+<<<<<<< HEAD:account_store/tests/test_accounts.py
     def test_search_all_accounts_by_partial_roles(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.post("/accounts/search", json={"partial_roles": ["COMMENTER"]})
+=======
+    def test_search_all_accounts_by_partial_roles(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/account/accounts/search", json={"partial_roles": ["COMMENTER"]}
+        )
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
 
         assert response.status_code == 200
 
@@ -538,16 +618,34 @@ class TestAccountSearch:
         assert accounts[0]["email_address"] == "assessor-2@communities.gov.uk"
         assert accounts[1]["email_address"] == "assessor-3@communities.gov.uk"
 
+<<<<<<< HEAD:account_store/tests/test_accounts.py
     def test_search_all_accounts_by_partial_roles_case_sensitive(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.post("/accounts/search", json={"roles": ["commenter"]})
+=======
+    def test_search_all_accounts_by_partial_roles_case_sensitive(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/account/accounts/search", json={"roles": ["commenter"]}
+        )
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
 
         assert response.status_code == 200
 
         accounts = response.json()
         assert len(accounts) == 0
 
+<<<<<<< HEAD:account_store/tests/test_accounts.py
     def test_search_all_accounts_by_multiple_partial_roles(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.post("/accounts/search", json={"partial_roles": ["R1", "COMMENTER"]})
+=======
+    def test_search_all_accounts_by_multiple_partial_roles(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/account/accounts/search", json={"partial_roles": ["R1", "COMMENTER"]}
+        )
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
 
         assert response.status_code == 200
 
@@ -557,6 +655,7 @@ class TestAccountSearch:
         assert accounts[1]["email_address"] == "assessor-2@communities.gov.uk"
         assert accounts[2]["email_address"] == "assessor-3@communities.gov.uk"
 
+<<<<<<< HEAD:account_store/tests/test_accounts.py
     def test_search_all_accounts_additional_properties_blocked(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.post("/accounts/search", json={"blah": False})
 
@@ -564,5 +663,20 @@ class TestAccountSearch:
 
     def test_search_cannot_filter_on_roles_and_partial_roles_together(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.post("/accounts/search", json={"roles": ["SECTION_151"], "partial_roles": ["R1"]})
+=======
+    def test_search_all_accounts_additional_properties_blocked(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post("/account/accounts/search", json={"blah": False})
+
+        assert response.status_code == 400
+
+    def test_search_cannot_filter_on_roles_and_partial_roles_together(
+        self, flask_test_client, seed_test_data_fn
+    ):
+        response = flask_test_client.post(
+            "/account/accounts/search", json={"roles": ["SECTION_151"], "partial_roles": ["R1"]}
+        )
+>>>>>>> 2c0def7f (WIP squash):tests/account_store_tests/test_accounts.py
 
         assert response.status_code == 400
