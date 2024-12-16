@@ -51,6 +51,13 @@ def create_app() -> FlaskApp:
         resolver=MethodViewResolver("api"),
     )
 
+    connexion_app.add_api(
+        get_bundled_specs("/account_store/openapi/api.yml"),
+        validate_responses=True,
+        base_path="/account",
+        resolver=MethodResolver("api")
+    )
+
     flask_app = connexion_app.app
     flask_app.config.from_object("config.Config")
 

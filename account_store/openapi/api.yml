@@ -11,7 +11,7 @@ paths:
         - accounts
       summary: "Return the account data for the given email address, account id, Azure AD subject id or a combination."
       description: "Given an email address, account id, Azure AD subject id or a combination, return the json associated with the account, or 404 if none are found."
-      operationId: core.account.get_account
+      operationId: account_store.core.account.get_account
       parameters:
         - name: email_address
           in: query
@@ -43,7 +43,7 @@ paths:
     post:
       summary: "Post a new email, creating an new account with a unique account id in the account store."
       description: "Given an email, we create a corresponding account object in the account store."
-      operationId: core.account.post_account
+      operationId: account_store.core.account.post_account
       requestBody:
         description: Account creation parameters
         required: true
@@ -69,7 +69,7 @@ paths:
         - accounts
       summary: Put changes to an account
       description: Put changes to a specific account by account id
-      operationId: core.account.put_account
+      operationId: account_store.core.account.put_account
       requestBody:
         description: Account update parameters
         required: true
@@ -111,7 +111,7 @@ paths:
         - accounts
       summary: Return the users assigned roles related to the fund
       description: "Given a fund, return the users assigned with a role. Filterable by assessors, commenters and round"
-      operationId: core.account.get_accounts_for_fund
+      operationId: account_store.core.account.get_accounts_for_fund
       parameters:
         - name: fund_short_name
           in: path
@@ -155,7 +155,7 @@ paths:
       tags:
         - accounts
       summary: Search for accounts based on certain criteria
-      operationId: core.account.search_accounts
+      operationId: account_store.core.account.search_accounts
       requestBody:
         content:
           application/json:
@@ -176,7 +176,7 @@ paths:
         - accounts
       summary: "Return the account data for the given account ids."
       description: "Given an account ids return the json associated with the accounts, or 404 if none are found."
-      operationId: core.account.get_bulk_accounts
+      operationId: account_store.core.account.get_bulk_accounts
       responses:
         200:
           description: The requested accounts exists, and the accounts' json payload is returned.
