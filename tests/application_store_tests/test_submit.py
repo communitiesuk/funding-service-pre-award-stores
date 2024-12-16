@@ -15,6 +15,21 @@ from assessment_store.db.models.assessment_record.assessment_records import Asse
 from tests.assessment_store_tests.test_assessment_mapping_fund_round import COF_FUND_ID
 
 
+@pytest.fixture
+def mock_successful_location_call(mocker):
+    mocker.patch(
+        "assessment_store.db.queries.assessment_records._helpers.get_location_json_from_postcode",
+        return_value={
+            "error": False,
+            "postcode": "GU1 1LY",
+            "county": "Hampshire",
+            "region": "England",
+            "country": "England",
+            "constituency": "Guildford",
+        },
+    )
+
+
 @pytest.fixture(scope="function")
 def mock_data_key_mappings(monkeypatch):
     fund_round_data_key_mappings = {
@@ -61,7 +76,9 @@ def setup_completed_application(
     yield application_id
 
 
-def test_submit_application_with_location_bad_key(_db, monkeypatch, setup_completed_application):
+def test_submit_application_with_location_bad_key(
+    _db, monkeypatch, setup_completed_application, mock_successful_location_call
+):
     fund_round_data_key_mappings = {
         "TESTTEST": {
             "location": "badkey",
@@ -85,7 +102,7 @@ def test_submit_application_with_location_bad_key(_db, monkeypatch, setup_comple
     assert assessment_record.location_json_blob["error"] is True
 
 
-def test_submit_application_with_location(_db, setup_completed_application, monkeypatch):
+def test_submit_application_with_location(_db, setup_completed_application, monkeypatch, mock_successful_location_call):
     fund_round_data_key_mappings = {
         "TESTTEST": {
             "location": "EfdliG",
@@ -120,6 +137,7 @@ def test_submit_route_success(
     mock_get_fund_data,
     mock_get_round,
     mock_data_key_mappings,
+    mock_successful_location_call,
 ):
     mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
     target_application = seed_application_records[0]
@@ -149,11 +167,7 @@ def test_submit_route_success(
     assert assessment_record.jsonb_blob["forms"]
 
 
-def test_submit_route_submit_error(
-    flask_test_client,
-    seed_application_records,
-    mocker,
-):
+def test_submit_route_submit_error(flask_test_client, seed_application_records, mocker, mock_successful_location_call):
     target_application = seed_application_records[0]
     application_id = target_application.id
     mocker.patch(
@@ -169,7 +183,9 @@ def test_submit_route_submit_error(
     assert response.json()["message"] == f"Unable to submit application {application_id}"
 
 
-def test_submit_application_raises_error_on_db_violation(seed_application_records, mocker, _db, mock_data_key_mappings):
+def test_submit_application_raises_error_on_db_violation(
+    seed_application_records, mocker, _db, mock_data_key_mappings, mock_successful_location_call
+):
     mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
     target_application = seed_application_records[0]
     target_application.project_name = None  # will cause not null constraint violation
@@ -184,7 +200,7 @@ def test_submit_application_raises_error_on_db_violation(seed_application_record
 
 
 def test_submit_application_route_succeeds_on_notify_error(
-    seed_application_records, mocker, _db, flask_test_client, mock_data_key_mappings
+    seed_application_records, mocker, _db, flask_test_client, mock_data_key_mappings, mock_successful_location_call
 ):
     mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
     target_application = seed_application_records[0]
