@@ -44,38 +44,34 @@ def send_submit_notification(
     round_data,
 ):
     contents = {
-        NotifyConstants.APPLICATION_FIELD: application_with_form_json_and_fund_name,
+        NotifyConstants.APPLICATION_FIELD: create_qa_base64file(application_with_form_json_and_fund_name, True),
         NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_data.contact_email,
     }
+    del contents[NotifyConstants.APPLICATION_FIELD]["forms"]
+    full_name = account.full_name
 
     if eoi_results:
         eoi_decision = eoi_results["decision"]
-        if eoi_decision == Decision.FAIL:
-            return  # we don't send emails for a failure
-
-        full_name = (
-            account.full_name
-            if account.full_name
-            else map_application_key_fields(
+        if not full_name:
+            full_name = map_application_key_fields(
                 application_with_form_json,
                 ROUND_ID_TO_KEY_REPORT_MAPPING[application.round_id],
                 application.round_id,
             ).get("lead_contact_name", "")
-        )
 
-        if Decision(eoi_decision) == Decision.PASS:  # EOI Full pass
-            notify_template = Config.NOTIFY_TEMPLATE_EOI_PASS
+        match eoi_decision:
+            case Decision.FAIL:
+                return  # we don't send emails for a failure
 
-        elif Decision(eoi_decision) == Decision.PASS_WITH_CAVEATS:  # EOI Pass with caveats
-            notify_template = Config.NOTIFY_TEMPLATE_EOI_PASS_W_CAVEATS
-            contents = [NotifyConstants.APPLICATION_CAVEATS] = (eoi_results["caveats"],)
+            case Decision.PASS:
+                notify_template = Config.NOTIFY_TEMPLATE_EOI_PASS
+
+            case Decision.PASS_WITH_CAVEATS:
+                notify_template = Config.NOTIFY_TEMPLATE_EOI_PASS_W_CAVEATS
+                contents[NotifyConstants.APPLICATION_CAVEATS] = eoi_results["caveats"]
     else:
         notify_template = Config.NOTIFY_TEMPLATE_SUBMIT_APPLICATION
-        eoi_decision = None
-        full_name = account.full_name
 
-    contents["application"] = create_qa_base64file(contents.get("application"), True)
-    del contents["application"]["forms"]
     message_id = Notification.send(
         notify_template,
         account.email,
