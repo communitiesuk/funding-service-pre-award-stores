@@ -174,8 +174,9 @@ def derive_application_values(application_json):  # noqa: C901 - historical sadn
         location_data = None
         if address_key := field_mappings["location"]:
             address = get_answer_value(application_json, address_key)
-            raw_postcode = address.split(",")[-1].strip().replace(" ", "").upper()
-            location_data = get_location_json_from_postcode(raw_postcode)
+            if address:
+                raw_postcode = address.split(",")[-1].strip().replace(" ", "").upper()
+                location_data = get_location_json_from_postcode(raw_postcode)
 
         derived_values["funding_amount_requested"] = funding_one + funding_two
         derived_values["asset_type"] = asset_type
@@ -183,7 +184,7 @@ def derive_application_values(application_json):  # noqa: C901 - historical sadn
             derived_values["location_json_blob"] = location_data
         else:
             derived_values["location_json_blob"]["error"] = (
-                True if fund_round_data_key_mappings[fund_round_shortname]["location"] else False
+                True if address_key else False
             )  # if location is not mandatory for a fund, then treat error as `False`
     except Exception as e:
         current_app.logger.error(

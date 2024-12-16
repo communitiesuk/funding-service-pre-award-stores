@@ -257,7 +257,7 @@ def submit_application(application_id) -> Applications:
 
         application_type = "".join(application.reference.split("-")[:1])
 
-        application_as_dict = application.as_dict()
+        application_as_dict = get_application(application_id, include_forms=True, as_json=True)
 
         derived_values = derive_application_values(application_as_dict)
 

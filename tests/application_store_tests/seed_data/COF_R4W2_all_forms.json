@@ -1,0 +1,1508 @@
+{
+    "id": "0260c133-f544-48bb-a9a3-33562020f47b",
+    "forms": [
+        {
+            "name": "organisation-information-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "WWWWxy",
+                            "type": "text",
+                            "title": "Your expression of interest (EOI) application reference",
+                            "answer": "ANON-###-###-###"
+                        },
+                        {
+                            "key": "YdtlQZ",
+                            "type": "text",
+                            "title": "Organisation name",
+                            "answer": "Muller, Cremin and Quigley"
+                        },
+                        {
+                            "key": "iBCGxY",
+                            "type": "list",
+                            "title": "Does your organisation use any other names?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "Organisation names"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "PHFkCs",
+                            "type": "text",
+                            "title": "Alternative names of your organisation",
+                            "answer": "Muller, Cremin and Quigley"
+                        },
+                        {
+                            "key": "QgNhXX",
+                            "type": "text",
+                            "title": "Alternative names of your organisation - Alternative name 2 ",
+                            "answer": null
+                        },
+                        {
+                            "key": "XCcqae",
+                            "type": "text",
+                            "title": "Alternative names of your organisation - Alternative name 3 ",
+                            "answer": null
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "Alternative names of your organisation"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "emVGxS",
+                            "type": "freeText",
+                            "title": "What is your organisation's main purpose?",
+                            "answer": "<p>Test Org Form</p>"
+                        },
+                        {
+                            "key": "btTtIb",
+                            "type": "freeText",
+                            "title": "Tell us about your organisation's main activities",
+                            "answer": "<p>Test Org Form</p>"
+                        },
+                        {
+                            "key": "SkocDi",
+                            "type": "freeText",
+                            "title": "Tell us about your organisation's main activities - Activity 2 ",
+                            "answer": null
+                        },
+                        {
+                            "key": "CNeeiC",
+                            "type": "freeText",
+                            "title": "Tell us about your organisation's main activities - Activity 3 ",
+                            "answer": null
+                        },
+                        {
+                            "key": "BBlCko",
+                            "type": "list",
+                            "title": "Have you delivered projects like this before?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "Purpose and activities"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "wxCszQ",
+                            "type": "freeText",
+                            "title": "Describe your previous projects",
+                            "answer": "<p>Test Org Form</p>"
+                        },
+                        {
+                            "key": "QJFQgi",
+                            "type": "freeText",
+                            "title": "Describe your previous projects - Project 2 ",
+                            "answer": null
+                        },
+                        {
+                            "key": "DGNWqE",
+                            "type": "freeText",
+                            "title": "Describe your previous projects - Project 3 ",
+                            "answer": null
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "Previous projects similar to this one"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "lajFtB",
+                            "type": "list",
+                            "title": "Type of organisation",
+                            "answer": "Trust port"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "How your organisation is classified"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "GlPmCX",
+                            "type": "text",
+                            "title": "Company registration number",
+                            "answer": "3680065952888946"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "Company registration details"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "GvPSna",
+                            "type": "list",
+                            "title": "Which regulatory body is your company registered with?",
+                            "answer": "Companies House"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "Registration details"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "DwfHtk",
+                            "type": "list",
+                            "title": "Is your organisation a trading subsidiary of a parent company?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "Trading subsidiaries"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "MPNlZx",
+                            "type": "text",
+                            "title": "Name of parent organisation",
+                            "answer": "Muller, Cremin and Quigley"
+                        },
+                        {
+                            "key": "MyiYMw",
+                            "type": "date",
+                            "title": "Date parent organisation was established",
+                            "answer": "2024-01-01"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "Parent organisation details"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "ZQolYb",
+                            "type": "text",
+                            "title": "Organisation address",
+                            "answer": "9 Josiane Approach, Birchett Road, Batz Place, Hampshire, GU11 1LY"
+                        },
+                        {
+                            "key": "zsoLdf",
+                            "type": "list",
+                            "title": "Is your correspondence address different to the organisation address?",
+                            "answer": false
+                        },
+                        {
+                            "key": "FhbaEy",
+                            "type": "text",
+                            "title": "Website and social media",
+                            "answer": "https://twitter.com/luhc"
+                        },
+                        {
+                            "key": "FcdKlB",
+                            "type": "text",
+                            "title": "Website and social media - Link or username 2",
+                            "answer": null
+                        },
+                        {
+                            "key": "BzxgDA",
+                            "type": "text",
+                            "title": "Website and social media - Link or username 3",
+                            "answer": null
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "Organisation address"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "hnLurH",
+                            "type": "list",
+                            "title": "Is your application a joint bid in partnership with other organisations?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "Joint applications"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "APSjeB",
+                            "type": "text",
+                            "title": "Partner organisation name",
+                            "answer": "Muller, Cremin and Quigley"
+                        },
+                        {
+                            "key": "biTJjF",
+                            "type": "text",
+                            "title": "Partner organisation address",
+                            "answer": "9 Josiane Approach, Birchett Road, Batz Place, Hampshire, GU11 1LY"
+                        },
+                        {
+                            "key": "IkmvEt",
+                            "type": "freeText",
+                            "title": "Tell us about your partnership and how you plan to work together",
+                            "answer": "<p>Test Org Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "JBqDtK",
+                    "question": "Partner organisation details"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "project-information-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "pWwCRM",
+                            "type": "list",
+                            "title": "Have you applied to the Community Ownership Fund before?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "qsnIGd",
+                    "question": "Previous Community Ownership Fund applications"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "paawsj",
+                            "type": "list",
+                            "title": "Was your application successful?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "qsnIGd",
+                    "question": "Successful Community Ownership Fund applications"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "ACppgI",
+                            "type": "freeText",
+                            "title": "Describe the project for which you were given funding",
+                            "answer": "<p>Test Project Information Form</p>"
+                        },
+                        {
+                            "key": "yuvajR",
+                            "type": "text",
+                            "title": "Amount of funding received",
+                            "answer": "12"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "qsnIGd",
+                    "question": "Projects previously funded by the Community Ownership Fund"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "apGjFS",
+                            "type": "text",
+                            "title": "Project name",
+                            "answer": "Community Ownership Fund E2E Journey Ortiz, Lakin and Gutkowski Project "
+                        },
+                        {
+                            "key": "bEWpAj",
+                            "type": "freeText",
+                            "title": "Tell us how the asset is currently being used, or how it has been used before, and why it's important to the community",
+                            "answer": "<p>Test Project Information Form</p>"
+                        },
+                        {
+                            "key": "uypCNM",
+                            "type": "freeText",
+                            "title": "Give a brief summary of your project, including what you hope to achieve",
+                            "answer": "<p>Test Project Information Form</p>"
+                        },
+                        {
+                            "key": "AgeRbd",
+                            "type": "freeText",
+                            "title": "Tell us about the planned activities and/or services that will take place in the asset",
+                            "answer": "<p>Test Project Information Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "qsnIGd",
+                    "question": "Project name and summary"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "EfdliG",
+                            "type": "text",
+                            "title": "Address of the community asset",
+                            "answer": "919 Carlo Grove, Birchett Road, Little Kutch, Hampshire, GU11 1LY"
+                        },
+                        {
+                            "key": "fIEUcb",
+                            "type": "text",
+                            "title": " In which constituency is your asset?",
+                            "answer": "Aldershot"
+                        },
+                        {
+                            "key": "SWfcTo",
+                            "type": "text",
+                            "title": "In which local council area is your asset?",
+                            "answer": "Rushmoor"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "qsnIGd",
+                    "question": "Address of the asset"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "applicant-information-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "SnLGJE",
+                            "type": "text",
+                            "title": "Name oflead contact",
+                            "answer": "Wilhelmine"
+                        },
+                        {
+                            "key": "qRDTUc",
+                            "type": "text",
+                            "title": "Lead contact job title",
+                            "answer": "Chief Usability Coordinator"
+                        },
+                        {
+                            "key": "NlHSBg",
+                            "type": "text",
+                            "title": "Lead contact email address",
+                            "answer": "Judd.Rempel50@yahoo.com"
+                        },
+                        {
+                            "key": "FhBkJQ",
+                            "type": "text",
+                            "title": "Lead contact telephone number",
+                            "answer": "0161 289 0881"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "ZuHuGk",
+                    "question": "Lead contact details"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "risk-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "EODncR",
+                            "type": "text",
+                            "title": "Risks to your project (document upload)",
+                            "answer": "sample.txt"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "HKdODf",
+                    "question": "Your project risk register"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "upload-business-plan-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "ndpQJk",
+                            "type": "text",
+                            "title": "Upload business plan",
+                            "answer": "sample.txt"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "xtwqlH",
+                    "question": "Your business plan"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "community-representation-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "ReomFo",
+                            "type": "freeText",
+                            "title": "List the members of your board",
+                            "answer": "<p>Test Community Representation Form</p>"
+                        },
+                        {
+                            "key": "fjVmOt",
+                            "type": "freeText",
+                            "title": "Tell us about your governance and membership structures",
+                            "answer": "<p>Test Community Representation Form</p>"
+                        },
+                        {
+                            "key": "GETNxN",
+                            "type": "freeText",
+                            "title": "Explain how you'll consider the views of the community in the running of the asset",
+                            "answer": "<p>Test Community Representation Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "KbnmOO",
+                    "question": "How you’ll run the asset"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "funding-required-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "ABROnB",
+                            "type": "text",
+                            "title": "Capital funding request",
+                            "answer": "762"
+                        },
+                        {
+                            "key": "hJkmBS",
+                            "type": "list",
+                            "title": "If successful,will you use your funding in the next 12 months?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bgUGuD",
+                    "question": "Capital funding request"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "qQLyXL",
+                            "type": "multiInput",
+                            "title": "Capital costs",
+                            "answer": [
+                                {
+                                    "GLQlOh": "Capital Funding",
+                                    "JtwkMy": 762,
+                                    "LeTLDo": 762,
+                                    "pHZDWT": 762
+                                }
+                            ]
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bgUGuD",
+                    "question": "Capital costs for your project"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "DOvZvB",
+                            "type": "list",
+                            "title": "Have you secured any match funding yet?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bgUGuD",
+                    "question": "If you've secured match funding"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "MopCmv",
+                            "type": "multiInput",
+                            "title": "Secured match funding",
+                            "answer": [
+                                {
+                                    "JKqLWU": "Secured Match Funding",
+                                    "LVJcDC": 762
+                                }
+                            ]
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bgUGuD",
+                    "question": "Secured match funding"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "HgpNUe",
+                            "type": "list",
+                            "title": "Have you already spent the match funding you have secured?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bgUGuD",
+                    "question": "Have you already spent the match funding you have secured?"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "DmgsiG",
+                            "type": "list",
+                            "title": "Have you identified, but not yet secured, any additional match funding?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bgUGuD",
+                    "question": "If you’ve identified further match funding"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "vEOdBS",
+                            "type": "multiInput",
+                            "title": "Unsecured match funding",
+                            "answer": [
+                                {
+                                    "THOdae": 762,
+                                    "iMJdfs": "Unsecured Match Funding"
+                                }
+                            ]
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bgUGuD",
+                    "question": "Unsecured match funding"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "matkNH",
+                            "type": "list",
+                            "title": "Are you applying for revenue funding from the Community Ownership Fund? (optional)",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bgUGuD",
+                    "question": "Revenue funding"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "tSKhQQ",
+                            "type": "multiInput",
+                            "title": "Revenue costs (optional)",
+                            "answer": [
+                                {
+                                    "UyaAHw": 762,
+                                    "hGsUaZ": "Revenue Costs"
+                                }
+                            ]
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bgUGuD",
+                    "question": "Revenue costs (optional)"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "XPDbsl",
+                            "type": "freeText",
+                            "title": "Tell us how the revenue funding you've requested will help run the asset",
+                            "answer": "<p>Tell us how the revenue funding you've requested will help run the asset</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bgUGuD",
+                    "question": "How you'll use revenue funding"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "skills-and-resources-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "XXGyzn",
+                            "type": "freeText",
+                            "title": "Describe any relevant experience you have delivering similar projects or running an asset",
+                            "answer": "<p>Test Skills And Resources Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "eLpYFr",
+                    "question": "Your experience running similar assets"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "Uaeyae",
+                            "type": "list",
+                            "title": "Do you have plans to recruit people to help you run the asset?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "eLpYFr",
+                    "question": "Recruitment plans"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "yHXVSA",
+                            "type": "freeText",
+                            "title": "Tells us about the roles you'll recruit",
+                            "answer": "<p>Test Skills And Resources Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "eLpYFr",
+                    "question": "Roles you’ll recruit to help you run the asset"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "inclusiveness-and-integration-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "mgIesb",
+                            "type": "freeText",
+                            "title": "Tell us how the asset will be accountable to local people, and involve them in its running",
+                            "answer": "<p>Test Inclusiveness and Integration Form</p>"
+                        },
+                        {
+                            "key": "lQEkep",
+                            "type": "freeText",
+                            "title": "Describe anything that might prevent people from using the asset or participating in its running",
+                            "answer": "<p>Test Inclusiveness and Integration Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "eCZBSV",
+                    "question": "How you’ll make the asset inclusive"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "asset-information-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "oXGwlA",
+                            "type": "list",
+                            "title": "Asset type",
+                            "answer": "cinema"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "How the asset is used in the community"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "LaxeJN",
+                            "type": "list",
+                            "title": "How do you intend to take community ownership of the asset?",
+                            "answer": "buy-the-asset"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "The asset in community ownership"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "tTOrEp",
+                            "type": "text",
+                            "title": "Please upload evidence that shows the asset valuation (if you are buying the asset) or the lease agreement (if you are leasing the asset).",
+                            "answer": "sample.txt"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Upload asset valuation or lease agreement"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "wAUFqr",
+                            "type": "list",
+                            "title": "Do you know who currently owns your asset?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Who owns the asset"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "FOURVe",
+                            "type": "text",
+                            "title": "Name of current asset owner",
+                            "answer": "Laura White"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Who currently owns your asset"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "XPcbJx",
+                            "type": "freeText",
+                            "title": "Describe the expected sale process, or the proposed terms of your lease if you are planning to rent the asset",
+                            "answer": "<p>Test Asset Information Form</p>"
+                        },
+                        {
+                            "key": "jGjScT",
+                            "type": "date",
+                            "title": "Expected date of sale or lease",
+                            "answer": "2022-12-01"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Expected terms of your ownership or lease"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "VGXXyq",
+                            "type": "list",
+                            "title": "Is your assetcurrently publicly owned?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Public ownership"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "rNYmXq",
+                            "type": "text",
+                            "title": "Tell us about the person you have spoken to at the relevant public body about the asset",
+                            "answer": "Laura White"
+                        },
+                        {
+                            "key": "SiOmZn",
+                            "type": "text",
+                            "title": "Job title of contact",
+                            "answer": "Product Branding Planner"
+                        },
+                        {
+                            "key": "XXVXuj",
+                            "type": "text",
+                            "title": "Organisation name",
+                            "answer": "Collins, Emard and Bernier"
+                        },
+                        {
+                            "key": "MIqglh",
+                            "type": "list",
+                            "title": "When you buy or lease a publicly owned asset, the public authority cannot transfer statutory services or duties to the community group.",
+                            "answer": [
+                                "confirm"
+                            ]
+                        },
+                        {
+                            "key": "JdEmqn",
+                            "type": "list",
+                            "title": "Grants from this fund cannot be used to buy the freehold or premium on the lease of a publicly owned asset. Money must only be used for renovation and refurbishment costs",
+                            "answer": [
+                                "confirm"
+                            ]
+                        },
+                        {
+                            "key": "RFTloT",
+                            "type": "text",
+                            "title": "Upload evidence to confirm the above information and that the asset is at risk",
+                            "answer": "sample.txt"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Public ownership details and declarations"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "qlqyUq",
+                            "type": "list",
+                            "title": "Why is the asset at risk of closure?",
+                            "answer": [
+                                "Sale",
+                                "Listed for disposal"
+                            ]
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Risk of closure"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "QPIPjx",
+                            "type": "date",
+                            "title": "When was the asset listed?",
+                            "answer": "2022-12-01"
+                        },
+                        {
+                            "key": "OJWGGr",
+                            "type": "text",
+                            "title": "Provide a link to the listing",
+                            "answer": "https://twitter.com/luhc"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Asset listing details"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "iqnlTk",
+                            "type": "list",
+                            "title": "Is this a registered Asset of Community Value (ACV)?",
+                            "answer": false
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Assets of community value"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "mZwrmI",
+                            "type": "list",
+                            "title": "Are there assets or services of a similar type available locally?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Local service provision"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "BfgLCc",
+                            "type": "list",
+                            "title": "Is your asset different from what is available locally?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Local service provision"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "WTZoVD",
+                            "type": "freeText",
+                            "title": "Tell us how and why your asset or the service is different",
+                            "answer": "<p>Test Asset Information Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Local service provision"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "GEJNWF",
+                            "type": "freeText",
+                            "title": "How accessible is the closest asset or service?",
+                            "answer": "<p>Test Asset Information Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Local service provision"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "CFFsxV",
+                            "type": "list",
+                            "title": "Does part of yourproject include a commercial aspect?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Local service provision"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "FDZQTQ",
+                            "type": "freeText",
+                            "title": "Tell us how the commercial aspect relates to the other services youprovide",
+                            "answer": "<p>Test Asset Information Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "wxYZcT",
+                    "question": "Local service provision"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "community-engagement-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "azCutK",
+                            "type": "freeText",
+                            "title": "Tell us how you have engaged with the community aboutyour intention to take ownership of the asset",
+                            "answer": "<p>Test Community Engagement Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "lmdhVN",
+                    "question": "How you've engaged with the community"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "jAhuWN",
+                            "type": "freeText",
+                            "title": "Describe your fundraising activities",
+                            "answer": "<p>Test Community Engagement Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "lmdhVN",
+                    "question": "Your fundraising activities"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "HYsezC",
+                            "type": "freeText",
+                            "title": "Tell us about any partnerships you've formed, and how they'll help the project be successful",
+                            "answer": "<p>Test Community Engagement Form</p>"
+                        },
+                        {
+                            "key": "GGBgBY",
+                            "type": "freeText",
+                            "title": "Tell us how your project supports any wider local plans",
+                            "answer": "<p>Test Community Engagement Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "lmdhVN",
+                    "question": "Partnerships and local plans"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "community-benefits-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "pqYxJO",
+                            "type": "list",
+                            "title": "What community benefits do you expect to deliver with this project?",
+                            "answer": [
+                                "community-pride"
+                            ]
+                        },
+                        {
+                            "key": "lgfiGB",
+                            "type": "freeText",
+                            "title": "Tell us about these benefits in detail, and how the asset's activities will help deliver them",
+                            "answer": "<p>Test Community Benefits Form</p>"
+                        },
+                        {
+                            "key": "zKKouR",
+                            "type": "freeText",
+                            "title": "Explain how you plan to deliver and sustainthese benefits over time",
+                            "answer": "<p>Test Community Benefits Form</p>"
+                        },
+                        {
+                            "key": "ZyIQGI",
+                            "type": "freeText",
+                            "title": "Tell us how you'll make sure the whole community benefits from the asset",
+                            "answer": "<p>Test Community Benefits Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "PTOBPV",
+                    "question": "Benefits you'll deliver"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "local-support-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "tDVPnl",
+                            "type": "freeText",
+                            "title": "Tell us about the local support for your project",
+                            "answer": "<p>Tell us about the local support for your project</p>"
+                        },
+                        {
+                            "key": "bDWjTN",
+                            "type": "text",
+                            "title": "Upload supporting evidence (optional)",
+                            "answer": null
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "apkBSm",
+                    "question": "Your support for the project"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "operational-costs-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "qXNkfr",
+                            "type": "freeText",
+                            "title": "Summarise your income and operational costs for the running of the asset",
+                            "answer": "<p>Summarise your income and operational costs for the running of the asset</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "oSfXFZ",
+                    "question": "Forecasted income and operational costs to run the asset"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "community-use-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "zTcrYo",
+                            "type": "freeText",
+                            "title": "Who in the community currently uses the asset, or has used it in the past?",
+                            "answer": "<p>Test Community use/significance Form</p>"
+                        },
+                        {
+                            "key": "whlRYS",
+                            "type": "freeText",
+                            "title": "Tell us how losing the asset would affect, or has already affected, people in the community",
+                            "answer": "<p>Test Community use/significance Form</p>"
+                        },
+                        {
+                            "key": "NGSXHE",
+                            "type": "freeText",
+                            "title": "Why will the asset be lost without community intervention?",
+                            "answer": "<p>Test Community use/significance Form</p>"
+                        },
+                        {
+                            "key": "Ieudgn",
+                            "type": "freeText",
+                            "title": "Explain how the community will be better served with the asset under community ownership",
+                            "answer": "<p>Test Community use/significance Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "GMkooI",
+                    "question": "Who uses the asset"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "environmental-sustainability-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "dypuJs",
+                            "type": "freeText",
+                            "title": "Tell us how you have considered the environmental sustainability of your project",
+                            "answer": "<p>Test Environmental Sustainability Form</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "ljcxPd",
+                    "question": "How you've considered the environment"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "feasibility-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "iSbwDM",
+                            "type": "freeText",
+                            "title": "Tell us about the feasibility studies you have carried out for your project",
+                            "answer": "<p>Tell us about the feasibility studies you have carried out for your project</p>"
+                        },
+                        {
+                            "key": "jFPlEJ",
+                            "type": "list",
+                            "title": "Do you need to do any further feasibility work?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bBGnkL",
+                    "question": "Feasiblity studies you've carried out"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "WWdVTC",
+                            "type": "freeText",
+                            "title": "Describe the feasibility work you still need to complete",
+                            "answer": "<p>Describe the feasibility work you still need to complete</p>"
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "bBGnkL",
+                    "question": "Further feasibility work"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        },
+        {
+            "name": "declarations-cof",
+            "status": "COMPLETED",
+            "questions": [
+                {
+                    "fields": [
+                        {
+                            "key": "vSQKwD",
+                            "type": "list",
+                            "title": "Confirm you have considered subsidy control and state aid implications for your project, and the information you have given us is correct",
+                            "answer": false
+                        },
+                        {
+                            "key": "CQoLFp",
+                            "type": "list",
+                            "title": "Confirm youhave considered people with protected characteristics throughout the planning of your project",
+                            "answer": false
+                        },
+                        {
+                            "key": "jdPkiX",
+                            "type": "list",
+                            "title": "Confirm you have considered sustainability and the environment throughout the planning of your project, including compliance with the government's Net Zero ambitions",
+                            "answer": true
+                        },
+                        {
+                            "key": "qWuSCy",
+                            "type": "list",
+                            "title": "Confirm you have a bank account set up and associated with the organisation you are applying on behalf of",
+                            "answer": false
+                        },
+                        {
+                            "key": "tjZlml",
+                            "type": "list",
+                            "title": "Confirm that the information you've provided in this application is accurate to the best of your knowledge on the date of submission",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": "LkvizC",
+                    "question": "Agree to the final confirmations"
+                },
+                {
+                    "fields": [
+                        {
+                            "key": "markAsComplete",
+                            "type": "boolean",
+                            "title": "Do you want to mark this section as complete?",
+                            "answer": true
+                        }
+                    ],
+                    "status": "COMPLETED",
+                    "category": null,
+                    "question": "MarkAsComplete"
+                }
+            ]
+        }
+    ],
+    "status": "SUBMITTED",
+    "fund_id": "47aef2f5-3fcb-4d45-acb5-f0152b5f03c4",
+    "language": "en",
+    "round_id": "27ab26c2-e58e-4bfe-917d-64be10d16496",
+    "reference": "COF-R4W2-UCOVJO",
+    "account_id": "1e8884e2-b043-427f-ba09-7ec2ca409ef0",
+    "round_name": "Round 4 Window 2",
+    "started_at": "2024-12-13T13:53:41.573539",
+    "last_edited": "2024-12-13T13:58:28.478011",
+    "project_name": "Community Ownership Fund E2E Journey Ortiz, Lakin and Gutkowski Project ",
+    "date_submitted": "2024-12-13T13:58:37.579455+00:00"
+}
