@@ -10,7 +10,6 @@ from app import create_app # noqa: E402
 from account_store.db.models.account import Account
 from account_store.db.models.role import Role
 
-pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
 
 
 @pytest.fixture(scope="session")
