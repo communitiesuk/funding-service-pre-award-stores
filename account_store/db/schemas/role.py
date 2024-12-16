@@ -1,5 +1,4 @@
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow_sqlalchemy import auto_field
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 
 from db.models.role import Role
 

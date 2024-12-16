@@ -9,6 +9,4 @@ from config.envs.default import DefaultConfig as Config
 
 @configclass
 class TestConfig(Config):
-    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL").replace(
-        "postgres://", "postgresql://"
-    )
+    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL").replace("postgres://", "postgresql://")

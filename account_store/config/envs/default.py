@@ -4,8 +4,7 @@ import logging
 from os import environ
 from pathlib import Path
 
-from fsd_utils import CommonConfig
-from fsd_utils import configclass
+from fsd_utils import CommonConfig, configclass
 
 
 @configclass
@@ -19,7 +18,5 @@ class DefaultConfig(object):
     FSD_LOG_LEVEL = logging.WARNING
 
     # Database
-    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL", "").replace(
-        "postgres://", "postgresql://"
-    )
+    SQLALCHEMY_DATABASE_URI = environ.get("DATABASE_URL", "").replace("postgres://", "postgresql://")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
