@@ -93,7 +93,7 @@ unscored_sections = [
                                 "form_name": "spending-proposals-lpdf",
                                 "field_type": "checkboxesField",
                                 "presentation_type": "list",
-                                "question": "Which types of activities will this funding will be used to support?",
+                                "question": "Which types of activities will this funding be used to support?",
                             },
                             {
                                 "field_id": "cePdOW",
