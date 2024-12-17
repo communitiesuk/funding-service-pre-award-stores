@@ -10,147 +10,190 @@ from assessment_store.config.mappings.assessment_mapping_fund_round import (
 )
 from assessment_store.db.models.assessment_record import TagAssociation
 
+FIELD_DEFAULT_VALUE = "Not Available"
+
 
 def get_answer_value(application_json, answer_key):
-    return (
-        jsonpath_rw_ext.parse(f"$.forms[*].questions[*].fields[?(@.key == '{answer_key}')]")
-        .find(application_json)[0]
-        .value["answer"]
-    )
+    try:
+        return (
+            jsonpath_rw_ext.parse(f"$.forms[*].questions[*].fields[?(@.key == '{answer_key}')]")
+            .find(application_json)[0]
+            .value["answer"]
+        )
+    except Exception as e:
+        current_app.logger.warning(
+            "Could not extract answer from question {answer_key} in application: {application_id}.",
+            extra=dict(application_id=application_json["id"], answer_key=answer_key),
+            exc_info=e,
+        )
+        return None
 
 
 def get_answer_value_for_multi_input(application_json, answer_key, value_key):
-    answers = (
-        jsonpath_rw_ext.parse(f"$.forms[*].questions[*].fields[?(@.key == '{answer_key}')]")
-        .find(application_json)[0]
-        .value["answer"]
-    )
+    try:
+        answers = (
+            jsonpath_rw_ext.parse(f"$.forms[*].questions[*].fields[?(@.key == '{answer_key}')]")
+            .find(application_json)[0]
+            .value["answer"]
+        )
 
-    funding_one = 0
-    for answer in answers:
-        funding_one = funding_one + int(float(answer[value_key]))
-    return funding_one
+        funding_one = 0
+        for answer in answers:
+            funding_one = funding_one + int(float(answer[value_key]))
+        return funding_one
+    except Exception as e:
+        current_app.logger.warning(
+            "Could not extract answer from question {answer_key} in application: {application_id}.",
+            extra=dict(application_id=application_json["id"], answer_key=answer_key),
+            exc_info=e,
+        )
+        return None
 
 
 def get_location_json_from_postcode(raw_postcode):
     """Make a POST request to the postcodes.io API with the provided postcode and
     extract the location data of postcode."""
-    result = requests.post(
-        url="http://api.postcodes.io/postcodes",
-        json={"postcodes": [raw_postcode]},
-        headers={"Content-Type": "application/json"},
-    ).json()
+    try:
+        response = requests.post(
+            url="http://api.postcodes.io/postcodes",
+            json={"postcodes": [raw_postcode]},
+            headers={"Content-Type": "application/json"},
+        )
+        if response.status_code != 200:
+            current_app.logger.error(
+                "Failed requesting location data for postcode {postcode}. Received error response {response}",
+                extra=dict(postcode=raw_postcode, response=response),
+            )
+            return None
 
-    postcode_data = result["result"][0]["result"]
-    location_data = (
-        {
-            "error": False,
-            "postcode": raw_postcode,
-            "county": postcode_data["admin_county"]
-            if postcode_data["admin_county"]
-            else postcode_data["admin_district"],
-            "region": postcode_data["region"]
-            if postcode_data["region"]
-            else postcode_data["european_electoral_region"],
-            "country": postcode_data["country"],
-            "constituency": postcode_data["parliamentary_constituency"],
-        }
-        if postcode_data
-        else None
-    )
-    return location_data
+        result = response.json()
+        postcode_data = result["result"][0]["result"]
+        location_data = (
+            {
+                "error": False,
+                "postcode": raw_postcode,
+                "county": postcode_data["admin_county"]
+                if postcode_data["admin_county"]
+                else postcode_data["admin_district"],
+                "region": postcode_data["region"]
+                if postcode_data["region"]
+                else postcode_data["european_electoral_region"],
+                "country": postcode_data["country"],
+                "constituency": postcode_data["parliamentary_constituency"],
+            }
+            if postcode_data
+            else None
+        )
+        return location_data
+
+    except Exception as e:
+        current_app.logger.error(
+            "Failed requesting location data for postcode {postcode}", exc_info=e, extra=dict(postcode=raw_postcode)
+        )
+        return None
 
 
 def derive_application_values(application_json):  # noqa: C901 - historical sadness
     # TODO: implement mapping function to match
     #  fund+round fields to derived values
-    derived_values = {}
     application_id = application_json["id"]
-    print(f"deriving values for application id: {application_id}.")
     fund_round_shortname = "".join(application_json["reference"].split("-")[:2])
+    derived_values = {
+        "application_id": application_id,
+        "project_name": ""
+        if application_json["project_name"] is None and fund_round_shortname == "COFEOI"
+        else application_json["project_name"],
+        "short_id": application_json["reference"],
+        "fund_id": application_json["fund_id"],
+        "round_id": application_json["round_id"],
+        "funding_amount_requested": 0,
+        "asset_type": "No asset type specified.",
+        "language": application_json["language"],
+        "location_json_blob": {
+            "error": False,
+            "postcode": FIELD_DEFAULT_VALUE,
+            "county": FIELD_DEFAULT_VALUE,
+            "region": FIELD_DEFAULT_VALUE,
+            "country": FIELD_DEFAULT_VALUE,
+            "constituency": FIELD_DEFAULT_VALUE,
+        },
+    }
 
-    # search for asset_type
+    field_mappings = fund_round_data_key_mappings.get(fund_round_shortname, None)
+    if not field_mappings:
+        # Don't throw an exception here as we want to soft-fail - ie the submission process still works, but devs are
+        # alerted to the lack of mappings
+        current_app.logger.error(
+            "No assessment data mappings for fund round [fund_round_shortname]. "
+            "Cannot derive values for application [application_id]",
+            extra=dict(fund_round_shortname=fund_round_shortname, application_id=application_id),
+        )
+        return derived_values
+
+    # Some funds don't map any fields, so don't bother with the rest of this function if that's the case
+    if all(field is None for field in field_mappings.values()):
+        return derived_values
+
+    current_app.logger.info(
+        "Deriving values for application id: {application_id}.", extra=dict(application_id=application_id)
+    )
+
     try:
+        # search for asset_type
         asset_type = "No asset type specified."
-        if asset_key := fund_round_data_key_mappings[fund_round_shortname]["asset_type"]:
-            asset_type = get_answer_value(application_json, asset_key)
-    except Exception:
-        print(f"Could not extract asset_type from application: {application_id}.")
+        if asset_key := field_mappings["asset_type"]:
+            asset_type = get_answer_value(application_json, asset_key) or FIELD_DEFAULT_VALUE
 
-    # search for capital funding
-    funding_field_type = fund_round_data_key_mappings.get(fund_round_shortname, {}).get("funding_field_type")
-    try:
+        # search for capital funding
+        funding_field_type = fund_round_data_key_mappings.get(fund_round_shortname, {}).get("funding_field_type")
         funding_one = 0
-        if funding_one_keys := fund_round_data_key_mappings[fund_round_shortname]["funding_one"]:
+        if funding_one_keys := field_mappings["funding_one"]:
             funding_one_keys = [funding_one_keys] if isinstance(funding_one_keys, str) else funding_one_keys
 
             if funding_field_type == "multiInputField" and len(funding_one_keys) > 1:
-                funding_one = get_answer_value_for_multi_input(
-                    application_json, funding_one_keys[0], funding_one_keys[1]
+                funding_one = (
+                    get_answer_value_for_multi_input(application_json, funding_one_keys[0], funding_one_keys[1]) or 0
                 )
             else:
                 for key in funding_one_keys:
-                    funding_one = funding_one + int(float(get_answer_value(application_json, key)))
+                    funding_one = funding_one + int(float(get_answer_value(application_json, key) or 0))
 
-    except Exception:
-        print("Could not extract funding_value_one from application: " + f"{application_id}.")
-
-    # search for revenue funding
-    try:
+        # search for revenue funding
         funding_two = 0
-        if funding_two_keys := fund_round_data_key_mappings[fund_round_shortname]["funding_two"]:
+        if funding_two_keys := field_mappings["funding_two"]:
             funding_two_keys = [funding_two_keys] if isinstance(funding_two_keys, str) else funding_two_keys
             if funding_field_type == "multiInputField" and len(funding_two_keys) > 1:
-                funding_two = get_answer_value_for_multi_input(
-                    application_json, funding_two_keys[0], funding_two_keys[1]
+                funding_two = (
+                    get_answer_value_for_multi_input(application_json, funding_two_keys[0], funding_two_keys[1]) or 0
                 )
             else:
                 for key in funding_two_keys:
-                    funding_two = funding_two + int(float(get_answer_value(application_json, key)))
-    except Exception:
-        print("Could not extract funding_value_two from application: " + f"{application_id}.")
+                    funding_two = funding_two + int(float(get_answer_value(application_json, key) or 0))
 
-    # search for location postcode
-    try:
-        location_data = ""
-        if address_key := fund_round_data_key_mappings[fund_round_shortname]["location"]:
+        # search for location postcode
+        location_data = None
+        if address_key := field_mappings["location"]:
             address = get_answer_value(application_json, address_key)
-            raw_postcode = address.split(",")[-1].strip().replace(" ", "").upper()
-            location_data = get_location_json_from_postcode(raw_postcode)
-            if not location_data:
-                print(f"Invalid postcode '{raw_postcode}' provided for the application: {application_id}.")
-    except Exception:
-        print("Could not extract address from application: " + f"{application_id}.")
+            if address:
+                raw_postcode = address.split(",")[-1].strip().replace(" ", "").upper()
+                location_data = get_location_json_from_postcode(raw_postcode)
 
-    derived_values["application_id"] = application_id
-    if application_json["project_name"] is None and fund_round_shortname == "COFEOI":
-        derived_values["project_name"] = (
-            ""  # EOI does not have a project name form compoent. Maybe this has to become nullable?
+        derived_values["funding_amount_requested"] = funding_one + funding_two
+        derived_values["asset_type"] = asset_type
+        if location_data:
+            derived_values["location_json_blob"] = location_data
+        else:
+            derived_values["location_json_blob"]["error"] = (
+                True if address_key else False
+            )  # if location is not mandatory for a fund, then treat error as `False`
+    except Exception as e:
+        current_app.logger.error(
+            # Shouldn't ever get here, but quick catch all for the interim removal of the queue
+            # and not breaking the submit process
+            "Unexpected error when deriving values for application {application_id}",
+            exc_info=e,
+            extra=dict(application_id=application_id),
         )
-    else:
-        derived_values["project_name"] = application_json["project_name"]
-
-    derived_values["short_id"] = application_json["reference"]
-    derived_values["fund_id"] = application_json["fund_id"]
-    derived_values["round_id"] = application_json["round_id"]
-    derived_values["funding_amount_requested"] = funding_one + funding_two
-    derived_values["asset_type"] = asset_type
-    derived_values["language"] = application_json["language"]
-    if location_data:
-        derived_values["location_json_blob"] = location_data
-    else:
-        derived_values["location_json_blob"] = {
-            "error": True
-            if fund_round_data_key_mappings[fund_round_shortname]["location"]
-            else False  # if location is not mandatory for a fund, then treat error as `False`
-        }
-
-        FIELD_DEFAULT_VALUE = "Not Available"
-        derived_values["location_json_blob"]["county"] = FIELD_DEFAULT_VALUE
-        derived_values["location_json_blob"]["region"] = FIELD_DEFAULT_VALUE
-        derived_values["location_json_blob"]["country"] = FIELD_DEFAULT_VALUE
-        derived_values["location_json_blob"]["constituency"] = FIELD_DEFAULT_VALUE
-        derived_values["location_json_blob"]["postcode"] = FIELD_DEFAULT_VALUE
 
     return derived_values
 

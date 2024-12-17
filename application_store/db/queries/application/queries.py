@@ -8,17 +8,20 @@ from typing import Optional
 
 from flask import current_app
 from fsd_utils import extract_questions_and_answers, generate_text_of_application
-from sqlalchemy import func, select
+from sqlalchemy import exc, func, select
+from sqlalchemy.dialects.postgresql import insert as postgres_insert
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload, noload
 from sqlalchemy.sql.expression import Select
 
-from application_store.db.exceptions import ApplicationError
+from application_store.db.exceptions import ApplicationError, SubmitError
 from application_store.db.models import Applications
 from application_store.db.models.application.enums import Status as ApplicationStatus
 from application_store.db.schemas import ApplicationSchema
 from application_store.external_services import get_fund, get_round
 from application_store.external_services.aws import FileData, list_files_by_prefix
+from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
+from assessment_store.db.queries.assessment_records._helpers import derive_application_values
 from config import Config
 from db import db
 
@@ -239,17 +242,58 @@ def search_applications(**params):
 
 def submit_application(application_id) -> Applications:
     current_app.logger.info(
-        "Processing database submission for application_id: '{application_id}.",
+        "Submitting application {application_id} and importing to assessment store",
         extra=dict(application_id=application_id),
     )
-    application = get_application(application_id)
-    application.date_submitted = datetime.now(timezone.utc).isoformat()
+    try:
+        application = get_application(application_id, include_forms=True)
 
-    all_application_files = list_files_by_prefix(application_id)
-    application = process_files(application, all_application_files)
+        all_application_files = list_files_by_prefix(application_id)
+        application = process_files(application, all_application_files)
 
-    application.status = "SUBMITTED"
-    db.session.commit()
+        # Mark the application as submitted
+        application.date_submitted = datetime.now(timezone.utc)
+        application.status = ApplicationStatus.SUBMITTED
+
+        application_type = "".join(application.reference.split("-")[:1])
+
+        application_as_dict = get_application(application_id, include_forms=True, as_json=True)
+
+        derived_values = derive_application_values(application_as_dict)
+
+        row = {
+            **derived_values,
+            "jsonb_blob": ApplicationSchema().dump(application),
+            "type_of_application": application_type,
+        }
+        stmt = postgres_insert(AssessmentRecord).values([row])
+
+        upsert_rows_stmt = stmt.on_conflict_do_nothing(index_elements=[AssessmentRecord.application_id]).returning(
+            AssessmentRecord.application_id
+        )
+
+        result = db.session.execute(upsert_rows_stmt)
+
+        # Check if the inserted application is in result
+        inserted_application_ids = [item.application_id for item in result]
+        if not len(inserted_application_ids):
+            current_app.logger.warning(
+                "Application already exists in the database: {app_id}", extra=dict(app_id=row["application_id"])
+            )
+        else:
+            current_app.logger.info(
+                "Successfully inserted application: {app_id}", extra=dict(app_id=row["application_id"])
+            )
+        db.session.commit()
+    except exc.SQLAlchemyError as e:
+        db.session.rollback()
+        current_app.logger.error(
+            msg="Error occurred while submitting application {application_id}",
+            exc_info=e,
+            extra=dict(application_id=row["application_id"]),
+        )
+        raise SubmitError(application_id=application_id) from e
+
     return application
 
 

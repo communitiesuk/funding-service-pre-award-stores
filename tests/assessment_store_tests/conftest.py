@@ -1,3 +1,4 @@
+import copy
 import json
 import random
 from uuid import uuid4
@@ -7,7 +8,9 @@ import pytest
 from app import create_app
 from assessment_store.db.models import AssessmentRound
 from assessment_store.db.models.assessment_record import AssessmentRecord
-from assessment_store.db.models.assessment_record.allocation_association import AllocationAssociation
+from assessment_store.db.models.assessment_record.allocation_association import (
+    AllocationAssociation,
+)
 from assessment_store.db.models.assessment_record.tag_association import TagAssociation
 from assessment_store.db.models.comment import Comment, CommentsUpdate
 from assessment_store.db.models.flags.assessment_flag import AssessmentFlag
@@ -16,13 +19,23 @@ from assessment_store.db.models.qa_complete import QaComplete
 from assessment_store.db.models.score import Score
 from assessment_store.db.models.tag.tag_types import TagType
 from assessment_store.db.queries import bulk_insert_application_record
-from assessment_store.db.queries.scores.queries import _insert_scoring_system, insert_scoring_system_for_round_id
+from assessment_store.db.queries.scores.queries import (
+    _insert_scoring_system,
+    insert_scoring_system_for_round_id,
+)
 from assessment_store.db.queries.tags.queries import insert_tags
 from assessment_store.db.schemas.schemas import TagSchema, TagTypeSchema
 from tests.assessment_store_tests._sql_infos import attach_listeners
 
 with open("tests/assessment_store_tests/test_data/hand-crafted-apps.json", "r") as f:
     test_input_data = json.load(f)
+with open("tests/assessment_store_tests/test_data/ctdf-application.json", "r") as f:
+    ctdf_input_data = json.load(f)
+
+
+@pytest.fixture
+def ctdf_application():
+    yield copy.deepcopy(ctdf_input_data)
 
 
 @pytest.fixture(scope="function")

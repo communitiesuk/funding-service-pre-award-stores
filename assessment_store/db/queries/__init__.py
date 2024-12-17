@@ -3,7 +3,6 @@ from .assessment_records.queries import (
     delete_assessment_record,
     find_answer_by_key_runner,
     get_metadata_for_fund_round_id,
-    insert_application_record,
 )
 from .comments.queries import create_comment, get_comments_from_db
 from .progress.queries import get_progress_for_app
@@ -20,7 +19,6 @@ __all__ = [
     "insert_tags",
     "get_metadata_for_fund_round_id",
     "bulk_insert_application_record",
-    "insert_application_record",
     "find_answer_by_key_runner",
     "get_scores_for_app_sub_crit",
     "create_score_for_app_sub_crit",

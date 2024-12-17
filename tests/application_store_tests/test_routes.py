@@ -632,42 +632,6 @@ def test_put_returns_400_on_submitted_application(flask_test_client, _db, seed_a
     assert b"Not allowed to edit a submitted application." in response.content
 
 
-@mock_aws
-@pytest.mark.apps_to_insert([test_application_data[0]])
-def test_successful_submitted_application(
-    flask_test_client,
-    mock_successful_submit_notification,
-    _db,
-    seed_application_records,
-    mocker,
-    mock_get_fund_data,
-    mock_get_round,
-):
-    """
-    GIVEN We have a functioning Application Store API
-    WHEN an application is submitted
-    THEN a 201 response is received in the correct format
-    """
-    with mock.patch(
-        "application_store.api.routes.application.routes.ApplicationsView._get_sqs_client"
-    ) as mock_get_sqs_client:
-        mock_get_sqs_client.return_value = _mock_aws_client()
-        mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
-        seed_application_records[0].status = "SUBMITTED"
-
-        _db.session.add(seed_application_records[0])
-        _db.session.commit()
-
-        # mock successful notification
-        response = flask_test_client.post(
-            f"/application/applications/{seed_application_records[0].id}/submit",
-            follow_redirects=True,
-        )
-
-        assert response.status_code == 201
-        assert all(k in response.json() for k in ("id", "email", "reference", "eoi_decision"))
-
-
 @pytest.mark.apps_to_insert([test_application_data[0]])
 def test_stage_unsubmitted_application_to_queue_fails(
     flask_test_client,

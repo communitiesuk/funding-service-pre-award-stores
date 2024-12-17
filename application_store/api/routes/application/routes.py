@@ -1,18 +1,14 @@
-import json
 import time
 from typing import Optional
-from uuid import uuid4
 
 from flask import current_app, jsonify, request, send_file
 from flask.views import MethodView
-from fsd_utils import Decision, evaluate_response
-from fsd_utils.config.notify_constants import NotifyConstants
+from fsd_utils import evaluate_response
 from sqlalchemy.orm.exc import NoResultFound
 
 from application_store._helpers import get_blank_forms, order_applications
-from application_store.config.key_report_mappings.mappings import (
-    ROUND_ID_TO_KEY_REPORT_MAPPING,
-)
+from application_store._helpers.application import send_submit_notification
+from application_store.db.exceptions.submit import SubmitError
 from application_store.db.models.application.enums import Status
 from application_store.db.queries import (
     add_new_forms,
@@ -38,7 +34,6 @@ from application_store.db.queries.feedback import (
 )
 from application_store.db.queries.reporting.queries import (
     export_application_statuses_to_csv,
-    map_application_key_fields,
 )
 from application_store.db.queries.research import (
     retrieve_research_survey_data,
@@ -56,10 +51,7 @@ from application_store.external_services import (
 )
 from application_store.external_services.exceptions import (
     NotificationError,
-    SubmitError,
 )
-from application_store.external_services.models.notification import Notification
-from config import Config
 
 
 class ApplicationsView(MethodView):
@@ -183,131 +175,57 @@ class ApplicationsView(MethodView):
         if request.args.get("dont_send_email") == "true":
             should_send_email = False
 
+        # Do the submission
         try:
-            fund_id = get_fund_id(application_id)
-            fund_data = get_fund(fund_id)
             application = submit_application(application_id)
-            account = get_account(account_id=application.account_id)
-            round_data = get_round(fund_id, application.round_id)
-            application_with_form_json = get_application(application_id, as_json=True, include_forms=True)
-            language = application_with_form_json["language"]
-            fund_name = fund_data.name_json[language]
-            round_name = round_data.title_json[language]
-            application_with_form_json_and_fund_name = {
-                **application_with_form_json,
-                "fund_name": fund_name,
-                "round_name": round_name,
-                "prospectus_url": round_data.prospectus_url,
-            }
+        except SubmitError as submit_error:
+            return {"message": f"Unable to submit application {submit_error.application_id}"}, 500
 
-            self._send_submit_queue(application_id, application_with_form_json)
+        # Get EOI decision
+        fund_id = get_fund_id(application_id)
+        round_data = get_round(fund_id, application.round_id)
+        application_with_form_json = get_application(application_id, as_json=True, include_forms=True)
+        if round_data.is_expression_of_interest:
+            eoi_results = self.get_application_eoi_response(application_with_form_json)
+            eoi_decision = eoi_results["decision"]
+        else:
+            eoi_results = None
+            eoi_decision = None
 
-            if round_data.is_expression_of_interest:
-                full_name = (
-                    account.full_name
-                    if account.full_name
-                    else map_application_key_fields(
-                        application_with_form_json,
-                        ROUND_ID_TO_KEY_REPORT_MAPPING[application.round_id],
-                        application.round_id,
-                    ).get("lead_contact_name", "")
-                )
-                eoi_results = self.get_application_eoi_response(application_with_form_json)
-                eoi_decision = eoi_results["decision"]
-                contents = {
-                    NotifyConstants.APPLICATION_FIELD: application_with_form_json_and_fund_name,
-                    NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_data.contact_email,
-                    NotifyConstants.APPLICATION_CAVEATS: eoi_results["caveats"],
-                }
-                if Decision(eoi_decision) == Decision.PASS:  # EOI Full pass
-                    notify_template = Config.NOTIFY_TEMPLATE_EOI_PASS
-
-                elif Decision(eoi_decision) == Decision.PASS_WITH_CAVEATS:  # EOI Pass with caveats
-                    notify_template = Config.NOTIFY_TEMPLATE_EOI_PASS_W_CAVEATS
-                else:
-                    notify_template = None
-                    should_send_email = False
-            else:
-                notify_template = Config.NOTIFY_TEMPLATE_SUBMIT_APPLICATION
-                eoi_decision = None
-                full_name = account.full_name
-                contents = {
-                    NotifyConstants.APPLICATION_FIELD: application_with_form_json_and_fund_name,
-                    NotifyConstants.MAGIC_LINK_CONTACT_HELP_EMAIL_FIELD: round_data.contact_email,
-                }
-
+        # Send notification
+        try:
             if should_send_email:
-                contents["application"] = create_qa_base64file(contents.get("application"), True)
-                del contents["application"]["forms"]
-                message_id = Notification.send(
-                    notify_template,
-                    account.email,
-                    full_name.title() if full_name else None,
-                    contents,
+                fund_data = get_fund(fund_id)
+                account = get_account(account_id=application.account_id)
+                language = application_with_form_json["language"]
+                application_with_form_json_and_fund_name = {
+                    **application_with_form_json,
+                    "fund_name": fund_data.name_json[language],
+                    "round_name": round_data.title_json[language],
+                    "prospectus_url": round_data.prospectus_url,
+                }
+
+                send_submit_notification(
+                    application_with_form_json=application_with_form_json,
+                    eoi_results=eoi_results,
+                    account=account,
+                    application_with_form_json_and_fund_name=application_with_form_json_and_fund_name,
+                    application=application,
+                    round_data=round_data,
                 )
-                current_app.logger.info(
-                    "Message added to the queue msg_id: [{message_id}]",
-                    extra=dict(message_id=message_id),
-                )
-            return {
-                "id": application_id,
-                "reference": application_with_form_json["reference"],
-                "email": account.email,
-                "eoi_decision": eoi_decision,
-            }, 201
-        except KeyError as e:
-            current_app.logger.exception(
-                "Key error on processing application submissionfor application: '{application_id}'",
-                extra=dict(application_id=application_id),
-            )
-            return str(e), 500, {"x-error": "key error"}
-        except NotificationError as e:
+
+        except NotificationError:
             current_app.logger.exception(
                 "Notification error on sending SUBMIT notification for application {application_id}",
                 extra=dict(application_id=application_id),
             )
-            return str(e), 500, {"x-error": "notification error"}
-        except SubmitError as e:
-            current_app.logger.exception(
-                "Submit error on sending SUBMIT application {application_id}",
-                extra=dict(application_id=application_id),
-            )
-            return str(e), 500, {"x-error": "Submit error"}
-        except Exception as e:
-            current_app.logger.exception(
-                "Error on sending SUBMIT notification for application {application_id}",
-                extra=dict(application_id=application_id),
-            )
-            return str(e), 500, {"x-error": "Error"}
 
-    def _send_submit_queue(self, application_id, application_with_form_json):
-        """
-        Send message to sqs queue once application is submitted
-        """
-        application_attributes = {
-            "application_id": {"StringValue": application_id, "DataType": "String"},
-            "S3Key": {
-                "StringValue": "submit",
-                "DataType": "String",
-            },
-        }
-        try:
-            sqs_extended_client = self._get_sqs_client()
-            message_id = sqs_extended_client.submit_single_message(
-                queue_url=Config.AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL,
-                message=json.dumps(application_with_form_json),
-                message_group_id="import_applications_group",
-                message_deduplication_id=str(uuid4()),  # ensures message uniqueness
-                extra_attributes=application_attributes,
-            )
-            current_app.logger.info(
-                "Message sent to SQS queue and message id is [{message_id}]",
-                extra=dict(message_id=message_id),
-            )
-        except Exception as e:
-            current_app.logger.error("An error occurred while sending message")
-            current_app.logger.error(e)
-            raise SubmitError(message="Sorry, cannot submit the message") from e
+        return {
+            "id": application_id,
+            "reference": application_with_form_json["reference"],
+            "email": account.email,
+            "eoi_decision": eoi_decision,
+        }, 201
 
     def post_feedback(self):
         args = request.get_json()
@@ -390,12 +308,6 @@ class ApplicationsView(MethodView):
         eoi_schema = get_round_eoi_schema(application["fund_id"], application["round_id"], application["language"])
         result = evaluate_response(eoi_schema, application["forms"])
         return result
-
-    def _get_sqs_client(self):
-        sqs_extended_client = current_app.extensions["sqs_extended_client"]
-        if sqs_extended_client is not None:
-            return sqs_extended_client
-        current_app.logger.error("An error occurred while sending message since client is not available")
 
     def post_research_survey_data(self):
         """
