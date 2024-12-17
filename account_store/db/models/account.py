@@ -13,7 +13,6 @@ class Account(db.Model):
         "id",
         UUID(as_uuid=True),
         default=uuid.uuid4,
-        unique=True,
         primary_key=True,
     )
     email = db.Column("email", db.String(), nullable=False, unique=True)

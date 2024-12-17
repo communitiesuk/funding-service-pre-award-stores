@@ -28,7 +28,6 @@ def upgrade():
         sa.PrimaryKeyConstraint("id", name=op.f("pk_account")),
         sa.UniqueConstraint("azure_ad_subject_id", name=op.f("uq_account_azure_ad_subject_id")),
         sa.UniqueConstraint("email", name=op.f("uq_account_email")),
-        sa.UniqueConstraint("id", name=op.f("uq_account_id")),
     )
     op.create_table(
         "role",
