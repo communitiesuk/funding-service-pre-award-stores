@@ -8,10 +8,10 @@ from alembic.script.base import _slug_re
 from alembic_utils.replaceable_entity import register_entities
 from flask import current_app
 
+import account_store.db.models  # noqa
 import application_store.db.models  # noqa
 import assessment_store.db.models  # noqa
 import fund_store.db.models  # noqa
-import account_store.db.models  # noqa
 from assessment_store.db.models.assessment_record import block_json_func, block_json_updates_trig
 from assessment_store.db.models.assessment_record.db_utils import pg_trgm_extension
 

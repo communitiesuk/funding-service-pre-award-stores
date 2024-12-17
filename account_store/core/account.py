@@ -10,10 +10,10 @@ from flask import request
 from sqlalchemy import any_, delete, or_, select
 from sqlalchemy.orm import selectinload
 
-from db import db
 from account_store.db.models.account import Account
 from account_store.db.models.role import Role
 from account_store.db.schemas.account import AccountSchema
+from db import db
 
 
 def get_account(

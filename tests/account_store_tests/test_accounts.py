@@ -6,9 +6,7 @@ import uuid
 
 import pytest
 
-from tests.account_store_tests.conftest import test_user_1
-from tests.account_store_tests.conftest import test_user_2
-from tests.account_store_tests.conftest import test_user_to_update
+from tests.account_store_tests.conftest import test_user_1, test_user_2, test_user_to_update
 from tests.account_store_tests.helpers import expected_data_within_response
 
 

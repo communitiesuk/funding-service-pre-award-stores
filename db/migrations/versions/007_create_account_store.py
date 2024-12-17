@@ -6,9 +6,8 @@ Create Date: 2024-12-16 14:31:51.222643
 
 """
 
-from alembic import op
 import sqlalchemy as sa
-
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = "007_create_account_store"
