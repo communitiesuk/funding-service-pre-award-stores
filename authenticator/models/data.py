@@ -4,8 +4,8 @@ import urllib.parse
 
 import requests
 from flask import current_app
-from fsd_utils.locale_selector.get_lang import get_lang
 
+from common.locale_selector.get_lang import get_lang
 from config import Config
 from models.round import Round
 

@@ -5,7 +5,6 @@ from urllib.parse import urlencode
 
 import requests
 from flask import abort, current_app
-from fsd_utils.locale_selector.get_lang import get_lang
 
 from assess.scoring.models.score import Score
 from assess.services.models.application import Application
@@ -20,6 +19,7 @@ from assess.tagging.models.tag import AssociatedTag, Tag, TagType
 from assess.themes.deprecated_theme_mapper import (
     map_application_with_sub_criteria_themes_fields,
 )
+from common.locale_selector.get_lang import get_lang
 from config import Config
 
 

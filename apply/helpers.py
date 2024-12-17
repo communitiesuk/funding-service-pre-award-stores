@@ -4,7 +4,6 @@ from functools import lru_cache
 
 import requests
 from flask import current_app, request
-from fsd_utils.locale_selector.get_lang import get_lang
 
 from apply.default.data import (
     get_all_funds,
@@ -21,6 +20,7 @@ from apply.default.data import (
 )
 from apply.models.fund import Fund
 from apply.models.round import Round
+from common.locale_selector.get_lang import get_lang
 from config import Config
 
 

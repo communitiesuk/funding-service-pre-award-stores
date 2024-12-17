@@ -2,8 +2,6 @@ import requests
 from flask import current_app, g, make_response, redirect, render_template, request, url_for
 from flask_babel import force_locale
 from fsd_utils.authentication.decorators import login_required
-from fsd_utils.locale_selector.get_lang import get_lang
-from fsd_utils.locale_selector.set_lang import LanguageSelector
 
 from apply.default.data import (
     RoundStatus,
@@ -15,6 +13,8 @@ from apply.default.data import (
 from apply.helpers import get_fund, get_fund_and_round, get_ttl_hash
 from apply.models.application_summary import ApplicationSummary
 from common.blueprints import Blueprint
+from common.locale_selector.get_lang import get_lang
+from common.locale_selector.set_lang import LanguageSelector
 from config import Config
 
 account_bp = Blueprint("account_routes", __name__, template_folder="templates")
