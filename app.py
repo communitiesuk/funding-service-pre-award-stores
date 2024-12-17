@@ -288,6 +288,7 @@ def create_app() -> Flask:  # noqa: C901
                 render_template(
                     maintenance_template,
                     maintenance_end_time=flask_app.config.get("MAINTENANCE_END_TIME"),
+                    support_desk_assess=Config.SUPPORT_DESK_ASSESS,
                 ),
                 503,
             )

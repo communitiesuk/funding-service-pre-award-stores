@@ -20,6 +20,9 @@ class DefaultConfig:
     MAINTENANCE_MODE = strtobool(getenv("MAINTENANCE_MODE", "False"))
     MAINTENANCE_END_TIME = getenv("MAINTENANCE_END_TIME", "soon")
 
+    SUPPORT_DESK_APPLY = "https://mhclgdigital.atlassian.net/servicedesk/customer/portal/5/group/68"
+    SUPPORT_DESK_ASSESS = "https://mhclgdigital.atlassian.net/servicedesk/customer/portal/5/group/70"
+
     APPLY_HOST = getenv("APPLY_HOST", "frontend.levellingup.gov.localhost:3008")
     ASSESS_HOST = getenv("ASSESS_HOST", "assessment.levellingup.gov.localhost:3010")
 

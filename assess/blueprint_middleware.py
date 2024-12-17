@@ -7,6 +7,7 @@ from assess.flagging.routes import flagging_bp
 from assess.scoring.routes import scoring_bp
 from assess.shared.routes import shared_bp
 from assess.tagging.routes import tagging_bp
+from config import Config
 
 
 @assessment_bp.errorhandler(404)
@@ -45,7 +46,10 @@ def forbidden(error):
 @shared_bp.errorhandler(503)
 @tagging_bp.errorhandler(503)
 def error_503(error):
-    return render_template("assess/maintenance.html"), 503
+    return render_template(
+        "assess/maintenance.html",
+        support_desk_assess=Config.SUPPORT_DESK_ASSESS,
+    ), 503
 
 
 @assessment_bp.errorhandler(500)

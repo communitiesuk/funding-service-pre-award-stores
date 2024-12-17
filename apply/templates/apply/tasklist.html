@@ -104,7 +104,7 @@
                             )
                         }}">{% trans %}contact us.{% endtrans %}</a>
                     {% else %}
-                        {% trans %}If you have any questions about the form or the fund, contact us through our {% endtrans %}<a class="govuk-link" href="https://mhclgdigital.atlassian.net/servicedesk/customer/portal/5/group/68">{% trans %}support desk{% endtrans %}</a>
+                        {% trans %}If you have any questions about the form or the fund, contact us through our {% endtrans %}<a class="govuk-link" href=" {{ support_desk_apply }} " target="_blank">{% trans %}support desk{% endtrans %}</a>
                     {% endif %}
                         </p>
                         <p>{% trans %}Do not send any applications or attachments from the service desk portal. We'll only accept applications through this service.{% endtrans %}</p>

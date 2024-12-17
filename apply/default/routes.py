@@ -44,6 +44,7 @@ def index_fund_round(fund_short_name, round_short_name):
         migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
         is_expression_of_interest=round_data.is_expression_of_interest,
         link_to_contact_us_page=round_data.reference_contact_page_over_email,
+        support_desk_apply=Config.SUPPORT_DESK_APPLY,
     )
 
 
@@ -64,6 +65,7 @@ def index_fund_only(fund_short_name):
         render_template(
             "apply/404.html",
             round_data={},
+            support_desk_apply=Config.SUPPORT_DESK_APPLY,
         ),
         404,
     )

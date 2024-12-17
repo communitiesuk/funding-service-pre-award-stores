@@ -35,4 +35,5 @@ def get_help():
         # contact_details=round_data.get('contact_details'),
         contact_details={"email_address": "fundingservice.support@communities.gov.uk"},
         support_availability=round_data.get("support_availability"),
+        support_desk_assess=Config.SUPPORT_DESK_ASSESS,
     )
