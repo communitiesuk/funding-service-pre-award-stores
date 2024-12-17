@@ -1,8 +1,11 @@
 import json
+from unittest.mock import MagicMock
 from uuid import uuid4
 
 import pytest
+from fsd_utils import Decision
 
+from application_store._helpers.application import send_submit_notification
 from application_store.db.exceptions.submit import SubmitError
 from application_store.db.models.application.applications import Applications
 from application_store.db.models.application.enums import Status as ApplicationStatus
@@ -13,6 +16,11 @@ from application_store.external_services.exceptions import NotificationError
 from assessment_store.config.mappings.assessment_mapping_fund_round import COF_ROUND_4_W2_ID
 from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
 from tests.assessment_store_tests.test_assessment_mapping_fund_round import COF_FUND_ID
+
+
+@pytest.fixture
+def mock_get_files(mocker):
+    mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
 
 
 @pytest.fixture
@@ -48,13 +56,7 @@ def mock_data_key_mappings(monkeypatch):
 
 
 @pytest.fixture
-def setup_completed_application(
-    _db,
-    app,
-    clear_test_data,
-    mocker,
-):
-    mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
+def setup_completed_application(_db, app, clear_test_data, mocker, mock_get_files):
     with open("tests/application_store_tests/seed_data/COF_R4W2_all_forms.json", "r") as f:
         cof_application = json.load(f)
         forms = cof_application["forms"]
@@ -77,7 +79,10 @@ def setup_completed_application(
 
 
 def test_submit_application_with_location_bad_key(
-    _db, monkeypatch, setup_completed_application, mock_successful_location_call
+    _db,
+    monkeypatch,
+    setup_completed_application,
+    mock_successful_location_call,
 ):
     fund_round_data_key_mappings = {
         "TESTTEST": {
@@ -138,8 +143,8 @@ def test_submit_route_success(
     mock_get_round,
     mock_data_key_mappings,
     mock_successful_location_call,
+    mock_get_files,
 ):
-    mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
     target_application = seed_application_records[0]
     application_id = target_application.id
     target_application.project_name = "unit test project"
@@ -184,9 +189,8 @@ def test_submit_route_submit_error(flask_test_client, seed_application_records, 
 
 
 def test_submit_application_raises_error_on_db_violation(
-    seed_application_records, mocker, _db, mock_data_key_mappings, mock_successful_location_call
+    seed_application_records, mocker, _db, mock_data_key_mappings, mock_successful_location_call, mock_get_files
 ):
-    mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
     target_application = seed_application_records[0]
     target_application.project_name = None  # will cause not null constraint violation
 
@@ -200,9 +204,14 @@ def test_submit_application_raises_error_on_db_violation(
 
 
 def test_submit_application_route_succeeds_on_notify_error(
-    seed_application_records, mocker, _db, flask_test_client, mock_data_key_mappings, mock_successful_location_call
+    seed_application_records,
+    mocker,
+    _db,
+    flask_test_client,
+    mock_data_key_mappings,
+    mock_get_files,
+    mock_successful_location_call,
 ):
-    mocker.patch("application_store.db.queries.application.queries.list_files_by_prefix", new=lambda _: [])
     target_application = seed_application_records[0]
     application_id = target_application.id
     target_application.project_name = "unit test project"
@@ -220,3 +229,69 @@ def test_submit_application_route_succeeds_on_notify_error(
         follow_redirects=True,
     )
     assert response.status_code == 201
+
+
+@pytest.mark.parametrize("eoi_result", [({"decision": "BAD_VALUE"}), ({"decision": Decision.FAIL})])
+def test_send_submit_notification_do_not_send(mocker, app, mock_get_files, eoi_result):
+    mocker.patch("application_store._helpers.application.create_qa_base64file", return_value={"forms": []})
+    mock_notifier = mocker.patch("application_store._helpers.application.Notification.send")
+    send_submit_notification(
+        application={},
+        eoi_results=eoi_result,
+        account=MagicMock(),
+        application_with_form_json={},
+        application_with_form_json_and_fund_name={},
+        round_data=MagicMock(),
+    )
+    mock_notifier.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "eoi_result, exp_template, exp_contents",
+    [
+        (
+            None,
+            "APPLICATION_RECORD_OF_SUBMISSION",
+            {
+                "application": {},
+                "contact_help_email": "contact@test.com",
+            },
+        ),
+        (
+            {"decision": Decision.PASS},
+            "Full pass",
+            {
+                "application": {},
+                "contact_help_email": "contact@test.com",
+            },
+        ),
+        (
+            {"decision": Decision.PASS_WITH_CAVEATS, "caveats": ["a", "b", "c"]},
+            "Pass with caveats",
+            {"application": {}, "contact_help_email": "contact@test.com", "caveats": ["a", "b", "c"]},
+        ),
+    ],
+)
+def test_send_submit_notification(mocker, app, mock_get_files, eoi_result, exp_template, exp_contents):
+    mocker.patch("application_store._helpers.application.create_qa_base64file", return_value={"forms": []})
+    mock_notifier = mocker.patch("application_store._helpers.application.Notification.send")
+    mock_account = MagicMock()
+    mock_account.email = "test@test.com"
+    mock_account.full_name = "Test User"
+    mock_round = MagicMock()
+    mock_round.contact_email = "contact@test.com"
+    send_submit_notification(
+        application={},
+        eoi_results=eoi_result,
+        account=mock_account,
+        application_with_form_json={},
+        application_with_form_json_and_fund_name={},
+        round_data=mock_round,
+    )
+    mock_notifier.assert_called_once()
+    mock_notifier.assert_called_with(
+        exp_template,
+        "test@test.com",
+        "Test User",
+        exp_contents,
+    )

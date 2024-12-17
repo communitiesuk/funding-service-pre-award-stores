@@ -74,6 +74,7 @@ def send_submit_notification(
                     "Unknown eoi_decision [{eoi_decision}], unable to send submit notification",
                     extra=dict(eoi_decision=eoi_decision),
                 )
+                return
     else:
         notify_template = Config.NOTIFY_TEMPLATE_SUBMIT_APPLICATION
 
