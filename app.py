@@ -53,7 +53,7 @@ def create_app() -> FlaskApp:
 
     connexion_app.add_api(
         get_bundled_specs("/account_store/openapi/api.yml"),
-        validate_responses=True,
+        validate_responses=False,
         base_path="/account",
         resolver=MethodResolver("api")
     )
