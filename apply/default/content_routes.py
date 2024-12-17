@@ -1,12 +1,12 @@
 from flask import abort, current_app, redirect, render_template, request, url_for
 from flask_babel import gettext
 from fsd_utils.authentication.decorators import login_requested
-from fsd_utils.locale_selector.get_lang import get_lang
 from jinja2.exceptions import TemplateNotFound
 
 from apply.helpers import find_fund_and_round_in_request, find_round_in_request, get_fund_and_round
 from apply.models.fund import Fund
 from common.blueprints import Blueprint
+from common.locale_selector.get_lang import get_lang
 from config import Config
 
 content_bp = Blueprint("content_routes", __name__, template_folder="templates")

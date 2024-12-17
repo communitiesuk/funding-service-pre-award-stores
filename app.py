@@ -6,7 +6,7 @@ from flask_babel import Babel, gettext, pgettext
 from flask_compress import Compress
 from flask_talisman import Talisman
 from flask_wtf.csrf import CSRFProtect
-from fsd_utils import LanguageSelector, init_sentry
+from fsd_utils import init_sentry
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.locale_selector.get_lang import get_lang
@@ -40,6 +40,7 @@ from assess.shared.filters import (
     slash_separated_day_month_year,
     utc_to_bst,
 )
+from common.locale_selector.set_lang import LanguageSelector
 from config import Config
 
 

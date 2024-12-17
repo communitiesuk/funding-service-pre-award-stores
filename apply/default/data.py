@@ -8,7 +8,6 @@ from urllib.parse import urlencode
 
 import requests
 from flask import abort, current_app
-from fsd_utils.locale_selector.get_lang import get_lang
 from fsd_utils.simple_utils.date_utils import (
     current_datetime_after_given_iso_string,
     current_datetime_before_given_iso_string,
@@ -22,6 +21,7 @@ from apply.models.feedback import EndOfApplicationSurveyData, FeedbackSubmission
 from apply.models.fund import Fund
 from apply.models.research import ResearchSurveyData
 from apply.models.round import Round
+from common.locale_selector.get_lang import get_lang
 from config import Config
 
 

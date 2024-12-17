@@ -7,7 +7,6 @@ from flask_babel import force_locale, gettext
 from flask_wtf import FlaskForm
 from fsd_utils import Decision
 from fsd_utils.authentication.decorators import login_required
-from fsd_utils.locale_selector.set_lang import LanguageSelector
 from fsd_utils.simple_utils.date_utils import (
     current_datetime_after_given_iso_string,
 )
@@ -45,6 +44,7 @@ from apply.helpers import (
 )
 from apply.models.statuses import get_formatted
 from common.blueprints import Blueprint
+from common.locale_selector.set_lang import LanguageSelector
 from config import Config
 
 application_bp = Blueprint("application_routes", __name__, template_folder="templates")

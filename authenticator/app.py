@@ -12,12 +12,12 @@ from frontend.magic_links.filters import datetime_format
 from fsd_utils import LanguageSelector, init_sentry
 from fsd_utils.healthchecks.checkers import FlaskRunningChecker, RedisChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
-from fsd_utils.locale_selector.get_lang import get_lang
 from fsd_utils.logging import logging
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from jinja2 import ChoiceLoader, PackageLoader, PrefixLoader
 from models.fund import FundMethods
 
+from common.locale_selector.get_lang import get_lang
 from config import Config
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
