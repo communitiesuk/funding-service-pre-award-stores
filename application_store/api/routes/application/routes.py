@@ -214,10 +214,9 @@ class ApplicationsView(MethodView):
                     round_data=round_data,
                 )
 
-        except NotificationError as e:
+        except NotificationError:
             current_app.logger.exception(
                 "Notification error on sending SUBMIT notification for application {application_id}",
-                exc_info=e,
                 extra=dict(application_id=application_id),
             )
 
