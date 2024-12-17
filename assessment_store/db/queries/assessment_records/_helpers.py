@@ -124,8 +124,8 @@ def derive_application_values(application_json):  # noqa: C901 - historical sadn
         # Don't throw an exception here as we want to soft-fail - ie the submission process still works, but devs are
         # alerted to the lack of mappings
         current_app.logger.error(
-            "No assessment data mappings for fund round [fund_round_shortname]. "
-            "Cannot derive values for application [application_id]",
+            "No assessment data mappings for fund round {fund_round_shortname}. "
+            "Cannot derive values for application {application_id}",
             extra=dict(fund_round_shortname=fund_round_shortname, application_id=application_id),
         )
         return derived_values

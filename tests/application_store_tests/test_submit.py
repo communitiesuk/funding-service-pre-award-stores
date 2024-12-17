@@ -3,6 +3,7 @@ from unittest.mock import MagicMock
 from uuid import uuid4
 
 import pytest
+from click.testing import CliRunner
 from fsd_utils import Decision
 
 from application_store._helpers.application import send_submit_notification
@@ -15,6 +16,7 @@ from application_store.db.queries.updating.queries import update_form
 from application_store.external_services.exceptions import NotificationError
 from assessment_store.config.mappings.assessment_mapping_fund_round import COF_ROUND_4_W2_ID
 from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
+from assessment_store.scripts.derive_assessment_values import derive_assessment_values
 from tests.assessment_store_tests.test_assessment_mapping_fund_round import COF_FUND_ID
 
 
@@ -295,3 +297,82 @@ def test_send_submit_notification(mocker, app, mock_get_files, eoi_result, exp_t
         "Test User",
         exp_contents,
     )
+
+
+@pytest.fixture
+def setup_submitted_application(_db, setup_completed_application, monkeypatch, mock_successful_location_call):
+    fund_round_data_key_mappings = {
+        "TESTTEST": {
+            "location": None,
+            "asset_type": None,
+            "funding_one": None,
+            "funding_two": None,
+        }
+    }
+    monkeypatch.setattr(
+        "assessment_store.db.queries.assessment_records._helpers.fund_round_data_key_mappings",
+        fund_round_data_key_mappings,
+    )
+
+    application_id = setup_completed_application
+
+    submit_application(application_id)
+    yield application_id
+
+
+def test_derive_values_script(
+    setup_submitted_application, _db, monkeypatch, mock_data_key_mappings, mock_successful_location_call
+):
+    application_id = str(setup_submitted_application)
+    assessment_record: AssessmentRecord = _db.session.get(AssessmentRecord, application_id)
+    assert assessment_record.asset_type == "No asset type specified."
+    assert assessment_record.funding_amount_requested == 0
+    assert assessment_record.location_json_blob == {
+        "error": False,
+        "postcode": "Not Available",
+        "county": "Not Available",
+        "region": "Not Available",
+        "country": "Not Available",
+        "constituency": "Not Available",
+    }
+
+    runner = CliRunner()
+
+    # setup data mappings so running the script will change values
+    fund_round_data_key_mappings = {
+        "TESTTEST": {
+            "location": "EfdliG",
+            "asset_type": "oXGwlA",
+            "funding_one": "ABROnB",
+            "funding_two": ["tSKhQQ", "UyaAHw"],
+            "funding_field_type": "multiInputField",
+        }
+    }
+    monkeypatch.setattr(
+        "assessment_store.db.queries.assessment_records._helpers.fund_round_data_key_mappings",
+        fund_round_data_key_mappings,
+    )
+
+    # call script and say not confirmation prompt (no commit)
+    result = runner.invoke(derive_assessment_values, ["-a", application_id], input="n")
+    assert result.exit_code == 0
+    assessment_record_2: AssessmentRecord = _db.session.get(AssessmentRecord, application_id)
+    assert assessment_record_2.asset_type == "No asset type specified."
+    assert assessment_record_2.funding_amount_requested == 0
+    assert assessment_record_2.location_json_blob == {
+        "error": False,
+        "postcode": "Not Available",
+        "county": "Not Available",
+        "region": "Not Available",
+        "country": "Not Available",
+        "constituency": "Not Available",
+    }
+
+    # Call script again but yes to prompt (commit == True)
+    result = runner.invoke(derive_assessment_values, ["-a", application_id], input="y")
+    assert result.exit_code == 0
+    assessment_record_2: AssessmentRecord = _db.session.get(AssessmentRecord, application_id)
+    assert assessment_record_2.asset_type == "cinema"
+    assert assessment_record_2.funding_amount_requested == 1524
+    assert assessment_record_2.location_json_blob["error"] is False
+    assert assessment_record_2.location_json_blob["county"] == "Hampshire"
