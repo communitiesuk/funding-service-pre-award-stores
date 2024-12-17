@@ -69,6 +69,11 @@ def send_submit_notification(
             case Decision.PASS_WITH_CAVEATS:
                 notify_template = Config.NOTIFY_TEMPLATE_EOI_PASS_W_CAVEATS
                 contents[NotifyConstants.APPLICATION_CAVEATS] = eoi_results["caveats"]
+            case _:
+                current_app.logger.error(
+                    "Unknown eoi_decision [{eoi_decision}], unable to send submit notification",
+                    extra=dict(eoi_decision=eoi_decision),
+                )
     else:
         notify_template = Config.NOTIFY_TEMPLATE_SUBMIT_APPLICATION
 
