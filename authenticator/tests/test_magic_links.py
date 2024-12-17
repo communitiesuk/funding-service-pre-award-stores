@@ -14,6 +14,7 @@ from models.account import AccountMethods
 from security.utils import validate_token
 
 from app import app
+from config import Config
 
 
 @pytest.mark.usefixtures("flask_test_client")
@@ -152,7 +153,7 @@ class TestMagicLinks(AuthSessionBase):
                     soup.find_all(
                         "a",
                         class_="govuk-link",
-                        string=lambda text: "test@outlook.com" in text,
+                        href=Config.SUPPORT_DESK_APPLY,
                     )
                 )
                 == 1
