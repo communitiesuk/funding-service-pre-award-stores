@@ -5,7 +5,7 @@ Contains test configuration.
 import pytest
 from flask import Flask
 
-from app import create_app
+from app import create_app  # noqa: E402
 
 pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
 

@@ -8,6 +8,7 @@ from alembic.script.base import _slug_re
 from alembic_utils.replaceable_entity import register_entities
 from flask import current_app
 
+import account_store.db.models  # noqa
 import application_store.db.models  # noqa
 import assessment_store.db.models  # noqa
 import fund_store.db.models  # noqa
@@ -133,11 +134,14 @@ def run_migrations_online():
 
     # if we're running on the main db (as opposed to the test db)
     if connectable.url.database == "pre_award_stores":
-        with open(Path(__file__).parent / ".current-alembic-head", "w") as f:
-            # write the current head to `.current-alembic-head`. This will prevent conflicting migrations
-            # being merged at the same time and breaking the build.
-            head = context.get_head_revision() or ""
-            f.write(head + "\n")
+        try:
+            with open(Path(__file__).parent / ".current-alembic-head", "w") as f:
+                # write the current head to `.current-alembic-head`. This will prevent conflicting migrations
+                # being merged at the same time and breaking the build.
+                head = context.get_head_revision() or ""
+                f.write(head + "\n")
+        except OSError:
+            pass
 
 
 if context.is_offline_mode():

@@ -6,11 +6,9 @@ from uuid import uuid4
 
 import pytest
 
-from app import create_app
-from db.models.account import Account
-from db.models.role import Role
-
-pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
+from account_store.db.models.account import Account
+from account_store.db.models.role import Role
+from app import create_app  # noqa: E402
 
 
 @pytest.fixture(scope="session")
