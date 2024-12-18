@@ -89,29 +89,3 @@ class DefaultConfig(object):
     # ---------------
     AWS_MSG_BUCKET_NAME = environ.get("AWS_MSG_BUCKET_NAME")
     AWS_BUCKET_NAME = environ.get("AWS_BUCKET_NAME")
-
-    # ---------------
-    # SQS Config
-    # ---------------
-    AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL")
-    AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL")
-
-    if "PRIMARY_QUEUE_URL" in environ:
-        AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = environ.get("PRIMARY_QUEUE_URL")
-        AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = environ.get("DEAD_LETTER_QUEUE_URL")
-    else:
-        AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL = environ.get("AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL")
-        AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL = environ.get("AWS_SQS_IMPORT_APP_SECONDARY_QUEUE_URL")
-    SQS_WAIT_TIME = int(environ.get("SQS_WAIT_TIME", 2))  # max time to wait (in sec) before returning
-    SQS_BATCH_SIZE = int(environ.get("SQS_BATCH_SIZE", 1))  # MaxNumber Of Messages to process
-    SQS_VISIBILITY_TIME = int(
-        environ.get("SQS_VISIBILITY_TIME", 1)
-    )  # time for message to temporarily invisible to others (in sec)
-    SQS_RECEIVE_MESSAGE_CYCLE_TIME = int(
-        environ.get("SQS_RECEIVE_MESSAGE_CYCLE_TIME", 60)
-    )  # Run the job every 'x' seconds
-
-    # ---------------
-    # Task Executor Config
-    # ---------------
-    TASK_EXECUTOR_MAX_THREAD = int(environ.get("TASK_EXECUTOR_MAX_THREAD", 5))  # max amount of threads

@@ -1,11 +1,18 @@
 import copy
 import json
 import random
+from typing import List
 from uuid import uuid4
 
 import pytest
+from flask import current_app
+from sqlalchemy import exc
+from sqlalchemy.dialects.postgresql import insert as postgres_insert
 
 from app import create_app
+from assessment_store.config.mappings.assessment_mapping_fund_round import (
+    fund_round_mapping_config_with_round_id,
+)
 from assessment_store.db.models import AssessmentRound
 from assessment_store.db.models.assessment_record import AssessmentRecord
 from assessment_store.db.models.assessment_record.allocation_association import (
@@ -18,13 +25,14 @@ from assessment_store.db.models.flags.flag_update import FlagUpdate
 from assessment_store.db.models.qa_complete import QaComplete
 from assessment_store.db.models.score import Score
 from assessment_store.db.models.tag.tag_types import TagType
-from assessment_store.db.queries import bulk_insert_application_record
+from assessment_store.db.queries.assessment_records._helpers import derive_application_values
 from assessment_store.db.queries.scores.queries import (
     _insert_scoring_system,
     insert_scoring_system_for_round_id,
 )
 from assessment_store.db.queries.tags.queries import insert_tags
 from assessment_store.db.schemas.schemas import TagSchema, TagTypeSchema
+from db import db
 from tests.assessment_store_tests._sql_infos import attach_listeners
 
 with open("tests/assessment_store_tests/test_data/hand-crafted-apps.json", "r") as f:
@@ -36,6 +44,73 @@ with open("tests/assessment_store_tests/test_data/ctdf-application.json", "r") a
 @pytest.fixture
 def ctdf_application():
     yield copy.deepcopy(ctdf_input_data)
+
+
+def bulk_insert_application_record(
+    application_json_strings: List[str],
+    application_type: str = "",
+    is_json=False,
+) -> List[AssessmentRecord]:
+    """bulk_insert_application_record Given a list of json strings and an
+    `application_type` we extract key values from the json strings before
+    inserting them with the remaining values into `db.models.AssessmentRecord`.
+
+    :param application_json_strings: _description_
+    :param application_type: _description_
+
+    """
+    print("Beginning bulk application insert.")
+    rows = []
+    if len(application_json_strings) < 1:
+        print("No new submitted applications found. skipping Import...")
+        return rows
+    print("\n")
+    # Create a list of application ids to track inserted rows
+    for single_application_json in application_json_strings:
+        if not is_json:
+            single_application_json = json.loads(single_application_json)
+        if not application_type:
+            application_type = fund_round_mapping_config_with_round_id[single_application_json["round_id"]][
+                "type_of_application"
+            ]
+
+        derived_values = derive_application_values(single_application_json)
+
+        if derived_values["location_json_blob"]["error"]:
+            current_app.logger.error(
+                "Location key not found or invalid postcode provided for the application: {short_id}.",
+                extra=dict(short_id=derived_values["short_id"]),
+            )
+
+        row = {
+            **derived_values,
+            "jsonb_blob": single_application_json,
+            "type_of_application": application_type,
+        }
+        try:
+            stmt = postgres_insert(AssessmentRecord).values([row])
+
+            upsert_rows_stmt = stmt.on_conflict_do_nothing(index_elements=[AssessmentRecord.application_id]).returning(
+                AssessmentRecord.application_id
+            )
+
+            print(f"Attempting insert of application {row['application_id']}")
+            result = db.session.execute(upsert_rows_stmt)
+
+            # Check if the inserted application is in result
+            inserted_application_ids = [item.application_id for item in result]
+            if not len(inserted_application_ids):
+                print(f"Application id already exist in the database: {row['application_id']}")
+            rows.append(row)
+            db.session.commit()
+            del single_application_json
+        except exc.SQLAlchemyError as e:
+            db.session.rollback()
+            print(f"Error occurred while inserting application {row['application_id']}, error: {e}")
+            raise e
+
+    print("Inserted application_ids (i.e. application rows) : {[row['application_id'] for row in rows]}")
+    return rows
 
 
 @pytest.fixture(scope="function")

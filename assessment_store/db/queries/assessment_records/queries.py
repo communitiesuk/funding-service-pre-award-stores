@@ -4,19 +4,14 @@ Joins allowed.
 
 """
 
-import json
 from datetime import datetime, timezone
 from typing import Dict, List
 
 from bs4 import BeautifulSoup
 from flask import current_app
-from sqlalchemy import String, and_, bindparam, cast, desc, exc, func, or_, select, update
-from sqlalchemy.dialects.postgresql import insert as postgres_insert
+from sqlalchemy import String, and_, cast, desc, exc, func, or_, select
 from sqlalchemy.orm import aliased, defer, load_only, selectinload
 
-from assessment_store.config.mappings.assessment_mapping_fund_round import (
-    fund_round_mapping_config_with_round_id,
-)
 from assessment_store.db.models.assessment_record import AssessmentRecord, TagAssociation
 from assessment_store.db.models.assessment_record.allocation_association import AllocationAssociation
 from assessment_store.db.models.assessment_record.enums import Status
@@ -25,7 +20,6 @@ from assessment_store.db.models.score import Score
 from assessment_store.db.models.tag.tag_types import TagType
 from assessment_store.db.models.tag.tags import Tag
 from assessment_store.db.queries.assessment_records._helpers import (
-    derive_application_values,
     filter_tags,
     get_existing_tags,
     update_tag_associations,
@@ -260,73 +254,6 @@ def get_metadata_for_fund_round_id(  # noqa: C901 - historical sadness
     return assessment_metadatas_with_recent_tags
 
 
-def bulk_insert_application_record(
-    application_json_strings: List[str],
-    application_type: str = "",
-    is_json=False,
-) -> List[AssessmentRecord]:
-    """bulk_insert_application_record Given a list of json strings and an
-    `application_type` we extract key values from the json strings before
-    inserting them with the remaining values into `db.models.AssessmentRecord`.
-
-    :param application_json_strings: _description_
-    :param application_type: _description_
-
-    """
-    print("Beginning bulk application insert.")
-    rows = []
-    if len(application_json_strings) < 1:
-        print("No new submitted applications found. skipping Import...")
-        return rows
-    print("\n")
-    # Create a list of application ids to track inserted rows
-    for single_application_json in application_json_strings:
-        if not is_json:
-            single_application_json = json.loads(single_application_json)
-        if not application_type:
-            application_type = fund_round_mapping_config_with_round_id[single_application_json["round_id"]][
-                "type_of_application"
-            ]
-
-        derived_values = derive_application_values(single_application_json)
-
-        if derived_values["location_json_blob"]["error"]:
-            current_app.logger.error(
-                "Location key not found or invalid postcode provided for the application: {short_id}.",
-                extra=dict(short_id=derived_values["short_id"]),
-            )
-
-        row = {
-            **derived_values,
-            "jsonb_blob": single_application_json,
-            "type_of_application": application_type,
-        }
-        try:
-            stmt = postgres_insert(AssessmentRecord).values([row])
-
-            upsert_rows_stmt = stmt.on_conflict_do_nothing(index_elements=[AssessmentRecord.application_id]).returning(
-                AssessmentRecord.application_id
-            )
-
-            print(f"Attempting insert of application {row['application_id']}")
-            result = db.session.execute(upsert_rows_stmt)
-
-            # Check if the inserted application is in result
-            inserted_application_ids = [item.application_id for item in result]
-            if not len(inserted_application_ids):
-                print(f"Application id already exist in the database: {row['application_id']}")
-            rows.append(row)
-            db.session.commit()
-            del single_application_json
-        except exc.SQLAlchemyError as e:
-            db.session.rollback()
-            print(f"Error occurred while inserting application {row['application_id']}, error: {e}")
-            raise e
-
-    print("Inserted application_ids (i.e. application rows) : {[row['application_id'] for row in rows]}")
-    return rows
-
-
 def delete_assessment_record(app_id):
     """Delete the assessment record with the given ID from the database.
 
@@ -477,47 +404,6 @@ def get_application_jsonb_blob(application_id: str) -> dict:
     application_jsonb_blob = db.session.scalar(stmt)
     application_json = AssessorTaskListMetadata().dump(application_jsonb_blob)
     return application_json
-
-
-def bulk_update_location_jsonb_blob(application_ids_to_location_data):
-    stmt = (
-        update(AssessmentRecord)
-        .where(AssessmentRecord.application_id == bindparam("app_id"))
-        .values(location_json_blob=bindparam("location_data"))
-    )
-
-    for item in application_ids_to_location_data:
-        existing_location_data = (
-            db.session.query(AssessmentRecord.location_json_blob)
-            .filter_by(application_id=item["application_id"])
-            .scalar()
-        )
-
-        if not existing_location_data:
-            print("Seeding location data")
-            db.session.execute(
-                stmt,
-                {
-                    "app_id": item["application_id"],
-                    "location_data": item["location"],
-                },
-            )
-
-        elif existing_location_data["error"] is True:
-            print("Updating location data")
-            db.session.execute(
-                stmt,
-                {
-                    "app_id": item["application_id"],
-                    "location_data": item["location"],
-                },
-            )
-
-        else:
-            print("Location data already exists")
-            continue
-
-    db.session.commit()
 
 
 def update_status_to_completed(application_id):

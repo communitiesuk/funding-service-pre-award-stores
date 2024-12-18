@@ -2,7 +2,6 @@ from os import getenv
 
 import connexion
 import psycopg2
-from apscheduler.schedulers.background import BackgroundScheduler
 from connexion import FlaskApp
 from connexion.resolver import MethodResolver, MethodViewResolver
 from flask import jsonify
@@ -11,14 +10,9 @@ from fsd_utils.healthchecks.checkers import DbChecker, FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
-from fsd_utils.sqs_scheduler.context_aware_executor import ContextAwareExecutor
-from fsd_utils.sqs_scheduler.scheduler_service import scheduler_executor
 from sqlalchemy_utils import Ltree
 
 from application_store.db.exceptions.application import ApplicationError
-from assessment_store._helpers.task_executer_service import (
-    AssessmentTaskExecutorService,
-)
 from config import Config
 from openapi.utils import get_bundled_specs
 
@@ -63,7 +57,6 @@ def create_app() -> FlaskApp:
 
     # Initialize sqs extended client
     create_sqs_extended_client(flask_app)
-    setup_assessment_queue_polling(flask_app)
 
     from db import db, migrate
 
@@ -97,38 +90,6 @@ def create_app() -> FlaskApp:
         return response
 
     return connexion_app
-
-
-def setup_assessment_queue_polling(flask_app):
-    executor = ContextAwareExecutor(
-        max_workers=Config.TASK_EXECUTOR_MAX_THREAD,
-        thread_name_prefix="NotifTask",
-        flask_app=flask_app,
-    )
-    # Configure Task Executor service
-    task_executor_service = AssessmentTaskExecutorService(
-        flask_app=flask_app,
-        executor=executor,
-        s3_bucket=Config.AWS_MSG_BUCKET_NAME,
-        sqs_primary_url=Config.AWS_SQS_IMPORT_APP_PRIMARY_QUEUE_URL,
-        task_executor_max_thread=Config.TASK_EXECUTOR_MAX_THREAD,
-        sqs_batch_size=Config.SQS_BATCH_SIZE,
-        visibility_time=Config.SQS_VISIBILITY_TIME,
-        sqs_wait_time=Config.SQS_WAIT_TIME,
-        region_name=Config.AWS_REGION,
-        endpoint_url_override=Config.AWS_ENDPOINT_OVERRIDE,
-        aws_access_key_id=Config.AWS_SQS_ACCESS_KEY_ID,
-        aws_secret_access_key=Config.AWS_SQS_ACCESS_KEY_ID,
-    )
-    # Configurations for Flask-Apscheduler
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(
-        func=scheduler_executor,
-        trigger="interval",
-        seconds=flask_app.config["SQS_RECEIVE_MESSAGE_CYCLE_TIME"],  # Run the job every 'x' seconds
-        kwargs={"task_executor_service": task_executor_service},
-    )
-    scheduler.start()
 
 
 def create_sqs_extended_client(flask_app):

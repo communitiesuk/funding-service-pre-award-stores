@@ -145,22 +145,3 @@ subcriteria_themes_and_expected_response = {
     "representing_community_views": "Test",
     "accessibility_and_inclusivity": "Test",
 }
-
-BULK_UPDATE_LOCATION_JSONB_BLOB = {
-    "existing_location_data": {
-        "error": False,
-        "county": "test_county_123",
-        "country": "test_country_123",
-    },
-    "new_location_data": {
-        "error": False,
-        "county": "test_county_new_123",
-        "country": "test_country_new_123",
-    },
-    "error_true_location_data": {
-        "error": True,
-        "county": "Not Available",
-        "country": "Not Available",
-    },
-    "none_location_data": None,
-}
