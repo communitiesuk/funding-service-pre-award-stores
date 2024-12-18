@@ -104,7 +104,7 @@ extra_args = [
     "--follow",
     f"--memory {task_memory}",
     "--entrypoint launcher",
-    "--command 'FLASK_APP=app:application flask db upgrade'",
+    "--command 'flask -A app:application db upgrade'",
     f"--image {docker_image}",
 ]
 
