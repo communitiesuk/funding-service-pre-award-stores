@@ -43,11 +43,3 @@ class UnitTestConfig(Config):
     # S3 Config
     # ---------------
     AWS_MSG_BUCKET_NAME = "fsd-notification-bucket"
-
-    # ---------------
-    # SQS Config
-    # ---------------
-    SQS_WAIT_TIME = 2  # max time to wait (in sec) before returning
-    SQS_BATCH_SIZE = 10  # MaxNumber Of Messages to process
-    SQS_VISIBILITY_TIME = 1  # time for message to temporarily invisible to others (in sec)
-    SQS_RECEIVE_MESSAGE_CYCLE_TIME = 5  # Run the job every 'x' seconds
