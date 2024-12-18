@@ -1,3 +1,5 @@
+import json
+
 import click
 
 from application_store.db.queries.application.queries import get_application
@@ -12,15 +14,6 @@ from assessment_store.db.queries.assessment_records._helpers import derive_appli
     help="Application ID to derive values",
     prompt=True,
 )
-# @click.option(
-#     "-c",
-#     "--commit",
-#     is_flag=True,
-#     default=False,
-#     show_default=True,
-#     help="Whether to commit the derived values to assessment_store",
-#     prompt=False,
-# )
 def derive_assessment_values(application_id):
     from flask import current_app
 
@@ -33,7 +26,8 @@ def derive_assessment_values(application_id):
 
     application_json = get_application(application_id, include_forms=True, as_json=True)
     derived_values = derive_application_values(application_json)
-    current_app.logger.info("Derived the following values {derived_values}", extra=dict(derived_values=derived_values))
+
+    print(json.dumps(derived_values, sort_keys=True, indent=2))
 
     if click.confirm("Do you want to commit those values to the database?"):
         assessment_record: AssessmentRecord = db.session.get(AssessmentRecord, application_id)
