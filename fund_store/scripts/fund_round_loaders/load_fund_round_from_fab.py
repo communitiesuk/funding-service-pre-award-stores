@@ -12,7 +12,8 @@ from fund_store.db.queries import upsert_round_data
 
 @click.command()
 @click.option("--fund_short_code", default="", help="Fund short code")
-def load_fund_from_fab(fund_short_code) -> None:
+@click.option("--seed_all_funds", default=False, help="See all funds")
+def load_fund_from_fab(fund_short_code, seed_all_funds) -> None:
     """
     Insert the FAB fund and round data into the database.
     See required schema for import here: file_location
@@ -20,37 +21,36 @@ def load_fund_from_fab(fund_short_code) -> None:
     Accept comma separated funds too.
     """
 
-    if fund_short_code == "":
-        confirm = click.confirm("Are you sure you want to seed all FAB funds?", default=True)
+    if fund_short_code == "" and seed_all_funds == False:
+        print(f"Nothing to seed.")
 
-        if not confirm:
-            fund_short_code = click.prompt("Please enter a fund short code", default="CTDF")
-        else:
-            # Get a list of all Python files in the fund_round_loaders directory
-            loader_module_names = [
-                fund_config_file
-                for fund_config_file in os.listdir("fund_store/config/fund_loader_config/FAB")
-                if fund_config_file.endswith(".py")
-            ]
+        return
 
-            for module_name in loader_module_names:
-                # Remove the ".py" extension to get the module name
-                file_name = module_name[:-3]
+    if fund_short_code == "" and seed_all_funds is True:
+        print(f"Seeding all funds")
+        # Get a list of all Python files in the fund_round_loaders directory
+        loader_module_names = [
+            fund_config_file
+            for fund_config_file in os.listdir("fund_store/config/fund_loader_config/FAB")
+            if fund_config_file.endswith(".py")
+        ]
 
-                skip_files = ["__init__", "cof_25", "cof_25_eoi"]
-                if file_name in skip_files:
-                    continue
+        for module_name in loader_module_names:
+            # Remove the ".py" extension to get the module name
+            file_name = module_name[:-3]
 
-                if fund_short_code != "":
-                    fund_short_code += ","
+            skip_files = ["__init__", "cof_25", "cof_25_eoi"]
+            if file_name in skip_files:
+                continue
 
-                # file names should inlcude the round short name "_" separated
-                fund_short_code += module_name[:-3].upper().split("_")[0]
+            if fund_short_code != "":
+                fund_short_code += ","
 
-    funds_to_seed = fund_short_code
-    print(f"Funds to seed: {funds_to_seed}")
+            # file names should inlcude the round short name "_" separated
+            fund_short_code += module_name[:-3].upper().split("_")[0]
 
-    for fund_to_seed in funds_to_seed.split(","):
+    print(f"Funds to seed: {fund_short_code}")
+    for fund_to_seed in fund_short_code.split(","):
         FUND_CONFIG = FAB_FUND_ROUND_CONFIGS.get(fund_to_seed, None)
         if not FUND_CONFIG:
             raise ValueError(f"Config for fund {fund_to_seed} does not exist")
