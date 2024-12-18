@@ -178,6 +178,7 @@ def create_app() -> Flask:  # noqa: C901
                 toggle_dict={feature.name: feature.is_enabled() for feature in toggle_client.list()}
                 if toggle_client
                 else {},
+                support_desk_apply=Config.SUPPORT_DESK_APPLY,
             )
         elif request.host == current_app.config["ASSESS_HOST"]:
             return dict(
@@ -191,6 +192,7 @@ def create_app() -> Flask:  # noqa: C901
                 toggle_dict=(
                     {feature.name: feature.is_enabled() for feature in toggle_client.list()} if toggle_client else {}
                 ),
+                support_desk_assess=Config.SUPPORT_DESK_ASSESS,
             )
 
     @flask_app.context_processor

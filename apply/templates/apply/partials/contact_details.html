@@ -1,4 +1,4 @@
-{% macro contact_details(service_desk_url, contact_us_phone, contact_us_text_phone, opening_days, opening_time) %}
+{% macro contact_details(service_desk_url, contact_us_phone, contact_us_text_phone, opening_days, opening_times) %}
 
     {% if service_desk_url %}
         <h3 class="govuk-heading-s">{% trans %}Please contact us through our {% endtrans %}<a class="govuk-link" href="{{ service_desk_url }}" target="_blank">

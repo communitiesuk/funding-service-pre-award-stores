@@ -342,7 +342,6 @@ def tasklist(application_id):
             link_to_contact_us_page=round_data.reference_contact_page_over_email,
             research_survey_data=research_survey_data,
             migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
-            support_desk_apply=Config.SUPPORT_DESK_APPLY,
             # Set service_title here so it uses the application language - overrides the context_processor
             service_title=gettext("Apply for") + " " + fund_data.title,  # title is already translated
         )
@@ -695,7 +694,6 @@ def round_research_intro(application_id):
         application_id=application.id,
         form=form,
         migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
-        support_desk_apply=Config.SUPPORT_DESK_APPLY,
     )
 
 

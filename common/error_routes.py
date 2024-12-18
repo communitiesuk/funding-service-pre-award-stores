@@ -2,7 +2,6 @@ from flask import current_app, redirect, render_template, request
 from fsd_utils.authentication.decorators import login_requested
 
 from assess.authentication.auth import auth_protect
-from config import Config
 
 
 def not_found(error):
@@ -24,7 +23,6 @@ def not_found(error):
     return render_template(
         "apply/404.html",
         is_error=True,
-        support_desk_apply=Config.SUPPORT_DESK_APPLY,
     ), 404
 
 

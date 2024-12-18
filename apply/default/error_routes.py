@@ -6,7 +6,6 @@ from apply.default.account_routes import account_bp
 from apply.default.application_routes import application_bp
 from apply.default.content_routes import content_bp
 from apply.default.routes import default_bp
-from config import Config
 
 
 @application_bp.errorhandler(404)
@@ -17,7 +16,6 @@ def not_found(error):
     return render_template(
         "apply/404.html",
         is_error=True,
-        support_desk_apply=Config.SUPPORT_DESK_APPLY,
     ), 404
 
 

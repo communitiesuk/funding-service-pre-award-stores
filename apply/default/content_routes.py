@@ -22,7 +22,6 @@ def accessibility_statement():
         round_data=round,
         fund_name=fund_name,
         migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
-        support_desk_apply=Config.SUPPORT_DESK_APPLY,
     )
 
 
@@ -101,7 +100,6 @@ def contact_us():
         round_data=round,
         fund_name=fund_name,
         migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
-        support_desk_apply=Config.SUPPORT_DESK_APPLY,
     )
 
 
