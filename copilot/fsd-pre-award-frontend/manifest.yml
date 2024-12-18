@@ -48,7 +48,6 @@ network:
 #
 # Pass environment variables as key value pairs.
 variables:
-  ACCOUNT_STORE_API_HOST: "http://fsd-account-store:8080"
   APPLY_HOST: "frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   ASSESS_HOST: "assessment.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   APPLICANT_FRONTEND_HOST: "https://frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"  # TODO: remove me when all frontends combined
@@ -62,6 +61,7 @@ variables:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-FormUploadsBucket
 
 secrets:
+  ACCOUNT_STORE_API_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/ACCOUNT_STORE_API_HOST
   FUND_STORE_API_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/FUND_STORE_API_HOST
   APPLICATION_STORE_API_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/APPLICATION_STORE_API_HOST
   RSA256_PUBLIC_KEY_BASE64: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/RSA256_PUBLIC_KEY_BASE64
