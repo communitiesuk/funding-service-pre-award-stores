@@ -11,7 +11,6 @@ from assessment_store.db.models.comment import CommentsUpdate
 from assessment_store.db.models.comment.enums import CommentType
 from assessment_store.db.queries import find_answer_by_key_runner
 from assessment_store.db.queries.assessment_records.queries import (
-    bulk_update_location_jsonb_blob,
     find_assessor_task_list_state,
     get_assessment_export_data,
     get_export_data,
@@ -23,7 +22,6 @@ from assessment_store.db.queries.comments.queries import (
     update_comment,
 )
 from assessment_store.db.queries.scores.queries import create_score_for_app_sub_crit
-from tests.assessment_store_tests._expected_responses import BULK_UPDATE_LOCATION_JSONB_BLOB
 from tests.assessment_store_tests._helpers import get_assessment_record
 from tests.assessment_store_tests.conftest import test_input_data
 
@@ -366,54 +364,6 @@ def test_update_workflow_status_on_insert(_db, insertion_object, seed_applicatio
     _db.session.commit()
 
     assert assessment_record.workflow_status == Status.IN_PROGRESS
-
-
-@pytest.mark.apps_to_insert([test_input_data[0]])
-@pytest.mark.parametrize(
-    "existing_location_data, new_location_data, expected_data",
-    [
-        (
-            BULK_UPDATE_LOCATION_JSONB_BLOB["existing_location_data"],
-            BULK_UPDATE_LOCATION_JSONB_BLOB["new_location_data"],
-            BULK_UPDATE_LOCATION_JSONB_BLOB["existing_location_data"],
-        ),
-        (
-            BULK_UPDATE_LOCATION_JSONB_BLOB["none_location_data"],
-            BULK_UPDATE_LOCATION_JSONB_BLOB["new_location_data"],
-            BULK_UPDATE_LOCATION_JSONB_BLOB["new_location_data"],
-        ),
-        (
-            BULK_UPDATE_LOCATION_JSONB_BLOB["error_true_location_data"],
-            BULK_UPDATE_LOCATION_JSONB_BLOB["new_location_data"],
-            BULK_UPDATE_LOCATION_JSONB_BLOB["new_location_data"],
-        ),
-    ],
-)
-def test_bulk_update_location_json_blob(
-    _db,
-    seed_application_records,
-    existing_location_data,
-    new_location_data,
-    expected_data,
-):
-    application_id = seed_application_records[0]["application_id"]
-
-    # Update existing location data to the AssessmentRecord table
-    _db.session.query(AssessmentRecord).filter_by(application_id=application_id).update(
-        {AssessmentRecord.location_json_blob: existing_location_data}
-    )
-    _db.session.commit()
-
-    # Overwrite the existing location data with new location data
-    # using function "bulk_update_location_jsonb_blob" and
-    # Check the AssessmentRecord table returns the expected data.
-
-    application_ids_to_location_data = [{"application_id": application_id, "location": new_location_data}]
-    bulk_update_location_jsonb_blob(application_ids_to_location_data)
-    assessment_record = (
-        _db.session.query(AssessmentRecord).where(AssessmentRecord.application_id == application_id).first()
-    )
-    assert assessment_record.location_json_blob == expected_data
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
