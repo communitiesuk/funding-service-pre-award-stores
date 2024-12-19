@@ -10,16 +10,34 @@ LOADER_CONFIG = {
             "tree_path": "1051.1.1.1",
             "form_name_json": {"en": "local-plans-local-authority-details", "cy": ""},
         },
-        {"section_name": {"en": "2. Spending proposals", "cy": ""}, "tree_path": "1051.1.2", "requires_feedback": None},
+        {
+            "section_name": {"en": "2. Spending proposals", "cy": ""},
+            "tree_path": "1051.1.2",
+            "requires_feedback": None,
+        },
         {
             "section_name": {"en": "2.1 Spending proposals", "cy": ""},
             "tree_path": "1051.1.2.1",
             "form_name_json": {"en": "spending-proposals-lpdf", "cy": ""},
         },
-        {"section_name": {"en": "3. Declarations", "cy": ""}, "tree_path": "1051.1.3", "requires_feedback": None},
         {
-            "section_name": {"en": "3.1 Declarations", "cy": ""},
+            "section_name": {"en": "3. Open Digital Planning", "cy": ""},
+            "tree_path": "1051.1.3",
+            "requires_feedback": None,
+        },
+        {
+            "section_name": {"en": "3.1 Open Digital Planning", "cy": ""},
             "tree_path": "1051.1.3.1",
+            "form_name_json": {"en": "lpdf-open-digital-planning", "cy": ""},
+        },
+        {
+            "section_name": {"en": "4. Declarations", "cy": ""},
+            "tree_path": "1051.1.4",
+            "requires_feedback": None,
+        },
+        {
+            "section_name": {"en": "4.1 Declarations", "cy": ""},
+            "tree_path": "1051.1.4.1",
             "form_name_json": {"en": "declarations-lpdf", "cy": ""},
         },
     ],

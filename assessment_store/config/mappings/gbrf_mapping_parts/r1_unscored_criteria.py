@@ -106,6 +106,25 @@ unscored_sections = [
                     },
                 ],
             },
+            {
+                "id": "open_digital_planning",
+                "name": "Open Digital Planning",
+                "themes": [
+                    {
+                        "id": "open_digital_planning",
+                        "name": "Open Digital Planning",
+                        "answers": [
+                            {
+                                "field_id": "ncrZUY",
+                                "form_name": "gbrf-open-digital-planning",
+                                "field_type": "yesNoField",
+                                "presentation_type": "list",
+                                "question": "Would you like to receive more information about the Open Digital Planning community and support to develop digital and data skills in your planning service?",
+                            },
+                        ],
+                    },
+                ],
+            },
         ],
     },
     {
