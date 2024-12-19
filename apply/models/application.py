@@ -79,8 +79,14 @@ class Application:
                         form_in_config["state"] = form_state
 
         for section in sections_config:
-            section["all_forms_complete"] = all(
-                ApplicationStatus.COMPLETED.name == form["state"]["status"] for form in section["forms"]
-            )
+            section["all_forms_complete"] = True
+            for form in section["forms"]:
+                if form["state"] is None:
+                    section["all_forms_complete"] = False
+                    break
+
+                if ApplicationStatus.COMPLETED.name != form["state"]["status"]:
+                    section["all_forms_complete"] = False
+                    break
 
         return sections_config
