@@ -1,18 +1,20 @@
 import pytest
 from bs4 import BeautifulSoup
 
+from config import Config
+
 
 @pytest.mark.parametrize(
     "url, expected_service_desk_link, expected_title",
     [
         (
             "/contact_us?fund=bad&round=bad",
-            "https://mhclgdigital.atlassian.net/servicedesk/customer/portal/5/group/68",
+            Config.SUPPORT_DESK_APPLY,
             "Contact us if you have any questions.",
         ),
         (
             "/contact_us",
-            "https://mhclgdigital.atlassian.net/servicedesk/customer/portal/5/group/68",
+            Config.SUPPORT_DESK_APPLY,
             "Contact us if you have any questions.",
         ),
     ],

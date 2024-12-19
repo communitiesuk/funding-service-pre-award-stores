@@ -20,7 +20,10 @@ def not_found(error):
             unprotected_routes=["/", "/healthcheck", "/cookie_policy"],
         ) or redirect("/")
 
-    return render_template("apply/404.html", is_error=True), 404
+    return render_template(
+        "apply/404.html",
+        is_error=True,
+    ), 404
 
 
 def internal_server_error(error):

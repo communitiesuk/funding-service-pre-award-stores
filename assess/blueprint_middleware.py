@@ -45,7 +45,9 @@ def forbidden(error):
 @shared_bp.errorhandler(503)
 @tagging_bp.errorhandler(503)
 def error_503(error):
-    return render_template("assess/maintenance.html"), 503
+    return render_template(
+        "assess/maintenance.html",
+    ), 503
 
 
 @assessment_bp.errorhandler(500)

@@ -13,7 +13,10 @@ from apply.default.routes import default_bp
 @default_bp.errorhandler(404)
 @account_bp.errorhandler(404)
 def not_found(error):
-    return render_template("apply/404.html", is_error=True), 404
+    return render_template(
+        "apply/404.html",
+        is_error=True,
+    ), 404
 
 
 @application_bp.errorhandler(500)
