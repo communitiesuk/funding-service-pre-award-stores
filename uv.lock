@@ -603,7 +603,7 @@ sdist = { url = "https://files.pythonhosted.org/packages/13/ce/18f6d9969416d8c9e
 
 [[package]]
 name = "funding-service-design-utils"
-version = "5.3.0"
+version = "5.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beautifulsoup4" },
@@ -624,9 +624,9 @@ dependencies = [
     { name = "sentry-sdk", extra = ["flask"] },
     { name = "sqlalchemy-utils" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/9b/81/2bcd26a1aa5cfb5bdce53690267a9e120f0304f8c90f009d763c448c71c3/funding_service_design_utils-5.3.0.tar.gz", hash = "sha256:b9329ffb4c68a19001018053c6c012fa2a1860cb7eff08ead7a55e56d4cfc45a", size = 67512 }
+sdist = { url = "https://files.pythonhosted.org/packages/26/54/c80e5c34bc7260a5e52236a539c7df992c9b6f6f0904e244e5455a64f76c/funding_service_design_utils-5.3.1.tar.gz", hash = "sha256:424100f698ed5fcb45793ade45dc3eb3cb3c487382912b04307061eb3133f582", size = 67576 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/93/a9/1f5ef585e8f1b9dc4f3df6befea5f8158148f8f8f72c9eed6f491b495093/funding_service_design_utils-5.3.0-py3-none-any.whl", hash = "sha256:f845540f9cdbf30c1e2d2c956f5570187792eeb7a137f702adbbf4196a0a4d00", size = 81252 },
+    { url = "https://files.pythonhosted.org/packages/58/38/9825df389fd1494acd7f5576ad749c57673704fc760c31cd8dfcd253453c/funding_service_design_utils-5.3.1-py3-none-any.whl", hash = "sha256:ae7ccd66ff130afbd1c3b3e4ae4ef3c6c1dfe0d08b7c7209afa33c4921180fc9", size = 81250 },
 ]
 
 [[package]]
@@ -671,7 +671,7 @@ dependencies = [
     { name = "uvicorn" },
 ]
 
-[package.dependency-groups]
+[package.dev-dependencies]
 dev = [
     { name = "asserts" },
     { name = "click" },
@@ -707,7 +707,7 @@ requires-dist = [
     { name = "flask-migrate", specifier = "==4.0.7" },
     { name = "flask-restx", specifier = "==1.3.0" },
     { name = "flask-sqlalchemy", specifier = "==3.1.1" },
-    { name = "funding-service-design-utils", specifier = "==5.3.0" },
+    { name = "funding-service-design-utils", specifier = "==5.3.1" },
     { name = "greenlet", specifier = "==3.1.1" },
     { name = "invoke", specifier = "==2.2.0" },
     { name = "jsonpath-rw-ext", specifier = "==1.2.2" },
@@ -729,7 +729,7 @@ requires-dist = [
     { name = "uvicorn", specifier = "==0.30.3" },
 ]
 
-[package.metadata.dependency-groups]
+[package.metadata.requires-dev]
 dev = [
     { name = "asserts", specifier = "==0.13.1" },
     { name = "click", specifier = "==8.1.7" },
@@ -1418,7 +1418,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/05/35/30e0d83068951d90a
 wheels = [
     { url = "https://files.pythonhosted.org/packages/11/92/76a1c94d3afee238333bc0a42b82935dd8f9cf8ce9e336ff87ee14d9e1cf/pytest-8.3.4-py3-none-any.whl", hash = "sha256:50e16d954148559c9a74109af1eaf0c945ba2d8f30f0a3d3335edde19788b6f6", size = 343083 },
 ]
-
 
 [[package]]
 name = "pytest-env"
