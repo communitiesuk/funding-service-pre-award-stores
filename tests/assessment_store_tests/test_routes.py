@@ -34,7 +34,7 @@ def test_get_assessments_stats(flask_test_client, seed_application_records, seed
     round_id = seed_application_records[0]["round_id"]
 
     # Get test applications
-    applications = flask_test_client.get(f"/assessment/application_overviews/{fund_id}/{round_id}").json()
+    applications = flask_test_client.get(f"/assessment/application_overviews/{fund_id}/{round_id}").json
 
     request = flask_test_client.post(f"/assessment/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
     assessment_stats = request.json().get(round_id)
@@ -91,9 +91,7 @@ def test_gets_all_apps_for_fund_round(request, flask_test_client, seed_applicati
     random_fund_id = picked_row["fund_id"]
     application_id = picked_row["application_id"]
 
-    response_jsons = flask_test_client.get(
-        f"/assessment/application_overviews/{random_fund_id}/{random_round_id}"
-    ).json()
+    response_jsons = flask_test_client.get(f"/assessment/application_overviews/{random_fund_id}/{random_round_id}").json
 
     assert len(response_jsons) == apps_per_round
 
@@ -154,7 +152,7 @@ def test_gets_all_apps_for_fund_round(request, flask_test_client, seed_applicati
 
     response_with_flag_json = flask_test_client.get(
         f"/assessment/application_overviews/{random_fund_id}/{random_round_id}"
-    ).json()
+    ).json
 
     application_to_check = None
     for application in response_with_flag_json:
@@ -206,16 +204,14 @@ def test_gets_all_apps_for_fund_round(request, flask_test_client, seed_applicati
 )
 @pytest.mark.apps_to_insert(test_input_data)
 def test_search(url, expected_count, flask_test_client, seed_application_records):
-    response_json = flask_test_client.get("/assessment/application_overviews/" + url).json()
+    response_json = flask_test_client.get("/assessment/application_overviews/" + url).json
 
     assert len(response_json) == expected_count
 
 
 @pytest.mark.skip(reason="used for tdd only")
 def test_get_application_metadata_for_application_id(flask_test_client):
-    response_json = flask_test_client.get(
-        "/assessment/application_overviews/a3ec41db-3eac-4220-90db-c92dea049c00"
-    ).json()
+    response_json = flask_test_client.get("/assessment/application_overviews/a3ec41db-3eac-4220-90db-c92dea049c00").json
 
     assert response_json == APPLICATION_METADATA_RESPONSE
 
@@ -227,9 +223,7 @@ def test_get_sub_criteria(flask_test_client, seed_application_records):
 
     sub_criteria_id = "benefits"
     application_id = seed_application_records[0]["application_id"]
-    response_json = flask_test_client.get(
-        f"/assessment/sub_criteria_overview/{application_id}/{sub_criteria_id}"
-    ).json()
+    response_json = flask_test_client.get(f"/assessment/sub_criteria_overview/{application_id}/{sub_criteria_id}").json
     # The order of themes within a sub_criteria is important,
     # ensure it is preserved
     expected_theme_order = ["community_use", "risk_loss_impact"]
@@ -248,7 +242,7 @@ def test_get_sub_criteria_metadata_for_false_sub_criteria_id(flask_test_client, 
 
     sub_criteria_id = "does-not-exist"
     application_id = seed_application_records[0]["application_id"]
-    response = flask_test_client.get(f"/assessment/sub_criteria_overview/{application_id}" f"/{sub_criteria_id}").json()
+    response = flask_test_client.get(f"/assessment/sub_criteria_overview/{application_id}" f"/{sub_criteria_id}").json
 
     assert response["code"] == 404
     assert "sub_criteria: 'does-not-exist' not found." in response["message"]
@@ -303,7 +297,7 @@ def test_get_team_flag_stats(flask_test_client, seed_application_records):
     round_id = seed_application_records[0]["round_id"]
 
     # Get test applications
-    applications = flask_test_client.get(f"/assessment/application_overviews/{fund_id}/{round_id}").json()
+    applications = flask_test_client.get(f"/assessment/application_overviews/{fund_id}/{round_id}").json
 
     # Add a RAISED flag for the first application
     # so that one result from the set is flagged as RAISED
@@ -441,7 +435,7 @@ def test_get_application_fields_export(flask_test_client, seed_application_recor
         },
     )
 
-    result = flask_test_client.get(f"/assessment/application_fields_export/{fund_id}/{round_id}/ASSESSOR_EXPORT").json()  # noqa
+    result = flask_test_client.get(f"/assessment/application_fields_export/{fund_id}/{round_id}/ASSESSOR_EXPORT").json  # noqa
 
     # TODO add some test data for cy_list
     assert len(result["en_list"]) == 4
