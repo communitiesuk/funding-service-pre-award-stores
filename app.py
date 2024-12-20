@@ -202,6 +202,13 @@ def create_app() -> Flask:  # noqa: C901
     flask_app.register_blueprint(api_sso_bp, host=flask_app.config["AUTH_HOST"])
     flask_app.register_blueprint(api_sessions_bp, host=flask_app.config["AUTH_HOST"])
 
+    # FIXME: we should be enforcing CSRF on requests to sign out via authenticator, but because this is a cross-domain
+    #        request, flask_wtf rejects the request because it's not the same origin. See `project` method in
+    #        `flask_wtf.csrf`. Note: this preserves existing behaviour, because Authenticator was not enforcing CSRF
+    #        at all (it never initialised CSRFProtect).
+    csrf.exempt(api_sessions_bp)
+    csrf.exempt(api_sso_bp)
+
     @flask_app.url_defaults
     def inject_host_from_current_request(endpoint, values):
         if app.url_map.is_endpoint_expecting(endpoint, "host_from_current_request"):
