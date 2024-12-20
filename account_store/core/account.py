@@ -6,7 +6,7 @@ from typing import Dict, Tuple
 
 import sqlalchemy
 from email_validator import validate_email
-from flask import request
+from flask import Blueprint, abort, request
 from sqlalchemy import any_, delete, or_, select
 from sqlalchemy.orm import selectinload
 
@@ -15,12 +15,11 @@ from account_store.db.models.role import Role
 from account_store.db.schemas.account import AccountSchema
 from db import db
 
+account_core_bp = Blueprint("account_core_bp", __name__)
 
-def get_account(
-    account_id: str = None,
-    email_address: str = None,
-    azure_ad_subject_id: str = None,
-) -> Tuple[dict, int]:
+
+@account_core_bp.get("/accounts")
+def get_account() -> Tuple[dict, int]:
     """
     Get a single account corresponding to the given unique parameters
     and return account object schema and status code
@@ -30,6 +29,9 @@ def get_account(
     :return:
         Tuple of account object (or error) dict and status int
     """
+    account_id = request.args.get("account_id")
+    email_address = request.args.get("email_address")
+    azure_ad_subject_id = request.args.get("azure_ad_subject_id")
     if not any([account_id, email_address, azure_ad_subject_id]):
         return {
             "error": (
@@ -57,9 +59,8 @@ def get_account(
         return {"error": "No matching account found"}, 404
 
 
-def get_bulk_accounts(
-    account_id: list,
-) -> Dict:
+@account_core_bp.get("/bulk-accounts")
+def get_bulk_accounts() -> Dict:
     """
     Get multiple accounts corresponding to the given account ids
     and return account object schema and status code
@@ -67,6 +68,7 @@ def get_bulk_accounts(
     :return:
         Nested dict of account_id: {account object}
     """
+    account_id = request.args.getlist("account_id")
     if not account_id:
         return {"error": "Bad request: please provide at least 1 account_id "}, 400
 
@@ -84,6 +86,7 @@ def get_bulk_accounts(
         return {"error": "No matching account found"}, 404
 
 
+@account_core_bp.put("/accounts/<string:account_id>")
 def put_account(account_id: str) -> Tuple[dict, int]:
     """put_account Given an account id and a role,
     if the account_id exists in the db the corresponding
@@ -105,11 +108,11 @@ def put_account(account_id: str) -> Tuple[dict, int]:
     try:
         roles = request.json["roles"]
     except KeyError:
-        return {"error": "roles are required"}, 401
+        return {"detail": "roles are required"}, 400
     try:
         azure_ad_subject_id = request.json["azure_ad_subject_id"]
     except KeyError:
-        return {"error": "azure_ad_subject_id is required"}, 401
+        return {"detail": "'azure_ad_subject_id' is a required property"}, 400
 
     full_name = request.json.get("full_name")
     email = request.json.get("email_address", "").lower()
@@ -179,6 +182,7 @@ def parse_domain(email: str):
         return None
 
 
+@account_core_bp.post("/accounts")
 def post_account() -> Tuple[dict, int]:
     """
     Creates a new account in the db, given an email (required)
@@ -217,7 +221,8 @@ def post_account() -> Tuple[dict, int]:
         )
 
 
-def get_accounts_for_fund(fund_short_name):
+@account_core_bp.get("/accounts/fund/<string:fund_short_name>")
+def get_accounts_for_fund(fund_short_name: str):
     include_assessors = True if request.args.get("include_assessors", "true").lower() == "true" else False
     include_commenters = True if request.args.get("include_commenters", "true").lower() == "true" else False
     round_short_name = request.args.get("round_short_name")
@@ -247,10 +252,15 @@ def get_accounts_for_fund(fund_short_name):
     return account_schema.dump(results, many=True), 200
 
 
-def search_accounts(body):
+@account_core_bp.post("/accounts/search")
+def search_accounts():
+    body = request.json if request.content_type == "application/json" else {}
     email_domain = body.get("email_domain", None)
     roles = body.get("roles", list())
     partial_roles = body.get("partial_roles", list())
+
+    if roles and partial_roles:
+        abort(400)
 
     query = db.session.query(Account).join(Role).options(selectinload(Account.roles))
 
