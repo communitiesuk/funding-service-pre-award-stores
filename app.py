@@ -9,6 +9,7 @@ from fsd_utils.logging import logging
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from sqlalchemy_utils import Ltree
 
+from account_store.core.account import account_core_bp
 from application_store.db.exceptions.application import ApplicationError
 from config import Config
 
@@ -17,6 +18,8 @@ def create_app() -> Flask:
     init_sentry()
 
     flask_app = Flask(__name__)
+
+    flask_app.register_blueprint(account_core_bp, url_prefix="/account")
 
     # connexion_app.add_api(
     #     get_bundled_specs("/fund_store/openapi/api.yml"),
