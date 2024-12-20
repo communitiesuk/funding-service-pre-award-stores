@@ -225,7 +225,6 @@ def test_deactivate_tags(app, _db, clear_test_data, seed_tags):
 
     # Deactivate tag
     tags_to_update = [{"active": False, "id": seeded_tag["id"]}]
-
     with app.test_request_context(json=tags_to_update):
         update_tags_for_fund_round(fund_id_test, round_id_test)
 
