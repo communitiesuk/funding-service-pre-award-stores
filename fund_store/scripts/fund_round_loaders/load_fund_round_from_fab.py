@@ -81,7 +81,7 @@ def load_fund_from_fab(fund_short_code, seed_all_funds) -> None:
 
 
 if __name__ == "__main__":
-    from app import app
+    from app import create_app
 
-    with app.app.app_context():
+    with create_app().app_context():
         load_fund_from_fab()

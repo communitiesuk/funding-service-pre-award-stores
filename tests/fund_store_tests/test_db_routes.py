@@ -34,7 +34,7 @@ def test_get_fund_by_id(flask_test_client, mock_get_fund_round, mocker):
     mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
     response = flask_test_client.get("/fund/funds/123")
     assert response.status_code == 200
-    result = response.json()
+    result = response.json
     assert result["name"] == "Fund Name 1"
     assert result["funding_type"] == "COMPETITIVE"
 
@@ -49,7 +49,7 @@ def test_get_fund_by_short_name(flask_test_client, mock_get_fund_round, mocker):
     mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
     response = flask_test_client.get("/fund/funds/ABC?use_short_name=True")
     assert response.status_code == 200
-    result = response.json()
+    result = response.json
     assert result["name"] == "Fund Name 1"
 
 
@@ -57,7 +57,7 @@ def test_get_round_by_short_name(flask_test_client, mock_get_fund_round, mocker)
     mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
     response = flask_test_client.get("/fund/funds/FND1/rounds/RND1?use_short_name=True")
     assert response.status_code == 200
-    result = response.json()
+    result = response.json
     assert result["title"] == "Round 1"
 
 
@@ -65,7 +65,7 @@ def test_get_eoi_decision_schema(flask_test_client, mock_get_fund_round, mocker)
     mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
     response = flask_test_client.get("/fund/funds/FND1/rounds/RND1/eoi_decision_schema?use_short_name=True")
     assert response.status_code == 200
-    result = response.json()
+    result = response.json
     assert result == {}
 
 
@@ -73,7 +73,7 @@ def test_get_round_by_id(flask_test_client, mock_get_fund_round, mocker):
     mocker.patch("fund_store.api.routes.is_valid_uuid", return_value=True)
     response = flask_test_client.get("/fund/funds/FND1/rounds/RND1")
     assert response.status_code == 200
-    result = response.json()
+    result = response.json
     assert result["title"] == "Round 1"
     assert "eoi_decision_schema" not in result
 
@@ -95,7 +95,7 @@ def test_get_eoi_decision_schema_bad_id(flask_test_client, mocker):
 def test_get_all_funds(flask_test_client, mock_get_fund_round):
     response = flask_test_client.get("/fund/funds")
     assert response.status_code == 200
-    result = response.json()
+    result = response.json
     assert result[0]["name"] == "Fund Name 1"
 
 
@@ -111,7 +111,7 @@ def test_get_app_sections_for_round(flask_test_client, mock_get_sections, mocker
         f"/fund/funds/{UsefulConfig.COF_FUND_ID}/rounds/{UsefulConfig.COF_ROUND_2_ID}/sections/application"
     )
     assert response.status_code == 200
-    result = response.json()
+    result = response.json
     assert result[0]["title"] == "Top"
 
 
@@ -121,7 +121,7 @@ def test_get_assess_sections_for_round(flask_test_client, mock_get_sections, moc
         f"/fund/funds/{UsefulConfig.COF_FUND_ID}/rounds/{UsefulConfig.COF_ROUND_2_ID}/sections/assessment"
     )
     assert response.status_code == 200
-    result = response.json()
+    result = response.json
     assert result[0]["title"] == "Top"
 
 
@@ -154,7 +154,7 @@ def test_get_events_for_round(flask_test_client, mocker):
         response = flask_test_client.get("/fund/funds/some_fund_id/rounds/some_round_id/events?only_unprocessed=true")
 
         assert response.status_code == 200
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_get_events_for_round_from_db.assert_called_once_with(round_id="some_round_id", only_unprocessed=True)
 
 
@@ -186,7 +186,7 @@ def test_get_event(flask_test_client, mocker):
         response = flask_test_client.get("/fund/funds/some_fund_id/rounds/some_round_id/event/123")
 
         assert response.status_code == 200
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_get_event_from_db.assert_called_once_with(round_id="some_round_id", event_id="123")
 
 
@@ -218,7 +218,7 @@ def test_set_event_to_processed(flask_test_client, mocker):
         response = flask_test_client.put("/fund/funds/some_fund_id/rounds/some_round_id/event/123?processed=true")
 
         assert response.status_code == 200
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_set_round_event_to_processed_in_db.assert_called_once_with(event_id="123", processed=True)
 
     with patch(
@@ -227,7 +227,7 @@ def test_set_event_to_processed(flask_test_client, mocker):
         response = flask_test_client.put("/fund/event/123?processed=true")
 
         assert response.status_code == 200
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_set_round_event_to_processed_in_db.assert_called_once_with(event_id="123", processed=True)
 
 
@@ -253,7 +253,7 @@ def test_get_events_by_type(flask_test_client):
         response = flask_test_client.get("/fund/events/APPLICATION_DEADLINE_REMINDER?only_unprocessed=true")
 
         assert response.status_code == 200
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_get_events_by_type_from_db.assert_called_once_with(
             type="APPLICATION_DEADLINE_REMINDER", only_unprocessed=True
         )
@@ -295,7 +295,7 @@ def test_get_event_by_id(flask_test_client, mocker):
         response = flask_test_client.get("/fund/event/1")
 
         assert response.status_code == 200
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_get_event_from_db.assert_called_once_with(event_id="1")
 
 
@@ -329,7 +329,7 @@ def test_create_event(flask_test_client, mocker):
         mock_create_event_in_db.assert_called_once_with(**new_event_payload, round_id=None)
 
     assert response.status_code == 201
-    assert response.json() == expected_response
+    assert response.json == expected_response
 
 
 def test_create_event_missing_type(flask_test_client):
@@ -340,4 +340,4 @@ def test_create_event_missing_type(flask_test_client):
     response = flask_test_client.post("/fund/event", json=new_event_payload)
 
     assert response.status_code == 400
-    assert response.json()["detail"] == "Post body must contain event type field"
+    assert response.json["detail"] == "Post body must contain event type field"

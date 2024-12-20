@@ -116,7 +116,7 @@ def test_get_application_statuses_json_multi_fund(
     )
     response = flask_test_client.get(url, follow_redirects=True)
     assert response.status_code == 200
-    result = response.json()
+    result = response.json
     assert result
     funds = result["metrics"]
     for fund_id in fund_ids:

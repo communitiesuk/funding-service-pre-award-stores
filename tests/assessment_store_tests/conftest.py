@@ -299,7 +299,7 @@ def app():
 
     app = create_app()
 
-    yield app.app
+    yield app
 
 
 @pytest.fixture(scope="function")

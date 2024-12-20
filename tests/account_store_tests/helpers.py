@@ -41,7 +41,7 @@ def expected_data_within_response(
     assert (
         response.status_code == expected_status_code
     ), f"Expected {str(expected_status_code)} response status code but got {str(response.status_code)}"
-    response_data = loads(response.content)
+    response_data = loads(response.text)
     diff = DeepDiff(
         expected_data,
         response_data,

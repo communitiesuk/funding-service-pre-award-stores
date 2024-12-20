@@ -1,7 +1,6 @@
 import pytest
 from sqlalchemy import select
 
-from app import app
 from assessment_store.api.routes.tag_routes import (
     get_active_tags_associated_with_assessment,
     update_tags_for_fund_round,
@@ -145,7 +144,7 @@ def test_tag_association_history_is_retained_for_reassociated_tags(_db, seed_app
 
 
 @pytest.mark.apps_to_insert([{**test_input_data[0]}])
-def test_tag_association_only_returns_assocaitions_for_active_tags(_db, seed_application_records, seed_tags):
+def test_tag_association_only_returns_assocaitions_for_active_tags(app, _db, seed_application_records, seed_tags):
     app_id = seed_application_records[0]["application_id"]
     new_tags = [
         {
@@ -178,7 +177,7 @@ def test_tag_association_only_returns_assocaitions_for_active_tags(_db, seed_app
 
     # Deactivate tag
     tags_to_update = [{"active": False, "id": single_tag["id"]}]
-    with app.app.test_request_context(json=tags_to_update):
+    with app.test_request_context(json=tags_to_update):
         update_tags_for_fund_round(fund_id, round_id)
 
     # we return no tags associations as the tag is not inactive
