@@ -192,9 +192,8 @@ def create_app() -> Flask:  # noqa: C901
         toolbar.init_app(flask_app)
 
     # These are required to associated errorhandlers and before/after request decorators with their blueprints
-    import assess.blueprint_middleware  # noqa
     import apply.default.error_routes  # noqa
-
+    import assess.blueprint_middleware  # noqa
     from apply.default.account_routes import account_bp
     from apply.default.application_routes import application_bp
     from apply.default.content_routes import content_bp
@@ -205,16 +204,14 @@ def create_app() -> Flask:  # noqa: C901
     from assess.scoring.routes import scoring_bp
     from assess.shared.routes import shared_bp
     from assess.tagging.routes import tagging_bp
-    from common.error_routes import internal_server_error, not_found
-    from authenticator.frontend.default.routes import (
-        default_bp as authenticator_default_bp,
-    )
-    from authenticator.frontend.magic_links.routes import magic_links_bp
-    from authenticator.frontend.sso.routes import sso_bp
-    from authenticator.frontend.user.routes import user_bp
     from authenticator.api.magic_links.routes import api_magic_link_bp
     from authenticator.api.session.auth_session import api_sessions_bp
     from authenticator.api.sso.routes import api_sso_bp
+    from authenticator.frontend.default.routes import default_bp as authenticator_default_bp
+    from authenticator.frontend.magic_links.routes import magic_links_bp
+    from authenticator.frontend.sso.routes import sso_bp
+    from authenticator.frontend.user.routes import user_bp
+    from common.error_routes import internal_server_error, not_found
 
     flask_app.register_error_handler(404, not_found)
     flask_app.register_error_handler(500, internal_server_error)
