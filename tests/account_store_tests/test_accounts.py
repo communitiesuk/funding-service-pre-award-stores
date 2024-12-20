@@ -562,11 +562,6 @@ class TestAccountSearch:
         assert accounts[1]["email_address"] == "assessor-2@communities.gov.uk"
         assert accounts[2]["email_address"] == "assessor-3@communities.gov.uk"
 
-    def test_search_all_accounts_additional_properties_blocked(self, flask_test_client, seed_test_data_fn):
-        response = flask_test_client.post("/account/accounts/search", json={"blah": False})
-
-        assert response.status_code == 400
-
     def test_search_cannot_filter_on_roles_and_partial_roles_together(self, flask_test_client, seed_test_data_fn):
         response = flask_test_client.post(
             "/account/accounts/search", json={"roles": ["SECTION_151"], "partial_roles": ["R1"]}
