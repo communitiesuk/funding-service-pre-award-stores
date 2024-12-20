@@ -135,6 +135,8 @@ environments:
         path: /healthcheck
         port: 8080
   uat:
+    variables:
+      ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     http:
       target_container: nginx
       healthcheck:
