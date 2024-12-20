@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from distutils.util import strtobool
 
-from flask import abort, current_app, jsonify, request
+from flask import Blueprint, abort, current_app, jsonify, request
 from fsd_utils.locale_selector.get_lang import get_lang
 
 from db import db
@@ -27,6 +27,8 @@ from fund_store.db.schemas.event import EventSchema
 from fund_store.db.schemas.fund import FundSchema
 from fund_store.db.schemas.round import RoundSchema
 from fund_store.db.schemas.section import SECTION_SCHEMA_MAP
+
+fund_store_bp = Blueprint("fund_store_bp", __name__)
 
 
 def is_valid_uuid(value):
@@ -92,6 +94,7 @@ def filter_round_by_lang(round_data, lang_key: str = "en"):
     return round
 
 
+@fund_store_bp.get("/funds")
 def get_funds():
     language = request.args.get("language", "en").replace("?", "")
     funds = get_all_funds()
@@ -103,6 +106,7 @@ def get_funds():
     return jsonify(funds)
 
 
+@fund_store_bp.get("/funds/<fund_id>")
 def get_fund(fund_id):
     language = request.args.get("language", "en").replace("?", "")
     short_name_arg = request.args.get("use_short_name")
@@ -131,6 +135,7 @@ def get_round_from_db(fund_id, round_id) -> Round:
     return round
 
 
+@fund_store_bp.get("/funds/<fund_id>/rounds/<round_id>")
 def get_round(fund_id, round_id):
     round = get_round_from_db(fund_id, round_id)
     language = request.args.get("language", "en").replace("?", "")
@@ -141,6 +146,7 @@ def get_round(fund_id, round_id):
     abort(404)
 
 
+@fund_store_bp.get("/funds/<fund_id>/rounds/<round_id>/eoi_decision_schema")
 def get_eoi_deicision_schema_for_round(fund_id, round_id):
     language = request.args.get("language", "en").replace("?", "").lower()
     round = get_round_from_db(fund_id=fund_id, round_id=round_id)
@@ -153,6 +159,7 @@ def get_eoi_deicision_schema_for_round(fund_id, round_id):
     return round.eoi_decision_schema.get(language) or {}
 
 
+@fund_store_bp.get("/funds/<fund_id>/rounds")
 def get_rounds_for_fund(fund_id):
     language = request.args.get("language", "en").replace("?", "")
     short_name_arg = request.args.get("use_short_name")
@@ -171,6 +178,7 @@ def get_rounds_for_fund(fund_id):
     abort(404)
 
 
+@fund_store_bp.get("/funds/<fund_id>/rounds/<round_id>/sections/application")
 def get_sections_for_round_application(fund_id, round_id):
     language = request.args.get("language", "en").replace("?", "")
     if is_valid_uuid(fund_id) and is_valid_uuid(round_id):
@@ -183,6 +191,7 @@ def get_sections_for_round_application(fund_id, round_id):
     abort(404)
 
 
+@fund_store_bp.get("/funds/<fund_id>/rounds/<round_id>/sections/assessment")
 def get_sections_for_round_assessment(fund_id, round_id):
     language = request.args.get("language", "en").replace("?", "")
     if is_valid_uuid(fund_id) and is_valid_uuid(round_id):
@@ -195,19 +204,20 @@ def get_sections_for_round_assessment(fund_id, round_id):
     abort(404)
 
 
+@fund_store_bp.post("/event")
 def create_event():
-    args = request.get_json()
-    if "type" not in args:
-        abort(400, "Post body must contain event type field")
+    args = request.json
+    if not args or "type" not in args:
+        return jsonify({"detail": "Post body must contain event type field"}), 400
 
     if "activation_date" not in args or not is_valid_isoformat_datetime(args["activation_date"]):
-        abort(400, "Activation date must be in isoformat datetime")
+        return jsonify({"detail": "Activation date must be in isoformat datetime"}), 400
 
     if "processed" in args and not (is_valid_isoformat_datetime(args["processed"])):
-        abort(400, "Processed field must be an isoformat datetime")
+        return jsonify({"detail": "Processed field must be an isoformat datetime"}), 400
 
     if "round_id" in args and not is_valid_uuid(args["round_id"]):
-        abort(400, "Round ID must be a UUID")
+        return jsonify({"detail": "Round ID must be a UUID"}), 400
 
     event = create_event_in_db(
         type=args["type"],
@@ -222,9 +232,10 @@ def create_event():
     abort(500)
 
 
+@fund_store_bp.get("/funds/<fund_id>/rounds/<round_id>/events")
 def get_events_for_round(fund_id, round_id):
     if not is_valid_uuid(round_id):
-        abort(400, "One or more IDs is not of format UUID")
+        return jsonify({"detail": "One or more IDs is not of format UUID"}), 400
 
     only_unprocessed = request.args.get("only_unprocessed", False, type=lambda x: x.lower() == "true")
     events = get_events_from_db(round_id=round_id, only_unprocessed=only_unprocessed)
@@ -234,9 +245,10 @@ def get_events_for_round(fund_id, round_id):
     abort(404)
 
 
+@fund_store_bp.get("/events/<type>")
 def get_events_by_type(type):
     if not any(type == event_type.value for event_type in EventType):
-        abort(400, "Event type not recognised")
+        return jsonify({"detail": "Event type not recognised"}), 400
     only_unprocessed = request.args.get("only_unprocessed", False, type=lambda x: x.lower() == "true")
     events = get_events_from_db(type=type, only_unprocessed=only_unprocessed)
     if events:
@@ -246,9 +258,10 @@ def get_events_by_type(type):
 
 
 # TODO: deprecate in favour of get_event_by_id
+@fund_store_bp.get("/funds/<fund_id>/rounds/<round_id>/event/<event_id>")
 def get_event_for_round(fund_id, round_id, event_id):
     if not is_valid_uuid(event_id) or not is_valid_uuid(round_id):
-        abort(400, "One or more IDs is not of format UUID")
+        return jsonify({"detail": "One or more IDs is not of format UUID"}), 400
 
     event = get_event_from_db(round_id=round_id, event_id=event_id)
     if event:
@@ -258,9 +271,10 @@ def get_event_for_round(fund_id, round_id, event_id):
     abort(404)
 
 
+@fund_store_bp.get("/event/<event_id>")
 def get_event_by_id(event_id):
     if not is_valid_uuid(event_id):
-        abort(400, "One or more IDs is not of format UUID")
+        return jsonify({"detail": "One or more IDs is not of format UUID"}), 400
     event = get_event_from_db(event_id=event_id)
     if event:
         serialiser = EventSchema()
@@ -268,9 +282,10 @@ def get_event_by_id(event_id):
     abort(404)
 
 
+@fund_store_bp.put("/funds/<fund_id>/rounds/<round_id>/event/<event_id>")
 def set_round_event_to_processed(fund_id, round_id, event_id):
     if not is_valid_uuid(event_id) or not is_valid_uuid(round_id):
-        abort(400, "One or more IDs is not of format UUID")
+        return jsonify({"detail": "One or more IDs is not of format UUID"}), 400
     processed = request.args.get("processed", type=lambda x: x.lower() == "true")
     event = set_event_to_processed_in_db(event_id=event_id, processed=processed)
     if event:
@@ -279,9 +294,10 @@ def set_round_event_to_processed(fund_id, round_id, event_id):
     abort(404)
 
 
+@fund_store_bp.put("/event/<event_id>")
 def set_event_to_processed(event_id):
     if not is_valid_uuid(event_id):
-        abort(400, "One or more IDs is not of format UUID")
+        return jsonify({"detail": "One or more IDs is not of format UUID"}), 400
     processed = request.args.get("processed", type=lambda x: x.lower() == "true")
     event = set_event_to_processed_in_db(event_id=event_id, processed=processed)
     if event:
