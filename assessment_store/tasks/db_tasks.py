@@ -5,7 +5,7 @@ sys.path.insert(1, ".")
 
 from invoke import task  # noqa:E402
 
-from app import app as connexionapp  # noqa:E402
+from app import create_app  # noqa:E402
 from assessment_store.tasks.helper_tasks import (
     _echo_input,  # noqa:E402
     _echo_print,  # noqa:E402
@@ -29,7 +29,8 @@ def bootstrap_dev_db(c):
     from sqlalchemy_utils.functions import create_database, database_exists
 
     with _env_var("FLASK_ENV", "development"):
-        with connexionapp.app.app_context():
+        app = create_app()
+        with app.app_context():
             from config import Config
 
             if database_exists(Config.SQLALCHEMY_DATABASE_URI):
@@ -71,7 +72,8 @@ def seed_dev_db(c, fundround=None, appcount=None):
     from flask_migrate import upgrade
 
     with _env_var("FLASK_ENV", "development"):
-        with connexionapp.app.app_context():
+        app = create_app()
+        with app.app_context():
             from assessment_store.config.mappings.assessment_mapping_fund_round import (
                 fund_round_mapping_config,
             )
@@ -124,7 +126,8 @@ def create_seeded_db(c):
 @task
 def seed_local_assessment_store_db(c):
     with _env_var("FLASK_ENV", "development"):
-        with connexionapp.app.app_context():
+        app = create_app()
+        with app.app_context():
             import uuid
 
             from assessment_store.db.models.score import AssessmentRound, ScoringSystem

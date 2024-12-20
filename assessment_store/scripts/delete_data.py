@@ -108,7 +108,9 @@ def delete_all_assessments_in_round(ctx, round_id, do_commit):
 
 
 if __name__ == "__main__":
-    from app import app
+    from app import create_app
+
+    app = create_app()
     from config import Config
 
     with app.app_context():

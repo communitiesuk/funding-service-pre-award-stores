@@ -25,7 +25,7 @@ def app():
     :return: A flask test client.
     """
     app = create_app()
-    yield app.app
+    yield app
 
 
 @pytest.fixture(scope="function")

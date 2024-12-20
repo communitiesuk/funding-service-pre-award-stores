@@ -7,4 +7,4 @@ def test_healthchecks_endpoint(flask_test_client):
     }
 
     assert 200 == response.status_code, "Unexpected status code"
-    assert expected_dict == response.json(), "Unexpected json body"
+    assert expected_dict == response.json, "Unexpected json body"

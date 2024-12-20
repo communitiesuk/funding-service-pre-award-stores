@@ -44,10 +44,10 @@ def test_create_application_is_successful(flask_test_client, unique_fund_round, 
         "language": "cy",
     }
     response = post_data(flask_test_client, "/application/applications", application_data_a1)
-    assert response.json()["language"] == "en"
+    assert response.json["language"] == "en"
     count_fund_applications(flask_test_client, unique_fund_round[0], 1)
     response = post_data(flask_test_client, "/application/applications", application_data_a2)
-    assert response.json()["language"] == "cy"
+    assert response.json["language"] == "cy"
     count_fund_applications(flask_test_client, unique_fund_round[0], 2)
 
 
@@ -127,7 +127,7 @@ def test_create_application_creates_formatted_reference(
         headers={"Content-Type": "application/json"},
         follow_redirects=True,
     )
-    application = response.json()
+    application = response.json
     assert application["reference"].startswith("TEST-TEST")
     assert application["reference"][-6:].isupper()
     assert application["reference"][-6:].isalpha()
@@ -157,7 +157,7 @@ def test_create_application_creates_unique_reference(
         follow_redirects=True,
     )
     assert response.status_code == 201, f"First creation failed with status {response.status_code}: {response.content}"
-    application = response.json()
+    application = response.json
     assert application["reference"] == "TEST-TEST-ABCDEF", f"Unexpected reference: {application['reference']}"
 
     # Second creation should fail
@@ -169,7 +169,7 @@ def test_create_application_creates_unique_reference(
     )
 
     assert response.status_code == 500, f"Expected status 500, but got {response.status_code}"
-    error_data = response.json()
+    error_data = response.json
 
     assert "detail" in error_data, f"Expected 'detail' in error response, got: {error_data}"
     assert (
@@ -242,8 +242,8 @@ def test_update_section_of_application(flask_test_client, seed_application_recor
         follow_redirects=True,
     )
     assert 201 == response.status_code
-    answer_found_list = [field["answer"] not in [None, ""] for field in response.json()["questions"][0]["fields"]]
-    section_status = response.json()["status"]
+    answer_found_list = [field["answer"] not in [None, ""] for field in response.json["questions"][0]["fields"]]
+    section_status = response.json["status"]
     assert all(answer_found_list)
     assert section_status == "IN_PROGRESS"
 
@@ -287,7 +287,7 @@ def test_update_section_of_application_with_optional_field(flask_test_client, se
         follow_redirects=True,
     )
     assert 201 == response.status_code
-    section_status = response.json()["status"]
+    section_status = response.json["status"]
     assert section_status == "IN_PROGRESS"
 
 
@@ -319,7 +319,7 @@ def test_update_section_of_application_with_incomplete_answers(flask_test_client
         follow_redirects=True,
     )
     assert 201 == response.status_code
-    section_status = response.json()["status"]
+    section_status = response.json["status"]
     assert section_status == "IN_PROGRESS"
 
 
@@ -567,7 +567,7 @@ def test_complete_form(flask_test_client, seed_application_records):
         json=section_put,
         follow_redirects=True,
     )
-    section_status = response.json()["status"]
+    section_status = response.json["status"]
     assert section_status == "COMPLETED"
 
 
@@ -680,7 +680,7 @@ def test_post_research_survey_data(flask_test_client, mocker):
     )
 
     assert response.status_code == 201
-    assert response.json() == expected_survey_data
+    assert response.json == expected_survey_data
     mock_upsert_research_survey_data.assert_called_once_with(
         application_id=request_data["application_id"],
         fund_id=request_data["fund_id"],
@@ -720,7 +720,7 @@ def test_get_research_survey_data(flask_test_client, mocker):
     response = flask_test_client.get(f"/application/application/research?application_id={application_id}")
 
     assert response.status_code == 200
-    assert response.json() == expected_survey_data
+    assert response.json == expected_survey_data
     mock_retrieve_research_survey_data.assert_called_once_with(application_id)
 
 
@@ -734,7 +734,7 @@ def test_get_research_survey_data_not_found(flask_test_client, mocker):
     response = flask_test_client.get(f"/application/application/research?application_id={application_id}")
 
     assert response.status_code == 404
-    assert response.json() == {
+    assert response.json == {
         "code": 404,
         "message": f"Research survey data for {application_id} not found",
     }
