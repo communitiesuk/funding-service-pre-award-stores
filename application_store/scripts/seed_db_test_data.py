@@ -6,7 +6,9 @@ sys.path.insert(1, ".")
 
 from fsd_test_utils.test_config.useful_config import UsefulConfig  # noqa: E402
 
-from app import app  # noqa: E402
+from app import create_app
+
+app = create_app()  # noqa: E402
 from application_store.db.models.application.applications import Status  # noqa: E402
 from tests.application_store_tests.seed_data.seed_db import (  # noqa: E402
     seed_completed_application,
@@ -134,5 +136,5 @@ def seed_applications(fund_short_code, round_short_code, account_id, status, cou
 
 
 if __name__ == "__main__":
-    with app.app.app_context():
+    with app.app_context():
         seed_applications()

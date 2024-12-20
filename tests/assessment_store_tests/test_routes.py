@@ -272,7 +272,7 @@ def test_get_application_json(flask_test_client, seed_application_records):
     response = flask_test_client.get(f"/assessment/application/{application_id}/json")
     assert 200 == response.status_code
 
-    json_blob = response.json()
+    json_blob = response.json
     assert application_id == json_blob["application_id"]
 
 
@@ -293,8 +293,8 @@ def test_get_flags(flask_test_client, mocker):
     )
     response = flask_test_client.get("/assessment/flags/app_id")
     assert response.status_code == 200
-    assert len(response.json()) == 1
-    assert response.json()[0]["id"] == str(expected_flag.id)
+    assert len(response.json) == 1
+    assert response.json[0]["id"] == str(expected_flag.id)
 
 
 @pytest.mark.apps_to_insert([test_input_data[0].copy() for x in range(4)])
@@ -320,9 +320,9 @@ def test_get_team_flag_stats(flask_test_client, seed_application_records):
     response = flask_test_client.get(f"/assessment/assessments/get-team-flag-stats/{fund_id}/{round_id}")
 
     assert response.status_code == 200
-    assert len(response.json()) == 1
-    assert response.json()[0]["team_name"] == "ASSESSOR"
-    assert response.json()[0]["raised"] == 1
+    assert len(response.json) == 1
+    assert response.json[0]["team_name"] == "ASSESSOR"
+    assert response.json[0]["raised"] == 1
 
     # Add a RAISED flag for second application
     # still only one team exists with a flag allocated
@@ -351,11 +351,11 @@ def test_get_team_flag_stats(flask_test_client, seed_application_records):
     response = flask_test_client.get(f"/assessment/assessments/get-team-flag-stats/{fund_id}/{round_id}")
 
     assert response.status_code == 200
-    assert len(response.json()) == 2
-    assert response.json()[0]["team_name"] == "ASSESSOR"
-    assert response.json()[0]["raised"] == 2
-    assert response.json()[1]["team_name"] == "LEAD_ASSESSOR"
-    assert response.json()[1]["raised"] == 1
+    assert len(response.json) == 2
+    assert response.json[0]["team_name"] == "ASSESSOR"
+    assert response.json[0]["raised"] == 2
+    assert response.json[1]["team_name"] == "LEAD_ASSESSOR"
+    assert response.json[1]["raised"] == 1
 
 
 def test_create_flag(flask_test_client):
@@ -374,7 +374,7 @@ def test_create_flag(flask_test_client):
         )
         assert response.status_code == 200
         create_mock.assert_called_with(**request_body)
-        assert response.json()["id"] == str(expected_flag.id)
+        assert response.json["id"] == str(expected_flag.id)
 
 
 def test_update_flag(flask_test_client):
@@ -393,7 +393,7 @@ def test_update_flag(flask_test_client):
         )
         assert response.status_code == 200
         update_mock.assert_called_once_with(**request_body)
-        assert response.json()["id"] == str(expected_flag.id)
+        assert response.json["id"] == str(expected_flag.id)
 
 
 def test_get_tag(flask_test_client, mocker):
@@ -410,8 +410,8 @@ def test_get_tag(flask_test_client, mocker):
     with mocker.patch("assessment_store.api.routes.tag_routes.get_tag_by_id", return_value=mock_tag):
         response = flask_test_client.get("/assessment/funds/test-fund/rounds/round-id/tags/tag-id")
         assert response.status_code == 200
-        assert response.json()
-        assert response.json()["id"] == str(tag_id)
+        assert response.json
+        assert response.json["id"] == str(tag_id)
 
 
 def test_get_tag_none_exists(flask_test_client, mocker):
@@ -482,7 +482,7 @@ def test_get_all_users_associated_with_application(flask_test_client):
         response = flask_test_client.get("/assessment/application/app1/users")
 
         assert response.status_code == 200
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_get_users.assert_called_once_with(application_id="app1", active=None)
 
 
@@ -506,7 +506,7 @@ def test_get_user_application_association(flask_test_client):
         response = flask_test_client.get("/assessment/application/app1/user/user1")
 
         assert response.status_code == 200
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_get_association.assert_called_once_with(application_id="app1", user_id="user1")
 
 
@@ -538,7 +538,7 @@ def test_add_user_application_association(flask_test_client, send_email_value):
         )
 
         assert response.status_code == 201
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_create_association.assert_called_once_with(application_id="app1", user_id="user1", assigner_id="assigner1")
         if send_email_value:
             mock_notify_email.assert_called_once()
@@ -578,7 +578,7 @@ def test_update_user_application_association(flask_test_client, send_email_value
         )
 
         assert response.status_code == 200
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_update_association.assert_called_once_with(
             application_id="app1",
             user_id="user1",
@@ -622,7 +622,7 @@ def test_get_all_applications_associated_with_user(flask_test_client):
         response = flask_test_client.get("/assessment/user/user1/applications")
 
         assert response.status_code == 200
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_get_applications.assert_called_once_with(user_id="user1", active=None)
 
 
@@ -657,7 +657,7 @@ def test_get_all_applications_assigned_by_user(flask_test_client):
         response = flask_test_client.get("/assessment/user/assigner1/assignees")
 
         assert response.status_code == 200
-        assert response.json() == expected_response
+        assert response.json == expected_response
         mock_get_applications.assert_called_once_with(assigner_id="assigner1", active=None)
 
 

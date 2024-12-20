@@ -1,7 +1,7 @@
 import importlib
 import os
 
-from app import app
+from app import create_app
 
 
 def load_all_fund_rounds() -> None:
@@ -23,5 +23,5 @@ def load_all_fund_rounds() -> None:
 
 
 if __name__ == "__main__":
-    with app.app.app_context():
+    with create_app().app_context():
         load_all_fund_rounds()
