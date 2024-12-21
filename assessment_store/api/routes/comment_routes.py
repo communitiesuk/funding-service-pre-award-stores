@@ -1,26 +1,19 @@
 from typing import Dict
 
-from flask import request
+from flask import Blueprint, request
 
 from assessment_store.db.queries.comments import create_comment, get_comments_from_db, update_comment
 
+assessment_comment_bp = Blueprint("assessment_comment_bp", __name__)
 
-def get_comments(
-    application_id: str = None,
-    sub_criteria_id: str = None,
-    theme_id: str = None,
-    comment_id: str = None,
-    comment_type: str = None,
-) -> Dict:
-    """get_comments Function used by the get endpoint `/comment`.
 
-    :param application_id: The stringified application UUID.
-    :param sub_criteria_id: The stringified sub_criteria UUID.
-    :param theme_id: The stringified theme UUID.
-    :param comment_id: The stringified comment UUID.
-    :return: A List of dictionaries.
-
-    """
+@assessment_comment_bp.get("/comment")
+def get_comments() -> Dict:
+    application_id = request.args.get("application_id")
+    sub_criteria_id = request.args.get("sub_criteria_id")
+    theme_id = request.args.get("theme_id")
+    comment_id = request.args.get("comment_id")
+    comment_type = request.args.get("comment_type")
 
     comment_metadatas = get_comments_from_db(
         application_id, sub_criteria_id, theme_id, comment_id, comment_type=comment_type
@@ -29,6 +22,7 @@ def get_comments(
     return comment_metadatas
 
 
+@assessment_comment_bp.post("/comment")
 def post_comments() -> Dict:
     """post_comments Function used by the post endpoint `/comment`.
 

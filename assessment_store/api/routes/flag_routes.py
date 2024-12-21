@@ -1,4 +1,4 @@
-from flask import current_app, request
+from flask import Blueprint, current_app, request
 
 from assessment_store.db.models.flags.flag_update import FlagStatus
 from assessment_store.db.queries import get_metadata_for_fund_round_id
@@ -10,6 +10,8 @@ from assessment_store.db.queries.flags.queries import (
 )
 from assessment_store.db.schemas.schemas import AssessmentFlagSchema
 
+assessment_flag_bp = Blueprint("assessment_flag", __name__)
+
 
 def _fix_country(country):
     country = country.strip().casefold()
@@ -18,16 +20,18 @@ def _fix_country(country):
     return country
 
 
+@assessment_flag_bp.get("/assessments/get-team-flag-stats/<fund_id>/<round_id>")
 def get_team_flag_stats(
     fund_id: str,
     round_id: str,
-    search_term: str = "",
-    funding_type: str = "ALL",
-    asset_type: str = "ALL",
-    status: str = "ALL",
-    search_in: str = "",
-    countries: str = "all",
 ):
+    search_term: str = request.args.get("search_term", "")
+    funding_type: str = request.args.get("funding_type", "ALL")
+    asset_type: str = request.args.get("asset_type", "ALL")
+    status: str = request.args.get("status", "ALL")
+    search_in: str = request.args.get("search_in", "")
+    countries: str = request.args.get("countries", "all")
+
     assessment_overview_flags = get_metadata_for_fund_round_id(
         fund_id=fund_id,
         round_id=round_id,
@@ -69,13 +73,16 @@ def get_team_flag_stats(
     return team_flag_stats
 
 
-def get_flag(flag_id: str):
+@assessment_flag_bp.get("/flag_data")
+def get_flag():
+    flag_id = request.args["flag_id"]
     current_app.logger.info("Get flags for id {flag_id}", extra=dict(flag_id=flag_id))
     flags = get_flag_by_id(flag_id)
     flag_schema = AssessmentFlagSchema()
     return flag_schema.dump(flags, many=True)[0]
 
 
+@assessment_flag_bp.get("/flags/<application_id>")
 def get_all_flags_for_application(application_id):
     current_app.logger.info("Get all flags for application {application_id}", extra=dict(application_id=application_id))
     flags = get_flags_for_application(application_id)
@@ -83,6 +90,7 @@ def get_all_flags_for_application(application_id):
     return flag_schema.dump(flags, many=True)
 
 
+@assessment_flag_bp.post("/flags/")
 def create_flag_for_application():
     create_flag_json = request.json
     current_app.logger.info(
@@ -92,6 +100,7 @@ def create_flag_for_application():
     return AssessmentFlagSchema().dump(created_flag)
 
 
+@assessment_flag_bp.put("/flags/")
 def update_flag_for_application():
     current_app.logger.info("Update flag")
     update_flag_json = request.json

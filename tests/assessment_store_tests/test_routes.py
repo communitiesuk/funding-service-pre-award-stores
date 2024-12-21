@@ -37,13 +37,13 @@ def test_get_assessments_stats(flask_test_client, seed_application_records, seed
     applications = flask_test_client.get(f"/assessment/application_overviews/{fund_id}/{round_id}").json
 
     request = flask_test_client.post(f"/assessment/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
-    assessment_stats = request.json().get(round_id)
+    assessment_stats = request.json.get(round_id)
     assert assessment_stats["qa_completed"] == 0
 
     create_qa_complete_record(applications[0]["application_id"], "usera")
 
     request = flask_test_client.post(f"/assessment/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
-    assessment_stats = request.json().get(round_id)
+    assessment_stats = request.json.get(round_id)
     assert assessment_stats["qa_completed"] == 1
 
     create_qa_complete_record(applications[1]["application_id"], "usera")
@@ -58,7 +58,7 @@ def test_get_assessments_stats(flask_test_client, seed_application_records, seed
     ).id
 
     request = flask_test_client.post(f"/assessment/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
-    assessment_stats = request.json().get(round_id)
+    assessment_stats = request.json.get(round_id)
     assert assessment_stats["flagged"] == 1
     assert assessment_stats["qa_completed"] == 1
 
@@ -71,7 +71,7 @@ def test_get_assessments_stats(flask_test_client, seed_application_records, seed
     )
 
     request = flask_test_client.post(f"/assessment/assessments/get-stats/{fund_id}", json={"round_ids": [round_id]})
-    assessment_stats = request.json().get(round_id)
+    assessment_stats = request.json.get(round_id)
 
     assert assessment_stats["flagged"] == 0
     assert assessment_stats["qa_completed"] == 2
