@@ -222,23 +222,34 @@ def test_deactivate_tags(app, _db, clear_test_data, seed_tags):
     round_id_test = seeded_tag["round_id"]
     result = get_tags_for_fund_round(fund_id_test, round_id_test)
     assert all(tag["active"] is True for tag in result)
+
     # Deactivate tag
     tags_to_update = [{"active": False, "id": seeded_tag["id"]}]
+
     with app.test_request_context(json=tags_to_update):
         update_tags_for_fund_round(fund_id_test, round_id_test)
-    result = get_tags_for_fund_round(fund_id_test, round_id_test, tag_status=True)
-    assert len(result) == 1
-    result = get_tags_for_fund_round(fund_id_test, round_id_test, tag_status=False)
-    assert len(result) == 1
+
+    with app.test_request_context(f"/funds/{fund_id_test}/rounds/{round_id_test}/tags?tag_status=true"):
+        result = get_tags_for_fund_round(fund_id_test, round_id_test)
+        assert len(result) == 1
+
+    with app.test_request_context(f"/funds/{fund_id_test}/rounds/{round_id_test}/tags?tag_status=false"):
+        result = get_tags_for_fund_round(fund_id_test, round_id_test)
+        assert len(result) == 1
+
     # Reactivate tag
     tags_to_update = [{"active": True, "id": seeded_tag["id"]}]
     with app.test_request_context(json=tags_to_update):
         update_tags_for_fund_round(fund_id_test, round_id_test)
-    result = get_tags_for_fund_round(fund_id_test, round_id_test, tag_status=True)
-    assert len(result) == 2
-    result = get_tags_for_fund_round(fund_id_test, round_id_test, tag_status=False)
-    assert result.status_code == 204
-    assert result.data.decode("utf-8") == ""
+
+    with app.test_request_context(f"/funds/{fund_id_test}/rounds/{round_id_test}/tags?tag_status=true"):
+        result = get_tags_for_fund_round(fund_id_test, round_id_test)
+        assert len(result) == 2
+
+    with app.test_request_context(f"/funds/{fund_id_test}/rounds/{round_id_test}/tags?tag_status=false"):
+        result = get_tags_for_fund_round(fund_id_test, round_id_test)
+        assert result.status_code == 204
+        assert result.data.decode("utf-8") == ""
 
 
 def test_deactivate_tags_fails_for_non_existent(app, _db, clear_test_data, seed_tags):
