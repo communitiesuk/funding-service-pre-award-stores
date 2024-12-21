@@ -60,6 +60,7 @@ def get_applications(filters=None, include_forms=False, as_json=False) -> list[d
         stmt = stmt.options(noload(Applications.forms))
         serialiser = ApplicationSchema(exclude=["forms"])
 
+    stmt = stmt.order_by(Applications.started_at)
     rows: Applications = db.session.scalars(stmt).unique().all()
 
     if as_json:
