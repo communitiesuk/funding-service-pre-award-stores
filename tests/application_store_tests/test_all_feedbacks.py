@@ -139,4 +139,4 @@ def test_api_get_all_feedbacks_and_survey_report(
 
     assert response.status_code == 200
     assert "application/vnd.ms-excel" == response.headers["Content-Type"]
-    assert isinstance(response.content, bytes)
+    assert isinstance(response.data, bytes)

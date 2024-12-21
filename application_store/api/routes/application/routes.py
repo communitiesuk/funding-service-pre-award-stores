@@ -1,7 +1,7 @@
 import time
-from typing import Optional
+from distutils.util import strtobool
 
-from flask import current_app, jsonify, request, send_file
+from flask import Blueprint, current_app, jsonify, request, send_file
 from flask.views import MethodView
 from fsd_utils import evaluate_response
 from sqlalchemy.orm.exc import NoResultFound
@@ -53,16 +53,31 @@ from application_store.external_services.exceptions import (
     NotificationError,
 )
 
+application_store_bp = Blueprint("application_store_bp", __name__)
+
 
 class ApplicationsView(MethodView):
-    def get(self, **kwargs):
+    def get(self):
+        application_id = request.args.get("application_id")
+        account_id = request.args.get("account_id")
+        fund_id = request.args.get("fund_id")
+        round_id = request.args.get("round_id")
+        status_only = request.args.getlist("status_only")
+        forms = strtobool(request.args.get("forms", "false"))
         response_headers = {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Credentials": True,
         }
-        matching_applications = search_applications(**kwargs)
-        order_by = kwargs.get("order_by", None)
-        order_rev = kwargs.get("order_rev", None)
+        matching_applications = search_applications(
+            application_id=application_id,
+            account_id=account_id,
+            fund_id=fund_id,
+            round_id=round_id,
+            status_only=status_only,
+            forms=forms,
+        )
+        order_by = request.args.get("order_by")
+        order_rev = request.args.get("order_rev")
         sorted_applications = order_applications(matching_applications, order_by, order_rev)
         return sorted_applications, 200, response_headers
 
@@ -85,7 +100,10 @@ class ApplicationsView(MethodView):
         add_new_forms(forms=empty_forms, application_id=application.id)
         return application.as_dict(), 201
 
-    def get_by_id(self, application_id, with_questions_file=False):
+
+class ApplicationByIdView(MethodView):
+    def get(self, application_id):
+        with_questions_file = strtobool(request.args.get("with_questions_file", "false"))
         try:
             return_dict = get_application(application_id, as_json=True, include_forms=True)
             return_dict = create_qa_base64file(return_dict, with_questions_file)
@@ -96,7 +114,9 @@ class ApplicationsView(MethodView):
         except NoResultFound as e:
             return {"code": 404, "message": str(e)}, 404
 
-    def get_key_application_data_report(self, application_id):
+
+class ApplicationsKeyApplicationMetricsView(MethodView):
+    def get(self, application_id):
         try:
             return send_file(
                 export_json_to_csv(get_report_for_applications(application_ids=[application_id])),
@@ -107,12 +127,12 @@ class ApplicationsView(MethodView):
         except NoResultFound as e:
             return {"code": 404, "message": str(e)}, 404
 
-    def get_applications_statuses_report(
-        self,
-        round_id: Optional[list] = None,
-        fund_id: Optional[list] = None,
-        format: Optional[str] = "csv",
-    ):
+
+class ApplicationsStatusesDataView(MethodView):
+    def get(self):
+        round_id = request.args.getlist("round_id")
+        fund_id = request.args.getlist("fund_id")
+        format = request.args.get("format", "csv")
         try:
             report_data = get_general_status_applications_report(
                 round_id or None,
@@ -133,12 +153,12 @@ class ApplicationsView(MethodView):
                 download_name="required_data.csv",
             )
 
-    def get_key_applications_data_report(
-        self,
-        status=Status.SUBMITTED.name,
-        round_id: Optional[str] = None,
-        fund_id: Optional[str] = None,
-    ):
+
+class KeyApplicationMetricsDataView(MethodView):
+    def get(self):
+        status = request.args.get("status", Status.SUBMITTED.name)
+        round_id = request.args.get("round_id")
+        fund_id = request.args.get("fund_id")
         try:
             return send_file(
                 export_json_to_csv(
@@ -152,6 +172,8 @@ class ApplicationsView(MethodView):
         except NoResultFound as e:
             return {"code": 404, "message": str(e)}, 404
 
+
+class ApplicationsFormView(MethodView):
     def put(self):
         request_json = request.get_json(force=True)
         form_dict = {
@@ -170,7 +192,14 @@ class ApplicationsView(MethodView):
         except NoResultFound as e:
             return {"code": 404, "message": str(e)}, 404
 
-    def submit(self, application_id):
+
+class SubmitApplicationView(MethodView):
+    def get_application_eoi_response(self, application):
+        eoi_schema = get_round_eoi_schema(application["fund_id"], application["round_id"], application["language"])
+        result = evaluate_response(eoi_schema, application["forms"])
+        return result
+
+    def post(self, application_id):
         should_send_email = True
         if request.args.get("dont_send_email") == "true":
             should_send_email = False
@@ -227,7 +256,9 @@ class ApplicationsView(MethodView):
             "eoi_decision": eoi_decision,
         }, 201
 
-    def post_feedback(self):
+
+class ApplicationFeedbackView(MethodView):
+    def post(self):
         args = request.get_json()
         application_id = args["application_id"]
         fund_id = args["fund_id"]
@@ -249,7 +280,9 @@ class ApplicationsView(MethodView):
 
         return feedback.as_dict(), 201
 
-    def get_feedback_for_section(self, application_id, section_id):
+    def get(self):
+        application_id = request.args["application_id"]
+        section_id = request.args["section_id"]
         feedback = get_feedback(application_id, section_id)
         if feedback:
             return feedback.as_dict(), 200
@@ -259,7 +292,9 @@ class ApplicationsView(MethodView):
             "message": f"Feedback not fund for {application_id}, {section_id}",
         }, 404
 
-    def post_end_of_application_survey_data(self):
+
+class EndOfApplicationSurveyDataView(MethodView):
+    def post(self):
         args = request.get_json()
         application_id = args["application_id"]
         fund_id = args["fund_id"]
@@ -279,7 +314,9 @@ class ApplicationsView(MethodView):
 
         return survey_data.as_dict(), 201
 
-    def get_end_of_application_survey_data(self, application_id, page_number):
+    def get(self):
+        application_id = request.args["application_id"]
+        page_number = request.args["page_number"]
         survey_data = retrieve_end_of_application_survey_data(application_id, int(page_number))
         if survey_data:
             return survey_data.as_dict(), 200
@@ -289,10 +326,12 @@ class ApplicationsView(MethodView):
             "message": f"End of application feedback survey data for {application_id}, {page_number} not found",
         }, 404
 
-    def get_all_feedbacks_and_survey_report(self, **params):
-        fund_id = params.get("fund_id")
-        round_id = params.get("round_id")
-        status = params.get("status_only")
+
+class GetAllFeedbacksAndSurveyReportView(MethodView):
+    def get(self):
+        fund_id = request.args["fund_id"]
+        round_id = request.args["round_id"]
+        status = request.args.get("status_only")
 
         try:
             return send_file(
@@ -304,12 +343,9 @@ class ApplicationsView(MethodView):
         except NoResultFound as e:
             return {"code": 404, "message": str(e)}, 404
 
-    def get_application_eoi_response(self, application):
-        eoi_schema = get_round_eoi_schema(application["fund_id"], application["round_id"], application["language"])
-        result = evaluate_response(eoi_schema, application["forms"])
-        return result
 
-    def post_research_survey_data(self):
+class ApplicationResearchView(MethodView):
+    def post(self):
         """
         Endpoint to post research survey data.
 
@@ -337,7 +373,12 @@ class ApplicationsView(MethodView):
 
         return survey_data.as_dict(), 201
 
-    def get_research_survey_data(self, application_id):
+        return {
+            "code": 404,
+            "message": f"Research survey data for {application_id} not found",
+        }, 404
+
+    def get(self):
         """
         Endpoint to retrieve research survey data for a given application_id.
 
@@ -348,6 +389,7 @@ class ApplicationsView(MethodView):
             If found, survey data in dict form is returned with 200 HTTP code
             Else an error message with HTTP status code 404.
         """
+        application_id = request.args["application_id"]
         survey_data = retrieve_research_survey_data(application_id)
         if survey_data:
             return survey_data.as_dict(), 200
@@ -356,3 +398,42 @@ class ApplicationsView(MethodView):
             "code": 404,
             "message": f"Research survey data for {application_id} not found",
         }, 404
+
+
+application_store_bp.add_url_rule(
+    "/application/feedback", view_func=ApplicationFeedbackView.as_view("application_feedback")
+)
+application_store_bp.add_url_rule(
+    "/application/research", view_func=ApplicationResearchView.as_view("application_research")
+)
+application_store_bp.add_url_rule("/applications/forms", view_func=ApplicationsFormView.as_view("application_forms"))
+
+application_store_bp.add_url_rule("/applications", view_func=ApplicationsView.as_view("applications"))
+application_store_bp.add_url_rule(
+    "/applications/<application_id>", view_func=ApplicationByIdView.as_view("application_by_id")
+)
+application_store_bp.add_url_rule(
+    "/applications/<application_id>/submit", view_func=SubmitApplicationView.as_view("submit_application")
+)
+
+application_store_bp.add_url_rule(
+    "/applications/reporting/key_application_metrics",
+    view_func=KeyApplicationMetricsDataView.as_view("key_application_metrics"),
+)
+application_store_bp.add_url_rule(
+    "/applications/reporting/key_application_metrics/<application_id>",
+    view_func=ApplicationsKeyApplicationMetricsView.as_view("key_application_metrics_for_application_id"),
+)
+application_store_bp.add_url_rule(
+    "/applications/reporting/applications_statuses_data",
+    view_func=ApplicationsStatusesDataView.as_view("applications_statuses_data"),
+)
+
+application_store_bp.add_url_rule(
+    "/application/end_of_application_survey_data",
+    view_func=EndOfApplicationSurveyDataView.as_view("end_of_application_survey_data"),
+)
+application_store_bp.add_url_rule(
+    "/applications/get_all_feedbacks_and_survey_report",
+    view_func=GetAllFeedbacksAndSurveyReportView.as_view("get_all_feedbacks_and_survey_report"),
+)
