@@ -156,7 +156,7 @@ def test_create_application_creates_unique_reference(
         headers={"Content-Type": "application/json"},
         follow_redirects=True,
     )
-    assert response.status_code == 201, f"First creation failed with status {response.status_code}: {response.content}"
+    assert response.status_code == 201, f"First creation failed with status {response.status_code}: {response.text}"
     application = response.json
     assert application["reference"] == "TEST-TEST-ABCDEF", f"Unexpected reference: {application['reference']}"
 
@@ -178,21 +178,23 @@ def test_create_application_creates_unique_reference(
 
 
 @pytest.mark.apps_to_insert(test_application_data)
-def test_get_all_applications(flask_test_client, app):
+def test_get_all_applications(
+    flask_test_client,
+    app,
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN a request for applications with no set params
     THEN the response should return all applications
     """
-    with app.app_context():
-        serialiser = ApplicationSchema(exclude=["forms"])
-        expected_data = [serialiser.dump(row) for row in get_all_applications()]
-        expected_data_within_response(
-            flask_test_client,
-            "/application/applications",
-            expected_data,
-            exclude_regex_paths=key_list_to_regex(["round_name", "date_submitted", "last_edited"]),
-        )
+    serialiser = ApplicationSchema(exclude=["forms"])
+    expected_data = [serialiser.dump(row) for row in get_all_applications()]
+    expected_data_within_response(
+        flask_test_client,
+        "/application/applications",
+        expected_data,
+        exclude_regex_paths=key_list_to_regex(["round_name", "date_submitted", "last_edited"]),
+    )
 
 
 @pytest.mark.apps_to_insert([{"account_id": "unique_user", "language": "en"}])
@@ -394,7 +396,7 @@ def test_get_application_by_application_id_when_db_record_has_no_language_set(
         f"/application/applications/{seed_application_records[0].id}",
         follow_redirects=True,
     )
-    response_content = json.loads(response.content)
+    response_content = response.json
     assert response_content["language"] == "en"
 
 
@@ -417,7 +419,7 @@ def test_get_application_by_application_id_when_db_record_has_no_language_set_an
         f"/application/applications/{seed_application_records[0].id}?with_questions_file=true",
         follow_redirects=True,
     )
-    response_content = json.loads(response.content)
+    response_content = response.json
     assert response_content["questions_file"] is not None
 
 
@@ -593,7 +595,7 @@ def test_form_data_save_with_closed_round(flask_test_client, seed_application_re
     response = flask_test_client.put(
         "/application/applications/forms",
         json=section_put,
-        follow_redirects=True,
+        follow_redirects=False,
     )
     assert response.status_code == 301
 
@@ -624,7 +626,7 @@ def test_put_returns_400_on_submitted_application(flask_test_client, _db, seed_a
     )
 
     assert response.status_code == 400
-    assert b"Not allowed to edit a submitted application." in response.content
+    assert b"Not allowed to edit a submitted application." in response.data
 
 
 def generate_mock_round_closed(fund_id: str, round_id: str) -> Round:

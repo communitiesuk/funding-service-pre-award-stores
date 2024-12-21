@@ -24,14 +24,12 @@ def app():
     from our app, this is a test fixture.
     :return: A flask test client.
     """
-    app = create_app()
-    yield app
+    yield create_app()
 
 
 @pytest.fixture(scope="function")
-def flask_test_client():
-    with create_app().test_client() as test_client:
-        yield test_client
+def flask_test_client(app):
+    yield app.test_client()
 
 
 @pytest.fixture(scope="function")
