@@ -1,6 +1,7 @@
+from distutils.util import strtobool
 from typing import Dict, List
 
-from flask import request
+from flask import Blueprint, request
 
 from assessment_store.db.queries import (
     create_score_for_app_sub_crit,
@@ -8,7 +9,10 @@ from assessment_store.db.queries import (
     get_scoring_system_for_round_id,
 )
 
+assessment_score_bp = Blueprint("assessment_score_bp", __name__)
 
+
+@assessment_score_bp.get("/scoring-system/<round_id>")
 def get_scoring_system_name_for_round_id(round_id: str) -> dict:
     """get_scoring_system_for_round_id Function used by the get endpoint
     `/scoring_systems/{round_id}`.
@@ -25,11 +29,8 @@ def get_scoring_system_name_for_round_id(round_id: str) -> dict:
     }
 
 
-def get_score_for_application_sub_criteria(
-    application_id: str,
-    sub_criteria_id: str = None,
-    score_history: bool = False,
-) -> List[Dict]:
+@assessment_score_bp.get("/score")
+def get_score_for_application_sub_criteria() -> List[Dict]:
     """get_score_for_application_sub_criteria Function used by the get endpoint
     `/applications/{application_id}/ subcriterias/{subcriteria_id}/scores`.
 
@@ -39,12 +40,18 @@ def get_score_for_application_sub_criteria(
     :return: A List of dictionaries.
 
     """
+    application_id = request.args.get("application_id")
+    sub_criteria_id = request.args.get("sub_criteria_id")
+    score_history = (
+        bool(strtobool(request.args.get("score_history", "false"))) if "score_history" in request.args else None
+    )
 
     score_metadata = get_scores_for_app_sub_crit(application_id, sub_criteria_id, score_history)
 
     return score_metadata
 
 
+@assessment_score_bp.post("/score")
 def post_score_for_application_sub_criteria() -> Dict:
     """post_score_for_application_sub_criteria Function used by the post endpoint
     `/applications/{application_id}/ subcriterias/{subcriteria_id}/scores`.

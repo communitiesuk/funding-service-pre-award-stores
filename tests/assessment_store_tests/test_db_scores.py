@@ -4,8 +4,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from assessment_store.api.routes import get_scoring_system_name_for_round_id
 from assessment_store.api.routes.progress_routes import get_progress_for_applications
+from assessment_store.api.routes.score_routes import get_scoring_system_name_for_round_id
 from assessment_store.db.models import Score
 from assessment_store.db.queries.scores.queries import (
     create_score_for_app_sub_crit,
@@ -144,7 +144,9 @@ def test_get_progress_for_applications(seed_application_records):
             application_id_2,
         ]
     }
-    application_progress_list = get_progress_for_applications([application_id_1, application_id_2], fund_id, round_id)
+    application_progress_list = get_progress_for_applications(
+        fund_id, round_id, application_ids=[application_id_1, application_id_2]
+    )
 
     assert len(application_progress_list) == 2
     for application in application_progress_list:

@@ -1,7 +1,7 @@
 import copy
 from typing import Dict, List
 
-from flask import current_app, request
+from flask import Blueprint, Response, current_app, request
 
 from assessment_store.api.models.sub_criteria import SubCriteria
 from assessment_store.api.routes._helpers import compress_response, transform_to_assessor_task_list_metadata
@@ -31,6 +31,8 @@ from assessment_store.db.queries.scores.queries import (
     get_sub_criteria_to_latest_score_map,
 )
 from config import Config
+
+assessment_assessment_bp = Blueprint("assessment_assessment_bp", __name__)
 
 
 def calculate_overall_score_percentage_for_application(application):
@@ -70,6 +72,7 @@ def calculate_overall_score_percentage_for_application(application):
     return (application_weighted_score / highest_possible_weighted_score_for_round) * 100
 
 
+@assessment_assessment_bp.get("/application/<application_id>/metadata")
 def assessment_metadata_for_application_id(application_id: str) -> Dict:
     return get_metadata_for_application(application_id)
 
@@ -81,24 +84,10 @@ def _fix_country(country):
     return country
 
 
+@assessment_assessment_bp.get("/application_overviews/<fund_id>/<round_id>")
 def all_assessments_for_fund_round_id(
     fund_id: str,
     round_id: str,
-    search_term: str = "",
-    funding_type: str = "ALL",
-    asset_type: str = "ALL",
-    status: str = "ALL",
-    search_in: str = "",
-    countries: str = "all",
-    filter_by_tag: str = "",
-    country: str = "ALL",
-    region: str = "ALL",
-    local_authority: str = "ALL",
-    cohort: str = "ALL",
-    publish_datasets: str = "ALL",
-    datasets: str = "ALL",
-    team_in_place: str = "ALL",
-    joint_application: str = "ALL",
 ) -> List[Dict]:
     """all_assessments_for_fund_round_id Function used by the endpoint
     `/application_overviews/{fund_id}/{round_id}`.
@@ -108,6 +97,22 @@ def all_assessments_for_fund_round_id(
     :return: A list of dictionaries.
 
     """
+    search_term: str = request.args.get("search_term", "")
+    funding_type: str = request.args.get("funding_type", "ALL")
+    asset_type: str = request.args.get("asset_type", "ALL")
+    status: str = request.args.get("status", "ALL")
+    search_in: str = request.args.get("search_in", "")
+    countries: str = request.args.get("countries", "all")
+    filter_by_tag: str = request.args.get("filter_by_tag", "")
+    country: str = request.args.get("country", "ALL")
+    region: str = request.args.get("region", "ALL")
+    local_authority: str = request.args.get("local_authority", "ALL")
+    cohort: str = request.args.get("cohort", "ALL")
+    publish_datasets: str = request.args.get("publish_datasets", "ALL")
+    datasets: str = request.args.get("datasets", "ALL")
+    team_in_place: str = request.args.get("team_in_place", "ALL")
+    joint_application: str = request.args.get("joint_application", "ALL")
+
     app_list = get_metadata_for_fund_round_id(
         fund_id=fund_id,
         round_id=round_id,
@@ -135,10 +140,8 @@ def all_assessments_for_fund_round_id(
     return compress_response(app_list)
 
 
-def sub_criteria(
-    application_id: str,
-    sub_criteria_id: str,
-) -> Dict:
+@assessment_assessment_bp.get("/sub_criteria_overview/<application_id>/<sub_criteria_id>")
+def sub_criteria(application_id, sub_criteria_id) -> Dict:
     """Returns metadata and themes for a sub_criteria
     `/sub_criteria_overview/{sub_criteria_id}`.
 
@@ -168,10 +171,12 @@ def sub_criteria(
     return sub_criteria_dict
 
 
+@assessment_assessment_bp.get("/sub_criteria_overview/banner_state/<application_id>")
 def get_banner_state(application_id: str) -> dict:
     return get_assessment_sub_critera_state(application_id)
 
 
+@assessment_assessment_bp.get("/application_overviews/<application_id>")
 def get_assessor_task_list_state(application_id: str) -> dict:
     """get_assessor_task_list_state Function used by the endpoint
     `/assessor_task_list/{application_id}`.
@@ -196,6 +201,7 @@ def get_assessor_task_list_state(application_id: str) -> dict:
     return metadata
 
 
+@assessment_assessment_bp.get("/sub_criteria_themes/<application_id>")
 def get_application_json_and_sub_criterias(application_id: str):
     metadata = find_assessor_task_list_state(application_id)
     return {
@@ -208,45 +214,34 @@ def get_application_json_and_sub_criterias(application_id: str):
     }
 
 
+@assessment_assessment_bp.post("/application/<application_id>/status/complete")
 def update_ar_status_to_completed(application_id: str):
     """Function updates the status to COMPLETE for the given application_id."""
     update_status_to_completed(application_id)
 
+    return Response(
+        status=204,
+    )
 
+
+@assessment_assessment_bp.post("/assessments/get-stats/<fund_id>")
 def assessment_stats_for_multiple_round_ids(
     fund_id: str,
-    search_term: str = "",
-    asset_type: str = "ALL",
-    status: str = "ALL",
-    search_in: str = "",
-    funding_type: str = "ALL",
-    countries: str = "all",
 ):
     round_ids = request.get_json().get("round_ids") or []
     return {
         round_id: assessment_stats_for_fund_round_id(
             fund_id,
             round_id,
-            search_term,
-            asset_type,
-            status,
-            search_in,
-            funding_type,
-            countries,
         )
         for round_id in round_ids
     }
 
 
+@assessment_assessment_bp.get("/assessments/get-stats/<fund_id>/<round_id>")
 def assessment_stats_for_fund_round_id(
     fund_id: str,
     round_id: str,
-    search_term: str = "",
-    asset_type: str = "ALL",
-    status: str = "ALL",
-    search_in: str = "",
-    funding_type: str = "ALL",
-    countries: str = "all",
 ) -> List[Dict]:
     """Function used by the endpoint `/assessments/get-stats/{fund_id}/{round_id}`
     that returns a dictionary of metrics about assessments for a given fund_id and
@@ -257,6 +252,12 @@ def assessment_stats_for_fund_round_id(
     :return: A list of dictionaries.
 
     """
+    search_term: str = request.args.get("search_term", "")
+    asset_type: str = request.args.get("asset_type", "ALL")
+    status: str = request.args.get("status", "ALL")
+    search_in: str = request.args.get("search_in", "")
+    funding_type: str = request.args.get("funding_type", "ALL")
+    countries: str = request.args.get("countries", "all")
 
     def determine_display_status(assessment):
         all_latest_status = [flag["latest_status"] for flag in assessment["flags"]]
@@ -307,10 +308,12 @@ def assessment_stats_for_fund_round_id(
     return stats
 
 
+@assessment_assessment_bp.get("/application/<application_id>/json")
 def get_application_json(application_id):
     return get_application_jsonb_blob(application_id)
 
 
+@assessment_assessment_bp.get("/application_fields_export/<fund_id>/<round_id>/<report_type>")
 def get_application_data_for_export(fund_id: str, round_id: str, report_type: str) -> List[Dict]:
     app_list = get_assessment_export_data(
         fund_id=fund_id,

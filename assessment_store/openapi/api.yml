@@ -428,26 +428,6 @@ paths:
         schema:
           type: boolean
         required: false
-      - name: score
-        in: query
-        schema:
-          type: integer
-        required: false
-      - name: justification
-        in: query
-        schema:
-          type: string
-        required: false
-      - name: date_created
-        in: query
-        schema:
-          type: string
-        required: false
-      - name: user_id
-        in: query
-        schema:
-          type: string
-        required: false
     post:
       tags:
         - scores
@@ -713,21 +693,6 @@ paths:
           type: string
         required: false
       - name: comment_id
-        in: query
-        schema:
-          type: string
-        required: false
-      - name: comment
-        in: query
-        schema:
-          type: string
-        required: false
-      - name: date_created
-        in: query
-        schema:
-          type: string
-        required: false
-      - name: user_id
         in: query
         schema:
           type: string

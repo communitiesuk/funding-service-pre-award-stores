@@ -12,6 +12,7 @@ from sqlalchemy_utils import Ltree
 from account_store.core.account import account_core_bp
 from application_store.api.routes.application.routes import application_store_bp
 from application_store.db.exceptions.application import ApplicationError
+from assessment_store.api.routes import assessment_store_bp
 from config import Config
 from fund_store.api.routes import fund_store_bp
 
@@ -24,6 +25,7 @@ def create_app() -> Flask:
     flask_app.register_blueprint(account_core_bp, url_prefix="/account")
     flask_app.register_blueprint(fund_store_bp, url_prefix="/fund")
     flask_app.register_blueprint(application_store_bp, url_prefix="/application")
+    flask_app.register_blueprint(assessment_store_bp, url_prefix="/assessment")
 
     # connexion_app.add_api(
     #     get_bundled_specs("/fund_store/openapi/api.yml"),
