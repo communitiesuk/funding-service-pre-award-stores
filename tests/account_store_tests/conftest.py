@@ -8,18 +8,6 @@ import pytest
 
 from account_store.db.models.account import Account
 from account_store.db.models.role import Role
-from app import create_app  # noqa: E402
-
-
-@pytest.fixture(scope="session")
-def app():
-    yield create_app()
-
-
-@pytest.fixture(scope="session")
-def flask_test_client(app):
-    yield app.test_client()
-
 
 test_user_1 = {
     "email": "seeded_user_1@example.com",

@@ -71,8 +71,7 @@ def test_seed_application_submitted(fund_config, round_config, _db, clear_test_d
 @pytest.mark.skip(reason="Not a test")
 def test_retrieve_test_data(app):
     target_app = "b1920085-c29b-443f-870a-639455022210"
-    with app.app_context():
-        forms = get_forms_by_app_id(target_app, as_json=True)
+    forms = get_forms_by_app_id(target_app, as_json=True)
 
     with open("forms.json", "w") as f:
         f.write(json.dumps(forms))

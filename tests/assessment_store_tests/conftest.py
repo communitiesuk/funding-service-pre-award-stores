@@ -9,7 +9,6 @@ from flask import current_app
 from sqlalchemy import exc
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
 
-from app import create_app
 from assessment_store.config.mappings.assessment_mapping_fund_round import (
     fund_round_mapping_config_with_round_id,
 )
@@ -33,7 +32,6 @@ from assessment_store.db.queries.scores.queries import (
 from assessment_store.db.queries.tags.queries import insert_tags
 from assessment_store.db.schemas.schemas import TagSchema, TagTypeSchema
 from db import db
-from tests.assessment_store_tests._sql_infos import attach_listeners
 
 with open("tests/assessment_store_tests/test_data/hand-crafted-apps.json", "r") as f:
     test_input_data = json.load(f)
@@ -291,18 +289,3 @@ def get_tag_types(request, app, clear_test_data, enable_preserve_test_data, _db)
         serialiser = TagTypeSchema()
         serialised_tag_types = [serialiser.dump(r) for r in tag_types]
         yield serialised_tag_types
-
-
-@pytest.fixture(scope="session")
-def app():
-    attach_listeners()
-
-    app = create_app()
-
-    yield app
-
-
-@pytest.fixture(scope="function")
-def flask_test_client():
-    with create_app().test_client() as test_client:
-        yield test_client

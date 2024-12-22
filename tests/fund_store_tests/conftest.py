@@ -6,10 +6,8 @@ from datetime import datetime
 from uuid import uuid4
 
 import pytest
-from flask import Flask
 from sqlalchemy_utils import Ltree
 
-from app import create_app
 from fund_store.db.models.fund import Fund, FundingType
 from fund_store.db.models.round import Round
 from fund_store.db.models.section import Section
@@ -176,18 +174,6 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
                 insert_sections(round["sections"])
 
     yield inserted_data
-
-
-@pytest.fixture(scope="session")
-def app() -> Flask:
-    app = create_app()
-    yield app
-
-
-@pytest.fixture(scope="function")
-def flask_test_client():
-    with create_app().test_client() as test_client:
-        yield test_client
 
 
 @pytest.fixture(scope="function")

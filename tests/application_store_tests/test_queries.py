@@ -82,23 +82,22 @@ def test_application_map_contents_and_base64_convertor(mocker, app):
      expected incoming JSON.
     THEN: we check if expected output is returned.
     """
-    with app.app_context():
-        expected_json = expected_application_json
-        mock_fund = Fund(
-            "Community Ownership Fund",
-            str(uuid4()),
-            "TEST",
-            "Testing fund",
-            False,
-            {"en": "English Fund Name"},
-            [],
-        )
-        mocker.patch("application_store.db.queries.application.queries.get_fund", return_value=mock_fund)
-        expected_json = create_qa_base64file(expected_json["content"]["application"], True)
+    expected_json = expected_application_json
+    mock_fund = Fund(
+        "Community Ownership Fund",
+        str(uuid4()),
+        "TEST",
+        "Testing fund",
+        False,
+        {"en": "English Fund Name"},
+        [],
+    )
+    mocker.patch("application_store.db.queries.application.queries.get_fund", return_value=mock_fund)
+    expected_json = create_qa_base64file(expected_json["content"]["application"], True)
 
-        assert "Jack-Simon" in base64.b64decode(expected_json["questions_file"]).decode()
-        assert "Yes" in base64.b64decode(expected_json["questions_file"]).decode()
-        assert "No" in base64.b64decode(expected_json["questions_file"]).decode()
+    assert "Jack-Simon" in base64.b64decode(expected_json["questions_file"]).decode()
+    assert "Yes" in base64.b64decode(expected_json["questions_file"]).decode()
+    assert "No" in base64.b64decode(expected_json["questions_file"]).decode()
 
 
 @pytest.mark.parametrize(

@@ -3,7 +3,6 @@ from uuid import uuid4
 
 import pytest
 
-from app import create_app
 from application_store.db.models.application.applications import Applications
 from application_store.db.queries.application import create_application
 from application_store.db.queries.form import add_new_forms
@@ -15,21 +14,6 @@ from tests.application_store_tests.helpers import (
     test_question_data,
     test_question_data_cy,
 )
-
-
-@pytest.fixture(scope="session")
-def app():
-    """
-    Creates the test client we will be using to test the responses
-    from our app, this is a test fixture.
-    :return: A flask test client.
-    """
-    yield create_app()
-
-
-@pytest.fixture(scope="function")
-def flask_test_client(app):
-    yield app.test_client()
 
 
 @pytest.fixture(scope="function")

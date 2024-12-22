@@ -205,21 +205,20 @@ def test_get_applications_of_account_id(flask_test_client, seed_application_reco
     WHEN a request for applications of account_id
     THEN the response should return applications of the account_id
     """
-    with app.app_context():
-        expected_data_within_response(
-            flask_test_client,
-            "/application/applications?account_id=unique_user",
-            [seed_application_records[0].as_dict()],
-            exclude_regex_paths=key_list_to_regex(
-                [
-                    "started_at",
-                    "last_edited",
-                    "date_submitted",
-                    "round_name",
-                    "forms",
-                ]
-            ),
-        )
+    expected_data_within_response(
+        flask_test_client,
+        "/application/applications?account_id=unique_user",
+        [seed_application_records[0].as_dict()],
+        exclude_regex_paths=key_list_to_regex(
+            [
+                "started_at",
+                "last_edited",
+                "date_submitted",
+                "round_name",
+                "forms",
+            ]
+        ),
+    )
 
 
 @pytest.mark.apps_to_insert([test_application_data[0]])
