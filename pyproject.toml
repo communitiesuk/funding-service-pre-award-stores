@@ -36,7 +36,7 @@ dependencies = [
     "flask-marshmallow==1.2.1",
     "marshmallow-enum==1.5.1",
     "shortuuid==1.0.13",
-    "gunicorn[eventlet]>=23.0.0",
+    "gunicorn[gevent]>=23.0.0",
 ]
 
 [tool.ruff]

@@ -1,1 +1,1 @@
-web: gunicorn --worker-class eventlet -c run/gunicorn/devtest.py wsgi:app
+web: gunicorn --worker-class gevent -c run/gunicorn/devtest.py wsgi:app
