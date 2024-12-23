@@ -2,7 +2,7 @@
 
 import logging
 from distutils.util import strtobool
-from os import environ
+from os import environ, getenv
 from pathlib import Path
 
 from fsd_utils import CommonConfig, configclass
@@ -95,3 +95,9 @@ class DefaultConfig(object):
     # ---------------
     AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_PRIMARY_QUEUE_URL")
     AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL = environ.get("AWS_SQS_NOTIF_APP_SECONDARY_QUEUE_URL")
+
+    # Frontends
+    API_HOST = getenv("API_HOST", "pre-award-stores:8080")
+    APPLY_HOST = getenv("APPLY_HOST", "frontend.levellingup.gov.localhost:3008")
+    ASSESS_HOST = getenv("ASSESS_HOST", "assessment.levellingup.gov.localhost:3010")
+    AUTH_HOST = getenv("AUTH_HOST", "authenticator.levellingup.gov.localhost:4004")

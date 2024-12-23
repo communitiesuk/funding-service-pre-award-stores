@@ -20,40 +20,12 @@ from fund_store.api.routes import fund_store_bp
 def create_app() -> Flask:
     init_sentry()
 
-    flask_app = Flask(__name__)
+    flask_app = Flask(__name__, host_matching=True, static_host="<host_from_current_request>")
 
-    flask_app.register_blueprint(account_core_bp, url_prefix="/account")
-    flask_app.register_blueprint(fund_store_bp, url_prefix="/fund")
-    flask_app.register_blueprint(application_store_bp, url_prefix="/application")
-    flask_app.register_blueprint(assessment_store_bp, url_prefix="/assessment")
-
-    # connexion_app.add_api(
-    #     get_bundled_specs("/fund_store/openapi/api.yml"),
-    #     validate_responses=True,
-    #     base_path="/fund",
-    # )
-    #
-    # connexion_app.add_api(
-    #     get_bundled_specs("/application_store/openapi/api.yml"),
-    #     validate_responses=True,
-    #     resolver_error=501,
-    #     base_path="/application",
-    #     resolver=MethodResolver("api"),
-    # )
-    #
-    # connexion_app.add_api(
-    #     get_bundled_specs("/assessment_store/openapi/api.yml"),
-    #     validate_responses=True,
-    #     base_path="/assessment",
-    #     resolver=MethodViewResolver("api"),
-    # )
-    #
-    # connexion_app.add_api(
-    #     get_bundled_specs("/account_store/openapi/api.yml"),
-    #     validate_responses=False,
-    #     base_path="/account",
-    #     resolver=MethodResolver("api"),
-    # )
+    flask_app.register_blueprint(account_core_bp, url_prefix="/account", host=Config.API_HOST)
+    flask_app.register_blueprint(fund_store_bp, url_prefix="/fund", host=Config.API_HOST)
+    flask_app.register_blueprint(application_store_bp, url_prefix="/application", host=Config.API_HOST)
+    flask_app.register_blueprint(assessment_store_bp, url_prefix="/assessment", host=Config.API_HOST)
 
     flask_app.config.from_object("config.Config")
 

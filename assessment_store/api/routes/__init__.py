@@ -1,4 +1,4 @@
-from flask import Blueprint
+from common.blueprints import Blueprint
 
 from .assessment_routes import assessment_assessment_bp
 from .comment_routes import assessment_comment_bp
