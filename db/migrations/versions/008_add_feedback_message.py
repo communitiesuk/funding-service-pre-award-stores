@@ -1,7 +1,7 @@
-"""empty message
+"""Create feedback_message column
 
-Revision ID: 004_
-Revises: 003_create_application_store
+Revision ID: 008_add_feedback_message
+Revises: 007_create_account_store
 Create Date: 2024-11-30 19:33:00.710210
 
 """
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "004_add_feedback_message"
-down_revision = "003_create_application_store"
+revision = "008_add_feedback_message"
+down_revision = "007_create_account_store"
 branch_labels = None
 depends_on = None
 
