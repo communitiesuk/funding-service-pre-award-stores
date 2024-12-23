@@ -1,13 +1,16 @@
 # flake8: noqa
 import os
+
 import click
 
-from fund_store.config.fund_loader_config.FAB import FAB_FUND_ROUND_CONFIGS
 from db import db
-from fund_store.db.queries import insert_base_sections
-from fund_store.db.queries import insert_fund_data
-from fund_store.db.queries import insert_or_update_application_sections
-from fund_store.db.queries import upsert_round_data
+from fund_store.config.fund_loader_config.FAB import FAB_FUND_ROUND_CONFIGS
+from fund_store.db.queries import (
+    insert_base_sections,
+    insert_fund_data,
+    insert_or_update_application_sections,
+    upsert_round_data,
+)
 
 
 @click.command()

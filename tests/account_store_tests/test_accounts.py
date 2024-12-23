@@ -374,7 +374,7 @@ class TestGetAccountsForFund:
                 "email": "otherfund@example.com",
                 "subject_id": "4",
                 "account_id": uuid.uuid4(),
-                "roles": ["HSRA_ASSESSOR_R1"],
+                "roles": ["HSRA_ASSESSOR_VR"],
             },
         ]
     )
