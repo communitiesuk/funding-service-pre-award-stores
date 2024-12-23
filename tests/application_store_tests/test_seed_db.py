@@ -22,7 +22,8 @@ R3W1 = COF["rounds"]["R3W1"]
 NSTF = FUND_CONFIG["NSTF"]
 R2 = NSTF["rounds"]["R2"]
 HSRA = FUND_CONFIG["HSRA"]
-R1 = HSRA["rounds"]["R1"]
+RP = HSRA["rounds"]["RP"]
+VR = HSRA["rounds"]["VR"]
 
 
 @pytest.fixture
@@ -59,7 +60,7 @@ def test_seed_application_completed(fund_config, round_config, _db, clear_test_d
 
 
 @pytest.mark.skip(reason="Needs running fund-store")
-@pytest.mark.parametrize("fund_config, round_config", [(HSRA, R1)])
+@pytest.mark.parametrize("fund_config, round_config", [(HSRA, RP), (HSRA, VR)])
 def test_seed_application_submitted(fund_config, round_config, _db, clear_test_data, local_fund_store, mocker):
     mocker.patch("db.queries.application.queries.list_files_by_prefix", return_value=MagicMock())
     seeded_app = seed_submitted_application(fund_config, round_config, uuid4(), LANG_EN)

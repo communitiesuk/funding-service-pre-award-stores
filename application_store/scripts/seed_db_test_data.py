@@ -47,11 +47,16 @@ FUND_CONFIG = {
         "id": UsefulConfig.HSRA_FUND_ID,
         "short_code": "HSRA",
         "rounds": {
-            "R1": {
-                "short_code": "R1",
-                "id": UsefulConfig.HSRA_ROUND_1_ID,
-                "project_name_form": "name-your-application-hsra",
-            }
+            "VR": {
+                "short_code": "VR",
+                "id": UsefulConfig.HSRA_ROUND_VR_ID,
+                "project_name_form": "application-name-hsra-vr",
+            },
+            "RP": {
+                "short_code": "RP",
+                "id": UsefulConfig.HSRA_ROUND_RP_ID,
+                "project_name_form": "application-name-hsra-rp",
+            },
         },
     },
 }
@@ -68,7 +73,7 @@ FUND_CONFIG = {
 @click.option(
     "--round_short_code",
     default="R3W2",
-    type=click.Choice(["R3W2", "R3W1", "R2", "R1"]),
+    type=click.Choice(["R3W2", "R3W1", "R2", "R1", "VR", "RP"]),
     help="Round to seed applications for",
     prompt=True,
 )
