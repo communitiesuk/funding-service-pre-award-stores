@@ -27,34 +27,6 @@ def create_app() -> Flask:
     flask_app.register_blueprint(application_store_bp, url_prefix="/application")
     flask_app.register_blueprint(assessment_store_bp, url_prefix="/assessment")
 
-    # connexion_app.add_api(
-    #     get_bundled_specs("/fund_store/openapi/api.yml"),
-    #     validate_responses=True,
-    #     base_path="/fund",
-    # )
-    #
-    # connexion_app.add_api(
-    #     get_bundled_specs("/application_store/openapi/api.yml"),
-    #     validate_responses=True,
-    #     resolver_error=501,
-    #     base_path="/application",
-    #     resolver=MethodResolver("api"),
-    # )
-    #
-    # connexion_app.add_api(
-    #     get_bundled_specs("/assessment_store/openapi/api.yml"),
-    #     validate_responses=True,
-    #     base_path="/assessment",
-    #     resolver=MethodViewResolver("api"),
-    # )
-    #
-    # connexion_app.add_api(
-    #     get_bundled_specs("/account_store/openapi/api.yml"),
-    #     validate_responses=False,
-    #     base_path="/account",
-    #     resolver=MethodResolver("api"),
-    # )
-
     flask_app.config.from_object("config.Config")
 
     # Initialize sqs extended client
