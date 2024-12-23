@@ -77,11 +77,17 @@ from assessment_store.config.mappings.dpif_mappping_parts.r3_unscored_criteria i
 from assessment_store.config.mappings.gbrf_mapping_parts.r1_unscored_criteria import (
     unscored_sections as gbrf_unscored_sections,
 )
-from assessment_store.config.mappings.hsra_mapping_parts.r1_scored_criteria import (
-    scored_criteria as hsra_scored_criteria,
+from assessment_store.config.mappings.hsra_mapping_parts.rp_scored_criteria import (
+    scored_criteria as hsra_scored_criteria_rp,
 )
-from assessment_store.config.mappings.hsra_mapping_parts.r1_unscored_sections import (
-    unscored_sections as hsra_unscored_sections,
+from assessment_store.config.mappings.hsra_mapping_parts.rp_unscored_sections import (
+    unscored_sections as hsra_unscored_sections_rp,
+)
+from assessment_store.config.mappings.hsra_mapping_parts.vr_scored_criteria import (
+    scored_criteria as hsra_scored_criteria_vr,
+)
+from assessment_store.config.mappings.hsra_mapping_parts.vr_unscored_sections import (
+    unscored_sections as hsra_unscored_sections_vr,
 )
 from assessment_store.config.mappings.lpdf_mapping_parts.r1_unscored_criteria import (
     unscored_sections as lpdf_unscored_sections,
@@ -120,7 +126,8 @@ DPIF_ROUND_2_ID = "0059aad4-5eb5-11ee-8c99-0242ac120002"
 DPIF_ROUND_3_ID = "ac835965-e8c9-4356-b486-c0c016dbb634"
 
 HSRA_FUND_ID = "1e4bd8b0-b399-466d-bbd1-572171bbc7bd"
-HSRA_ROUND_ID = "50062ff6-e696-474d-a560-4d9af784e6e5"
+HSRA_ROUND_VR_ID = "ae223686-cbcc-4548-8b52-05898c315a59"
+HSRA_ROUND_RP_ID = "bae275aa-86a5-4d3e-bcc7-0a25d040910d"
 
 CTDF_FUND_ID = "3dcfa617-cff8-4c2c-9edd-9568aa367d13"
 CTDF_ROUND_1_ID = "7ecd7d64-1854-44ab-a10c-a7af4b8d68e1"
@@ -214,15 +221,20 @@ fund_round_to_assessment_mapping = {
         "unscored_sections": dpif_unscored_sections,
         "scored_criteria": dpif_scored_criteria,
     },
-    f"{HSRA_FUND_ID}:{HSRA_ROUND_ID}": {
-        "schema_id": "hsra_r1_assessment",
-        "unscored_sections": hsra_unscored_sections,
-        "scored_criteria": hsra_scored_criteria,
-    },
     f"{CTDF_FUND_ID}:{CTDF_ROUND_1_ID}": {
         "schema_id": "ctdf_r1_assessment",
         "unscored_sections": ctdf_unscored_sections,
         "scored_criteria": ctdf_scored_sections,
+    },
+    f"{HSRA_FUND_ID}:{HSRA_ROUND_VR_ID}": {
+        "schema_id": "hsra_vr_assessment",
+        "unscored_sections": hsra_unscored_sections_vr,
+        "scored_criteria": hsra_scored_criteria_vr,
+    },
+    f"{HSRA_FUND_ID}:{HSRA_ROUND_RP_ID}": {
+        "schema_id": "hsra_rp_assessment",
+        "unscored_sections": hsra_unscored_sections_rp,
+        "scored_criteria": hsra_scored_criteria_rp,
     },
 }
 
@@ -341,7 +353,13 @@ fund_round_data_key_mappings = {
         "funding_one": None,
         "funding_two": None,
     },
-    "HSRAR1": {
+    "HSRAVR": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
+    },
+    "HSRARP": {
         "location": None,
         "asset_type": None,
         "funding_one": None,
@@ -1476,9 +1494,14 @@ fund_round_mapping_config = {
         "round_id": DPIF_ROUND_2_ID,
         "type_of_application": "DPIF",
     },
-    "HSRAR1": {
+    "HSRAVR": {
         "fund_id": HSRA_FUND_ID,
-        "round_id": HSRA_ROUND_ID,
+        "round_id": HSRA_ROUND_VR_ID,
+        "type_of_application": "HSRA",
+    },
+    "HSRARP": {
+        "fund_id": HSRA_FUND_ID,
+        "round_id": HSRA_ROUND_RP_ID,
         "type_of_application": "HSRA",
     },
     "RANDOM_FUND_ROUND": {
