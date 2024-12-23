@@ -15,7 +15,7 @@ from tests.application_store_tests.seed_data.seed_db import (  # noqa: E402
     seed_in_progress_application,  # noqa: E402
     seed_not_started_application,
     seed_submitted_application,
-)  # noqa: E402
+)
 
 FUND_CONFIG = {
     "COF": {
