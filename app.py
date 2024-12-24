@@ -289,13 +289,6 @@ def create_app() -> Flask:  # noqa: C901
         if values is not None:
             values.pop("host_from_current_request", None)
 
-    @flask_app.errorhandler(404)
-    def not_found(error):
-        return (
-            jsonify({"code": 404, "message": str(error) or "Requested URL was not found on the server"}),
-            404,
-        )
-
     @flask_app.errorhandler(ApplicationError)
     def handle_application_error(error):
         response = jsonify({"detail": str(error)})
