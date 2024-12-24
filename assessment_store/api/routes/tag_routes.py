@@ -133,6 +133,8 @@ def associate_tags_with_assessment(application_id):
         serialised_associated_tags = [serialiser.dump(r) for r in associated_tags]
         return serialised_associated_tags
 
+    return []
+
 
 @assessment_tag_bp.get("/application/<application_id>/tag")
 def get_active_tags_associated_with_assessment(application_id):
