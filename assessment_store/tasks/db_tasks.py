@@ -135,7 +135,7 @@ def seed_local_assessment_store_db(c):
 
             # Insert scoring systems
             one_to_five_id = str(uuid.uuid4())  # Generate a UUID for OneToFive
-            zero_to_three_id = str(uuid.uuid4())  # Generate a UUID for OneToThree
+            zero_to_three_id = str(uuid.uuid4())  # Generate a UUID for ZeroToThree
             zero_to_one_id = str(uuid.uuid4())  # Generate a UUID for ZeroToOne
 
             scoring_system_data = [
@@ -165,13 +165,17 @@ def seed_local_assessment_store_db(c):
             zero_to_three = (
                 db.session.query(ScoringSystem).filter(ScoringSystem.scoring_system_name == "ZeroToThree").one_or_none()
             )
+            zero_to_one = (
+                db.session.query(ScoringSystem).filter(ScoringSystem.scoring_system_name == "ZeroToOne").one_or_none()
+            )
 
-            if one_to_five is None and zero_to_three is None:
+            if one_to_five is None and zero_to_three is None and zero_to_one is None:
                 for dictionary in scoring_system_data:
                     db.session.add(ScoringSystem(**dictionary))
             else:
                 one_to_five_id = one_to_five.id
                 zero_to_three_id = zero_to_three.id
+                zero_to_one_id = zero_to_one.id
 
             round_ids = db.session.query(Round).with_entities(Round.id).all()
 
