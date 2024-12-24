@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from apply.default.data import RoundStatus
 from apply.models.application_display_mapping import ApplicationMapping
 from apply.models.fund import Fund
+from config.envs.unit_test import UnitTestConfig
 from tests.apply_tests.api_data.test_data import (
     SUBMITTED_APPLICATION,
     TEST_APPLICATION_SUMMARIES,
@@ -93,7 +94,7 @@ def test_tasklist_for_submit_application_route(apply_test_client, mocker, mock_l
 
 def test_language_cookie_update_welsh_to_english(apply_test_client, mocker, mock_login, mock_applications):
     # set language cookie to welsh
-    apply_test_client.set_cookie(domain="/", key="language", value="cy")
+    apply_test_client.set_cookie(domain=UnitTestConfig.COOKIE_DOMAIN, key="language", value="cy")
 
     # request an english application
     response = apply_test_client.get("tasklist/test-application-id", follow_redirects=True)
@@ -110,7 +111,7 @@ def test_language_cookie_update_welsh_to_english(apply_test_client, mocker, mock
 
 def test_language_cookie_update_english_to_welsh(apply_test_client, mocker, mock_login, mock_applications):
     # set language cookie to english
-    apply_test_client.set_cookie(domain="/", key="language", value="en")
+    apply_test_client.set_cookie(domain=UnitTestConfig.COOKIE_DOMAIN, key="language", value="en")
 
     # return welsh fund
     mocker.patch(
