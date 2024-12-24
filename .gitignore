@@ -241,3 +241,7 @@ html
 
 # Sqlite
 sqlite.db
+
+axe_reports/
+html/
+/static
