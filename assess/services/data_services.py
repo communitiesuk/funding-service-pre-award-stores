@@ -277,7 +277,9 @@ def get_all_fund_short_codes() -> Set[str]:
 @lru_cache(maxsize=1)
 def get_fund(fid: str, use_short_name: bool = False, ttl_hash=None) -> Union[Fund, None]:
     del ttl_hash  # unused, but required for lru_cache
-    endpoint = Config.FUND_STORE_API_HOST + Config.FUND_ENDPOINT.format(fund_id=fid, use_short_name=use_short_name)
+    endpoint = Config.FUND_STORE_API_HOST + Config.FUND_ENDPOINT_FOR_FRONTENDS.format(
+        fund_id=fid, use_short_name=use_short_name
+    )
     response = get_data(endpoint)
     if not response:
         return None
