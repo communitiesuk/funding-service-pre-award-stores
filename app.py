@@ -1,10 +1,10 @@
 import datetime
 from os import getenv
-from urllib.parse import urljoin, urlencode
+from urllib.parse import urlencode, urljoin
 
 import psycopg2
+from flask import Flask, current_app, g, jsonify, make_response, render_template, request, url_for
 from flask.json.provider import DefaultJSONProvider
-from flask import Flask, jsonify, request, current_app, url_for, render_template
 from flask_assets import Environment
 from flask_babel import Babel, gettext, pgettext
 from flask_compress import Compress
@@ -17,11 +17,14 @@ from fsd_utils.healthchecks.checkers import DbChecker, FlaskRunningChecker, Redi
 from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
-from fsd_utils.toggles.toggles import initialise_toggles_redis_store, create_toggles_client, load_toggles
+from fsd_utils.toggles.toggles import create_toggles_client, initialise_toggles_redis_store, load_toggles
 from jinja2 import ChoiceLoader, PackageLoader, PrefixLoader
 from sqlalchemy_utils import Ltree
 
 import static_assets
+from account_store.core.account import account_core_bp
+from application_store.api.routes.application.routes import application_store_bp
+from application_store.db.exceptions.application import ApplicationError
 from apply.filters import (
     custom_format_datetime,
     date_format_short_month,
@@ -33,7 +36,7 @@ from apply.filters import (
     status_translation,
     string_to_datetime,
 )
-from apply.helpers import find_fund_in_request, find_fund_and_round_in_request
+from apply.helpers import find_fund_and_round_in_request, find_fund_in_request
 from assess.shared.filters import (
     add_to_dict,
     all_caps_to_human,
@@ -47,9 +50,6 @@ from assess.shared.filters import (
     slash_separated_day_month_year,
     utc_to_bst,
 )
-from account_store.core.account import account_core_bp
-from application_store.api.routes.application.routes import application_store_bp
-from application_store.db.exceptions.application import ApplicationError
 from assessment_store.api.routes import assessment_store_bp
 from common.locale_selector.get_lang import get_lang
 from common.locale_selector.set_lang import LanguageSelector
@@ -88,17 +88,21 @@ class ConnexionCompatibleJSONProvider(DefaultJSONProvider):
 class ConnexionCompatibleJSONFlask(Flask):
     json_provider_class = ConnexionCompatibleJSONProvider
 
+
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
 
-def create_app() -> Flask:
+
+def create_app() -> Flask:  # noqa: C901
     init_sentry()
 
     # TODO: See above
-    flask_app = ConnexionCompatibleJSONFlask(__name__,
+    flask_app = ConnexionCompatibleJSONFlask(
+        __name__,
         static_url_path="/assets",
         static_folder="static",
         host_matching=True,
-        static_host="<host_from_current_request>",)
+        static_host="<host_from_current_request>",
+    )
 
     flask_app.config.from_object("config.Config")
 
@@ -404,7 +408,7 @@ def create_app() -> Flask:
 
     @flask_app.after_request
     def after_request(response):
-        if request.host == current_app.config['API_HOST']:
+        if request.host == current_app.config["API_HOST"]:
             return response
 
         if request.path.endswith("js") or request.path.endswith("css"):
@@ -419,7 +423,7 @@ def create_app() -> Flask:
 
     @flask_app.before_request
     def filter_all_requests():
-        if request.host == current_app.config['API_HOST']:
+        if request.host == current_app.config["API_HOST"]:
             return
 
         if flask_app.config.get("MAINTENANCE_MODE") and not (
