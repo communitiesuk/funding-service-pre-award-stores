@@ -9,7 +9,6 @@ import pytest
 from bs4 import BeautifulSoup
 
 import authenticator.frontend as frontend
-from app import app
 from authenticator.api.session.auth_session import AuthSessionBase
 from authenticator.frontend.magic_links.forms import EmailForm
 from authenticator.models.account import AccountMethods
@@ -219,7 +218,7 @@ class TestMagicLinks(AuthSessionBase):
         assert b"Link expired" in response.data
         assert b"Request a new link" in response.data
 
-    def test_assessor_roles_is_empty_via_magic_link_auth(self):
+    def test_assessor_roles_is_empty_via_magic_link_auth(self, app):
         """
         GIVEN we are on the production environment
         i.e. ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK = False
@@ -242,15 +241,14 @@ class TestMagicLinks(AuthSessionBase):
             roles=["COF_LEAD_ASSESSOR", "COF_ASSESSOR", "COF_COMMENTER"],
         )
 
-        with app.app_context():
-            with app.test_request_context():
-                session_details = self.create_session_details_with_token(  # noqa
-                    mock_account,
-                    is_via_magic_link=True,
-                    timeout_seconds=3600,
-                )
+        with app.test_request_context():
+            session_details = self.create_session_details_with_token(  # noqa
+                mock_account,
+                is_via_magic_link=True,
+                timeout_seconds=3600,
+            )
 
-                assert session_details.get("roles") == []
+            assert session_details.get("roles") == []
 
     def test_magic_link_route_new(self, authenticator_test_client):
         # create a MagicMock object for the form used in new():

@@ -183,7 +183,7 @@ def seed_dynamic_data(request, app, clear_test_data, _db):
 
 
 @pytest.fixture(scope="session")
-def app() -> Flask:
+def app(mock_redis) -> Flask:
     app = create_app()
     yield app
 
