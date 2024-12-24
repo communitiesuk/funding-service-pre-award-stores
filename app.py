@@ -240,6 +240,12 @@ def create_app() -> Flask:  # noqa: C901
     flask_app.register_blueprint(fund_store_bp, url_prefix="/fund", host=Config.API_HOST)
     flask_app.register_blueprint(application_store_bp, url_prefix="/application", host=Config.API_HOST)
     flask_app.register_blueprint(assessment_store_bp, url_prefix="/assessment", host=Config.API_HOST)
+    csrf.exempt(account_core_bp)
+    csrf.exempt(fund_store_bp)
+    csrf.exempt(application_store_bp)
+    csrf.exempt(assessment_store_bp)
+    for bp, _ in assessment_store_bp._blueprints:
+        csrf.exempt(bp)
 
     # Initialise Sessions
     session = Session()
