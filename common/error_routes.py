@@ -44,6 +44,9 @@ def not_found(error):
 def internal_server_error(error):
     current_app.logger.error(error)
 
+    if request.host == current_app.config["API_HOST"]:
+        return jsonify({"detail": str(error)}), 500
+
     if request.host == current_app.config["ASSESS_HOST"]:
         return render_template("assess/500.html", is_error=True), 500
 
