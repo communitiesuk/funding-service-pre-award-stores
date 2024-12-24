@@ -3,7 +3,7 @@ from os import getenv
 from urllib.parse import urlencode, urljoin
 
 import psycopg2
-from flask import Flask, current_app, g, jsonify, make_response, render_template, request, url_for
+from flask import Flask, current_app, g, make_response, render_template, request, url_for
 from flask.json.provider import DefaultJSONProvider
 from flask_assets import Environment
 from flask_babel import Babel, gettext, pgettext
@@ -208,6 +208,7 @@ def create_app() -> Flask:  # noqa: C901
 
     flask_app.register_error_handler(404, not_found)
     flask_app.register_error_handler(500, internal_server_error)
+    flask_app.register_error_handler(ApplicationError, internal_server_error)
 
     flask_app.register_blueprint(default_bp, host=flask_app.config["APPLY_HOST"])
     flask_app.register_blueprint(application_bp, host=flask_app.config["APPLY_HOST"])
@@ -288,12 +289,6 @@ def create_app() -> Flask:  # noqa: C901
     def pop_host_from_current_request(endpoint, values):
         if values is not None:
             values.pop("host_from_current_request", None)
-
-    @flask_app.errorhandler(ApplicationError)
-    def handle_application_error(error):
-        response = jsonify({"detail": str(error)})
-        response.status_code = 500
-        return response
 
     @flask_app.context_processor
     def inject_global_constants():
