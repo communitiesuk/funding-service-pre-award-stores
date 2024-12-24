@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, request
+from flask import current_app, request
 
 from assessment_store.db.models.flags.flag_update import FlagStatus
 from assessment_store.db.queries import get_metadata_for_fund_round_id
@@ -9,6 +9,7 @@ from assessment_store.db.queries.flags.queries import (
     get_flags_for_application,
 )
 from assessment_store.db.schemas.schemas import AssessmentFlagSchema
+from common.blueprints import Blueprint
 
 assessment_flag_bp = Blueprint("assessment_flag", __name__)
 

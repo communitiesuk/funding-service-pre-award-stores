@@ -1,13 +1,14 @@
 from distutils.util import strtobool
 from typing import Dict, List
 
-from flask import Blueprint, request
+from flask import request
 
 from assessment_store.db.queries import (
     create_score_for_app_sub_crit,
     get_scores_for_app_sub_crit,
     get_scoring_system_for_round_id,
 )
+from common.blueprints import Blueprint
 
 assessment_score_bp = Blueprint("assessment_score_bp", __name__)
 
