@@ -1,7 +1,9 @@
+import datetime
 from os import getenv
 
 import psycopg2
 from flask import Flask, jsonify
+from flask.json.provider import DefaultJSONProvider
 from fsd_utils import init_sentry
 from fsd_utils.healthchecks.checkers import DbChecker, FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
@@ -17,10 +19,43 @@ from config import Config
 from fund_store.api.routes import fund_store_bp
 
 
+# TODO: Remove this when we have stripped out the HTTP/JSON interface between "pre-award-stores" and
+#       "pre-award-frontend" We need this in the interim because the way that connexion serializes datetimes is
+#       different from how flask serializes datetimes by default, and pre-award-frontend (specifically around survey
+#       feedback) is expecting the connexion format with "Z" suffixes and using `isoformat` rather than RFC 822.
+def _connexion_compatible_datetime_serializer(o):
+    if isinstance(o, datetime.datetime):
+        if o.tzinfo:
+            # eg: '2015-09-25T23:14:42.588601+00:00'
+            return o.isoformat("T")
+        else:
+            # No timezone present - assume UTC.
+            # eg: '2015-09-25T23:14:42.588601Z'
+            return o.isoformat("T") + "Z"
+
+    if isinstance(o, datetime.date):
+        return o.isoformat()
+
+    from flask.json.provider import _default
+
+    return _default(o)
+
+
+# TODO: See above
+class ConnexionCompatibleJSONProvider(DefaultJSONProvider):
+    default = staticmethod(_connexion_compatible_datetime_serializer)
+
+
+# TODO: See above
+class ConnexionCompatibleJSONFlask(Flask):
+    json_provider_class = ConnexionCompatibleJSONProvider
+
+
 def create_app() -> Flask:
     init_sentry()
 
-    flask_app = Flask(__name__)
+    # TODO: See above
+    flask_app = ConnexionCompatibleJSONFlask(__name__)
 
     flask_app.register_blueprint(account_core_bp, url_prefix="/account")
     flask_app.register_blueprint(fund_store_bp, url_prefix="/fund")
