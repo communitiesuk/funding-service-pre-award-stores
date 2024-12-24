@@ -1,7 +1,6 @@
 import pytest
 
 import authenticator.frontend.magic_links.filters as filters
-from app import app
 
 
 @pytest.mark.parametrize(
@@ -12,6 +11,5 @@ from app import app
         ("2020-12-01T23:59:59", "01 December 2020 at 23:59pm"),
     ],
 )
-def test_datetime_format(input_date, expected):
-    with app.test_request_context():
-        assert filters.datetime_format(input_date) == expected
+def test_datetime_format(input_date, expected, app):
+    assert filters.datetime_format(input_date) == expected

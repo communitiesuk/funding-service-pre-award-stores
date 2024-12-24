@@ -95,7 +95,7 @@ class TestAuthorisation:
         assert response.status_code == 302
         assert response.location == (
             "https://authenticator.levellingup.gov.localhost:4004/service/user?"
-            "roles_required=TF_COMMENTER|NSTF_COMMENTER|CYP_COMMENTER|COF_COMMENTER|DPIF_COMMENTER"
+            "roles_required=TF_COMMENTER%7CNSTF_COMMENTER%7CCYP_COMMENTER%7CCOF_COMMENTER%7CDPIF_COMMENTER"
         )
 
     @pytest.mark.mock_parameters(

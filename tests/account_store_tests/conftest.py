@@ -16,7 +16,7 @@ from config import Config
 
 
 @pytest.fixture(scope="session")
-def app():
+def app(mock_redis):
     yield create_app()
 
 

@@ -11,8 +11,8 @@ class TestHealthchecks:
     def testChecks(self, authenticator_test_client):
         response = authenticator_test_client.get("/healthcheck")
         expected_dict = {
-            "checks": [{"check_flask_running": "OK"}, {"check_redis": "OK"}],
-            "version": "abc123",
+            "checks": [{"check_flask_running": "OK"}, {"check_db": "OK"}, {"check_redis": "OK"}],
+            "version": "123123",
         }
         assert response.status_code == 200, "Unexpected response code"
         assert response.json == expected_dict, "Unexpected json body"

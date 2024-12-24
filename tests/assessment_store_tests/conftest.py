@@ -297,7 +297,7 @@ def get_tag_types(request, app, clear_test_data, enable_preserve_test_data, _db)
 
 
 @pytest.fixture(scope="session")
-def app():
+def app(mock_redis):
     attach_listeners()
 
     app = create_app()

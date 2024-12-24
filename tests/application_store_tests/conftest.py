@@ -22,7 +22,7 @@ from tests.application_store_tests.helpers import (
 
 
 @pytest.fixture(scope="session")
-def app():
+def app(mock_redis):
     """
     Creates the test client we will be using to test the responses
     from our app, this is a test fixture.

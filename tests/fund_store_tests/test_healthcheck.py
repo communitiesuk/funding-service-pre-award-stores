@@ -9,7 +9,7 @@ def test_healthchecks_endpoint(client: Flask):
     response = client.get("/healthcheck")
 
     expected_dict = {
-        "checks": [{"check_flask_running": "OK"}, {"check_db": "OK"}],
+        "checks": [{"check_flask_running": "OK"}, {"check_db": "OK"}, {"check_redis": "OK"}],
         "version": "123123",
     }
 
