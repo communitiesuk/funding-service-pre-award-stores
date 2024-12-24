@@ -1,13 +1,15 @@
 import copy
 import json
 import random
-from typing import List
+from typing import Any, List
 from uuid import uuid4
 
 import pytest
 from flask import current_app
+from flask.testing import FlaskClient
 from sqlalchemy import exc
 from sqlalchemy.dialects.postgresql import insert as postgres_insert
+from werkzeug.test import TestResponse
 
 from app import create_app
 from assessment_store.config.mappings.assessment_mapping_fund_round import (
@@ -32,6 +34,7 @@ from assessment_store.db.queries.scores.queries import (
 )
 from assessment_store.db.queries.tags.queries import insert_tags
 from assessment_store.db.schemas.schemas import TagSchema, TagTypeSchema
+from config import Config
 from db import db
 from tests.assessment_store_tests._sql_infos import attach_listeners
 
@@ -302,7 +305,24 @@ def app():
     yield app
 
 
+class _FlaskClientWithHost(FlaskClient):
+    def open(
+        self,
+        *args: Any,
+        buffered: bool = False,
+        follow_redirects: bool = False,
+        **kwargs: Any,
+    ) -> TestResponse:
+        if "headers" in kwargs:
+            kwargs["headers"].setdefault("Host", Config.API_HOST)
+        else:
+            kwargs.setdefault("headers", {"Host": Config.API_HOST})
+        return super().open(*args, buffered=buffered, follow_redirects=follow_redirects, **kwargs)
+
+
 @pytest.fixture(scope="function")
 def flask_test_client():
-    with create_app().test_client() as test_client:
+    app = create_app()
+    app.test_client_class = _FlaskClientWithHost
+    with app.test_client() as test_client:
         yield test_client

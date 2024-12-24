@@ -1,13 +1,17 @@
 from datetime import datetime, timedelta
+from typing import Any
 from uuid import uuid4
 
 import pytest
+from flask.testing import FlaskClient
+from werkzeug.test import TestResponse
 
 from app import create_app
 from application_store.db.models.application.applications import Applications
 from application_store.db.queries.application import create_application
 from application_store.db.queries.form import add_new_forms
 from application_store.external_services.models.fund import Fund, Round
+from config import Config
 from tests.application_store_tests.helpers import (
     APPLICATION_DISPLAY_CONFIG,
     local_api_call,
@@ -27,8 +31,25 @@ def app():
     yield create_app()
 
 
+class _FlaskClientWithHost(FlaskClient):
+    def open(
+        self,
+        *args: Any,
+        buffered: bool = False,
+        follow_redirects: bool = False,
+        **kwargs: Any,
+    ) -> TestResponse:
+        if "headers" in kwargs:
+            kwargs["headers"].setdefault("Host", Config.API_HOST)
+        else:
+            kwargs.setdefault("headers", {"Host": Config.API_HOST})
+        return super().open(*args, buffered=buffered, follow_redirects=follow_redirects, **kwargs)
+
+
 @pytest.fixture(scope="function")
-def flask_test_client(app):
+def flask_test_client():
+    app = create_app()
+    app.test_client_class = _FlaskClientWithHost
     yield app.test_client()
 
 

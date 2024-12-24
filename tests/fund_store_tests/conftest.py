@@ -3,13 +3,17 @@ Contains test configuration.
 """
 
 from datetime import datetime
+from typing import Any
 from uuid import uuid4
 
 import pytest
 from flask import Flask
+from flask.testing import FlaskClient
 from sqlalchemy_utils import Ltree
+from werkzeug.test import TestResponse
 
 from app import create_app
+from config import Config
 from fund_store.db.models.fund import Fund, FundingType
 from fund_store.db.models.round import Round
 from fund_store.db.models.section import Section
@@ -184,9 +188,26 @@ def app() -> Flask:
     yield app
 
 
+class _FlaskClientWithHost(FlaskClient):
+    def open(
+        self,
+        *args: Any,
+        buffered: bool = False,
+        follow_redirects: bool = False,
+        **kwargs: Any,
+    ) -> TestResponse:
+        if "headers" in kwargs:
+            kwargs["headers"].setdefault("Host", Config.API_HOST)
+        else:
+            kwargs.setdefault("headers", {"Host": Config.API_HOST})
+        return super().open(*args, buffered=buffered, follow_redirects=follow_redirects, **kwargs)
+
+
 @pytest.fixture(scope="function")
 def flask_test_client():
-    with create_app().test_client() as test_client:
+    app = create_app()
+    app.test_client_class = _FlaskClientWithHost
+    with app.test_client() as test_client:
         yield test_client
 
 
