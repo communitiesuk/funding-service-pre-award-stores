@@ -1,4 +1,10 @@
 def ordered_themes(fund_round_short_name):
+    common_questions_hsra = [
+        "what-would-you-like-to-name-your-application?",
+        "by-submitting-this-application,-you-confirm-that-the-information-you-have-provided-is-correct.",
+        "who-is-your-section-151-officer?",
+        "who-should-we-contact-about-this-application?",
+    ]
     if fund_round_short_name == "COF-EOIR1":
         return [
             "organisation-details",
@@ -123,11 +129,7 @@ def ordered_themes(fund_round_short_name):
     if fund_round_short_name == "CTDFCR1":
         return ["project_name", "organisation_name"]
     if fund_round_short_name == "HSRAVR":
-        return [
-            "what-would-you-like-to-name-your-application?",
-            "by-submitting-this-application,-you-confirm-that-the-information-you-have-provided-is-correct.",
-            "who-is-your-section-151-officer?",
-            "who-should-we-contact-about-this-application?",
+        return common_questions_hsra + [
             "tell-us-more-about-the-designated-area.",
             "which-town-or-city-will-the-designated-area-be-located-in?",
             "when-do-you-expect-the-vacancy-register-to-be-completed?",
@@ -136,12 +138,8 @@ def ordered_themes(fund_round_short_name):
             "upload-the-quote-for-the-vacancy-register",
         ]
     if fund_round_short_name == "HSRARP":
-        return [
-            "what-would-you-like-to-name-your-application?",
-            "by-submitting-this-application,-you-confirm-that-the-information-you-have-provided-is-correct.",
-            "who-is-your-section-151-officer?",
+        return common_questions_hsra + [
             "which-local-authority-are-you-applying-from?",
-            "who-should-we-contact-about-this-application?",
             "upload-the-initial-notice-you-served-the-landlord",
             "what-is-the-total-commercial-floorspace-of-the-property,-in-meters-squared?",
             "what-is-the-vacant-property's-address?",
