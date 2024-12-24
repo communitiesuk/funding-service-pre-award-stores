@@ -245,6 +245,8 @@ def create_app() -> Flask:  # noqa: C901
     csrf.exempt(fund_store_bp)
     csrf.exempt(application_store_bp)
     csrf.exempt(assessment_store_bp)
+    for bp, _ in assessment_store_bp._blueprints:
+        csrf.exempt(bp)
 
     # Initialise Sessions
     session = Session()
