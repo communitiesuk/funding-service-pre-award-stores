@@ -1,4 +1,4 @@
-from flask import current_app, redirect, render_template, request
+from flask import current_app, jsonify, redirect, render_template, request
 from fsd_utils.authentication.decorators import login_requested
 
 from assess.authentication.auth import auth_protect
@@ -7,6 +7,12 @@ from config import Config
 
 def not_found(error):
     current_app.logger.debug(error)
+
+    if request.host == current_app.config["API_HOST"]:
+        return (
+            jsonify({"code": 404, "message": str(error) or "Requested URL was not found on the server"}),
+            404,
+        )
 
     if request.host == current_app.config["ASSESS_HOST"]:
 
