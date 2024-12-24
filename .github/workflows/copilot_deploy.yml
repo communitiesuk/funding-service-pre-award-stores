@@ -28,6 +28,11 @@ on:
         default: false  # TODO: Re-enable me when useful
         type: boolean
         description: Run e2e tests (application)
+      run_python_e2e_tests:
+        required: false
+        default: true
+        type: boolean
+        description: Run python e2e tests
   push:
 
 jobs:
@@ -80,6 +85,7 @@ jobs:
       run_performance_tests: ${{ inputs.run_performance_tests || true }}
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || false }}
       run_e2e_tests_application: ${{ inputs.run_e2e_tests_application || false }}
+      run_e2e_tests_python: ${{ inputs.run_python_e2e_tests || true }}
       environment: dev
       app_name: pre-award-stores
 
@@ -112,6 +118,7 @@ jobs:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || true }}
       run_e2e_tests_application: ${{ inputs.run_e2e_tests_application || true }}
+      run_e2e_tests_python: ${{ inputs.run_python_e2e_tests || true }}
       environment: test
       app_name: pre-award-stores
 
@@ -144,6 +151,7 @@ jobs:
       run_performance_tests: ${{ inputs.run_performance_tests || false }}
       run_e2e_tests_assessment: ${{ inputs.run_e2e_tests_assessment || true }}
       run_e2e_tests_application: ${{ inputs.run_e2e_tests_application || true }}
+      run_e2e_tests_python: false  # not available in UAT environment
       environment: uat
       app_name: pre-award-stores
 
