@@ -3,8 +3,8 @@
 #  https://aws.github.io/copilot-cli/docs/manifest/backend-service/
 
 # Your service name will be used in naming your resources like log groups, ECS services, etc.
-name: fsd-pre-award-stores
-type: Backend Service
+name: fsd-pre-award
+type: Load Balanced Web Service
 
 # Distribute traffic to your service.
 http:
@@ -18,6 +18,11 @@ http:
     interval: 6s
     timeout: 5s
     grace_period: 10s
+
+  alias:
+    - frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk
+    - assessment.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk
+    - authenticator.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk
 # Your service is reachable at "http://fsd-pre-award-stores.${COPILOT_SERVICE_DISCOVERY_ENDPOINT}:8080" but is not public.
 
 # Configuration for your containers and service.
@@ -28,8 +33,9 @@ image:
 cpu: 1024 # Number of CPU units for the task.
 memory: 2048 # Amount of memory in MiB used by the task.
 platform: linux/x86_64 # See https://aws.github.io/copilot-cli/docs/manifest/backend-service/#platform
-count: 1 # Number of tasks that should be running in your service.
+count: 2 # Number of tasks that should be running in your service.
 exec: true # Enable running commands in your container.
+
 network:
   connect: true # Enable Service Connect for intra-environment traffic between services.
   vpc:
@@ -43,7 +49,7 @@ network:
 # Pass environment variables as key value pairs.
 variables:
   FLASK_ENV: ${COPILOT_ENVIRONMENT_NAME}
-  SENTRY_DSN: "https://80c7f65b54f0eff535777a66b375adf0@o1432034.ingest.us.sentry.io/4508324370317312"
+  SENTRY_DSN: "https://80c7f65b54f0eff535777a66b375adf0@o1432034.ingest.us.sentry.io/4508324370317312"  # FIXME: UPDATE THIS WITH NEW PROJECT?
   AWS_BUCKET_NAME:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-FormUploadsBucket
   AWS_MSG_BUCKET_NAME:
@@ -56,6 +62,22 @@ variables:
   SENTRY_TRACES_SAMPLE_RATE: 1.0
   API_HOST: "fsd-pre-award-stores:8080"
 
+  ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: false
+  APPLICANT_FRONTEND_HOST: "https://frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk" # TODO: remove me when all frontends combined
+  APPLY_HOST: "frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  ASSESS_HOST: "assessment.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  AUTH_HOST: "authenticator.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  COOKIE_DOMAIN: ".test.levellingup.gov.uk"
+  FORM_DESIGNER_HOST: "https://form-designer.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  FORMS_SERVICE_PUBLIC_HOST: "https://forms.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  FUND_APPLICATION_BUILDER_HOST: "https://fund-application-builder.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  POST_AWARD_FRONTEND_HOST: "https://find-monitoring-data.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  POST_AWARD_SUBMIT_HOST: "https://submit-monitoring-data.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
+  COPILOT_AWS_BUCKET_NAME:
+    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-FormUploadsBucket
+  REDIS_INSTANCE_URI:
+    from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-MagicLinksRedisInstanceURI
+
 secrets:
   FUND_STORE_API_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/FUND_STORE_API_HOST
   ACCOUNT_STORE_API_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/ACCOUNT_STORE_API_HOST
@@ -63,17 +85,64 @@ secrets:
   PREAWARD_DB_SECRET:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-fsdpreawardstoresclusterAuroraSecret
   APPLICATION_STORE_API_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/APPLICATION_STORE_API_HOST
+  ASSESSMENT_STORE_API_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/ASSESSMENT_STORE_API_HOST
+  AUTHENTICATOR_HOST: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/AUTHENTICATOR_HOST
+  AZURE_AD_CLIENT_ID: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/AZURE_AD_CLIENT_ID
+  AZURE_AD_CLIENT_SECRET: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/AZURE_AD_CLIENT_SECRET
+  AZURE_AD_TENANT_ID: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/AZURE_AD_TENANT_ID
+  MAINTENANCE_MODE: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/FSD_FRONTEND_MAINTENANCE_MODE
+  MAINTENANCE_END_TIME: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/FSD_FRONTEND_MAINTENANCE_END_TIME
+  RSA256_PUBLIC_KEY_BASE64: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/RSA256_PUBLIC_KEY_BASE64
+  RSA256_PRIVATE_KEY_BASE64: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/RSA256_PRIVATE_KEY_BASE64
 
 
 # You can override any of the values defined above by environment.
 environments:
   dev:
+    variables:
+      ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     count:
       spot: 1
+    sidecars:
+      nginx:
+        port: 8087
+        image:
+          location: xscys/nginx-sidecar-basic-auth
+        variables:
+          FORWARD_PORT: 8080
+          CLIENT_MAX_BODY_SIZE: 10m
+        secrets:
+          BASIC_AUTH_USERNAME: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_USERNAME
+          BASIC_AUTH_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_PASSWORD
+    http:
+      target_container: nginx
+      healthcheck:
+        path: /healthcheck
+        port: 8080
   test:
+    variables:
+      ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     count:
       spot: 2
+    sidecars:
+      nginx:
+        port: 8087
+        image:
+          location: xscys/nginx-sidecar-basic-auth
+        variables:
+          FORWARD_PORT: 8080
+          CLIENT_MAX_BODY_SIZE: 10m
+        secrets:
+          BASIC_AUTH_USERNAME: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_USERNAME
+          BASIC_AUTH_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_PASSWORD
+    http:
+      target_container: nginx
+      healthcheck:
+        path: /healthcheck
+        port: 8080
   uat:
+    variables:
+      ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     count:
       range: 2-4
       cooldown:
@@ -85,7 +154,29 @@ environments:
         value: 80
       requests: 30
       response_time: 2s
+    sidecars:
+      nginx:
+        port: 8087
+        image:
+          location: xscys/nginx-sidecar-basic-auth
+        variables:
+          FORWARD_PORT: 8080
+          CLIENT_MAX_BODY_SIZE: 10m
+        secrets:
+          BASIC_AUTH_USERNAME: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_USERNAME
+          BASIC_AUTH_PASSWORD: /copilot/${COPILOT_APPLICATION_NAME}/${COPILOT_ENVIRONMENT_NAME}/secrets/BASIC_AUTH_PASSWORD
+    http:
+      target_container: nginx
+      healthcheck:
+        path: /healthcheck
+        port: 8080
   prod:
+    http:
+      alias:
+        - "frontend.access-funding.levellingup.gov.uk"
+        - "assessment.access-funding.levellingup.gov.uk"
+        - "authenticator.access-funding.levellingup.gov.uk"
+      hosted_zone: Z0686469NF3ZJTU9I02M
     count:
       range: 2-4
       cooldown:
@@ -99,4 +190,13 @@ environments:
     variables:
       FLASK_ENV: production
       ASSESSMENT_FRONTEND_HOST: "https://assessment.access-funding.levellingup.gov.uk"
+      ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: false
+      COOKIE_DOMAIN: ".levellingup.gov.uk"
+      APPLY_HOST: "frontend.access-funding.levellingup.gov.uk"
+      ASSESS_HOST: "assessment.access-funding.levellingup.gov.uk"
+      AUTH_HOST: "authenticator.access-funding.levellingup.gov.uk"
+      APPLICANT_FRONTEND_HOST: "https://frontend.access-funding.levellingup.gov.uk" # TODO: remove me when all frontends combined
+      FORMS_SERVICE_PUBLIC_HOST: "https://forms.access-funding.levellingup.gov.uk"
+      POST_AWARD_FRONTEND_HOST: "https://find-monitoring-data.access-funding.levellingup.gov.uk"
+      POST_AWARD_SUBMIT_HOST: "https://submit-monitoring-data.access-funding.levellingup.gov.uk"
       SENTRY_TRACES_SAMPLE_RATE: 0.02
