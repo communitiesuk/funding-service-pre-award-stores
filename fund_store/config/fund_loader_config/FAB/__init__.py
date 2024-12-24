@@ -51,8 +51,10 @@ for file in os.listdir(this_dir):
             raise ValueError(f"No round_config found in {file}")
         fund_short_name = loader_config["fund_config"]["short_name"]
         round_short_name = loader_config["round_config"]["short_name"]
-        FAB_FUND_ROUND_CONFIGS[fund_short_name] = loader_config["fund_config"]
-        if not FAB_FUND_ROUND_CONFIGS[fund_short_name].get("rounds", None):
+
+        # Ensure the fund exists in the main config
+        if fund_short_name not in FAB_FUND_ROUND_CONFIGS:
+            FAB_FUND_ROUND_CONFIGS[fund_short_name] = loader_config["fund_config"]
             FAB_FUND_ROUND_CONFIGS[fund_short_name]["rounds"] = {}
         FAB_FUND_ROUND_CONFIGS[fund_short_name]["rounds"][round_short_name] = loader_config["round_config"]
         FAB_FUND_ROUND_CONFIGS[fund_short_name]["rounds"][round_short_name]["sections_config"] = loader_config[

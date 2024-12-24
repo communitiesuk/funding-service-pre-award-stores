@@ -74,9 +74,7 @@ def seed_dev_db(c, fundround=None, appcount=None):
     with _env_var("FLASK_ENV", "development"):
         app = create_app()
         with app.app_context():
-            from assessment_store.config.mappings.assessment_mapping_fund_round import (
-                fund_round_mapping_config,
-            )
+            from assessment_store.config.mappings.assessment_mapping_fund_round import fund_round_mapping_config
             from assessment_store.tests._helpers import seed_database_for_fund_round
             from config import Config
 
@@ -137,7 +135,8 @@ def seed_local_assessment_store_db(c):
 
             # Insert scoring systems
             one_to_five_id = str(uuid.uuid4())  # Generate a UUID for OneToFive
-            zero_to_three_id = str(uuid.uuid4())  # Generate a UUID for OneToThree
+            zero_to_three_id = str(uuid.uuid4())  # Generate a UUID for ZeroToThree
+            zero_to_one_id = str(uuid.uuid4())  # Generate a UUID for ZeroToOne
 
             scoring_system_data = [
                 {
@@ -152,6 +151,12 @@ def seed_local_assessment_store_db(c):
                     "minimum_score": 0,
                     "maximum_score": 3,
                 },
+                {
+                    "id": zero_to_one_id,
+                    "scoring_system_name": "ZeroToOne",
+                    "minimum_score": 0,
+                    "maximum_score": 1,
+                },
             ]
 
             one_to_five = (
@@ -160,13 +165,17 @@ def seed_local_assessment_store_db(c):
             zero_to_three = (
                 db.session.query(ScoringSystem).filter(ScoringSystem.scoring_system_name == "ZeroToThree").one_or_none()
             )
+            zero_to_one = (
+                db.session.query(ScoringSystem).filter(ScoringSystem.scoring_system_name == "ZeroToOne").one_or_none()
+            )
 
-            if one_to_five is None and zero_to_three is None:
+            if one_to_five is None and zero_to_three is None and zero_to_one is None:
                 for dictionary in scoring_system_data:
                     db.session.add(ScoringSystem(**dictionary))
             else:
                 one_to_five_id = one_to_five.id
                 zero_to_three_id = zero_to_three.id
+                zero_to_one_id = zero_to_one.id
 
             round_ids = db.session.query(Round).with_entities(Round.id).all()
 
