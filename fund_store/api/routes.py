@@ -2,9 +2,10 @@ import uuid
 from datetime import datetime
 from distutils.util import strtobool
 
-from flask import Blueprint, abort, current_app, jsonify, request
+from flask import abort, current_app, jsonify, request
 from fsd_utils.locale_selector.get_lang import get_lang
 
+from common.blueprints import Blueprint
 from db import db
 from fund_store.db.models import Round
 from fund_store.db.models.event import EventType

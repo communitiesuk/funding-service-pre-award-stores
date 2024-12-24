@@ -55,12 +55,12 @@ def create_app() -> Flask:
     init_sentry()
 
     # TODO: See above
-    flask_app = ConnexionCompatibleJSONFlask(__name__)
+    flask_app = ConnexionCompatibleJSONFlask(__name__, host_matching=True, static_host="<host_from_current_request>")
 
-    flask_app.register_blueprint(account_core_bp, url_prefix="/account")
-    flask_app.register_blueprint(fund_store_bp, url_prefix="/fund")
-    flask_app.register_blueprint(application_store_bp, url_prefix="/application")
-    flask_app.register_blueprint(assessment_store_bp, url_prefix="/assessment")
+    flask_app.register_blueprint(account_core_bp, url_prefix="/account", host=Config.API_HOST)
+    flask_app.register_blueprint(fund_store_bp, url_prefix="/fund", host=Config.API_HOST)
+    flask_app.register_blueprint(application_store_bp, url_prefix="/application", host=Config.API_HOST)
+    flask_app.register_blueprint(assessment_store_bp, url_prefix="/assessment", host=Config.API_HOST)
 
     flask_app.config.from_object("config.Config")
 

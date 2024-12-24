@@ -2,13 +2,17 @@
 Contains test configuration.
 """
 
+from typing import Any
 from uuid import uuid4
 
 import pytest
+from flask.testing import FlaskClient
+from werkzeug.test import TestResponse
 
 from account_store.db.models.account import Account
 from account_store.db.models.role import Role
 from app import create_app  # noqa: E402
+from config import Config
 
 
 @pytest.fixture(scope="session")
@@ -16,8 +20,24 @@ def app():
     yield create_app()
 
 
+class _FlaskClientWithHost(FlaskClient):
+    def open(
+        self,
+        *args: Any,
+        buffered: bool = False,
+        follow_redirects: bool = False,
+        **kwargs: Any,
+    ) -> TestResponse:
+        if "headers" in kwargs:
+            kwargs["headers"].setdefault("Host", Config.API_HOST)
+        else:
+            kwargs.setdefault("headers", {"Host": Config.API_HOST})
+        return super().open(*args, buffered=buffered, follow_redirects=follow_redirects, **kwargs)
+
+
 @pytest.fixture(scope="session")
 def flask_test_client(app):
+    app.test_client_class = _FlaskClientWithHost
     yield app.test_client()
 
 

@@ -1,6 +1,6 @@
 from distutils.util import strtobool
 
-from flask import Blueprint, Response, abort, current_app, request
+from flask import Response, abort, current_app, request
 
 from assessment_store.db.queries.assessment_records.queries import (
     associate_assessment_tags,
@@ -21,6 +21,7 @@ from assessment_store.db.schemas.schemas import (
     TagSchema,
     TagTypeSchema,
 )
+from common.blueprints import Blueprint
 
 assessment_tag_bp = Blueprint("assessment_tag_bp", __name__)
 

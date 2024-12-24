@@ -1,7 +1,7 @@
 import time
 from distutils.util import strtobool
 
-from flask import Blueprint, current_app, jsonify, request, send_file
+from flask import current_app, jsonify, request, send_file
 from flask.views import MethodView
 from fsd_utils import evaluate_response
 from sqlalchemy.orm.exc import NoResultFound
@@ -52,6 +52,7 @@ from application_store.external_services import (
 from application_store.external_services.exceptions import (
     NotificationError,
 )
+from common.blueprints import Blueprint
 
 application_store_bp = Blueprint("application_store_bp", __name__)
 

@@ -1,9 +1,10 @@
 import copy
 from typing import List
 
-from flask import Blueprint, request
+from flask import request
 
 from assessment_store.db.queries.progress.queries import get_progress_for_app
+from common.blueprints import Blueprint
 from config import Config
 
 assessment_progress_bp = Blueprint("assessment_progress_bp", __name__)

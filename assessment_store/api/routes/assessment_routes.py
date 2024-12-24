@@ -1,7 +1,7 @@
 import copy
 from typing import Dict, List
 
-from flask import Blueprint, Response, current_app, request
+from flask import Response, current_app, request
 
 from assessment_store.api.models.sub_criteria import SubCriteria
 from assessment_store.api.routes._helpers import compress_response, transform_to_assessor_task_list_metadata
@@ -30,6 +30,7 @@ from assessment_store.db.queries.scores.queries import (
     get_scoring_system_for_round_id,
     get_sub_criteria_to_latest_score_map,
 )
+from common.blueprints import Blueprint
 from config import Config
 
 assessment_assessment_bp = Blueprint("assessment_assessment_bp", __name__)

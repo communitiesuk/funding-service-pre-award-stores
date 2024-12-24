@@ -1,8 +1,9 @@
 from typing import Dict
 
-from flask import Blueprint, request
+from flask import request
 
 from assessment_store.db.queries.comments import create_comment, get_comments_from_db, update_comment
+from common.blueprints import Blueprint
 
 assessment_comment_bp = Blueprint("assessment_comment_bp", __name__)
 
