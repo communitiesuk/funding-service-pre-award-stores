@@ -14,7 +14,6 @@ from flask import (
     Response,
     abort,
     current_app,
-    escape,
     g,
     redirect,
     render_template,
@@ -24,6 +23,7 @@ from flask import (
 )
 from fsd_utils import extract_questions_and_answers
 from fsd_utils.sqs_scheduler.context_aware_executor import ContextAwareExecutor
+from markupsafe import escape
 from werkzeug.datastructures import ImmutableMultiDict, MultiDict
 
 from assess.assessments.activity_trail import (
