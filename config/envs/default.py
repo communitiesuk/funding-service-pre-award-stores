@@ -1,4 +1,5 @@
 """Flask configuration."""
+
 import base64
 import logging
 import os
@@ -17,6 +18,7 @@ from assessment_store.config.mappings.assessment_mapping_fund_round import (
 )
 
 SafeAppConfig = namedtuple("SafeAppConfig", ("login_url", "logout_endpoint", "service_title"))
+
 
 @configclass
 class DefaultConfig(object):
@@ -74,7 +76,7 @@ class DefaultConfig(object):
     DOCUMENT_UPLOAD_SIZE_LIMIT = 2 * 1024 * 1024
 
     # Application Store
-    APPLICATION_STORE_API_HOST = CommonConfig.APPLICATION_STORE_API_HOST
+    APPLICATION_STORE_API_HOST = environ.get("APPLICATION_STORE_API_HOST", CommonConfig.APPLICATION_STORE_API_HOST)
     APPLICATIONS_ENDPOINT = CommonConfig.APPLICATIONS_ENDPOINT
     APPLICATION_ENDPOINT = CommonConfig.APPLICATION_ENDPOINT
 
@@ -156,12 +158,7 @@ class DefaultConfig(object):
         RSA256_PUBLIC_KEY = base64.b64decode(RSA256_PUBLIC_KEY_BASE64).decode()
     # APIs Config
     TEST_APPLICATION_STORE_API_HOST = CommonConfig.TEST_APPLICATION_STORE_API_HOST
-    TEST_FUND_STORE_API_HOST = CommonConfig.TEST_FUND_STORE_API_HOST
-    TEST_ACCOUNT_STORE_API_HOST = CommonConfig.TEST_ACCOUNT_STORE_API_HOST
 
-    ACCOUNT_STORE_API_HOST = environ.get("ACCOUNT_STORE_API_HOST", TEST_ACCOUNT_STORE_API_HOST)
-    ACCOUNTS_ENDPOINT = "/accounts"
-    APPLICATION_STORE_API_HOST = environ.get("APPLICATION_STORE_API_HOST", TEST_APPLICATION_STORE_API_HOST)
     GET_APPLICATION_ENDPOINT = APPLICATION_STORE_API_HOST + "/applications/{application_id}"
     SEARCH_APPLICATIONS_ENDPOINT = (
         APPLICATION_STORE_API_HOST + "/applications?order_by=last_edited&order_rev=1&{search_params}"
@@ -175,7 +172,6 @@ class DefaultConfig(object):
     END_OF_APP_SURVEY_FEEDBACK_ENDPOINT = APPLICATION_STORE_API_HOST + "/application/end_of_application_survey_data"
     RESEARCH_SURVEY_ENDPOINT = APPLICATION_STORE_API_HOST + "/application/research"
 
-    FUND_STORE_API_HOST = environ.get("FUND_STORE_API_HOST", TEST_FUND_STORE_API_HOST)
     GET_ALL_FUNDS_ENDPOINT = FUND_STORE_API_HOST + "/funds"
     GET_FUND_DATA_ENDPOINT = FUND_STORE_API_HOST + "/funds/{fund_id}"
     GET_ALL_ROUNDS_FOR_FUND_ENDPOINT = FUND_STORE_API_HOST + "/funds/{fund_id}/rounds"
@@ -203,7 +199,6 @@ class DefaultConfig(object):
     APPLICANT_FRONTEND_HOST = environ.get("APPLICANT_FRONTEND_HOST", "frontend")
 
     # Assessment Frontend
-    ASSESSMENT_FRONTEND_HOST = environ.get("ASSESSMENT_FRONTEND_HOST", "")
     FSD_ASSESSMENT_SESSION_TIMEOUT_SECONDS = CommonConfig.FSD_SESSION_TIMEOUT_SECONDS
     FUND_STORE_FUND_ENDPOINT = CommonConfig.FUND_ENDPOINT
 
@@ -326,8 +321,6 @@ class DefaultConfig(object):
         "content_security_policy_nonce_in": ["script-src"],
     }
 
-    USE_LOCAL_DATA = strtobool(getenv("USE_LOCAL_DATA", "False"))
-
     # Redis Feature Toggle Configuration
     REDIS_INSTANCE_URI = getenv("REDIS_INSTANCE_URI", "redis://localhost:6379")
     # TODO: Consolidate these values
@@ -344,7 +337,6 @@ class DefaultConfig(object):
 
     # Assess config
     TEXT_AREA_INPUT_MAX_CHARACTERS = 10000
-    FSD_LOG_LEVEL = CommonConfig.FSD_LOG_LEVEL
 
     ASSESSMENT_HUB_ROUTE = "/assess"
     DASHBOARD_ROUTE = "/assess/assessor_tool_dashboard"
@@ -354,8 +346,7 @@ class DefaultConfig(object):
 
     ASSESSMENT_STORE_API_HOST = CommonConfig.ASSESSMENT_STORE_API_HOST
 
-    FUNDS_ENDPOINT = CommonConfig.FUNDS_ENDPOINT
-    FUND_ENDPOINT = CommonConfig.FUND_ENDPOINT + "?use_short_name={use_short_name}"
+    FUND_ENDPOINT_FOR_FRONTENDS = CommonConfig.FUND_ENDPOINT + "?use_short_name={use_short_name}"
     # TODO: Rework on the avialable teams allocated after implemented in fundstore
     GET_AVIALABLE_TEAMS_FOR_FUND = FUND_STORE_API_HOST + "/funds/{fund_id}/rounds/{round_id}/available_flag_allocations"
 
@@ -365,7 +356,6 @@ class DefaultConfig(object):
     ROUND_ENDPOINT = CommonConfig.ROUND_ENDPOINT + "?use_short_name={use_short_name}"
 
     # Application Store Endpoints
-    APPLICATION_ENDPOINT = CommonConfig.APPLICATION_ENDPOINT
     APPLICATION_STATUS_ENDPOINT = CommonConfig.APPLICATION_STATUS_ENDPOINT
     APPLICATION_SEARCH_ENDPOINT = CommonConfig.APPLICATION_SEARCH_ENDPOINT
     APPLICATION_METRICS_ENDPOINT = (
