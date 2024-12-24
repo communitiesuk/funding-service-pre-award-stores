@@ -35,7 +35,7 @@ TEST_APPLICATION_STORE_JSON = data[
 TEST_SUBMITTED_APPLICATION_STORE_DATA = data["http://application_store/applications?account_id=test-user-2"]
 
 
-def test_serialise_application_summary():
+def test_serialise_application_summary(app):
     application_list = TEST_APPLICATION_STORE_JSON
 
     applications = [ApplicationSummary.from_dict(application) for application in application_list]
