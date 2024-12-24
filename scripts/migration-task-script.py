@@ -25,7 +25,7 @@ def get_db_revision_id() -> str | None:
         grep_result = subprocess.check_output(
             (
                 "copilot svc exec --name fsd-pre-award-stores --yes false "
-                "--command \"bash -c 'FLASK_APP=app:application launcher flask db current 2> /dev/null | grep head'\""
+                "--command \"bash -c 'FLASK_APP=app:create_app launcher flask db current 2> /dev/null | grep head'\""
             ),
             shell=True,
             text=True,
@@ -104,7 +104,7 @@ extra_args = [
     "--follow",
     f"--memory {task_memory}",
     "--entrypoint launcher",
-    "--command 'flask -A app:application db upgrade'",
+    "--command 'flask -A app:create_app db upgrade'",
     f"--image {docker_image}",
 ]
 
