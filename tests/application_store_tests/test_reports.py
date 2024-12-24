@@ -12,7 +12,7 @@ def test_get_application_statuses_csv(flask_test_client, seed_application_record
         follow_redirects=True,
     )
 
-    lines = response.content.decode("utf-8").split("\r\n")
+    lines = response.text.split("\r\n")
     assert lines[0] == "fund_id,round_id,NOT_STARTED,IN_PROGRESS,COMPLETED,SUBMITTED"
     assert f"{test_application_data[0]['fund_id']},{test_application_data[0]['round_id']},1,0,0,0" in lines
     assert f"{test_application_data[1]['fund_id']},{test_application_data[1]['round_id']},1,0,0,0" in lines
@@ -28,7 +28,7 @@ def test_get_application_statuses_csv(flask_test_client, seed_application_record
         follow_redirects=True,
     )
 
-    lines = response.content.decode("utf-8").split("\r\n")
+    lines = response.text.split("\r\n")
     assert lines[0] == "fund_id,round_id,NOT_STARTED,IN_PROGRESS,COMPLETED,SUBMITTED"
     assert f"{test_application_data[0]['fund_id']},{test_application_data[0]['round_id']},0,1,0,0" in lines
     assert f"{test_application_data[1]['fund_id']},{test_application_data[1]['round_id']},1,0,0,0" in lines
@@ -116,7 +116,7 @@ def test_get_application_statuses_json_multi_fund(
     )
     response = flask_test_client.get(url, follow_redirects=True)
     assert response.status_code == 200
-    result = response.json()
+    result = response.json
     assert result
     funds = result["metrics"]
     for fund_id in fund_ids:
@@ -174,13 +174,13 @@ def test_get_applications_report_by_application_id(
         follow_redirects=True,
     )
     assert 200 == response.status_code
-    lines = response.content.splitlines()
+    lines = response.text.splitlines()
     assert 2 == len(lines)
     assert (
         "eoi_reference,organisation_name,organisation_type,asset_type,"
         + "geography,capital,revenue,organisation_name_nstf"
-    ) == lines[0].decode("utf-8")
-    fields = lines[1].decode("utf-8").split(",")
+    ) == lines[0]
+    fields = lines[1].split(",")
     assert expected_org_name == fields[1]
     assert ref_number == fields[0]
     assert expected_address == fields[4]
@@ -208,17 +208,17 @@ def test_get_applications_report_by_round_is_and_fund_id(
         follow_redirects=True,
     )
     assert 200 == response.status_code
-    lines = response.content.splitlines()
+    lines = response.text.splitlines()
     assert 3 == len(lines)
     assert (
         "eoi_reference,organisation_name,organisation_type,asset_type,"
         + "geography,capital,revenue,organisation_name_nstf"
-    ) == lines[0].decode("utf-8")
-    row1 = lines[1].decode("utf-8").split(",")
+    ) == lines[0]
+    row1 = lines[1].split(",")
     assert row1[1] == "Test Org Name 1"
     assert row1[0] == "Test Reference Number"
     assert row1[4] == "W1A 1AA"
-    row2 = lines[2].decode("utf-8").split(",")
+    row2 = lines[2].split(",")
     assert row2[1] == "Test Org Name 2cy"
     assert row2[0] == "Test Reference Number Welsh"
     assert row2[4] == "CF10 3NQ"
@@ -239,10 +239,10 @@ def test_get_applications_report_query_param(flask_test_client, seed_data_multip
         follow_redirects=True,
     )
 
-    raw_lines = response.content.splitlines()
+    raw_lines = response.text.splitlines()
     assert len(raw_lines) == 3
 
-    lines = [line.decode("utf-8") for line in response.content.splitlines()]
+    lines = [line for line in response.text.splitlines()]
     assert (
         lines[0] == "eoi_reference,organisation_name,organisation_type,asset_type,"
         "geography,capital,revenue,organisation_name_nstf"

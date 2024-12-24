@@ -8,7 +8,7 @@ from sqlalchemy import select
 
 from account_store.db.models.account import Account
 from account_store.db.models.role import Role  # noqa:E402
-from app import app as connexionapp
+from app import create_app
 
 ECHO_STYLE = fg("blue") + attr("bold")
 DB_NAME = "fsd_account_store_dev"
@@ -34,7 +34,8 @@ def bootstrap_dev_db(c, database_host="localhost"):
 @task
 def seed_local_account_store(c):
     with _env_var("FLASK_ENV", "development"):
-        with connexionapp.app.app_context():
+        app = create_app()
+        with app.app_context():
             from db import db
 
             LEAD_ASSESSOR = "lead_assessor@example.com"

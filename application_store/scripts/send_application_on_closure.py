@@ -8,7 +8,7 @@ sys.path.insert(1, ".")
 
 from flask import current_app  # noqa: E402
 
-from app import app  # noqa: E402
+from app import create_app  # noqa: E402
 from application_store import external_services  # noqa: E402
 from application_store.db.queries import (
     get_forms_by_app_id,  # noqa: E402
@@ -206,5 +206,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    with app.app.app_context():
+    app = create_app()
+    with app.app_context():
         main()

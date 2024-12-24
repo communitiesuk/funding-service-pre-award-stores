@@ -81,7 +81,7 @@ def expected_data_within_response(
             follow_redirects=True,
             headers={"Content-Type": "application/json"},
         )
-    response_content = json.loads(response.content)
+    response_content = response.json
     diff = DeepDiff(
         expected_data,
         response_content,
@@ -150,7 +150,7 @@ def count_fund_applications(test_client, fund_id: str, expected_application_coun
     """
     fund_applications_endpoint = f"/application/applications?fund_id={fund_id}"
     response = test_client.get(fund_applications_endpoint, follow_redirects=True)
-    response_content = json.loads(response.content)
+    response_content = response.json
     error_message = (
         "Response from "
         + fund_applications_endpoint

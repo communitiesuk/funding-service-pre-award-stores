@@ -32,7 +32,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    from app import app
+    from app import create_app
 
-    with app.app.app_context():
+    app = create_app()
+
+    with app.app_context():
         main()

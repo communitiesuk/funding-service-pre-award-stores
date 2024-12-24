@@ -13,20 +13,12 @@ from app import create_app  # noqa: E402
 
 @pytest.fixture(scope="session")
 def app():
-    app = create_app()
-    yield app.app
+    yield create_app()
 
 
 @pytest.fixture(scope="session")
-def flask_test_client():
-    """
-    Creates the test client we will be using to test the responses
-    from our app, this is a test fixture.
-    :return: A flask test client.
-    """
-
-    with create_app().test_client() as test_client:
-        yield test_client
+def flask_test_client(app):
+    yield app.test_client()
 
 
 test_user_1 = {

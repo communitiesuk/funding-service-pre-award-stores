@@ -44,10 +44,10 @@ def test_create_application_is_successful(flask_test_client, unique_fund_round, 
         "language": "cy",
     }
     response = post_data(flask_test_client, "/application/applications", application_data_a1)
-    assert response.json()["language"] == "en"
+    assert response.json["language"] == "en"
     count_fund_applications(flask_test_client, unique_fund_round[0], 1)
     response = post_data(flask_test_client, "/application/applications", application_data_a2)
-    assert response.json()["language"] == "cy"
+    assert response.json["language"] == "cy"
     count_fund_applications(flask_test_client, unique_fund_round[0], 2)
 
 
@@ -127,7 +127,7 @@ def test_create_application_creates_formatted_reference(
         headers={"Content-Type": "application/json"},
         follow_redirects=True,
     )
-    application = response.json()
+    application = response.json
     assert application["reference"].startswith("TEST-TEST")
     assert application["reference"][-6:].isupper()
     assert application["reference"][-6:].isalpha()
@@ -156,8 +156,8 @@ def test_create_application_creates_unique_reference(
         headers={"Content-Type": "application/json"},
         follow_redirects=True,
     )
-    assert response.status_code == 201, f"First creation failed with status {response.status_code}: {response.content}"
-    application = response.json()
+    assert response.status_code == 201, f"First creation failed with status {response.status_code}: {response.text}"
+    application = response.json
     assert application["reference"] == "TEST-TEST-ABCDEF", f"Unexpected reference: {application['reference']}"
 
     # Second creation should fail
@@ -169,7 +169,7 @@ def test_create_application_creates_unique_reference(
     )
 
     assert response.status_code == 500, f"Expected status 500, but got {response.status_code}"
-    error_data = response.json()
+    error_data = response.json
 
     assert "detail" in error_data, f"Expected 'detail' in error response, got: {error_data}"
     assert (
@@ -178,21 +178,24 @@ def test_create_application_creates_unique_reference(
 
 
 @pytest.mark.apps_to_insert(test_application_data)
-def test_get_all_applications(flask_test_client, app):
+def test_get_all_applications(
+    flask_test_client,
+    app,
+):
     """
     GIVEN We have a functioning Application Store API
     WHEN a request for applications with no set params
     THEN the response should return all applications
     """
-    with app.app_context():
-        serialiser = ApplicationSchema(exclude=["forms"])
-        expected_data = [serialiser.dump(row) for row in get_all_applications()]
-        expected_data_within_response(
-            flask_test_client,
-            "/application/applications",
-            expected_data,
-            exclude_regex_paths=key_list_to_regex(["round_name", "date_submitted", "last_edited"]),
-        )
+    serialiser = ApplicationSchema(exclude=["forms"])
+    expected_data = [serialiser.dump(row) for row in get_all_applications()]
+    expected_data_within_response(
+        flask_test_client,
+        "/application/applications",
+        expected_data,
+        exclude_regex_paths=key_list_to_regex(["round_name", "date_submitted", "last_edited"]),
+        ignore_order=True,
+    )
 
 
 @pytest.mark.apps_to_insert([{"account_id": "unique_user", "language": "en"}])
@@ -242,8 +245,8 @@ def test_update_section_of_application(flask_test_client, seed_application_recor
         follow_redirects=True,
     )
     assert 201 == response.status_code
-    answer_found_list = [field["answer"] not in [None, ""] for field in response.json()["questions"][0]["fields"]]
-    section_status = response.json()["status"]
+    answer_found_list = [field["answer"] not in [None, ""] for field in response.json["questions"][0]["fields"]]
+    section_status = response.json["status"]
     assert all(answer_found_list)
     assert section_status == "IN_PROGRESS"
 
@@ -287,7 +290,7 @@ def test_update_section_of_application_with_optional_field(flask_test_client, se
         follow_redirects=True,
     )
     assert 201 == response.status_code
-    section_status = response.json()["status"]
+    section_status = response.json["status"]
     assert section_status == "IN_PROGRESS"
 
 
@@ -319,7 +322,7 @@ def test_update_section_of_application_with_incomplete_answers(flask_test_client
         follow_redirects=True,
     )
     assert 201 == response.status_code
-    section_status = response.json()["status"]
+    section_status = response.json["status"]
     assert section_status == "IN_PROGRESS"
 
 
@@ -394,7 +397,7 @@ def test_get_application_by_application_id_when_db_record_has_no_language_set(
         f"/application/applications/{seed_application_records[0].id}",
         follow_redirects=True,
     )
-    response_content = json.loads(response.content)
+    response_content = response.json
     assert response_content["language"] == "en"
 
 
@@ -417,7 +420,7 @@ def test_get_application_by_application_id_when_db_record_has_no_language_set_an
         f"/application/applications/{seed_application_records[0].id}?with_questions_file=true",
         follow_redirects=True,
     )
-    response_content = json.loads(response.content)
+    response_content = response.json
     assert response_content["questions_file"] is not None
 
 
@@ -567,7 +570,7 @@ def test_complete_form(flask_test_client, seed_application_records):
         json=section_put,
         follow_redirects=True,
     )
-    section_status = response.json()["status"]
+    section_status = response.json["status"]
     assert section_status == "COMPLETED"
 
 
@@ -593,7 +596,7 @@ def test_form_data_save_with_closed_round(flask_test_client, seed_application_re
     response = flask_test_client.put(
         "/application/applications/forms",
         json=section_put,
-        follow_redirects=True,
+        follow_redirects=False,
     )
     assert response.status_code == 301
 
@@ -624,7 +627,7 @@ def test_put_returns_400_on_submitted_application(flask_test_client, _db, seed_a
     )
 
     assert response.status_code == 400
-    assert b"Not allowed to edit a submitted application." in response.content
+    assert b"Not allowed to edit a submitted application." in response.data
 
 
 def generate_mock_round_closed(fund_id: str, round_id: str) -> Round:
@@ -680,7 +683,7 @@ def test_post_research_survey_data(flask_test_client, mocker):
     )
 
     assert response.status_code == 201
-    assert response.json() == expected_survey_data
+    assert response.json == expected_survey_data
     mock_upsert_research_survey_data.assert_called_once_with(
         application_id=request_data["application_id"],
         fund_id=request_data["fund_id"],
@@ -720,7 +723,7 @@ def test_get_research_survey_data(flask_test_client, mocker):
     response = flask_test_client.get(f"/application/application/research?application_id={application_id}")
 
     assert response.status_code == 200
-    assert response.json() == expected_survey_data
+    assert response.json == expected_survey_data
     mock_retrieve_research_survey_data.assert_called_once_with(application_id)
 
 
@@ -734,7 +737,7 @@ def test_get_research_survey_data_not_found(flask_test_client, mocker):
     response = flask_test_client.get(f"/application/application/research?application_id={application_id}")
 
     assert response.status_code == 404
-    assert response.json() == {
+    assert response.json == {
         "code": 404,
         "message": f"Research survey data for {application_id} not found",
     }

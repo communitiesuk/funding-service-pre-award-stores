@@ -1,10 +1,7 @@
 from os import getenv
 
-import connexion
 import psycopg2
-from connexion import FlaskApp
-from connexion.resolver import MethodResolver, MethodViewResolver
-from flask import jsonify
+from flask import Flask, jsonify
 from fsd_utils import init_sentry
 from fsd_utils.healthchecks.checkers import DbChecker, FlaskRunningChecker
 from fsd_utils.healthchecks.healthcheck import Healthcheck
@@ -12,47 +9,24 @@ from fsd_utils.logging import logging
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from sqlalchemy_utils import Ltree
 
+from account_store.core.account import account_core_bp
+from application_store.api.routes.application.routes import application_store_bp
 from application_store.db.exceptions.application import ApplicationError
+from assessment_store.api.routes import assessment_store_bp
 from config import Config
-from openapi.utils import get_bundled_specs
+from fund_store.api.routes import fund_store_bp
 
 
-def create_app() -> FlaskApp:
+def create_app() -> Flask:
     init_sentry()
 
-    connexion_app = connexion.App(
-        __name__,
-    )
+    flask_app = Flask(__name__)
 
-    connexion_app.add_api(
-        get_bundled_specs("/fund_store/openapi/api.yml"),
-        validate_responses=True,
-        base_path="/fund",
-    )
+    flask_app.register_blueprint(account_core_bp, url_prefix="/account")
+    flask_app.register_blueprint(fund_store_bp, url_prefix="/fund")
+    flask_app.register_blueprint(application_store_bp, url_prefix="/application")
+    flask_app.register_blueprint(assessment_store_bp, url_prefix="/assessment")
 
-    connexion_app.add_api(
-        get_bundled_specs("/application_store/openapi/api.yml"),
-        validate_responses=True,
-        resolver_error=501,
-        base_path="/application",
-        resolver=MethodResolver("api"),
-    )
-
-    connexion_app.add_api(
-        get_bundled_specs("/assessment_store/openapi/api.yml"),
-        validate_responses=True,
-        base_path="/assessment",
-        resolver=MethodViewResolver("api"),
-    )
-
-    connexion_app.add_api(
-        get_bundled_specs("/account_store/openapi/api.yml"),
-        validate_responses=False,
-        base_path="/account",
-        resolver=MethodResolver("api"),
-    )
-
-    flask_app = connexion_app.app
     flask_app.config.from_object("config.Config")
 
     # Initialize sqs extended client
@@ -89,7 +63,7 @@ def create_app() -> FlaskApp:
         response.status_code = 500
         return response
 
-    return connexion_app
+    return flask_app
 
 
 def create_sqs_extended_client(flask_app):
@@ -116,7 +90,3 @@ def create_sqs_extended_client(flask_app):
             delete_payload_from_s3=True,
             logger=flask_app.logger,
         )
-
-
-app = create_app()
-application = app.app

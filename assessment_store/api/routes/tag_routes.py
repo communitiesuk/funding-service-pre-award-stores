@@ -1,4 +1,6 @@
-from flask import Response, abort, current_app, request
+from distutils.util import strtobool
+
+from flask import Blueprint, Response, abort, current_app, request
 
 from assessment_store.db.queries.assessment_records.queries import (
     associate_assessment_tags,
@@ -20,15 +22,21 @@ from assessment_store.db.schemas.schemas import (
     TagTypeSchema,
 )
 
+assessment_tag_bp = Blueprint("assessment_tag_bp", __name__)
 
+
+@assessment_tag_bp.get("/funds/<fund_id>/rounds/<round_id>/tags")
 def get_tags_for_fund_round(
     fund_id,
     round_id,
-    tag_purpose: str = "ALL",
-    tag_status: bool = None,
-    search_term: str = "",
-    search_in: str = None,
 ):
+    tag_purpose: str = request.args.get("tag_purpose", "ALL")
+    tag_status: bool = (
+        bool(strtobool(request.args.get("tag_status", "false"))) if "tag_status" in request.args else None
+    )
+    search_term: str = request.args.get("search_term", "")
+    search_in: str = request.args.get("search_in", None)
+
     tags = select_tags_for_fund_round(fund_id, round_id, tag_purpose, tag_status, search_term, search_in)
 
     if tags:
@@ -43,6 +51,7 @@ def get_tags_for_fund_round(
     )
 
 
+@assessment_tag_bp.get("/tag_types")
 def get_tag_types():
     tag_types = select_tags_types()
 
@@ -54,6 +63,7 @@ def get_tag_types():
     return Response(response="No tags types.", status=204)
 
 
+@assessment_tag_bp.post("/funds/<fund_id>/rounds/<round_id>/tags")
 def add_tag_for_fund_round(fund_id, round_id):
     args = request.get_json()
     tag_value = args["value"]
@@ -78,6 +88,7 @@ def add_tag_for_fund_round(fund_id, round_id):
     abort(404)
 
 
+@assessment_tag_bp.put("/funds/<fund_id>/rounds/<round_id>/tags")
 def update_tags_for_fund_round(fund_id, round_id):
     args = request.get_json()
 
@@ -102,6 +113,7 @@ def update_tags_for_fund_round(fund_id, round_id):
     abort(404)
 
 
+@assessment_tag_bp.get("/funds/<fund_id>/rounds/<round_id>/tags/<tag_id>")
 def get_tag(fund_id, round_id, tag_id):
     tag = get_tag_by_id(fund_id, round_id, tag_id)
     if not tag:
@@ -109,6 +121,7 @@ def get_tag(fund_id, round_id, tag_id):
     return JoinedTagSchema().dump(tag)
 
 
+@assessment_tag_bp.put("/application/<application_id>/tag")
 def associate_tags_with_assessment(application_id):
     args = request.get_json()
     tags = args
@@ -121,6 +134,7 @@ def associate_tags_with_assessment(application_id):
         return serialised_associated_tags
 
 
+@assessment_tag_bp.get("/application/<application_id>/tag")
 def get_active_tags_associated_with_assessment(application_id):
     current_app.logger.info(
         "Getting tags associated with assessment with application_id: {application_id}.",
@@ -134,6 +148,7 @@ def get_active_tags_associated_with_assessment(application_id):
     return []
 
 
+@assessment_tag_bp.get("/application/<application_id>/tags")
 def get_all_tags_associated_with_application(application_id):
     current_app.logger.info(
         "Getting tags associated with with application_id: {application_id}.", extra=dict(application_id=application_id)

@@ -160,7 +160,7 @@ def test_submit_route_success(
     )
 
     assert response.status_code == 201
-    assert all(k in response.json() for k in ("id", "email", "reference", "eoi_decision"))
+    assert all(k in response.json for k in ("id", "email", "reference", "eoi_decision"))
 
     _db.session.expunge(target_application)
     application_after_submit = _db.session.query(Applications).where(Applications.id == application_id).one()
@@ -187,7 +187,7 @@ def test_submit_route_submit_error(flask_test_client, seed_application_records, 
         follow_redirects=True,
     )
     assert response.status_code == 500
-    assert response.json()["message"] == f"Unable to submit application {application_id}"
+    assert response.json["message"] == f"Unable to submit application {application_id}"
 
 
 def test_submit_application_raises_error_on_db_violation(

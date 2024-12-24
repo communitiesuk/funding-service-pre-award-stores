@@ -1,4 +1,6 @@
-from flask import abort, current_app, request
+from distutils.util import strtobool
+
+from flask import Blueprint, abort, current_app, request
 from fsd_utils.config.notify_constants import NotifyConstants
 
 from assessment_store.db.queries.assessment_records.queries import (
@@ -12,8 +14,11 @@ from assessment_store.db.queries.assessment_records.queries import (
 from assessment_store.db.schemas.schemas import AllocationAssociationSchema
 from assessment_store.services.data_services import send_notification_email
 
+assessment_user_bp = Blueprint("assessment_user_bp", __name__)
 
-def get_all_users_associated_with_application(application_id, active=None):
+
+@assessment_user_bp.get("/application/<application_id>/users")
+def get_all_users_associated_with_application(application_id):
     """Fetches all users associated with a given application.
 
     Parameters:
@@ -27,6 +32,7 @@ def get_all_users_associated_with_application(application_id, active=None):
         404: If no users are found for the given application.
 
     """
+    active = bool(strtobool(request.args.get("active"))) if "active" in request.args else None
     associations = get_user_application_associations(application_id=application_id, active=active)
     if associations:
         serialiser = AllocationAssociationSchema()
@@ -39,6 +45,7 @@ def get_all_users_associated_with_application(application_id, active=None):
     abort(404)
 
 
+@assessment_user_bp.get("/application/<application_id>/user/<user_id>")
 def get_user_application_association(application_id, user_id):
     """Fetches the association between a given user and application.
 
@@ -66,6 +73,7 @@ def get_user_application_association(application_id, user_id):
     abort(404)
 
 
+@assessment_user_bp.post("/application/<application_id>/user/<user_id>")
 def add_user_application_association(application_id, user_id):
     """Creates a new association between a user and an application.
 
@@ -110,6 +118,7 @@ def add_user_application_association(application_id, user_id):
     abort(404)
 
 
+@assessment_user_bp.put("/application/<application_id>/user/<user_id>")
 def update_user_application_association(application_id, user_id):
     """Updates the active status of an association between a user and an
     application.
@@ -165,6 +174,7 @@ def update_user_application_association(application_id, user_id):
     abort(404)
 
 
+@assessment_user_bp.get("/user/<user_id>/applications")
 def get_all_applications_associated_with_user(user_id, active=None):
     """Fetches all applications associated with a given user.
 
@@ -190,6 +200,7 @@ def get_all_applications_associated_with_user(user_id, active=None):
     abort(404)
 
 
+@assessment_user_bp.get("/user/<assigner_id>/assignees")
 def get_all_associations_assigned_by_user(assigner_id, active=None):
     """Fetches all associations where the user is the assigner.
 
