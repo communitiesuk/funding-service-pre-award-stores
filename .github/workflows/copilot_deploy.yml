@@ -37,7 +37,7 @@ jobs:
       environment: ${{ inputs.environment }}
 
   pre_deploy_tests:
-    uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@main
+    uses: communitiesuk/funding-service-design-workflows/.github/workflows/pre-deploy.yml@bau/integrate-frontend-and-stores
     with:
       postgres_unit_testing: true
       check_db_migrations: true
