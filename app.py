@@ -69,8 +69,7 @@ def create_app() -> Flask:  # noqa: C901
         toggle_client = create_toggles_client()
         load_toggles(Config.FEATURE_CONFIG, toggle_client)
 
-    babel = Babel(flask_app)
-    babel.locale_selector_func = get_lang
+    Babel(flask_app, locale_selector=get_lang)
     LanguageSelector(flask_app)
 
     # Bundle and compile assets
