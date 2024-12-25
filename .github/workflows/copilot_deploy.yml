@@ -63,7 +63,7 @@ jobs:
     with:
       environment: dev
       app_name: pre-award
-      run_db_migrations: true
+      run_db_migrations: false
       image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_dev_deploy_tests:
