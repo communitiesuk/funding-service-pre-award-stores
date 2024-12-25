@@ -17,7 +17,7 @@ http:
     healthy_threshold: 2
     interval: 6s
     timeout: 5s
-    grace_period: 10s
+    grace_period: 20s
 
   alias:
     - frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk
@@ -30,8 +30,8 @@ image:
   # Port exposed through your container to route traffic to it.
   port: 8080
 
-cpu: 1024 # Number of CPU units for the task.
-memory: 2048 # Amount of memory in MiB used by the task.
+cpu: 2048 # Number of CPU units for the task.
+memory: 4096 # Amount of memory in MiB used by the task.
 platform: linux/x86_64 # See https://aws.github.io/copilot-cli/docs/manifest/backend-service/#platform
 count: 2 # Number of tasks that should be running in your service.
 exec: true # Enable running commands in your container.
@@ -102,7 +102,7 @@ environments:
     variables:
       ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: true
     count:
-      spot: 1
+      spot: 2
     sidecars:
       nginx:
         port: 8087
