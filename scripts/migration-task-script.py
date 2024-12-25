@@ -24,7 +24,7 @@ def get_db_revision_id() -> str | None:
     try:
         grep_result = subprocess.check_output(
             (
-                "copilot svc exec --name fsd-pre-award-stores --yes false "
+                "copilot svc exec --name fsd-pre-award --yes false "
                 "--command \"bash -c 'FLASK_APP=app:create_app launcher flask db current 2> /dev/null | grep head'\""
             ),
             shell=True,
@@ -41,7 +41,7 @@ def get_db_revision_id() -> str | None:
 def init_task() -> str:
     try:
         task_command = subprocess.run(
-            args=["copilot", "task", "run", "--generate-cmd", f"pre-award/{environment}/fsd-pre-award-stores"],
+            args=["copilot", "task", "run", "--generate-cmd", f"pre-award/{environment}/fsd-pre-award"],
             capture_output=True,
             check=True,
             text=True,

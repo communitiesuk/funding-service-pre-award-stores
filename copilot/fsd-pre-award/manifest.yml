@@ -1,4 +1,4 @@
-# The manifest for the "fsd-pre-award-stores" service.
+# The manifest for the "fsd-pre-award" service.
 # Read the full specification for the "Backend Service" type at:
 #  https://aws.github.io/copilot-cli/docs/manifest/backend-service/
 
@@ -23,7 +23,7 @@ http:
     - frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk
     - assessment.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk
     - authenticator.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk
-# Your service is reachable at "http://fsd-pre-award-stores.${COPILOT_SERVICE_DISCOVERY_ENDPOINT}:8080" but is not public.
+# Your service is reachable at "http://fsd-pre-award.${COPILOT_SERVICE_DISCOVERY_ENDPOINT}:8080" but is not public.
 
 # Configuration for your containers and service.
 image:
@@ -49,7 +49,7 @@ network:
 # Pass environment variables as key value pairs.
 variables:
   FLASK_ENV: ${COPILOT_ENVIRONMENT_NAME}
-  SENTRY_DSN: "https://80c7f65b54f0eff535777a66b375adf0@o1432034.ingest.us.sentry.io/4508324370317312"  # FIXME: UPDATE THIS WITH NEW PROJECT?
+  SENTRY_DSN: "https://80c7f65b54f0eff535777a66b375adf0@o1432034.ingest.us.sentry.io/4508324370317312"
   AWS_BUCKET_NAME:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-FormUploadsBucket
   AWS_MSG_BUCKET_NAME:
@@ -60,7 +60,7 @@ variables:
     from_cfn: ${COPILOT_APPLICATION_NAME}-${COPILOT_ENVIRONMENT_NAME}-NotificationDeadLetterQueueURL
   ASSESSMENT_FRONTEND_HOST: "https://assessment.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk"
   SENTRY_TRACES_SAMPLE_RATE: 1.0
-  API_HOST: "fsd-pre-award-stores:8080"
+  API_HOST: "fsd-pre-award:8080"
 
   ALLOW_ASSESSMENT_LOGIN_VIA_MAGIC_LINK: false
   APPLICANT_FRONTEND_HOST: "https://frontend.${COPILOT_ENVIRONMENT_NAME}.access-funding.test.levellingup.gov.uk" # TODO: remove me when all frontends combined

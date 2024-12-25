@@ -46,7 +46,7 @@ if [ -z "${cluster_name}" ]; then
 fi
 
 if [ -z "${service_name}" ]; then
-    service_name='fsd-pre-award-stores'
+    service_name='fsd-pre-award'
 fi
 
 if [ -z "${task_name}" ]; then
@@ -54,7 +54,7 @@ if [ -z "${task_name}" ]; then
 fi
 
 if [ -z "${docker_container_name}" ]; then
-    docker_container_name='fsd-pre-award-stores'
+    docker_container_name='fsd-pre-award'
 fi
 
 export ECS_CLUSTER_ARN="$(aws ecs list-clusters --query "clusterArns[?contains(@, '${cluster_name}')]" --output text | sed 's|.*/||')"
