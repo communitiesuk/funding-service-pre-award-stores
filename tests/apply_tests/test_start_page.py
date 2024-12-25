@@ -26,44 +26,44 @@ default_round_fields = {
 }
 
 
-def test_old_index_redirect(client):
-    result = client.get("/", follow_redirects=False)
+def test_old_index_redirect(apply_test_client):
+    result = apply_test_client.get("/", follow_redirects=False)
     assert result.status_code == 404
 
 
-def test_start_page_unknown_fund(client, mocker):
+def test_start_page_unknown_fund(apply_test_client, mocker):
     mocker.patch("apply.default.routes.get_fund_and_round", return_value=(None, None))
-    result = client.get("funding-round/bad_fund/r2w2")
+    result = apply_test_client.get("funding-round/bad_fund/r2w2")
     assert result.status_code == 404
 
 
-def test_start_page_without_namespace(client, mocker):
+def test_start_page_without_namespace(apply_test_client, mocker):
     mocker.patch("apply.default.routes.get_fund_and_round", return_value=(None, None))
-    result = client.get("cof/r2w2")
+    result = apply_test_client.get("cof/r2w2")
     assert result.status_code == 404
 
 
-def test_start_page_unknown_round(client, mocker):
+def test_start_page_unknown_round(apply_test_client, mocker):
     mocker.patch("apply.default.routes.get_fund_and_round", return_value=(None, None))
-    result = client.get("/cof/bad_round_id")
+    result = apply_test_client.get("/cof/bad_round_id")
     assert result.status_code == 404
 
 
-def test_start_page_not_yet_open(client, mocker):
+def test_start_page_not_yet_open(apply_test_client, mocker):
     mocker.patch(
         "apply.default.routes.determine_round_status",
         return_value=RoundStatus(False, True, False),
     )
-    result = client.get("/cof/r2w1")
+    result = apply_test_client.get("/cof/r2w1")
     assert result.status_code == 404
 
 
-def test_start_page_open(client, mocker, templates_rendered):
+def test_start_page_open(apply_test_client, mocker, templates_rendered):
     mocker.patch(
         "apply.default.routes.determine_round_status",
         return_value=RoundStatus(False, False, True),
     )
-    result = client.get("funding-round/cof/r2w3")
+    result = apply_test_client.get("funding-round/cof/r2w3")
     assert result.status_code == 200
     assert 1 == len(templates_rendered)
     rendered_template = templates_rendered[0]
@@ -80,24 +80,24 @@ def test_start_page_open(client, mocker, templates_rendered):
         ("cy", "Mae'r gwasanaeth yma hefyd ar gael yn Saesneg (English)."),
     ),
 )
-def test_start_page_translations(client, mocker, templates_rendered, lang, expected_content):
+def test_start_page_translations(apply_test_client, mocker, templates_rendered, lang, expected_content):
     mocker.patch(
         "apply.default.routes.determine_round_status",
         return_value=RoundStatus(False, False, True),
     )
-    result = client.get(f"funding-round/cof/r2w3?lang={lang}")
+    result = apply_test_client.get(f"funding-round/cof/r2w3?lang={lang}")
     assert result.status_code == 200
 
     soup = BeautifulSoup(result.data, "html.parser")
     assert expected_content in soup.text
 
 
-def test_start_page_closed(client, mocker, templates_rendered):
+def test_start_page_closed(apply_test_client, mocker, templates_rendered):
     mocker.patch(
         "apply.default.routes.determine_round_status",
         return_value=RoundStatus(True, False, False),
     )
-    result = client.get("funding-round/cof/r2w3")
+    result = apply_test_client.get("funding-round/cof/r2w3")
     assert result.status_code == 200
     assert 1 == len(templates_rendered)
     rendered_template = templates_rendered[0]
@@ -177,30 +177,30 @@ def test_get_default_round_for_fund_no_rounds(mocker):
     assert result is None
 
 
-def test_fund_only_start_page(client, mocker):
+def test_fund_only_start_page(apply_test_client, mocker):
     mocker.patch(
         "apply.default.routes.get_default_round_for_fund",
         return_value=Round(id="111", deadline="", opens="", **default_round_fields),
     )
-    result = client.get("funding-round/cof", follow_redirects=False)
+    result = apply_test_client.get("funding-round/cof", follow_redirects=False)
     assert result.status_code == 302
     assert result.location == "/funding-round/cof/SHORT"
 
 
-def test_fund_only_start_page_no_rounds(client, mocker):
+def test_fund_only_start_page_no_rounds(apply_test_client, mocker):
     mocker.patch("apply.default.routes.get_default_round_for_fund", return_value=None)
-    result = client.get("/cof", follow_redirects=False)
+    result = apply_test_client.get("/cof", follow_redirects=False)
     assert result.status_code == 404
 
 
-def test_fund_only_start_page_bad_fund(client):
+def test_fund_only_start_page_bad_fund(apply_test_client):
     with mock.patch("apply.default.data.get_all_rounds_for_fund") as mock_get_rounds:
         mock_get_rounds.side_effect = Exception
-        result = client.get("/asdf", follow_redirects=False)
+        result = apply_test_client.get("/asdf", follow_redirects=False)
         assert result.status_code == 404
 
 
-def test_favicon_filter(client):
-    result = client.get("/favicon.ico", follow_redirects=False)
+def test_favicon_filter(apply_test_client):
+    result = apply_test_client.get("/favicon.ico", follow_redirects=False)
     assert result.status_code == 404
     assert result.data == b"404"
