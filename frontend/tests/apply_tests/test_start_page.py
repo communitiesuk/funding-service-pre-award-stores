@@ -1,6 +1,7 @@
 from unittest import mock
 
 import pytest
+from bs4 import BeautifulSoup
 
 from apply.default.data import RoundStatus, get_default_round_for_fund
 from apply.models.round import Round
@@ -70,6 +71,25 @@ def test_start_page_open(client, mocker, templates_rendered):
     assert rendered_template[1]["fund_title"] == "fund for testing"
     assert rendered_template[1]["round_title"] == "closed_round"
     assert rendered_template[1]["is_past_submission_deadline"] is False
+
+
+@pytest.mark.parametrize(
+    "lang, expected_content",
+    (
+        ("en", "This service is also available in Welsh (Cymraeg)."),
+        ("cy", "Mae'r gwasanaeth yma hefyd ar gael yn Saesneg (English)."),
+    ),
+)
+def test_start_page_translations(client, mocker, templates_rendered, lang, expected_content):
+    mocker.patch(
+        "apply.default.routes.determine_round_status",
+        return_value=RoundStatus(False, False, True),
+    )
+    result = client.get(f"funding-round/cof/r2w3?lang={lang}")
+    assert result.status_code == 200
+
+    soup = BeautifulSoup(result.data, "html.parser")
+    assert expected_content in soup.text
 
 
 def test_start_page_closed(client, mocker, templates_rendered):
