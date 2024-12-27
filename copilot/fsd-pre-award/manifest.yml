@@ -195,6 +195,7 @@ environments:
       APPLY_HOST: "frontend.access-funding.levellingup.gov.uk"
       ASSESS_HOST: "assessment.access-funding.levellingup.gov.uk"
       AUTH_HOST: "authenticator.access-funding.levellingup.gov.uk"
+      API_HOST: fsd-pre-award:8080
       APPLICANT_FRONTEND_HOST: "https://frontend.access-funding.levellingup.gov.uk" # TODO: remove me when all frontends combined
       FORMS_SERVICE_PUBLIC_HOST: "https://forms.access-funding.levellingup.gov.uk"
       POST_AWARD_FRONTEND_HOST: "https://find-monitoring-data.access-funding.levellingup.gov.uk"
