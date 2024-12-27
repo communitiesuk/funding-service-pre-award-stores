@@ -295,9 +295,6 @@ def submit_application(application_id) -> Applications:
         )
         raise SubmitError(application_id=application_id) from e
 
-    for form in application.forms:
-        form.feedback_message = None
-
     application.status = "SUBMITTED"
     db.session.commit()
 
@@ -358,16 +355,17 @@ def attempt_to_find_and_update_project_name(question_json, application) -> None:
                 return field["answer"]
 
 
-def patch_application(application: Applications, field_ids: list, message: str):
+def patch_application(application: Applications, feedback_data: dict):
     application_should_update = False
     for form in application.forms:
         form_should_update = False
         for category in form.json:
             for field in category["fields"]:
-                if field["key"] in field_ids:
+                field_id = field["key"]
+                if field_id in feedback_data:
+                    category["feedback_message"] = feedback_data[field_id]
                     form.status = Status.CHANGES_REQUESTED
                     form.has_completed = False
-                    form.feedback_message = message
                     form_should_update = True
                     application_should_update = True
 

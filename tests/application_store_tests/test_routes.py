@@ -755,10 +755,7 @@ def test_post_request_changes_for_application(flask_test_client, seed_data_multi
     for form in application.forms:
         assert form.status != "CHANGES_REQUESTED"
 
-    request_body = {
-        "field_ids": ["yEmHpp", "data"],
-        "feedback_message": "There is a typo!",
-    }
+    request_body = {"feedback_data": {"yEmHpp": "There is a typo!", "data": "Incorrect value here."}}
 
     response = flask_test_client.post(
         f"/application/application/{application.id}/request_changes",
@@ -781,4 +778,4 @@ def test_post_request_changes_for_application(flask_test_client, seed_data_multi
 
                 assert form.status == Status.CHANGES_REQUESTED
                 assert form.has_completed is False
-                assert form.feedback_message == "There is a typo!"
+                assert field.get("feedback_message") == request_body["feedback_data"][field["key"]]

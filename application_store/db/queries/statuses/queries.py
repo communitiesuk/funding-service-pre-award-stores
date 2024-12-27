@@ -133,7 +133,15 @@ def update_form_status(
                 form_to_update.status = "COMPLETED"
                 form_to_update.has_completed = True
             else:
-                form_to_update.status = "CHANGES_REQUESTED" if form_to_update.feedback_message else "IN_PROGRESS"
+                form_to_update.status = (
+                    "CHANGES_REQUESTED"
+                    if any(
+                        question
+                        for question in form_to_update.json
+                        if "feedback_message" in question and question["feedback_message"] != ""
+                    )
+                    else "IN_PROGRESS"
+                )
                 form_to_update.has_completed = False
         else:
             form_to_update.status = "COMPLETED"
@@ -142,7 +150,15 @@ def update_form_status(
         # All question pages have answers and form has previously completed
         form_to_update.status = "COMPLETED"
     else:
-        form_to_update.status = "CHANGES_REQUESTED" if form_to_update.feedback_message else "IN_PROGRESS"
+        form_to_update.status = (
+            "CHANGES_REQUESTED"
+            if any(
+                question
+                for question in form_to_update.json
+                if "feedback_message" in question and question["feedback_message"] != ""
+            )
+            else "IN_PROGRESS"
+        )
 
 
 def _is_field_answered(field: dict) -> bool:

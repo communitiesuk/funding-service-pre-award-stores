@@ -88,7 +88,7 @@ def test_update_question_statuses(form_json, exp_status):
 
 @pytest.mark.parametrize(
     "form_json, form_has_completed, is_summary_submit, round_mark_as_complete_enabled,"
-    " mark_as_complete, exp_status,exp_has_completed, feedback_message",
+    " mark_as_complete, exp_status,exp_has_completed",
     [
         (  # Previously marked as complete, want to mark as not complete
             [
@@ -101,7 +101,6 @@ def test_update_question_statuses(form_json, exp_status):
             False,
             "IN_PROGRESS",
             False,
-            None,
         ),
         (  # Marking as complete for the first time
             [
@@ -114,7 +113,6 @@ def test_update_question_statuses(form_json, exp_status):
             True,
             "COMPLETED",
             True,
-            None,
         ),
         (  # Not on summary page, not marking as complete
             [
@@ -127,7 +125,6 @@ def test_update_question_statuses(form_json, exp_status):
             False,
             "IN_PROGRESS",
             False,
-            None,
         ),
         (
             [{"status": "NOT_STARTED", "question": "abc"}],
@@ -137,7 +134,6 @@ def test_update_question_statuses(form_json, exp_status):
             None,
             "NOT_STARTED",
             False,
-            None,
         ),
         (
             [
@@ -150,7 +146,6 @@ def test_update_question_statuses(form_json, exp_status):
             None,
             "IN_PROGRESS",
             False,
-            None,
         ),
         (
             [
@@ -163,7 +158,6 @@ def test_update_question_statuses(form_json, exp_status):
             None,
             "IN_PROGRESS",
             False,
-            None,
         ),
         (
             [
@@ -176,7 +170,6 @@ def test_update_question_statuses(form_json, exp_status):
             None,
             "IN_PROGRESS",
             False,
-            None,
         ),
         (
             [
@@ -189,7 +182,6 @@ def test_update_question_statuses(form_json, exp_status):
             None,
             "COMPLETED",
             True,
-            None,
         ),
         (
             [{"status": "NOT_STARTED", "question": "abc"}],
@@ -199,7 +191,6 @@ def test_update_question_statuses(form_json, exp_status):
             None,
             "NOT_STARTED",
             True,
-            None,
         ),
         (
             [{"status": "COMPLETED", "question": "abc"}],
@@ -209,17 +200,15 @@ def test_update_question_statuses(form_json, exp_status):
             None,
             "COMPLETED",
             True,
-            None,
         ),
         (
-            [{"status": "COMPLETED", "question": "abc"}],
+            [{"status": "COMPLETED", "question": "abc", "feedback_message": "testing feedback message"}],
             True,
             True,
             True,
             None,
             "CHANGES_REQUESTED",
             False,
-            "Feedback message",
         ),
     ],
 )
@@ -231,12 +220,10 @@ def test_update_form_status(
     mark_as_complete,
     exp_status,
     exp_has_completed,
-    feedback_message,
 ):
     form_to_update = MagicMock()
     form_to_update.json = form_json
     form_to_update.has_completed = form_has_completed
-    form_to_update.feedback_message = feedback_message
 
     # If a round doesn't use mark_as_complete, the question is not in the json
     if mark_as_complete is not None:

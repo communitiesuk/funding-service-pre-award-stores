@@ -115,26 +115,6 @@ class ApplicationByIdView(MethodView):
         except NoResultFound as e:
             return {"code": 404, "message": str(e)}, 404
 
-    def post_request_changes(self, application_id: str):
-        try:
-            application = get_application(
-                application_id,
-                include_forms=True,
-            )
-        except NoResultFound:
-            return {
-                "code": 404,
-                "message": f"Application {application_id} not found",
-            }, 404
-
-        args = request.get_json()
-
-        patch_application(
-            application=application,
-            field_ids=args["field_ids"],
-            message=args["feedback_message"],
-        )
-
 
 class ApplicationsKeyApplicationMetricsView(MethodView):
     def get(self, application_id):
@@ -421,6 +401,29 @@ class ApplicationResearchView(MethodView):
         }, 404
 
 
+class RequestChangesView(MethodView):
+    def post(self, application_id: str):
+        try:
+            application = get_application(
+                application_id,
+                include_forms=True,
+            )
+        except NoResultFound:
+            return {
+                "code": 404,
+                "message": f"Application {application_id} not found",
+            }, 404
+
+        args = request.get_json()
+
+        patch_application(
+            application=application,
+            feedback_data=args["feedback_data"],
+        )
+
+        return {}, 204
+
+
 application_store_bp.add_url_rule(
     "/application/feedback", view_func=ApplicationFeedbackView.as_view("application_feedback")
 )
@@ -432,10 +435,6 @@ application_store_bp.add_url_rule("/applications/forms", view_func=ApplicationsF
 application_store_bp.add_url_rule("/applications", view_func=ApplicationsView.as_view("applications"))
 application_store_bp.add_url_rule(
     "/applications/<application_id>", view_func=ApplicationByIdView.as_view("application_by_id")
-)
-application_store_bp.add_url_rule(
-    "/applications/post_request_changes",
-    view_func=ApplicationByIdView.as_view("post_request_changes"),
 )
 application_store_bp.add_url_rule(
     "/applications/<application_id>/submit", view_func=SubmitApplicationView.as_view("submit_application")
@@ -461,4 +460,9 @@ application_store_bp.add_url_rule(
 application_store_bp.add_url_rule(
     "/applications/get_all_feedbacks_and_survey_report",
     view_func=GetAllFeedbacksAndSurveyReportView.as_view("get_all_feedbacks_and_survey_report"),
+)
+
+application_store_bp.add_url_rule(
+    "/application/<application_id>/request_changes",
+    view_func=RequestChangesView.as_view("post_request_changes"),
 )

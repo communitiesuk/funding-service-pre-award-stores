@@ -6,7 +6,6 @@ Create Date: 2024-11-30 19:33:00.710210
 
 """
 
-import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
@@ -17,16 +16,10 @@ depends_on = None
 
 
 def upgrade():
-    with op.batch_alter_table("forms", schema=None) as batch_op:
-        batch_op.add_column(sa.Column("feedback_message", sa.String(), nullable=True))
-
     op.execute("ALTER TYPE status ADD VALUE 'CHANGES_REQUESTED'")
 
 
 def downgrade():
-    with op.batch_alter_table("forms", schema=None) as batch_op:
-        batch_op.drop_column("feedback_message")
-
     # Step 1: Rename the existing ENUM type
     op.execute("ALTER TYPE status RENAME TO status_old")
 
@@ -61,6 +54,13 @@ def downgrade():
         TYPE status
         USING status::TEXT::status
     """)
+
+    op.execute("""
+          ALTER TABLE assessment_records
+          ALTER COLUMN workflow_status
+          TYPE status
+          USING workflow_status::TEXT::status
+      """)
 
     # Step 4: Drop the old ENUM type
     op.execute("DROP TYPE status_old")
