@@ -9,7 +9,6 @@ Create Date: 2024-12-19 16:30:00.346479
 
 import sqlalchemy as sa
 from alembic import op
-from alembic_utils.pg_trigger import PGTrigger
 
 # revision identifiers, used by Alembic.
 revision = "010_relax_flag_json_constraints"
@@ -31,12 +30,3 @@ def upgrade():
 def downgrade():
     with op.batch_alter_table("flag_update", schema=None) as batch_op:
         batch_op.alter_column("user_id", existing_type=sa.VARCHAR(), nullable=False)
-
-    public_assessment_records_block_updates_on_app_blob = PGTrigger(
-        schema="public",
-        signature="block_updates_on_app_blob",
-        on_entity="public.assessment_records",
-        is_constraint=False,
-        definition="BEFORE UPDATE\n    ON assessment_records\n    FOR EACH ROW\n    EXECUTE PROCEDURE block_blob_mutate()",  # noqa: E501
-    )
-    op.create_entity(public_assessment_records_block_updates_on_app_blob)
