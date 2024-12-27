@@ -1,6 +1,6 @@
-# funding-service-pre-award-stores
+# funding-service-pre-award
 
-A repository for the combined pre-award stores (currently empty, but will eventually encompass Fund, Application and Assessment stores).
+A repository for pre-award frontends and stores (apply, assess, authenticator).
 
 
 ## Setup
