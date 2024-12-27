@@ -63,7 +63,7 @@ jobs:
     with:
       environment: dev
       app_name: pre-award
-      run_db_migrations: false
+      run_db_migrations: true
       image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_dev_deploy_tests:
@@ -94,7 +94,7 @@ jobs:
     with:
       environment: test
       app_name: pre-award
-      run_db_migrations: true
+      run_db_migrations: false
       image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_test_deploy_tests:
@@ -126,7 +126,7 @@ jobs:
     with:
       environment: uat
       app_name: pre-award
-      run_db_migrations: true
+      run_db_migrations: false
       image_location: ${{ needs.paketo_build.outputs.image_location }}
 
   post_uat_deploy_tests:
@@ -158,5 +158,5 @@ jobs:
     with:
       environment: prod
       app_name: pre-award
-      run_db_migrations: true
+      run_db_migrations: false
       image_location: ${{ needs.paketo_build.outputs.image_location }}
