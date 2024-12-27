@@ -1,4 +1,3 @@
-# lifted from https://github.com/communitiesuk/funding-service-pre-award-frontend/blob/main/common/blueprints.py
 from flask.blueprints import Blueprint as FlaskBlueprint
 from flask.blueprints import BlueprintSetupState as FlaskBlueprintSetupState
 

@@ -57,7 +57,7 @@ Paketo is used to build the docker image which gets deployed to our test and pro
 
 ### Copilot
 Copilot is used for infrastructure deployment. Instructions are available [here](https://github.com/communitiesuk/funding-service-design-workflows/blob/main/readmes/python-repos-copilot.md), with the following values for the fund store:
-- service-name: fsd-pre-award-stores
+- service-name: fsd-pre-award
 
 # Fund Store Specifics
 

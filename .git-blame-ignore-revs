@@ -1,2 +1,13 @@
 # Account store - Apply ruff formatting across the codebase
 759a60c6cacafce92f880719b0a665af02d52090
+
+# apply - bulk ruff formatting
+157878bc842fb440ea6c5c4b2dd3eba7fc9cd7d0
+
+# assess - bulk ruff formatting
+5bea4d55cadd54f0b1495cb3a9ecd79f6c265202
+
+# some more missed ruff formatting
+e11f1ce209c0302bac15909d4289ee03e3b09af1
+02ab1d6a3d8330878167d901cc725390996ba86e
+9433d55f5d02b03adfa67c06ff44a8d47eb0312f

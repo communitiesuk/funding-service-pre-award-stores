@@ -91,7 +91,7 @@ coverage.xml
 cover/
 
 # Translations
-*.mo
+# *.mo
 *.pot
 
 # Django stuff:
@@ -241,3 +241,7 @@ html
 
 # Sqlite
 sqlite.db
+
+axe_reports/
+html/
+/static
