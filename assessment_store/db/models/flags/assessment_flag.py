@@ -19,6 +19,8 @@ class AssessmentFlag(BaseModel):
         latest_allocation,
         sections_to_flag,
         updates,
+        field_ids,
+        is_change_request,
         **kwargs,
     ):
         self.application_id = application_id
@@ -26,6 +28,8 @@ class AssessmentFlag(BaseModel):
         self.latest_status = latest_status
         self.sections_to_flag = sections_to_flag
         self.updates = updates
+        self.field_ids = field_ids
+        self.is_change_request = is_change_request
         if "id" in kwargs:
             self.id = kwargs["id"]
 
@@ -40,4 +44,6 @@ class AssessmentFlag(BaseModel):
     latest_status = Column("latest_status", ENUM(FlagStatus))
     latest_allocation = Column("latest_allocation", String)
     sections_to_flag = db.Column("sections_to_flag", ARRAY(db.String(256)), nullable=True)
+    field_ids = db.Column("field_ids", ARRAY(db.String(256)), nullable=True)
     updates = relationship("FlagUpdate", lazy="selectin")
+    is_change_request = Column("is_change_request", db.Boolean, default=False)

@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from unittest.mock import MagicMock
 from uuid import uuid4
 
@@ -10,12 +11,14 @@ from application_store._helpers.application import send_submit_notification
 from application_store.db.exceptions.submit import SubmitError
 from application_store.db.models.application.applications import Applications
 from application_store.db.models.application.enums import Status as ApplicationStatus
-from application_store.db.queries.application.queries import create_application, submit_application
+from application_store.db.queries.application.queries import create_application, get_application, submit_application
 from application_store.db.queries.form.queries import add_new_forms
 from application_store.db.queries.updating.queries import update_form
 from application_store.external_services.exceptions import NotificationError
 from assessment_store.config.mappings.assessment_mapping_fund_round import COF_ROUND_4_W2_ID
 from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
+from assessment_store.db.models.flags.assessment_flag import AssessmentFlag
+from assessment_store.db.models.flags.flag_update import FlagStatus, FlagUpdate
 from assessment_store.scripts.derive_assessment_values import derive_assessment_values
 from tests.assessment_store_tests.test_assessment_mapping_fund_round import COF_FUND_ID
 
@@ -376,3 +379,195 @@ def test_derive_values_script(
     assert assessment_record_2.funding_amount_requested == 1524
     assert assessment_record_2.location_json_blob["error"] is False
     assert assessment_record_2.location_json_blob["county"] == "Hampshire"
+
+
+@pytest.mark.fund_config(
+    {
+        "name": "Generated test fund",
+        "identifier": "1",
+        "short_name": "TEST",
+        "description": "Testing fund",
+        "welsh_available": False,
+        "name_json": {"en": "English title", "cy": "Welsh title"},
+        "funding_type": "UNCOMPETED",
+        "rounds": [],
+    }
+)
+def test_fields_resubmitted_uncompeted_application(setup_submitted_application, mocker, _db):
+    application_id = str(setup_submitted_application)
+    application = get_application(application_id, include_forms=True)
+
+    # Modify answer to a question
+    test_field = application.forms[0].json[0]["fields"][0]
+    original_answer = test_field["answer"]
+    test_field["answer"] = "some test answer"
+
+    # Modify project name (to test derived values)
+    application.project_name = "A test project for resubmission"
+
+    _db.session.add(application)
+    _db.session.commit()
+
+    submit_application(application_id)
+    resubmitted_assessment = _db.session.get(AssessmentRecord, application_id)
+
+    for form in resubmitted_assessment.jsonb_blob["forms"]:
+        for section in form["questions"]:
+            for field in section["fields"]:
+                if field["key"] == test_field["key"]:
+                    assert field["answer"] == test_field["answer"]
+                    try:
+                        datetime.fromisoformat(list(field["history_log"][0].keys())[0])
+                    except ValueError:
+                        raise AssertionError("History log key is not an isoformat datetime") from None
+                    assert list(field["history_log"][0].values())[0] == original_answer
+
+    assert resubmitted_assessment.project_name == application.project_name
+
+
+@pytest.mark.fund_config(
+    {
+        "name": "Generated test fund",
+        "identifier": "1",
+        "short_name": "TEST",
+        "description": "Testing fund",
+        "welsh_available": False,
+        "name_json": {"en": "English title", "cy": "Welsh title"},
+        "funding_type": "UNCOMPETED",
+        "rounds": [],
+    }
+)
+def test_flags_resubmitted_uncompeted_application(setup_submitted_application, _db):
+    application_id = str(setup_submitted_application)
+    application = get_application(application_id, include_forms=True)
+
+    # Modify answer to a question
+    test_field = application.forms[0].json[0]["fields"][0]
+    test_field["answer"] = "some test answer"
+
+    # Modify project name (to test derived values)
+    application.project_name = "A test project for resubmission"
+
+    # Another test field that isn't modified
+    test_field_2 = application.forms[1].json[0]["fields"][0]
+
+    # Flag associated with changed field (should be the only one that is resolved)
+    flag_update_1 = FlagUpdate(
+        justification="A flag to request changes",
+        user_id=None,
+        status=FlagStatus.RAISED,
+        allocation=[],
+    )
+    assessment_flag_1 = AssessmentFlag(
+        application_id=application_id,
+        sections_to_flag=[],
+        latest_allocation=[],
+        latest_status=FlagStatus.RAISED,
+        updates=[flag_update_1],
+        field_ids=[test_field["key"]],
+        is_change_request=True,
+    )
+
+    # Flag associated with a field that is unchanged
+    flag_update_2 = FlagUpdate(
+        justification="A flag to request changes but shouldn't get resolved",
+        user_id=None,
+        status=FlagStatus.RAISED,
+        allocation=[],
+    )
+    assessment_flag_2 = AssessmentFlag(
+        application_id=application_id,
+        sections_to_flag=[],
+        latest_allocation=[],
+        latest_status=FlagStatus.RAISED,
+        updates=[flag_update_2],
+        field_ids=[test_field_2["key"]],
+        is_change_request=True,
+    )
+
+    # Flag that isn't a change request
+    flag_update_3 = FlagUpdate(
+        justification="A flag that isn't a change request",
+        user_id=None,
+        status=FlagStatus.RAISED,
+        allocation=[],
+    )
+    assessment_flag_3 = AssessmentFlag(
+        application_id=application_id,
+        sections_to_flag=[],
+        latest_allocation=[],
+        latest_status=FlagStatus.RAISED,
+        updates=[flag_update_3],
+        field_ids=[test_field["key"]],
+        is_change_request=False,
+    )
+
+    _db.session.add(assessment_flag_1)
+    _db.session.add(assessment_flag_2)
+    _db.session.add(assessment_flag_3)
+    _db.session.add(application)
+    _db.session.commit()
+
+    submit_application(application_id)
+    resubmitted_assessment = _db.session.get(AssessmentRecord, application_id)
+
+    assert resubmitted_assessment.project_name == application.project_name
+
+    updated_assessment_flags = (
+        _db.session.query(AssessmentFlag)
+        .filter(AssessmentFlag.application_id == application_id, AssessmentFlag.latest_status == FlagStatus.RESOLVED)
+        .all()
+    )
+    updated_flag_updates = (
+        _db.session.query(FlagUpdate)
+        .join(AssessmentFlag)
+        .filter(AssessmentFlag.application_id == application_id, FlagUpdate.status == FlagStatus.RESOLVED)
+        .all()
+    )
+
+    assert len(updated_assessment_flags) == 1, "Only one flag should have been resolved"
+    assert len(updated_flag_updates) == 1, "Only one flag update should have a resolved status"
+
+    assert updated_assessment_flags[0].id == assessment_flag_1.id
+    assert updated_flag_updates[0].assessment_flag_id == updated_assessment_flags[0].id
+
+
+@pytest.mark.fund_config(
+    {
+        "name": "Generated test fund",
+        "identifier": "1",
+        "short_name": "TEST",
+        "description": "Testing fund",
+        "welsh_available": False,
+        "name_json": {"en": "English title", "cy": "Welsh title"},
+        "funding_type": "COMPETED",
+        "rounds": [],
+    }
+)
+def test_resubmitted_application_from_competed_fund(setup_submitted_application, _db):
+    application_id = str(setup_submitted_application)
+    application = get_application(application_id, include_forms=True)
+
+    # Modify answer to a question
+    test_field = application.forms[0].json[0]["fields"][0]
+    original_answer = test_field["answer"]
+    test_field["answer"] = "some test answer"
+
+    # Modify project name (to test derived values)
+    original_project_name = application.project_name
+    application.project_name = "A test project for resubmission"
+
+    _db.session.add(application)
+    _db.session.commit()
+
+    submit_application(application_id)
+    resubmitted_assessment = _db.session.get(AssessmentRecord, application_id)
+
+    for form in resubmitted_assessment.jsonb_blob["forms"]:
+        for section in form["questions"]:
+            for field in section["fields"]:
+                if field["key"] == test_field["key"]:
+                    assert field["answer"] == original_answer
+                    assert "history_log" not in field
+
+    assert resubmitted_assessment.project_name == original_project_name

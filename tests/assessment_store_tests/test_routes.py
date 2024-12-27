@@ -277,6 +277,8 @@ expected_flag = AssessmentFlag(
     latest_allocation="TEAM_2",
     sections_to_flag=[],
     updates=[],
+    field_ids=[],
+    is_change_request=False,
 )
 
 
@@ -295,7 +297,6 @@ def test_get_flags(flask_test_client, mocker):
 def test_get_team_flag_stats(flask_test_client, seed_application_records):
     fund_id = seed_application_records[0]["fund_id"]
     round_id = seed_application_records[0]["round_id"]
-
     # Get test applications
     applications = flask_test_client.get(f"/assessment/application_overviews/{fund_id}/{round_id}").json
 

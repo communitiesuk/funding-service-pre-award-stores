@@ -169,6 +169,8 @@ def seed_application_records(request, app, clear_test_data, enable_preserve_test
                 latest_allocation=f["allocation"],
                 latest_status=f["status"],
                 updates=[flag_update],
+                field_ids=[],
+                is_change_request=False,
             )
             _db.session.add(assessment_flag)
         for t in app_tags:
