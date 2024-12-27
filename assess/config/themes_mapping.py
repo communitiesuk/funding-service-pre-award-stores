@@ -1,4 +1,10 @@
 def ordered_themes(fund_round_short_name):
+    common_questions_hsra = [
+        "what-would-you-like-to-name-your-application?",
+        "by-submitting-this-application,-you-confirm-that-the-information-you-have-provided-is-correct.",
+        "who-is-your-section-151-officer?",
+        "who-should-we-contact-about-this-application?",
+    ]
     if fund_round_short_name == "COF-EOIR1":
         return [
             "organisation-details",
@@ -122,3 +128,30 @@ def ordered_themes(fund_round_short_name):
         ]
     if fund_round_short_name == "CTDFCR1":
         return ["project_name", "organisation_name"]
+    if fund_round_short_name == "HSRAVR":
+        return common_questions_hsra + [
+            "tell-us-more-about-the-designated-area.",
+            "which-town-or-city-will-the-designated-area-be-located-in?",
+            "when-do-you-expect-the-vacancy-register-to-be-completed?",
+            "when-do-you-expect-the-post-payment-verification-(ppv)-form-to-be-submitted?",
+            "how-much-funding-are-you-applying-for?",
+            "upload-the-quote-for-the-vacancy-register",
+        ]
+    if fund_round_short_name == "HSRARP":
+        return common_questions_hsra + [
+            "which-local-authority-are-you-applying-from?",
+            "upload-the-initial-notice-you-served-the-landlord",
+            "what-is-the-total-commercial-floorspace-of-the-property,-in-meters-squared?",
+            "what-is-the-vacant-property's-address?",
+            "share-the-link-with-details-of-the-designated-area",
+            "which-designated-high-street-or-town-centre-is-the-vacant-property-in?",
+            "when-do-you-expect-the-auction-to-take-place?",
+            "when-do-you-expect-the-tenant-to-move-in?",
+            "when-do-you-expect-to-finish-the-refurbishment-works?",
+            "when-do-you-expect-to-submit-your-claim?",
+            "when-do-you-expect-the-tenant-to-sign--the-tenancy-agreement?",
+            "upload-the-independent-survey-of-works",
+            "how-much-funding-are-you-applying-for?-",
+            "why-are-your-costs-higher-than-the-guided-price?",
+            "upload-quotes-for-refurbishment",
+        ]
