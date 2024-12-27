@@ -281,24 +281,26 @@ def submit_application(application_id) -> Applications:  # noqa: C901
 
         if existing_application and fund.funding_type == "UNCOMPETED":
             # For uncompeted funds, the application may already exist and this may be a resubmission.
-            map = {}
+            field_map = {}
             changed_fields = set()
             for form in existing_application.jsonb_blob["forms"]:
                 for section in form["questions"]:
                     for field in section["fields"]:
-                        map[field["key"]] = field["answer"]
+                        field_map[field["key"]] = field["answer"]
 
             for form in row["jsonb_blob"]["forms"]:
                 for section in form["questions"]:
                     for field in section["fields"]:
-                        if field["answer"] != map.get(field["key"]):
+                        if field["answer"] != field_map.get(field["key"]):
                             changed_fields.add(field["key"])
                             if "history_log" in field:
                                 field["history_log"].append(
-                                    {datetime.now(tz=timezone.utc).isoformat(): map[field["key"]]}
+                                    {datetime.now(tz=timezone.utc).isoformat(): field_map[field["key"]]}
                                 )
                             else:
-                                field["history_log"] = [{datetime.now(tz=timezone.utc).isoformat(): map[field["key"]]}]
+                                field["history_log"] = [
+                                    {datetime.now(tz=timezone.utc).isoformat(): field_map[field["key"]]}
+                                ]
 
             if changed_fields:
                 row["workflow_status"] = WorkflowStatus.CHANGE_RECEIVED
