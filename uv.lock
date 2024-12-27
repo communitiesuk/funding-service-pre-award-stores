@@ -739,7 +739,7 @@ toggles = [
 ]
 
 [[package]]
-name = "funding-service-pre-award-stores"
+name = "funding-service-pre-award"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
