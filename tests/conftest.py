@@ -19,8 +19,9 @@ pytest_plugins = ["fsd_test_utils.fixtures.db_fixtures"]
 
 
 @pytest.fixture(scope="session")
-def app(mock_redis) -> Flask:
+def app(request) -> Flask:
     app = create_app()
+    request.getfixturevalue("mock_redis")
     yield app
 
 

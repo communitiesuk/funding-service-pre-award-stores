@@ -6,6 +6,7 @@ from typing import Any
 from uuid import uuid4
 
 import pytest
+from flask import Flask
 from flask.testing import FlaskClient
 from werkzeug.test import TestResponse
 
@@ -16,8 +17,10 @@ from config import Config
 
 
 @pytest.fixture(scope="session")
-def app(mock_redis):
-    yield create_app()
+def app(request) -> Flask:
+    app = create_app()
+    request.getfixturevalue("mock_redis")
+    yield app
 
 
 class _FlaskClientWithHost(FlaskClient):
