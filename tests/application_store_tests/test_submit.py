@@ -495,10 +495,11 @@ def test_flags_resubmitted_uncompeted_application(setup_submitted_application, _
     # Another test field that isn't modified
     test_field_2 = application.forms[1].json[0]["fields"][0]
 
+    assessor_user_id = uuid4()
     # Flag associated with changed field (should be the only one that is resolved)
     flag_update_1 = FlagUpdate(
         justification="A flag to request changes",
-        user_id=None,
+        user_id=assessor_user_id,
         status=FlagStatus.RAISED,
         allocation=[],
     )
@@ -515,7 +516,7 @@ def test_flags_resubmitted_uncompeted_application(setup_submitted_application, _
     # Flag associated with a field that is unchanged
     flag_update_2 = FlagUpdate(
         justification="A flag to request changes but shouldn't get resolved",
-        user_id=None,
+        user_id=assessor_user_id,
         status=FlagStatus.RAISED,
         allocation=[],
     )
@@ -532,7 +533,7 @@ def test_flags_resubmitted_uncompeted_application(setup_submitted_application, _
     # Flag that isn't a change request
     flag_update_3 = FlagUpdate(
         justification="A flag that isn't a change request",
-        user_id=None,
+        user_id=assessor_user_id,
         status=FlagStatus.RAISED,
         allocation=[],
     )
