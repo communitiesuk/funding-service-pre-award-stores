@@ -8,6 +8,13 @@ from flask.json.provider import DefaultJSONProvider
 from flask_assets import Environment
 from flask_babel import Babel, gettext, pgettext
 from flask_compress import Compress
+
+try:
+    from flask_debugtoolbar import DebugToolbarExtension
+
+    toolbar = DebugToolbarExtension()
+except ImportError:
+    toolbar = None
 from flask_redis import FlaskRedis
 from flask_session import Session
 from flask_talisman import Talisman
@@ -180,6 +187,9 @@ def create_app() -> Flask:  # noqa: C901
     csrf.init_app(flask_app)
 
     Compress(flask_app)
+
+    if toolbar and flask_app.config["FLASK_ENV"] == "development":
+        toolbar.init_app(flask_app)
 
     # These are required to associated errorhandlers and before/after request decorators with their blueprints
     import assess.blueprint_middleware  # noqa

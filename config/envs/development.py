@@ -17,6 +17,28 @@ class DevelopmentConfig(Config):
     SECRET_KEY = "dev"  # pragma: allowlist secret
     FLASK_ENV = "development"
 
+    DEBUG_TB_ENABLED = True
+    DEBUG_TB_ROUTES_HOST = "*"
+    DEBUG_TB_INTERCEPT_REDIRECTS = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
+
+    TALISMAN_SETTINGS = Config.TALISMAN_SETTINGS
+
+    # Flask-DebugToolbar scripts
+    TALISMAN_SETTINGS["content_security_policy"]["script-src"].extend(
+        ["'sha256-zWl5GfUhAzM8qz2mveQVnvu/VPnCS6QL7Niu6uLmoWU='"]
+    )
+
+    # Flask-DebugToolbar styles
+    TALISMAN_SETTINGS["content_security_policy"]["style-src"].extend(
+        [
+            "'unsafe-hashes'",
+            "'sha256-biLFinpqYMtWHmXfkA1BPeCY0/fNt46SAZ+BBk5YUog='",
+            "'sha256-0EZqoz+oBhx7gF4nvY2bSqoGyy4zLjNF+SDQXGp/ZrY='",
+            "'sha256-1NkfmhNaD94k7thbpTCKG0dKnMcxprj9kdSKzKR6K/k='",
+        ]
+    )
+
     # Logging
     FSD_LOG_LEVEL = logging.INFO
     # ---------------
