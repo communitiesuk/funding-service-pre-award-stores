@@ -74,3 +74,32 @@ To run on AWS, wrap the above commands in:
 ```
 copilot svc exec --name fsd-assessment-store --app pre-award --command "launcher <command goes here>"
 ```
+
+### seed_assessment_store script
+
+The `seed_assessment_store` script is used to initialize and populate the assessment store with seed data. It ensures that the assessment store has the necessary data.
+
+#### Functionality
+
+- Connects to the assessment store database.
+- Inserts predefined seed data into the assessment store.
+- Verifies that the data has been correctly inserted.
+
+#### Requirements
+
+- Python 3.x
+- Necessary database credentials and access permissions.
+
+#### Usage
+
+To run the script locally, use the following command:
+
+```sh
+python -m invoke assessment.seed-assessment-store-db
+```
+
+To run the script on AWS, wrap the above command in:
+
+```sh
+copilot svc exec --command "launcher python -m invoke assessment.seed-assessment-store-db”
+```
