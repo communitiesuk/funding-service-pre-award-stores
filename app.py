@@ -423,6 +423,13 @@ def create_app() -> Flask:  # noqa: C901
 
     @flask_app.before_request
     def filter_all_requests():
+        source_app_host_match = {
+            current_app.config["APPLY_HOST"]: "apply_frontend",
+            current_app.config["ASSESS_HOST"]: "assess_frontend",
+            current_app.config["AUTH_HOST"]: "authenticator_frontend",
+            current_app.config["API_HOST"]: request.blueprint,
+        }
+        request.get_extra_log_context = lambda: {"source": source_app_host_match.get(request.host)}
         if request.host == current_app.config["API_HOST"]:
             return
 
