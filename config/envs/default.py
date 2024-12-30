@@ -275,6 +275,9 @@ class DefaultConfig(object):
             "https://*.google-analytics.com",
         ],  # APPLICATION_STORE_API_HOST_PUBLIC,
         "img-src": ["data:", "'self'", "https://ssl.gstatic.com"],
+        "style-src": [
+            "'self'",
+        ],
     }
 
     # Talisman Config
