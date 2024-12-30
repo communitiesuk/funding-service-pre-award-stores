@@ -122,8 +122,15 @@ def create_seeded_db(c):
 
 
 @task
-def seed_local_assessment_store_db(c):
-    with _env_var("FLASK_ENV", "development"):
+def seed_assessment_store_db(c, environment="local"):
+    """
+    Seeds the assessment store database with required data.
+
+    Parameters:
+    - environment: Specify the environment ("local" or "cloud").
+    """
+    flask_env = "development" if environment == "local" else "production"
+    with _env_var("FLASK_ENV", flask_env):
         app = create_app()
         with app.app_context():
             import uuid
@@ -133,57 +140,58 @@ def seed_local_assessment_store_db(c):
             from db import db
             from fund_store.db.models.round import Round
 
-            # Insert scoring systems
-            one_to_five_id = str(uuid.uuid4())  # Generate a UUID for OneToFive
-            zero_to_three_id = str(uuid.uuid4())  # Generate a UUID for ZeroToThree
-            zero_to_one_id = str(uuid.uuid4())  # Generate a UUID for ZeroToOne
-
+            # Define scoring systems
             scoring_system_data = [
                 {
-                    "id": one_to_five_id,
+                    "id": str(uuid.uuid4()),
                     "scoring_system_name": "OneToFive",
                     "minimum_score": 1,
                     "maximum_score": 5,
                 },
                 {
-                    "id": zero_to_three_id,
+                    "id": str(uuid.uuid4()),
                     "scoring_system_name": "ZeroToThree",
                     "minimum_score": 0,
                     "maximum_score": 3,
                 },
                 {
-                    "id": zero_to_one_id,
+                    "id": str(uuid.uuid4()),
                     "scoring_system_name": "ZeroToOne",
                     "minimum_score": 0,
                     "maximum_score": 1,
                 },
             ]
 
-            one_to_five = (
-                db.session.query(ScoringSystem).filter(ScoringSystem.scoring_system_name == "OneToFive").one_or_none()
-            )
-            zero_to_three = (
-                db.session.query(ScoringSystem).filter(ScoringSystem.scoring_system_name == "ZeroToThree").one_or_none()
-            )
-            zero_to_one = (
-                db.session.query(ScoringSystem).filter(ScoringSystem.scoring_system_name == "ZeroToOne").one_or_none()
-            )
+            # Fetch existing scoring systems
+            existing_systems = {
+                system.scoring_system_name.name: system.id for system in db.session.query(ScoringSystem).all()
+            }
 
-            if one_to_five is None and zero_to_three is None and zero_to_one is None:
-                for dictionary in scoring_system_data:
-                    db.session.add(ScoringSystem(**dictionary))
+            # Add missing scoring systems
+            new_systems_added = False
+            for scoring_system in scoring_system_data:
+                name = scoring_system["scoring_system_name"]
+                if name not in existing_systems:
+                    db.session.add(ScoringSystem(**scoring_system))
+                    _echo_print(f"Added new scoring system: {name}")
+                    new_systems_added = True
+                else:
+                    scoring_system["id"] = existing_systems[name]  # Reuse existing ID
+
+            if new_systems_added:
+                db.session.commit()
             else:
-                one_to_five_id = one_to_five.id
-                zero_to_three_id = zero_to_three.id
-                zero_to_one_id = zero_to_one.id
+                _echo_print("No new scoring systems were added.")
 
+            # Associate scoring systems with all rounds
             round_ids = db.session.query(Round).with_entities(Round.id).all()
+            for (round_id,) in round_ids:
+                db.session.merge(AssessmentRound(round_id=round_id, scoring_system_id=scoring_system_data[0]["id"]))
+                _echo_print(f"Associated scoring system ID {scoring_system_data[0]['id']} with round ID {round_id}")
 
-            for (id,) in round_ids:
-                db.session.merge(AssessmentRound(round_id=id, scoring_system_id=one_to_five_id))
+            print(f"Seeded DB with scoring system and assessment round data in {environment} environment.")
 
-            _echo_print("Seeding DB with assessment_round data and scoring_system data")
-
+            # Define tag types
             tag_types_data = [
                 TagType(
                     id=str(uuid.uuid4()),
