@@ -12,13 +12,15 @@ import account_store.db.models  # noqa
 import application_store.db.models  # noqa
 import assessment_store.db.models  # noqa
 import fund_store.db.models  # noqa
-from assessment_store.db.models.assessment_record import block_json_func, block_json_updates_trig
 from assessment_store.db.models.assessment_record.db_utils import pg_trgm_extension
 
 # Comment this out if the functions/trigs refer to tables
 # which havent been migrated yet. These must be in a seperate
 # migration to table creation.
-register_entities([block_json_func, block_json_updates_trig, pg_trgm_extension, fund_store.db.models.ltree_extension])
+# Migration 009_relax_flag_json_constraints removes the JSON immutability constraint.
+# To revert this, register the following entities:
+# from assessment_store.db.models.assessment_record import block_json_func, block_json_updates_trig
+register_entities([pg_trgm_extension, fund_store.db.models.ltree_extension])
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

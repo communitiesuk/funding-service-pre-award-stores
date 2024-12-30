@@ -26,6 +26,8 @@ def add_flag_for_application(
     user_id: str,
     status: FlagStatus,
     allocation: str,
+    field_ids: list[str] = None,
+    is_change_request: bool = False,
 ) -> Dict:
     flag_update = FlagUpdate(
         justification=justification,
@@ -39,6 +41,8 @@ def add_flag_for_application(
         latest_allocation=allocation,
         latest_status=status,
         updates=[flag_update],
+        field_ids=field_ids,
+        is_change_request=is_change_request,
     )
     db.session.add(assessment_flag)
     db.session.commit()

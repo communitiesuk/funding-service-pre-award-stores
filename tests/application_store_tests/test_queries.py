@@ -55,6 +55,7 @@ def test_create_application_language_choice(mocker, fund_supports_welsh, request
         "Testing fund",
         fund_supports_welsh,
         {"en": "English Fund Name", "cy": "Welsh Fund Name"},
+        "COMPETED",
         [],
     )
     mocker.patch("application_store.db.queries.application.queries.get_fund", return_value=mock_fund)
@@ -91,6 +92,7 @@ def test_application_map_contents_and_base64_convertor(mocker, app):
             "Testing fund",
             False,
             {"en": "English Fund Name"},
+            "COMPETED",
             [],
         )
         mocker.patch("application_store.db.queries.application.queries.get_fund", return_value=mock_fund)

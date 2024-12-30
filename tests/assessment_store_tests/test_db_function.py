@@ -47,26 +47,6 @@ def test_select_field_by_id(seed_application_records):
 
 
 @pytest.mark.apps_to_insert([test_input_data[0]])
-def test_jsonb_blob_immutable(_db, seed_application_records):
-    """test_jsonb_blob_immutable Tests that attempting to update a json blob
-    though the sqlalchemy interface raises an error.
-
-    Error is defined in `db.models.assessment_record.db_triggers`.
-
-    """
-
-    picked_row = get_assessment_record(seed_application_records[0]["application_id"])
-    picked_row.jsonb_blob = {"application": "deleted :( oops"}
-
-    try:
-        with pytest.raises(sqlalchemy.exc.InternalError) as excinfo:
-            _db.session.commit()
-        assert "Cannot mutate application json" in str(excinfo.value)
-    finally:
-        _db.session.rollback()
-
-
-@pytest.mark.apps_to_insert([test_input_data[0]])
 def test_non_blob_columns_mutable(_db, seed_application_records):
     """test_non_blob_columns_mutable Tests we haven't made the whole table
     immutable by accident when making the json blob immutable."""

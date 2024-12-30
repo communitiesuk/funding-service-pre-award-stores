@@ -252,19 +252,30 @@ def generate_mock_fund(fund_id: str) -> Fund:
         "Testing fund",
         True,
         {"en": "English title", "cy": "Welsh title"},
+        "COMPETED",
         [],
     )
 
 
 @pytest.fixture(scope="function", autouse=True)
-def mock_get_fund(mocker):
+def mock_get_fund(request, mocker):
     """
     Generates a mock fund with the supplied fund ID.
     Used with unique_fund_round to ensure when the fund and
     round are retrieved, they match what's expected
     """
-    mocker.patch("application_store.api.routes.application.routes.get_fund", new=generate_mock_fund)
-    mocker.patch("application_store.db.queries.application.queries.get_fund", new=generate_mock_fund)
+    marker = request.node.get_closest_marker("fund_config")
+    if marker is None:
+        generator = generate_mock_fund
+    else:
+
+        def generate_specific_fund(fund_id):
+            return Fund(**marker.args[0])
+
+        generator = generate_specific_fund
+
+    mocker.patch("application_store.api.routes.application.routes.get_fund", new=generator)
+    mocker.patch("application_store.db.queries.application.queries.get_fund", new=generator)
 
 
 @pytest.fixture(scope="function")
@@ -351,6 +362,7 @@ def mock_get_fund_data(mocker):
             description="An example fund for testing the funding service",
             welsh_available=False,
             name_json={"en": "English Fund Name", "cy": "Welsh Fund Name"},
+            funding_type="COMPETED",
         ),
     )
 
@@ -372,5 +384,6 @@ def mocked_get_fund(mocker):
             welsh_available=True,
             name_json={"en": "English Fund Name", "cy": "Welsh Fund Name"},
             rounds=None,
+            funding_type="COMPETED",
         ),
     )
