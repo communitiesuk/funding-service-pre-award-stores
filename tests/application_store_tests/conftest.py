@@ -3,6 +3,7 @@ from typing import Any
 from uuid import uuid4
 
 import pytest
+from flask import Flask
 from flask.testing import FlaskClient
 from werkzeug.test import TestResponse
 
@@ -22,13 +23,10 @@ from tests.application_store_tests.helpers import (
 
 
 @pytest.fixture(scope="session")
-def app(mock_redis):
-    """
-    Creates the test client we will be using to test the responses
-    from our app, this is a test fixture.
-    :return: A flask test client.
-    """
-    yield create_app()
+def app(request) -> Flask:
+    app = create_app()
+    request.getfixturevalue("mock_redis")
+    yield app
 
 
 class _FlaskClientWithHost(FlaskClient):
