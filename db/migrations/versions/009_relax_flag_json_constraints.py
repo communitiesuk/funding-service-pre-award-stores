@@ -1,8 +1,8 @@
 """Allow nullable user_id in flag_update and allow editable json on assessment_records.
 Add two new workflow statuses
 
-Revision ID: "010_relax_flag_json_constraints"
-Revises: "009_add_binary_scoring_system"
+Revision ID: "009_relax_flag_json_constraints"
+Revises: "008_extend_flag_for_change_req"
 Create Date: 2024-12-19 16:30:00.346479
 
 """
@@ -11,8 +11,8 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "010_relax_flag_json_constraints"
-down_revision = "009_add_binary_scoring_system"
+revision = "009_relax_flag_json_constraints"
+down_revision = "008_extend_flag_for_change_req"
 branch_labels = None
 depends_on = None
 
