@@ -843,7 +843,7 @@ requires-dist = [
     { name = "funding-service-design-utils", extras = ["toggles"], specifier = "==6.0.1" },
     { name = "govuk-frontend-jinja", specifier = "==2.7.0" },
     { name = "greenlet", specifier = "==3.1.1" },
-    { name = "gunicorn", extras = ["gevent"], specifier = ">=23.0.0" },
+    { name = "gunicorn", extras = ["gevent"], specifier = "==23.0.0" },
     { name = "invoke", specifier = "==2.2.0" },
     { name = "jsmin", specifier = "==3.0.1" },
     { name = "jsonpath-rw-ext", specifier = "==1.2.2" },
