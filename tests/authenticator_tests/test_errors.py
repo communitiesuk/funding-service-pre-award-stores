@@ -32,4 +32,4 @@ def test_500(authenticator_test_client, mocker):
 
     soup = BeautifulSoup(response.data, "html.parser")
 
-    assert soup.find("title").text == "Sorry, there is a problem with the service - Access Funding"
+    assert soup.find("title").text == "Sorry, there is a problem with the service – Access Funding"
