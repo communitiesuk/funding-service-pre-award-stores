@@ -22,7 +22,6 @@ from application_store.external_services import get_fund, get_round
 from application_store.external_services.aws import FileData, list_files_by_prefix
 from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
 from assessment_store.db.models.assessment_record.enums import Status as WorkflowStatus
-from assessment_store.db.models.flags.assessment_flag import AssessmentFlag
 from assessment_store.db.models.flags.flag_update import FlagStatus, FlagUpdate
 from assessment_store.db.queries.assessment_records._helpers import derive_application_values
 from config import Config
@@ -243,6 +242,29 @@ def search_applications(**params):
     return found_apps
 
 
+def update_application_fields(existing_json_blob, new_json_blob) -> set:
+    field_map = {}
+    changed_fields = set()
+    for form in existing_json_blob["forms"]:
+        for section in form["questions"]:
+            for field in section["fields"]:
+                field_map[field["key"]] = field["answer"]
+
+    for form in new_json_blob["forms"]:
+        for section in form["questions"]:
+            for field in section["fields"]:
+                if field["answer"] != field_map.get(field["key"]):
+                    changed_fields.add(field["key"])
+                    if "history_log" in field:
+                        field["history_log"].append(
+                            {datetime.now(tz=timezone.utc).isoformat(): field_map[field["key"]]}
+                        )
+                    else:
+                        field["history_log"] = [{datetime.now(tz=timezone.utc).isoformat(): field_map[field["key"]]}]
+
+    return changed_fields
+
+
 def submit_application(application_id) -> Applications:  # noqa: C901
     current_app.logger.info(
         "Submitting application {application_id} and importing to assessment store",
@@ -274,34 +296,14 @@ def submit_application(application_id) -> Applications:  # noqa: C901
             select(AssessmentRecord)
             .where(
                 AssessmentRecord.application_id == row["application_id"],
-                AssessmentRecord.is_withdrawn == False,  # noqa: E712
+                AssessmentRecord.is_withdrawn.is_(False),
             )
             .options(load_only(AssessmentRecord.jsonb_blob))
         )
 
         if existing_application and fund.funding_type == "UNCOMPETED":
             # For uncompeted funds, the application may already exist and this may be a resubmission.
-            field_map = {}
-            changed_fields = set()
-            for form in existing_application.jsonb_blob["forms"]:
-                for section in form["questions"]:
-                    for field in section["fields"]:
-                        field_map[field["key"]] = field["answer"]
-
-            for form in row["jsonb_blob"]["forms"]:
-                for section in form["questions"]:
-                    for field in section["fields"]:
-                        if field["answer"] != field_map.get(field["key"]):
-                            changed_fields.add(field["key"])
-                            if "history_log" in field:
-                                field["history_log"].append(
-                                    {datetime.now(tz=timezone.utc).isoformat(): field_map[field["key"]]}
-                                )
-                            else:
-                                field["history_log"] = [
-                                    {datetime.now(tz=timezone.utc).isoformat(): field_map[field["key"]]}
-                                ]
-
+            changed_fields = update_application_fields(existing_application.jsonb_blob, row["jsonb_blob"])
             if changed_fields:
                 row["workflow_status"] = WorkflowStatus.CHANGE_RECEIVED
 
@@ -314,23 +316,21 @@ def submit_application(application_id) -> Applications:  # noqa: C901
 
             db.session.execute(update_row_statement)
 
-            flags = db.session.scalars(
-                select(AssessmentFlag).where(
-                    AssessmentFlag.application_id == row["application_id"],
-                    AssessmentFlag.is_change_request == True,  # noqa: E712
-                )
-            ).all()
+            change_requests = existing_application.change_requests
 
-            for flag in flags:
-                if flag.field_ids and all(field_id in changed_fields for field_id in flag.field_ids):
+            for change_request in change_requests:
+                if change_request.field_ids and all(
+                    field_id in changed_fields for field_id in change_request.field_ids
+                ):
                     flag_update = FlagUpdate(
                         justification="Applicant updated their submission",
                         status=FlagStatus.RESOLVED,
-                        assessment_flag_id=flag.id,
+                        assessment_flag_id=change_request.id,
+                        user_id=application.account_id,
                     )
-                    flag.updates.append(flag_update)
-                    flag.latest_status = flag_update.status
-                    db.session.add(flag)
+                    change_request.updates.append(flag_update)
+                    change_request.latest_status = flag_update.status
+                    db.session.add(change_request)
                 else:
                     # Currently it shouldn't be possible to resubmit without addressing all the requested changes
                     current_app.logger.warning(

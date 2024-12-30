@@ -1,5 +1,6 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
+from unittest import mock
 from unittest.mock import MagicMock
 from uuid import uuid4
 
@@ -11,12 +12,18 @@ from application_store._helpers.application import send_submit_notification
 from application_store.db.exceptions.submit import SubmitError
 from application_store.db.models.application.applications import Applications
 from application_store.db.models.application.enums import Status as ApplicationStatus
-from application_store.db.queries.application.queries import create_application, get_application, submit_application
+from application_store.db.queries.application.queries import (
+    create_application,
+    get_application,
+    submit_application,
+    update_application_fields,
+)
 from application_store.db.queries.form.queries import add_new_forms
 from application_store.db.queries.updating.queries import update_form
 from application_store.external_services.exceptions import NotificationError
 from assessment_store.config.mappings.assessment_mapping_fund_round import COF_ROUND_4_W2_ID
 from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
+from assessment_store.db.models.assessment_record.enums import Status
 from assessment_store.db.models.flags.assessment_flag import AssessmentFlag
 from assessment_store.db.models.flags.flag_update import FlagStatus, FlagUpdate
 from assessment_store.scripts.derive_assessment_values import derive_assessment_values
@@ -58,6 +65,42 @@ def mock_data_key_mappings(monkeypatch):
         fund_round_data_key_mappings,
     )
     yield
+
+
+@pytest.fixture
+def existing_json_blob():
+    return {
+        "forms": [
+            {
+                "questions": [
+                    {
+                        "fields": [
+                            {"key": "field1", "answer": "value1"},
+                            {"key": "field2", "answer": "value2"},
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+
+
+@pytest.fixture
+def new_json_blob():
+    return {
+        "forms": [
+            {
+                "questions": [
+                    {
+                        "fields": [
+                            {"key": "field1", "answer": "value1"},
+                            {"key": "field2", "answer": "value2"},
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
 
 
 @pytest.fixture
@@ -423,6 +466,7 @@ def test_fields_resubmitted_uncompeted_application(setup_submitted_application, 
                     assert list(field["history_log"][0].values())[0] == original_answer
 
     assert resubmitted_assessment.project_name == application.project_name
+    assert resubmitted_assessment.workflow_status == Status.CHANGE_RECEIVED
 
 
 @pytest.mark.fund_config(
@@ -529,6 +573,7 @@ def test_flags_resubmitted_uncompeted_application(setup_submitted_application, _
     assert len(updated_flag_updates) == 1, "Only one flag update should have a resolved status"
 
     assert updated_assessment_flags[0].id == assessment_flag_1.id
+    assert updated_flag_updates[0].user_id == application.account_id
     assert updated_flag_updates[0].assessment_flag_id == updated_assessment_flags[0].id
 
 
@@ -571,3 +616,63 @@ def test_resubmitted_application_from_competed_fund(setup_submitted_application,
                     assert "history_log" not in field
 
     assert resubmitted_assessment.project_name == original_project_name
+
+
+@pytest.mark.parametrize("mock_now", ["2024-01-01T12:00:00+00:00"])
+def test_no_changes(existing_json_blob, new_json_blob, mock_now):
+    with mock.patch("datetime.datetime") as mock_datetime:
+        mock_datetime.now.return_value = datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+        mock_datetime.now.side_effect = lambda tz=None: mock_datetime.now.return_value
+        changed_fields = update_application_fields(existing_json_blob, new_json_blob)
+
+    # Should return empty set with no changed fields
+    assert changed_fields == set()
+
+    # There should be no history logs
+    for form in new_json_blob["forms"]:
+        for section in form["questions"]:
+            for field in section["fields"]:
+                assert "history_log" not in field
+
+
+@pytest.mark.parametrize("mock_now", ["2024-01-01T12:00:00+00:00"])
+def test_multiple_fields_changed(existing_json_blob, new_json_blob, mock_now):
+    new_json_blob["forms"][0]["questions"][0]["fields"][0]["answer"] = "changed_value1"
+    new_json_blob["forms"][0]["questions"][0]["fields"][1]["answer"] = "changed_value2"
+    with mock.patch("datetime.datetime") as mock_datetime:
+        mock_datetime.now.return_value = datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+        mock_datetime.now.side_effect = lambda tz=None: mock_datetime.now.return_value
+        changed_fields = update_application_fields(existing_json_blob, new_json_blob)
+
+    assert changed_fields == {"field1", "field2"}
+
+    f1 = new_json_blob["forms"][0]["questions"][0]["fields"][0]
+    f2 = new_json_blob["forms"][0]["questions"][0]["fields"][1]
+    assert "history_log" in f1
+    assert "history_log" in f2
+
+    assert len(f1["history_log"]) == 1
+    assert len(f2["history_log"]) == 1
+
+
+@pytest.mark.parametrize("mock_now", ["2024-01-01T12:00:00+00:00"])
+def test_existing_history_log_is_appended(existing_json_blob, new_json_blob, mock_now):
+    # Set up existing history log for field
+    new_json_blob["forms"][0]["questions"][0]["fields"][1]["history_log"] = [
+        {"2023-12-31T23:59:59+00:00": "previous_value"}
+    ]
+    new_json_blob["forms"][0]["questions"][0]["fields"][1]["answer"] = "another_new_value"
+
+    with mock.patch("datetime.datetime") as mock_datetime:
+        mock_datetime.now.return_value = datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+        mock_datetime.now.side_effect = lambda tz=None: mock_datetime.now.return_value
+        changed_fields = update_application_fields(existing_json_blob, new_json_blob)
+
+    assert changed_fields == {"field2"}
+
+    # History log should contain both previous changes
+    f2 = new_json_blob["forms"][0]["questions"][0]["fields"][1]
+    assert len(f2["history_log"]) == 2
+
+    old_val = existing_json_blob["forms"][0]["questions"][0]["fields"][1]["answer"]
+    assert list(f2["history_log"][-1].values())[0] == old_val

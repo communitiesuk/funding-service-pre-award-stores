@@ -7,10 +7,9 @@ files.
 """
 
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import Column, Computed, Index, cast, func
+from sqlalchemy import Boolean, Column, Computed, Index, cast, func
 from sqlalchemy.dialects.postgresql import ENUM, JSONB, TEXT, UUID
 from sqlalchemy.orm import column_property, relationship
-from sqlalchemy.types import Boolean
 
 from assessment_store.db.models.assessment_record.enums import Language, Status
 from db import db
@@ -68,6 +67,11 @@ class AssessmentRecord(BaseModel):
 
     is_withdrawn = Column("is_withdrawn", Boolean, default=False, nullable=False)
 
+    change_requests = relationship(
+        "AssessmentFlag",
+        primaryjoin="and_(AssessmentFlag.application_id == AssessmentRecord.application_id, "
+        "AssessmentFlag.is_change_request == True)",
+    )
     # These are defined as column_properties not as hybrid_property due to performance
     # Using column_property below forces the json parsing to be done on the DB side which is quicker than in python
     organisation_name = column_property(
