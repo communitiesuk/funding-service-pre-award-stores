@@ -1,4 +1,7 @@
+from datetime import datetime, timedelta
+
 import pytest
+import pytz
 
 from assess.assessments.models.full_application import FullApplicationPdfContext
 
@@ -56,10 +59,18 @@ def test_from_data(
     with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
         context = FullApplicationPdfContext.from_data(mock_args)
 
+        london_tz = pytz.timezone("Europe/London")
+        now = datetime.now(london_tz)
+        is_summer = now.dst() != timedelta(0)
+
+        expected_submitted_on = "06/06/2023 at 14:38"  # Default to BST
+        if not is_summer:
+            expected_submitted_on = "06/06/2023 at 13:38"
+
         assert context.title == "Fund Name"
         assert context.response_id == "12345"
         assert context.submission_to == "Fund Name Round Title"
-        assert context.submitted_on == "06/06/2023 at 14:38"  # Timestamp is converted to bst
+        assert context.submitted_on == expected_submitted_on
         assert context.organisation_name == "Organisation Name"
         assert context.organisation_shortname == "Short Name"
         assert context.organisation_logo_uri == expected_logo_uri
