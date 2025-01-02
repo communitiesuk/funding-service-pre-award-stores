@@ -154,10 +154,6 @@
                     <dd class="govuk-tag in-progress-tag-new govuk-!-margin-bottom-2">
                         {{ application_status("IN_PROGRESS") }}
                     </dd>
-                {% elif application["status"] == application_meta_data["changes_requested_status"] %}
-                    <dd class="govuk-tag govuk-tag--orange govuk-!-margin-bottom-2">
-                        {{ application_status("CHANGES_REQUESTED") }}
-                    </dd>
                 {% elif application["status"] == application_meta_data["completed_status"] %}
                     <dd class="govuk-tag complete-tag govuk-!-margin-bottom-2">
                         {{ application_status("COMPLETED") }}
@@ -181,7 +177,7 @@
         <ol class="app-task-list">
             {% for section in sections %}
             {{ tasklist_section(section, application_meta_data, application_status, loop.index, existing_feedback_map)
-          }}
+        }}
             {% endfor %}
             {% if feedback_survey_data %}
             <li>

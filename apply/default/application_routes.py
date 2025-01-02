@@ -11,6 +11,7 @@ from fsd_utils.simple_utils.date_utils import (
     current_datetime_after_given_iso_string,
 )
 
+from application_store.db.models.application.enums import Status
 from apply.constants import ApplicationStatus
 from apply.default.data import (
     determine_round_status,
@@ -278,7 +279,7 @@ def tasklist(application_id):
         "in_progress_status": ApplicationStatus.IN_PROGRESS.name,
         "completed_status": ApplicationStatus.COMPLETED.name,
         "submitted_status": ApplicationStatus.SUBMITTED.name,
-        "changes_requested_status": ApplicationStatus.CHANGES_REQUESTED.name,
+        "changes_requested_status": Status.CHANGES_REQUESTED.name,
         "has_section_feedback": round_data.feedback_survey_config.has_section_feedback,
         "number_of_forms": len(application.forms)
         + sum(

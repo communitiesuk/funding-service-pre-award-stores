@@ -439,6 +439,7 @@ def patch_application(application: Applications, field_ids: list, message: str):
         for category in form.json:
             for field in category["fields"]:
                 if field["key"] in field_ids:
+                    category["status"] = Status.CHANGES_REQUESTED.name
                     form.status = Status.CHANGES_REQUESTED
                     form.has_completed = False
                     form.feedback_message = message
@@ -449,6 +450,6 @@ def patch_application(application: Applications, field_ids: list, message: str):
                     field["answer"] = False
 
     if application_should_update:
-        application.status = ApplicationStatus.CHANGES_REQUESTED
+        application.status = ApplicationStatus.IN_PROGRESS
 
     db.session.commit()

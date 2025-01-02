@@ -3,6 +3,7 @@ from flask import current_app, g, make_response, redirect, render_template, requ
 from flask_babel import force_locale
 from fsd_utils.authentication.decorators import login_required
 
+from application_store.db.queries.form.queries import get_forms_by_app_id
 from apply.default.data import (
     RoundStatus,
     determine_round_status,
@@ -170,6 +171,15 @@ def dashboard():
 
     applications = search_applications(search_params=search_params, as_dict=False)
 
+    change_requested = False
+    application_ids = [app_history.id for app_history in applications]
+    for id in application_ids:
+        forms = get_forms_by_app_id(application_id=id, as_json=False)
+        for form in forms:
+            if form.status.name == "CHANGES_REQUESTED":
+                change_requested = True
+                break
+
     show_language_column = determine_show_language_column(applications)
 
     display_data = build_application_data_for_display(applications, fund_short_name, round_short_name)
@@ -187,6 +197,7 @@ def dashboard():
                 round_short_name=round_short_name,
                 welsh_available=welsh_available,
                 migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
+                change_requested=change_requested,
             )
         )
     LanguageSelector.set_language_cookie(locale=render_lang, response=response)

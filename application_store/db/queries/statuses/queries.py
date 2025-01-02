@@ -80,7 +80,7 @@ def update_application_status(
 
     form_statuses = [form.status.name for form in application_with_forms.forms]
     if "CHANGES_REQUESTED" in form_statuses:
-        status = "CHANGES_REQUESTED"
+        status = "IN_PROGRESS"
     elif "IN_PROGRESS" in form_statuses:
         status = "IN_PROGRESS"
     elif "COMPLETED" in form_statuses and ("NOT_STARTED" in form_statuses or not all_feedback_and_survey_completed):

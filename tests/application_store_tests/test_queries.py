@@ -1,4 +1,5 @@
 import base64
+import datetime
 from unittest.mock import ANY
 from uuid import uuid4
 
@@ -24,9 +25,11 @@ from application_store.config.key_report_mappings.model import (
     extract_postcode,
 )
 from application_store.db.models import Applications, Forms
+from application_store.db.models.forms.enums import Status
 from application_store.db.queries.application import (
     create_application,
     create_qa_base64file,
+    patch_application,
     process_files,
 )
 from application_store.db.queries.reporting.queries import (
@@ -35,6 +38,7 @@ from application_store.db.queries.reporting.queries import (
 )
 from application_store.external_services.aws import FileData
 from application_store.external_services.models.fund import Fund
+from apply.constants import ApplicationStatus
 from tests.application_store_tests.seed_data.application_data import expected_application_json
 
 
@@ -551,3 +555,135 @@ def test_map_application_key_fields(key_report_mapping: KeyReportMapping, applic
 def test_map_round_id_to_report_fields(round_id, exp_mapping):
     result = ROUND_ID_TO_KEY_REPORT_MAPPING[round_id]
     assert result == exp_mapping
+
+
+def create_test_application():
+    return Applications(
+        id=uuid4(),
+        account_id="test_account",
+        fund_id="test_fund",
+        round_id="test_round",
+        key="test_key",
+        language="en",
+        reference="test_reference",
+        project_name="test_project",
+        started_at=datetime.datetime(2020, 1, 1, 12, 0, 0),
+        status=ApplicationStatus.SUBMITTED,
+        forms=[
+            Forms(
+                json=[
+                    {
+                        "category": "FabDefault",
+                        "question": "Organisation name",
+                        "fields": [
+                            {
+                                "key": "yptqZX",
+                                "title": "Organisation name",
+                                "type": "text",
+                                "answer": "Leeds City Council",
+                            },
+                            {
+                                "key": "BIxPht",
+                                "title": "Does your organisation use any other names?",
+                                "type": "list",
+                                "answer": False,
+                            },
+                        ],
+                        "status": "COMPLETED",
+                    },
+                    {
+                        "category": None,
+                        "question": "MarkAsComplete",
+                        "fields": [
+                            {
+                                "key": "markAsComplete",
+                                "title": "Do you want to mark this section as complete?",
+                                "type": "boolean",
+                                "answer": True,
+                            },
+                        ],
+                        "status": "COMPLETED",
+                    },
+                ],
+                status=Status.SUBMITTED,
+                has_completed=True,
+                feedback_message=None,
+            ),
+            Forms(
+                json=[
+                    {
+                        "category": "FabDefault",
+                        "question": "Project name",
+                        "fields": [{"key": "VcyKVN", "title": "Project name", "type": "text", "answer": "New Project"}],
+                        "status": "COMPLETED",
+                    },
+                    {
+                        "category": "FabDefault",
+                        "question": "Project overview",
+                        "fields": [
+                            {
+                                "key": "KJtdhs",
+                                "title": "Project overview",
+                                "type": "freeText",
+                                "answer": "Test Project Overview",
+                            }
+                        ],
+                        "status": "COMPLETED",
+                    },
+                    {
+                        "category": None,
+                        "question": "MarkAsComplete",
+                        "fields": [
+                            {
+                                "key": "markAsComplete",
+                                "title": "Do you want to mark this section as complete?",
+                                "type": "boolean",
+                                "answer": True,
+                            }
+                        ],
+                        "status": "COMPLETED",
+                    },
+                ],
+                status=Status.SUBMITTED,
+                has_completed=True,
+                feedback_message=None,
+            ),
+        ],
+    )
+
+
+def test_patch_application(mocker):
+    application = create_test_application()
+    mocker.patch("application_store.db.queries.application.queries.db.session.commit")
+
+    # Field ID to update and the feedback message
+    field_ids = ["yptqZX"]
+    feedback_message = "There is a typo!"
+
+    patch_application(application, field_ids, feedback_message)
+
+    form_has_key = False
+    for form in application.forms:
+        form_has_key = any(field["key"] in field_ids for item in form.json for field in item["fields"])
+        if form_has_key:
+            assert form.status == Status.CHANGES_REQUESTED  # form's status should be updated
+            assert form.has_completed is False
+            assert form.feedback_message == feedback_message
+            for item in form.json:
+                if item["category"] == "FabDefault":
+                    assert item["status"] == Status.CHANGES_REQUESTED.name  # status should be updated in JSON
+                for field in item["fields"]:
+                    if field["key"] == "markAsComplete":
+                        assert field["answer"] is False
+        else:
+            assert form.status == Status.SUBMITTED  # form's status should NOT be updated
+            assert form.has_completed is True
+            assert form.feedback_message is None
+            for item in form.json:
+                if item["category"] == "FabDefault":
+                    assert item["status"] == "COMPLETED"  # status should NOT be updated in JSON
+                for field in item["fields"]:
+                    if field["key"] == "markAsComplete":
+                        assert field["answer"] is True
+
+    assert application.status.name == "IN_PROGRESS"

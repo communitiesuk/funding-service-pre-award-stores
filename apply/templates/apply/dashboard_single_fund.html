@@ -54,7 +54,7 @@ Your applications
                 {% if round["is_past_submission_deadline"] %}
                     {{ round_closed_warning(fund["fund_data"]["name"], round["round_details"]["title"], round["round_details"]["deadline"]) }}
                 {% endif %}
-                {% if 'CHANGES_REQUESTED' in round["applications"]|map(attribute='status') %}
+                {% if change_requested %}
                     {{
                         govukNotificationBanner({
                             "text": "Please review updates from the Assessor"
