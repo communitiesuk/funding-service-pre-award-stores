@@ -69,7 +69,10 @@ def get_bulk_accounts() -> Dict:
     :return:
         Nested dict of account_id: {account object}
     """
-    account_id = request.args.getlist("account_id")
+    raw_account_id = request.args.getlist("account_id")
+
+    # Filter out any empty/blank strings like '', which could happen with eg `?account_id=`
+    account_id = [account_id for account_id in raw_account_id if account_id]
     if not account_id:
         return {"error": "Bad request: please provide at least 1 account_id "}, 400
 
