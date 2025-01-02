@@ -277,7 +277,7 @@ def submit_application(application_id) -> Applications:  # noqa: C901
         application = process_files(application, all_application_files)
 
         # Mark the application as submitted
-        application.date_submitted = datetime.now(timezone.utc)
+        application.date_submitted = datetime.now(timezone.utc).isoformat()
         application.status = ApplicationStatus.SUBMITTED
 
         application_type = "".join(application.reference.split("-")[:1])
