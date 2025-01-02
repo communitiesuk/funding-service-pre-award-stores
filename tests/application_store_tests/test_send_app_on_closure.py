@@ -1,4 +1,5 @@
 import pytest
+from freezegun import freeze_time
 from pytest import raises
 
 from application_store.scripts.send_application_on_closure import (
@@ -210,6 +211,7 @@ class TestSendAppOnClosure:
         result = send_incomplete_applications_after_deadline(unique_fund_round[0], unique_fund_round[1], False)
         assert 1 == result, "Unexpected result number"
 
+    @freeze_time("2024-01-01")
     def test_send_apps_before_deadline(self, mocker, app, mocked_get_fund):
         fund_id = "abc123"
         round_id = "987gfd"

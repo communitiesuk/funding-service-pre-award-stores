@@ -117,4 +117,5 @@ dev = [
     "requests-mock==1.11.0",
     "ruff==0.8.4",
     "flask-debugtoolbar==0.16.0",
+    "freezegun>=1.5.1",
 ]
