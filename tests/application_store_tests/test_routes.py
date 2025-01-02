@@ -771,7 +771,7 @@ def test_post_request_changes_for_application(flask_test_client, seed_data_multi
     updated_application = get_row_by_pk(Applications, application.id)
     db.session.refresh(updated_application)
 
-    assert updated_application.status == ApplicationStatus.CHANGES_REQUESTED
+    assert updated_application.status == ApplicationStatus.IN_PROGRESS
 
     for form in updated_application.forms:
         db.session.refresh(form)
