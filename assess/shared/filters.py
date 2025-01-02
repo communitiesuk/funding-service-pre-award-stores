@@ -1,7 +1,7 @@
 import ast
 from datetime import datetime
 
-from pytz import timezone
+from pytz import timezone, utc
 
 
 def slash_separated_day_month_year(value: str):
@@ -34,12 +34,15 @@ def utc_to_bst(value, tz="Europe/London", export_format=False):
     else:
         raise ValueError("Invalid datetime format")
 
-    uk_time = utc_time.astimezone(timezone(tz))
+    if utc_time.tzinfo is None:
+        utc_time = utc.localize(utc_time)
+
+    local_time = utc_time.astimezone(timezone(tz))
 
     if export_format:
-        return uk_time.strftime("%d/%m/%Y %H:%M:%S")
+        return local_time.strftime("%d/%m/%Y %H:%M:%S")
     else:
-        return uk_time.strftime("%d/%m/%Y at %H:%M")
+        return local_time.strftime("%d/%m/%Y at %H:%M")
 
 
 def format_date(value, from_, to_):
