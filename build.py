@@ -13,7 +13,7 @@ def build_apply_assets():
     # Download zips using "url"
     print("Downloading static file zip.")
 
-    url = "https://github.com/alphagov/govuk-frontend/releases/download/v4.0.0/release-v4.0.0.zip"
+    url = "https://github.com/alphagov/govuk-frontend/releases/download/v4.8.0/release-v4.8.0.zip"
 
     # There is a known problem on Mac where one must manually
     # run the script "Install Certificates.command" found
