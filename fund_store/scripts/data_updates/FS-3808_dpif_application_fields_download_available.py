@@ -3,7 +3,7 @@ from sqlalchemy import update
 
 import fund_store.config.fund_loader_config.digital_planning.dpi_r2 as dpi_r2
 from db import db
-from fund_store.db.models.round import Round
+from proto.common.data.models.round import Round
 
 
 def update_application_fields_download_available(rounds):
