@@ -1,9 +1,10 @@
 from alembic_utils.pg_extension import PGExtension
 
+from proto.common.data.models.fund import Fund  # noqa
+from proto.common.data.models.round import Round  # noqa
+
 from .event import Event  # noqa
 from .form_name import FormName  # noqa
-from .fund import Fund  # noqa
-from .round import Round  # noqa
 from .section import (
     AssessmentField,  # noqa
     Section,  # noqa

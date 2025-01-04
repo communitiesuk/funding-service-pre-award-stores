@@ -7,7 +7,6 @@ from fsd_utils.locale_selector.get_lang import get_lang
 
 from common.blueprints import Blueprint
 from db import db
-from fund_store.db.models import Round
 from fund_store.db.models.event import EventType
 from fund_store.db.queries import create_event as create_event_in_db
 from fund_store.db.queries import (
@@ -28,6 +27,7 @@ from fund_store.db.schemas.event import EventSchema
 from fund_store.db.schemas.fund import FundSchema
 from fund_store.db.schemas.round import RoundSchema
 from fund_store.db.schemas.section import SECTION_SCHEMA_MAP
+from proto.common.data.models.round import Round
 
 fund_store_bp = Blueprint("fund_store_bp", __name__)
 

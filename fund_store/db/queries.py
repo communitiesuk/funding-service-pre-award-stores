@@ -11,9 +11,9 @@ from sqlalchemy_utils.types.ltree import LQUERY
 from db import db
 from fund_store.db.models.event import Event
 from fund_store.db.models.form_name import FormName
-from fund_store.db.models.fund import Fund
-from fund_store.db.models.round import Round
 from fund_store.db.models.section import AssessmentField, Section, SectionField
+from proto.common.data.models.fund import Fund
+from proto.common.data.models.round import Round
 
 
 def get_all_funds() -> List[Fund]:
