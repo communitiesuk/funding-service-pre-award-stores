@@ -138,7 +138,7 @@ def seed_assessment_store_db(c, environment="local"):
             from assessment_store.db.models.score import AssessmentRound, ScoringSystem
             from assessment_store.db.models.tag import TagType
             from db import db
-            from fund_store.db.models.round import Round
+            from proto.common.data.models.round import Round
 
             # Define scoring systems
             scoring_system_data = [

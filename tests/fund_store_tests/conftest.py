@@ -14,10 +14,10 @@ from werkzeug.test import TestResponse
 
 from app import create_app
 from config import Config
-from fund_store.db.models.fund import Fund, FundingType
-from fund_store.db.models.round import Round
 from fund_store.db.models.section import Section
 from fund_store.db.queries import insert_fund_data, insert_sections, upsert_round_data
+from proto.common.data.models.fund import Fund, FundingType
+from proto.common.data.models.round import Round
 
 
 @pytest.fixture(scope="session")

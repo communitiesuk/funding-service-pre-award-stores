@@ -11,7 +11,7 @@ from fund_store.config.fund_loader_config.common_fund_config.fund_base_tree_path
     COF_EOI_BASE_PATH,
 )
 from fund_store.config.fund_loader_config.logo import DLUHC_LOGO_PNG
-from fund_store.db.models.fund import FundingType
+from proto.common.data.models.fund import FundingType
 
 COF_FUND_ID = "54c11ec2-0b16-46bb-80d2-f210e47a8791"
 COF_EOI_ROUND_ID = "6a47c649-7bac-4583-baed-9c4e7a35c8b3"

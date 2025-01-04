@@ -10,7 +10,7 @@ from sqlalchemy.types import Boolean
 from sqlalchemy.types import Enum as SQLAEnum
 
 from db import db
-from fund_store.db.models.round import Round
+from proto.common.data.models.round import Round
 
 BaseModel: DefaultMeta = db.Model
 
@@ -18,6 +18,7 @@ BaseModel: DefaultMeta = db.Model
 class FundingType(Enum):
     COMPETITIVE = "COMPETITIVE"
     UNCOMPETED = "UNCOMPETED"
+    # PROTO: removed from options
     EOI = "EOI"
 
 
