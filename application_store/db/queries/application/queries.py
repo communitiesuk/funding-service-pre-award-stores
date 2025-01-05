@@ -17,6 +17,7 @@ from sqlalchemy.sql.expression import Select
 from application_store.db.exceptions import ApplicationError, SubmitError
 from application_store.db.models import Applications
 from application_store.db.models.application.enums import Status as ApplicationStatus
+from application_store.db.models.forms.enums import Status
 from application_store.db.schemas import ApplicationSchema
 from application_store.external_services import get_fund, get_round
 from application_store.external_services.aws import FileData, list_files_by_prefix
@@ -424,7 +425,8 @@ def mark_application_with_requested_changes(application_id: str, field_ids: list
         for category in form.json:
             for field in category["fields"]:
                 if field["key"] in field_ids:
-                    form.status = "CHANGE_REQUESTED"
+                    category["status"] = Status.CHANGE_REQUESTED.name
+                    form.status = Status.CHANGE_REQUESTED
                     form.has_completed = False
                     form_should_update = True
                     application_should_update = True
@@ -433,6 +435,6 @@ def mark_application_with_requested_changes(application_id: str, field_ids: list
                     field["answer"] = False
 
     if application_should_update:
-        application.status = "CHANGE_REQUESTED"
+        application.status = ApplicationStatus.CHANGE_REQUESTED
 
     db.session.commit()
