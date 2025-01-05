@@ -303,9 +303,10 @@ def submit_application(application_id) -> Applications:  # noqa: C901
 
         if existing_application and fund.funding_type == "UNCOMPETED":
             # For uncompeted funds, the application may already exist and this may be a resubmission.
-            changed_fields = update_application_fields(existing_application.jsonb_blob, row["jsonb_blob"])
-            if changed_fields:
-                row["workflow_status"] = WorkflowStatus.CHANGE_RECEIVED
+
+            # updating row json blob
+            update_application_fields(existing_application.jsonb_blob, row["jsonb_blob"])
+            row["workflow_status"] = WorkflowStatus.CHANGE_RECEIVED
 
             stmt = postgres_insert(AssessmentRecord).values(row)
 
@@ -317,26 +318,16 @@ def submit_application(application_id) -> Applications:  # noqa: C901
             db.session.execute(update_row_statement)
 
             change_requests = existing_application.change_requests
-
             for change_request in change_requests:
-                if change_request.field_ids and all(
-                    field_id in changed_fields for field_id in change_request.field_ids
-                ):
-                    flag_update = FlagUpdate(
-                        justification="Applicant updated their submission",
-                        status=FlagStatus.RESOLVED,
-                        assessment_flag_id=change_request.id,
-                        user_id=application.account_id,
-                    )
-                    change_request.updates.append(flag_update)
-                    change_request.latest_status = flag_update.status
-                    db.session.add(change_request)
-                else:
-                    # Currently it shouldn't be possible to resubmit without addressing all the requested changes
-                    current_app.logger.warning(
-                        "Application has been resubmitted without resolving all change requests: {app_id}",
-                        extra=dict(app_id=row["application_id"]),
-                    )
+                flag_update = FlagUpdate(
+                    justification="Applicant updated their submission",
+                    status=FlagStatus.RESOLVED,
+                    assessment_flag_id=change_request.id,
+                    user_id=application.account_id,
+                )
+                change_request.updates.append(flag_update)
+                change_request.latest_status = flag_update.status
+                db.session.add(change_request)
 
             db.session.commit()
         else:

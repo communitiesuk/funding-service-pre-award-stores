@@ -570,8 +570,8 @@ def test_flags_resubmitted_uncompeted_application(setup_submitted_application, _
         .all()
     )
 
-    assert len(updated_assessment_flags) == 1, "Only one flag should have been resolved"
-    assert len(updated_flag_updates) == 1, "Only one flag update should have a resolved status"
+    assert len(updated_assessment_flags) == 2, "All flags should have been resolved"
+    assert len(updated_flag_updates) == 2, "All flags update should have a resolved status"
 
     assert updated_assessment_flags[0].id == assessment_flag_1.id
     assert updated_flag_updates[0].user_id == application.account_id
