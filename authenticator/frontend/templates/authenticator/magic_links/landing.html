@@ -1,6 +1,7 @@
 {%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton
 -%}
 {% from "authenticator/partials/migration_banner.html" import migration_banner %}
+{% from "authenticator/partials/eligibility-check-button.html" import eligibilityCheckButton %}
 {% extends "authenticator/base.html" %}
 
 {% block content %}
@@ -21,11 +22,15 @@
     </p>
 
     <div data-qa="claim_magic_link">
-    {{ govukButton({
-      "text":gettext("Continue"),
-      "href": url_for('api_magic_links.use', link_id=link_id, fund=fund_short_name, round=round_short_name),
-      "isStartButton": true })
-    }}
+        {% if redirect_to_eligibility %}
+            {{ eligibilityCheckButton(form, url_for('eligibility_routes.launch_eligibility', fund_id=fund_id, round_id=round_id)) }}
+        {% else %}
+            {{ govukButton({
+            "text": gettext("Continue"),
+            "href": url_for('api_magic_links.use', link_id=link_id, fund=fund_short_name, round=round_short_name),
+            "isStartButton": true })
+            }}
+        {% endif %}
     </div>
 
     <h2 class="govuk-heading-m">{% trans %}How to complete your application{% endtrans %}</h2>
