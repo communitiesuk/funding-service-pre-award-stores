@@ -20,7 +20,35 @@ scored_sections = [
                                 "field_type": "textField",
                                 "presentation_type": "text",
                                 "question": "Organisation name",
-                            }
+                            },
+                            {
+                                "field_id": "BIxPht",
+                                "form_name": "organisation-name-sample",
+                                "field_type": "yesNoField",
+                                "presentation_type": "text",
+                                "question": "Does your organisation use any  other names?",
+                            },
+                            {
+                                "field_id": "Ianpnw",
+                                "form_name": "organisation-name-sample",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Alternative name 1",
+                            },
+                            {
+                                "field_id": "CTyQWf",
+                                "form_name": "organisation-name-sample",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Alternative name 2",
+                            },
+                            {
+                                "field_id": "XWsTKi",
+                                "form_name": "organisation-name-sample",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Alternative name 3",
+                            },
                         ],
                     }
                 ],
