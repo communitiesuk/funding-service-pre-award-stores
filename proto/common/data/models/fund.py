@@ -3,6 +3,8 @@ from enum import Enum
 from typing import List
 
 from flask_sqlalchemy.model import DefaultMeta
+from pydantic import UUID4, Field
+from pydantic import BaseModel as PydanticBaseModel
 from sqlalchemy import JSON, Column
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, relationship
@@ -13,6 +15,18 @@ from db import db
 from proto.common.data.models.round import Round
 
 BaseModel: DefaultMeta = db.Model
+
+
+# ideally I'd like id internal int, external_id optionally human readbale
+# PROTO: will probably namespace the SQL Alchemy as the domain object and the pydantic representation Schema
+class ProtoGrantSchema(PydanticBaseModel):
+    external_id: UUID4 = Field(alias="id")
+    short_code: str = Field(alias="short_name")
+    name: str = Field(alias="proto_name")
+    name_cy: str = Field(alias="proto_name_cy")
+
+    class Config:
+        orm_mode = True
 
 
 class FundingType(Enum):
@@ -46,3 +60,12 @@ class Fund(BaseModel):
         unique=False,
     )
     ggis_scheme_reference_number = Column("ggis_scheme_reference_number", db.String(255), nullable=True, unique=False)
+
+    # For the (assumed limited) fields which will be user provided and translatable, default to field name in english and field name _language-code otherwise
+    # do NOT store text in JSON for translation reasons, for now - this complexity hasn't proven valuable to me yet (used generically by macros/ utils for example)
+    proto_name = Column("proto_name", db.String(), nullable=True, unique=False)
+    proto_name_cy = Column("proto_name_cy", db.String(), nullable=True, unique=False)
+
+    # likely a decision - if we're not using the org info for grants anywhere - don't store it
+    # if we ARE using it it should be stored in a separate `organisations` table that could be kept up to date with the gov uk Collections API
+    # that could also be shared for managing things like default access to grants in assess but again that should be grounded in needing to do it
