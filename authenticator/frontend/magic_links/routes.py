@@ -1,8 +1,10 @@
+import json
 import uuid
 
 from flask import abort, current_app, g, redirect, render_template, request, url_for
 from fsd_utils.authentication.decorators import login_requested
 
+from apply.default.data import get_applications_for_account
 from authenticator.frontend.magic_links.forms import EmailForm
 from authenticator.models.account import AccountError, AccountMethods
 from authenticator.models.data import get_round_data
@@ -80,6 +82,19 @@ def landing(link_id):
                 all_questions_url=f"{Config.APPLICANT_FRONTEND_HOST}/all_questions/{fund_short_name}/{round_short_name}"
             )
         round_prospectus = round_data.prospectus if round_data.prospectus else None
+
+        redirect_to_eligibility = False
+
+        # Check if the applicant has previous applications in HSRA
+        if link_hash:
+            account_id = json.loads(link_hash.decode("utf-8"))["accountId"]
+            search_params = {
+                "account_id": account_id,
+            }
+            previous_applications = get_applications_for_account(**search_params)
+
+            redirect_to_eligibility = not previous_applications
+
         return render_template(
             "authenticator/magic_links/landing_eoi.html"
             if round_data.is_expression_of_interest
@@ -96,6 +111,9 @@ def landing(link_id):
             migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
             support_desk_apply=Config.SUPPORT_DESK_APPLY,
             link_to_contact_us_page=round_data.reference_contact_page_over_email,
+            redirect_to_eligibility=redirect_to_eligibility,  # Pass the flag to the template
+            fund_id=fund_data.identifier,
+            round_id=round_data.id,
         )
     return redirect(
         url_for(

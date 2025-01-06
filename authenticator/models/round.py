@@ -23,8 +23,12 @@ class Round:
     application_guidance: str = ""
     is_expression_of_interest: bool = False
     reference_contact_page_over_email: bool = False
+    has_eligibility: bool = False
 
     @classmethod
     def from_dict(cls, d: dict):
         # Filter unknown fields from JSON dictionary
-        return cls(**{k: v for k, v in d.items() if k in inspect.signature(cls).parameters})
+        return cls(
+            **{k: v for k, v in d.items() if k in inspect.signature(cls).parameters},
+            has_eligibility=d["eligibility_config"]["has_eligibility"],
+        )
