@@ -910,7 +910,7 @@ def update_user_application_association(application_id, user_id, active, assigne
     return allocation_association
 
 
-def all_change_requests_accepted(application_id):
+def check_all_change_requests_accepted(application_id):
     application = db.session.scalar(select(AssessmentRecord).where(AssessmentRecord.application_id == application_id))
 
     change_requests = application.change_requests

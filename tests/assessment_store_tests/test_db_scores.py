@@ -8,7 +8,7 @@ from assessment_store.api.routes.progress_routes import get_progress_for_applica
 from assessment_store.api.routes.score_routes import get_scoring_system_name_for_round_id
 from assessment_store.db.models import AssessmentFlag, AssessmentRecord, Score
 from assessment_store.db.models.flags import FlagStatus
-from assessment_store.db.queries.assessment_records.queries import all_change_requests_accepted
+from assessment_store.db.queries.assessment_records.queries import check_all_change_requests_accepted
 from assessment_store.db.queries.scores.queries import (
     create_score_for_app_sub_crit,
     get_scores_for_app_sub_crit,
@@ -290,7 +290,7 @@ def test_all_change_requests_accepted(_db):
     _db.session.add(a_change_request)
     _db.session.commit()
 
-    all_change_requests_accepted(application_id)
+    check_all_change_requests_accepted(application_id)
 
 
 @pytest.fixture
@@ -366,7 +366,7 @@ def test_single_request_with_parametrized_score(
         score_data=[(sub_criteria_id, score_value)],
         flag_data=[[sub_criteria_id]],
     )
-    result = all_change_requests_accepted(application_id)
+    result = check_all_change_requests_accepted(application_id)
     assert result == expected_result
 
 
@@ -383,7 +383,7 @@ def test_multiple_requests_all_accepted(_db, setup_application_with_requests_and
             [sub_criteria_2_id],
         ],
     )
-    result = all_change_requests_accepted(application_id)
+    result = check_all_change_requests_accepted(application_id)
     assert result is True
 
 
@@ -399,7 +399,7 @@ def test_multiple_change_requests_one_section_accepted(_db, setup_application_wi
             [sub_criteria_2_id],
         ],
     )
-    result = all_change_requests_accepted(application_id)
+    result = check_all_change_requests_accepted(application_id)
     assert result is False
 
 
@@ -412,7 +412,7 @@ def test_change_request_multiple_sections_none_accepted(_db, setup_application_w
             [sub_criteria_1_id, sub_criteria_2_id, sub_criteria_3_id],
         ]
     )
-    result = all_change_requests_accepted(application_id)
+    result = check_all_change_requests_accepted(application_id)
     assert result is False
 
 
@@ -428,5 +428,5 @@ def test_change_request_multiple_sections_all_accepted(_db, setup_application_wi
         ],
         flag_data=[[sub_criteria_1_id, sub_criteria_2_id], [sub_criteria_3_id]],
     )
-    result = all_change_requests_accepted(application_id)
+    result = check_all_change_requests_accepted(application_id)
     assert result is True
