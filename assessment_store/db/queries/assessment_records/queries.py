@@ -908,3 +908,22 @@ def update_user_application_association(application_id, user_id, active, assigne
     db.session.refresh(allocation_association)
 
     return allocation_association
+
+
+def all_change_requests_accepted(application_id):
+    application = db.session.scalar(select(AssessmentRecord).where(AssessmentRecord.application_id == application_id))
+
+    change_requests = application.change_requests
+    scores = application.scores
+
+    # if a section has been accepted, we "close" any change requests regardless of the state
+    # they are in (RAISED or RESOLVED)
+    accepted_sections = set(score.sub_criteria_id for score in scores if score.score > 0)
+
+    # Change requests may either be resolved by the applicant, or in a raised (unresolved) state by the assessor
+    requested_changes_sections = set(
+        section for change_request in change_requests for section in change_request.sections_to_flag
+    )
+    remaining_sections = requested_changes_sections - accepted_sections
+
+    return len(remaining_sections) == 0
