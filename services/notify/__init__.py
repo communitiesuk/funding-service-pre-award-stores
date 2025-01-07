@@ -347,6 +347,33 @@ class NotificationService:
             email_reply_to_id=self.REPLY_TO_EMAILS_WITH_NOTIFY_ID.get(contact_help_email),
         )
 
+    def send_assessment_email(
+        self,
+        template_id: str,
+        email_address: str,
+        reference_number: str,
+        fund_name: str,
+        project_name: str,
+        assignment_message: str,
+        assessment_link: str,
+        lead_assessor_email: str,
+        govuk_notify_reference: str | None = None,
+    ) -> Notification:
+        return self._send_email(
+            email_address,
+            template_id,
+            personalisation={
+                "fund_name": fund_name,
+                "reference_number": reference_number,
+                "project_name": project_name,
+                "assignment message": assignment_message,
+                "assessment link": assessment_link,
+                "lead assessor email": lead_assessor_email,
+            },
+            govuk_notify_reference=govuk_notify_reference,
+            email_reply_to_id=self.REPLY_TO_EMAILS_WITH_NOTIFY_ID.get("FundingService@communities.gov.uk"),
+        )
+
 
 def get_notification_service() -> NotificationService:
     return current_app.extensions["notification_service"]

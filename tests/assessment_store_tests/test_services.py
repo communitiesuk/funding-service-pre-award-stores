@@ -2,7 +2,7 @@ from unittest import mock
 
 import pytest
 
-from assessment_store.services.data_services import send_notification_email
+from assessment_store.services.data_services import _send_notification_email
 
 
 @pytest.mark.parametrize(
@@ -43,7 +43,7 @@ def test_send_notification_email(
     mock_notification_send.return_value = "message-id-1234"
     mock_assessment_url.return_value = "assessment_url"
 
-    send_notification_email(test_application, "user1", "assigner1", "assignment_template", message=message)
+    _send_notification_email(test_application, "user1", "assigner1", "assignment_template", message=message)
 
     content = {
         "fund_name": "Fund A",
@@ -89,9 +89,9 @@ def test_send_notification_email_failure(
 
     mock_get_fund_data.return_value = {"name": "Fund A"}
 
-    send_notification_email(test_application, "user1", "assigner1", "assignment_template")
+    _send_notification_email(test_application, "user1", "assigner1", "assignment_template")
 
-    mock_logger.info.assert_called_with(
+    mock_logger.error.assert_called_with(
         "Could not send email for template: {template}, user: {user_id}, application {application_id}",
         extra={"template": "assignment_template", "user_id": "user1", "application_id": "app1"},
     )

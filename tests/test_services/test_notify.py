@@ -266,3 +266,43 @@ class TestNotificationService:
         )
         assert resp == Notification(id=uuid.UUID("00000000-0000-0000-0000-000000000005"))
         assert request_matcher.call_count == 1
+
+    @responses.activate
+    def test_send_assessment_email(self, app):
+        request_matcher = responses.post(
+            url="https://api.notifications.service.gov.uk/v2/notifications/email",
+            status=201,
+            match=[
+                matchers.json_params_matcher(
+                    {
+                        "email_address": "assignee@test.com",
+                        "template_id": "abc-123",
+                        "personalisation": {
+                            "fund_name": "test fund",
+                            "reference_number": "ABC123",
+                            "project_name": "Unit test project",
+                            "assignment message": "Testing assignment",
+                            "assessment link": "http://google.com/assess",
+                            "lead assessor email": "assessor@test.com",
+                        },
+                        "email_reply_to_id": "10668b8d-9472-4ce8-ae07-4fcc7bf93a9d",
+                        "reference": "abc123",
+                    }
+                )
+            ],
+            json={"id": "00000000-0000-0000-0000-000000000006"},  # partial GOV.UK Notify response
+        )
+
+        resp = get_notification_service().send_assessment_email(
+            email_address="assignee@test.com",
+            reference_number="ABC123",
+            fund_name="test fund",
+            project_name="Unit test project",
+            assignment_message="Testing assignment",
+            assessment_link="http://google.com/assess",
+            lead_assessor_email="assessor@test.com",
+            govuk_notify_reference="abc123",
+            template_id="abc-123",
+        )
+        assert resp == Notification(id=uuid.UUID("00000000-0000-0000-0000-000000000006"))
+        assert request_matcher.call_count == 1

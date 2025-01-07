@@ -12,7 +12,7 @@ from assessment_store.db.queries.assessment_records.queries import (
     update_user_application_association as update_user_application_association_db,
 )
 from assessment_store.db.schemas.schemas import AllocationAssociationSchema
-from assessment_store.services.data_services import send_notification_email
+from assessment_store.services.data_services import send_notification_email_assigned
 from common.blueprints import Blueprint
 
 assessment_user_bp = Blueprint("assessment_user_bp", __name__)
@@ -101,10 +101,9 @@ def add_user_application_association(application_id, user_id):
     if association:
         if send_email:
             application = get_metadata_for_application(application_id)
-            send_notification_email(
+            send_notification_email_assigned(
                 application=application,
                 user_id=user_id,
-                template=NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_ASSIGNED,
                 assigner_id=args["assigner_id"],
                 message=args.get("email_content"),
             )
@@ -154,16 +153,18 @@ def update_user_application_association(application_id, user_id):
 
     if association:
         if send_email:
-            application = get_metadata_for_application(application_id)
-            send_notification_email(
-                application=application,
-                user_id=user_id,
-                template=NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_ASSIGNED
-                if active
-                else NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_UNASSIGNED,
-                assigner_id=args["assigner_id"],
-                message=args.get("email_content"),
-            )
+            pass
+            # TODO put this back after testing
+            # application = get_metadata_for_application(application_id)
+            # send_notification_email(
+            #     application=application,
+            #     user_id=user_id,
+            #     template=NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_ASSIGNED
+            #     if active
+            #     else NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_UNASSIGNED,
+            #     assigner_id=args["assigner_id"],
+            #     message=args.get("email_content"),
+            # )
 
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(association)

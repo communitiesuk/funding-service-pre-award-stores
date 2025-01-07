@@ -3,8 +3,8 @@ from typing import Dict
 import requests
 from flask import current_app
 
-from assessment_store.api.models.notification import Notification
-from config import Config  # noqa: E402
+from config import Config
+from services.notify import NotificationService, get_notification_service  # noqa: E402
 
 
 def get_data(endpoint: str, payload: Dict = None):
@@ -50,7 +50,27 @@ def create_assessment_url_for_application(application_id: str):
     )
 
 
-def send_notification_email(application, user_id, assigner_id, template, message=None):
+def send_notification_email_assigned(application, user_id, assigner_id, message=None):
+    _send_notification_email(
+        application=application,
+        user_id=user_id,
+        assigner_id=assigner_id,
+        message=message,
+        template_id=NotificationService.ASSESSMENT_APPLICATION_ASSIGNED,
+    )
+
+
+def send_notification_email_unassigned(application, user_id, assigner_id, message=None):
+    _send_notification_email(
+        application=application,
+        user_id=user_id,
+        assigner_id=assigner_id,
+        message=message,
+        template_id=NotificationService.ASSESSMENT_APPLICATION_UNASSIGNED,
+    )
+
+
+def _send_notification_email(application, user_id, assigner_id, template_id: str, message=None):
     """Sends a notification email to inform the user (specified by user_id) that
     an application has been assigned to them.
 
@@ -58,7 +78,7 @@ def send_notification_email(application, user_id, assigner_id, template, message
         application (dict): dict of application details for the application that has been assigned
         user_id (str): id of assignee and recipient of email
         assigner_id (str): id of the assigner.
-        template (str): template of email (either assignment or unassignment)
+        template_id (str): which template to use
         message (str): Custom message provided by assigner
 
     """
@@ -74,21 +94,17 @@ def send_notification_email(application, user_id, assigner_id, template, message
         "assessment_link": create_assessment_url_for_application(application_id=application["application_id"]),
     }
 
-    if message:
-        content["message"] = message
+    content["assignment_message"] = message or ""
 
     try:
-        message_id = Notification.send(
-            template,
-            user_response["email_address"],
-            user_response["full_name"] if user_response["full_name"] else None,
-            content,
+        get_notification_service().send_assessment_email(
+            email_address=user_response["email_address"], template_id=template_id, **content
         )
-        current_app.logger.info("Message added to the queue msg_id: [{message_id}]", extra=dict(message_id=message_id))
-    except Exception:
-        current_app.logger.info(
-            "Could not send email for template: {template}, user: {user_id}, application {application_id}",
-            extra=dict(template=template, user_id=user_id, application_id=application["application_id"]),
+    except Exception as e:
+        current_app.logger.error(
+            "Could not send assesment email for user: {user_id}, application {application_id}",
+            extra=dict(user_id=user_id, application_id=application["application_id"]),
+            exc_info=e,
         )
 
 
