@@ -107,6 +107,7 @@ from assess.services.data_services import (
     get_assessment_progress,
     get_associated_tags_for_application,
     get_bulk_accounts_dict,
+    get_change_requests,
     get_comments,
     get_flags,
     get_fund,
@@ -120,8 +121,9 @@ from assess.services.data_services import (
     get_tags_for_fund_round,
     get_users_for_fund,
     match_comment_to_theme,
+    submit_change_request,
     submit_comment,
-    submit_flag,
+    update_assessment_record_status,
 )
 from assess.services.models.comment import CommentType
 from assess.services.models.flag import FlagType
@@ -143,6 +145,7 @@ from assess.themes.deprecated_theme_mapper import (
     map_application_with_sub_criterias_and_themes,
     order_entire_application_by_themes,
 )
+from assessment_store.db.models.assessment_record.enums import Status as WorkflowStatus
 from common.blueprints import Blueprint
 from config import Config
 
@@ -1174,15 +1177,16 @@ def display_sub_criteria(
 
     state = get_state_for_tasklist_banner(application_id)
     flags_list = get_flags(application_id)
+    change_requests_list = get_change_requests(application_id)
 
     user_id_list = []
     change_requests = []
-    for flag_data in flags_list:
-        if sub_criteria_id not in flag_data.sections_to_flag or not flag_data.is_change_request:
+    for change_request in change_requests_list:
+        if sub_criteria_id not in change_request.sections_to_flag:
             continue
 
-        change_requests.append(flag_data)
-        for flag_item in flag_data.updates:
+        change_requests.append(change_request)
+        for flag_item in change_request.updates:
             if flag_item["user_id"] not in user_id_list:
                 user_id_list.append(flag_item["user_id"])
 
@@ -1249,7 +1253,7 @@ def display_sub_criteria(
         "fund": get_fund(sub_criteria.fund_id),
         "application_id": application_id,
         "comments": theme_matched_comments,
-        "flags_list": change_requests,
+        "change_requests": change_requests,
         "accounts_list": accounts_list,
         "is_flaggable": False,  # Flag button is disabled in sub-criteria page,
         "display_comment_box": add_comment_argument,
@@ -1293,7 +1297,7 @@ def request_changes(application_id, sub_criteria_id, theme_id):
     )
 
     if request.method == "POST" and form.validate_on_submit():
-        submit_flag(
+        submit_change_request(
             application_id=application_id,
             flag_type=FlagType.RAISED.name,
             user_id=g.account_id,
@@ -1301,6 +1305,11 @@ def request_changes(application_id, sub_criteria_id, theme_id):
             field_ids=form.field_ids.data,
             section=[sub_criteria_id],
             is_change_request=True,
+        )
+
+        update_assessment_record_status(
+            application_id=application_id,
+            status=WorkflowStatus.CHANGE_REQUESTED,
         )
 
         # update apply.status apply.forms[].status and each form.question[].status
@@ -1594,7 +1603,7 @@ def application(application_id):
         application_id=application_id,
         accounts_list=accounts_list,
         teams_flag_stats=teams_flag_stats,
-        flags_list=[flag for flag in flags_list if not flag.is_change_request],
+        flags_list=flags_list,
         is_flaggable=is_flaggable(flag_status),
         is_qa_complete=state.is_qa_complete,
         qa_complete=qa_complete,

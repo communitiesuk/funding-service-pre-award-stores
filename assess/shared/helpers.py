@@ -77,21 +77,23 @@ def determine_display_status(workflow_status: str, Flags: List[Flag], is_qa_comp
     return display_status
 
 
-def determine_flag_status(Flags: List[Flag]) -> str:
+def determine_flag_status(flags: list) -> str:
+    if not flags:
+        return ""
+
+    flags_list = []
+    all_latest_status = []
+
+    for flag in flags:
+        converted_flag = Flag.from_dict(flag) if isinstance(flag, dict) else flag
+
+        if converted_flag.is_change_request:
+            continue
+
+        flags_list.append(converted_flag)
+        all_latest_status.append(converted_flag.latest_status)
+
     flag_status = ""
-    flags_list = [(Flag.from_dict(flag) if isinstance(flag, dict) else flag) for flag in Flags] if Flags else []
-    all_latest_status = [flag.latest_status for flag in flags_list]
-
-    has_flag_with_raised_status = False
-    for flag in flags_list:
-        if flag.is_change_request:
-            if flag.latest_status.name == FlagType.RAISED.name:
-                has_flag_with_raised_status = True
-                break
-
-    if has_flag_with_raised_status:
-        return "Change requested"
-
     if FlagType.STOPPED in all_latest_status:
         flag_status = "Stopped"
     elif all_latest_status.count(FlagType.RAISED) > 1:
@@ -100,6 +102,7 @@ def determine_flag_status(Flags: List[Flag]) -> str:
         for flag in flags_list:
             if flag.latest_status == FlagType.RAISED:
                 flag_status = ("Flagged for " + flag.latest_allocation) if flag.latest_allocation else "Flagged"
+
     return flag_status
 
 
