@@ -80,8 +80,8 @@ class NotificationService:
         "APPLICATION_SUBMISSION_TEMPLATE_ID_EN", "6adbba70-2fde-4ca7-94cb-7f7eb264efaa"
     )
     APPLICATION_SUBMISSION_TEMPLATE_ID_CY = os.environ.get(
-        "APPLICATION_SUBMISSION_TEMPLATE_ID_CY", "6adbba70-2fde-4ca7-94cb-7f7eb264efaa"
-    )  # TODO update once translation received
+        "APPLICATION_SUBMISSION_TEMPLATE_ID_CY", "60bb6baa-0ef9-4059-954e-7c2744e6c63a"
+    )
 
     APPLICATION_INCOMPLETE_TEMPLATE_ID = os.environ.get(
         "APPLICATION_INCOMPLETE_TEMPLATE_ID", "944cb37d-c9e0-4731-88f5-d752514da57f"
