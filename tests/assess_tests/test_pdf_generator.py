@@ -8,7 +8,7 @@ from assess.assessments.pdf_generator import PDFCreationException, generate_pdf
 
 @pytest.fixture
 def mock_render_template():
-    with patch("assess.assessments.pdf_generator._render_template") as mock:
+    with patch("assess.assessments.pdf_generator.render_template") as mock:
         mock.return_value = "<html><body>Test PDF</body></html>"
         yield mock
 
@@ -32,7 +32,7 @@ def test_generate_pdf_successful(mock_render_template, mock_convert_html_to_pdf_
 
     pdf_file = generate_pdf(template_path, context)
 
-    mock_render_template.assert_called_once_with(template_path, context)
+    mock_render_template.assert_called_once_with(template_path, **context)
     mock_convert_html_to_pdf_success.assert_called_once()
     assert isinstance(pdf_file, BytesIO)
 
@@ -44,5 +44,5 @@ def test_generate_pdf_with_error(mock_render_template, mock_convert_html_to_pdf_
     with pytest.raises(PDFCreationException, match="Mocked Error"):
         generate_pdf(template_path, context)
 
-    mock_render_template.assert_called_once_with(template_path, context)
+    mock_render_template.assert_called_once_with(template_path, **context)
     mock_convert_html_to_pdf_error.assert_called_once()

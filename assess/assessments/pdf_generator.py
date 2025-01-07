@@ -1,13 +1,7 @@
 from io import BytesIO
 
-from jinja2 import Environment, FileSystemLoader
+from flask import render_template
 from xhtml2pdf import pisa
-
-
-def _render_template(template_path: str, context) -> str:
-    env = Environment(loader=FileSystemLoader("."), autoescape=True)
-    template = env.get_template(template_path)
-    return template.render(context)
 
 
 class PDFCreationException(Exception):
@@ -41,7 +35,7 @@ def generate_pdf(template_path: str, context) -> BytesIO:
         from functools import partial
 
         generate_full_application_pdf = partial(
-            generate_pdf, "app/pdf/templates/full_application.html"
+            generate_pdf, "assessments/full_application.html"
         )
         ```
 
@@ -49,6 +43,6 @@ def generate_pdf(template_path: str, context) -> BytesIO:
         the "full_application.html" template and convert it to a PDF.
     """
     pdf_file = BytesIO()
-    html_content = _render_template(template_path, context)
+    html_content = render_template(template_path, **context)
     _convert_html_to_pdf(html_content, pdf_file)
     return pdf_file
