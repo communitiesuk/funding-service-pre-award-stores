@@ -5,6 +5,7 @@ from urllib.parse import urlencode
 
 import requests
 from flask import abort, current_app
+from sqlalchemy import select
 
 from assess.scoring.models.score import Score
 from assess.services.models.application import Application
@@ -19,8 +20,11 @@ from assess.tagging.models.tag import AssociatedTag, Tag, TagType
 from assess.themes.deprecated_theme_mapper import (
     map_application_with_sub_criteria_themes_fields,
 )
+from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
+from assessment_store.db.models.assessment_record.enums import Status as WorkflowStatus
 from common.locale_selector.get_lang import get_lang
 from config import Config
+from db import db
 
 
 def get_data(endpoint: str, payload: Dict = None):
@@ -529,9 +533,19 @@ def get_flag(flag_id: str) -> Optional[Flag]:
 
 
 def get_flags(application_id: str) -> List[Flag]:
-    flag = get_data(Config.ASSESSMENT_FLAGS_ENDPOINT.format(application_id=application_id))
-    if flag:
-        return Flag.from_list(flag)
+    flags_data = get_data(Config.ASSESSMENT_FLAGS_ENDPOINT.format(application_id=application_id))
+
+    if flags_data:
+        return [flag for flag in Flag.from_list(flags_data) if not flag.is_change_request]
+    else:
+        return []
+
+
+def get_change_requests(application_id: str) -> List[Flag]:
+    flags_data = get_data(Config.ASSESSMENT_FLAGS_ENDPOINT.format(application_id=application_id))
+
+    if flags_data:
+        return [flag for flag in Flag.from_list(flags_data) if not flag.is_change_request]
     else:
         return []
 
@@ -549,8 +563,6 @@ def submit_flag(
     section: str = None,
     allocation: str = None,
     flag_id: str = None,
-    field_ids: str = "",
-    is_change_request: bool = False,
 ) -> Flag | None:
     """Submits a new flag to the assessment store for an application.
     Returns Flag if a flag is created
@@ -561,7 +573,7 @@ def submit_flag(
     :param justification: The justification for raising the flag
     :param section: The assessment section the flag has been raised for.
     """
-
+    flag_type = FlagType[flag_type]
     if flag_id:
         flag = requests.put(
             Config.ASSESSMENT_FLAGS_POST_ENDPOINT,
@@ -570,9 +582,7 @@ def submit_flag(
                 "justification": justification,
                 "user_id": user_id,
                 "allocation": allocation,
-                "status": FlagType[flag_type].value,
-                "is_change_request": is_change_request,
-                "field_ids": field_ids,
+                "status": flag_type.value,
             },
         )
     else:
@@ -584,17 +594,54 @@ def submit_flag(
                 "sections_to_flag": section,
                 "user_id": user_id,
                 "allocation": allocation,
-                "status": FlagType[flag_type].value,
-                "is_change_request": is_change_request,
-                "field_ids": field_ids,
+                "status": flag_type.value,
             },
         )
-
     if flag:
         flag_json = flag.json()
         return Flag.from_dict(flag_json)
 
-    return None
+
+def submit_change_request(
+    application_id: str,
+    flag_type: str,
+    user_id: str,
+    justification: str,
+    section: str | None = None,
+    field_ids: str = "",
+    is_change_request: bool = False,
+) -> Flag:
+    flag = requests.post(
+        Config.ASSESSMENT_FLAGS_POST_ENDPOINT,
+        json={
+            "application_id": application_id,
+            "justification": justification,
+            "sections_to_flag": section,
+            "user_id": user_id,
+            "allocation": None,
+            "status": FlagType[flag_type].value,
+            "is_change_request": is_change_request,
+            "field_ids": field_ids,
+        },
+    )
+
+    flag_json = flag.json()
+
+    return Flag.from_dict(flag_json)
+
+
+def update_assessment_record_status(application_id: str, status: WorkflowStatus):
+    assessment_record = db.session.scalar(
+        select(AssessmentRecord).where(
+            AssessmentRecord.application_id == application_id,
+        )
+    )
+
+    if not assessment_record:
+        return
+
+    assessment_record.workflow_status = status
+    db.session.commit()
 
 
 def get_all_uploaded_documents_theme_answers(

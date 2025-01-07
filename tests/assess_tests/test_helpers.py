@@ -156,6 +156,14 @@ def test_determine_display_status():
 def test_determine_display_status_for_change_requests():
     assert (
         determine_display_status(
+            workflow_status="CHANGE_REQUESTED",
+            Flags=RAISED_FLAG,
+            is_qa_complete=False,
+        )
+        == "Flagged for TEAM_1"
+    )
+    assert (
+        determine_display_status(
             workflow_status="CHANGE_RECEIVED",
             Flags=None,
             is_qa_complete=False,
@@ -164,7 +172,7 @@ def test_determine_display_status_for_change_requests():
     )
     assert (
         determine_display_status(
-            workflow_status="NOT_STARTED",
+            workflow_status="CHANGE_REQUESTED",
             Flags=RAISED_CHANGE_REQUEST,
             is_qa_complete=False,
         )
