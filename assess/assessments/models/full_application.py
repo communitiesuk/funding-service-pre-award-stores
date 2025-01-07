@@ -74,4 +74,4 @@ class FullApplicationPdfContext:
         )
 
 
-generate_full_application_pdf = partial(generate_pdf, "app/blueprints/assessments/templates/full_application.html")
+generate_full_application_pdf = partial(generate_pdf, "assessments/full_application.html")

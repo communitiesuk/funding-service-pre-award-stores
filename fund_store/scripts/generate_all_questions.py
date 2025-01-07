@@ -152,13 +152,13 @@ def print_html(sections: dict) -> str:
 )
 @click.option(
     "--output_location",
-    default="../funding-service-design-frontend/app/templates/all_questions/",
+    default="../apply/templates/apply/all_questions/",
     help="Folder to write output html to (language code will be appended as an intermediate path)",
     prompt=True,
 )
 @click.option(
     "--forms_dir",
-    default="../digital-form-builder/fsd_config/form_jsons/",
+    default="../../digital-form-builder/fsd_config/form_jsons/",
     help="Local, absolute path, to the form JSONs to use to generate question lists",
     prompt=True,
 )
