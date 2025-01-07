@@ -4,6 +4,7 @@ from functools import lru_cache
 
 import requests
 from flask import current_app, request
+from sqlalchemy import select
 
 from apply.default.data import (
     get_all_funds,
@@ -20,8 +21,10 @@ from apply.default.data import (
 )
 from apply.models.fund import Fund
 from apply.models.round import Round
+from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
 from common.locale_selector.get_lang import get_lang
 from config import Config
+from db import db
 
 
 @lru_cache(maxsize=1)
@@ -66,6 +69,25 @@ def extract_subset_of_data_from_application(application_data: dict, data_subset_
                      A data subset of a single application
     """
     return application_data[data_subset_name]
+
+
+def get_change_requests(application_id: str) -> dict[str, list]:
+    assessment_record = db.session.scalar(
+        select(AssessmentRecord).where(AssessmentRecord.application_id == application_id)
+    )
+
+    if not assessment_record:
+        return {}
+
+    assessor_change_requests: dict[str, list] = {}
+    for change_request in assessment_record.change_requests:
+        for field_id in change_request.field_ids:
+            if field_id not in assessor_change_requests:
+                assessor_change_requests[field_id] = []
+
+            assessor_change_requests[field_id].extend([update.justification for update in change_request.updates])
+
+    return assessor_change_requests
 
 
 def format_rehydrate_payload(
@@ -139,6 +161,7 @@ def format_rehydrate_payload(
     formatted_data["metadata"]["fund_name"] = fund_name
     formatted_data["metadata"]["round_name"] = round_name
     formatted_data["metadata"]["has_eligibility"] = has_eligibility
+    formatted_data["metadata"]["feedback_message"] = get_change_requests(application_id)
     if round_close_notification_url is not None:
         formatted_data["metadata"]["round_close_notification_url"] = round_close_notification_url
 
