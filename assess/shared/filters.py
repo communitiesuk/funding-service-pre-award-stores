@@ -17,22 +17,21 @@ def assess_datetime_format(value, format):
 
 
 def utc_to_bst(value, tz="Europe/London", export_format=False):
-    dt_formats = [
-        "%Y-%m-%dT%H:%M:%S.%f",
-        "%Y-%m-%d %H:%M:%S.%f",
-        "%Y-%m-%d %H:%M:%S",
-        "%Y-%m-%dT%H:%M:%S",
-        "%Y-%m-%d %H:%M:%S.%f%z",
-        "%d/%m/%Y %H:%M:%S",
-    ]
-    for dt_format in dt_formats:
-        try:
-            utc_time = datetime.strptime(value, dt_format)
-            break
-        except ValueError:
-            pass
-    else:
-        raise ValueError("Invalid datetime format")
+    try:
+        utc_time = datetime.fromisoformat(value)
+    except ValueError:
+        dt_formats = [
+            "%Y-%m-%d %H:%M:%S.%f%z",
+            "%d/%m/%Y %H:%M:%S",
+        ]
+        for dt_format in dt_formats:
+            try:
+                utc_time = datetime.strptime(value, dt_format)
+                break
+            except ValueError:
+                pass
+        else:
+            raise ValueError("Invalid datetime format")
 
     if utc_time.tzinfo is None:
         utc_time = utc.localize(utc_time)
