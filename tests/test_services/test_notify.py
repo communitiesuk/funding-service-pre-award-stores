@@ -1,5 +1,6 @@
 import uuid
 
+import pytest
 import responses
 from responses import matchers
 
@@ -182,7 +183,11 @@ class TestNotificationService:
         assert request_matcher.call_count == 1
 
     @responses.activate
-    def test_send_submit_application_email(self, app):
+    @pytest.mark.parametrize(
+        "language, exp_template_id",
+        [("en", "6adbba70-2fde-4ca7-94cb-7f7eb264efaa"), ("cy", "60bb6baa-0ef9-4059-954e-7c2744e6c63a")],
+    )
+    def test_send_submit_application_email(self, app, language, exp_template_id):
         request_matcher = responses.post(
             url="https://api.notifications.service.gov.uk/v2/notifications/email",
             status=201,
@@ -190,7 +195,7 @@ class TestNotificationService:
                 matchers.json_params_matcher(
                     {
                         "email_address": "test@test.com",
-                        "template_id": "6adbba70-2fde-4ca7-94cb-7f7eb264efaa",
+                        "template_id": exp_template_id,
                         "personalisation": {
                             "name of fund": "COF-EOI",
                             "application reference": "app-123",
@@ -214,53 +219,7 @@ class TestNotificationService:
 
         resp = get_notification_service().send_submit_application_email(
             "test@test.com",
-            language="en",
-            fund_name="COF-EOI",
-            application_reference="app-123",
-            submission_date="2024-02-10T10:00:00.000000",
-            round_name="test round",
-            questions="YWJjMTIz",
-            prospectus_url="https://prospectus",
-            contact_help_email="contact@test.com",
-            govuk_notify_reference="abc123",
-        )
-        assert resp == Notification(id=uuid.UUID("00000000-0000-0000-0000-000000000003"))
-        assert request_matcher.call_count == 1
-
-    @responses.activate
-    def test_send_submit_application_email_welsh(self, app):
-        request_matcher = responses.post(
-            url="https://api.notifications.service.gov.uk/v2/notifications/email",
-            status=201,
-            match=[
-                matchers.json_params_matcher(
-                    {
-                        "email_address": "test@test.com",
-                        "template_id": "60bb6baa-0ef9-4059-954e-7c2744e6c63a",
-                        "personalisation": {
-                            "name of fund": "COF-EOI",
-                            "application reference": "app-123",
-                            "date submitted": "10 February 2024 at 10:00am",
-                            "round name": "test round",
-                            "question": {
-                                "file": "YWJjMTIz",
-                                "filename": None,
-                                "confirm_email_before_download": None,
-                                "retention_period": None,
-                            },
-                            "URL of prospectus": "https://prospectus",
-                            "contact email": "contact@test.com",
-                        },
-                        "reference": "abc123",
-                    }
-                )
-            ],
-            json={"id": "00000000-0000-0000-0000-000000000003"},  # partial GOV.UK Notify response
-        )
-
-        resp = get_notification_service().send_submit_application_email(
-            "test@test.com",
-            language="cy",
+            language=language,
             fund_name="COF-EOI",
             application_reference="app-123",
             submission_date="2024-02-10T10:00:00.000000",
