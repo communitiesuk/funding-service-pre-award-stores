@@ -1,5 +1,6 @@
 import uuid
 
+import pytest
 import responses
 from responses import matchers
 
@@ -182,7 +183,11 @@ class TestNotificationService:
         assert request_matcher.call_count == 1
 
     @responses.activate
-    def test_send_submit_application_email(self, app):
+    @pytest.mark.parametrize(
+        "language, exp_template_id",
+        [("en", "6adbba70-2fde-4ca7-94cb-7f7eb264efaa"), ("cy", "60bb6baa-0ef9-4059-954e-7c2744e6c63a")],
+    )
+    def test_send_submit_application_email(self, app, language, exp_template_id):
         request_matcher = responses.post(
             url="https://api.notifications.service.gov.uk/v2/notifications/email",
             status=201,
@@ -190,7 +195,7 @@ class TestNotificationService:
                 matchers.json_params_matcher(
                     {
                         "email_address": "test@test.com",
-                        "template_id": "6adbba70-2fde-4ca7-94cb-7f7eb264efaa",
+                        "template_id": exp_template_id,
                         "personalisation": {
                             "name of fund": "COF-EOI",
                             "application reference": "app-123",
@@ -214,7 +219,7 @@ class TestNotificationService:
 
         resp = get_notification_service().send_submit_application_email(
             "test@test.com",
-            language="en",
+            language=language,
             fund_name="COF-EOI",
             application_reference="app-123",
             submission_date="2024-02-10T10:00:00.000000",
