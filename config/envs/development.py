@@ -114,8 +114,11 @@ class DevelopmentConfig(Config):
             "HSRA_COMMENTER",
             "CTDF_LEAD_ASSESSOR",
             "CTDF_ASSESSOR",
+            "FFW_LEAD_ASSESSOR",
+            "FFW_ASSESSOR",
         ],
         "highest_role_map": {
+            "FFW": DEBUG_USER_ROLE,
             "GBRF": DEBUG_USER_ROLE,
             "LPDF": DEBUG_USER_ROLE,
             "CTDF": DEBUG_USER_ROLE,
