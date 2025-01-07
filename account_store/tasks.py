@@ -38,35 +38,51 @@ def seed_local_account_store(c):
         with app.app_context():
             from db import db
 
-            LEAD_ASSESSOR = "lead_assessor@example.com"
-            lead_assessor_account = db.session.query(Account).where(Account.email == LEAD_ASSESSOR).one_or_none()
-            if not lead_assessor_account:
-                # Create account
-                account_id = uuid4()
-                lead_assessor_account = Account(id=account_id, email=LEAD_ASSESSOR)
-                db.session.add(lead_assessor_account)
+            accounts_to_seed = [
+                {
+                    "email": "lead_assessor@example.com",
+                    "account_id": uuid4(),
+                    "roles": [
+                        "CTDF_LEAD_ASSESSOR",
+                        "CTDF_ASSESSOR",
+                        "CTDF_COMMENTER",
+                        "FFW_LEAD_ASSESSOR",
+                        "FFW_ASSESSOR",
+                        "FFW_COMMENTER",
+                    ],
+                },
+                {
+                    "email": "dev@example.com",
+                    "account_id": "00000000-0000-0000-0000-000000000000",
+                    "roles": [],
+                },
+            ]  # seed this in the db so it exists in account_store
+            for account_to_create in accounts_to_seed:
+                account_from_db = (
+                    db.session.query(Account).where(Account.email == account_to_create["email"]).one_or_none()
+                )
+                if not account_from_db:
+                    # Create account
+                    account = Account(id=account_to_create["account_id"], email=account_to_create["email"])
+                    db.session.add(account)
+                    db.session.commit()
+                    print(f"Created account for {account_to_create['email']}")
+
+                else:
+                    print(f"Account {account_to_create['email']} already exists")
+                    account_to_create["account_id"] = account_from_db.id
+
+                existing_roles = db.session.scalars(
+                    select(Role.role).where(Role.account_id == account_to_create["account_id"])
+                ).all()
+
+                roles_to_add = []
+
+                for required_role in account_to_create["roles"]:
+                    if required_role not in existing_roles:
+                        req_role = Role(id=uuid4(), account_id=account_to_create["account_id"], role=required_role)
+                        roles_to_add.append(req_role)
+                        print(f"Creating role {required_role} for {account_to_create['email']}")
+
+                db.session.bulk_save_objects(roles_to_add)
                 db.session.commit()
-                print("Created lead assessor account")
-            else:
-                print("Lead assessor account already exists")
-                account_id = lead_assessor_account.id
-
-            lead_assessor_roles = db.session.scalars(select(Role.role).where(Role.account_id == account_id)).all()
-
-            roles_to_add = []
-
-            for required_role in [
-                "CTDF_LEAD_ASSESSOR",
-                "CTDF_ASSESSOR",
-                "CTDF_COMMENTER",
-                "FFW_LEAD_ASSESSOR",
-                "FFW_ASSESSOR",
-                "FFW_COMMENTER",
-            ]:
-                if required_role not in lead_assessor_roles:
-                    la_role = Role(id=uuid4(), account_id=account_id, role=required_role)
-                    roles_to_add.append(la_role)
-                    print(f"Creating role {required_role} for lead assessor")
-
-            db.session.bulk_save_objects(roles_to_add)
-            db.session.commit()
