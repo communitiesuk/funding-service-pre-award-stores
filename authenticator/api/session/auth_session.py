@@ -51,7 +51,7 @@ class AuthSessionBase:
                 status = "expired_token"
             except jwt.PyJWTError as e:
                 current_app.logger.warning(
-                    "PyJWTError: {error_name} - {error}", extra=dict(error_name=e.__class__.__name__), error=e
+                    "PyJWTError: {error_name} - {error}", extra=dict(error_name=e.__class__.__name__, error=str(e))
                 )
                 status = "invalid_token"
 
