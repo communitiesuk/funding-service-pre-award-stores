@@ -78,6 +78,24 @@ def mock_get_applications_for_auth_frontend():
         yield mock_get_applications
 
 
+def configure_mock_fund_and_round(mock_get_fund, mock_get_round_data):
+    mock_fund = mock.MagicMock()
+    mock_fund.configure_mock(name="cof")
+    mock_fund.configure_mock(short_name="cof")
+    mock_get_fund.return_value = mock_fund
+
+    mock_round = mock.MagicMock()
+    mock_round.configure_mock(deadline="2023-01-30T00:00:01")
+    mock_round.configure_mock(title="r2w3")
+    mock_round.configure_mock(short_name="r2w3")
+    mock_round.configure_mock(application_guidance="help text here")
+    mock_round.configure_mock(contact_email="test@outlook.com")
+    mock_round.configure_mock(reference_contact_page_over_email=False)
+    mock_round.configure_mock(is_expression_of_interest=False)
+    mock_round.configure_mock(has_eligibility=True)
+    mock_get_round_data.return_value = mock_round
+
+
 @pytest.fixture
 def mock_get_applications_for_account():
     from unittest import mock

@@ -15,6 +15,7 @@ from authenticator.frontend.magic_links.forms import EmailForm
 from authenticator.models.account import AccountMethods
 from authenticator.security.utils import validate_token
 from config import Config
+from tests.authenticator_tests.conftest import configure_mock_fund_and_round
 
 
 @pytest.mark.usefixtures("authenticator_test_client", "mock_redis_magic_links")
@@ -137,22 +138,7 @@ class TestMagicLinks(AuthSessionBase):
                 "authenticator.frontend.magic_links.routes.MagicLinkMethods.redis_mlinks", create=True
             ) as mock_redis_mlinks,
         ):
-            # Mock get_fund() called in get_magic_link()
-            mock_fund = mock.MagicMock()
-            mock_fund.configure_mock(name="cof")
-            mock_fund.configure_mock(short_name="cof")
-            mock_get_fund.return_value = mock_fund
-            # Mock get_round_data() called in get_magic_link()
-            mock_round = mock.MagicMock()
-            mock_round.configure_mock(deadline="2023-01-30T00:00:01")
-            mock_round.configure_mock(title="r2w3")
-            mock_round.configure_mock(short_name="r2w3")
-            mock_round.configure_mock(application_guidance="help text here")
-            mock_round.configure_mock(contact_email="test@outlook.com")
-            mock_round.configure_mock(reference_contact_page_over_email=False)
-            mock_round.configure_mock(is_expression_of_interest=False)
-            mock_round.configure_mock(has_eligibility=True)
-            mock_get_round_data.return_value = mock_round
+            configure_mock_fund_and_round(mock_get_fund, mock_get_round_data)
 
             mock_redis_mlinks.get.return_value = json.dumps(
                 {"accountId": "usera", "iat": 1736312454, "exp": 1736316114}
@@ -364,7 +350,10 @@ class TestMagicLinks(AuthSessionBase):
         assert response.headers["Location"] == "/account?fund=cof&round=r1w1"
 
     def test_magic_link_redirect_no_previous_applications(
-        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+        self,
+        authenticator_test_client,
+        create_magic_link,
+        mock_get_applications_for_account,
     ):
         """
         GIVEN a running Flask client, redis instance and
@@ -376,20 +365,7 @@ class TestMagicLinks(AuthSessionBase):
             mock.patch("authenticator.api.magic_links.routes.FundMethods.get_fund") as mock_get_fund,
             mock.patch("authenticator.api.magic_links.routes.get_round_data") as mock_get_round_data,
         ):
-            mock_fund = mock.MagicMock()
-            mock_fund.configure_mock(name="cof")
-            mock_fund.configure_mock(short_name="cof")
-            mock_get_fund.return_value = mock_fund
-            mock_round = mock.MagicMock()
-            mock_round.configure_mock(deadline="2023-01-30T00:00:01")
-            mock_round.configure_mock(title="r2w3")
-            mock_round.configure_mock(short_name="r2w3")
-            mock_round.configure_mock(application_guidance="help text here")
-            mock_round.configure_mock(contact_email="test@outlook.com")
-            mock_round.configure_mock(reference_contact_page_over_email=False)
-            mock_round.configure_mock(is_expression_of_interest=False)
-            mock_round.configure_mock(has_eligibility=True)
-            mock_get_round_data.return_value = mock_round
+            configure_mock_fund_and_round(mock_get_fund, mock_get_round_data)
 
             # Mock no previous applications
             mock_get_applications_for_account.return_value = []
@@ -426,19 +402,7 @@ class TestMagicLinks(AuthSessionBase):
                 "authenticator.frontend.magic_links.routes.MagicLinkMethods.redis_mlinks", create=True
             ) as mock_redis_mlinks,
         ):
-            mock_fund = mock.MagicMock()
-            mock_fund.configure_mock(name="cof")
-            mock_fund.configure_mock(short_name="cof")
-            mock_get_fund.return_value = mock_fund
-            mock_round = mock.MagicMock()
-            mock_round.configure_mock(deadline="2023-01-30T00:00:01")
-            mock_round.configure_mock(title="r2w3")
-            mock_round.configure_mock(short_name="r2w3")
-            mock_round.configure_mock(application_guidance="help text here")
-            mock_round.configure_mock(contact_email="test@outlook.com")
-            mock_round.configure_mock(reference_contact_page_over_email=False)
-            mock_round.configure_mock(is_expression_of_interest=False)
-            mock_get_round_data.return_value = mock_round
+            configure_mock_fund_and_round(mock_get_fund, mock_get_round_data)
 
             # Test case when there are previous applications
             mock_get_applications_for_account.return_value = [{"id": "app1"}, {"id": "app2"}]
