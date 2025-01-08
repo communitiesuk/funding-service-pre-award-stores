@@ -1,5 +1,6 @@
 from contextlib import contextmanager
 from typing import Any, Generator
+from unittest import mock
 
 import jwt as jwt
 import pytest
@@ -40,6 +41,41 @@ def create_magic_link(mocker, mock_notification_service_calls):
     link_key_end = auth_landing.index("?fund=")
     link_key = auth_landing[link_key_end - 8 : link_key_end]  # noqa:E203
     yield link_key
+
+
+def patch_get_applications_for_account(path):
+    return mock.patch(
+        path,
+        return_value=[
+            ApplicationSummary(
+                id="00000000-0000-0000-0000-000000000000",
+                reference="TEST-REFERENCE",
+                status="NOT_STARTED",
+                round_id="00000000-0000-0000-0000-000000000000",
+                fund_id="00000000-0000-0000-0000-000000000000",
+                started_at="2025-01-07T15:22:08.422538+00:00",
+                project_name=None,
+                language="English",
+                last_edited="2025-01-07T15:22:08.422538+00:00",
+            )
+        ],
+    )
+
+
+@pytest.fixture
+def mock_get_applications_for_auth_api():
+    with patch_get_applications_for_account(
+        "authenticator.api.magic_links.routes.get_applications_for_account"
+    ) as mock_get_applications:
+        yield mock_get_applications
+
+
+@pytest.fixture
+def mock_get_applications_for_auth_frontend():
+    with patch_get_applications_for_account(
+        "authenticator.frontend.magic_links.routes.get_applications_for_account"
+    ) as mock_get_applications:
+        yield mock_get_applications
 
 
 @pytest.fixture
