@@ -1,4 +1,4 @@
-from flask import current_app, redirect, render_template, request, url_for
+from flask import current_app, redirect, request, url_for
 from fsd_utils.authentication.decorators import login_required
 
 from apply.helpers import format_rehydrate_payload, get_fund_and_round, get_token_to_return_to_application
@@ -11,7 +11,7 @@ eligibility_bp = Blueprint("eligibility_routes", __name__, template_folder="temp
 @eligibility_bp.route("/eligibility-result/<fund_short_name>/<round_name>", methods=["GET"])
 @login_required
 def eligiblity_result(fund_short_name, round_name):
-    """Render the eligibility result page"""
+    """Start a new application(and redirect to tasklist) when eligibility result route is hit"""
     redirect_to_eligible_round = request.args.get("redirect_to_eligible_round")
 
     # change round name if redirect_to_eligible_round is set in coming request from form runner
@@ -22,19 +22,11 @@ def eligiblity_result(fund_short_name, round_name):
         "Eligibility launch result: {fund_short_name} {round_name}",
         extra=dict(fund_short_name=fund_short_name, round_name=round_name),
     )
-    return_url = request.host_url + url_for("account_routes.dashboard", fund=fund_short_name, round=round_name)
     fund, round = get_fund_and_round(fund_short_name=fund_short_name, round_short_name=round_name)
-    current_app.logger.info("Eligibility return url: {return_url}", extra=dict(return_url=return_url))
-    return render_template(
-        "apply/eligibility_result.html",
-        fund_id=round.fund_id,
-        round_id=round.id,
-        fund_title=fund.title,
-        backLink=return_url,
-    )
+    return redirect(url_for("account_routes.new", fund_id=round.fund_id, round_id=round.id))
 
 
-@eligibility_bp.route("/launch-eligibility/<fund_id>/<round_id>", methods=["POST"])
+@eligibility_bp.route("/launch-eligibility/<fund_id>/<round_id>", methods=["POST", "GET"])
 @login_required
 def launch_eligibility(fund_id, round_id):
     """Launch eligibility page/form"""
