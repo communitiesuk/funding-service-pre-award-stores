@@ -67,7 +67,7 @@ LOADER_CONFIG = {
         "funding_type": "COMPETITIVE",
         "name_json": {"en": "High Street Rental Auctions fund", "cy": ""},
         "title_json": {
-            "en": "Funding to cover the cost of delivering a High Street Rental Auction",
+            "en": "funding to cover the cost of delivering a High Street Rental Auction",
             "cy": "",
         },
         "description_json": {
