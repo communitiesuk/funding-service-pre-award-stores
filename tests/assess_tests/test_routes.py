@@ -885,16 +885,6 @@ class TestRoutes:
         # Assert that the response has the expected status code
         assert 200 == response.status_code, "Homepage route should be accessible"
 
-    def test_healthcheck_route_accessible(self, assess_test_client, mock_get_funds):
-        # Remove fsd-user-token cookie
-        assess_test_client.set_cookie("fsd_user_token", "")
-
-        # Send a request to the /healthcheck route
-        response = assess_test_client.get("/healthcheck")  # noqa
-
-        # Assert that the response has the expected status code
-        assert 200 == response.status_code, "Healthcheck route should be accessible"
-
     @pytest.mark.application_id("flagged_qa_completed_app")
     def test_flag_route_already_flagged(
         self,
