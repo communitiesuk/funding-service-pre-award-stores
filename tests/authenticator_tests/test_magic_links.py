@@ -372,15 +372,34 @@ class TestMagicLinks(AuthSessionBase):
         WHEN we GET /magic-links/{link_key}
         THEN we are redirected to the launch eligibility page if there are no previous applications
         """
-        # Mock no previous applications
-        mock_get_applications_for_account.return_value = []
+        with (
+            mock.patch("authenticator.api.fund.FundMethods.get_fund") as mock_get_fund,
+            mock.patch("authenticator.api.magic_links.routes.get_round_data") as mock_get_round_data,
+        ):
+            mock_fund = mock.MagicMock()
+            mock_fund.configure_mock(name="cof")
+            mock_fund.configure_mock(short_name="cof")
+            mock_get_fund.return_value = mock_fund
+            mock_round = mock.MagicMock()
+            mock_round.configure_mock(deadline="2023-01-30T00:00:01")
+            mock_round.configure_mock(title="r2w3")
+            mock_round.configure_mock(short_name="r2w3")
+            mock_round.configure_mock(application_guidance="help text here")
+            mock_round.configure_mock(contact_email="test@outlook.com")
+            mock_round.configure_mock(reference_contact_page_over_email=False)
+            mock_round.configure_mock(is_expression_of_interest=False)
+            mock_round.configure_mock(has_eligibility=True)
+            mock_get_round_data.return_value = mock_round
 
-        link_key = create_magic_link
-        use_endpoint = f"/magic-links/{link_key}"
+            # Mock no previous applications
+            mock_get_applications_for_account.return_value = []
 
-        response = authenticator_test_client.get(use_endpoint)
-        assert response.status_code == 302
-        assert "launch-eligibility" in response.headers["Location"]
+            link_key = create_magic_link
+            use_endpoint = f"/magic-links/{link_key}"
+
+            response = authenticator_test_client.get(use_endpoint)
+            assert response.status_code == 302
+            assert "launch-eligibility" in response.headers["Location"]
 
     def test_magic_link_landing_button_text(
         self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
