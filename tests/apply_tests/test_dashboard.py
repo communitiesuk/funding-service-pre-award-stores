@@ -524,8 +524,9 @@ def test_create_new_application(
     mocker.patch("apply.default.account_routes.get_fund", return_value=mock_fund)
 
     request_mock = mocker.patch("apply.default.account_routes.request")
-    request_mock.form = mock.MagicMock()
-    response = apply_test_client.post("/account/new", follow_redirects=False)
+    request_mock.form = {"fund_id": "test-fund-id", "round_id": "test-round-id"}
+    request_mock.method = "POST"
+    response = apply_test_client.post("/account/new", data=request_mock.form, follow_redirects=False)
     assert 302 == response.status_code
     # assert the request to app store to create the application uses the expected language
     post_request.assert_called_once_with(

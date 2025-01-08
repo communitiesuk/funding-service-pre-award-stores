@@ -201,7 +201,7 @@ def new():
     if request.method == "GET":
         fund_id = request.args.get("fund_id")
         round_id = request.args.get("round_id")
-    else:
+    if request.method == "POST":
         fund_id = request.form["fund_id"]
         round_id = request.form["round_id"]
     # If requesting an application in welsh, ensure the fund supports it
