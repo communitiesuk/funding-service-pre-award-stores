@@ -116,7 +116,7 @@ class TestMagicLinks(AuthSessionBase):
         assert second_response.status_code == 302
 
     def test_reused_magic_link_with_active_session_shows_landing(
-        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+        self, authenticator_test_client, create_magic_link, mock_get_applications_for_auth_frontend
     ):
         """
         GIVEN a running Flask client, redis instance and
@@ -133,6 +133,9 @@ class TestMagicLinks(AuthSessionBase):
         with (
             mock.patch("authenticator.models.fund.FundMethods.get_fund") as mock_get_fund,
             mock.patch("authenticator.frontend.magic_links.routes.get_round_data") as mock_get_round_data,
+            mock.patch(
+                "authenticator.frontend.magic_links.routes.MagicLinkMethods.redis_mlinks", create=True
+            ) as mock_redis_mlinks,
         ):
             # Mock get_fund() called in get_magic_link()
             mock_fund = mock.MagicMock()
@@ -148,7 +151,12 @@ class TestMagicLinks(AuthSessionBase):
             mock_round.configure_mock(contact_email="test@outlook.com")
             mock_round.configure_mock(reference_contact_page_over_email=False)
             mock_round.configure_mock(is_expression_of_interest=False)
+            mock_round.configure_mock(has_eligibility=True)
             mock_get_round_data.return_value = mock_round
+
+            mock_redis_mlinks.get.return_value = json.dumps(
+                {"accountId": "usera", "iat": 1736312454, "exp": 1736316114}
+            ).encode("utf-8")
 
             # use magic link landing but unauthorised
             landing_response = authenticator_test_client.get(landing_endpoint)
@@ -177,9 +185,15 @@ class TestMagicLinks(AuthSessionBase):
                 == 1
             )
 
+            mock_redis_mlinks.get.return_value = None
+
             # use link
             use_link_response = authenticator_test_client.get(use_endpoint)
             assert use_link_response.status_code == 302
+
+            mock_redis_mlinks.get.return_value = json.dumps(
+                {"accountId": "usera", "iat": 1736312454, "exp": 1736316114}
+            ).encode("utf-8")
 
             # re-use magic link landing but now authorised (cookie present)
             second_landing_response = authenticator_test_client.get(landing_endpoint)
