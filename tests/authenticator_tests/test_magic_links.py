@@ -377,9 +377,7 @@ class TestMagicLinks(AuthSessionBase):
             assert response.status_code == 302
             assert "launch-eligibility" in response.headers["Location"]
 
-    def test_magic_link_landing_button_text(
-        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
-    ):
+    def test_magic_link_landing_button_text(self, authenticator_test_client, create_magic_link):
         """
         GIVEN a running Flask client, redis instance and
         a used magic link with an active session (cookie)
