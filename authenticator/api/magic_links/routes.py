@@ -70,23 +70,24 @@ class MagicLinksView(MagicLinkMethods, MethodView):
 
             # Check link is not expired
             if link.get("exp") > int(datetime.now().timestamp()):
-                search_params = {
-                    "account_id": link.get("accountId"),
-                }
-                has_previous_applicaitons = get_applications_for_account(**search_params)
+                if round_data.has_eligibility:
+                    search_params = {
+                        "account_id": link.get("accountId"),
+                    }
+                    has_previous_applicaitons = get_applications_for_account(**search_params)
 
-                if not has_previous_applicaitons:
-                    return AuthSessionBase.create_session_and_redirect(
-                        account=account,
-                        is_via_magic_link=True,
-                        redirect_url=url_for(
-                            "eligibility_routes.launch_eligibility",
-                            fund_id=fund_data.identifier,
-                            round_id=round_data.id,
-                        ),
-                        fund=fund_short_name,
-                        round=round_short_name,
-                    )
+                    if not has_previous_applicaitons:
+                        return AuthSessionBase.create_session_and_redirect(
+                            account=account,
+                            is_via_magic_link=True,
+                            redirect_url=url_for(
+                                "eligibility_routes.launch_eligibility",
+                                fund_id=fund_data.identifier,
+                                round_id=round_data.id,
+                            ),
+                            fund=fund_short_name,
+                            round=round_short_name,
+                        )
 
                 return AuthSessionBase.create_session_and_redirect(
                     account=account,
