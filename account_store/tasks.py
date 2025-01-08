@@ -59,6 +59,9 @@ def seed_local_account_store(c):
                 "CTDF_LEAD_ASSESSOR",
                 "CTDF_ASSESSOR",
                 "CTDF_COMMENTER",
+                "FFW_LEAD_ASSESSOR",
+                "FFW_ASSESSOR",
+                "FFW_COMMENTER",
             ]:
                 if required_role not in lead_assessor_roles:
                     la_role = Role(id=uuid4(), account_id=account_id, role=required_role)

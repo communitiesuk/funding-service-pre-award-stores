@@ -1,0 +1,271 @@
+
+{% extends "apply/base.html" %}
+{%- from 'govuk_frontend_jinja/components/inset-text/macro.html' import govukInsetText -%}
+{%- from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
+
+{% from "apply/partials/file-formats.html" import file_formats %}
+{% set pageHeading %}{% trans %}Full list of application questions{% endtrans %}{% endset %}
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">{% trans %}{{ fund_title }}{% endtrans %}&nbsp;
+        {% trans %}{{ round_title }}{% endtrans %}
+        </span>
+        <h1 class="govuk-heading-xl">{{ pageHeading }}</h1>
+<div class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m ">
+    Table of contents
+  </h2>
+  <ol class="govuk-list govuk-list--number">
+    <li>
+      <a class="govuk-link" href="#applicant-information">
+        Applicant Information
+      </a>
+    </li>
+    <li>
+      <a class="govuk-link" href="#organisation-information">
+        Organisation Information
+      </a>
+    </li>
+  </ol>
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+  <h2 class="govuk-heading-l" id="applicant-information">
+    1. Applicant Information
+  </h2>
+  <h3 class="govuk-heading-m">
+    1.1. Applicant information
+  </h3>
+  <h4 class="govuk-heading-s">
+    1.1.1. Lead contact details
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Name of lead contact
+    </p>
+    <p class="govuk-body">
+      They will receive all the information about this application.
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Lead contact job title
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Lead contact email address
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Lead contact telephone number
+    </p>
+  </div>
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" />
+  <h2 class="govuk-heading-l" id="organisation-information">
+    2. Organisation Information
+  </h2>
+  <h3 class="govuk-heading-m">
+    2.1. Name your application
+  </h3>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Name your organisation
+    </p>
+    <p class="govuk-body">
+      This is what your application will be called and will help you find it when you save and return.
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.1. Organisation name
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Organisation name
+    </p>
+    <p class="govuk-body">
+      This must match your registered legal
+organisation name.
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Does your organisation use any  other names?
+    </p>
+    <p class="govuk-body">
+      If 'Yes', go to <strong>2.1.1.2</strong>
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.1.2. Alternative organisation names
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Alternative name 1
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Alternative name 2
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Alternative name 3
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.2. Registered organisation address
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Registered organisation address
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Is your correspondence address  different to the organisation  address?
+    </p>
+    <p class="govuk-body">
+      If 'Yes', go to <strong>2.1.2.2</strong>
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.2.2. Alternative organisation address
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Alternative organisation address
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.3. How long has your organisation been operating?
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      How long has your organisation been operating?
+    </p>
+    <p class="govuk-body">
+      Select one option.
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        Less than 1 year
+      </li>
+      <li class="">
+        More than 1 year, but less than 3
+      </li>
+      <li class="">
+        More than 3 years
+      </li>
+    </ul>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.4. How is your organisation classified?
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      How is your organisation classified?
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li class="">
+        Charitable incorporated organisation (CIO)
+      </li>
+      <li class="">
+        Co-operative
+      </li>
+      <li class="">
+        Community interest company (CIC)
+      </li>
+      <li class="">
+        Company limited by guarantee
+      </li>
+      <li class="">
+        None of these
+      </li>
+    </ul>
+    <p class="govuk-body">
+      If 'None of these', go to <strong>2.1.4.2</strong>
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.4.2. Type of organisation
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Type of organisation
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.5. What is your organisation's main purpose?
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      What is your organisation's main purpose?
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.6. What are your organisation's charitable objects?
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      What are your organisation's charitable objects?
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.7. Tell us about your organisation's main activities
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Main activity 1
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Activity 2
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Activity 3
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.8. Website and social media
+  </h4>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Website
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Social media link 1
+    </p>
+    <p class="govuk-body">
+      For example, your company's Facebook, Instagram or Twitter accounts (if applicable)
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Social media link 2
+    </p>
+    <p class="govuk-body">
+      For example, your company's Facebook, Instagram or Twitter accounts (if applicable)
+    </p>
+  </div>
+  <div class="govuk-body all-questions-component">
+    <p class="govuk-body">
+      Social media link 3
+    </p>
+    <p class="govuk-body">
+      For example, your company's Facebook, Instagram or Twitter accounts (if applicable)
+    </p>
+  </div>
+  <h4 class="govuk-heading-s">
+    2.1.9. Check your answers
+  </h4>
+</div>
+    </div>
+</div>
+{% endblock content %}

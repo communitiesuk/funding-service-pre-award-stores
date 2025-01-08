@@ -132,6 +132,9 @@ HSRA_ROUND_RP_ID = "bae275aa-86a5-4d3e-bcc7-0a25d040910d"
 CTDF_FUND_ID = "3dcfa617-cff8-4c2c-9edd-9568aa367d13"
 CTDF_ROUND_1_ID = "7ecd7d64-1854-44ab-a10c-a7af4b8d68e1"
 
+FFW_FUND_ID = "8b5c5dad-21a4-4ed1-970e-02d8a47dc49c"
+FFW_ROUND_1_ID = "c27a5693-50f9-47fa-b5c2-c43b14d74af1"
+
 GBRF_FUND_ID = "f97e3930-ab32-4353-84a6-3053d05382ae"
 GBRF_ROUND_1_ID = "e480f03f-e3e0-4bd0-9026-dfed52cc3982"
 
@@ -221,6 +224,11 @@ fund_round_to_assessment_mapping = {
         "unscored_sections": dpif_unscored_sections,
         "scored_criteria": dpif_scored_criteria,
     },
+    f"{FFW_FUND_ID}:{FFW_ROUND_1_ID}": {
+        "schema_id": "ctdf_r1_assessment",
+        "unscored_sections": ctdf_unscored_sections,
+        "scored_criteria": ctdf_scored_sections,
+    },
     f"{CTDF_FUND_ID}:{CTDF_ROUND_1_ID}": {
         "schema_id": "ctdf_r1_assessment",
         "unscored_sections": ctdf_unscored_sections,
@@ -246,6 +254,12 @@ fund_round_to_assessment_mapping = {
 
 fund_round_data_key_mappings = {
     "GBRFR1": {
+        "location": None,
+        "asset_type": None,
+        "funding_one": None,
+        "funding_two": None,
+    },
+    "FFWAOR1": {
         "location": None,
         "asset_type": None,
         "funding_one": None,
@@ -1409,6 +1423,11 @@ applicant_info_mapping = {
 # APPLICATION SEEDING CONFIGURATION
 
 fund_round_mapping_config = {
+    "FFWAOR1": {
+        "fund_id": FFW_FUND_ID,
+        "round_id": FFW_ROUND_1_ID,
+        "type_of_application": "FFW",
+    },
     "GBRFR1": {
         "fund_id": GBRF_FUND_ID,
         "round_id": GBRF_ROUND_1_ID,
