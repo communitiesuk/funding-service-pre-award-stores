@@ -613,7 +613,7 @@ def test_update_user_application_association(flask_test_client, send_email_value
         response = flask_test_client.put(
             "/assessment/application/app1/user/user1",
             json={
-                "active": "false",
+                "active": False,
                 "assigner_id": "assigner1",
                 "send_email": send_email_value,
             },
@@ -624,7 +624,7 @@ def test_update_user_application_association(flask_test_client, send_email_value
         mock_update_association.assert_called_once_with(
             application_id="app1",
             user_id="user1",
-            active="false",
+            active=False,
             assigner_id="assigner1",
         )
         if send_email_value:

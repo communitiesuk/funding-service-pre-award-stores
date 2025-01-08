@@ -154,7 +154,7 @@ def update_user_application_association(application_id, user_id):
     if association:
         if send_email:
             application = get_metadata_for_application(application_id)
-            if strtobool(active):
+            if active:
                 send_notification_email_assigned(
                     application=application,
                     user_id=user_id,
