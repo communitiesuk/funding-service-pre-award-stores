@@ -226,6 +226,11 @@ def test_submit_route_success(
     assert assessment_record
     assert assessment_record.jsonb_blob["forms"]
 
+    try:
+        datetime.strptime(assessment_record.jsonb_blob["date_submitted"], "%Y-%m-%dT%H:%M:%S.%f")
+    except ValueError as e:
+        pytest.fail(f"Unexpected serialised application date format {e}")
+
 
 def test_submit_route_submit_error(flask_test_client, seed_application_records, mocker, mock_successful_location_call):
     target_application = seed_application_records[0]
