@@ -198,8 +198,12 @@ def dashboard():
 def new():
     account_id = g.account_id
     application_language = get_lang()
-    fund_id = request.args.get("fund_id")
-    round_id = request.args.get("round_id")
+    if request.method == "GET":
+        fund_id = request.args.get("fund_id")
+        round_id = request.args.get("round_id")
+    else:
+        fund_id = request.form["fund_id"]
+        round_id = request.form["round_id"]
     # If requesting an application in welsh, ensure the fund supports it
     if application_language == "cy":
         fund = get_fund(fund_id=fund_id)
