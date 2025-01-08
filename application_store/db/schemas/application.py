@@ -37,5 +37,6 @@ class ApplicationSchema(SQLAlchemyAutoSchema):
     started_at = DateTime(format="iso")
     status = Enum(Status)
     last_edited = DateTime(format="iso")
+    date_submitted = DateTime(format="%Y-%m-%dT%H:%M:%S.%f")
     round_name = Method("get_round_name")
     forms = Nested(FormsRunnerSchema, many=True, allow_none=True)
