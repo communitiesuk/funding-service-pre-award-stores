@@ -366,7 +366,7 @@ class NotificationService:
                 "fund_name": fund_name,
                 "reference_number": reference_number,
                 "project_name": project_name,
-                "assignment message": assignment_message,
+                "assignment message": assignment_message or "",
                 "assessment link": assessment_link,
                 "lead assessor email": lead_assessor_email,
             },

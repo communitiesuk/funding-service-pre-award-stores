@@ -102,8 +102,8 @@ def _send_notification_email(application, user_id, assigner_id, template_id: str
         )
     except Exception as e:
         current_app.logger.error(
-            "Could not send assesment email for user: {user_id}, application {application_id}",
-            extra=dict(user_id=user_id, application_id=application["application_id"]),
+            "Could not send email for template: {template}, user: {user_id}, application {application_id}",
+            extra=dict(template=template_id, user_id=user_id, application_id=application["application_id"]),
             exc_info=e,
         )
 

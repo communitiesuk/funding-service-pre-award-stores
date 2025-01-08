@@ -570,7 +570,7 @@ def test_add_user_application_association(flask_test_client, send_email_value):
             return_value=mock_association,
         ) as mock_create_association,
         mock.patch("assessment_store.api.routes.user_routes.get_metadata_for_application"),
-        mock.patch("assessment_store.api.routes.user_routes.send_notification_email") as mock_notify_email,
+        mock.patch("assessment_store.api.routes.user_routes.send_notification_email_assigned") as mock_notify_email,
     ):
         response = flask_test_client.post(
             "/assessment/application/app1/user/user1",
@@ -606,7 +606,9 @@ def test_update_user_application_association(flask_test_client, send_email_value
             return_value=mock_association,
         ) as mock_update_association,
         mock.patch("assessment_store.api.routes.user_routes.get_metadata_for_application"),
-        mock.patch("assessment_store.api.routes.user_routes.send_notification_email") as mock_notify_email,
+        mock.patch(
+            "assessment_store.api.routes.user_routes.send_notification_email_unassigned"
+        ) as mock_notify_email_unassigned,
     ):
         response = flask_test_client.put(
             "/assessment/application/app1/user/user1",
@@ -626,9 +628,9 @@ def test_update_user_application_association(flask_test_client, send_email_value
             assigner_id="assigner1",
         )
         if send_email_value:
-            mock_notify_email.assert_called_once()
+            mock_notify_email_unassigned.assert_called_once()
         else:
-            mock_notify_email.assert_not_called()
+            mock_notify_email_unassigned.assert_not_called()
 
 
 def test_get_all_applications_associated_with_user(flask_test_client):

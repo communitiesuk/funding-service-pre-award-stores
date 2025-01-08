@@ -12,7 +12,7 @@ from assessment_store.db.queries.assessment_records.queries import (
     update_user_application_association as update_user_application_association_db,
 )
 from assessment_store.db.schemas.schemas import AllocationAssociationSchema
-from assessment_store.services.data_services import send_notification_email_assigned
+from assessment_store.services.data_services import send_notification_email_assigned, send_notification_email_unassigned
 from common.blueprints import Blueprint
 
 assessment_user_bp = Blueprint("assessment_user_bp", __name__)
@@ -153,18 +153,21 @@ def update_user_application_association(application_id, user_id):
 
     if association:
         if send_email:
-            pass
-            # TODO put this back after testing
-            # application = get_metadata_for_application(application_id)
-            # send_notification_email(
-            #     application=application,
-            #     user_id=user_id,
-            #     template=NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_ASSIGNED
-            #     if active
-            #     else NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_UNASSIGNED,
-            #     assigner_id=args["assigner_id"],
-            #     message=args.get("email_content"),
-            # )
+            application = get_metadata_for_application(application_id)
+            if strtobool(active):
+                send_notification_email_assigned(
+                    application=application,
+                    user_id=user_id,
+                    assigner_id=args["assigner_id"],
+                    message=args.get("email_content"),
+                )
+            else:
+                send_notification_email_unassigned(
+                    application=application,
+                    user_id=user_id,
+                    assigner_id=args["assigner_id"],
+                    message=args.get("email_content"),
+                )
 
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(association)
