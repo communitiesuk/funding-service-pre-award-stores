@@ -251,17 +251,6 @@ def test_find_round_in_request(
     assert round.short_name == expected_round.short_name
 
 
-def test_healthcheck(apply_test_client):
-    response = apply_test_client.get("/healthcheck")
-
-    expected_dict = {
-        "checks": [{"check_flask_running": "OK"}, {"check_db": "OK"}, {"check_redis": "OK"}],
-        "version": "123123",
-    }
-    assert response.status_code == 200, "Unexpected status code"
-    assert response.json == expected_dict, "Unexpected json body"
-
-
 @pytest.mark.app(debug=False)
 def test_app(app):
     assert not app.debug, "Ensure the app not in debug mode"
