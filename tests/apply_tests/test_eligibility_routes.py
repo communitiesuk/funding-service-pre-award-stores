@@ -55,17 +55,11 @@ def test_eligibility_result(apply_test_client, mocker, mock_login, templates_ren
     # Test eligibility result with redirect_to_eligible_round parameter
     mock_fund_and_round("RP", "hsra-rp", "Refurbishment Project")
     result = apply_test_client.get("/eligibility-result/hsra/vr?redirect_to_eligible_round=RP")
-    assert result.status_code == 200
-    assert len(templates_rendered) == 1
-    rendered_template = templates_rendered[0]
-    assert rendered_template[0].name == "apply/eligibility_result.html"
-    assert rendered_template[1]["round_id"] == "hsra-rp"
+    assert result.status_code == 302
+    assert result.location.endswith("/account/new?fund_id=444&round_id=hsra-rp")
 
     # Test eligibility result without redirect_to_eligible_round parameter
     mock_fund_and_round("VR", "hsra-vr", "Vacancy Register")
     result = apply_test_client.get("/eligibility-result/hsra/vr")
-    assert result.status_code == 200
-    assert len(templates_rendered) == 2
-    rendered_template = templates_rendered[1]
-    assert rendered_template[0].name == "apply/eligibility_result.html"
-    assert rendered_template[1]["round_id"] == "hsra-vr"
+    assert result.status_code == 302
+    assert result.location.endswith("/account/new?fund_id=444&round_id=hsra-vr")

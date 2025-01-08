@@ -63,7 +63,12 @@ class TestSignout:
             )
 
     def test_magic_link_auth_can_be_signed_out(
-        self, mocker, authenticator_test_client, mock_redis_sessions, create_magic_link
+        self,
+        mocker,
+        authenticator_test_client,
+        mock_redis_sessions,
+        create_magic_link,
+        mock_get_applications_for_account,
     ):
         """
         GIVEN a running Flask client, redis instance and

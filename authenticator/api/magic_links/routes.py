@@ -6,8 +6,11 @@ from flask import current_app, g, redirect, request, url_for
 from flask.views import MethodView
 from fsd_utils.authentication.decorators import login_requested
 
+from apply.default.data import get_applications_for_account
 from authenticator.api.session.auth_session import AuthSessionBase
 from authenticator.models.account import AccountMethods
+from authenticator.models.data import get_round_data
+from authenticator.models.fund import FundMethods
 from authenticator.models.magic_link import MagicLinkMethods
 from common.blueprints import Blueprint
 from config import Config
@@ -33,6 +36,9 @@ class MagicLinksView(MagicLinkMethods, MethodView):
         """
         fund_short_name = request.args.get("fund")
         round_short_name = request.args.get("round")
+
+        fund_data = FundMethods.get_fund(fund_short_name)
+        round_data = get_round_data(fund_short_name, round_short_name)
 
         link_key = ":".join([Config.MAGIC_LINK_RECORD_PREFIX, link_id])
         link_hash = self.redis_mlinks.get(link_key)
@@ -64,6 +70,24 @@ class MagicLinksView(MagicLinkMethods, MethodView):
 
             # Check link is not expired
             if link.get("exp") > int(datetime.now().timestamp()):
+                search_params = {
+                    "account_id": link.get("accountId"),
+                }
+                has_previous_applicaitons = get_applications_for_account(**search_params)
+
+                if not has_previous_applicaitons:
+                    return AuthSessionBase.create_session_and_redirect(
+                        account=account,
+                        is_via_magic_link=True,
+                        redirect_url=url_for(
+                            "eligibility_routes.launch_eligibility",
+                            fund_id=fund_data.identifier,
+                            round_id=round_data.id,
+                        ),
+                        fund=fund_short_name,
+                        round=round_short_name,
+                    )
+
                 return AuthSessionBase.create_session_and_redirect(
                     account=account,
                     is_via_magic_link=True,

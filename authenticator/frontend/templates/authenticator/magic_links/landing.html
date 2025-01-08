@@ -22,15 +22,12 @@
     </p>
 
     <div data-qa="claim_magic_link">
-        {% if redirect_to_eligibility %}
-            {{ eligibilityCheckButton(form, url_for('eligibility_routes.launch_eligibility', fund_id=fund_id, round_id=round_id)) }}
-        {% else %}
-            {{ govukButton({
-            "text": gettext("Continue"),
-            "href": url_for('api_magic_links.use', link_id=link_id, fund=fund_short_name, round=round_short_name),
-            "isStartButton": true })
-            }}
-        {% endif %}
+        {{ govukButton({
+        "text": gettext("Continue") if not has_eligibility else
+        (gettext("Continue") if has_previous_applications else gettext("Start a new application")),
+        "href": url_for('api_magic_links.use', link_id=link_id, fund=fund_short_name, round=round_short_name),
+        "isStartButton": true })
+        }}
     </div>
 
     <h2 class="govuk-heading-m">{% trans %}How to complete your application{% endtrans %}</h2>

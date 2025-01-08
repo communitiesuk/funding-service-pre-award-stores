@@ -8,6 +8,7 @@ from flask.sessions import SessionMixin
 from flask.testing import FlaskClient
 from werkzeug.test import TestResponse
 
+from apply.models.application_summary import ApplicationSummary
 from authenticator.models.account import AccountMethods
 from config.envs.unit_test import UnitTestConfig
 from tests.authenticator_tests.testing.mocks.mocks import *  # noqa
@@ -32,10 +33,34 @@ def create_magic_link(mocker, mock_notification_service_calls):
         ),
     )
     mocker.patch("authenticator.models.account.get_round_data", return_value=Round(contact_email="asdf@asdf.com"))
+    mocker.patch(
+        "authenticator.api.magic_links.routes.get_round_data", return_value=Round(contact_email="asdf@asdf.com")
+    )
     auth_landing = AccountMethods.get_magic_link("a@example.com", "cof", "r1w1")
     link_key_end = auth_landing.index("?fund=")
     link_key = auth_landing[link_key_end - 8 : link_key_end]  # noqa:E203
     yield link_key
+
+
+@pytest.fixture
+def mock_get_applications_for_account():
+    from unittest import mock
+
+    with mock.patch("authenticator.api.magic_links.routes.get_applications_for_account") as mock_get_applications:
+        mock_get_applications.return_value = [
+            ApplicationSummary(
+                id="00000000-0000-0000-0000-000000000000",
+                reference="TEST-REFERENCE",
+                status="NOT_STARTED",
+                round_id="00000000-0000-0000-0000-000000000000",
+                fund_id="00000000-0000-0000-0000-000000000000",
+                started_at="2025-01-07T15:22:08.422538+00:00",
+                project_name=None,
+                language="English",
+                last_edited="2025-01-07T15:22:08.422538+00:00",
+            )
+        ]
+        yield mock_get_applications
 
 
 class _AuthenticatorFlaskClient(FlaskClient):

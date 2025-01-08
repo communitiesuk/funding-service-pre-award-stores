@@ -193,12 +193,13 @@ def dashboard():
     return response
 
 
-@account_bp.route("/account/new", methods=["POST"])
+@account_bp.route("/account/new", methods=["GET", "POST"])
 @login_required
 def new():
     account_id = g.account_id
     application_language = get_lang()
-    fund_id = request.form["fund_id"]
+    fund_id = request.args.get("fund_id")
+    round_id = request.args.get("round_id")
     # If requesting an application in welsh, ensure the fund supports it
     if application_language == "cy":
         fund = get_fund(fund_id=fund_id)
@@ -209,7 +210,7 @@ def new():
         url=f"{Config.APPLICATION_STORE_API_HOST}/applications",
         json={
             "account_id": account_id,
-            "round_id": request.form["round_id"],
+            "round_id": round_id,
             "fund_id": fund_id,
             "language": application_language,
         },

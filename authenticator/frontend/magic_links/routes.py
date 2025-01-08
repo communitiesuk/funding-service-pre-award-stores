@@ -83,18 +83,15 @@ def landing(link_id):
             )
         round_prospectus = round_data.prospectus if round_data.prospectus else None
 
-        redirect_to_eligibility = False
-
-        # Check if the applicant has previous applications in HSRA
-        if link_hash:
+        has_previous_applications = False
+        # Check if the applicant has previous applications
+        if round_data.has_eligibility and link_hash and isinstance(link_hash, bytes):
             account_id = json.loads(link_hash.decode("utf-8"))["accountId"]
             search_params = {
                 "account_id": account_id,
             }
             previous_applications = get_applications_for_account(**search_params)
-
-            redirect_to_eligibility = not previous_applications
-
+            has_previous_applications = bool(previous_applications)
         return render_template(
             "authenticator/magic_links/landing_eoi.html"
             if round_data.is_expression_of_interest
@@ -111,9 +108,8 @@ def landing(link_id):
             migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
             support_desk_apply=Config.SUPPORT_DESK_APPLY,
             link_to_contact_us_page=round_data.reference_contact_page_over_email,
-            redirect_to_eligibility=redirect_to_eligibility,  # Pass the flag to the template
-            fund_id=fund_data.identifier,
-            round_id=round_data.id,
+            has_previous_applications=has_previous_applications,
+            has_eligibility=round_data.has_eligibility,
         )
     return redirect(
         url_for(

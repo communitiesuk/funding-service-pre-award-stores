@@ -2,6 +2,7 @@
 Test magic links functionality
 """
 
+import json
 import unittest.mock
 from unittest import mock
 
@@ -16,10 +17,11 @@ from authenticator.security.utils import validate_token
 from config import Config
 
 
-@pytest.mark.usefixtures("authenticator_test_client")
-@pytest.mark.usefixtures("mock_redis_magic_links")
+@pytest.mark.usefixtures("authenticator_test_client", "mock_redis_magic_links")
 class TestMagicLinks(AuthSessionBase):
-    def test_magic_link_redirects_to_landing(self, authenticator_test_client, create_magic_link):
+    def test_magic_link_redirects_to_landing(
+        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+    ):
         """
         GIVEN a running Flask client, redis instance and
         an existing magic link
@@ -34,7 +36,9 @@ class TestMagicLinks(AuthSessionBase):
 
         assert response.status_code == 302
 
-    def test_magic_link_sets_auth_cookie(self, authenticator_test_client, create_magic_link):
+    def test_magic_link_sets_auth_cookie(
+        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+    ):
         """
         GIVEN a running Flask client, redis instance and
         an existing magic link
@@ -48,7 +52,9 @@ class TestMagicLinks(AuthSessionBase):
 
         assert "fsd_user_token" in response.headers.get("Set-Cookie")
 
-    def test_magic_link_sets_valid_cookie_token(self, authenticator_test_client, create_magic_link):
+    def test_magic_link_sets_valid_cookie_token(
+        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+    ):
         """
         GIVEN a running Flask client, redis instance and
         and a valid magic link
@@ -71,7 +77,9 @@ class TestMagicLinks(AuthSessionBase):
         credentials = validate_token(self.valid_token)
         assert credentials.get("accountId") == expected_account_id
 
-    def test_magic_link_redirects(self, authenticator_test_client, create_magic_link):
+    def test_magic_link_redirects(
+        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+    ):
         """
         GIVEN a running Flask client, redis instance and
         an existing magic link
@@ -84,7 +92,9 @@ class TestMagicLinks(AuthSessionBase):
 
         assert response.status_code == 302
 
-    def test_reused_magic_link_redirects_for_active_session(self, authenticator_test_client, create_magic_link):
+    def test_reused_magic_link_redirects_for_active_session(
+        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+    ):
         """
         GIVEN a running Flask client, redis instance and
         a used magic link with an active session (cookie)
@@ -105,7 +115,9 @@ class TestMagicLinks(AuthSessionBase):
         second_response = authenticator_test_client.get(reuse_endpoint)
         assert second_response.status_code == 302
 
-    def test_reused_magic_link_with_active_session_shows_landing(self, authenticator_test_client, create_magic_link):
+    def test_reused_magic_link_with_active_session_shows_landing(
+        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+    ):
         """
         GIVEN a running Flask client, redis instance and
         a used magic link with an active session (cookie)
@@ -175,7 +187,9 @@ class TestMagicLinks(AuthSessionBase):
             soup = BeautifulSoup(second_landing_response.data, "html.parser")
             assert soup.find("a", class_="govuk-button govuk-button--start").text.strip() == "Continue"
 
-    def test_reused_magic_link_with_no_session_returns_link_expired(self, authenticator_test_client, create_magic_link):
+    def test_reused_magic_link_with_no_session_returns_link_expired(
+        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+    ):
         """
         GIVEN a running Flask client, redis instance and
         a used magic link with no session
@@ -318,3 +332,95 @@ class TestMagicLinks(AuthSessionBase):
                         govuk_notify_reference="1f829816-b7e5-4cf7-bbbb-1b062e5ee399",
                     )
                     assert response.status_code == 200
+
+    def test_magic_link_redirect_when_previous_applications(
+        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+    ):
+        """
+        GIVEN a running Flask client, redis instance and
+        an existing magic link
+        WHEN we GET /magic-links/{link_key}
+        THEN we are redirected to the account page with the appropriate fund and round parameters
+        """
+        link_key = create_magic_link
+        use_endpoint = f"/magic-links/{link_key}"
+
+        response = authenticator_test_client.get(use_endpoint)
+        assert response.status_code == 302
+        assert response.headers["Location"] == "/account?fund=cof&round=r1w1"
+
+    def test_magic_link_redirect_no_previous_applications(
+        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+    ):
+        """
+        GIVEN a running Flask client, redis instance and
+        an existing magic link
+        WHEN we GET /magic-links/{link_key}
+        THEN we are redirected to the launch eligibility page if there are no previous applications
+        """
+        # Mock no previous applications
+        mock_get_applications_for_account.return_value = []
+
+        link_key = create_magic_link
+        use_endpoint = f"/magic-links/{link_key}"
+
+        response = authenticator_test_client.get(use_endpoint)
+        assert response.status_code == 302
+        assert "launch-eligibility" in response.headers["Location"]
+
+    def test_magic_link_landing_button_text(
+        self, authenticator_test_client, create_magic_link, mock_get_applications_for_account
+    ):
+        """
+        GIVEN a running Flask client, redis instance and
+        a used magic link with an active session (cookie)
+        WHEN we GET /service/magic-links/landing/{link_key}
+        THEN the landing page shows "Start a new application" if there are no previous applications
+        and "Continue" if there are previous applications
+        :param authenticator_test_client:
+        """
+
+        link_key = create_magic_link
+        landing_endpoint = f"/service/magic-links/landing/{link_key}?fund=cof&round=r2w3"
+
+        with (
+            mock.patch("authenticator.models.fund.FundMethods.get_fund") as mock_get_fund,
+            mock.patch("authenticator.frontend.magic_links.routes.get_round_data") as mock_get_round_data,
+            mock.patch(
+                "authenticator.frontend.magic_links.routes.get_applications_for_account"
+            ) as mock_get_applications_for_account,
+            mock.patch(
+                "authenticator.frontend.magic_links.routes.MagicLinkMethods.redis_mlinks", create=True
+            ) as mock_redis_mlinks,
+        ):
+            mock_fund = mock.MagicMock()
+            mock_fund.configure_mock(name="cof")
+            mock_fund.configure_mock(short_name="cof")
+            mock_get_fund.return_value = mock_fund
+            mock_round = mock.MagicMock()
+            mock_round.configure_mock(deadline="2023-01-30T00:00:01")
+            mock_round.configure_mock(title="r2w3")
+            mock_round.configure_mock(short_name="r2w3")
+            mock_round.configure_mock(application_guidance="help text here")
+            mock_round.configure_mock(contact_email="test@outlook.com")
+            mock_round.configure_mock(reference_contact_page_over_email=False)
+            mock_round.configure_mock(is_expression_of_interest=False)
+            mock_get_round_data.return_value = mock_round
+
+            # Test case when there are previous applications
+            mock_get_applications_for_account.return_value = [{"id": "app1"}, {"id": "app2"}]
+
+            mock_redis_mlinks.get.return_value = json.dumps({"accountId": "usera"}).encode("utf-8")
+
+            landing_response = authenticator_test_client.get(landing_endpoint)
+            assert landing_response.status_code == 200
+            soup = BeautifulSoup(landing_response.data, "html.parser")
+            assert soup.find("a", class_="govuk-button govuk-button--start").text.strip() == "Continue"
+
+            # Test case when there are no previous applications
+            mock_get_applications_for_account.return_value = []
+
+            landing_response = authenticator_test_client.get(landing_endpoint)
+            assert landing_response.status_code == 200
+            soup = BeautifulSoup(landing_response.data, "html.parser")
+            assert soup.find("a", class_="govuk-button govuk-button--start").text.strip() == "Start a new application"
