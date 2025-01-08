@@ -85,11 +85,16 @@ def landing(link_id):
 
         has_previous_applications = False
         # Check if the applicant has previous applications
-        if round_data.has_eligibility and link_hash and isinstance(link_hash, bytes):
-            account_id = json.loads(link_hash.decode("utf-8"))["accountId"]
-            search_params = {
-                "account_id": account_id,
-            }
+        if round_data.has_eligibility:
+            if link_hash and isinstance(link_hash, bytes):
+                account_id = json.loads(link_hash.decode("utf-8"))["accountId"]
+                search_params = {
+                    "account_id": account_id,
+                }
+            elif g.is_authenticated:
+                search_params = {
+                    "account_id": g.account_id,
+                }
             previous_applications = get_applications_for_account(**search_params)
             has_previous_applications = bool(previous_applications)
         return render_template(
