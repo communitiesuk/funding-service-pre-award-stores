@@ -155,7 +155,7 @@ def is_valid_uuid(uuid_to_test, version=4):
         uuid_obj = uuid.UUID(uuid_to_test, version=version)
     except ValueError:
         return False
-    return str(uuid_obj) == uuid_to_test
+    return True
 
 
 def get_applications_for_account(account_id, as_dict=False):
