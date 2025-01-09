@@ -170,3 +170,19 @@ def ordered_themes(fund_round_short_name):
             "engaging_the_organisation",
             "dataset_information",
         ]
+
+    if fund_round_short_name == "LPDFR1":
+        return [
+            "local_authority_name",
+            "spending_proposals",
+            "open_digital_planning",
+            "declarations",
+        ]
+
+    if fund_round_short_name == "GBRFR1":
+        return [
+            "local_authority_name",
+            "spending_proposals",
+            "open_digital_planning",
+            "declarations",
+        ]
