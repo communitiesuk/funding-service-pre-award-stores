@@ -551,7 +551,7 @@ def test_get_user_application_association(flask_test_client):
 
 
 @pytest.mark.parametrize("send_email_value", [True, False])
-def test_add_user_application_association(flask_test_client, send_email_value):
+def test_add_user_application_association(flask_test_client, send_email_value, mocker):
     mock_association = {
         "application_id": "app1",
         "user_id": "user1",
@@ -570,8 +570,14 @@ def test_add_user_application_association(flask_test_client, send_email_value):
             return_value=mock_association,
         ) as mock_create_association,
         mock.patch("assessment_store.api.routes.user_routes.get_metadata_for_application"),
-        mock.patch("assessment_store.api.routes.user_routes.send_notification_email_assigned") as mock_notify_email,
+        mock.patch("assessment_store.api.routes.user_routes.get_account_data"),
+        mock.patch("assessment_store.api.routes.user_routes.get_fund_data"),
+        mock.patch("assessment_store.api.routes.user_routes.create_assessment_url_for_application"),
     ):
+        mock_notification_service = mock.MagicMock()
+        mocker.patch(
+            "assessment_store.api.routes.user_routes.get_notification_service", return_value=mock_notification_service
+        )
         response = flask_test_client.post(
             "/assessment/application/app1/user/user1",
             json={"assigner_id": "assigner1", "send_email": send_email_value},
@@ -581,13 +587,13 @@ def test_add_user_application_association(flask_test_client, send_email_value):
         assert response.json == expected_response
         mock_create_association.assert_called_once_with(application_id="app1", user_id="user1", assigner_id="assigner1")
         if send_email_value:
-            mock_notify_email.assert_called_once()
+            mock_notification_service.send_assessment_assigned_email.assert_called_once()
         else:
-            mock_notify_email.assert_not_called()
+            mock_notification_service.send_assessment_assigned_email.assert_not_called()
 
 
 @pytest.mark.parametrize("send_email_value", [True, False])
-def test_update_user_application_association(flask_test_client, send_email_value):
+def test_update_user_application_association(flask_test_client, send_email_value, mocker):
     mock_association = {
         "application_id": "app1",
         "user_id": "user1",
@@ -606,10 +612,14 @@ def test_update_user_application_association(flask_test_client, send_email_value
             return_value=mock_association,
         ) as mock_update_association,
         mock.patch("assessment_store.api.routes.user_routes.get_metadata_for_application"),
-        mock.patch(
-            "assessment_store.api.routes.user_routes.send_notification_email_unassigned"
-        ) as mock_notify_email_unassigned,
+        mock.patch("assessment_store.api.routes.user_routes.get_account_data"),
+        mock.patch("assessment_store.api.routes.user_routes.get_fund_data"),
+        mock.patch("assessment_store.api.routes.user_routes.create_assessment_url_for_application"),
     ):
+        mock_notification_service = mock.MagicMock()
+        mocker.patch(
+            "assessment_store.api.routes.user_routes.get_notification_service", return_value=mock_notification_service
+        )
         response = flask_test_client.put(
             "/assessment/application/app1/user/user1",
             json={
@@ -628,9 +638,9 @@ def test_update_user_application_association(flask_test_client, send_email_value
             assigner_id="assigner1",
         )
         if send_email_value:
-            mock_notify_email_unassigned.assert_called_once()
+            mock_notification_service.send_assessment_unassigned_email.assert_called_once()
         else:
-            mock_notify_email_unassigned.assert_not_called()
+            mock_notification_service.send_assessment_assigned_email.assert_not_called()
 
 
 def test_get_all_applications_associated_with_user(flask_test_client):

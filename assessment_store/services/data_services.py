@@ -50,64 +50,6 @@ def create_assessment_url_for_application(application_id: str):
     )
 
 
-def send_notification_email_assigned(application, user_id, assigner_id, message=None):
-    _send_notification_email(
-        application=application,
-        user_id=user_id,
-        assigner_id=assigner_id,
-        message=message,
-        template_id=NotificationService.ASSESSMENT_APPLICATION_ASSIGNED,
-    )
-
-
-def send_notification_email_unassigned(application, user_id, assigner_id, message=None):
-    _send_notification_email(
-        application=application,
-        user_id=user_id,
-        assigner_id=assigner_id,
-        message=message,
-        template_id=NotificationService.ASSESSMENT_APPLICATION_UNASSIGNED,
-    )
-
-
-def _send_notification_email(application, user_id, assigner_id, template_id: str, message=None):
-    """Sends a notification email to inform the user (specified by user_id) that
-    an application has been assigned to them.
-
-    Parameters:
-        application (dict): dict of application details for the application that has been assigned
-        user_id (str): id of assignee and recipient of email
-        assigner_id (str): id of the assigner.
-        template_id (str): which template to use
-        message (str): Custom message provided by assigner
-
-    """
-    user_response = get_account_data(account_id=user_id)
-    assigner_response = get_account_data(account_id=assigner_id)
-    fund_response = get_fund_data(fund_id=application["fund_id"])
-
-    content = {
-        "fund_name": fund_response["name"],
-        "reference_number": application["short_id"],
-        "project_name": application["project_name"],
-        "lead_assessor_email": assigner_response["email_address"],
-        "assessment_link": create_assessment_url_for_application(application_id=application["application_id"]),
-    }
-
-    content["assignment_message"] = message or ""
-
-    try:
-        get_notification_service().send_assessment_email(
-            email_address=user_response["email_address"], template_id=template_id, **content
-        )
-    except Exception as e:
-        current_app.logger.error(
-            "Could not send email for template: {template}, user: {user_id}, application {application_id}",
-            extra=dict(template=template_id, user_id=user_id, application_id=application["application_id"]),
-            exc_info=e,
-        )
-
-
 def get_account_name(id: str):
     url = Config.ACCOUNT_STORE_API_HOST + Config.ACCOUNTS_ENDPOINT
     params = {"account_id": id}
