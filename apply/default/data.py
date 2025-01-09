@@ -152,7 +152,7 @@ def search_applications(search_params: dict, as_dict=False):
 
 def is_valid_uuid(uuid_to_test, version=4):
     try:
-        uuid_obj = uuid.UUID(uuid_to_test, version=version)
+        uuid.UUID(uuid_to_test, version=version)
     except ValueError:
         return False
     return True
