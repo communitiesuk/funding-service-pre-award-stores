@@ -1,7 +1,6 @@
 from distutils.util import strtobool
 
 from flask import abort, current_app, request
-from fsd_utils.config.notify_constants import NotifyConstants
 
 from assessment_store.db.queries.assessment_records.queries import (
     create_user_application_association,
@@ -12,8 +11,13 @@ from assessment_store.db.queries.assessment_records.queries import (
     update_user_application_association as update_user_application_association_db,
 )
 from assessment_store.db.schemas.schemas import AllocationAssociationSchema
-from assessment_store.services.data_services import send_notification_email
+from assessment_store.services.data_services import (
+    create_assessment_url_for_application,
+    get_account_data,
+    get_fund_data,
+)
 from common.blueprints import Blueprint
+from services.notify import get_notification_service
 
 assessment_user_bp = Blueprint("assessment_user_bp", __name__)
 
@@ -94,20 +98,33 @@ def add_user_application_association(application_id, user_id):
         abort(400, "Post body must contain assigner_id field")
 
     send_email = args.get("send_email")
+    assigner_id = args["assigner_id"]
     association = create_user_application_association(
-        application_id=application_id, user_id=user_id, assigner_id=args["assigner_id"]
+        application_id=application_id, user_id=user_id, assigner_id=assigner_id
     )
 
     if association:
         if send_email:
-            application = get_metadata_for_application(application_id)
-            send_notification_email(
-                application=application,
-                user_id=user_id,
-                template=NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_ASSIGNED,
-                assigner_id=args["assigner_id"],
-                message=args.get("email_content"),
-            )
+            try:
+                application = get_metadata_for_application(application_id)
+                user_response = get_account_data(account_id=user_id)
+                assigner_response = get_account_data(account_id=assigner_id)
+                fund_response = get_fund_data(fund_id=application["fund_id"])
+                get_notification_service().send_assessment_assigned_email(
+                    email_address=user_response["email_address"],
+                    reference_number=application["short_id"],
+                    project_name=application["project_name"],
+                    assignment_message=args.get("email_content"),
+                    assessment_link=create_assessment_url_for_application(application_id=application_id),
+                    lead_assessor_email=assigner_response["email_address"],
+                    fund_name=fund_response["name"],
+                )
+
+            except Exception:
+                current_app.logger.exception(
+                    "Could not send assessment assigned email, user: {user_id}, application {application_id}",
+                    extra=dict(user_id=user_id, application_id=application_id),
+                )
 
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(association), 201
@@ -145,25 +162,47 @@ def update_user_application_association(application_id, user_id):
 
     send_email = args.get("send_email")
     active = args.get("active")
+    assigner_id = args["assigner_id"]
     association = update_user_application_association_db(
         application_id=application_id,
         user_id=user_id,
         active=active,
-        assigner_id=args["assigner_id"],
+        assigner_id=assigner_id,
     )
 
     if association:
         if send_email:
-            application = get_metadata_for_application(application_id)
-            send_notification_email(
-                application=application,
-                user_id=user_id,
-                template=NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_ASSIGNED
-                if active
-                else NotifyConstants.TEMPLATE_TYPE_ASSESSMENT_APPLICATION_UNASSIGNED,
-                assigner_id=args["assigner_id"],
-                message=args.get("email_content"),
-            )
+            try:
+                application = get_metadata_for_application(application_id)
+                user_response = get_account_data(account_id=user_id)
+                assigner_response = get_account_data(account_id=assigner_id)
+                fund_response = get_fund_data(fund_id=application["fund_id"])
+                if active:
+                    get_notification_service().send_assessment_assigned_email(
+                        email_address=user_response["email_address"],
+                        reference_number=application["short_id"],
+                        project_name=application["project_name"],
+                        assignment_message=args.get("email_content"),
+                        assessment_link=create_assessment_url_for_application(application_id=application_id),
+                        lead_assessor_email=assigner_response["email_address"],
+                        fund_name=fund_response["name"],
+                    )
+                else:
+                    get_notification_service().send_assessment_unassigned_email(
+                        email_address=user_response["email_address"],
+                        reference_number=application["short_id"],
+                        project_name=application["project_name"],
+                        assignment_message=args.get("email_content"),
+                        assessment_link=create_assessment_url_for_application(application_id=application_id),
+                        lead_assessor_email=assigner_response["email_address"],
+                        fund_name=fund_response["name"],
+                    )
+
+            except Exception:
+                current_app.logger.exception(
+                    "Could not send assessment email, active: {active}, user: {user_id}, application {application_id}",
+                    extra=dict(active=active, user_id=user_id, application_id=application["application_id"]),
+                )
 
         serialiser = AllocationAssociationSchema()
         return serialiser.dump(association)

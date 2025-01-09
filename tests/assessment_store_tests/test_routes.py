@@ -1,4 +1,5 @@
 import json
+import logging
 from copy import deepcopy
 from datetime import datetime
 from unittest import mock
@@ -20,6 +21,7 @@ from assessment_store.db.models.tag.tags import Tag
 from assessment_store.db.queries.assessment_records.queries import get_export_data
 from assessment_store.db.queries.flags.queries import add_flag_for_application, add_update_to_assessment_flag
 from assessment_store.db.queries.qa_complete.queries import create_qa_complete_record
+from services.notify import NotificationError
 from tests.assessment_store_tests._expected_responses import APPLICATION_METADATA_RESPONSE
 from tests.assessment_store_tests.conftest import test_input_data
 from tests.assessment_store_tests.test_data.flags import add_flag_update_request_json, create_flag_request_json
@@ -550,8 +552,10 @@ def test_get_user_application_association(flask_test_client):
         mock_get_association.assert_called_once_with(application_id="app1", user_id="user1")
 
 
-@pytest.mark.parametrize("send_email_value", [True, False])
-def test_add_user_application_association(flask_test_client, send_email_value):
+@pytest.mark.parametrize(
+    "send_email_value, notify_side_effect", [(True, None), (False, None), (True, NotificationError("could not send"))]
+)
+def test_add_user_application_association(flask_test_client, send_email_value, mocker, notify_side_effect, caplog):
     mock_association = {
         "application_id": "app1",
         "user_id": "user1",
@@ -570,8 +574,16 @@ def test_add_user_application_association(flask_test_client, send_email_value):
             return_value=mock_association,
         ) as mock_create_association,
         mock.patch("assessment_store.api.routes.user_routes.get_metadata_for_application"),
-        mock.patch("assessment_store.api.routes.user_routes.send_notification_email") as mock_notify_email,
+        mock.patch("assessment_store.api.routes.user_routes.get_account_data"),
+        mock.patch("assessment_store.api.routes.user_routes.get_fund_data"),
+        mock.patch("assessment_store.api.routes.user_routes.create_assessment_url_for_application"),
     ):
+        mock_notification_service = mock.MagicMock()
+        mocker.patch(
+            "assessment_store.api.routes.user_routes.get_notification_service", return_value=mock_notification_service
+        )
+        if notify_side_effect:
+            mock_notification_service.send_assessment_assigned_email.side_effect = notify_side_effect
         response = flask_test_client.post(
             "/assessment/application/app1/user/user1",
             json={"assigner_id": "assigner1", "send_email": send_email_value},
@@ -581,13 +593,22 @@ def test_add_user_application_association(flask_test_client, send_email_value):
         assert response.json == expected_response
         mock_create_association.assert_called_once_with(application_id="app1", user_id="user1", assigner_id="assigner1")
         if send_email_value:
-            mock_notify_email.assert_called_once()
+            mock_notification_service.send_assessment_assigned_email.assert_called_once()
         else:
-            mock_notify_email.assert_not_called()
+            mock_notification_service.send_assessment_assigned_email.assert_not_called()
+
+        if notify_side_effect and send_email_value:
+            assert (
+                "app",
+                logging.ERROR,
+                "Could not send assessment assigned email, user: {user_id}, application {application_id}",
+            ) in caplog.record_tuples
 
 
-@pytest.mark.parametrize("send_email_value", [True, False])
-def test_update_user_application_association(flask_test_client, send_email_value):
+@pytest.mark.parametrize(
+    "send_email_value, notify_side_effect", [(True, None), (False, None), (True, NotificationError("could not send"))]
+)
+def test_update_user_application_association(flask_test_client, send_email_value, notify_side_effect, mocker, caplog):
     mock_association = {
         "application_id": "app1",
         "user_id": "user1",
@@ -606,12 +627,20 @@ def test_update_user_application_association(flask_test_client, send_email_value
             return_value=mock_association,
         ) as mock_update_association,
         mock.patch("assessment_store.api.routes.user_routes.get_metadata_for_application"),
-        mock.patch("assessment_store.api.routes.user_routes.send_notification_email") as mock_notify_email,
+        mock.patch("assessment_store.api.routes.user_routes.get_account_data"),
+        mock.patch("assessment_store.api.routes.user_routes.get_fund_data"),
+        mock.patch("assessment_store.api.routes.user_routes.create_assessment_url_for_application"),
     ):
+        mock_notification_service = mock.MagicMock()
+        mocker.patch(
+            "assessment_store.api.routes.user_routes.get_notification_service", return_value=mock_notification_service
+        )
+        if notify_side_effect:
+            mock_notification_service.send_assessment_unassigned_email.side_effect = notify_side_effect
         response = flask_test_client.put(
             "/assessment/application/app1/user/user1",
             json={
-                "active": "false",
+                "active": False,
                 "assigner_id": "assigner1",
                 "send_email": send_email_value,
             },
@@ -622,13 +651,20 @@ def test_update_user_application_association(flask_test_client, send_email_value
         mock_update_association.assert_called_once_with(
             application_id="app1",
             user_id="user1",
-            active="false",
+            active=False,
             assigner_id="assigner1",
         )
         if send_email_value:
-            mock_notify_email.assert_called_once()
+            mock_notification_service.send_assessment_unassigned_email.assert_called_once()
         else:
-            mock_notify_email.assert_not_called()
+            mock_notification_service.send_assessment_assigned_email.assert_not_called()
+
+        if notify_side_effect and send_email_value:
+            assert (
+                "app",
+                logging.ERROR,
+                "Could not send assessment email, active: {active}, user: {user_id}, application {application_id}",
+            ) in caplog.record_tuples
 
 
 def test_get_all_applications_associated_with_user(flask_test_client):
