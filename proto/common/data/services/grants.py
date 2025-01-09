@@ -1,11 +1,26 @@
+from datetime import date
+
 from sqlalchemy import select
 
 from db import db
 from proto.common.data.models.fund import Fund
+from proto.common.data.models.round import Round
 
 
-# PROTO: decision - only look up by external ID, if you don't have it don't look it up?
-# if we want short codes in the URL then potentially that could be a reason for an override
-def get_grant(external_id: str):
-    grants = db.session.scalars(select(Fund)).all()
-    return grants
+def get_grant(short_code: str):
+    grant = db.session.scalars(select(Fund).filter(Fund.short_name == short_code)).one()
+    return grant
+
+
+def get_active_round(grant_short_code: str):
+    round = db.session.scalars(
+        select(Round)
+        .join(Fund)
+        .filter(
+            Fund.short_name == grant_short_code,
+            # probably want some way of having rounds that are always open especially for uncompeted grants
+            Round.proto_start_date <= date.today(),
+            Round.proto_end_date >= date.today(),
+        )
+    ).one_or_none()
+    return round, round.proto_grant if round else None

@@ -1,8 +1,9 @@
 import uuid
 
 from flask_sqlalchemy.model import DefaultMeta
-from sqlalchemy import JSON, Column, DateTime, ForeignKey, UniqueConstraint
+from sqlalchemy import JSON, Column, Date, DateTime, ForeignKey, UniqueConstraint, func
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.types import Boolean
 
 from db import db
@@ -93,3 +94,13 @@ class Round(BaseModel):
     feedback_survey_config = Column("feedback_survey_config", JSON(none_as_null=True), nullable=True, unique=False)
     eligibility_config = Column("eligibility_config", JSON(none_as_null=True), nullable=True, unique=False)
     eoi_decision_schema = Column("eoi_decision_schema ", JSON(none_as_null=True), nullable=True, unique=False)
+
+    proto_start_date = Column("proto_start_date", Date())
+    proto_end_date = Column("proto_end_date", Date())
+
+    proto_created_date = Column("proto_created_date", DateTime(), server_default=func.now())
+    proto_updated_date = Column("proto_updated_date", DateTime(), server_default=func.now(), onupdate=func.now())
+
+    # whenever we get the round we're going to want the fund information - we _might_ want to be able to override this
+    # but this feels like a very sensible way around for most of applies use case
+    proto_grant: Mapped["Fund"] = relationship("Fund", lazy=False)

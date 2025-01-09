@@ -5,7 +5,7 @@ from typing import List
 from flask_sqlalchemy.model import DefaultMeta
 from pydantic import UUID4, Field
 from pydantic import BaseModel as PydanticBaseModel
-from sqlalchemy import JSON, Column
+from sqlalchemy import JSON, Column, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.types import Boolean
@@ -69,3 +69,10 @@ class Fund(BaseModel):
     # likely a decision - if we're not using the org info for grants anywhere - don't store it
     # if we ARE using it it should be stored in a separate `organisations` table that could be kept up to date with the gov uk Collections API
     # that could also be shared for managing things like default access to grants in assess but again that should be grounded in needing to do it
+
+    proto_created_date = Column("proto_created_date", DateTime(), server_default=func.now())
+    proto_updated_date = Column("proto_updated_date", DateTime(), server_default=func.now(), onupdate=func.now())
+
+    proto_prospectus_link = Column("proto_prospectus_link", db.String(), nullable=True)
+
+    proto_apply_action_description = Column("proto_apply_action_description", db.String(), nullable=True)

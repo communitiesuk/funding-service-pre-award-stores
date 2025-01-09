@@ -1,4 +1,6 @@
 {% from "govuk_frontend_jinja/components/header/macro.html" import govukHeader %}
+{% from "govuk_frontend_jinja/components/phase-banner/macro.html" import govukPhaseBanner %}
+
 
 {% extends "govuk_frontend_jinja/template.html" %}
 
@@ -9,9 +11,23 @@
 {% block header %}
 {{ govukHeader({
     "homepageUrl": "#",
-    "useTudorCrown": true
+    "useTudorCrown": true,
+    "serviceName": _("Apply for funding")
 }) }}
 {% endblock header %}
+
+{% block beforeContent %}
+{% set feedbackMessage %}
+{% trans %}This is a new service. Help us improve it and{% endtrans %} <a href="#" class="govuk-link govuk-link--no-visited-state">{% trans %}give your feedback (opens in new tab).{% endtrans %}</a>
+{% endset %}
+
+{{ govukPhaseBanner({
+    "tag": {
+        "text": "Beta"
+    },
+    "html": feedbackMessage
+}) }}
+{% endblock beforeContent %}
 
 {% block content %}
 {% endblock content %}
