@@ -120,11 +120,10 @@ def add_user_application_association(application_id, user_id):
                     fund_name=fund_response["name"],
                 )
 
-            except Exception as e:
-                current_app.logger.error(
+            except Exception:
+                current_app.logger.exception(
                     "Could not send assessment assigned email, user: {user_id}, application {application_id}",
                     extra=dict(user_id=user_id, application_id=application_id),
-                    exc_info=e,
                 )
 
         serialiser = AllocationAssociationSchema()
@@ -199,7 +198,7 @@ def update_user_application_association(application_id, user_id):
                         fund_name=fund_response["name"],
                     )
 
-            except Exception as e:
+            except Exception:
                 current_app.logger.exception(
                     "Could not send assessment email, active: {active}, user: {user_id}, application {application_id}",
                     extra=dict(active=active, user_id=user_id, application_id=application["application_id"]),
