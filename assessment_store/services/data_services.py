@@ -4,7 +4,6 @@ import requests
 from flask import current_app
 
 from config import Config
-from services.notify import NotificationService, get_notification_service  # noqa: E402
 
 
 def get_data(endpoint: str, payload: Dict = None):
