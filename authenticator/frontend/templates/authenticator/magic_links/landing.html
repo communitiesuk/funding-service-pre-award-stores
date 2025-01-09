@@ -22,7 +22,7 @@
 
     <div data-qa="claim_magic_link">
         {{ govukButton({
-        "text": gettext("Continue") if (not has_eligibility or has_previous_application) else gettext("Start a new application"),
+        "text": gettext("Start a new application") if (has_eligibility and not has_previous_applications) else gettext("Continue"),
         "href": url_for('api_magic_links.use', link_id=link_id, fund=fund_short_name, round=round_short_name),
         "isStartButton": true })
         }}
