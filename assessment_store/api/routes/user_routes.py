@@ -200,10 +200,9 @@ def update_user_application_association(application_id, user_id):
                     )
 
             except Exception as e:
-                current_app.logger.error(
+                current_app.logger.exception(
                     "Could not send assessment email, active: {active}, user: {user_id}, application {application_id}",
                     extra=dict(active=active, user_id=user_id, application_id=application["application_id"]),
-                    exc_info=e,
                 )
 
         serialiser = AllocationAssociationSchema()
