@@ -95,7 +95,10 @@ def landing(link_id):
                 search_params = {
                     "account_id": g.account_id,
                 }
-            previous_applications = get_applications_for_account(**search_params)
+            try:
+                previous_applications = get_applications_for_account(**search_params)
+            except ValueError as e:
+                current_app.logger.error("Error fetching applications for account: %s", e)
             has_previous_applications = bool(previous_applications)
         return render_template(
             "authenticator/magic_links/landing_eoi.html"

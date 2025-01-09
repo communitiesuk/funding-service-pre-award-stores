@@ -1,6 +1,7 @@
 import json
 import os
 import time
+import uuid
 from collections import namedtuple
 from functools import lru_cache
 from typing import List
@@ -149,7 +150,17 @@ def search_applications(search_params: dict, as_dict=False):
         return [ApplicationSummary.from_dict(application) for application in application_response]
 
 
+def is_valid_uuid(uuid_to_test, version=4):
+    try:
+        uuid_obj = uuid.UUID(uuid_to_test, version=version)
+    except ValueError:
+        return False
+    return str(uuid_obj) == uuid_to_test
+
+
 def get_applications_for_account(account_id, as_dict=False):
+    if not is_valid_uuid(account_id):
+        raise ValueError("Invalid account_id. It must be a valid UUID.")
     return search_applications(search_params={"account_id": account_id}, as_dict=as_dict)
 
 
