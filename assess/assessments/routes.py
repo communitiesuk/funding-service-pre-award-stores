@@ -1537,6 +1537,7 @@ def application(application_id):
         )
 
     state = get_state_for_tasklist_banner(application_id)
+    flags_list = get_flags(application_id)
 
     comment_response = get_comments(
         application_id=application_id,

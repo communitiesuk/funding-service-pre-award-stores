@@ -545,7 +545,7 @@ def get_change_requests(application_id: str) -> List[Flag]:
     flags_data = get_data(Config.ASSESSMENT_FLAGS_ENDPOINT.format(application_id=application_id))
 
     if flags_data:
-        return [flag for flag in Flag.from_list(flags_data) if not flag.is_change_request]
+        return [flag for flag in Flag.from_list(flags_data) if flag.is_change_request]
     else:
         return []
 
