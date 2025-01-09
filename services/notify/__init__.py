@@ -100,10 +100,12 @@ class NotificationService:
         "ASSESSMENT_APPLICATION_UNASSIGNED", "9cfaa46c-f122-4532-a9f6-b3c773de6555"
     )
 
+    FUNDING_SERVICE_SUPPORT_EMAIL_ADDRESS = "FundingService@communities.gov.uk"
+
     # E.G. "EMAIL": "GOV_NOTIFY_ID"
     REPLY_TO_EMAILS_WITH_NOTIFY_ID = {
         "LocalPlansandGreenBeltFunding@communities.gov.uk": "7bc1b42f-512d-4e43-a70a-3c06a3197f38",
-        "FundingService@communities.gov.uk": "10668b8d-9472-4ce8-ae07-4fcc7bf93a9d",
+        FUNDING_SERVICE_SUPPORT_EMAIL_ADDRESS: "10668b8d-9472-4ce8-ae07-4fcc7bf93a9d",
         "COF@levellingup.gov.uk": "10668b8d-9472-4ce8-ae07-4fcc7bf93a9d",
         "COF@communities.gov.uk": "10668b8d-9472-4ce8-ae07-4fcc7bf93a9d",
         "transformationfund@levellingup.gov.uk": "25286d9a-8543-41b5-a00f-331b999e51f0",
@@ -370,7 +372,7 @@ class NotificationService:
                 "lead assessor email": lead_assessor_email,
             },
             govuk_notify_reference=govuk_notify_reference,
-            email_reply_to_id=self.REPLY_TO_EMAILS_WITH_NOTIFY_ID.get("FundingService@communities.gov.uk"),
+            email_reply_to_id=self.REPLY_TO_EMAILS_WITH_NOTIFY_ID.get(self.FUNDING_SERVICE_SUPPORT_EMAIL_ADDRESS),
         )
 
     def send_assessment_unassigned_email(
@@ -396,7 +398,7 @@ class NotificationService:
                 "lead assessor email": lead_assessor_email,
             },
             govuk_notify_reference=govuk_notify_reference,
-            email_reply_to_id=self.REPLY_TO_EMAILS_WITH_NOTIFY_ID.get("FundingService@communities.gov.uk"),
+            email_reply_to_id=self.REPLY_TO_EMAILS_WITH_NOTIFY_ID.get(self.FUNDING_SERVICE_SUPPORT_EMAIL_ADDRESS),
         )
 
 
