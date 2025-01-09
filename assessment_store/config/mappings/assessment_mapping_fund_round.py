@@ -77,14 +77,8 @@ from assessment_store.config.mappings.dpif_mappping_parts.r3_unscored_criteria i
 from assessment_store.config.mappings.gbrf_mapping_parts.r1_unscored_criteria import (
     unscored_sections as gbrf_unscored_sections,
 )
-from assessment_store.config.mappings.hsra_mapping_parts.rp_scored_criteria import (
-    scored_criteria as hsra_scored_criteria_rp,
-)
 from assessment_store.config.mappings.hsra_mapping_parts.rp_unscored_sections import (
     unscored_sections as hsra_unscored_sections_rp,
-)
-from assessment_store.config.mappings.hsra_mapping_parts.vr_scored_criteria import (
-    scored_criteria as hsra_scored_criteria_vr,
 )
 from assessment_store.config.mappings.hsra_mapping_parts.vr_unscored_sections import (
     unscored_sections as hsra_unscored_sections_vr,
@@ -237,12 +231,12 @@ fund_round_to_assessment_mapping = {
     f"{HSRA_FUND_ID}:{HSRA_ROUND_VR_ID}": {
         "schema_id": "hsra_vr_assessment",
         "unscored_sections": hsra_unscored_sections_vr,
-        "scored_criteria": hsra_scored_criteria_vr,
+        "scored_criteria": [],
     },
     f"{HSRA_FUND_ID}:{HSRA_ROUND_RP_ID}": {
         "schema_id": "hsra_rp_assessment",
         "unscored_sections": hsra_unscored_sections_rp,
-        "scored_criteria": hsra_scored_criteria_rp,
+        "scored_criteria": [],
     },
 }
 
