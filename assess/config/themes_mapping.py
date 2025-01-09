@@ -5,65 +5,15 @@ def ordered_themes(fund_round_short_name):
         "who-is-your-section-151-officer?",
         "who-should-we-contact-about-this-application?",
     ]
-    if fund_round_short_name == "COF-EOIR1":
-        return [
+
+    themes_mapping = {
+        "COF-EOIR1": [
             "organisation-details",
             "about-your-asset",
             "your-funding-request",
             "development-support-provider",
-        ]
-
-    if fund_round_short_name in [
-        "COFR3W2",
-        "COFR3W1",
-        "COFR3W3",
-        "COFR2W3",
-        "COFR2W2",
-        "COFR4W1",
-        "COFR4W2",
-    ]:
-        return [
-            ("general_info" if fund_round_short_name in ["COFR2W3", "COFR2W2"] else "general_information"),
-            "activities",
-            "partnerships",
-            "contact_information",
-            "previous_funding",
-            "project_summary",
-            "asset_ownership",
-            "asset_evidence",
-            "asset_background",
-            "asset_location",
-            "business_plan",
-            "declarations",
-            ("project_qualification" if fund_round_short_name in ["COFR2W3", "COFR2W2"] else None),
-            (None if fund_round_short_name in ["COFR4W1", "COFR4W2"] else "subsidy_control_and_state_aid"),
-            ("community_use/significance" if fund_round_short_name in ["COFR4W1", "COFR4W2"] else "community_use"),
-            "risk_and_impact_of_loss",
-            "engaging-the-community",
-            "local-support",
-            (None if fund_round_short_name in ["COFR2W3", "COFR2W2"] else "delivering_and_sustaining_benefits"),
-            (None if fund_round_short_name in ["COFR2W3", "COFR2W2"] else "benefitting_the_whole_community"),
-            "environmental-considerations",
-            "funding_requested",
-            ("feasibility" if fund_round_short_name in ["COFR2W3", "COFR2W2"] else "feasiblilty"),
-            "risk",
-            (
-                "income_and_running_costs"
-                if fund_round_short_name in ["COFR2W3", "COFR2W2"]
-                else "income_&_running_costs"
-            ),
-            "previous_experience",
-            "governance_and_structures",
-            "recruitment",
-            "representing_community_views",
-            "accessibility_and_inclusivity",
-            ("delivering_and_sustaining_benefits" if fund_round_short_name in ["COFR2W3", "COFR2W2"] else None),
-            ("benefitting_the_whole_community" if fund_round_short_name in ["COFR2W3", "COFR2W2"] else None),
-            ("addressing_community_challenges" if fund_round_short_name in ["COFR2W3", "COFR2W2"] else None),
-        ]
-
-    if fund_round_short_name == "DPIFR2":
-        return [
+        ],
+        "DPIFR2": [
             "about_your_organisation",
             "future_work",
             "declarations",
@@ -72,10 +22,8 @@ def ordered_themes(fund_round_short_name):
             "engaging_the_ODP_community",
             "engaging_the_organisation",
             "dataset_information",
-        ]
-
-    if fund_round_short_name == "NSTFR2":
-        return [
+        ],
+        "NSTFR2": [
             "organisation_information",
             "organisation-type",
             "application_information",
@@ -97,10 +45,8 @@ def ordered_themes(fund_round_short_name):
             "funding_required",
             "building_works",
             "match_funding",
-        ]
-
-    if fund_round_short_name == "CYPR1":
-        return [
+        ],
+        "CYPR1": [
             "organisation-name-and-address",
             "organisation-classification",
             "partner-organisation",
@@ -116,29 +62,27 @@ def ordered_themes(fund_round_short_name):
             "working-with-fund-beneficiaries",
             "risk-and-deliverability",
             "value-for-money",
-        ]
-    if fund_round_short_name == "HSRAR1":
-        return [
+        ],
+        "HSRAR1": [
             "total_expected_cost",
             "refurbishment_costs",
             "other_costs",
             "vacant_property_details",
             "designated_area_details",
             "milestones",
-        ]
-    if fund_round_short_name == "CTDFCR1":
-        return ["project_name", "organisation_name"]
-    if fund_round_short_name == "HSRAVR":
-        return common_questions_hsra + [
+        ],
+        "CTDFCR1": ["project_name", "organisation_name"],
+        "HSRAVR": common_questions_hsra
+        + [
             "tell-us-more-about-the-designated-area.",
             "which-town-or-city-will-the-designated-area-be-located-in?",
             "when-do-you-expect-the-vacancy-register-to-be-completed?",
             "when-do-you-expect-the-post-payment-verification-(ppv)-form-to-be-submitted?",
             "how-much-funding-are-you-applying-for?",
             "upload-the-quote-for-the-vacancy-register",
-        ]
-    if fund_round_short_name == "HSRARP":
-        return common_questions_hsra + [
+        ],
+        "HSRARP": common_questions_hsra
+        + [
             "which-local-authority-are-you-applying-from?",
             "upload-the-initial-notice-you-served-the-landlord",
             "what-is-the-total-commercial-floorspace-of-the-property,-in-meters-squared?",
@@ -154,10 +98,8 @@ def ordered_themes(fund_round_short_name):
             "how-much-funding-are-you-applying-for?-",
             "why-are-your-costs-higher-than-the-guided-price?",
             "upload-quotes-for-refurbishment",
-        ]
-
-    if fund_round_short_name == "DPIFR3":
-        return [
+        ],
+        "DPIFR3": [
             "organisation_name",
             "future_work",
             "declarations",
@@ -169,20 +111,66 @@ def ordered_themes(fund_round_short_name):
             "engaging_the_ODP_community",
             "engaging_the_organisation",
             "dataset_information",
-        ]
-
-    if fund_round_short_name == "LPDFR1":
-        return [
+        ],
+        "LPDFR1": [
             "local_authority_name",
             "spending_proposals",
             "open_digital_planning",
             "declarations",
-        ]
-
-    if fund_round_short_name == "GBRFR1":
-        return [
+        ],
+        "GBRFR1": [
             "local_authority_name",
             "spending_proposals",
             "open_digital_planning",
             "declarations",
+        ],
+    }
+
+    if fund_round_short_name in [
+        "COFR3W2",
+        "COFR3W1",
+        "COFR3W3",
+        "COFR2W3",
+        "COFR2W2",
+        "COFR4W1",
+        "COFR4W2",
+    ]:
+        is_round2 = fund_round_short_name in ["COFR2W3", "COFR2W2"]
+        is_round4 = fund_round_short_name in ["COFR4W1", "COFR4W2"]
+        return [
+            ("general_info" if is_round2 else "general_information"),
+            "activities",
+            "partnerships",
+            "contact_information",
+            "previous_funding",
+            "project_summary",
+            "asset_ownership",
+            "asset_evidence",
+            "asset_background",
+            "asset_location",
+            "business_plan",
+            "declarations",
+            ("project_qualification" if is_round2 else None),
+            (None if is_round4 else "subsidy_control_and_state_aid"),
+            ("community_use/significance" if is_round4 else "community_use"),
+            "risk_and_impact_of_loss",
+            "engaging-the-community",
+            "local-support",
+            (None if is_round2 else "delivering_and_sustaining_benefits"),
+            (None if is_round2 else "benefitting_the_whole_community"),
+            "environmental-considerations",
+            "funding_requested",
+            ("feasibility" if is_round2 else "feasiblilty"),
+            "risk",
+            ("income_and_running_costs" if is_round2 else "income_&_running_costs"),
+            "previous_experience",
+            "governance_and_structures",
+            "recruitment",
+            "representing_community_views",
+            "accessibility_and_inclusivity",
+            ("delivering_and_sustaining_benefits" if is_round2 else None),
+            ("benefitting_the_whole_community" if is_round2 else None),
+            ("addressing_community_challenges" if is_round2 else None),
         ]
+
+    return themes_mapping.get(fund_round_short_name, None)
