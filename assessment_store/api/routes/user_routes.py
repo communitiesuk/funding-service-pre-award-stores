@@ -123,7 +123,7 @@ def add_user_application_association(application_id, user_id):
             except Exception as e:
                 current_app.logger.error(
                     "Could not send assessment assigned email, user: {user_id}, application {application_id}",
-                    extra=dict(user_id=user_id, application_id=application["application_id"]),
+                    extra=dict(user_id=user_id, application_id=application_id),
                     exc_info=e,
                 )
 
@@ -201,7 +201,7 @@ def update_user_application_association(application_id, user_id):
 
             except Exception as e:
                 current_app.logger.error(
-                    "Could not send assessmen email, active: {active}, user: {user_id}, application {application_id}",
+                    "Could not send assessment email, active: {active}, user: {user_id}, application {application_id}",
                     extra=dict(active=active, user_id=user_id, application_id=application["application_id"]),
                     exc_info=e,
                 )
