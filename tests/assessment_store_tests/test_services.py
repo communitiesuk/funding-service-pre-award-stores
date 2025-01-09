@@ -2,7 +2,7 @@ from unittest import mock
 
 import pytest
 
-from assessment_store.services.data_services import send_notification_email
+from pre_award.assessment_store.services.data_services import send_notification_email
 
 
 @pytest.mark.parametrize(
@@ -12,11 +12,11 @@ from assessment_store.services.data_services import send_notification_email
         ("This is a custom message", True),  # Case with a custom message
     ],
 )
-@mock.patch("assessment_store.services.data_services.get_account_data")
-@mock.patch("assessment_store.services.data_services.get_fund_data")
-@mock.patch("assessment_store.services.data_services.create_assessment_url_for_application")
-@mock.patch("assessment_store.services.data_services.Notification.send")
-@mock.patch("assessment_store.services.data_services.current_app.logger")
+@mock.patch("pre_award.assessment_store.services.data_services.get_account_data")
+@mock.patch("pre_award.assessment_store.services.data_services.get_fund_data")
+@mock.patch("pre_award.assessment_store.services.data_services.create_assessment_url_for_application")
+@mock.patch("pre_award.assessment_store.services.data_services.Notification.send")
+@mock.patch("pre_award.assessment_store.services.data_services.current_app.logger")
 def test_send_notification_email(
     mock_logger,
     mock_notification_send,
@@ -59,14 +59,14 @@ def test_send_notification_email(
     mock_notification_send.assert_called_once_with("assignment_template", "user@example.com", "User One", content)
 
 
-@mock.patch("assessment_store.services.data_services.get_account_data")
-@mock.patch("assessment_store.services.data_services.get_fund_data")
-@mock.patch("assessment_store.services.data_services.create_assessment_url_for_application")
+@mock.patch("pre_award.assessment_store.services.data_services.get_account_data")
+@mock.patch("pre_award.assessment_store.services.data_services.get_fund_data")
+@mock.patch("pre_award.assessment_store.services.data_services.create_assessment_url_for_application")
 @mock.patch(
-    "assessment_store.services.data_services.Notification.send",
+    "pre_award.assessment_store.services.data_services.Notification.send",
     side_effect=Exception("Error sending notification"),
 )
-@mock.patch("assessment_store.services.data_services.current_app.logger")
+@mock.patch("pre_award.assessment_store.services.data_services.current_app.logger")
 def test_send_notification_email_failure(
     mock_logger,
     mock_notification_send,

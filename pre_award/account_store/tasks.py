@@ -6,9 +6,9 @@ from colored import attr, fg, stylize
 from invoke import task
 from sqlalchemy import select
 
-from account_store.db.models.account import Account
-from account_store.db.models.role import Role  # noqa:E402
 from app import create_app
+from pre_award.account_store.db.models.account import Account
+from pre_award.account_store.db.models.role import Role  # noqa:E402
 
 ECHO_STYLE = fg("blue") + attr("bold")
 DB_NAME = "fsd_account_store_dev"
@@ -36,7 +36,7 @@ def seed_local_account_store(c):
     with _env_var("FLASK_ENV", "development"):
         app = create_app()
         with app.app_context():
-            from db import db
+            from pre_award.db import db
 
             accounts_to_seed = [
                 {

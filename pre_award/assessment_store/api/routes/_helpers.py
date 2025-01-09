@@ -4,8 +4,8 @@ from uuid import UUID
 
 from flask import current_app, make_response
 
-from assessment_store.db.models.assessment_record.enums import Status
-from config import Config
+from pre_award.assessment_store.db.models.assessment_record.enums import Status
+from pre_award.config import Config
 
 
 def compress_response(data):

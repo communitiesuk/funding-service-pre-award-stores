@@ -6,7 +6,7 @@ sys.path.insert(1, ".")
 from invoke import task  # noqa:E402
 
 from app import create_app  # noqa:E402
-from assessment_store.tasks.helper_tasks import (
+from pre_award.assessment_store.tasks.helper_tasks import (
     _echo_input,  # noqa:E402
     _echo_print,  # noqa:E402
     _env_var,  # noqa:E402
@@ -31,7 +31,7 @@ def bootstrap_dev_db(c):
     with _env_var("FLASK_ENV", "development"):
         app = create_app()
         with app.app_context():
-            from config import Config
+            from pre_award.config import Config
 
             if database_exists(Config.SQLALCHEMY_DATABASE_URI):
                 _echo_print("Existing database found!\n")
@@ -50,7 +50,7 @@ def bootstrap_dev_db(c):
 def generate_test_data(c):
     import json
 
-    from assessment_store.tests._db_seed_data import get_dynamic_rows
+    from pre_award.assessment_store.tests._db_seed_data import get_dynamic_rows
 
     _echo_print("Generating data.")
     rows = [json.loads(row) for row in get_dynamic_rows(3, 3, 10)]
@@ -74,9 +74,11 @@ def seed_dev_db(c, fundround=None, appcount=None):
     with _env_var("FLASK_ENV", "development"):
         app = create_app()
         with app.app_context():
-            from assessment_store.config.mappings.assessment_mapping_fund_round import fund_round_mapping_config
-            from assessment_store.tests._helpers import seed_database_for_fund_round
-            from config import Config
+            from pre_award.assessment_store.config.mappings.assessment_mapping_fund_round import (
+                fund_round_mapping_config,
+            )
+            from pre_award.assessment_store.tests._helpers import seed_database_for_fund_round
+            from pre_award.config import Config
 
             choosing = not bool(fundround and appcount)
             if not choosing:
@@ -135,10 +137,10 @@ def seed_assessment_store_db(c, environment="local"):
         with app.app_context():
             import uuid
 
-            from assessment_store.db.models.score import AssessmentRound, ScoringSystem
-            from assessment_store.db.models.tag import TagType
-            from db import db
-            from fund_store.db.models.round import Round
+            from pre_award.assessment_store.db.models.score import AssessmentRound, ScoringSystem
+            from pre_award.assessment_store.db.models.tag import TagType
+            from pre_award.db import db
+            from pre_award.fund_store.db.models.round import Round
 
             # Define scoring systems
             scoring_system_data = [

@@ -6,11 +6,11 @@ from flask import current_app, g, redirect, request, url_for
 from flask.views import MethodView
 from fsd_utils.authentication.decorators import login_requested
 
-from authenticator.api.session.auth_session import AuthSessionBase
-from authenticator.models.account import AccountMethods
-from authenticator.models.magic_link import MagicLinkMethods
-from common.blueprints import Blueprint
-from config import Config
+from pre_award.authenticator.api.session.auth_session import AuthSessionBase
+from pre_award.authenticator.models.account import AccountMethods
+from pre_award.authenticator.models.magic_link import MagicLinkMethods
+from pre_award.common.blueprints import Blueprint
+from pre_award.config import Config
 
 api_magic_link_bp = Blueprint("api_magic_links", __name__)
 

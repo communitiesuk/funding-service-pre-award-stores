@@ -3,17 +3,17 @@ from distutils.util import strtobool
 from flask import abort, current_app, request
 from fsd_utils.config.notify_constants import NotifyConstants
 
-from assessment_store.db.queries.assessment_records.queries import (
+from pre_award.assessment_store.db.queries.assessment_records.queries import (
     create_user_application_association,
     get_metadata_for_application,
     get_user_application_associations,
 )
-from assessment_store.db.queries.assessment_records.queries import (
+from pre_award.assessment_store.db.queries.assessment_records.queries import (
     update_user_application_association as update_user_application_association_db,
 )
-from assessment_store.db.schemas.schemas import AllocationAssociationSchema
-from assessment_store.services.data_services import send_notification_email
-from common.blueprints import Blueprint
+from pre_award.assessment_store.db.schemas.schemas import AllocationAssociationSchema
+from pre_award.assessment_store.services.data_services import send_notification_email
+from pre_award.common.blueprints import Blueprint
 
 assessment_user_bp = Blueprint("assessment_user_bp", __name__)
 

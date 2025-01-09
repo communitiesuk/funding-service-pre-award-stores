@@ -3,8 +3,8 @@ from typing import Dict
 import requests
 from flask import current_app
 
-from assessment_store.api.models.notification import Notification
-from config import Config  # noqa: E402
+from pre_award.assessment_store.api.models.notification import Notification
+from pre_award.config import Config  # noqa: E402
 
 
 def get_data(endpoint: str, payload: Dict = None):
