@@ -90,7 +90,6 @@ from assess.config.display_value_mappings import (
     landing_filters,
     search_params_default,
 )
-from assess.flagging.forms.request_changes_form import RequestChangesForm
 from assess.scoring.helpers import get_scoring_class
 from assess.services.aws import get_file_for_download_from_aws
 from assess.services.data_services import (
@@ -107,7 +106,6 @@ from assess.services.data_services import (
     get_assessment_progress,
     get_associated_tags_for_application,
     get_bulk_accounts_dict,
-    get_change_requests,
     get_comments,
     get_flags,
     get_fund,
@@ -121,12 +119,9 @@ from assess.services.data_services import (
     get_tags_for_fund_round,
     get_users_for_fund,
     match_comment_to_theme,
-    submit_change_request,
     submit_comment,
-    update_assessment_record_status,
 )
 from assess.services.models.comment import CommentType
-from assess.services.models.flag import FlagType
 from assess.services.models.fund import Fund
 from assess.services.models.round import Round
 from assess.services.models.theme import Theme
@@ -145,7 +140,6 @@ from assess.themes.deprecated_theme_mapper import (
     map_application_with_sub_criterias_and_themes,
     order_entire_application_by_themes,
 )
-from assessment_store.db.models.assessment_record.enums import Status as WorkflowStatus
 from common.blueprints import Blueprint
 from config import Config
 
@@ -1177,20 +1171,6 @@ def display_sub_criteria(
 
     state = get_state_for_tasklist_banner(application_id)
     flags_list = get_flags(application_id)
-    change_requests_list = get_change_requests(application_id)
-
-    user_id_list = []
-    change_requests = []
-    for change_request in change_requests_list:
-        if sub_criteria_id not in change_request.sections_to_flag:
-            continue
-
-        change_requests.append(change_request)
-        for flag_item in change_request.updates:
-            if flag_item["user_id"] not in user_id_list:
-                user_id_list.append(flag_item["user_id"])
-
-    accounts_list = get_bulk_accounts_dict(user_id_list, state.fund_short_name)
 
     comment_response = get_comments(
         application_id=application_id,
@@ -1250,11 +1230,8 @@ def display_sub_criteria(
 
     common_template_config = {
         "sub_criteria": sub_criteria,
-        "fund": get_fund(sub_criteria.fund_id),
         "application_id": application_id,
         "comments": theme_matched_comments,
-        "change_requests": change_requests,
-        "accounts_list": accounts_list,
         "is_flaggable": False,  # Flag button is disabled in sub-criteria page,
         "display_comment_box": add_comment_argument,
         "display_comment_edit_box": edit_comment_argument,
@@ -1273,69 +1250,9 @@ def display_sub_criteria(
     return render_template(
         "assessments/sub_criteria.html",
         answers_meta=answers_meta,
-        questions={question["field_id"]: question["question"] for question in theme_answers_response},
         state=state,
         migration_banner_enabled=Config.MIGRATION_BANNER_ENABLED,
         **common_template_config,
-    )
-
-
-@assessment_bp.route(
-    "/application_id/<application_id>/sub_criteria_id/<sub_criteria_id>/theme_id/<theme_id>/request_change",
-    methods=["GET", "POST"],
-)
-@check_access_application_id
-def request_changes(application_id, sub_criteria_id, theme_id):
-    sub_criteria = get_sub_criteria(application_id, sub_criteria_id)
-    current_theme = next(iter(t for t in sub_criteria.themes if t.id == theme_id))
-    state = get_state_for_tasklist_banner(application_id)
-    assessment_status = determine_assessment_status(sub_criteria.workflow_status, state.is_qa_complete)
-    theme_answers_response = get_sub_criteria_theme_answers_all(application_id, theme_id)
-
-    form = RequestChangesForm(
-        question_choices=[(question["field_id"], question["question"]) for question in theme_answers_response]
-    )
-
-    if request.method == "POST" and form.validate_on_submit():
-        submit_change_request(
-            application_id=application_id,
-            flag_type=FlagType.RAISED.name,
-            user_id=g.account_id,
-            justification=form.justification.data,
-            field_ids=form.field_ids.data,
-            section=[sub_criteria_id],
-            is_change_request=True,
-        )
-
-        update_assessment_record_status(
-            application_id=application_id,
-            status=WorkflowStatus.CHANGE_REQUESTED,
-        )
-
-        # update apply.status apply.forms[].status and each form.question[].status
-
-        return redirect(
-            url_for(
-                "assessment_bp.display_sub_criteria",
-                application_id=application_id,
-                sub_criteria_id=sub_criteria_id,
-                theme_id=theme_id,
-            )
-        )
-
-    return render_template(
-        "assessments/request_changes.html",
-        form=form,
-        question_choices=[
-            {"text": label, "value": value, "checked": value in (form.field_ids.data or [])}
-            for value, label in form.field_ids.choices
-        ],
-        state=state,
-        sub_criteria=sub_criteria,
-        fund=get_fund(sub_criteria.fund_id),
-        application_id=application_id,
-        current_theme=current_theme,
-        assessment_status=assessment_status,
     )
 
 
@@ -1537,6 +1454,7 @@ def application(application_id):
         )
 
     state = get_state_for_tasklist_banner(application_id)
+    flags_list = get_flags(application_id)
 
     comment_response = get_comments(
         application_id=application_id,
