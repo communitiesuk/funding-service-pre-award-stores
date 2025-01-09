@@ -155,3 +155,18 @@ def ordered_themes(fund_round_short_name):
             "why-are-your-costs-higher-than-the-guided-price?",
             "upload-quotes-for-refurbishment",
         ]
+
+    if fund_round_short_name == "DPIFR3":
+        return [
+            "organisation_name",
+            "future_work",
+            "declarations",
+            "lead_contact_details",
+            "project_sponsor_details",
+            "section_151_officer_details",
+            "your_skills_and_experience",
+            "roles_and_recruitment",
+            "engaging_the_ODP_community",
+            "engaging_the_organisation",
+            "dataset_information",
+        ]
