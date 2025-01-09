@@ -23,7 +23,93 @@ unscored_sections = [
                         ],
                     }
                 ],
-            }
+            },
+            {
+                "id": "organisation-information-hsra-rp",
+                "name": "Organisation information",
+                "themes": [
+                    {
+                        "id": "who-is-your-section-151-officer?",
+                        "name": "Who is your section 151 officer?",
+                        "answers": [
+                            {
+                                "field_id": "okHmBB",
+                                "form_name": "organisation-information-hsra-rp",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Full name",
+                            },
+                            {
+                                "field_id": "bQOXTi",
+                                "form_name": "organisation-information-hsra-rp",
+                                "field_type": "emailAddressField",
+                                "presentation_type": "text",
+                                "question": "Email address",
+                            },
+                            {
+                                "field_id": "phaosT",
+                                "form_name": "organisation-information-hsra-rp",
+                                "field_type": "telephoneNumberField",
+                                "presentation_type": "text",
+                                "question": "Telephone number",
+                            },
+                        ],
+                    },
+                    {
+                        "id": "which-local-authority-are-you-applying-from?",
+                        "name": "Which local authority are you applying from?",
+                        "answers": [
+                            {
+                                "field_id": "WLddBt",
+                                "form_name": "organisation-information-hsra-rp",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Which local authority are you applying from?",
+                            }
+                        ],
+                    },
+                ],
+            },
+            {
+                "id": "applicant-information-hsra-rp",
+                "name": "Applicant information",
+                "themes": [
+                    {
+                        "id": "who-should-we-contact-about-this-application?",
+                        "name": "Who should we contact about this application?",
+                        "answers": [
+                            {
+                                "field_id": "OkKkMd",
+                                "form_name": "applicant-information-hsra-rp",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Full name",
+                            },
+                            {
+                                "field_id": "Lwkcam",
+                                "form_name": "applicant-information-hsra-rp",
+                                "field_type": "textField",
+                                "presentation_type": "text",
+                                "question": "Job title",
+                            },
+                            {
+                                "field_id": "XfiUqN",
+                                "form_name": "applicant-information-hsra-rp",
+                                "field_type": "emailAddressField",
+                                "presentation_type": "text",
+                                "question": "Email address",
+                            },
+                            {
+                                "field_id": "DlZjvr",
+                                "form_name": "applicant-information-hsra-rp",
+                                "field_type": "telephoneNumberField",
+                                "presentation_type": "text",
+                                "question": "Telephone number",
+                            },
+                        ],
+                    },
+                ],
+            },
         ],
     },
     {

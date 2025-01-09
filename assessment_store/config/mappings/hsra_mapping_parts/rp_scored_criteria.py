@@ -2,102 +2,9 @@
 
 scored_criteria = [
     {
-        "id": "about-your-organisation",
-        "name": "About your organisation",
-        "weighting": 0.5,
-        "sub_criteria": [
-            {
-                "id": "organisation-information-hsra-rp",
-                "name": "Organisation information",
-                "themes": [
-                    {
-                        "id": "who-is-your-section-151-officer?",
-                        "name": "Who is your section 151 officer?",
-                        "answers": [
-                            {
-                                "field_id": "okHmBB",
-                                "form_name": "organisation-information-hsra-rp",
-                                "field_type": "textField",
-                                "presentation_type": "text",
-                                "question": "Full name",
-                            },
-                            {
-                                "field_id": "bQOXTi",
-                                "form_name": "organisation-information-hsra-rp",
-                                "field_type": "emailAddressField",
-                                "presentation_type": "text",
-                                "question": "Email address",
-                            },
-                            {
-                                "field_id": "phaosT",
-                                "form_name": "organisation-information-hsra-rp",
-                                "field_type": "telephoneNumberField",
-                                "presentation_type": "text",
-                                "question": "Telephone number",
-                            },
-                        ],
-                    },
-                    {
-                        "id": "which-local-authority-are-you-applying-from?",
-                        "name": "Which local authority are you applying from?",
-                        "answers": [
-                            {
-                                "field_id": "WLddBt",
-                                "form_name": "organisation-information-hsra-rp",
-                                "field_type": "textField",
-                                "presentation_type": "text",
-                                "question": "Which local authority are you applying from?",
-                            }
-                        ],
-                    },
-                ],
-            },
-            {
-                "id": "applicant-information-hsra-rp",
-                "name": "Applicant information",
-                "themes": [
-                    {
-                        "id": "who-should-we-contact-about-this-application?",
-                        "name": "Who should we contact about this application?",
-                        "answers": [
-                            {
-                                "field_id": "OkKkMd",
-                                "form_name": "applicant-information-hsra-rp",
-                                "field_type": "textField",
-                                "presentation_type": "text",
-                                "question": "Full name",
-                            },
-                            {
-                                "field_id": "Lwkcam",
-                                "form_name": "applicant-information-hsra-rp",
-                                "field_type": "textField",
-                                "presentation_type": "text",
-                                "question": "Job title",
-                            },
-                            {
-                                "field_id": "XfiUqN",
-                                "form_name": "applicant-information-hsra-rp",
-                                "field_type": "emailAddressField",
-                                "presentation_type": "text",
-                                "question": "Email address",
-                            },
-                            {
-                                "field_id": "DlZjvr",
-                                "form_name": "applicant-information-hsra-rp",
-                                "field_type": "telephoneNumberField",
-                                "presentation_type": "text",
-                                "question": "Telephone number",
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        "id": "about-your-project",
-        "name": "About your project",
-        "weighting": 0.5,
+        "id": "vacant-property-details",
+        "name": "Vacant property details",
+        "weighting": 0.25,
         "sub_criteria": [
             {
                 "id": "vacant-property-details-hsra-rp",
@@ -145,6 +52,13 @@ scored_criteria = [
                     },
                 ],
             },
+        ],
+    },
+    {
+        "id": "designated-area-details",
+        "name": "Designated area details",
+        "weighting": 0.25,
+        "sub_criteria": [
             {
                 "id": "designated-area-details-hsra-rp",
                 "name": "Designated area details",
@@ -177,6 +91,13 @@ scored_criteria = [
                     },
                 ],
             },
+        ],
+    },
+    {
+        "id": "milestones",
+        "name": "Milestones",
+        "weighting": 0.25,
+        "sub_criteria": [
             {
                 "id": "milestones-hsra-rp",
                 "name": "Milestones",
@@ -248,6 +169,13 @@ scored_criteria = [
                     },
                 ],
             },
+        ],
+    },
+    {
+        "id": "project-costs",
+        "name": "Project costs",
+        "weighting": 0.25,
+        "sub_criteria": [
             {
                 "id": "project-costs-hsra-rp",
                 "name": "Project costs",
