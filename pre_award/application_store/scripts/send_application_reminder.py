@@ -9,6 +9,7 @@ from datetime import datetime  # noqa: E402
 
 import pytz  # noqa: E402
 import requests  # noqa: E402
+from application_store import external_services  # noqa: E402
 from flask import current_app  # noqa: E402
 
 from pre_award.application_store import external_services  # noqa: E402
