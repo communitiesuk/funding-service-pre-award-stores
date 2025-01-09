@@ -8,12 +8,12 @@ from unittest import mock
 import pytest
 from bs4 import BeautifulSoup
 
-import authenticator.frontend as frontend
-from authenticator.api.session.auth_session import AuthSessionBase
-from authenticator.frontend.magic_links.forms import EmailForm
-from authenticator.models.account import AccountMethods
-from authenticator.security.utils import validate_token
-from config import Config
+import pre_award.authenticator.frontend as frontend
+from pre_award.authenticator.api.session.auth_session import AuthSessionBase
+from pre_award.authenticator.frontend.magic_links.forms import EmailForm
+from pre_award.authenticator.models.account import AccountMethods
+from pre_award.authenticator.security.utils import validate_token
+from pre_award.config import Config
 
 
 @pytest.mark.usefixtures("authenticator_test_client")
@@ -119,8 +119,8 @@ class TestMagicLinks(AuthSessionBase):
         landing_endpoint = f"/service/magic-links/landing/{link_key}?fund=cof&round=r2w3"
 
         with (
-            mock.patch("authenticator.models.fund.FundMethods.get_fund") as mock_get_fund,
-            mock.patch("authenticator.frontend.magic_links.routes.get_round_data") as mock_get_round_data,
+            mock.patch("pre_award.authenticator.models.fund.FundMethods.get_fund") as mock_get_fund,
+            mock.patch("pre_award.authenticator.frontend.magic_links.routes.get_round_data") as mock_get_round_data,
         ):
             # Mock get_fund() called in get_magic_link()
             mock_fund = mock.MagicMock()
@@ -261,13 +261,13 @@ class TestMagicLinks(AuthSessionBase):
         mock_account.get_magic_link.return_value = True
 
         # Test post request with fund and round short names:
-        with mock.patch("authenticator.frontend.magic_links.routes.EmailForm", return_value=mock_form):
+        with mock.patch("pre_award.authenticator.frontend.magic_links.routes.EmailForm", return_value=mock_form):
             with mock.patch(
-                "authenticator.frontend.magic_links.routes.AccountMethods",
+                "pre_award.authenticator.frontend.magic_links.routes.AccountMethods",
                 return_value=mock_account,
             ):
                 with mock.patch(
-                    "authenticator.frontend.magic_links.routes.get_round_data",
+                    "pre_award.authenticator.frontend.magic_links.routes.get_round_data",
                     return_value=mock_account,
                 ):
                     response = authenticator_test_client.post(
@@ -295,13 +295,13 @@ class TestMagicLinks(AuthSessionBase):
         mock_account.get_magic_link.return_value = True
 
         # Test post request with fund and round short names:
-        with mock.patch("authenticator.frontend.magic_links.routes.EmailForm", return_value=mock_form):
+        with mock.patch("pre_award.authenticator.frontend.magic_links.routes.EmailForm", return_value=mock_form):
             with mock.patch(
-                "authenticator.frontend.magic_links.routes.AccountMethods",
+                "pre_award.authenticator.frontend.magic_links.routes.AccountMethods",
                 return_value=mock_account,
             ):
                 with mock.patch(
-                    "authenticator.frontend.magic_links.routes.get_round_data",
+                    "pre_award.authenticator.frontend.magic_links.routes.get_round_data",
                     return_value=mock_account,
                 ):
                     response = authenticator_test_client.post(
