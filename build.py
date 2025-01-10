@@ -64,6 +64,54 @@ def build_apply_assets():
     os.remove("./govuk_frontend.zip")
 
 
+def build_onboard_assets():
+    if os.path.exists("static"):
+        shutil.rmtree("static")
+
+    # Download zips using "url"
+    print("Downloading static file zip.")
+
+    url = "https://github.com/alphagov/govuk-frontend/releases/download/v4.8.0/release-v4.8.0.zip"
+
+    # There is a known problem on Mac where one must manually
+    # run the script "Install Certificates.command" found
+    # in the python application folder for this to work.
+    urllib.request.urlretrieve(url, "./govuk_frontend.zip")  # nosec
+
+    print("Deleting old static/onboard")
+
+    # Attempts to delete the old files, states if
+    # one doesnt exist.
+    try:
+        shutil.rmtree("static/onboard")
+    except FileNotFoundError:
+        print("No old static/onboard to remove.")
+
+    print("Unzipping file to static/onboard...")
+
+    # Extracts the previously downloaded zip to /static/onboard
+    with zipfile.ZipFile("./govuk_frontend.zip", "r") as zip_ref:
+        zip_ref.extractall("./static/onboard")
+
+    print("Moving files from static/onboard/assets to static/onboard")
+
+    for file_to_move in os.listdir("./static/onboard/assets"):
+        shutil.move("./static/onboard/assets/" + file_to_move, "static/onboard")
+
+    # FIXME: Sorry - we plan to remove this hack when we have pulled in the assessment frontend and got both
+    #        things using the same version of GOV.UK Frontend. For now, because we use pre-compiled CSS from GOV.UK
+    #        Frontend, it expects assets to be served from a specific URL path (/assets) - so we need to reproduce
+    #        that structure here.
+    print("Copying images and fonts to /static for hard-coded CSS in GOV.UK Frontend")
+    shutil.copytree("static/onboard/images", "static/images")
+    shutil.copytree("static/onboard/fonts", "static/fonts")
+
+    print("Deleting temp files")
+    # Deletes temp. files.
+    shutil.rmtree("./static/onboard/assets")
+    os.remove("./govuk_frontend.zip")
+
+
 def build_some_assess_assets(static_dist_root="static/assess"):
     DIST_ROOT = "./" + static_dist_root
     GOVUK_DIR = "/govuk-frontend"
@@ -195,4 +243,5 @@ def build_assess_authenticator_assets(remove_existing=False):
 
 if __name__ == "__main__":
     build_apply_assets()
+    build_onboard_assets()
     build_assess_authenticator_assets()
