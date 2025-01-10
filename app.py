@@ -130,6 +130,9 @@ def create_app() -> Flask:  # noqa: C901
 
     flask_app.jinja_loader = ChoiceLoader(
         [
+            PackageLoader("proto.apply"),
+            PackageLoader("proto.assess"),
+            PackageLoader("proto.onboard"),
             PackageLoader("apply"),
             PackageLoader("assess"),
             # move everything into one templates folder for assess rather than nesting in blueprints
@@ -239,6 +242,14 @@ def create_app() -> Flask:  # noqa: C901
     flask_app.register_blueprint(api_magic_link_bp, host=flask_app.config["AUTH_HOST"])
     flask_app.register_blueprint(api_sso_bp, host=flask_app.config["AUTH_HOST"])
     flask_app.register_blueprint(api_sessions_bp, host=flask_app.config["AUTH_HOST"])
+
+    from proto.apply import apply_blueprint as proto_apply_blueprint
+    from proto.assess import assess_blueprint as proto_assess_blueprint
+    from proto.onboard import onboard_blueprint as proto_onboard_blueprint
+
+    flask_app.register_blueprint(proto_apply_blueprint, host=flask_app.config["APPLY_HOST"])
+    flask_app.register_blueprint(proto_assess_blueprint, host=flask_app.config["ASSESS_HOST"])
+    flask_app.register_blueprint(proto_onboard_blueprint, host=flask_app.config["ONBOARD_HOST"])
 
     # FIXME: we should be enforcing CSRF on requests to sign out via authenticator, but because this is a cross-domain
     #        request, flask_wtf rejects the request because it's not the same origin. See `project` method in
