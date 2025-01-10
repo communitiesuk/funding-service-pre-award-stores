@@ -197,13 +197,13 @@ class TestAuthorisation:
             == "test_theme_name – test_sub_criteria – Project In prog and Res – Assessment Hub – GOV.UK"
         )
         if ability_to_score:
-            assert (
-                b"score-subcriteria-link" in response.data and b"Score the subcriteria" in response.data
-            ), f"Sidebar should contain score subcriteria link or link to score subcriteria: {response.data}"
+            assert b"score-subcriteria-link" in response.data and b"Score the subcriteria" in response.data, (
+                f"Sidebar should contain score subcriteria link or link to score subcriteria: {response.data}"
+            )
         else:
-            assert (
-                b"score-subcriteria-link" not in response.data and b"Score the subcriteria" not in response.data
-            ), f"Sidebar should not contain score subcriteria link or link to score subcriteria: {response.data}"
+            assert b"score-subcriteria-link" not in response.data and b"Score the subcriteria" not in response.data, (
+                f"Sidebar should not contain score subcriteria link or link to score subcriteria: {response.data}"
+            )
 
     @pytest.mark.parametrize(
         "claim,expect_all_comments_available",

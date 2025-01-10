@@ -92,7 +92,7 @@ def send_incomplete_applications_after_deadline(
         if send_email:
             total_applications = len(applications_to_send)
             current_app.logger.info(
-                "Send email set to true, will now send" " {total_applications} {emails}.",
+                "Send email set to true, will now send {total_applications} {emails}.",
                 extra=dict(
                     total_applications=total_applications,
                     emails="emails" if total_applications > 1 else "email",

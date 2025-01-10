@@ -173,9 +173,9 @@ def test_create_application_creates_unique_reference(
     error_data = response.json
 
     assert "detail" in error_data, f"Expected 'detail' in error response, got: {error_data}"
-    assert (
-        "Max (10) tries exceeded for create application" in error_data["detail"]
-    ), f"Unexpected error message: {error_data['detail']}"
+    assert "Max (10) tries exceeded for create application" in error_data["detail"], (
+        f"Unexpected error message: {error_data['detail']}"
+    )
 
 
 @pytest.mark.apps_to_insert(test_application_data)

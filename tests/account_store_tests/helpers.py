@@ -38,9 +38,9 @@ def expected_data_within_response(
     else:
         response = test_client.get(endpoint, follow_redirects=True)
 
-    assert (
-        response.status_code == expected_status_code
-    ), f"Expected {str(expected_status_code)} response status code but got {str(response.status_code)}"
+    assert response.status_code == expected_status_code, (
+        f"Expected {str(expected_status_code)} response status code but got {str(response.status_code)}"
+    )
     response_data = loads(response.text)
     diff = DeepDiff(
         expected_data,

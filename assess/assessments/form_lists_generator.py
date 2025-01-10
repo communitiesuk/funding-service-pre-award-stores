@@ -63,11 +63,13 @@ if __name__ == "__main__":
     if duplicates:
         print("Duplicates found:", duplicates)
 
-    content = f"""_LIST_TRANSLATIONS_GENERATED = {json.dumps(
-        translation_dict,
-        indent=4,
-        ensure_ascii=False,
-    )}"""
+    content = f"""_LIST_TRANSLATIONS_GENERATED = {
+        json.dumps(
+            translation_dict,
+            indent=4,
+            ensure_ascii=False,
+        )
+    }"""
 
     lines = content.split("\n")
     processed_lines = [line + " # noqa" if len(line) > 118 else line for line in lines]  # for long lines we noqa

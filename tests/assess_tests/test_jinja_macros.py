@@ -97,9 +97,9 @@ class TestJinjaMacros(object):
             assert table.find("th", text="Score out of 4") is not None, "Should have Score out of 4 column"
             assert soup.find_all("td", class_="govuk-table__cell--numeric")[0].text == "0", "Should have 0 score"
             assert soup.find_all("td", class_="govuk-table__cell--numeric")[2].text == "2", "Should have 2 score"
-            assert (
-                soup.find_all("td", class_="govuk-table__cell--numeric")[4].text == "2 of 8"
-            ), "Should have 2 of 8 score"
+            assert soup.find_all("td", class_="govuk-table__cell--numeric")[4].text == "2 of 8", (
+                "Should have 2 of 8 score"
+            )
 
     def test_criteria_macro_commenter(self, app):
         with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
@@ -197,17 +197,17 @@ class TestJinjaMacros(object):
 
             soup = BeautifulSoup(rendered_html, "html.parser")
 
-            assert (
-                soup.find("legend", {"class": "govuk-body"}).text.strip() == "You can rescore at any point."
-            ), "Title not found"
+            assert soup.find("legend", {"class": "govuk-body"}).text.strip() == "You can rescore at any point.", (
+                "Title not found"
+            )
 
             radios = soup.find_all("div", {"class": "govuk-radios__item"})
             assert len(radios) == expected_score_option_count, f"Should have {expected_score_option_count} radios"
 
             score_spans = soup.find_all("span", {"class": "govuk-!-font-weight-bold"})
-            assert (
-                len(score_spans) == expected_score_option_count
-            ), f"Should have {expected_score_option_count} score values for radios"
+            assert len(score_spans) == expected_score_option_count, (
+                f"Should have {expected_score_option_count} score values for radios"
+            )
 
             if error_present:
                 assert soup.find("p", {"class": "govuk-error-message"}).text.strip() == "Error: Select a score"
@@ -588,9 +588,9 @@ class TestJinjaMacros(object):
 
             soup = BeautifulSoup(rendered_html, "html.parser")
 
-            assert (
-                soup.find("p", class_="govuk-heading-xl fsd-banner-content").text.strip() == "Fund: Test Fund"
-            ), "Fund name not found"
+            assert soup.find("p", class_="govuk-heading-xl fsd-banner-content").text.strip() == "Fund: Test Fund", (
+                "Fund name not found"
+            )
             assert (
                 soup.find("p", class_="govuk-heading-l fsd-banner-content").text.strip() == "Project reference: TEST123"
             ), "Project reference not found"
@@ -792,9 +792,9 @@ class TestJinjaMacros(object):
             section_heading = alert_div.find("h2", text="Section(s) flagged")
             assert section_heading is not None, "Section(s) flagged heading not found"
             section = section_heading.find_next_sibling("p")
-            assert (
-                section is not None and section.text == "Test section (Parent Test section) (Opens in new tab) "
-            ), "Section not found"
+            assert section is not None and section.text == "Test section (Parent Test section) (Opens in new tab) ", (
+                "Section not found"
+            )
 
             notification_heading = alert_div.find("h2", text="Notification sent")
             assert notification_heading is not None, "Notification sent heading not found"
@@ -805,9 +805,9 @@ class TestJinjaMacros(object):
             assert any("test@example.com" in info.text for info in user_info), "User info not found"
 
             date_created = alert_div.find("p", class_="govuk-body-s").find_next_sibling("p", class_="govuk-body-s")
-            assert date_created is not None and re.match(
-                r"\d{2}/\d{2}/\d{4} at \d{2}:\d{2}", date_created.text
-            ), "Date created not found"
+            assert date_created is not None and re.match(r"\d{2}/\d{2}/\d{4} at \d{2}:\d{2}", date_created.text), (
+                "Date created not found"
+            )
 
     def test_assessment_completion_state_completed(self, app):
         with app.test_request_context(headers={"Host": app.config["ASSESS_HOST"]}):
