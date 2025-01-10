@@ -1,4 +1,6 @@
 {% extends "govuk_frontend_jinja/template.html" %}
+{% from "govuk_frontend_jinja/components/header/macro.html" import govukHeader %}
+{% from "govuk_frontend_jinja/components/footer/macro.html" import govukFooter %}
 
 {% set assetPath = url_for('static', filename='assess').rstrip('/') %}
 
@@ -10,7 +12,7 @@
 
 {% block header %}
   {{ govukHeader({
-    'useTudorCrown': 'yes'
+    homepageUrl: "#"
   }) }}
 {% endblock header %}
 
