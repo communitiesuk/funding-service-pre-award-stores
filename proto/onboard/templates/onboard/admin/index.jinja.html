@@ -1,0 +1,42 @@
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+
+{% extends "onboard/base.jinja.html" %}
+
+{% block pageTitle %}{% trans %}Creating a new grant application{% endtrans %} - {% trans %}Onboard a grant{% endtrans %}{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">{% trans %}Creating a new grant application{% endtrans %}</h1>
+
+        <p class="govuk-body">{% trans %}Follow the step-by-step instructions to create a new grant application.{% endtrans %}</p>
+
+        <ol class="govuk-list">
+          <li>
+            <p class="govuk-body-m govuk-!-margin-bottom-0">
+              <a class="govuk-link govuk-!-font-weight-bold" href="{{ url_for('proto_onboard.admin.grants.create_grant') }}">1. Add a new grant</a>
+            </p>
+            <p class="govuk-body-m">
+              Add a grant's details before creating an application.
+            </p>
+          </li>
+          <li>
+            <p class="govuk-body-m govuk-!-margin-bottom-0">
+              <a class="govuk-link govuk-!-font-weight-bold" href="">2. Create a new application round</a>
+            </p>
+            <p class="govuk-body-m">
+              Create an application and set deadlines and the prospectus link.
+            </p>
+          </li>
+          <li>
+            <p class="govuk-body-m govuk-!-margin-bottom-0">
+              <a class="govuk-link govuk-!-font-weight-bold" href="">3. Add questions to your application round</a>
+            </p>
+            <p class="govuk-body-m">
+              Use templates to add questions to your application.
+            </p>
+          </li>
+        </ol>
+    </div>
+</div>
+{% endblock content %}
