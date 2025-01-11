@@ -3,11 +3,15 @@
 
 {% extends "onboard/base.jinja.html" %}
 
-{% block pageTitle %}{% trans %}Creating a new grant application{% endtrans %} - {% trans %}Onboard a grant{% endtrans %}{% endblock %}
+{% block pageTitle %}{% if form.errors %}{% trans %}Error{% endtrans %}: {% endif %}{% trans %}Creating a new grant application{% endtrans %} - {% trans %}Onboard a grant{% endtrans %}{% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+        {% if form.errors %}
+            {{ govukErrorSummary(wtforms_errors(form)) }}
+        {% endif %}
+
         <h1 class="govuk-heading-xl">Create a new grant application</h1>
 
         <form action="" method="post" novalidate>
