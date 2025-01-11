@@ -1,7 +1,10 @@
-from flask import render_template
+from flask import flash, redirect, render_template, url_for
 
 from common.blueprints import Blueprint
 from config import Config
+from proto.common.data.models.fund import ProtoGrantSchema
+from proto.common.data.services.grants import create_grant
+from proto.onboard.admin.forms import CreateGrantForm
 
 admin_blueprint = Blueprint("admin", __name__)
 grants_blueprint = Blueprint("grants", __name__)
@@ -23,6 +26,12 @@ def index():
     return render_template("onboard/admin/index.jinja.html")
 
 
-@grants_blueprint.get("/grants/new")
-def create_grant():
-    return render_template("onboard/admin/create_grant.jinja.html")
+@grants_blueprint.route("/grants/new", methods=["GET", "POST"])
+def create_new_grant():
+    form = CreateGrantForm()
+    if form.validate_on_submit():
+        create_grant(ProtoGrantSchema(**form.data))
+        flash("New grant created", "success")
+        return redirect(url_for("proto_onboard.admin.index"))
+
+    return render_template("onboard/admin/create_grant.jinja.html", form=form)

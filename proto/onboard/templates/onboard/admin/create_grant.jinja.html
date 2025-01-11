@@ -1,3 +1,4 @@
+{% from "govuk_frontend_jinja/components/error-summary/macro.html" import govukErrorSummary %}
 {% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
 
 {% extends "onboard/base.jinja.html" %}
@@ -5,4 +6,23 @@
 {% block pageTitle %}{% trans %}Creating a new grant application{% endtrans %} - {% trans %}Onboard a grant{% endtrans %}{% endblock %}
 
 {% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Create a new grant application</h1>
+
+        <form action="" method="post" novalidate>
+            {{ form.csrf_token }}
+
+            {{ form.name() }}
+            {{ form.name_cy() }}
+            {{ form.title() }}
+            {{ form.short_code() }}
+            {{ form.funding_type() }}
+            {{ form.ggis_scheme_reference_number() }}
+            {{ form.prospectus_link() }}
+
+            {{ form.submit() }}
+        </form>
+    </div>
+</div>
 {% endblock content %}

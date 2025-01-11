@@ -6,7 +6,6 @@ from flask_babel import gettext as _
 from sqlalchemy import select
 
 from db import db
-from proto.common.data.exceptions import DataValidationError
 from proto.common.data.models.fund import Fund, ProtoGrantSchema
 from proto.common.data.models.round import Round
 
@@ -46,14 +45,4 @@ def create_grant(grant_data: ProtoGrantSchema):
         proto_prospectus_link=grant_data.prospectus_link,
     )
     db.session.add(grant)
-
-    try:
-        db.session.commit()  # TODO: plan for transaction management
-
-    except sqlalchemy.exc.IntegrityError as e:
-        cause = e.__cause__
-        if isinstance(cause, psycopg2.errors.UniqueViolation) and "Key (short_name)=" in cause.diag.message_detail:
-            raise DataValidationError(
-                message=_(f"A grant with the code ‘{grant_data.short_code}’ already exists. Enter a different code."),
-                schema_field_name="short_code",
-            ) from e
+    db.session.commit()  # TODO: plan for transaction management
