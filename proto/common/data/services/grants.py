@@ -54,6 +54,9 @@ def create_grant(grant_data: ProtoGrantSchema):
         cause = e.__cause__
         if isinstance(cause, psycopg2.errors.UniqueViolation) and "Key (short_name)=" in cause.diag.message_detail:
             raise DataValidationError(
-                message=_(f"A grant with the code ‘{grant_data.short_code}’ already exists. Enter a different code."),
+                message=_(
+                    "A grant with the code ‘%(short_code)s’ already exists. Enter a different code.",
+                    short_code=grant_data.short_code,
+                ),
                 schema_field_name="short_code",
             ) from e
