@@ -2,9 +2,8 @@ import uuid
 from enum import Enum
 from typing import List
 
-from flask_sqlalchemy.model import DefaultMeta
-from pydantic import UUID4, Field
 from pydantic import BaseModel as PydanticBaseModel
+from pydantic import Field
 from sqlalchemy import JSON, Column, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, relationship
@@ -14,19 +13,20 @@ from sqlalchemy.types import Enum as SQLAEnum
 from db import db
 from proto.common.data.models.round import Round
 
-BaseModel: DefaultMeta = db.Model
-
 
 # ideally I'd like id internal int, external_id optionally human readbale
 # PROTO: will probably namespace the SQL Alchemy as the domain object and the pydantic representation Schema
 class ProtoGrantSchema(PydanticBaseModel):
-    external_id: UUID4 = Field(alias="id")
-    short_code: str = Field(alias="short_name")
-    name: str = Field(alias="proto_name")
-    name_cy: str = Field(alias="proto_name_cy")
+    # external_id: UUID4 = Field(alias="id")
+    short_code: str = Field(serialization_alias="short_name")
+    name: str = Field(serialization_alias="proto_name")
+    name_cy: str = Field(serialization_alias="proto_name_cy")
+    funding_type: "FundingType"
+    ggis_scheme_reference_number: str
+    prospectus_link: str = Field(serialization_alias="proto_prospectus_link")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class FundingType(Enum):
@@ -36,7 +36,7 @@ class FundingType(Enum):
     EOI = "EOI"
 
 
-class Fund(BaseModel):
+class Fund(db.Model):
     id = Column(
         "id",
         UUID(as_uuid=True),
