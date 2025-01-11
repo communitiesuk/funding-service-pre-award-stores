@@ -13,7 +13,7 @@ def build_apply_assets():
     # Download zips using "url"
     print("Downloading static file zip.")
 
-    url = "https://github.com/alphagov/govuk-frontend/releases/download/v4.8.0/release-v4.8.0.zip"
+    url = "https://github.com/alphagov/govuk-frontend/releases/download/v5.7.1/release-v5.7.1.zip"
 
     # There is a known problem on Mac where one must manually
     # run the script "Install Certificates.command" found
@@ -71,7 +71,7 @@ def build_onboard_assets():
     # Download zips using "url"
     print("Downloading static file zip.")
 
-    url = "https://github.com/alphagov/govuk-frontend/releases/download/v4.8.0/release-v4.8.0.zip"
+    url = "https://github.com/alphagov/govuk-frontend/releases/download/v5.7.1/release-v5.7.1.zip"
 
     # There is a known problem on Mac where one must manually
     # run the script "Install Certificates.command" found
@@ -184,7 +184,7 @@ def build_some_assess_assets(static_dist_root="static/assess"):
 
 def build_some_authenticator_assets(static_dist_root="static/authenticator", remove_existing=False) -> None:
     DIST_ROOT = "./" + static_dist_root
-    GOVUK_URL = "https://github.com/alphagov/govuk-frontend/releases/download/v4.8.0/release-v4.8.0.zip"
+    GOVUK_URL = "https://github.com/alphagov/govuk-frontend/releases/download/v5.7.1/release-v5.7.1.zip"
     ZIP_FILE = "./govuk_frontend.zip"
     DIST_PATH = DIST_ROOT
     ASSETS_DIR = "/assets"

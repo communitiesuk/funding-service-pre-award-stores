@@ -8,6 +8,7 @@ from flask.json.provider import DefaultJSONProvider
 from flask_assets import Environment
 from flask_babel import Babel, gettext, pgettext
 from flask_compress import Compress
+from govuk_frontend_wtf.main import WTFormsHelpers
 
 try:
     from flask_debugtoolbar import DebugToolbarExtension
@@ -143,8 +144,11 @@ def create_app() -> Flask:  # noqa: C901
             PackageLoader("assess.scoring"),
             PackageLoader("authenticator.frontend"),
             PrefixLoader({"govuk_frontend_jinja": PackageLoader("govuk_frontend_jinja")}),
+            PrefixLoader({"govuk_frontend_wtf": PackageLoader("govuk_frontend_wtf")}),
         ]
     )
+
+    WTFormsHelpers(flask_app)
 
     NotificationService().init_app(flask_app)
 
