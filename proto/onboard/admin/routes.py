@@ -2,7 +2,7 @@ from flask import redirect, render_template, url_for
 
 from common.blueprints import Blueprint
 from config import Config
-from proto.common.data.exceptions import DataServiceError, attach_service_error_to_form
+from proto.common.data.exceptions import DataValidationError, attach_validation_error_to_form
 from proto.common.data.models.fund import ProtoGrantSchema
 from proto.common.data.services.grants import create_grant
 from proto.onboard.admin.forms import CreateGrantForm
@@ -33,8 +33,8 @@ def create_new_grant():
     if form.validate_on_submit():
         try:
             create_grant(ProtoGrantSchema(**form.data))
-        except DataServiceError as e:
-            attach_service_error_to_form(form, e)
+        except DataValidationError as e:
+            attach_validation_error_to_form(form, e)
         else:
             return redirect(url_for("proto_onboard.admin.index"))
 
