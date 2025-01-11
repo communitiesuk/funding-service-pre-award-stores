@@ -1,7 +1,6 @@
 import uuid
 from typing import TYPE_CHECKING
 
-from flask_sqlalchemy.model import DefaultMeta
 from sqlalchemy import JSON, Column, Date, DateTime, ForeignKey, UniqueConstraint, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, relationship
@@ -12,10 +11,8 @@ from db import db
 if TYPE_CHECKING:
     from proto.common.data.models.fund import Fund
 
-BaseModel: DefaultMeta = db.Model
 
-
-class Round(BaseModel):
+class Round(db.Model):
     __table_args__ = (UniqueConstraint("fund_id", "short_name"),)
     id = Column(
         "id",
