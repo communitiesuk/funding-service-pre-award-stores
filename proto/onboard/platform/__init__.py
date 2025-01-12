@@ -2,7 +2,7 @@ from flask import redirect, render_template, url_for
 
 from common.blueprints import Blueprint
 from config import Config
-from proto.common.data.services.grants import get_all_grants, get_grant, get_grant_and_round
+from proto.common.data.services.grants import get_all_grants_with_rounds, get_grant, get_grant_and_round
 from proto.common.data.services.question_bank import add_template_sections_to_round, get_template_sections_and_questions
 from proto.onboard.platform.forms import ChooseTemplateSectionsForm
 
@@ -34,7 +34,7 @@ def _templates_service_nav():
 
 @grants_blueprint.get("/")
 def index():
-    grants = get_all_grants()
+    grants = get_all_grants_with_rounds()
     return render_template("onboard/platform/home.html", grants=grants)
 
 

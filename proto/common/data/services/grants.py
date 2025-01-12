@@ -4,6 +4,7 @@ import psycopg2
 import sqlalchemy.exc
 from flask_babel import gettext as _
 from sqlalchemy import select
+from sqlalchemy.orm import joinedload
 
 from db import db
 from proto.common.data.exceptions import DataValidationError
@@ -41,8 +42,8 @@ def get_active_round(grant_short_code: str):
     return round, round.proto_grant if round else None
 
 
-def get_all_grants():
-    return db.session.scalars(select(Fund)).all()
+def get_all_grants_with_rounds():
+    return db.session.scalars(select(Fund).options(joinedload(Fund.rounds))).unique().all()
 
 
 def create_grant(grant_data: ProtoGrantSchema):
