@@ -1,0 +1,37 @@
+{% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
+
+{% extends "onboard/base.jinja.html" %}
+
+{% block pageTitle %}{% trans %}Manage grants{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">My grants</h1>
+
+    <form method="get" action="{{ url_for('fund.create_view') }}" novalidate>
+      <input type="hidden" name="url" value="{{ url_for('proto_onboard.platform.index') }}"/>
+      <button class="govuk-button govuk-button--secondary">Create a new grant</button>
+    </form>
+
+    {% for grant in grants %}
+      <h2 class="govuk-heading-s govuk-!-display-inline">
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('fund.details_view', id=grant.id) }}">{{ grant.short_name }}: {{ grant.title_json.en }}</a></h2>
+
+      {{ govukTag({"text": grant.proto_status.value|title, "classes": "govuk-tag--green"}) }}
+
+      {% if grant.rounds | length %}
+      <p class="govuk-body govuk-!-margin-top-1 govuk-!-margin-bottom-1">
+        <span class="govuk-!-font-weight-bold">Rounds:</span> {% for status, items in grant.rounds | groupby('status') %}{{ items|length }} {{ status }}{% if not loop.last %}, {% endif %}{% endfor %}
+      </p>
+      {% endif %}
+      <p class="govuk-body govuk-!-margin-bottom-1"><span class="govuk-!-font-weight-bold">Applications:</span> 0</p>
+      <p class="govuk-body"><span class="govuk-!-font-weight-bold">Recipients in monitoring:</span> 0</p>
+
+      {% if not loop.last %}
+        <hr class="govuk-section-break--m" />
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

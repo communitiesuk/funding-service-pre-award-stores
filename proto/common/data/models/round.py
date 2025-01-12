@@ -1,3 +1,4 @@
+import datetime
 import uuid
 from typing import TYPE_CHECKING
 
@@ -105,3 +106,20 @@ class Round(db.Model):
     # whenever we get the round we're going to want the fund information - we _might_ want to be able to override this
     # but this feels like a very sensible way around for most of applies use case
     proto_grant: Mapped["Fund"] = relationship("Fund", lazy=False)
+
+    @property
+    def status(self):
+        now = datetime.datetime.utcnow()
+        if self.opens and now < self.opens:
+            return "waiting to open"
+
+        if self.deadline and now < self.deadline:
+            return "open for applications"
+
+        if self.assessment_start and now < self.assessment_start:
+            return "waiting for assessment to start"
+
+        if self.assessment_deadline and now < self.assessment_deadline:
+            return "open for assessment"
+
+        return "closed"

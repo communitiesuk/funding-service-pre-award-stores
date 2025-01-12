@@ -30,6 +30,10 @@ def get_active_round(grant_short_code: str):
     return round, round.proto_grant if round else None
 
 
+def get_all_grants():
+    return db.session.scalars(select(Fund)).all()
+
+
 def create_grant(grant_data: ProtoGrantSchema):
     grant = Fund(
         name_json={"en": grant_data.name, "cy": grant_data.name_cy},  # Workaround: required field

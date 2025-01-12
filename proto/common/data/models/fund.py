@@ -5,7 +5,7 @@ from typing import List
 from pydantic import BaseModel as PydanticBaseModel
 from pydantic import Field
 from sqlalchemy import JSON, Column, DateTime, func
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import ENUM, UUID
 from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.types import Boolean
 from sqlalchemy.types import Enum as SQLAEnum
@@ -36,6 +36,12 @@ class FundingType(Enum):
     EOI = "EOI"
 
 
+class FundStatus(str, Enum):
+    DRAFT = "draft"  # Going through onboarding and initial design; no rounds have ever gone live.
+    LIVE = "live"  # A real fund, either open for applications or taking monitoring data.
+    RETIRED = "retired"  # No further activity expected on this fund.
+
+
 class Fund(db.Model):
     id = Column(
         "id",
@@ -60,6 +66,7 @@ class Fund(db.Model):
         unique=False,
     )
     ggis_scheme_reference_number = Column("ggis_scheme_reference_number", db.String(255), nullable=True, unique=False)
+    proto_status = Column("proto_status", ENUM(FundStatus), nullable=False, default=FundStatus.DRAFT)
 
     # For the (assumed limited) fields which will be user provided and translatable, default to field name in
     # english and field name _language-code otherwise do NOT store text in JSON for translation reasons, for now - this
