@@ -87,7 +87,7 @@ class ChooseTemplateSectionsForm(FlaskForm):
     sections = SelectMultipleField(
         "Choose templates from the question bank",
         widget=GovCheckboxesInput(),
-        validators=[DataRequired("Select at least one section")],
+        validators=[],
     )
     submit = SubmitField("Continue", widget=GovSubmitInput())
 
