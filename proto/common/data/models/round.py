@@ -127,3 +127,20 @@ class Round(db.Model):
             return "assessment open"
 
         return "closed"
+
+    @property
+    def status_colour(self):
+        # Design system tag colours: https://design-system.service.gov.uk/components/tag/#additional-colours
+        match self.status:
+            case "draft":
+                return "grey"
+            case "waiting to open":
+                return "yellow"
+            case "applications open":
+                return "green"
+            case "waiting for assessment to start":
+                return "green"
+            case "assessment open":
+                return "green"
+
+        return "grey"

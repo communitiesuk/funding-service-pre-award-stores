@@ -88,3 +88,14 @@ class Fund(db.Model):
 
     def __repr__(self):
         return f"<Fund {self.short_name} - {self.name_json['en']}>"
+
+    @property
+    def status_colour(self):
+        # Design system tag colours: https://design-system.service.gov.uk/components/tag/#additional-colours
+        match self.proto_status:
+            case FundStatus.DRAFT:
+                return "yellow"
+            case FundStatus.LIVE:
+                return "green"
+
+        return "grey"
