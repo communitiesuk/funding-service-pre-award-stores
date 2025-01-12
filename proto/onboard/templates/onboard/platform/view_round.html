@@ -38,10 +38,13 @@
     {% if round.application_sections | length == 0 %}
       <p class="govuk-body">No questions have been set up for this round yet.</p>
 
-      <form method="get" action="{{ url_for('proto_onboard.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" novalidate>
-        <button class="govuk-button">Add questions from bank</button>
-      </form>
+      <a href="{{ url_for('proto_onboard.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button">Add questions from the bank</a>
     {% else %}
+      <div class="govuk-button-group">
+        <a href="{{ url_for('proto_onboard.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button">Add a new section</a>
+        <a href="{{ url_for('proto_onboard.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button govuk-button--secondary">Add more questions from the bank</a>
+      </div>
+
       {% for section in round.application_sections %}
         {% set sectionloop = loop %}
         {% set questionRows = [] %}
@@ -66,10 +69,6 @@
           )
         }}
       {% endfor %}
-
-      <form method="get" action="{{ url_for('proto_onboard.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" novalidate>
-        <button class="govuk-button">Add more questions from bank</button>
-      </form>
     {% endif %}
   </div>
 </div>
