@@ -11,6 +11,8 @@ def create_round(fund_id, code, title, title_cy, proto_start_date, proto_end_dat
     round = Round(
         short_name=code,
         title_json={"en": title, "cy": title_cy},
+        opens=proto_start_date,
+        deadline=proto_end_date,
         proto_start_date=proto_start_date,
         proto_end_date=proto_end_date,
         prospectus="https://www.google.com",

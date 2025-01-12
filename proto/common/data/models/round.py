@@ -31,7 +31,10 @@ class Round(db.Model):
         nullable=False,
     )
     title_json = Column("title_json", JSON(none_as_null=True), nullable=False, unique=False)
+
+    # probably this should be case insensitive
     short_name = Column("short_name", db.String(), nullable=False, unique=False)
+
     opens = Column("opens", DateTime())
     deadline = Column("deadline", DateTime())
     assessment_start = Column("assessment_start", DateTime())

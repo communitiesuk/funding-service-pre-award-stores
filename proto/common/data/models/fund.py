@@ -52,7 +52,10 @@ class Fund(db.Model):
     )
     name_json = Column("name_json", JSON(none_as_null=True), nullable=False, unique=False)
     title_json = Column("title_json", JSON(none_as_null=True), nullable=False, unique=False)
+
+    # probably this should be case insensitive
     short_name = Column("short_name", db.String(), nullable=False, unique=True)
+
     description_json = Column("description_json", JSON(none_as_null=True), nullable=False, unique=False)
     rounds: Mapped[List["Round"]] = relationship("Round")
     welsh_available = Column("welsh_available", Boolean, default=False, nullable=False)
