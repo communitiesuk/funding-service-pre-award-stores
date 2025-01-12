@@ -8,7 +8,7 @@ from sqlalchemy.orm import joinedload
 
 from db import db
 from proto.common.data.exceptions import DataValidationError
-from proto.common.data.models.fund import Fund, ProtoGrantSchema
+from proto.common.data.models.fund import Fund
 from proto.common.data.models.round import Round
 
 
@@ -46,20 +46,33 @@ def get_all_grants_with_rounds():
     return db.session.scalars(select(Fund).options(joinedload(Fund.rounds))).unique().all()
 
 
-def create_grant(grant_data: ProtoGrantSchema):
+def create_grant(
+    code,
+    name,
+    name_cy,
+    title,
+    title_cy,
+    description,
+    description_cy,
+    welsh_available,
+    funding_type,
+    ggis_reference,
+    prospectus_link,
+):
     grant = Fund(
-        name_json={"en": grant_data.name, "cy": grant_data.name_cy},  # Workaround: required field
-        title_json={"en": grant_data.name, "cy": grant_data.name_cy},  # Workaround: required field
-        short_name=grant_data.short_code,
-        description_json={"en": grant_data.name, "cy": grant_data.name_cy},  # Workaround: required field
+        name_json={"en": name, "cy": name_cy},  # Workaround: required field
+        title_json={"en": title, "cy": title_cy},  # Workaround: required field
+        short_name=code,
+        description_json={"en": description, "cy": description_cy},  # Workaround: required field
         owner_organisation_name="todo",  # Workaround: required field
         owner_organisation_shortname="todo",  # Workaround: required field
         owner_organisation_logo_uri="todo",  # Workaround: required field
-        funding_type=grant_data.funding_type,
-        ggis_scheme_reference_number=grant_data.ggis_scheme_reference_number,
-        proto_name=grant_data.name,
-        proto_name_cy=grant_data.name_cy,
-        proto_prospectus_link=grant_data.prospectus_link,
+        funding_type=funding_type,
+        welsh_available=welsh_available,
+        ggis_scheme_reference_number=ggis_reference,
+        proto_name=name,
+        proto_name_cy=name_cy,
+        proto_prospectus_link=prospectus_link,
     )
     db.session.add(grant)
 
@@ -70,6 +83,8 @@ def create_grant(grant_data: ProtoGrantSchema):
         cause = e.__cause__
         if isinstance(cause, psycopg2.errors.UniqueViolation) and "Key (short_name)=" in cause.diag.message_detail:
             raise DataValidationError(
-                message=_(f"A grant with the code ‘{grant_data.short_code}’ already exists. Enter a different code."),
-                schema_field_name="short_code",
+                message=_(f"A grant with the code ‘{code}’ already exists. Enter a different code."),
+                schema_field_name="code",
             ) from e
+
+    return grant

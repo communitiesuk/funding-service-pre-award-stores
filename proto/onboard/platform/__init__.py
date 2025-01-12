@@ -2,9 +2,10 @@ from flask import redirect, render_template, url_for
 
 from common.blueprints import Blueprint
 from config import Config
-from proto.common.data.services.grants import get_all_grants_with_rounds, get_grant, get_grant_and_round
+from proto.common.data.exceptions import DataValidationError, attach_validation_error_to_form
+from proto.common.data.services.grants import create_grant, get_all_grants_with_rounds, get_grant, get_grant_and_round
 from proto.common.data.services.question_bank import add_template_sections_to_round, get_template_sections_and_questions
-from proto.onboard.platform.forms import ChooseTemplateSectionsForm
+from proto.onboard.platform.forms import ChooseTemplateSectionsForm, CreateGrantForm
 
 platform_blueprint = Blueprint("platform", __name__)
 grants_blueprint = Blueprint("grants", __name__)
@@ -43,6 +44,22 @@ def view_grant(grant_code):
     grant = get_grant(grant_code)
     return render_template(
         "onboard/platform/view_grant.html", grant=grant, back_link=url_for("proto_onboard.platform.grants.index")
+    )
+
+
+@grants_blueprint.route("/grants/create", methods=["GET", "POST"])
+def create_grant_view():
+    form = CreateGrantForm()
+    if form.validate_on_submit():
+        try:
+            grant = create_grant(**{k: v for k, v in form.data.items() if k not in {"submit", "csrf_token"}})
+        except DataValidationError as e:
+            attach_validation_error_to_form(form, e)
+        else:
+            return redirect(url_for("proto_onboard.platform.grants.view_grant", grant_code=grant.short_name))
+
+    return render_template(
+        "onboard/platform/create_grant.html", form=form, back_link=url_for("proto_onboard.platform.grants.index")
     )
 
 
