@@ -1,0 +1,22 @@
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+{% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
+
+{% extends "onboard/base.jinja.html" %}
+
+{% block pageTitle %}{% trans %}Choose questions for application round{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <form method="post" novalidate>
+      {{ form.csrf_token }}
+
+      {% set sectionHints = [] %}
+      {% for questions in form.section_questions %}{% set _ = sectionHints.append({"hint": {"html": "<ul class='govuk-list govuk-list--bullet govuk-hint'>" ~ (questions | format_list("<li>%s</li>") | join('') ~ "</ul>") }}) %}{% endfor %}
+      {{ form.sections(params={"fieldset": {"legend": {"text": form.sections.label, "isPageHeading": true, "classes": "govuk-fieldset__legend--l"} }, "hint": {"text": "TODO: this would be filterable/searchable because the number of templates may grow large"}, "items": sectionHints}) }}
+
+      {{ form.submit }}
+    </form>
+  </div>
+</div>
+{% endblock %}

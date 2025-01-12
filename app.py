@@ -13,6 +13,7 @@ from flask_compress import Compress
 from govuk_frontend_wtf.main import WTFormsHelpers
 
 from proto.onboard.admin import register_admin_views
+from proto.utils.templating import format_list
 
 try:
     from flask_debugtoolbar import DebugToolbarExtension
@@ -202,6 +203,7 @@ def create_app() -> Flask:  # noqa: C901
     flask_app.jinja_env.filters["snake_case_to_human"] = snake_case_to_human
     flask_app.jinja_env.filters["kebab_case_to_human"] = kebab_case_to_human
     flask_app.jinja_env.filters["status_translation"] = status_translation
+    flask_app.jinja_env.filters["format_list"] = format_list
 
     # Assess filters
     flask_app.jinja_env.filters["ast_literal_eval"] = ast_literal_eval

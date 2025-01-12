@@ -1,8 +1,10 @@
-from flask import render_template, url_for
+from flask import redirect, render_template, url_for
 
 from common.blueprints import Blueprint
 from config import Config
 from proto.common.data.services.grants import get_all_grants, get_grant, get_grant_and_round
+from proto.common.data.services.question_bank import add_template_sections_to_round, get_template_sections_and_questions
+from proto.onboard.platform.forms import ChooseTemplateSectionsForm
 
 platform_blueprint = Blueprint("platform", __name__)
 grants_blueprint = Blueprint("grants", __name__)
@@ -53,3 +55,19 @@ def view_round(grant_code, round_code):
         round=round,
         back_link=url_for("proto_onboard.platform.grants.view_grant", grant_code=grant_code),
     )
+
+
+@rounds_blueprint.route("/grants/<grant_code>/rounds/<round_code>/choose-from-question-bank", methods=["GET", "POST"])
+def choose_from_question_bank(grant_code, round_code):
+    grant, round = get_grant_and_round(grant_code, round_code)
+    template_sections = get_template_sections_and_questions()
+    form = ChooseTemplateSectionsForm(template_sections)
+
+    if form.validate_on_submit():
+        print(form.sections.data)
+        add_template_sections_to_round(round.id, form.sections.data)
+        return redirect(
+            url_for("proto_onboard.platform.rounds.view_round", grant_code=grant_code, round_code=round_code)
+        )
+
+    return render_template("onboard/platform/choose_from_question_bank.html", grant=grant, round=round, form=form)

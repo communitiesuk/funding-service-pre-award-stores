@@ -37,9 +37,30 @@
 
     {% if round.application_sections | length == 0 %}
       <p class="govuk-body">No questions have been set up for this round yet.</p>
-      <form method="get" action="#" novalidate>
-        <input class="govuk-button" type="button" value="Add questions"/>
+      <form method="get" action="{{ url_for('proto_onboard.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" novalidate>
+        <button class="govuk-button">Add questions</button>
       </form>
+    {% else %}
+      {% for section in round.application_sections %}
+        {% set sectionloop = loop %}
+        {% set questionRows = [] %}
+        {% for question in section.questions %}{% set _ = questionRows.append([{"text": sectionloop.index ~ '.' ~ loop.index}, {"text": question.title}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('round.edit_view', id=round.id) + "'>Edit</a>"}]) %}{% endfor %}
+
+        {{
+          govukTable(
+            {
+              "caption": loop.index ~ '. ' ~ section.title,
+              "captionClasses": "govuk-table__caption--s",
+              "firstCellIsHeader": true,
+              "rows": questionRows,
+            }
+          )
+        }}
+
+        {% if not loop.last %}
+          <hr class="govuk-section-break--m"/>
+        {% endif %}
+      {% endfor %}
     {% endif %}
   </div>
 </div>

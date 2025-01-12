@@ -33,6 +33,8 @@ class TemplateSection(db.Model):
     title: Mapped[str]
     order: Mapped[int]
 
+    template_questions: Mapped[list["TemplateQuestion"]] = relationship("TemplateQuestion")
+
     def __repr__(self):
         return self.slug
 
@@ -109,7 +111,7 @@ class ApplicationQuestion(db.Model):
     data_source: Mapped[dict | None]
 
     section_id: Mapped[int] = mapped_column(db.ForeignKey(ApplicationSection.id))
-    section: Mapped[ApplicationSection] = relationship(ApplicationSection)
+    section: Mapped[ApplicationSection] = relationship(ApplicationSection, backref="questions")
     template_question_id: Mapped[int] = mapped_column(db.ForeignKey(TemplateQuestion.id))
     template_question: Mapped[TemplateQuestion] = relationship(TemplateQuestion)
     data_standard_id: Mapped[int | None] = mapped_column(db.ForeignKey(DataStandard.id))
