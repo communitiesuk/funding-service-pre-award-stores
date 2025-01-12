@@ -110,16 +110,20 @@ class Round(db.Model):
     @property
     def status(self):
         now = datetime.datetime.utcnow()
-        if self.opens and now < self.opens:
+
+        if not all([self.opens, self.deadline, self.assessment_start, self.assessment_deadline]):
+            return "draft"
+
+        if now < self.opens:
             return "waiting to open"
 
-        if self.deadline and now < self.deadline:
-            return "open for applications"
+        if now < self.deadline:
+            return "applications open"
 
-        if self.assessment_start and now < self.assessment_start:
+        if now < self.assessment_start:
             return "waiting for assessment to start"
 
-        if self.assessment_deadline and now < self.assessment_deadline:
-            return "open for assessment"
+        if now < self.assessment_deadline:
+            return "assessment open"
 
         return "closed"

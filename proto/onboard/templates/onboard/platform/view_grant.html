@@ -1,4 +1,5 @@
 {% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+{% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
 
 {% extends "onboard/base.jinja.html" %}
 
@@ -33,23 +34,27 @@
       )
     }}
 
-    {% set roundRows = [] %}
-    {% for round in grant.rounds %}{% set _ = roundRows.append([{"text": round.short_name}, {"text": round.title_json.en}, {"text": round.opens}, {"text": round.deadline}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('round.edit_view', id=round.id) + "'>Edit</a>"}]) %}{% endfor %}
-    {{
-      govukTable(
-        {
-          "caption": "Application rounds",
-          "captionClasses": "govuk-table__caption--m",
-          "firstCellIsHeader": true,
-          "head": [{"text": "Code"}, {"text": "Title"}, {"text": "Opens"}, {"text": "Deadline"}, {"text": "Action"}],
-          "rows": roundRows,
-        }
-      )
-    }}
+    <h2 class="govuk-heading-m">Application rounds</h2>
+
+    {% for round in grant.rounds %}
+      <h3 class="govuk-heading-s govuk-!-display-inline">
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('round.details_view', id=round.id) }}">{{ round.short_name }}: {{ round.title_json.en }}</a>
+      </h3>
+      {{ govukTag({"text": round.status|title, "classes": "govuk-tag--green"}) }}
+
+      <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-margin-top-3"><span class="">Open at:</span> {{ round.opens | datetime_format_full_month }}</p>
+      <p class="govuk-body"><span class="">Close at:</span> {{ round.deadline | datetime_format_full_month }}</p>
+      <p class="govuk-body govuk-!-margin-bottom-1"><span class="govuk-!-font-weight-bold">Applications:</span> 0</p>
+      <p class="govuk-body"><span class="govuk-!-font-weight-bold">Recipients in monitoring:</span> 0</p>
+
+      {% if not loop.last %}
+        <hr class="govuk-section-break--m" />
+      {% endif %}
+    {% endfor %}
 
     <form method="get" action="{{ url_for('round.create_view') }}">
       <input type="hidden" name="url" value="{{ url_for('proto_onboard.platform.grants.view_grant', code=grant.short_name) }}"/>
-      <button class="govuk-button govuk-button--secondary">Create an application round</button>
+      <button class="govuk-button govuk-button--secondary">Create a new application round</button>
     </form>
   </div>
 </div>
