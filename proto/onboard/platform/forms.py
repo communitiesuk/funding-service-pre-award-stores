@@ -1,7 +1,11 @@
 from flask_wtf import FlaskForm
-from govuk_frontend_wtf.wtforms_widgets import GovCheckboxesInput, GovRadioInput, GovSubmitInput, GovTextInput
-from wtforms.fields.choices import RadioField, SelectMultipleField
-from wtforms.fields.simple import StringField, SubmitField
+from govuk_frontend_wtf.wtforms_widgets import (
+    GovCheckboxesInput,
+    GovRadioInput,
+    GovSubmitInput,
+    GovTextInput,
+)
+from wtforms import RadioField, SelectMultipleField, StringField, SubmitField
 from wtforms.validators import DataRequired, InputRequired, Optional
 
 from proto.common.data.models import TemplateSection
@@ -54,7 +58,29 @@ class CreateGrantForm(FlaskForm):
         widget=GovTextInput(),
         validators=[DataRequired(message="Enter a GGIS reference for the grant")],
     )
-    submit = SubmitField("Continue", widget=GovSubmitInput())
+    submit = SubmitField("Create grant", widget=GovSubmitInput())
+
+
+class CreateRoundForm(FlaskForm):
+    code = StringField("Grant code", widget=GovTextInput(), validators=[DataRequired(message="Enter a grant code")])
+
+    title = StringField(
+        "Grant title", widget=GovTextInput(), validators=[DataRequired(message="Enter a title for the grant")]
+    )
+    title_cy = StringField("Grant title (Welsh)", widget=GovTextInput(), validators=[Optional()])
+
+    # fixme: re-enable these, govuk-frontend-wtf datefield doesn't seem to be working - must be me doing something bad
+    # proto_start_date = DateField(
+    #     "When will applications open for the round?",
+    #     widget=GovDateInput(),
+    #     validators=[DataRequired(message="Enter a start date for the round")],
+    # )
+    # proto_end_date = DateField(
+    #     "When will applications close for the round?",
+    #     widget=GovDateInput(),  # FIXME: govuk-frontend-wtf doesn't have datetime support, ohno
+    #     validators=[DataRequired(message="Enter an end date for the round")],
+    # )
+    submit = SubmitField("Create round", widget=GovSubmitInput())
 
 
 class ChooseTemplateSectionsForm(FlaskForm):

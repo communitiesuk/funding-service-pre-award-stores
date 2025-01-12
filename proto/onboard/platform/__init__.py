@@ -1,3 +1,5 @@
+import datetime
+
 from flask import redirect, render_template, url_for
 
 from common.blueprints import Blueprint
@@ -5,7 +7,8 @@ from config import Config
 from proto.common.data.exceptions import DataValidationError, attach_validation_error_to_form
 from proto.common.data.services.grants import create_grant, get_all_grants_with_rounds, get_grant, get_grant_and_round
 from proto.common.data.services.question_bank import add_template_sections_to_round, get_template_sections_and_questions
-from proto.onboard.platform.forms import ChooseTemplateSectionsForm, CreateGrantForm
+from proto.common.data.services.round import create_round
+from proto.onboard.platform.forms import ChooseTemplateSectionsForm, CreateGrantForm, CreateRoundForm
 
 platform_blueprint = Blueprint("platform", __name__)
 grants_blueprint = Blueprint("grants", __name__)
@@ -47,7 +50,7 @@ def view_grant(grant_code):
     )
 
 
-@grants_blueprint.route("/grants/create", methods=["GET", "POST"])
+@grants_blueprint.route("/create-grant", methods=["GET", "POST"])
 def create_grant_view():
     form = CreateGrantForm()
     if form.validate_on_submit():
@@ -60,6 +63,36 @@ def create_grant_view():
 
     return render_template(
         "onboard/platform/create_grant.html", form=form, back_link=url_for("proto_onboard.platform.grants.index")
+    )
+
+
+@rounds_blueprint.route("/grants/<grant_code>/create-round", methods=["GET", "POST"])
+def create_round_view(grant_code):
+    grant = get_grant(grant_code)
+    form = CreateRoundForm()
+    if form.validate_on_submit():
+        try:
+            round = create_round(
+                fund_id=grant.id,
+                **{k: v for k, v in form.data.items() if k not in {"submit", "csrf_token"}},
+                proto_start_date=datetime.date(2025, 1, 1),
+                proto_end_date=datetime.date(2025, 1, 31),
+            )
+        except DataValidationError as e:
+            attach_validation_error_to_form(form, e)
+        else:
+            return redirect(
+                url_for(
+                    "proto_onboard.platform.rounds.view_round",
+                    grant_code=grant_code,
+                    round_code=round.short_name,
+                )
+            )
+
+    return render_template(
+        "onboard/platform/create_round.html",
+        form=form,
+        back_link=url_for("proto_onboard.platform.grants.view_grant", grant_code=grant_code),
     )
 
 
