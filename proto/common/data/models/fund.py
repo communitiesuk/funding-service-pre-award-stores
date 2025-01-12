@@ -78,3 +78,6 @@ class Fund(db.Model):
     proto_prospectus_link = Column("proto_prospectus_link", db.String(), nullable=True)
 
     proto_apply_action_description = Column("proto_apply_action_description", db.String(), nullable=True)
+
+    def __repr__(self):
+        return f"<Fund {self.short_name} - {self.name_json['en']}>"

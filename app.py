@@ -6,11 +6,13 @@ import psycopg2
 from flask import Flask, current_app, g, make_response, render_template, request, url_for
 from flask.json.provider import DefaultJSONProvider
 from flask_admin import Admin
-from flask_admin.theme import Bootstrap4Theme
+from flask_admin.theme import Bootstrap4Theme  # noqa
 from flask_assets import Environment
 from flask_babel import Babel, gettext, pgettext
 from flask_compress import Compress
 from govuk_frontend_wtf.main import WTFormsHelpers
+
+from proto.onboard.admin import register_admin_views
 
 try:
     from flask_debugtoolbar import DebugToolbarExtension
@@ -28,6 +30,7 @@ from fsd_utils.healthchecks.healthcheck import Healthcheck
 from fsd_utils.logging import logging
 from fsd_utils.services.aws_extended_client import SQSExtendedClient
 from fsd_utils.toggles.toggles import create_toggles_client, initialise_toggles_redis_store, load_toggles
+from govuk_flask_admin import GovukFlaskAdmin, GovukFrontendV5_6Theme  # noqa
 from jinja2 import ChoiceLoader, PackageLoader, PrefixLoader
 from sqlalchemy_utils import Ltree
 
@@ -101,6 +104,7 @@ class ConnexionCompatibleJSONFlask(Flask):
 
 
 redis_mlinks = FlaskRedis(config_prefix="REDIS_MLINKS")
+admin = None
 
 
 def create_app() -> Flask:  # noqa: C901
@@ -161,19 +165,20 @@ def create_app() -> Flask:  # noqa: C901
             PackageLoader("authenticator.frontend"),
             PrefixLoader({"govuk_frontend_jinja": PackageLoader("govuk_frontend_jinja")}),
             PrefixLoader({"govuk_frontend_wtf": PackageLoader("govuk_frontend_wtf")}),
-            # PackageLoader("govuk_flask_admin"),  # FIXME: you can try me (uncomment all three) but I don't work well yet  # noqa
+            # PackageLoader("govuk_flask_admin"),  # FIXME: you can try me (uncomment all 3) but I don't work well yet
         ]
     )
 
-    Admin(
+    admin = Admin(
         flask_app,
         host=Config.ONBOARD_HOST,
         url="/admin",
         csp_nonce_generator=flask_app.jinja_env.globals["csp_nonce"],
         theme=Bootstrap4Theme(swatch="cerulean", fluid=False),
-        # theme=GovukFrontendV5_6Theme(),  # FIXME: you can try me (uncomment all three) but I don't work well yet  # noqa
+        # theme=GovukFrontendV5_6Theme(),  # FIXME: you can try me (uncomment all 3) but I don't work well yet  # noqa
     )
-    # govuk_flask_admin = GovukFlaskAdmin(flask_app)  # FIXME: you can try me (uncomment all three) but I don't work well yet  # noqa
+    # GovukFlaskAdmin(flask_app)  # FIXME: you can try me (uncomment all 3) but I don't work well yet  # noqa
+    register_admin_views(admin, db)
 
     WTFormsHelpers(flask_app)
 
