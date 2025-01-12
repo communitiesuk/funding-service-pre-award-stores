@@ -33,8 +33,24 @@
       )
     }}
 
-    <h2 class="govuk-heading-m">Application rounds</h2>
+    {% set roundRows = [] %}
+    {% for round in grant.rounds %}{% set _ = roundRows.append([{"text": round.short_name}, {"text": round.title_json.en}, {"text": round.opens}, {"text": round.deadline}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('round.edit_view', id=round.id) + "'>Edit</a>"}]) %}{% endfor %}
+    {{
+      govukTable(
+        {
+          "caption": "Application rounds",
+          "captionClasses": "govuk-table__caption--m",
+          "firstCellIsHeader": true,
+          "head": [{"text": "Code"}, {"text": "Title"}, {"text": "Opens"}, {"text": "Deadline"}, {"text": "Action"}],
+          "rows": roundRows,
+        }
+      )
+    }}
 
+    <form method="get" action="{{ url_for('round.create_view') }}">
+      <input type="hidden" name="url" value="{{ url_for('proto_onboard.platform.grants.view_grant', code=grant.short_name) }}"/>
+      <button class="govuk-button govuk-button--secondary">Create an application round</button>
+    </form>
   </div>
 </div>
 {% endblock %}
