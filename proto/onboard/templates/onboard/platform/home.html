@@ -14,7 +14,7 @@
       <button class="govuk-button govuk-button--secondary">Create a new grant</button>
     </form>
 
-    {% for grant in grants %}
+    {% for grant in (grants | sort(attribute='short_name', case_sensitive=false)) %}
       <h2 class="govuk-heading-s govuk-!-display-inline">
         <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_onboard.platform.grants.view_grant', code=grant.short_name) }}">{{ grant.short_name }}: {{ grant.title_json.en }}</a></h2>
 

@@ -36,7 +36,7 @@
 
     <h2 class="govuk-heading-m">Application rounds</h2>
 
-    {% for round in grant.rounds %}
+    {% for round in (grant.rounds | sort(attribute='short_name', case_sensitive=false, reverse=true) | sort(attribute='opens', reverse=true)) %}
       <h3 class="govuk-heading-s govuk-!-display-inline">
         <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('round.details_view', id=round.id) }}">{{ round.short_name }}: {{ round.title_json.en }}</a>
       </h3>
