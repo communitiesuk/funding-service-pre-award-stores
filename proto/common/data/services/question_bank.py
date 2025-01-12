@@ -47,7 +47,7 @@ def add_template_sections_to_round(round_id, template_section_ids):
                 section_id=section.id,
                 template_question_id=template_question.id,
             )
-            section.application_questions.append(question)
+            section.questions.append(question)
 
     db.session.commit()
 
