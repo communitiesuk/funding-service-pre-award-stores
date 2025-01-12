@@ -34,12 +34,27 @@
       )
     }}
 
-    <h2 class="govuk-heading-m">Application rounds</h2>
+    <h2 class="govuk-heading-m">Application configuration</h2>
+
+    <h3 class="govuk-heading-s">Expression of interest</h3>
+    <p class="govuk-body">Expressions of interest are not available. Prospective applicants must wait for a new round to open.</p>
+    <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="#">Configure an expression of interest</a></p>
+
+    <h3 class="govuk-heading-s">Eligibility check</h3>
+    <p class="govuk-body">There is no eligiblity check for this grant. Anyone is able to apply.</p>
+    <p class="govuk-body"><a class="govuk-link govuk-link--no-visited-state" href="#">Configure an eligibility check</a></p>
+
+    <h3 class="govuk-heading-s">Rounds</h3>
+
+    <form method="get" action="{{ url_for('round.create_view') }}">
+      <input type="hidden" name="url" value="{{ url_for('proto_onboard.platform.grants.view_grant', grant_code=grant.short_name) }}"/>
+      <button class="govuk-button govuk-button--secondary">Create a new application round</button>
+    </form>
 
     {% for round in (grant.rounds | sort(attribute='short_name', case_sensitive=false, reverse=true) | sort(attribute='opens', reverse=true)) %}
-      <h3 class="govuk-heading-s govuk-!-display-inline">
-        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('round.details_view', id=round.id) }}">{{ round.short_name }}: {{ round.title_json.en }}</a>
-      </h3>
+      <h4 class="govuk-!-display-inline">
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_onboard.platform.rounds.view_round', grant_code=round.proto_grant.short_name, round_code=round.short_name) }}">{{ round.short_name }}: {{ round.title_json.en }}</a>
+      </h4>
       {{ govukTag({"text": round.status|title, "classes": "govuk-tag--" ~ round.status_colour}) }}
 
       <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-margin-top-3"><span class="">Open at:</span> {{ round.opens | datetime_format_full_month }}</p>
@@ -51,11 +66,6 @@
         <hr class="govuk-section-break--m" />
       {% endif %}
     {% endfor %}
-
-    <form method="get" action="{{ url_for('round.create_view') }}">
-      <input type="hidden" name="url" value="{{ url_for('proto_onboard.platform.grants.view_grant', code=grant.short_name) }}"/>
-      <button class="govuk-button govuk-button--secondary">Create a new application round</button>
-    </form>
   </div>
 </div>
 {% endblock %}

@@ -16,6 +16,17 @@ def get_grant(short_code: str):
     return grant
 
 
+def get_grant_and_round(grant_code: str, round_code: str) -> tuple[Fund, Round]:
+    round = (
+        db.session.scalars(
+            select(Round).join(Fund).filter(Fund.short_name.ilike(grant_code), Round.short_name.ilike(round_code))
+        )
+        .unique()
+        .one()
+    )
+    return round.proto_grant, round
+
+
 def get_active_round(grant_short_code: str):
     round = db.session.scalars(
         select(Round)

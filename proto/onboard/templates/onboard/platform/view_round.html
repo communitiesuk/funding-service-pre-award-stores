@@ -1,0 +1,46 @@
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+{% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
+
+{% extends "onboard/base.jinja.html" %}
+
+{% block pageTitle %}{% trans %}Manage grants{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l">{{ grant.title_json.en }}</span>
+      {{ round.title_json.en }}
+    </h1>
+
+    {{
+      govukTable(
+        {
+          "caption": "Round configuration",
+          "captionClasses": "govuk-table__caption--m",
+          "firstCellIsHeader": true,
+          "rows": [
+            [{"text": "Code"}, {"text": round.short_name}, {}],
+            [{"text": "Opens"}, {"text": round.opens | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('round.edit_view', id=round.id) + "'>Edit</a>"}],
+            [{"text": "Reminders at"}, {"text": round.reminder_date | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('round.edit_view', id=round.id) + "'>Edit</a>"}],
+            [{"text": "Deadline"}, {"text": round.deadline | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('round.edit_view', id=round.id) + "'>Edit</a>"}],
+            [{"text": "Assessment opens"}, {"text": round.assessment_opens | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('round.edit_view', id=round.id) + "'>Edit</a>"}],
+            [{"text": "Assessment deadline"}, {"text": round.assessment_deadline | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('round.edit_view', id=round.id) + "'>Edit</a>"}],
+            [{"text": "etc"}, {"text": '...'}, {}],
+          ]
+        }
+      )
+    }}
+
+    <h2 class="govuk-heading-m">Data collection</h2>
+
+    {% if round.application_sections | length == 0 %}
+      <p class="govuk-body">No questions have been set up for this round yet.</p>
+      <form method="get" action="#" novalidate>
+        <input class="govuk-button" type="button" value="Add questions"/>
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
