@@ -535,6 +535,22 @@ wheels = [
 ]
 
 [[package]]
+name = "flask-admin"
+version = "2.0.0a3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "flask" },
+    { name = "jinja2" },
+    { name = "markupsafe" },
+    { name = "werkzeug" },
+    { name = "wtforms" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b9/cb/062d75123510a3e60eab076264fdb68e50724ea5cee62d71c10d171d79dd/flask_admin-2.0.0a3.tar.gz", hash = "sha256:cf09bab5b732dbdb0ea9a245ee34bbd941a932f096b619d6f982ff5faa3f47eb", size = 5488175 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c9/b8/0e24bcd0c6b4d4b9effc12dabe11b8d61f44372eff34f1d0501a12feee93/flask_admin-2.0.0a3-py3-none-any.whl", hash = "sha256:f229f8e9a4b7eb1bcd57386d23c44442c73ffa121e5a20e89a03b83f68b303dd", size = 6402247 },
+]
+
+[[package]]
 name = "flask-assets"
 version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -795,6 +811,7 @@ dependencies = [
     { name = "dataclass-dict-convert" },
     { name = "email-validator" },
     { name = "flask" },
+    { name = "flask-admin" },
     { name = "flask-assets" },
     { name = "flask-babel" },
     { name = "flask-compress" },
@@ -808,6 +825,7 @@ dependencies = [
     { name = "flask-talisman" },
     { name = "flask-wtf" },
     { name = "funding-service-design-utils", extra = ["toggles"] },
+    { name = "govuk-flask-admin" },
     { name = "govuk-frontend-jinja" },
     { name = "govuk-frontend-wtf" },
     { name = "greenlet" },
@@ -875,6 +893,7 @@ requires-dist = [
     { name = "dataclass-dict-convert", specifier = "==1.7.4" },
     { name = "email-validator", specifier = "==2.2.0" },
     { name = "flask", specifier = "==3.0.3" },
+    { name = "flask-admin", specifier = "==2.0.0a3" },
     { name = "flask-assets", specifier = "==2.1.0" },
     { name = "flask-babel", specifier = "==4.0.0" },
     { name = "flask-compress", specifier = "==1.15" },
@@ -888,6 +907,7 @@ requires-dist = [
     { name = "flask-talisman", specifier = "==1.1.0" },
     { name = "flask-wtf", specifier = "==1.2.2" },
     { name = "funding-service-design-utils", extras = ["toggles"], specifier = "==6.0.1" },
+    { name = "govuk-flask-admin", specifier = "==0.1.1" },
     { name = "govuk-frontend-jinja", specifier = "==3.4.0" },
     { name = "govuk-frontend-wtf", specifier = "==3.2.0" },
     { name = "greenlet", specifier = "==3.1.1" },
@@ -964,6 +984,20 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/6b/fc/1a847ada0757cc7690f83959227514b1a52ff6de504619501c81805fa1da/gevent-24.11.1-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:1d4fadc319b13ef0a3c44d2792f7918cf1bca27cacd4d41431c22e6b46668026", size = 6773903 },
     { url = "https://files.pythonhosted.org/packages/3b/9d/254dcf455f6659ab7e36bec0bc11f51b18ea25eac2de69185e858ccf3c30/gevent-24.11.1-cp310-cp310-win_amd64.whl", hash = "sha256:3d882faa24f347f761f934786dde6c73aa6c9187ee710189f12dcc3a63ed4a50", size = 1560443 },
     { url = "https://files.pythonhosted.org/packages/86/63/197aa67250943b508b34995c2aa6b46402e7e6f11785487740c2057bfb20/gevent-24.11.1-pp310-pypy310_pp73-macosx_11_0_universal2.whl", hash = "sha256:f43f47e702d0c8e1b8b997c00f1601486f9f976f84ab704f8f11536e3fa144c9", size = 1271676 },
+]
+
+[[package]]
+name = "govuk-flask-admin"
+version = "0.1.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "flask" },
+    { name = "flask-admin" },
+    { name = "govuk-frontend-wtf" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c7/2a/517e2d3f98a402bc8ae59fddc76023b949671a80dc41a3ca6dd6b3bf2d1f/govuk_flask_admin-0.1.1.tar.gz", hash = "sha256:d08fc79eb56bbdc17b8d98ce5be6023de0ffa2c447a04e8ee2dd3cfe4a09b869", size = 240358 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c5/db/ddf8270aa8c947a198f667e0a0de477f371eaf994d29f5bc89d1da9f4280/govuk_flask_admin-0.1.1-py3-none-any.whl", hash = "sha256:06be3da71aceb31ded935c531ef844b525497ccccb00c987e18a33fb12f5615a", size = 226231 },
 ]
 
 [[package]]

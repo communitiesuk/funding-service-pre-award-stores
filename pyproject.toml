@@ -58,6 +58,8 @@ dependencies = [
     "xhtml2pdf==0.2.16",
     "notifications-python-client==10.0.1",
     "pydantic>=2.10.4",
+    "flask-admin==2.0.0a3",
+    "govuk-flask-admin==0.1.1",
 ]
 
 [tool.djlint]

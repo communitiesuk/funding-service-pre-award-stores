@@ -5,6 +5,8 @@ from urllib.parse import urlencode, urljoin
 import psycopg2
 from flask import Flask, current_app, g, make_response, render_template, request, url_for
 from flask.json.provider import DefaultJSONProvider
+from flask_admin import Admin
+from flask_admin.theme import Bootstrap4Theme
 from flask_assets import Environment
 from flask_babel import Babel, gettext, pgettext
 from flask_compress import Compress
@@ -129,6 +131,20 @@ def create_app() -> Flask:  # noqa: C901
     assets.init_app(flask_app)
     static_assets.init_assets(flask_app, auto_build=Config.ASSETS_AUTO_BUILD)
 
+    from db import db, migrate
+
+    # Bind SQLAlchemy ORM to Flask app
+    db.init_app(flask_app)
+
+    # Bind Flask-Migrate db utilities to Flask app
+    migrate.init_app(flask_app, db, directory="db/migrations", render_as_batch=True)
+
+    # Enable mapping of ltree datatype for sections
+    psycopg2.extensions.register_adapter(Ltree, lambda ltree: psycopg2.extensions.QuotedString(str(ltree)))
+
+    # Configure application security with Talisman
+    Talisman(flask_app, **Config.TALISMAN_SETTINGS)
+
     flask_app.jinja_loader = ChoiceLoader(
         [
             PackageLoader("proto.apply"),
@@ -145,8 +161,19 @@ def create_app() -> Flask:  # noqa: C901
             PackageLoader("authenticator.frontend"),
             PrefixLoader({"govuk_frontend_jinja": PackageLoader("govuk_frontend_jinja")}),
             PrefixLoader({"govuk_frontend_wtf": PackageLoader("govuk_frontend_wtf")}),
+            # PackageLoader("govuk_flask_admin"),  # FIXME: you can try me (uncomment all three) but I don't work well yet  # noqa
         ]
     )
+
+    Admin(
+        flask_app,
+        host=Config.ONBOARD_HOST,
+        url="/admin",
+        csp_nonce_generator=flask_app.jinja_env.globals["csp_nonce"],
+        theme=Bootstrap4Theme(swatch="cerulean", fluid=False),
+        # theme=GovukFrontendV5_6Theme(),  # FIXME: you can try me (uncomment all three) but I don't work well yet  # noqa
+    )
+    # govuk_flask_admin = GovukFlaskAdmin(flask_app)  # FIXME: you can try me (uncomment all three) but I don't work well yet  # noqa
 
     WTFormsHelpers(flask_app)
 
@@ -283,22 +310,8 @@ def create_app() -> Flask:  # noqa: C901
     # Initialise Redis Magic Links Store
     redis_mlinks.init_app(flask_app)
 
-    # Configure application security with Talisman
-    Talisman(flask_app, **Config.TALISMAN_SETTINGS)
-
     # Initialize sqs extended client
     create_sqs_extended_client(flask_app)
-
-    from db import db, migrate
-
-    # Bind SQLAlchemy ORM to Flask app
-    db.init_app(flask_app)
-
-    # Bind Flask-Migrate db utilities to Flask app
-    migrate.init_app(flask_app, db, directory="db/migrations", render_as_batch=True)
-
-    # Enable mapping of ltree datatype for sections
-    psycopg2.extensions.register_adapter(Ltree, lambda ltree: psycopg2.extensions.QuotedString(str(ltree)))
 
     # Initialise logging
     logging.init_app(flask_app)
