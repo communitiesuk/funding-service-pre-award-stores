@@ -6,17 +6,17 @@
 
 {% block content %}
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-l">My grants</h1>
 
     <form method="get" action="{{ url_for('fund.create_view') }}" novalidate>
-      <input type="hidden" name="url" value="{{ url_for('proto_onboard.platform.index') }}"/>
+      <input type="hidden" name="url" value="{{ url_for('proto_onboard.platform.grants.index') }}"/>
       <button class="govuk-button govuk-button--secondary">Create a new grant</button>
     </form>
 
     {% for grant in grants %}
       <h2 class="govuk-heading-s govuk-!-display-inline">
-        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('fund.details_view', id=grant.id) }}">{{ grant.short_name }}: {{ grant.title_json.en }}</a></h2>
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_onboard.platform.grants.view_grant', code=grant.short_name) }}">{{ grant.short_name }}: {{ grant.title_json.en }}</a></h2>
 
       {{ govukTag({"text": grant.proto_status.value|title, "classes": "govuk-tag--green"}) }}
 

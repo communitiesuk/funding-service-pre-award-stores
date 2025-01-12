@@ -1,0 +1,40 @@
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+
+{% extends "onboard/base.jinja.html" %}
+
+{% block pageTitle %}{% trans %}Manage grants{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+    <h1 class="govuk-heading-l">{{ grant.name_json.en }}</h1>
+
+    {{
+      govukTable(
+        {
+          "caption": "Grant configuration",
+          "captionClasses": "govuk-table__caption--m",
+          "firstCellIsHeader": true,
+          "rows": [
+            [{"text": "Code"}, {"text": grant.short_name}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id) + "'>Edit</a>"}],
+            [{"text": "Name (English)"}, {"text": grant.name_json.en}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id) + "'>Edit</a>"}],
+            [{"text": "Name (Welsh)"}, {"text": grant.name_json.cy}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id) + "'>Edit</a>"}],
+            [{"text": "Title (English)"}, {"text": grant.title_json.en}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id) + "'>Edit</a>"}],
+            [{"text": "Title (Welsh)"}, {"text": grant.title_json.cy}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id) + "'>Edit</a>"}],
+            [{"text": "Description (English)"}, {"text": grant.description_json.en}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id) + "'>Edit</a>"}],
+            [{"text": "Description (Welsh)"}, {"text": grant.description_json.cy}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id) + "'>Edit</a>"}],
+            [{"text": "Funding type"}, {"text": grant.funding_type.value}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id) + "'>Edit</a>"}],
+            [{"text": "Organisation name"}, {"text": grant.owner_organisation_name}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id) + "'>Edit</a>"}],
+            [{"text": "Organisation code"}, {"text": grant.owner_organisation_shortname}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id) + "'>Edit</a>"}],
+            [{"text": "GGIS reference"}, {"text": grant.ggis_scheme_reference_number}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id) + "'>Edit</a>"}],
+          ]
+        }
+      )
+    }}
+
+    <h2 class="govuk-heading-m">Application rounds</h2>
+
+  </div>
+</div>
+{% endblock %}

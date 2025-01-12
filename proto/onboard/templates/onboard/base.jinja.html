@@ -1,5 +1,7 @@
 {% from "govuk_frontend_jinja/components/header/macro.html" import govukHeader %}
 {% from "govuk_frontend_jinja/components/phase-banner/macro.html" import govukPhaseBanner %}
+{% from "govuk_frontend_jinja/components/service-navigation/macro.html" import govukServiceNavigation %}
+{% from "govuk_frontend_jinja/components/back-link/macro.html" import govukBackLink %}
 {% from "govuk_frontend_jinja/components/footer/macro.html" import govukFooter %}
 
 
@@ -14,11 +16,22 @@
 {{ govukHeader({
     "homepageUrl": "#",
     "useTudorCrown": true,
+    "classes": "govuk-header--full-width-border",
     "serviceName": _("Onboard a grant")
+}) }}
+
+{{ govukServiceNavigation({
+  "serviceName": "Onboard a grant",
+  "navigation": [
+    {"href": url_for('proto_onboard.platform.grants.index'), "text": "Grants", "active": active_navigation_tab == 'grants'},
+    {"href": "3", "text": "Application rounds", "active": active_navigation_tab == 'rounds'},
+    {"href": "#", "text": "Question bank", "active": active_navigation_tab == 'templates'},
+  ]
 }) }}
 {% endblock header %}
 
 {% block beforeContent %}
+
 {% set feedbackMessage %}
 {% trans %}This is a new service. Help us improve it and{% endtrans %} <a href="#" class="govuk-link govuk-link--no-visited-state">{% trans %}give your feedback (opens in new tab).{% endtrans %}</a>
 {% endset %}
@@ -29,6 +42,10 @@
     },
     "html": feedbackMessage
 }) }}
+
+{% if back_link %}
+{{ govukBackLink({"href": back_link}) }}
+{% endif %}
 {% endblock beforeContent %}
 
 {% block footer %}
