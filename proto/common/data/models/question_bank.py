@@ -69,7 +69,7 @@ class TemplateQuestion(db.Model):
     data_standard: Mapped[DataStandard | None] = relationship(DataStandard)
 
     def __repr__(self):
-        return self.slug
+        return f"<TemplateQuestion {self.slug} template_section={self.template_section}>"
 
 
 class ApplicationSection(db.Model):
@@ -89,7 +89,7 @@ class ApplicationSection(db.Model):
     round: Mapped["Round"] = relationship("Round")
 
     def __repr__(self):
-        return self.slug
+        return f"<ApplicationSection {self.slug} fund={self.round.proto_grant.short_name}>"
 
 
 class ApplicationQuestion(db.Model):
@@ -118,4 +118,4 @@ class ApplicationQuestion(db.Model):
     data_standard: Mapped[DataStandard | None] = relationship(DataStandard)
 
     def __repr__(self):
-        return self.slug
+        return f"<ApplicationQuestion {self.slug} section={self.section}>"

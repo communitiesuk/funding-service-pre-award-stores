@@ -125,11 +125,23 @@ class TemplateQuestionAdmin(BaseAdmin):
 
 class ApplicationSectionAdmin(BaseAdmin):
     _model = ApplicationSection
-    can_create = False
+    can_create = True
     can_edit = True
+
+    form_excluded_columns = ["created_at", "updated_at", "questions"]
+
+    column_labels = {
+        "round": "Round (warning: check value is correct if creating new instance from Design System side)"
+    }
 
 
 class ApplicationQuestionAdmin(BaseAdmin):
     _model = ApplicationQuestion
-    can_create = False
+    can_create = True
     can_edit = True
+
+    form_excluded_columns = ["created_at", "updated_at", "template_question"]
+
+    column_labels = {
+        "section": "Section (warning: check value is correct if creating new instance from Design System side)"
+    }

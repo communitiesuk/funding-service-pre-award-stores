@@ -111,6 +111,9 @@ class Round(db.Model):
         "ApplicationSection", lazy="joined", order_by="ApplicationSection.order"
     )
 
+    def __repr__(self):
+        return f"<Round {self.short_name}: {self.title_json['en']}>"
+
     @property
     def status(self):
         now = datetime.datetime.utcnow()
