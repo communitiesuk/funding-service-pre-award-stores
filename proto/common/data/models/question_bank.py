@@ -112,7 +112,7 @@ class ApplicationQuestion(db.Model):
 
     section_id: Mapped[int] = mapped_column(db.ForeignKey(ApplicationSection.id))
     section: Mapped[ApplicationSection] = relationship(ApplicationSection, backref="questions")
-    template_question_id: Mapped[int] = mapped_column(db.ForeignKey(TemplateQuestion.id))
+    template_question_id: Mapped[int | None] = mapped_column(db.ForeignKey(TemplateQuestion.id))
     template_question: Mapped[TemplateQuestion] = relationship(TemplateQuestion)
     data_standard_id: Mapped[int | None] = mapped_column(db.ForeignKey(DataStandard.id))
     data_standard: Mapped[DataStandard | None] = relationship(DataStandard)

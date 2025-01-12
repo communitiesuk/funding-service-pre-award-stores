@@ -1,23 +1,31 @@
-"""onboarding
+"""proto re-migration
 
-Revision ID: 011_onboarding
-Revises: 010_proto_migration
-Create Date: 2025-01-12 11:13:12.077215
+Revision ID: 010_proto_re_migration
+Revises: 009_relax_flag_json_constraints
+Create Date: 2025-01-12 20:14:58.576909
 
 """
 
 import sqlalchemy as sa
 from alembic import op
+from sqlalchemy import text
 from sqlalchemy.dialects import postgresql
+from sqlalchemy.dialects.postgresql import ENUM
 
 # revision identifiers, used by Alembic.
-revision = "011_onboarding"
-down_revision = "010_proto_migration"
+revision = "010_proto_re_migration"
+down_revision = "009_relax_flag_json_constraints"
 branch_labels = None
 depends_on = None
 
+fund_status_enum = ENUM("DRAFT", "LIVE", "RETIRED", name="fundstatus", create_type=False)
+question_type_enum = ENUM("TEXT_INPUT", "TEXTAREA", "RADIOS", name="questiontype", create_type=False)
+
 
 def upgrade():
+    fund_status_enum.create(op.get_bind(), checkfirst=True)
+    question_type_enum.create(op.get_bind(), checkfirst=True)
+
     op.create_table(
         "data_standard",
         sa.Column("id", sa.Integer(), nullable=False),
@@ -46,7 +54,7 @@ def upgrade():
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("updated_at", sa.DateTime(), nullable=False),
         sa.Column("slug", sa.String(), nullable=False),
-        sa.Column("type", sa.Enum("TEXT_INPUT", "TEXTAREA", "RADIOS", name="questiontype"), nullable=False),
+        sa.Column("type", question_type_enum, nullable=False),
         sa.Column("title", sa.String(), nullable=False),
         sa.Column("hint", sa.String(), nullable=True),
         sa.Column("order", sa.Integer(), nullable=False),
@@ -86,13 +94,13 @@ def upgrade():
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("updated_at", sa.DateTime(), nullable=False),
         sa.Column("slug", sa.String(), nullable=False),
-        sa.Column("type", sa.Enum("TEXT_INPUT", "TEXTAREA", "RADIOS", name="questiontype"), nullable=False),
+        sa.Column("type", question_type_enum, nullable=False),
         sa.Column("title", sa.String(), nullable=False),
         sa.Column("hint", sa.String(), nullable=True),
         sa.Column("order", sa.Integer(), nullable=False),
         sa.Column("data_source", postgresql.JSONB(astext_type=sa.Text()), nullable=True),
         sa.Column("section_id", sa.Integer(), nullable=False),
-        sa.Column("template_question_id", sa.Integer(), nullable=False),
+        sa.Column("template_question_id", sa.Integer(), nullable=True),
         sa.Column("data_standard_id", sa.Integer(), nullable=True),
         sa.CheckConstraint("regexp_like(slug, '[a-z\\-]+')", name=op.f("ck_application_question_slug")),
         sa.ForeignKeyConstraint(
@@ -115,10 +123,56 @@ def upgrade():
         sa.UniqueConstraint("section_id", "slug", name="uq_aq_slug_for_section"),
     )
 
+    with op.batch_alter_table("fund", schema=None) as batch_op:
+        batch_op.add_column(sa.Column("proto_status", fund_status_enum, nullable=True))
+        batch_op.add_column(sa.Column("proto_name", sa.String(), nullable=True))
+        batch_op.add_column(sa.Column("proto_name_cy", sa.String(), nullable=True))
+        batch_op.add_column(
+            sa.Column("proto_created_date", sa.DateTime(), server_default=sa.text("now()"), nullable=True)
+        )
+        batch_op.add_column(
+            sa.Column("proto_updated_date", sa.DateTime(), server_default=sa.text("now()"), nullable=True)
+        )
+        batch_op.add_column(sa.Column("proto_prospectus_link", sa.String(), nullable=True))
+        batch_op.add_column(sa.Column("proto_apply_action_description", sa.String(), nullable=True))
+
+    op.execute(text("UPDATE fund SET proto_status = 'LIVE'"))
+
+    with op.batch_alter_table("fund", schema=None) as batch_op:
+        batch_op.alter_column("proto_status", nullable=False)
+
+    with op.batch_alter_table("round", schema=None) as batch_op:
+        batch_op.add_column(sa.Column("proto_start_date", sa.Date(), nullable=True))
+        batch_op.add_column(sa.Column("proto_end_date", sa.Date(), nullable=True))
+        batch_op.add_column(
+            sa.Column("proto_created_date", sa.DateTime(), server_default=sa.text("now()"), nullable=True)
+        )
+        batch_op.add_column(
+            sa.Column("proto_updated_date", sa.DateTime(), server_default=sa.text("now()"), nullable=True)
+        )
+
 
 def downgrade():
+    with op.batch_alter_table("round", schema=None) as batch_op:
+        batch_op.drop_column("proto_updated_date")
+        batch_op.drop_column("proto_created_date")
+        batch_op.drop_column("proto_end_date")
+        batch_op.drop_column("proto_start_date")
+
+    with op.batch_alter_table("fund", schema=None) as batch_op:
+        batch_op.drop_column("proto_apply_action_description")
+        batch_op.drop_column("proto_prospectus_link")
+        batch_op.drop_column("proto_updated_date")
+        batch_op.drop_column("proto_created_date")
+        batch_op.drop_column("proto_name_cy")
+        batch_op.drop_column("proto_name")
+        batch_op.drop_column("proto_status")
+
     op.drop_table("application_question")
     op.drop_table("application_section")
     op.drop_table("template_question")
     op.drop_table("template_section")
     op.drop_table("data_standard")
+
+    question_type_enum.drop(op.get_bind(), checkfirst=True)
+    fund_status_enum.drop(op.get_bind(), checkfirst=True)
