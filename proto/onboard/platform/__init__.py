@@ -64,10 +64,15 @@ def choose_from_question_bank(grant_code, round_code):
     form = ChooseTemplateSectionsForm(template_sections)
 
     if form.validate_on_submit():
-        print(form.sections.data)
         add_template_sections_to_round(round.id, form.sections.data)
         return redirect(
             url_for("proto_onboard.platform.rounds.view_round", grant_code=grant_code, round_code=round_code)
         )
 
     return render_template("onboard/platform/choose_from_question_bank.html", grant=grant, round=round, form=form)
+
+
+# @rounds_blueprint.route("/grants/<grant_code>/rounds/<round_code>/questions/<question_id>", methods=["GET", "POST"])
+# def edit_application_round_question(grant_code, round_code, question_id):
+#     question = get_application_question(grant_code, round_code, question_id)
+#     return render_template()

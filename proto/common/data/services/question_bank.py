@@ -1,7 +1,12 @@
 from sqlalchemy import select
 
 from db import db
-from proto.common.data.models import ApplicationQuestion, ApplicationSection, TemplateQuestion, TemplateSection
+from proto.common.data.models import (
+    ApplicationQuestion,
+    ApplicationSection,
+    TemplateQuestion,
+    TemplateSection,
+)
 
 
 def get_template_sections_and_questions():
@@ -21,8 +26,6 @@ def add_template_sections_to_round(round_id, template_section_ids):
         .unique()
         .all()
     )
-
-    print(template_sections)
 
     sections = []
     for template_section in template_sections:
@@ -47,3 +50,13 @@ def add_template_sections_to_round(round_id, template_section_ids):
             section.application_questions.append(question)
 
     db.session.commit()
+
+
+# def get_application_question(grant_code, round_code, question_id):
+#     question = db.session.scalar(
+#         select(ApplicationQuestion)
+#         .join(Round)
+#         .join(Fund)
+#         .filter(ApplicationQuestion.id == question_id, Round.short_name == round_code, Fund.short_name == grant_code)
+#     ).one()
+#     return question

@@ -33,6 +33,7 @@
       )
     }}
 
+
     <h2 class="govuk-heading-m">Data collection</h2>
 
     {% if round.application_sections | length == 0 %}
@@ -44,7 +45,15 @@
       {% for section in round.application_sections %}
         {% set sectionloop = loop %}
         {% set questionRows = [] %}
-        {% for question in section.questions %}{% set _ = questionRows.append([{"text": sectionloop.index ~ '.' ~ loop.index}, {"text": question.title}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('round.edit_view', id=round.id) + "'>Edit</a>"}]) %}{% endfor %}
+        {% for question in section.questions %}
+          {% set _ = questionRows.append(
+            [
+              {"text": sectionloop.index ~ '.' ~ loop.index},
+              {"text": question.title},
+              {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('applicationquestion.edit_view', id=question.id, url=url_for('proto_onboard.platform.rounds.view_round', grant_code=grant.short_name, round_code=round.short_name)) + "'>Edit</a>"}
+            ]
+          ) %}
+        {% endfor %}
 
         {{
           govukTable(

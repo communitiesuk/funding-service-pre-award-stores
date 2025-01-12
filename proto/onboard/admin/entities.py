@@ -5,7 +5,12 @@ from flask_wtf import FlaskForm
 
 from proto.common.data.models import TemplateSection
 from proto.common.data.models.fund import Fund
-from proto.common.data.models.question_bank import DataStandard, TemplateQuestion
+from proto.common.data.models.question_bank import (
+    ApplicationQuestion,
+    ApplicationSection,
+    DataStandard,
+    TemplateQuestion,
+)
 from proto.common.data.models.round import Round
 
 
@@ -115,4 +120,16 @@ class TemplateSectionAdmin(BaseAdmin):
 class TemplateQuestionAdmin(BaseAdmin):
     _model = TemplateQuestion
     can_create = True
+    can_edit = True
+
+
+class ApplicationSectionAdmin(BaseAdmin):
+    _model = ApplicationSection
+    can_create = False
+    can_edit = True
+
+
+class ApplicationQuestionAdmin(BaseAdmin):
+    _model = ApplicationQuestion
+    can_create = False
     can_edit = True
