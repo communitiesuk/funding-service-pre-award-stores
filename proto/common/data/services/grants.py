@@ -2,7 +2,7 @@ from datetime import date
 
 import psycopg2
 import sqlalchemy.exc
-from flask_babel import gettext as _
+from flask_babel import lazy_gettext as _l
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
@@ -83,7 +83,7 @@ def create_grant(
         cause = e.__cause__
         if isinstance(cause, psycopg2.errors.UniqueViolation) and "Key (short_name)=" in cause.diag.message_detail:
             raise DataValidationError(
-                message=_(f"A grant with the code ‘{code}’ already exists. Enter a different code."),
+                message=_l(f"A grant with the code ‘{code}’ already exists. Enter a different code."),
                 schema_field_name="code",
             ) from e
 

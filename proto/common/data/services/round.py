@@ -1,6 +1,6 @@
 import psycopg2
 import sqlalchemy
-from flask_babel import gettext as _
+from flask_babel import lazy_gettext as _l
 
 from db import db
 from proto.common.data.exceptions import DataValidationError
@@ -29,7 +29,7 @@ def create_round(fund_id, code, title, title_cy, proto_start_date, proto_end_dat
         cause = e.__cause__
         if isinstance(cause, psycopg2.errors.UniqueViolation) and "Key (short_name)=" in cause.diag.message_detail:
             raise DataValidationError(
-                message=_(f"A round with the code ‘{code}’ already exists. Enter a different code."),
+                message=_l(f"A round with the code ‘{code}’ already exists. Enter a different code."),
                 schema_field_name="code",
             ) from e
 
