@@ -1,0 +1,21 @@
+.app-sidebar {
+    display: flex;
+    align-items: stretch
+}
+
+.app-sidebar__container {
+    border-left-width: 2px;
+    border-left-color: lightgrey;
+    border-left-style: solid;
+}
+
+.app-sidebar__item--active {
+    font-weight: bold;
+}
+
+.app-card {
+    background: #1a65a6;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+}

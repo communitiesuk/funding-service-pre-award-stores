@@ -1,0 +1,54 @@
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+{% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
+
+{% extends "onboard/base.jinja.html" %}
+
+{% block pageTitle %}{% trans %}Manage grants{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-m">Grant configuration</span>
+      {{ grant.name_json.en }}
+    </h1>
+  </div>
+</div>
+<div class="govuk-grid-row app-sidebar">
+  <div class="govuk-grid-column-two-thirds">
+    {% set editLinkHtml = "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id, url=url_for('proto_onboard.platform.grants.view_grant_configuration', grant_code=grant.short_name)) + "'>Edit</a>" %}
+    {{
+      govukTable(
+        {
+          "firstCellIsHeader": true,
+          "rows": [
+            [{"text": "Code"}, {"text": grant.short_name}, {"html": editLinkHtml}],
+            [{"text": "Name (English)"}, {"text": grant.name_json.en}, {"html": editLinkHtml}],
+            [{"text": "Name (Welsh)"}, {"text": grant.name_json.cy}, {"html": editLinkHtml}],
+            [{"text": "Title (English)"}, {"text": grant.title_json.en}, {"html": editLinkHtml}],
+            [{"text": "Title (Welsh)"}, {"text": grant.title_json.cy}, {"html": editLinkHtml}],
+            [{"text": "Description (English)"}, {"text": grant.description_json.en}, {"html": editLinkHtml}],
+            [{"text": "Description (Welsh)"}, {"text": grant.description_json.cy}, {"html": editLinkHtml}],
+            [{"text": "Funding type"}, {"text": grant.funding_type.value}, {"html": editLinkHtml}],
+            [{"text": "Organisation name"}, {"text": grant.owner_organisation_name}, {"html": editLinkHtml}],
+            [{"text": "Organisation code"}, {"text": grant.owner_organisation_shortname}, {"html": editLinkHtml}],
+            [{"text": "GGIS reference"}, {"text": grant.ggis_scheme_reference_number}, {"html": editLinkHtml}],
+          ]
+        }
+      )
+    }}
+  </div>
+
+  <div class="govuk-grid-column-one-quarter app-sidebar__container">
+    <nav class="navigation" aria-label="Grant">
+      <ul class="govuk-list govuk-list--spaced">
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_onboard.platform.grants.view_grant_overview', grant_code=grant.short_name) }}">Grant overview</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_onboard.platform.grants.view_grant_rounds', grant_code=grant.short_name) }}">Application rounds</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="#">Monitoring</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="#">Recipients</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-sidebar__item--active" href="{{ url_for('proto_onboard.platform.grants.view_grant_configuration', grant_code=grant.short_name) }}">Configuration</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}

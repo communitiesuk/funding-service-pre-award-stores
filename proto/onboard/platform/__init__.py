@@ -43,10 +43,32 @@ def index():
 
 
 @grants_blueprint.get("/grants/<grant_code>")
-def view_grant(grant_code):
+def view_grant_overview(grant_code):
     grant = get_grant(grant_code)
     return render_template(
-        "onboard/platform/view_grant.html", grant=grant, back_link=url_for("proto_onboard.platform.grants.index")
+        "onboard/platform/view_grant_overview.html",
+        grant=grant,
+        back_link=url_for("proto_onboard.platform.grants.index"),
+    )
+
+
+@grants_blueprint.get("/grants/<grant_code>/rounds")
+def view_grant_rounds(grant_code):
+    grant = get_grant(grant_code)
+    return render_template(
+        "onboard/platform/view_grant_rounds.html",
+        grant=grant,
+        back_link=url_for("proto_onboard.platform.grants.index"),
+    )
+
+
+@grants_blueprint.get("/grants/<grant_code>/configuration")
+def view_grant_configuration(grant_code):
+    grant = get_grant(grant_code)
+    return render_template(
+        "onboard/platform/view_grant_configuration.html",
+        grant=grant,
+        back_link=url_for("proto_onboard.platform.grants.index"),
     )
 
 
@@ -59,7 +81,7 @@ def create_grant_view():
         except DataValidationError as e:
             attach_validation_error_to_form(form, e)
         else:
-            return redirect(url_for("proto_onboard.platform.grants.view_grant", grant_code=grant.short_name))
+            return redirect(url_for("proto_onboard.platform.grants.view_grant_overview", grant_code=grant.short_name))
 
     return render_template(
         "onboard/platform/create_grant.html", form=form, back_link=url_for("proto_onboard.platform.grants.index")
@@ -92,7 +114,7 @@ def create_round_view(grant_code):
     return render_template(
         "onboard/platform/create_round.html",
         form=form,
-        back_link=url_for("proto_onboard.platform.grants.view_grant", grant_code=grant_code),
+        back_link=url_for("proto_onboard.platform.grants.view_grant_rounds", grant_code=grant_code),
     )
 
 
@@ -103,7 +125,7 @@ def view_round(grant_code, round_code):
         "onboard/platform/view_round.html",
         grant=grant,
         round=round,
-        back_link=url_for("proto_onboard.platform.grants.view_grant", grant_code=grant_code),
+        back_link=url_for("proto_onboard.platform.grants.view_grant_rounds", grant_code=grant_code),
     )
 
 

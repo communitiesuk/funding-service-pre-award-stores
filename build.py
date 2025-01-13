@@ -35,6 +35,8 @@ def build_assets():
     for file_to_move in os.listdir("./static/assets"):
         shutil.move("./static/assets/" + file_to_move, "static")
 
+    shutil.copyfile("./proto/static/css/main.css", "./static/main.css")
+
     print("Deleting temp files")
     os.remove("./govuk_frontend.zip")
 
