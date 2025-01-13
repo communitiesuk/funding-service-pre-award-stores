@@ -183,11 +183,40 @@ def seed_assessment_store_db(c, environment="local"):
             else:
                 _echo_print("No new scoring systems were added.")
 
-            # Associate scoring systems with all rounds
+            # Associate scoring systems with rounds
             round_ids = db.session.query(Round).with_entities(Round.id).all()
+            default_scoring_system_id = scoring_system_data[0]["id"]
+
+            specific_round_scoring = [
+                {
+                    "round_id": "ae223686-cbcc-4548-8b52-05898c315a59",
+                    "scoring_system_id": "a8ed6f02-53a8-44d0-848c-a3f35db09d8e",  # ZeroToOne for HSRA VR
+                },
+                {
+                    "round_id": "bae275aa-86a5-4d3e-bcc7-0a25d040910d",
+                    "scoring_system_id": "a8ed6f02-53a8-44d0-848c-a3f35db09d8e",  # ZeroToOne for HSRA RP
+                },
+            ]
+
+            specific_round_mapping = {
+                str(entry["round_id"]): entry["scoring_system_id"] for entry in specific_round_scoring
+            }
+
             for (round_id,) in round_ids:
-                db.session.merge(AssessmentRound(round_id=round_id, scoring_system_id=scoring_system_data[0]["id"]))
-                _echo_print(f"Associated scoring system ID {scoring_system_data[0]['id']} with round ID {round_id}")
+                specific_scoring_system_id = specific_round_mapping.get(str(round_id), default_scoring_system_id)
+
+                # Check if an assessment round already exists
+                existing_assessment_round = db.session.query(AssessmentRound).filter_by(round_id=round_id).one_or_none()
+
+                if existing_assessment_round:
+                    if existing_assessment_round.scoring_system_id != specific_scoring_system_id:
+                        existing_assessment_round.scoring_system_id = specific_scoring_system_id
+                        _echo_print(f"Updated scoring system for round ID {round_id} to {specific_scoring_system_id}")
+                else:
+                    db.session.add(AssessmentRound(round_id=round_id, scoring_system_id=specific_scoring_system_id))
+                    _echo_print(f"Associated scoring system ID {specific_scoring_system_id} with round ID {round_id}")
+
+            db.session.commit()
 
             print(f"Seeded DB with scoring system and assessment round data in {environment} environment.")
 
