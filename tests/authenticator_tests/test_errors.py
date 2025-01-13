@@ -14,9 +14,9 @@ def test_404(authenticator_test_client):
     links = soup.find_all("a", href=True)
 
     # Check if the portal link is present
-    assert any(
-        link["href"] == Config.SUPPORT_DESK_APPLY for link in links
-    ), f"Expected URL {Config.SUPPORT_DESK_APPLY} not found in the links"
+    assert any(link["href"] == Config.SUPPORT_DESK_APPLY for link in links), (
+        f"Expected URL {Config.SUPPORT_DESK_APPLY} not found in the links"
+    )
 
 
 def test_500(authenticator_test_client, mocker):

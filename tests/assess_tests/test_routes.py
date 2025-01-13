@@ -35,9 +35,9 @@ class TestRoutes:
         response = assess_test_client.get("/assess/assessor_tool_dashboard/")
         assert 200 == response.status_code, "Wrong status code on response"
         soup = BeautifulSoup(response.data, "html.parser")
-        assert (
-            soup.title.string == "Assessment tool dashboard – Assessment Hub – GOV.UK"
-        ), "Response does not contain expected heading"
+        assert soup.title.string == "Assessment tool dashboard – Assessment Hub – GOV.UK", (
+            "Response does not contain expected heading"
+        )
         all_table_data_elements = str(soup.find_all("td", class_="govuk-table__cell"))
         assert len(all_table_data_elements) > 0
         project_titles = [
@@ -202,9 +202,9 @@ class TestRoutes:
         for i, cell in enumerate(first_row.find_all("td")):
             expected_answer = expected_answers[i]
             actual_answer = cell.text.strip()  # Get the text content of the cell, stripping any whitespace
-            assert (
-                actual_answer == expected_answer
-            ), f"Cell {i+1} does not match! Expected: {expected_answer}, Actual: {actual_answer}"
+            assert actual_answer == expected_answer, (
+                f"Cell {i + 1} does not match! Expected: {expected_answer}, Actual: {actual_answer}"
+            )
 
         all_filter_labels = str(soup.find_all("label", class_="govuk-label"))
         expected_filter_labels = [
@@ -300,9 +300,9 @@ class TestRoutes:
         for i, cell in enumerate(first_row.find_all("td")):
             expected_answer = expected_answers[i]
             actual_answer = cell.text.strip()  # Get the text content of the cell, stripping any whitespace
-            assert (
-                actual_answer == expected_answer
-            ), f"Cell {i+1} does not match! Expected: {expected_answer}, Actual: {actual_answer}"
+            assert actual_answer == expected_answer, (
+                f"Cell {i + 1} does not match! Expected: {expected_answer}, Actual: {actual_answer}"
+            )
 
         all_filter_labels = str(soup.find_all("label", class_="govuk-label"))
         expected_filter_labels = [
@@ -555,9 +555,9 @@ class TestRoutes:
 
         assert 200 == response.status_code, "Wrong status code on response"
         soup = BeautifulSoup(response.data, "html.parser")
-        assert (
-            soup.title.string == "Team dashboard – Assessment Hub – GOV.UK"
-        ), "Response does not contain expected heading"
+        assert soup.title.string == "Team dashboard – Assessment Hub – GOV.UK", (
+            "Response does not contain expected heading"
+        )
 
     @pytest.mark.mock_parameters(
         {
@@ -598,9 +598,9 @@ class TestRoutes:
 
         assert 200 == response.status_code, "Wrong status code on response"
         soup = BeautifulSoup(response.data, "html.parser")
-        assert (
-            soup.title.string == "Team dashboard – Assessment Hub – GOV.UK"
-        ), "Response does not contain expected heading"
+        assert soup.title.string == "Team dashboard – Assessment Hub – GOV.UK", (
+            "Response does not contain expected heading"
+        )
 
     @pytest.mark.mock_parameters(
         {
@@ -642,9 +642,9 @@ class TestRoutes:
         assert 200 == response.status_code, "Wrong status code on response"
         soup = BeautifulSoup(response.data, "html.parser")
         soup = BeautifulSoup(response.data, "html.parser")
-        assert (
-            soup.title.string == "Team dashboard – Assessment Hub – GOV.UK"
-        ), "Response does not contain expected heading"
+        assert soup.title.string == "Team dashboard – Assessment Hub – GOV.UK", (
+            "Response does not contain expected heading"
+        )
 
     @pytest.mark.mock_parameters(
         {
@@ -691,9 +691,9 @@ class TestRoutes:
 
         assert 200 == response.status_code, "Wrong status code on response"
         soup = BeautifulSoup(response.data, "html.parser")
-        assert (
-            soup.title.string == "Team dashboard – Assessment Hub – GOV.UK"
-        ), "Response does not contain expected heading"
+        assert soup.title.string == "Team dashboard – Assessment Hub – GOV.UK", (
+            "Response does not contain expected heading"
+        )
 
     @pytest.mark.mock_parameters(
         {
@@ -860,9 +860,9 @@ class TestRoutes:
         )  # noqa
 
         # Assert that the response has the expected status code
-        assert (
-            302 == response.status_code
-        ), "Commenter should receive a 302 to authenticator when trying to access the sub criteria scoring page"
+        assert 302 == response.status_code, (
+            "Commenter should receive a 302 to authenticator when trying to access the sub criteria scoring page"
+        )
         params = {"roles_required": "TF_LEAD_ASSESSOR|TF_ASSESSOR"}
         encoded_params = urllib.parse.urlencode(params)
         assert (
@@ -1311,9 +1311,9 @@ class TestRoutes:
 
         assert 200 == response.status_code, "Wrong status code on response"
         soup = BeautifulSoup(response.data, "html.parser")
-        assert (
-            soup.title.string == "Team dashboard – Assessment Hub – GOV.UK"
-        ), "Response does not contain expected heading"
+        assert soup.title.string == "Team dashboard – Assessment Hub – GOV.UK", (
+            "Response does not contain expected heading"
+        )
 
     @pytest.mark.application_id("resolved_app")
     @pytest.mark.sub_criteria_id("test_sub_criteria_id")

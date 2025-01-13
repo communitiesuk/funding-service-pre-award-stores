@@ -235,9 +235,9 @@ def test_sso_get_token_sets_expected_fsd_user_token_cookie_claims(
     auth_cookie = authenticator_test_client.get_cookie(key=expected_cookie_name, domain="levellingup.gov.localhost")
 
     # Check auth token cookie is set and is valid
-    assert (
-        auth_cookie is not None
-    ), f"Auth cookie '{expected_cookie_name}' was expected to be set, but could not be found"
+    assert auth_cookie is not None, (
+        f"Auth cookie '{expected_cookie_name}' was expected to be set, but could not be found"
+    )
     valid_token = auth_cookie.value
     credentials = validate_token_rs256(valid_token)
     assert credentials.get("accountId") == expected_fsd_user_token_claims.get("accountId")

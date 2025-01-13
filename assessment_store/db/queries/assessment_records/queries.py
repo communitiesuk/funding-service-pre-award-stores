@@ -292,7 +292,7 @@ def find_answer_by_key_runner(field_key: str, app_id: str) -> List[tuple]:
         db.session.query(
             func.jsonb_path_query_first(
                 AssessmentRecord.jsonb_blob,
-                "$.forms[*].questions[*].fields[*] ? (@.key ==" f' "{field_key}")',
+                f'$.forms[*].questions[*].fields[*] ? (@.key == "{field_key}")',
             )
         )
         .filter(AssessmentRecord.application_id == app_id)

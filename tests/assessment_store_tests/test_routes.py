@@ -247,7 +247,7 @@ def test_get_sub_criteria_metadata_for_false_sub_criteria_id(flask_test_client, 
 
     sub_criteria_id = "does-not-exist"
     application_id = seed_application_records[0]["application_id"]
-    response = flask_test_client.get(f"/assessment/sub_criteria_overview/{application_id}" f"/{sub_criteria_id}").json
+    response = flask_test_client.get(f"/assessment/sub_criteria_overview/{application_id}/{sub_criteria_id}").json
 
     assert response["code"] == 404
     assert "sub_criteria: 'does-not-exist' not found." in response["message"]

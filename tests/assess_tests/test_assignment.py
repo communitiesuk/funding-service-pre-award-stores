@@ -213,9 +213,9 @@ def test_assessor_type_post(
     row = rows[0]
 
     name_cell = row.find_all("td", class_="govuk-table__cell")[1]
-    assert (
-        fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]["fullName"] in name_cell.text.strip()
-    ), f"Expected 'Lead Test User', found {name_cell.text.strip()}"
+    assert fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]["fullName"] in name_cell.text.strip(), (
+        f"Expected 'Lead Test User', found {name_cell.text.strip()}"
+    )
 
     # Check that there is a checkbox for this entry
     checkbox = row.find(
@@ -226,9 +226,9 @@ def test_assessor_type_post(
             "value": fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]["accountId"],
         },
     )
-    assert (
-        checkbox is not None
-    ), f"Checkbox for {fund_specific_claim_map[fund_short_name]['LEAD_ASSESSOR']['accountId']} not found"
+    assert checkbox is not None, (
+        f"Checkbox for {fund_specific_claim_map[fund_short_name]['LEAD_ASSESSOR']['accountId']} not found"
+    )
 
     assert not checkbox.has_attr("checked"), "Checkbox is not checked"
 
@@ -302,9 +302,9 @@ def test_assessor_type_post_existing_assignment(
     row = rows[0]
 
     name_cell = row.find_all("td", class_="govuk-table__cell")[1]
-    assert (
-        fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]["fullName"] in name_cell.text.strip()
-    ), f"Expected 'Lead Test User', found {name_cell.text.strip()}"
+    assert fund_specific_claim_map[fund_short_name]["LEAD_ASSESSOR"]["fullName"] in name_cell.text.strip(), (
+        f"Expected 'Lead Test User', found {name_cell.text.strip()}"
+    )
 
     # Check that there is a checkbox for this entry
     checkbox = row.find(
