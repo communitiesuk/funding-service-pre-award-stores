@@ -461,7 +461,7 @@ def update_local_authority_name(commit: bool = False):  # noqa: C901
                     f"AssessmentRecord.project_name: {project_name} ",
                     f"replacing with: {CODE_TO_NAME_MAP[project_name]}",
                 )
-                project_name = CODE_TO_NAME_MAP[project_name]
+                assessment_record.project_name = CODE_TO_NAME_MAP[project_name]
             else:
                 print(f"AssessmentRecord.project_name not found: {project_name}")
 
