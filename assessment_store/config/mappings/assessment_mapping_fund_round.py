@@ -77,8 +77,14 @@ from assessment_store.config.mappings.dpif_mappping_parts.r3_unscored_criteria i
 from assessment_store.config.mappings.gbrf_mapping_parts.r1_unscored_criteria import (
     unscored_sections as gbrf_unscored_sections,
 )
+from assessment_store.config.mappings.hsra_mapping_parts.rp_scored_criteria import (
+    scored_criteria as hsra_scored_criteria_rp,
+)
 from assessment_store.config.mappings.hsra_mapping_parts.rp_unscored_sections import (
     unscored_sections as hsra_unscored_sections_rp,
+)
+from assessment_store.config.mappings.hsra_mapping_parts.vr_scored_criteria import (
+    scored_criteria as hsra_scored_criteria_vr,
 )
 from assessment_store.config.mappings.hsra_mapping_parts.vr_unscored_sections import (
     unscored_sections as hsra_unscored_sections_vr,
@@ -231,12 +237,12 @@ fund_round_to_assessment_mapping = {
     f"{HSRA_FUND_ID}:{HSRA_ROUND_VR_ID}": {
         "schema_id": "hsra_vr_assessment",
         "unscored_sections": hsra_unscored_sections_vr,
-        "scored_criteria": [],
+        "scored_criteria": hsra_scored_criteria_vr,
     },
     f"{HSRA_FUND_ID}:{HSRA_ROUND_RP_ID}": {
         "schema_id": "hsra_rp_assessment",
         "unscored_sections": hsra_unscored_sections_rp,
-        "scored_criteria": [],
+        "scored_criteria": hsra_scored_criteria_rp,
     },
 }
 
@@ -1404,10 +1410,18 @@ applicant_info_mapping = {
         "OUTPUT_TRACKER": {},
     },
     HSRA_FUND_ID: {
-        # TODO find which fields are need
         "ASSESSOR_EXPORT": {
             "form_fields": {
-                "WLddBt": {"en": {"title": "Local Authority"}},
+                "qbBtUh": {"en": {"title": "Application name"}},
+                "okHmBB": {"en": {"title": "Section 151 officer full name"}},
+                "bQOXTi": {"en": {"title": "Section 151 officer email"}},
+                "phaosT": {"en": {"title": "Section 151 officer telephone number"}},
+                "WLddBt": {"en": {"title": "Local authority name"}},
+                "OkKkMd": {"en": {"title": "Lead contact full name"}},
+                "Lwkcam": {"en": {"title": "Lead contact job title"}},
+                "XfiUqN": {"en": {"title": "Lead contact email address"}},
+                "DlZjvr": {"en": {"title": "Lead contact telephone number"}},
+                "frDgtU": {"en": {"title": "Town or city for designated area"}},
             },
         },
         "OUTPUT_TRACKER": {},
