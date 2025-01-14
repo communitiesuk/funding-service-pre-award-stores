@@ -63,15 +63,15 @@ scored_criteria = [
                         ],
                     },
                     {
-                        "id": "when-do-you-expect-the-post-payment-verification-(ppv)-form-to-be-submitted?",
-                        "name": "When do you expect the post payment verification (PPV) form to be submitted?",
+                        "id": "when-do-you-expect-the-post-payment-assurance-form-to-be-submitted?",
+                        "name": "When do you expect the post payment assurance form to be submitted?",
                         "answers": [
                             {
                                 "field_id": "KFjxBs",
                                 "form_name": "milestones-hsra-vr",
                                 "field_type": "datePartsField",
                                 "presentation_type": "text",
-                                "question": "When do you expect to submit your post-payment verification (PPV)?",
+                                "question": "When do you expect to submit your post-payment assurance form to be submitted?",
                             }
                         ],
                     },
