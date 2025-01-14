@@ -60,8 +60,6 @@ jobs:
     uses: communitiesuk/funding-service-design-workflows/.github/workflows/standard-deploy.yml@main
     secrets:
       AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
-      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      SLACK_NOTIFICATION_CHANNEL_ID: ${{ secrets.SLACK_NOTIFICATION_CHANNEL_ID }}
     with:
       environment: dev
       app_name: pre-award
@@ -87,6 +85,7 @@ jobs:
       run_e2e_tests_application: ${{ inputs.run_e2e_tests_application || true }}
       environment: dev
       app_name: pre-award
+      notify_slack: false
 
   test_deploy:
     needs: [ dev_deploy, post_dev_deploy_tests, paketo_build, setup ]
