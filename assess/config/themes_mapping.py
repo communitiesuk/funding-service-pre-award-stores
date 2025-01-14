@@ -77,7 +77,7 @@ def ordered_themes(fund_round_short_name):
             "tell-us-more-about-the-designated-area.",
             "which-town-or-city-will-the-designated-area-be-located-in?",
             "when-do-you-expect-the-vacancy-register-to-be-completed?",
-            "when-do-you-expect-the-post-payment-verification-(ppv)-form-to-be-submitted?",
+            "when-do-you-expect-the-post-payment-assurance-form-to-be-submitted?",
             "how-much-funding-are-you-applying-for?",
             "upload-the-quote-for-the-vacancy-register",
         ],
