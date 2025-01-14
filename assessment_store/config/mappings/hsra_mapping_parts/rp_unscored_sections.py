@@ -3,7 +3,7 @@
 unscored_sections = [
     {
         "id": "unscored",
-        "name": "Unscored ",
+        "name": "Unscored",
         "sub_criteria": [
             {
                 "id": "application-name-hsra-rp",
