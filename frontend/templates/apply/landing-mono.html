@@ -1,1 +1,16 @@
 {% extends "page-template.jinja.html" %}
+
+
+{% block pageTitle %}Apply for a grant{% endblock %}
+
+{% block content %}
+
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">{%trans %}Start or continue an application for{%endtrans%} {{ fund.title_json[get_lang()] }}</h1>
+
+        </div>
+      </div>
+
+
+{% endblock %}

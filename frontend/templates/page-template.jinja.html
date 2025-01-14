@@ -21,15 +21,10 @@
 {% set containerClasses = "app-width-container" %}
 {% set serviceName = "Apply for a grant" %}
 
-{% block pageTitle %}GOV.UK - Customised page template{% endblock %}
 {% block headIcons %}
 {{ super() }}
 {% endblock %}
 
-{% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='monolith/govuk-frontend-5.8.0.min.css' ) }}">
-</link>
-{% endblock %}
 
 {% block bodyStart %}
 {% set acceptHtml %}
@@ -156,16 +151,14 @@
 "href": "#",
 "text": "Back"
 }) }}
-{% endblock %}
 
-{% block content %}
-<h1 class="govuk-heading-xl">Customised page template</h1>
-{% endblock %}
+{% endblock beforeContent %}
+
 
 {% block footer %}
 {{ govukFooter({
-meta: {
-items: [
+"meta": {
+"items": [
 {
 "href": "#",
 "text": "Help"
