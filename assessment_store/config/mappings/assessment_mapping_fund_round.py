@@ -1426,7 +1426,7 @@ applicant_info_mapping = {
         },
         "OUTPUT_TRACKER": {},
     },
-    GBRF_FUND_ID:{
+    GBRF_FUND_ID: {
         "ASSESSOR_EXPORT": {
             "form_fields": {
                 "RoLhhf": {"en": {"title": "local_authority_name"}},
@@ -1436,8 +1436,7 @@ applicant_info_mapping = {
         },
         "OUTPUT_TRACKER": {},
     },
-
-   LPDF_FUND_ID:{
+    LPDF_FUND_ID: {
         "ASSESSOR_EXPORT": {
             "form_fields": {
                 "RoLhhf": {"en": {"title": "local_authority_name"}},
@@ -1447,7 +1446,6 @@ applicant_info_mapping = {
         },
         "OUTPUT_TRACKER": {},
     },
-
 }
 
 # APPLICATION SEEDING CONFIGURATION
