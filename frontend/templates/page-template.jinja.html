@@ -137,14 +137,16 @@
 {{ super() }}
 {% endblock %}
 
-
+{% set beta_text %}
+{% trans %}This is a new service.{%endtrans%}
+{% endset %}
 
 {% block beforeContent %}
 {{ govukPhaseBanner({
 "tag": {
 "text": "Beta"
 },
-"html": 'This is a new service.'
+"html": beta_text
 }) }}
 
 
