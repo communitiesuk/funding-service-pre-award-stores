@@ -828,6 +828,7 @@ dev = [
     { name = "invoke" },
     { name = "json2html" },
     { name = "moto", extra = ["s3"] },
+    { name = "mypy" },
     { name = "pre-commit" },
     { name = "pytest" },
     { name = "pytest-env" },
@@ -837,6 +838,11 @@ dev = [
     { name = "requests-mock" },
     { name = "responses" },
     { name = "ruff" },
+    { name = "types-babel" },
+    { name = "types-colorama" },
+    { name = "types-flask-migrate" },
+    { name = "types-psycopg2" },
+    { name = "types-pymysql" },
 ]
 
 [package.metadata]
@@ -906,6 +912,7 @@ dev = [
     { name = "invoke", specifier = "==2.2.0" },
     { name = "json2html", specifier = "==1.3.0" },
     { name = "moto", extras = ["s3", "sqs"], specifier = "==5.0.26" },
+    { name = "mypy", specifier = ">=1.13.0" },
     { name = "pre-commit", specifier = "==4.0.1" },
     { name = "pytest", specifier = "==8.3.4" },
     { name = "pytest-env", specifier = "==1.1.5" },
@@ -915,6 +922,11 @@ dev = [
     { name = "requests-mock", specifier = "==1.11.0" },
     { name = "responses", specifier = "==0.25.3" },
     { name = "ruff", specifier = "==0.8.6" },
+    { name = "types-babel", specifier = ">=2.11.0.15" },
+    { name = "types-colorama", specifier = ">=0.4.15.20240311" },
+    { name = "types-flask-migrate", specifier = ">=4.1.0.20250112" },
+    { name = "types-psycopg2", specifier = ">=2.9.21.20241019" },
+    { name = "types-pymysql", specifier = ">=1.1.0.20241103" },
 ]
 
 [[package]]
@@ -2328,6 +2340,77 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/1e/e4/1b6cbcc82d8832dd0ce34767d5c560df8a3547ad8cbc427f34601415930a/tomli-2.1.0.tar.gz", hash = "sha256:3f646cae2aec94e17d04973e4249548320197cfabdf130015d023de4b74d8ab8", size = 16622 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/de/f7/4da0ffe1892122c9ea096c57f64c2753ae5dd3ce85488802d11b0992cc6d/tomli-2.1.0-py3-none-any.whl", hash = "sha256:a5c57c3d1c56f5ccdf89f6523458f60ef716e210fc47c4cfb188c5ba473e0391", size = 13750 },
+]
+
+[[package]]
+name = "types-babel"
+version = "2.11.0.15"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "types-pytz" },
+    { name = "types-setuptools" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/64/b5/b18d2dd9375515126069616096470fd9efd27434abac9e8d601e71f61b12/types-babel-2.11.0.15.tar.gz", hash = "sha256:282c184c8c9d81e8269212c1b8fa0d39ee88fb8bc43be47980412781c9c85f7e", size = 14392 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d7/6a/56538e54ca538552a1b83e5f3f05ba23668870276a9342df1252e4e07f73/types_babel-2.11.0.15-py3-none-any.whl", hash = "sha256:d0579f2e8adeaef3fbe2eb63e5a2ecf01767fc018e5f3f36a3c9d8b723bd62c7", size = 18442 },
+]
+
+[[package]]
+name = "types-colorama"
+version = "0.4.15.20240311"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/59/73/0fb0b9fe4964b45b2a06ed41b60c352752626db46aa0fb70a49a9e283a75/types-colorama-0.4.15.20240311.tar.gz", hash = "sha256:a28e7f98d17d2b14fb9565d32388e419f4108f557a7d939a66319969b2b99c7a", size = 5608 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b7/83/6944b4fa01efb2e63ac62b791a8ddf0fee358f93be9f64b8f152648ad9d3/types_colorama-0.4.15.20240311-py3-none-any.whl", hash = "sha256:6391de60ddc0db3f147e31ecb230006a6823e81e380862ffca1e4695c13a0b8e", size = 5840 },
+]
+
+[[package]]
+name = "types-flask-migrate"
+version = "4.1.0.20250112"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "flask" },
+    { name = "flask-sqlalchemy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d6/2a/15d922ddd3fad1ec0e06dab338f20c508becacaf8193ff373aee6986a1cc/types_flask_migrate-4.1.0.20250112.tar.gz", hash = "sha256:f2d2c966378ae7bb0660ec810e9af0a56ca03108235364c2a7b5e90418b0ff67", size = 8650 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/36/01/56e26643c54c5101a7bc11d277d15cd871b05a8a3ddbcc9acd3634d7fff8/types_Flask_Migrate-4.1.0.20250112-py3-none-any.whl", hash = "sha256:1814fffc609c2ead784affd011de92f0beecd48044963a8c898dd107dc1b5969", size = 8727 },
+]
+
+[[package]]
+name = "types-psycopg2"
+version = "2.9.21.20241019"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/60/ca/81a545e0e005c062fddbc36ac6159838b3eec63199a62b2c3ed5360fc9cf/types-psycopg2-2.9.21.20241019.tar.gz", hash = "sha256:bca89b988d2ebd19bcd08b177d22a877ea8b841decb10ed130afcf39404612fa", size = 21626 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ef/ca/c29b9411d2e025bad0b9964404baa8f4ff20d1dc351e92b31d9bc371ed26/types_psycopg2-2.9.21.20241019-py3-none-any.whl", hash = "sha256:44d091e67732d16a941baae48cd7b53bf91911bc36888652447cf1ef0c1fb3f6", size = 20088 },
+]
+
+[[package]]
+name = "types-pymysql"
+version = "1.1.0.20241103"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b3/ac/5a23decbcf53893df11636b7d61cc000a97b0ed45e09cee94d6c75f159ec/types-PyMySQL-1.1.0.20241103.tar.gz", hash = "sha256:a7628542919a0ba87625fb79eefb2a2de45fb4ad32afe6e561e8f2f27fb58b8c", size = 14987 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3e/04/d02323dd4dfd6e0af4ecbb88a00215c37aa79894a2d158390700c84c8597/types_PyMySQL-1.1.0.20241103-py3-none-any.whl", hash = "sha256:1a32efd8a74b5bf74c4de92a86c1cc6edaf3802dcfd5546635ab501eb5e3c096", size = 15610 },
+]
+
+[[package]]
+name = "types-pytz"
+version = "2024.2.0.20241221"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/54/26/516311b02b5a215e721155fb65db8a965d061372e388d6125ebce8d674b0/types_pytz-2024.2.0.20241221.tar.gz", hash = "sha256:06d7cde9613e9f7504766a0554a270c369434b50e00975b3a4a0f6eed0f2c1a9", size = 10213 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/74/db/c92ca6920cccd9c2998b013601542e2ac5e59bc805bcff94c94ad254b7df/types_pytz-2024.2.0.20241221-py3-none-any.whl", hash = "sha256:8fc03195329c43637ed4f593663df721fef919b60a969066e22606edf0b53ad5", size = 10008 },
+]
+
+[[package]]
+name = "types-setuptools"
+version = "75.8.0.20250110"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f7/42/5713e90d4f9683f2301d900f33e4fc2405ad8ac224dda30f6cb7f4cd215b/types_setuptools-75.8.0.20250110.tar.gz", hash = "sha256:96f7ec8bbd6e0a54ea180d66ad68ad7a1d7954e7281a710ea2de75e355545271", size = 48185 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cf/a3/dbfd106751b11c728cec21cc62cbfe7ff7391b935c4b6e8f0bdc2e6fd541/types_setuptools-75.8.0.20250110-py3-none-any.whl", hash = "sha256:a9f12980bbf9bcdc23ecd80755789085bad6bfce4060c2275bc2b4ca9f2bc480", size = 71521 },
 ]
 
 [[package]]

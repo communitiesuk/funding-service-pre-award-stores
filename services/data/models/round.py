@@ -1,26 +1,27 @@
 import uuid
 from datetime import datetime
 
-from flask_sqlalchemy.model import DefaultMeta
 from sqlalchemy import JSON, Column, DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.types import Boolean
 
 from pre_award.common.locale_selector.get_lang import get_lang
 from pre_award.db import db
 
-BaseModel: DefaultMeta = db.Model
+
+# TODO why is this here?
+# BaseModel: DefaultMeta = db.Model
+class Base(DeclarativeBase):
+    pass
 
 
-class Round(BaseModel):
+class Round(Base):
     __table_args__ = (UniqueConstraint("fund_id", "short_name"),)
-    id = Column(
-        "id",
-        UUID(as_uuid=True),
+    id: Mapped[uuid.UUID] = mapped_column(
         default=uuid.uuid4,
         primary_key=True,
-        nullable=False,
     )
     # fund_id: Mapped[UUID] = mapped_column(ForeignKey("fund.id"))
     fund_id = Column(
@@ -30,7 +31,7 @@ class Round(BaseModel):
         nullable=False,
     )
     title_json = Column("title_json", JSON(none_as_null=True), nullable=False, unique=False)
-    short_name = Column("short_name", db.String(), nullable=False, unique=False)
+    short_name: Mapped[str]
     opens = Column("opens", DateTime())
     deadline = Column("deadline", DateTime())
     assessment_start = Column("assessment_start", DateTime())
