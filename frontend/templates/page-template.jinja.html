@@ -158,20 +158,20 @@
 "meta": {
 "items": [
 {
-"href": "#",
-"text": "Help"
+"href": url_for("content_routes.privacy", fund_short_name=fund.short_name, round_short_name=round.short_name),
+"text": gettext("Privacy")
 },
 {
-"href": "#",
-"text": "Cookies"
+"href": url_for("content_routes.cookie_policy"),
+"text": gettext("Cookies")
 },
 {
-"href": "#",
-"text": "Contact"
+"href": url_for("content_routes.accessibility_statement", fund_short_name=fund.short_name, round_short_name=round.short_name),
+"text": gettext("Accessibility Statement")
 },
 {
-"href": "#",
-"text": "Terms and conditions"
+"href": url_for("content_routes.contact_us", fund_short_name=fund.short_name, round_short_name=round.short_name),
+"text": gettext("Contact us")
 }
 ]
 }
