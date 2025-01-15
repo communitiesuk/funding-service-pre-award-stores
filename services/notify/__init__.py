@@ -133,8 +133,8 @@ class NotificationService:
     ) -> Notification:
         if current_app.config["DISABLE_NOTIFICATION_SERVICE"]:
             current_app.logger.info(
-                "Notification service is disabled. Would have sent email to {email_address}",
-                extra=dict(email_address=email_address),
+                "Notification service is disabled. Would have sent email to %(email_address)s",
+                dict(email_address=email_address),
             )
             return Notification(id=uuid.UUID("00000000-0000-0000-0000-000000000000"))
 

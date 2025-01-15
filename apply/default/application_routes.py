@@ -128,8 +128,8 @@ def verify_round_open(f):
             return f(*args, **kwargs)
         else:
             current_app.logger.info(
-                "User {account_id} tried to update application {application_id} outside of the round being open",
-                extra=dict(account_id=g.account_id, application_id=application_id),
+                "User %(account_id)s tried to update application %(application_id)s outside of the round being open",
+                dict(account_id=g.account_id, application_id=application_id),
             )
             if redirect_to_fund is not False:
                 fund = get_fund(fund_id=application.fund_id)
@@ -376,7 +376,7 @@ def continue_application(application_id):
         request.host_url
         + url_for("application_routes.fund_round_close_notification", application_id=application_id)[1:]
     )
-    current_app.logger.info("Url the form runner should return to '{return_url}'.", extra=dict(return_url=return_url))
+    current_app.logger.info("Url the form runner should return to '%(return_url)s'.", dict(return_url=return_url))
 
     application = get_application_data(application_id)
     fund, round = get_fund_and_round(fund_id=application.fund_id, round_id=application.round_id)
