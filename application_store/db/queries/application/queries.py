@@ -97,10 +97,10 @@ def _create_application_try(account_id, fund_id, round_id, key, language, refere
     except IntegrityError:
         db.session.remove()
         current_app.logger.error(
-            "Failed {attempt} attempt(s) to create application with"
-            " application reference {reference}, for fund_id"
-            " {fund_id} and round_id {round_id}",
-            extra=dict(attempt=attempt, reference=reference, fund_id=fund_id, round_id=round_id),
+            "Failed %(attempt)s attempt(s) to create application with"
+            " application reference %(reference)s, for fund_id"
+            " %(fund_id)s and round_id %(round_id)s",
+            dict(attempt=attempt, reference=reference, fund_id=fund_id, round_id=round_id),
         )
 
 
@@ -267,8 +267,8 @@ def update_application_fields(existing_json_blob, new_json_blob) -> set:
 
 def submit_application(application_id) -> Applications:  # noqa: C901
     current_app.logger.info(
-        "Submitting application {application_id} and importing to assessment store",
-        extra=dict(application_id=application_id),
+        "Submitting application %(application_id)s and importing to assessment store",
+        dict(application_id=application_id),
     )
     try:
         application = get_application(application_id, include_forms=True)
@@ -343,19 +343,18 @@ def submit_application(application_id) -> Applications:  # noqa: C901
             inserted_application_ids = [item.application_id for item in result]
             if not len(inserted_application_ids):
                 current_app.logger.warning(
-                    "Application already exists in the database: {app_id}", extra=dict(app_id=row["application_id"])
+                    "Application already exists in the database: %(app_id)s", dict(app_id=row["application_id"])
                 )
             else:
                 current_app.logger.info(
-                    "Successfully inserted application: {app_id}", extra=dict(app_id=row["application_id"])
+                    "Successfully inserted application: %(app_id)s", dict(app_id=row["application_id"])
                 )
             db.session.commit()
     except exc.SQLAlchemyError as e:
         db.session.rollback()
-        current_app.logger.error(
-            msg="Error occurred while submitting application {application_id}",
-            exc_info=e,
-            extra=dict(application_id=row["application_id"]),
+        current_app.logger.exception(
+            "Error occurred while submitting application %(application_id)s}",
+            dict(application_id=row["application_id"]),
         )
         raise SubmitError(application_id=application_id) from e
 
@@ -396,8 +395,8 @@ def get_fund_id(application_id):
             return None
     except Exception:
         current_app.logger.error(
-            "Incorrect application id: {application_id}",
-            extra=dict(application_id=application_id),
+            "Incorrect application id: %(application_id)s",
+            dict(application_id=application_id),
         )
         return None
 
