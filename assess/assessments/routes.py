@@ -26,6 +26,7 @@ from fsd_utils.sqs_scheduler.context_aware_executor import ContextAwareExecutor
 from markupsafe import escape
 from werkzeug.datastructures import ImmutableMultiDict, MultiDict
 
+from application_store.db.queries.application.queries import mark_application_with_requested_changes
 from assess.assessments.activity_trail import (
     AssociatedTags,
     CheckboxForm,
@@ -1312,7 +1313,7 @@ def request_changes(application_id, sub_criteria_id, theme_id):
             status=WorkflowStatus.CHANGE_REQUESTED,
         )
 
-        # update apply.status apply.forms[].status and each form.question[].status
+        mark_application_with_requested_changes(application_id=application_id, field_ids=form.field_ids.dat)
 
         return redirect(
             url_for(
