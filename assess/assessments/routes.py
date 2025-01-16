@@ -1313,7 +1313,7 @@ def request_changes(application_id, sub_criteria_id, theme_id):
             status=WorkflowStatus.CHANGE_REQUESTED,
         )
 
-        mark_application_with_requested_changes(application_id=application_id, field_ids=form.field_ids.dat)
+        mark_application_with_requested_changes(application_id=application_id, field_ids=form.field_ids.data)
 
         return redirect(
             url_for(
