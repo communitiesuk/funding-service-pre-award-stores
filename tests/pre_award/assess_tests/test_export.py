@@ -1,6 +1,5 @@
 from unittest import mock
 
-import assess
 from fsd_utils import extract_questions_and_answers, generate_text_of_application
 
 import pre_award.assess

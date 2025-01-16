@@ -8,7 +8,6 @@ from services.notify import get_notification_service
 
 sys.path.insert(1, ".")
 
-from application_store import external_services  # noqa: E402
 from flask import current_app  # noqa: E402
 
 from app import create_app  # noqa: E402
