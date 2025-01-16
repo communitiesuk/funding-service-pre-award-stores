@@ -1429,9 +1429,67 @@ applicant_info_mapping = {
     GBRF_FUND_ID: {
         "ASSESSOR_EXPORT": {
             "form_fields": {
-                "RoLhhf": {"en": {"title": "local_authority_name"}},
-                "WIOGzl": {"en": {"title": "Spending proposals"}},
-                "ncrZUY": {"en": {"title": "Open Digital Planning"}},
+                "RoLhhf": {"en": {"title": "Local authority name", "field_type": "textField"}},
+                "sdrrOT": {"en": {"title": "Lead contact first name", "field_type": "textField"}},
+                "itKcJz": {"en": {"title": "Lead contact last name", "field_type": "textField"}},
+                "gswBOa": {"en": {"title": "Lead contact job title", "field_type": "textField"}},
+                "BkuACU": {"en": {"title": "Lead contact email address", "field_type": "textField"}},
+                "hRxtWX": {
+                    "en": {
+                        "title": "Is this expression of interest being submitted jointly with another local authority?",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "MhgGgD": {
+                    "en": {
+                        "title": "Tell us which local authorities you are submitting this joint expression of interest with",
+                        "field_type": "freeTextField",
+                    }
+                },
+                "csFGxz": {
+                    "en": {
+                        "title": "Do you have agreement from all of the local authorities involved in this joint expression of interest",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "OlCBjB": {
+                    "en": {
+                        "title": "Which local authority will act as the accountable body for the funding and monitoring?",
+                        "field_type": "textField",
+                    }
+                },
+                "WIOGzl": {"en": {"title": "Spending proposals", "field_type": "checkboxesField"}},
+                "cePdOW": {
+                    "en": {
+                        "title": "Tell us what other types of activities this funding will be used to support",
+                        "field_type": "textField",
+                    }
+                },
+                "ncrZUY": {"en": {"title": "Open Digital Planning", "field_type": "yesNoField"}},
+                "FLpMfV": {
+                    "en": {
+                        "title": "I intend to undertake a Green Belt review to accommodate an increase in our needs",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "PdObhd": {
+                    "en": {
+                        "title": "I agree to collaborate with MHCLG over monitoring and evaluation requirements",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "hsWqpW": {
+                    "en": {
+                        "title": "I confirm that our section 151 officer, or deputy section 151 officer, supports this submission",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "YwlIXX": {
+                    "en": {
+                        "title": "I commit to have proposals in place by March 2025 on how we will spend the funding",
+                        "field_type": "yesNoField",
+                    }
+                },
             },
         },
         "OUTPUT_TRACKER": {},
@@ -1439,9 +1497,85 @@ applicant_info_mapping = {
     LPDF_FUND_ID: {
         "ASSESSOR_EXPORT": {
             "form_fields": {
-                "RoLhhf": {"en": {"title": "local_authority_name"}},
-                "WIOGzl": {"en": {"title": "Spending proposals"}},
-                "ncrZUY": {"en": {"title": "Open Digital Planning"}},
+                "RoLhhf": {"en": {"title": "Local authority name", "field_type": "textField"}},
+                "sdrrOT": {"en": {"title": "Lead contact first name", "field_type": "textField"}},
+                "itKcJz": {"en": {"title": "Lead contact last name", "field_type": "textField"}},
+                "gswBOa": {"en": {"title": "Lead contact job title", "field_type": "textField"}},
+                "BkuACU": {"en": {"title": "Lead contact email address", "field_type": "textField"}},
+                "hRxtWX": {
+                    "en": {
+                        "title": "Is this expression of interest being submitted jointly with another local authority?",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "MhgGgD": {
+                    "en": {
+                        "title": "Tell us which local authorities you are submitting this joint expression of interest with",
+                        "field_type": "freeTextField",
+                    }
+                },
+                "csFGxz": {
+                    "en": {
+                        "title": "Do you have agreement from all of the local authorities involved in this joint expression of interest",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "OlCBjB": {
+                    "en": {
+                        "title": "Which local authority will act as the accountable body for the funding and monitoring?",
+                        "field_type": "textField",
+                    }
+                },
+                "WIOGzl": {"en": {"title": "Spending proposals", "field_type": "checkboxesField"}},
+                "cePdOW": {
+                    "en": {
+                        "title": "Tell us what other types of activities this funding will be used to support",
+                        "field_type": "textField",
+                    }
+                },
+                "ncrZUY": {"en": {"title": "Open Digital Planning", "field_type": "yesNoField"}},
+                "PdObhd": {
+                    "en": {
+                        "title": "I confirm our plan’s draft housing requirement meets less than 80% of our revised local housing need (as published on GOV.UK)",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "hsWqpW": {
+                    "en": {
+                        "title": "I confirm that we will need to revise our draft plan to reflect the revised NPPF and local housing need prior to submitting the document for examination",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "PnGUpK": {
+                    "en": {
+                        "title": "I confirm I anticipate submitting our plan by the deadline set out in the National Planning Policy Framework (by June or December 2026 as appropriate)",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "oYfyOJ": {
+                    "en": {
+                        "title": "I agree to respond to MHCLG’s requests to submit an updated local plan timetable (Local Development Scheme or LDS) to MHCLG within 12 weeks of the publication of the revised National Planning Policy Framework, and to provide regular updates on our progress against milestones",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "CTerDe": {
+                    "en": {
+                        "title": "I agree to collaborate with MHCLG over monitoring and evaluation requirements",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "uIGuiD": {
+                    "en": {
+                        "title": "I confirm our section 151 officer, or deputy section 151 officer, supports this submission",
+                        "field_type": "yesNoField",
+                    }
+                },
+                "VtcHob": {
+                    "en": {
+                        "title": "I commit to have proposals in place by March 2025 on how we will spend the funding",
+                        "field_type": "yesNoField",
+                    }
+                },
             },
         },
         "OUTPUT_TRACKER": {},
