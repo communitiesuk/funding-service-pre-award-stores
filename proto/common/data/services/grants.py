@@ -29,16 +29,20 @@ def get_grant_and_round(grant_code: str, round_code: str) -> tuple[Fund, Round]:
 
 
 def get_active_round(grant_short_code: str):
-    round = db.session.scalars(
-        select(Round)
-        .join(Fund)
-        .filter(
-            Fund.short_name == grant_short_code,
-            # probably want some way of having rounds that are always open especially for uncompeted grants
-            Round.proto_start_date <= date.today(),
-            Round.proto_end_date >= date.today(),
+    round = (
+        db.session.scalars(
+            select(Round)
+            .join(Fund)
+            .filter(
+                Fund.short_name == grant_short_code,
+                # probably want some way of having rounds that are always open especially for uncompeted grants
+                Round.proto_start_date <= date.today(),
+                Round.proto_end_date >= date.today(),
+            )
         )
-    ).one_or_none()
+        .unique()
+        .one_or_none()
+    )
     return round, round.proto_grant if round else None
 
 

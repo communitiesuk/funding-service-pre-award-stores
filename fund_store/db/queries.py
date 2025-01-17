@@ -66,9 +66,11 @@ def get_round_by_short_name(
 def get_rounds_for_fund_by_short_name(
     fund_short_name,
 ):
-    rounds = db.session.scalars(
-        select(Round).join(Fund).filter(func.lower(Fund.short_name) == func.lower(fund_short_name))
-    ).all()
+    rounds = (
+        db.session.scalars(select(Round).join(Fund).filter(func.lower(Fund.short_name) == func.lower(fund_short_name)))
+        .unique()
+        .all()
+    )
     return rounds
 
 
