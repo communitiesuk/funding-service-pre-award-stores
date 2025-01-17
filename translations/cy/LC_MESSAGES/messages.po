@@ -80,7 +80,399 @@ msgstr "Ffenestr ar gau - %(fund_round_names)s"
 msgid "Closed: %(closed_date)s"
 msgstr ""
 
-#: frontend/templates/apply/landing-mono.html:33
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:725
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:870
+#, fuzzy
+msgid "Describe the cost."
+msgstr "Prydlesu'r ased"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:728
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:807
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:873
+msgid "Amount."
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:743
+#, fuzzy
+msgid ""
+"Tell us which sources of funding you have already secured as match "
+"funding."
+msgstr "cyllid rydych eisoes wedi'i sicrhau, gyda thystiolaeth ategol"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:746
+#, fuzzy
+msgid "Match funding sources could include:"
+msgstr "Gall ffynonellau arian cyfatebol gynnwys:"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:772
+#, fuzzy
+msgid "Source of secured funding"
+msgstr "dyddiad y derbynioch gyllid"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:775
+#, fuzzy
+msgid "Have you already spent the match funding you have secured?"
+msgstr "A ydych chi wedi sicrhau unrhyw arian cyfatebol eto?"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:778
+#, fuzzy
+msgid "Have you identified, but not yet secured, any additional match funding?"
+msgstr "A ydych chi wedi sicrhau unrhyw arian cyfatebol eto?"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:790
+#, fuzzy
+msgid "Tell us which sources of funding you intend to secure as match funding."
+msgstr ""
+"ddweud wrthym faint y maen'n debygol o'i gymryd i sicrhau ffynonellau "
+"arian cyfatebol"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:804
+#, fuzzy
+msgid "Source of unsecured match funding."
+msgstr "dyddiad y derbynioch gyllid"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:810
+#, fuzzy
+msgid "Are you applying for revenue funding from the Community Ownership Fund?"
+msgstr ""
+"A ydych chi wedi derbyn cyllid drwy'r Gronfa Perchnogaeth Gymunedol o'r "
+"blaen?"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:813
+msgid ""
+"Revenue costs go towards running the asset once you've taken ownership of"
+" it. This might include general costs, including for:"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:827
+#, fuzzy
+msgid ""
+"Remember, you can apply for up to fifty thousand pounds (£50,000) of your"
+" revenue costs (no more than 20&percnt; of your capital funding)."
+msgstr ""
+"Gallwch wneud cais am hyd at 50&percnt; o'ch costau cyfalaf, hyd at "
+"uchafswm o£250,000 (hyd at £1 miliwn ar gyfer asedau chwaraeon). Cofiwch,"
+" gallwch wneud cais am hyd at £50,000 o'ch costau refeniw (dim mwy nag "
+"20percnt; o'ch cyllid cyfalaf)."
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:830
+#, fuzzy
+msgid ""
+"You can use your business plan to provide any information that supports "
+"your answers"
+msgstr ""
+"Gallwch ddefnyddio'ch cynllun busnes i ddarparu gwybodaeth sy'n ategu'ch "
+"atebion."
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:842
+#, fuzzy
+msgid "Tell us about the total revenue costs of your project."
+msgstr "Dywedwch fwy wrthym am y gefnogaeth leol i'ch prosiect"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:845
+#, fuzzy
+msgid ""
+"These are the running costs of the project. This might include general "
+"costs, including for:"
+msgstr ""
+"Defnyddir hwn ar gyfer costau rhedeg y prosiect. Gallai hyn gynnwys "
+"ffioedd cyfreithiol neu gostau cyffredinol, gan gynnwys ar gyfer:"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:856
+#, fuzzy
+msgid ""
+"Remember, you can apply for up to £50,000 of your revenue costs (no more "
+"than 20&percnt; of your capital funding)."
+msgstr ""
+"Ni ddylai fod yn fwy na £50,000, a dim mwy nag 20percnt; o'ch cyllid "
+"cyfalaf."
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:876
+msgid "Tell us how the revenue funding you've requested will help run the asset"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:879
+msgid ""
+"Include the specific needs it will meet, and how you'll meet these needs "
+"once you've spent the funding."
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:914
+msgid "Describe the feasibility work you still need to complete"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:917
+#, fuzzy
+msgid "Include details of your plans and when you expect to complete them"
+msgstr ""
+"Mae hyn yn cynnwys manylion unrhyw anghenion sydd ganddi, a sut bydd eich"
+" prosiect yn mynd ati i gefnogi'r rhain."
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:975
+#, fuzzy
+msgid "Operational costs"
+msgstr "costau cyfalaf"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:978
+#, fuzzy
+msgid "Summarise your income and operational costs for the running of the asset"
+msgstr "Crynhowch eich llif arian ar gyfer rhedeg yr ased"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:981
+msgid ""
+"Include how you see it working over the next three years. You must use "
+"your business plan to provide a forecast of figures."
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:987
+#, fuzzy
+msgid ""
+"Describe any relevant experience you have delivering similar projects or "
+"running an asset"
+msgstr "eich profiad o gyflawni prosiectau tebyg"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1048
+msgid ""
+"Tell us how the asset will be accountable to local people, and involve "
+"them in its running"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1051
+msgid ""
+"This means how you'll involve everyone in key decisions, such as how the "
+"asset is used"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1057
+#, fuzzy
+msgid ""
+"For example, high membership costs or exclusive eligibility criteria "
+"which prevent people from participating"
+msgstr "Er enghraifft, costau aelodaeth neu feini prawf cymhwysedd"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1075
+#, fuzzy
+msgid "Your business plan should include (but is not limited to):"
+msgstr "Gallai eich cynllun busnes gynnwys:"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1079
+msgid "Information about the capital element of your project. This could include:"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1084
+msgid ""
+"information about your completed or planned feasibility studies. This "
+"could include any relevant surveys"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1087
+msgid "a programme with key milestones for completion of your project"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1090
+msgid ""
+"your skills and resources to manage the capital project, including "
+"relevant project management expertise"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1095
+msgid "A financial breakdown of your project. This should include:"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1100
+msgid ""
+"a clear breakdown of the total capital project costs and explanation of "
+"how these have been calculated. This could include any quotes or cost "
+"benchmarking"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1103
+msgid "whether the costs include irrecoverable VAT"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1106
+#, fuzzy
+msgid "the capital funding request from the Community Ownership Fund"
+msgstr ""
+"Dyma'r swm yr ydych yn ymgeisio amdano ar gyfer y Gronfa Perchnogaeth "
+"Gymunedol"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1109
+#, fuzzy
+msgid "the total amount of match funding required"
+msgstr "Swm y cyllid a dderbyniwyd"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1112
+msgid "sources of match funding secured to date"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1115
+#, fuzzy
+msgid "sources of match funding still to be secured"
+msgstr "cyllid y mae angen i chi ei sicrhau o hyd"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1118
+msgid ""
+"timescales and potential sources for securing all outstanding match "
+"funding"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1123
+msgid ""
+"Information about how the asset will be used and managed in the future. "
+"This should include:"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1128
+#, fuzzy
+msgid ""
+"a discussion of planned activities and/or services that will take place "
+"in the community asset"
+msgstr ""
+"gweithgareddau neu wasanaethau wedi'u cynllunio a fydd yn cael eu cynnal "
+"yn yr ased cymuned"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1131
+msgid ""
+"your full financial forecasts, including income sources and costs with an"
+" evidenced set of assumptions"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1134
+msgid ""
+"a clear breakdown of the revenue project costs and explanation of how "
+"these have been calculated"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1137
+msgid "your cashflow and revenue budgets"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1145
+msgid ""
+"A consideration of risks and mitigations of both the capital works/spend "
+"and the ongoing operation of the asset"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1148
+msgid "Organisational and governance information. This should include:"
+msgstr ""
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1156
+#, fuzzy
+msgid "members of your board, including their role and main responsibilities"
+msgstr "aelodau eich bwrdd, gan gynnwys eu:"
+
+#: apply/templates/apply/all_questions/uses_translations/cof_r3_all_questions.html:1220
+msgid ""
+"Confirm that the information you've provided in this application is "
+"accurate to the best of your knowledge on the date of submission"
+msgstr ""
+
+#: apply/templates/apply/partials/applications_table.html:30
+#: apply/templates/apply/partials/start-application-button.html:11
+msgid "Continue application"
+msgstr "Parhau gyda'r cais"
+
+#: apply/templates/apply/partials/applications_table.html:35
+msgid "Untitled project"
+msgstr "Prosiect heb enw"
+
+#: apply/templates/apply/partials/applications_table.html:75
+msgid "Status"
+msgstr "Statws"
+
+#: apply/templates/apply/partials/applications_table.html:78
+msgid "Last edited"
+msgstr "Golygwyd diwethaf"
+
+#: apply/templates/apply/partials/applications_table.html:81
+msgid "Application Reference"
+msgstr "Cyfeirnod y cais"
+
+#: apply/templates/apply/partials/applications_table.html:88
+msgid "Language"
+msgstr "Iaith"
+
+#: apply/templates/apply/partials/applications_table.html:96
+msgid "Action"
+msgstr "Gweithredu"
+
+#: apply/templates/apply/partials/available_in_language.html:3
+#, python-format
+msgid ""
+" This service is also available <a href=\"%(url)s\" class=\"govuk-"
+"link\">in Welsh (Cymraeg)"
+msgstr ""
+"Mae'r gwasanaeth yma hefyd ar gael <a href=\"%(url)s\" class=\"govuk-"
+"link\">yn Saesneg (English)"
+
+#: apply/templates/apply/partials/available_in_language.html:10
+msgid "You cannot change the language of an existing application."
+msgstr ""
+"Ni fyddwch yn gallu newid iaith unwaith y byddwch chi wedi dechrau eich "
+"cais."
+
+#: apply/templates/apply/partials/contact_details.html:4
+#, fuzzy
+msgid "Please contact us through our "
+msgstr "Lhif ffôn y cyswllt arweiniol"
+
+#: apply/templates/apply/partials/contact_details.html:9
+#: apply/templates/apply/partials/contact_details.html:21
+#: apply/templates/apply/partials/contact_details.html:31
+#: authenticator/frontend/templates/partials/contact_details.html:11
+#: authenticator/frontend/templates/partials/contact_details.html:27
+#: authenticator/frontend/templates/partials/contact_details.html:37
+msgid "except public holidays"
+msgstr "Ac eithrio gwyliau cyhoeddus"
+
+#: apply/templates/apply/partials/contact_details.html:15
+#: authenticator/frontend/templates/partials/contact_details.html:21
+msgid "Telephone"
+msgstr "Ffôn"
+
+#: apply/templates/apply/partials/contact_details.html:26
+#: authenticator/frontend/templates/partials/contact_details.html:32
+msgid "Textphone"
+msgstr "Ffôn testun"
+
+#: apply/templates/apply/partials/eligibility-check-button.html:11
+msgid "Check eligibility"
+msgstr "Gwirio cymhwysedd"
+
+#: apply/templates/apply/partials/feedback_error_summary.html:5
+#: authenticator/frontend/magic_links/templates/email.html:21
+msgid "There is a problem"
+msgstr "Mae problem"
+
+#: apply/templates/apply/partials/round_closed_warning.html:6
+#: authenticator/frontend/magic_links/templates/email.html:29
+msgid "Important"
+msgstr "Pwysig"
+
+#: apply/templates/apply/partials/round_closed_warning.html:12
+#: apply/templates/apply/partials/round_closed_warning.html:20
+msgid "Window closed - %(fund_round_names)s"
+msgstr "Ffenestr ar gau - %(fund_round_names)s"
+
+#: apply/templates/apply/partials/round_closed_warning.html:14
+#: apply/templates/apply/partials/round_closed_warning.html:22
+msgid "Closed"
+msgstr "Ar gau"
+
+#: apply/templates/apply/partials/round_closed_warning.html:15
+msgid ""
+"We have now entered a pre-election period. There will be no further "
+"Community Ownership\n"
+"            Fund announcements at this time."
+msgstr ""
+
+#: apply/templates/apply/partials/round_closed_warning.html:17
+msgid "You can no longer submit applications in this window."
+msgstr "Ni allwch gyflwyno ceisiadau yn y ffenestr hon mwyach."
+
+#: apply/templates/apply/partials/round_closed_warning.html:23
 msgid ""
 "You can no longer submit applications in this window. Any you had in "
 "progress will be\n"
@@ -669,8 +1061,13 @@ msgstr ""
 #~ msgid "Back to all applications"
 #~ msgstr ""
 
-#~ msgid "Start or continue an"
-#~ msgstr "Gwneud cais am"
+#: apply/templates/apply/fund_start_page.html:5
+msgid "Start or continue an"
+msgstr "Gwneud cais am"
+
+#: apply/templates/apply/fund_start_page.html:7
+msgid "Start or continue an application for"
+msgstr "Gwneud cais am"
 
 #~ msgid "Read the fund's prospectus"
 #~ msgstr "Darllenwch brosbectws y gronfa"
