@@ -1,10 +1,13 @@
 import uuid
+from datetime import datetime
 
 from flask_sqlalchemy.model import DefaultMeta
 from sqlalchemy import JSON, Column, DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.types import Boolean
 
+from pre_award.common.locale_selector.get_lang import get_lang
 from pre_award.db import db
 
 BaseModel: DefaultMeta = db.Model
@@ -93,3 +96,19 @@ class Round(BaseModel):
     feedback_survey_config = Column("feedback_survey_config", JSON(none_as_null=True), nullable=True, unique=False)
     eligibility_config = Column("eligibility_config", JSON(none_as_null=True), nullable=True, unique=False)
     eoi_decision_schema = Column("eoi_decision_schema ", JSON(none_as_null=True), nullable=True, unique=False)
+
+    @hybrid_property
+    def is_past_submission_deadline(self):
+        return datetime.now() > self.deadline
+
+    @hybrid_property
+    def is_not_yet_open(self):
+        return datetime.now() < self.opens
+
+    @hybrid_property
+    def is_open(self):
+        return self.opens < datetime.now() < self.deadline
+
+    @property
+    def round_title(self):
+        return self.title_json[get_lang()] or self.title_json["en"]

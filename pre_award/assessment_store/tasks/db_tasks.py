@@ -140,7 +140,7 @@ def seed_assessment_store_db(c, environment="local"):
             from pre_award.assessment_store.db.models.score import AssessmentRound, ScoringSystem
             from pre_award.assessment_store.db.models.tag import TagType
             from pre_award.db import db
-            from pre_award.fund_store.db.models.round import Round
+            from services.data.models.round import Round
 
             # Define scoring systems
             scoring_system_data = [
