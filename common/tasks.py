@@ -5,8 +5,9 @@ import re
 from invoke import task
 
 from app import create_app
+from application_store.db.queries.application.queries import search_applications
 from fund_store.db.models.round import Round
-from fund_store.db.queries import get_rounds_where_reminder_date_today, get_rounds_with_reminder_date_in_future
+from fund_store.db.queries import get_rounds_where_reminder_due, get_rounds_with_reminder_date_in_future
 
 _VALID_JINJA_EXTENSIONS = (".html", ".jinja", ".jinja2", ".j2")
 
@@ -121,5 +122,9 @@ def reminder_emails(c):
         print("IN APP CONTEXT")
         rounds: list[Round] = get_rounds_with_reminder_date_in_future()
         print([round.reminder_date for round in rounds])
-        rounds_with_reminder_today = get_rounds_where_reminder_date_today()
-        print(rounds_with_reminder_today)
+        rounds_where_reminder_date_due = get_rounds_where_reminder_due()
+        for r in rounds_where_reminder_date_due:
+            non_submitted_applications = search_applications(
+                round_id=str(r.id), status_only=["IN_PROGRESS", "NOT_STARTED", "COMPLETED"], forms=False
+            )
+            print(non_submitted_applications)

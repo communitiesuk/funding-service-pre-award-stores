@@ -74,15 +74,17 @@ def get_rounds_for_fund_by_short_name(
 
 def get_rounds_with_reminder_date_in_future():
     today = datetime.now().date()
-    rounds = db.session.scalars(
-        select(Round).filter(Round.reminder_date > today)  # noqa
-    ).all()
+    rounds = db.session.scalars(select(Round).filter(Round.reminder_date > today)).all()
     return rounds
 
 
-def get_rounds_where_reminder_date_today():
+def get_rounds_where_reminder_due():
     today = datetime.now().date()
-    rounds = db.session.scalars(select(Round).filter(func.date(Round.reminder_date) == today)).all()
+    rounds = db.session.scalars(
+        select(Round).filter(
+            func.date(Round.reminder_date) <= today, not Round.application_reminder_sent, Round.deadline > today
+        )
+    ).all()
     return rounds
 
 
