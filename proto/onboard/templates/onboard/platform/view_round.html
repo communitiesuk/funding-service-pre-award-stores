@@ -41,7 +41,7 @@
       <a href="{{ url_for('proto_onboard.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button">Add questions from the bank</a>
     {% else %}
       <div class="govuk-button-group">
-        <a href="{{ url_for('applicationsection.create_view', url=url_for('proto_onboard.platform.rounds.view_round', grant_code=grant.short_name, round_code=round.short_name)) }}" class="govuk-button">Add a new section</a>
+        <a href="{{ url_for('proto_onboard.platform.rounds.create_section_view', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button">Add a new section</a>
         <a href="{{ url_for('proto_onboard.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button govuk-button--secondary">Add more questions from the bank</a>
       </div>
 

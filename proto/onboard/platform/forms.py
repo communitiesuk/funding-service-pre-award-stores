@@ -8,7 +8,7 @@ from govuk_frontend_wtf.wtforms_widgets import (
 )
 from wtforms import RadioField, SelectMultipleField, StringField, SubmitField
 from wtforms.fields.numeric import IntegerField
-from wtforms.validators import DataRequired, InputRequired, Optional
+from wtforms.validators import DataRequired, InputRequired, Optional, Regexp
 from wtforms.widgets.core import HiddenInput
 
 from proto.common.data.models import TemplateSection
@@ -113,6 +113,27 @@ class ChooseTemplateSectionsForm(FlaskForm):
         ]
 
 
+class NewSectionForm(FlaskForm):
+    title = StringField(
+        _l("What is name of the section?"),
+        widget=GovTextInput(),
+        validators=[DataRequired(message=_l("Enter the name of the section"))],
+    )
+    slug = StringField(
+        _l("What is the URL slug for this section?"),
+        widget=GovTextInput(),
+        validators=[
+            DataRequired(message=_l("Enter a URL slug for the section")),
+            Regexp(r"[a-z\-]+", message=_l("Enter a URL slug using only letters and dashes")),
+        ],
+        filters=[lambda val: val.lower() if val else val],
+    )
+    order = IntegerField(
+        widget=HiddenInput(),
+    )
+    submit = SubmitField(_l("Add section"), widget=GovSubmitInput())
+
+
 class NewQuestionForm(FlaskForm):
     type = RadioField(
         _l("What type of question are you adding?"),
@@ -134,7 +155,10 @@ class NewQuestionForm(FlaskForm):
     slug = StringField(
         _l("What is the URL slug for this question?"),
         widget=GovTextInput(),
-        validators=[DataRequired(message=_l("Enter a URL slug for the question"))],
+        validators=[
+            DataRequired(message=_l("Enter a URL slug for the question")),
+            Regexp(r"[a-z\-]+", message=_l("Enter a URL slug using only letters and dashes")),
+        ],
     )
     order = IntegerField(
         widget=HiddenInput(),

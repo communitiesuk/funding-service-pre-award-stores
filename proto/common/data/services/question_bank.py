@@ -31,6 +31,12 @@ def create_question(**kwargs):
     db.session.commit()
 
 
+def create_section(**kwargs):
+    section = ApplicationSection(**kwargs)
+    db.session.add(section)
+    db.session.commit()
+
+
 def add_template_sections_to_round(round_id, template_section_ids):
     template_sections = (
         db.session.scalars(
