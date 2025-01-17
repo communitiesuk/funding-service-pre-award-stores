@@ -66,13 +66,13 @@ class CreateGrantForm(FlaskForm):
 
 class CreateRoundForm(FlaskForm):
     code = StringField(
-        _l("Grant code"), widget=GovTextInput(), validators=[DataRequired(message=_l("Enter a grant code"))]
+        _l("Round code"), widget=GovTextInput(), validators=[DataRequired(message=_l("Enter a grant code"))]
     )
 
     title = StringField(
-        _l("Grant title"), widget=GovTextInput(), validators=[DataRequired(message=_l("Enter a title for the grant"))]
+        _l("Round title"), widget=GovTextInput(), validators=[DataRequired(message=_l("Enter a title for the grant"))]
     )
-    title_cy = StringField(_l("Grant title (Welsh)"), widget=GovTextInput(), validators=[Optional()])
+    title_cy = StringField(_l("Round title (Welsh)"), widget=GovTextInput(), validators=[Optional()])
 
     # fixme: re-enable these, govuk-frontend-wtf datefield doesn't seem to be working - must be me doing something bad
     # proto_start_date = DateField(
