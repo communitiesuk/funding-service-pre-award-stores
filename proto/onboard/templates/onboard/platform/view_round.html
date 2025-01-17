@@ -51,9 +51,9 @@
         {% for question in section.questions %}
           {% set _ = questionRows.append(
             [
-              {"text": sectionloop.index ~ '.' ~ loop.index},
+              {"text": ' '},
               {"text": question.title},
-              {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('applicationquestion.edit_view', id=question.id, url=url_for('proto_onboard.platform.rounds.view_round', grant_code=grant.short_name, round_code=round.short_name)) + "'>Edit</a>"}
+              {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('proto_onboard.platform.rounds.create_question_view', grant_code=grant.short_name, round_code=round.short_name, section_id=section.id) + "'>Edit</a>"}
             ]
           ) %}
         {% endfor %}
@@ -61,15 +61,16 @@
         {{
           govukTable(
             {
-              "caption": loop.index ~ '. ' ~ section.title,
+              "caption": section.title,
               "captionClasses": "govuk-table__caption--s",
               "firstCellIsHeader": true,
+              "classes": "govuk-!-margin-bottom-2",
               "rows": questionRows,
             }
           )
         }}
 
-        <p class="govuk-body govuk-!-margin-top-0"><a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('applicationquestion.create_view', url=url_for('proto_onboard.platform.rounds.view_round', grant_code=grant.short_name, round_code=round.short_name)) }}">Add another question</a></p>
+        <p class="govuk-body govuk-!-margin-top-0"><a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_onboard.platform.rounds.create_question_view', grant_code=grant.short_name, round_code=round.short_name, section_id=section.id) }}">Add another question</a></p>
       {% endfor %}
     {% endif %}
   </div>

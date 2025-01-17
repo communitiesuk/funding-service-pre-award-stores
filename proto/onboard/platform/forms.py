@@ -7,10 +7,13 @@ from govuk_frontend_wtf.wtforms_widgets import (
     GovTextInput,
 )
 from wtforms import RadioField, SelectMultipleField, StringField, SubmitField
+from wtforms.fields.numeric import IntegerField
 from wtforms.validators import DataRequired, InputRequired, Optional
+from wtforms.widgets.core import HiddenInput
 
 from proto.common.data.models import TemplateSection
 from proto.common.data.models.fund import FundingType
+from proto.common.data.models.question_bank import QuestionType
 
 
 class CreateGrantForm(FlaskForm):
@@ -108,3 +111,32 @@ class ChooseTemplateSectionsForm(FlaskForm):
             [question.title for question in template_section.template_questions]
             for template_section in self.template_sections
         ]
+
+
+class NewQuestionForm(FlaskForm):
+    type = RadioField(
+        _l("What type of question are you adding?"),
+        widget=GovRadioInput(),
+        choices=[(ft.value, ft.name) for ft in QuestionType],
+        validators=[DataRequired(message=_l("Select a question type"))],
+    )
+    title = StringField(
+        _l("What is the question?"),
+        widget=GovTextInput(),
+        validators=[DataRequired(message=_l("Enter the question"))],
+    )
+    hint = StringField(
+        _l("What is the hint text for the question?"),
+        description="Only provide this if additional information is needed to help answer the question correctly.",
+        widget=GovTextInput(),
+        validators=[Optional()],
+    )
+    slug = StringField(
+        _l("What is the URL slug for this question?"),
+        widget=GovTextInput(),
+        validators=[DataRequired(message=_l("Enter a URL slug for the question"))],
+    )
+    order = IntegerField(
+        widget=HiddenInput(),
+    )
+    submit = SubmitField(_l("Add question"), widget=GovSubmitInput())

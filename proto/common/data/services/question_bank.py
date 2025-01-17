@@ -4,6 +4,7 @@ from db import db
 from proto.common.data.models import (
     ApplicationQuestion,
     ApplicationSection,
+    Round,
     TemplateQuestion,
     TemplateSection,
 )
@@ -16,6 +17,18 @@ def get_template_sections_and_questions():
         .all()
     )
     return template_sections
+
+
+def get_section_for_round(round, section_id):
+    return db.session.scalars(
+        select(ApplicationSection).join(Round).filter(Round.id == round.id, ApplicationSection.id == section_id)
+    ).one()
+
+
+def create_question(**kwargs):
+    question = ApplicationQuestion(**kwargs)
+    db.session.add(question)
+    db.session.commit()
 
 
 def add_template_sections_to_round(round_id, template_section_ids):

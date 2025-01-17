@@ -6,9 +6,14 @@ from common.blueprints import Blueprint
 from config import Config
 from proto.common.data.exceptions import DataValidationError, attach_validation_error_to_form
 from proto.common.data.services.grants import create_grant, get_all_grants_with_rounds, get_grant, get_grant_and_round
-from proto.common.data.services.question_bank import add_template_sections_to_round, get_template_sections_and_questions
+from proto.common.data.services.question_bank import (
+    add_template_sections_to_round,
+    create_question,
+    get_section_for_round,
+    get_template_sections_and_questions,
+)
 from proto.common.data.services.round import create_round
-from proto.onboard.platform.forms import ChooseTemplateSectionsForm, CreateGrantForm, CreateRoundForm
+from proto.onboard.platform.forms import ChooseTemplateSectionsForm, CreateGrantForm, CreateRoundForm, NewQuestionForm
 
 platform_blueprint = Blueprint("platform", __name__)
 grants_blueprint = Blueprint("grants", __name__)
@@ -142,6 +147,26 @@ def choose_from_question_bank(grant_code, round_code):
         )
 
     return render_template("onboard/platform/choose_from_question_bank.html", grant=grant, round=round, form=form)
+
+
+@rounds_blueprint.route(
+    "/grants/<grant_code>/rounds/<round_code>/sections/<section_id>/create-question", methods=["GET", "POST"]
+)
+def create_question_view(grant_code, round_code, section_id):
+    grant, round = get_grant_and_round(grant_code, round_code)
+    section = get_section_for_round(round, section_id)
+    form = NewQuestionForm(data={"order": max(q.order for q in section.questions) + 1})
+
+    if form.validate_on_submit():
+        create_question(
+            section_id=section.id, **{k: v for k, v in form.data.items() if k not in {"submit", "csrf_token"}}
+        )
+        return redirect(
+            url_for("proto_onboard.platform.rounds.view_round", grant_code=grant_code, round_code=round_code)
+        )
+    return render_template(
+        "onboard/platform/create_question.html", grant=grant, round=round, section=section, form=form
+    )
 
 
 # @rounds_blueprint.route("/grants/<grant_code>/rounds/<round_code>/questions/<question_id>", methods=["GET", "POST"])
