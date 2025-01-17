@@ -27,7 +27,7 @@
             {# these default flask-babel date formatters have a comma between day and year which the gov uk style guide doesn't suggest https://www.gov.uk/guidance/style-guide/a-to-z#dates #}
             <li><strong>{% trans %}Opening date:{% endtrans %}</strong> {{ active_round.proto_start_date | dateformat }}</li>
             <li><strong>{% trans %}Submission deadline:{% endtrans %}</strong> {{ active_round.proto_end_date | dateformat }}</li>
-        </p>
+        </ul>
         {{ govukButton({
             "isStartButton": true,
             "text": _("Enter your email address")
