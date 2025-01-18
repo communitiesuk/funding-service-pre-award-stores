@@ -25,8 +25,8 @@
   "serviceName": "Grant management",
   "navigation": [
     {"href": url_for('proto_manage.platform.grants.index'), "text": "Grants", "active": active_navigation_tab == 'grants'},
-    {"href": "#", "text": "Application rounds", "active": active_navigation_tab == 'rounds'},
-    {"href": "#", "text": "Question bank", "active": active_navigation_tab == 'templates'},
+    {"href": url_for('round.index_view'), "text": "Application rounds", "active": active_navigation_tab == 'rounds'},
+    {"href": url_for('templatesection.index_view'), "text": "Question bank", "active": active_navigation_tab == 'templates'},
     {"href": url_for('admin.index'), "text": "DB Admin", "active": active_navigation_tab == 'admin'},
   ]
 }) }}
