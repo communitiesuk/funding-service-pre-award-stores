@@ -2,8 +2,16 @@ from flask import render_template
 
 from common.blueprints import Blueprint
 from proto.common.data.services.grants import get_active_round, get_grant
+from proto.common.data.services.round import get_open_rounds
 
 grant_blueprint = Blueprint("grant_blueprint", __name__)
+
+
+@grant_blueprint.get("/grant")
+@grant_blueprint.get("/grant/")
+def all_open_grants_handler():
+    rounds = get_open_rounds()
+    return render_template("apply/grant/all_grants.jinja.html", rounds=rounds)
 
 
 @grant_blueprint.get("/grant/<short_code>")

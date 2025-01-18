@@ -1,0 +1,36 @@
+{% from "govuk_frontend_jinja/components/button/macro.html" import govukButton %}
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+
+{% extends "apply/base.jinja.html" %}
+
+{% block pageTitle %}{% trans %}Open grants{% endtrans %} - {% trans %}Apply for funding{% endtrans %}{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Open grants</h1>
+
+        <p class="govuk-body">
+            {% trans %}Find grants from MHCLG that you can apply for funding through.{% endtrans %}
+        </p>
+
+        <h2 class="govuk-heading-m">{% trans num_rounds=rounds|length %}{{ num_rounds }} rounds are currently open{% endtrans %}</h2>
+
+        {% for round in (rounds | sort(attribute='proto_grant.short_name', case_sensitive=false)) %}
+          <h2 class="govuk-heading-s govuk-!-display-inline">
+            <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_apply.grant_blueprint.grant_detail_handler', short_code=round.proto_grant.short_name) }}">{{ round.proto_grant.short_name }}: {{ round.proto_grant.name_json.en }}</a>
+          </h2>
+          <ul class="govuk-list">
+              {# these default flask-babel date formatters have a comma between day and year which the gov uk style guide doesn't suggest https://www.gov.uk/guidance/style-guide/a-to-z#dates #}
+              <li><strong>{% trans %}Opening date:{% endtrans %}</strong> {{ round.proto_start_date | dateformat }}</li>
+              <li><strong>{% trans %}Submission deadline:{% endtrans %}</strong> {{ round.proto_end_date | dateformat }}</li>
+          </ul>
+          <p class="govuk-body">{{ round.proto_grant.description_json.en }}</p>
+
+          {% if not loop.last %}
+            <hr class="govuk-section-break--m" />
+          {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

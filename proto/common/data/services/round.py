@@ -1,10 +1,15 @@
+from datetime import date
+
 import psycopg2
 import sqlalchemy
 from flask_babel import lazy_gettext as _l
+from sqlalchemy import select
+from sqlalchemy.orm import joinedload
 
 from db import db
 from proto.common.data.exceptions import DataValidationError
-from proto.common.data.models import Round
+from proto.common.data.models import Fund, Round
+from proto.common.data.models.fund import FundStatus
 
 
 def create_round(fund_id, code, title, title_cy, proto_start_date, proto_end_date):
@@ -45,3 +50,21 @@ def update_round(round: Round, draft: bool | None = None):
     db.session.add(round)
 
     db.session.commit()
+
+
+def get_open_rounds():
+    return (
+        db.session.scalars(
+            select(Round)
+            .options(joinedload(Round.proto_grant))
+            .filter(
+                Fund.proto_status == FundStatus.LIVE,
+                Round.proto_draft.is_(False),
+                # probably want some way of having rounds that are always open especially for uncompeted grants
+                Round.proto_start_date <= date.today(),
+                Round.proto_end_date >= date.today(),
+            )
+        )
+        .unique()
+        .all()
+    )
