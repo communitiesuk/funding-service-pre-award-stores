@@ -16,6 +16,14 @@
 </div>
 <div class="govuk-grid-row app-sidebar">
   <div class="govuk-grid-column-two-thirds">
+
+    {% if grant.proto_status == 'draft' %}
+      <form method="post">
+        {{ form.csrf_token }}
+        {{ form.submit }}
+      </form>
+    {% endif %}
+
     {% set editLinkHtml = "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id, url=url_for('proto_manage.platform.grants.view_grant_configuration', grant_code=grant.short_name)) + "'>Edit</a>" %}
     {{
       govukTable(

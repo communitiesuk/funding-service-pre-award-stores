@@ -166,5 +166,9 @@ class NewQuestionForm(FlaskForm):
     submit = SubmitField(_l("Add question"), widget=GovSubmitInput())
 
 
+class MakeGrantLiveForm(FlaskForm):
+    submit = SubmitField(_l("Make grant live"), widget=GovSubmitInput())
+
+
 class MakeRoundLiveForm(FlaskForm):
     submit = SubmitField(_l("Make round live"), widget=GovSubmitInput())

@@ -8,7 +8,7 @@ from sqlalchemy.orm import joinedload
 
 from db import db
 from proto.common.data.exceptions import DataValidationError
-from proto.common.data.models.fund import Fund
+from proto.common.data.models.fund import Fund, FundStatus
 from proto.common.data.models.round import Round
 
 
@@ -92,3 +92,12 @@ def create_grant(
             ) from e
 
     return grant
+
+
+def update_grant(grant: Fund, status: FundStatus | None = None):
+    if status is not None:
+        grant.proto_status = status
+
+    db.session.add(grant)
+
+    db.session.commit()
