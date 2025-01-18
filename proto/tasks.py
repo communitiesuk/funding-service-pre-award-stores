@@ -97,8 +97,7 @@ def insert_question_bank_data(app, db):
         for tq_slug, tq_instance in template_questions_to_create.items():
             tq_id = db.session.execute(
                 text(
-                    "select id from template_question "
-                    "where template_section_id = :template_section_id and slug = :slug"
+                    "select id from template_question where template_section_id = :template_section_id and slug = :slug"
                 ),
                 dict(template_section_id=tq_instance.template_section_id, slug=tq_slug),
             ).scalar_one_or_none()

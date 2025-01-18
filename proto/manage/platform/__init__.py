@@ -1,11 +1,13 @@
 import datetime
 
-from flask import redirect, render_template, url_for
+from flask import g, redirect, render_template, url_for
+from fsd_utils.authentication.decorators import login_required
 
 from common.blueprints import Blueprint
 from config import Config
 from proto.common.data.exceptions import DataValidationError, attach_validation_error_to_form
 from proto.common.data.models.fund import FundStatus
+from proto.common.data.services.applications import create_application
 from proto.common.data.services.grants import (
     create_grant,
     get_all_grants_with_rounds,
@@ -29,6 +31,7 @@ from proto.manage.platform.forms import (
     MakeRoundLiveForm,
     NewQuestionForm,
     NewSectionForm,
+    PreviewApplicationForm,
 )
 
 platform_blueprint = Blueprint("platform", __name__)
@@ -156,12 +159,17 @@ def view_round_overview(grant_code, round_code):
 
 
 @rounds_blueprint.get("/grants/<grant_code>/rounds/<round_code>/data-collection")
+@login_required  # FIXME: this needs to be new-world authentication; but required now for g.account_id
 def view_round_data_collection(grant_code, round_code):
     grant, round = get_grant_and_round(grant_code, round_code)
+    form = PreviewApplicationForm(
+        submit_label="Preview application", data={"round_id": round.id, "account_id": g.account_id}
+    )
     return render_template(
         "manage/platform/view_round_data_collection.html",
         grant=grant,
         round=round,
+        form=form,
         back_link=url_for("proto_manage.platform.grants.view_grant_rounds", grant_code=grant_code),
     )
 
@@ -231,6 +239,16 @@ def create_question_view(grant_code, round_code, section_id):
             )
         )
     return render_template("manage/platform/create_question.html", grant=grant, round=round, section=section, form=form)
+
+
+@rounds_blueprint.post("/grants/<grant_code>/rounds/<round_code>/preview-application")
+def preview_application(grant_code, round_code):
+    form = PreviewApplicationForm(submit_label=None)
+    if form.validate_on_submit():
+        application = create_application(preview=True, round_id=form.round_id.data, account_id=form.account_id.data)
+        return redirect(url_for("proto_form_runner.application_tasklist", application_id=application.id))
+
+    raise Exception(f"Failed to start application: {form.data}")
 
 
 # @rounds_blueprint.route("/grants/<grant_code>/rounds/<round_code>/questions/<question_id>", methods=["GET", "POST"])

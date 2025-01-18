@@ -16,3 +16,7 @@ from proto.common.data.models.question_bank import (  # noqa
     ApplicationQuestion as ApplicationQuestion,
 )
 from proto.common.data.models.round import Round as Round  # noqa
+from proto.common.data.models.applications import (  # noqa
+    ProtoApplication as ProtoApplication,
+    ProtoApplicationSectionData as ProtoApplicationSectionData,
+)

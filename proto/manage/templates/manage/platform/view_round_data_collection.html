@@ -1,10 +1,21 @@
 {% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
 {% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
+{% from "govuk_frontend_jinja/components/button/macro.html" import govukButton %}
 {% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
 
 {% extends "manage/base.jinja.html" %}
 
 {% block pageTitle %}{% trans %}Manage grants{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
+
+{% set previewApplicationHtml %}
+<form method="post" action="{{ url_for('proto_manage.platform.rounds.preview_application', grant_code=grant.short_name, round_code=round.short_name) }}" novalidate>
+  {{ form.csrf_token }}
+  {{ form.round_id }}
+  {{ form.account_id }}
+  {{ form.preview }}
+  {{ form.submit }}
+</form>
+{% endset %}
 
 {% block content %}
 <div class="govuk-grid-row app-sidebar">
@@ -22,10 +33,12 @@
     {% else %}
       {% if not round.draft %}
         {{ govukInsetText({"text": "This can no longer be edited because the round is not in draft mode."}) }}
+        {{ previewApplicationHtml }}
       {% else %}
         <div class="govuk-button-group">
-          <a href="{{ url_for('proto_manage.platform.rounds.create_section_view', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button">Add a new section</a>
-          <a href="{{ url_for('proto_manage.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button govuk-button--secondary">Add more questions from the bank</a>
+          {{ previewApplicationHtml }}
+          {{ govukButton({"text": "Add a new section", "href": url_for('proto_manage.platform.rounds.create_section_view', grant_code=grant.short_name, round_code=round.short_name), "classes": "govuk-button govuk-button--secondary"}) }}
+          {{ govukButton({"text": "Add more questions from the bank", "href": url_for('proto_manage.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name), "classes": "govuk-button govuk-button--secondary"}) }}
         </div>
       {% endif %}
 
