@@ -36,3 +36,12 @@ def create_round(fund_id, code, title, title_cy, proto_start_date, proto_end_dat
             ) from e
 
     return round
+
+
+def update_round(round: Round, draft: bool | None = None):
+    if draft is not None:
+        round.proto_draft = draft
+
+    db.session.add(round)
+
+    db.session.commit()

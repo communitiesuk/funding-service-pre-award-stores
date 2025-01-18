@@ -1,0 +1,56 @@
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+{% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+
+{% extends "onboard/base.jinja.html" %}
+
+{% block pageTitle %}{% trans %}Manage grants{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row app-sidebar">
+  <div class="govuk-grid-column-three-quarters">
+
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l">{{ grant.name_json.en }} - {{ round.title_json.en }}</span>
+      Configuration
+    </h1>
+
+    {% if round.status == 'draft' %}
+      <form method="post">
+        {{ form.csrf_token }}
+        {{ form.submit }}
+      </form>
+    {% endif %}
+
+    {% set adminEditHref = url_for('round.edit_view', id=round.id, url=url_for('proto_onboard.platform.rounds.view_round_configuration', grant_code=grant.short_name, round_code=round.short_name)) %}
+    {{
+      govukTable(
+        {
+          "caption": "Round configuration",
+          "captionClasses": "govuk-table__caption--m",
+          "firstCellIsHeader": true,
+          "rows": [
+            [{"text": "Code"}, {"text": round.short_name}, {}],
+            [{"text": "Opens"}, {"text": round.opens | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
+            [{"text": "Reminders at"}, {"text": round.reminder_date | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
+            [{"text": "Deadline"}, {"text": round.deadline | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
+            [{"text": "Assessment opens"}, {"text": round.assessment_opens | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
+            [{"text": "Assessment deadline"}, {"text": round.assessment_deadline | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
+            [{"text": "etc"}, {"text": '...'}, {}],
+          ]
+        }
+      )
+    }}
+  </div>
+
+  <div class="govuk-grid-column-one-quarter app-sidebar__container">
+    <nav class="navigation" aria-label="Application round">
+      <ul class="govuk-list govuk-list--spaced">
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_onboard.platform.rounds.view_round_overview', grant_code=grant.short_name, round_code=round.short_name) }}">Round overview</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_onboard.platform.rounds.view_round_data_collection', grant_code=grant.short_name, round_code=round.short_name) }}">Data collection</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-sidebar__item--active" href="{{ url_for('proto_onboard.platform.rounds.view_round_configuration', grant_code=grant.short_name, round_code=round.short_name) }}">Configuration</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}

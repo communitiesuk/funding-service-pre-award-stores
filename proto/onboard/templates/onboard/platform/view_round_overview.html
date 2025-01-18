@@ -1,0 +1,43 @@
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+{% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+
+{% extends "onboard/base.jinja.html" %}
+
+{% block pageTitle %}{% trans %}Manage grants{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row app-sidebar">
+  <div class="govuk-grid-column-three-quarters">
+
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l">{{ grant.name_json.en }}</span>
+      {{ round.title_json.en }}
+    </h1>
+
+    {% if round.status == 'draft' %}
+      {% set insetText %}
+        <p>
+          This application round is a draft and must be published before it will become available.
+          <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_onboard.platform.rounds.view_round_configuration', grant_code=grant.short_name, round_code=round.short_name) }}">Make the round live.</a>
+        </p>
+      {% endset %}
+      {{ govukInsetText({"html": insetText}) }}
+    {% else %}
+      {% if round.status == 'waiting to open' %}
+      {{ govukInsetText({"text": "This application round will open for applications on " ~ round.opens | datetime_format_full_month ~ "."}) }}
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="govuk-grid-column-one-quarter app-sidebar__container">
+    <nav class="navigation" aria-label="Application round">
+      <ul class="govuk-list govuk-list--spaced">
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-sidebar__item--active" href="{{ url_for('proto_onboard.platform.rounds.view_round_overview', grant_code=grant.short_name, round_code=round.short_name) }}">Round overview</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_onboard.platform.rounds.view_round_data_collection', grant_code=grant.short_name, round_code=round.short_name) }}">Data collection</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_onboard.platform.rounds.view_round_configuration', grant_code=grant.short_name, round_code=round.short_name) }}">Configuration</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock %}

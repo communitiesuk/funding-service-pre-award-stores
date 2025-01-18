@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy import JSON, Column, Date, DateTime, ForeignKey, UniqueConstraint, func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.types import Boolean
 
 from db import db
@@ -101,6 +101,8 @@ class Round(db.Model):
     eligibility_config = Column("eligibility_config", JSON(none_as_null=True), nullable=True, unique=False)
     eoi_decision_schema = Column("eoi_decision_schema ", JSON(none_as_null=True), nullable=True, unique=False)
 
+    proto_draft: Mapped[bool] = mapped_column(default=True)
+
     proto_start_date = Column("proto_start_date", Date())
     proto_end_date = Column("proto_end_date", Date())
 
@@ -121,7 +123,7 @@ class Round(db.Model):
     def status(self):
         now = datetime.datetime.utcnow()
 
-        if not all([self.opens, self.deadline]):
+        if self.proto_draft:
             return "draft"
 
         if now < self.opens:
