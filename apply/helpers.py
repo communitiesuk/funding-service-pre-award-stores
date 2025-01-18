@@ -22,6 +22,7 @@ from apply.default.data import (
 from apply.models.fund import Fund
 from apply.models.round import Round
 from assessment_store.db.models.assessment_record.assessment_records import AssessmentRecord
+from assessment_store.db.models.flags.flag_update import FlagStatus
 from common.locale_selector.get_lang import get_lang
 from config import Config
 from db import db
@@ -85,7 +86,9 @@ def get_change_requests(application_id: str) -> dict[str, list]:
             if field_id not in assessor_change_requests:
                 assessor_change_requests[field_id] = []
 
-            assessor_change_requests[field_id].extend([update.justification for update in change_request.updates])
+            assessor_change_requests[field_id].extend(
+                [update.justification for update in change_request.updates if update.status != FlagStatus.RAISED]
+            )
 
     return assessor_change_requests
 
@@ -161,7 +164,7 @@ def format_rehydrate_payload(
     formatted_data["metadata"]["fund_name"] = fund_name
     formatted_data["metadata"]["round_name"] = round_name
     formatted_data["metadata"]["has_eligibility"] = has_eligibility
-    formatted_data["metadata"]["feedback_message"] = get_change_requests(application_id)
+    formatted_data["metadata"]["change_requests"] = get_change_requests(application_id)
     if round_close_notification_url is not None:
         formatted_data["metadata"]["round_close_notification_url"] = round_close_notification_url
 
