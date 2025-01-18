@@ -1,3 +1,4 @@
+import enum
 from datetime import datetime
 from typing import TYPE_CHECKING
 
@@ -12,6 +13,13 @@ if TYPE_CHECKING:
     from proto.common.data.models import Round
 
 
+class ApplicationStatus(str, enum.Enum):
+    NOT_STARTED = "not started"
+    IN_PROGRESS = "in progress"
+    CHANGE_REQUESTED = "change requested"
+    COMPLETED = "completed"
+
+
 class ProtoApplication(db.Model):
     id: Mapped[pk_int] = mapped_column(primary_key=True)
     created_at: Mapped[datetime] = mapped_column(default=func.now())
@@ -24,6 +32,25 @@ class ProtoApplication(db.Model):
     round: Mapped["Round"] = relationship("Round")
     account_id: Mapped[str] = mapped_column(ForeignKey("account.id"))
     account: Mapped["Account"] = relationship("Account")
+
+    section_data: Mapped[list["ProtoApplicationSectionData"]] = relationship("ProtoApplicationSectionData")
+
+    @property
+    def status(self):
+        if len(self.section_data) == 0:
+            return ApplicationStatus.NOT_STARTED
+
+        # TODO: WIP
+
+        return ApplicationStatus.IN_PROGRESS
+
+    @property
+    def not_started(self):
+        return self.status == ApplicationStatus.NOT_STARTED
+
+    @property
+    def in_progress(self):
+        return self.status == ApplicationStatus.IN_PROGRESS
 
 
 class ProtoApplicationSectionData(db.Model):

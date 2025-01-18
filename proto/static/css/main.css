@@ -19,3 +19,22 @@
     font-weight: bold;
     border-radius: 5px;
 }
+
+.app-application-details {
+  display: inline;
+}
+
+.app-application-details:before {
+  content:"";
+  display:block;
+}
+
+.app-application-details + dd {
+  display: inline-block;
+  margin-left: 0em;
+  clear:right;
+}
+
+.app-\!-float-right {
+    float: right;
+}
