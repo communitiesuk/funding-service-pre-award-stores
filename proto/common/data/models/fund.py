@@ -37,7 +37,7 @@ class FundingType(Enum):
 
 
 class FundStatus(str, Enum):
-    DRAFT = "draft"  # Going through onboarding and initial design; no rounds have ever gone live.
+    DRAFT = "draft"  # Going through manageing and initial design; no rounds have ever gone live.
     LIVE = "live"  # A real fund, either open for applications or taking monitoring data.
     RETIRED = "retired"  # No further activity expected on this fund.
 

@@ -1,6 +1,6 @@
 {% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
 
-{% extends "onboard/base.jinja.html" %}
+{% extends "manage/base.jinja.html" %}
 
 {% block pageTitle %}{% trans %}Manage grants{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
 
@@ -10,12 +10,12 @@
     <h1 class="govuk-heading-l">My grants</h1>
 
 
-    <a href="{{ url_for('proto_onboard.platform.grants.create_grant_view') }}" class="govuk-button govuk-button--secondary">Create a new grant</a>
+    <a href="{{ url_for('proto_manage.platform.grants.create_grant_view') }}" class="govuk-button govuk-button--secondary">Create a new grant</a>
   <br>
 
     {% for grant in (grants | sort(attribute='short_name', case_sensitive=false)) %}
       <h2 class="govuk-heading-s govuk-!-display-inline">
-        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_onboard.platform.grants.view_grant_overview', grant_code=grant.short_name) }}">{{ grant.short_name }}: {{ grant.name_json.en }}</a></h2>
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_manage.platform.grants.view_grant_overview', grant_code=grant.short_name) }}">{{ grant.short_name }}: {{ grant.name_json.en }}</a></h2>
 
       {{ govukTag({"text": grant.proto_status.value|title, "classes": "govuk-tag--" ~ grant.status_colour}) }}
 

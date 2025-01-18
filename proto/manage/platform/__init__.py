@@ -14,7 +14,7 @@ from proto.common.data.services.question_bank import (
     get_template_sections_and_questions,
 )
 from proto.common.data.services.round import create_round, update_round
-from proto.onboard.platform.forms import (
+from proto.manage.platform.forms import (
     ChooseTemplateSectionsForm,
     CreateGrantForm,
     CreateRoundForm,
@@ -29,9 +29,9 @@ rounds_blueprint = Blueprint("rounds", __name__)
 templates_blueprint = Blueprint("templates", __name__)
 
 # FIXME not good registering here
-platform_blueprint.register_blueprint(grants_blueprint, host=Config.ONBOARD_HOST)
-platform_blueprint.register_blueprint(rounds_blueprint, host=Config.ONBOARD_HOST)
-platform_blueprint.register_blueprint(templates_blueprint, host=Config.ONBOARD_HOST)
+platform_blueprint.register_blueprint(grants_blueprint, host=Config.MANAGE_HOST)
+platform_blueprint.register_blueprint(rounds_blueprint, host=Config.MANAGE_HOST)
+platform_blueprint.register_blueprint(templates_blueprint, host=Config.MANAGE_HOST)
 
 
 @grants_blueprint.context_processor
@@ -52,16 +52,16 @@ def _templates_service_nav():
 @grants_blueprint.get("/")
 def index():
     grants = get_all_grants_with_rounds()
-    return render_template("onboard/platform/home.html", grants=grants)
+    return render_template("manage/platform/home.html", grants=grants)
 
 
 @grants_blueprint.get("/grants/<grant_code>")
 def view_grant_overview(grant_code):
     grant = get_grant(grant_code)
     return render_template(
-        "onboard/platform/view_grant_overview.html",
+        "manage/platform/view_grant_overview.html",
         grant=grant,
-        back_link=url_for("proto_onboard.platform.grants.index"),
+        back_link=url_for("proto_manage.platform.grants.index"),
     )
 
 
@@ -69,9 +69,9 @@ def view_grant_overview(grant_code):
 def view_grant_rounds(grant_code):
     grant = get_grant(grant_code)
     return render_template(
-        "onboard/platform/view_grant_rounds.html",
+        "manage/platform/view_grant_rounds.html",
         grant=grant,
-        back_link=url_for("proto_onboard.platform.grants.index"),
+        back_link=url_for("proto_manage.platform.grants.index"),
     )
 
 
@@ -79,9 +79,9 @@ def view_grant_rounds(grant_code):
 def view_grant_configuration(grant_code):
     grant = get_grant(grant_code)
     return render_template(
-        "onboard/platform/view_grant_configuration.html",
+        "manage/platform/view_grant_configuration.html",
         grant=grant,
-        back_link=url_for("proto_onboard.platform.grants.index"),
+        back_link=url_for("proto_manage.platform.grants.index"),
     )
 
 
@@ -94,10 +94,10 @@ def create_grant_view():
         except DataValidationError as e:
             attach_validation_error_to_form(form, e)
         else:
-            return redirect(url_for("proto_onboard.platform.grants.view_grant_overview", grant_code=grant.short_name))
+            return redirect(url_for("proto_manage.platform.grants.view_grant_overview", grant_code=grant.short_name))
 
     return render_template(
-        "onboard/platform/create_grant.html", form=form, back_link=url_for("proto_onboard.platform.grants.index")
+        "manage/platform/create_grant.html", form=form, back_link=url_for("proto_manage.platform.grants.index")
     )
 
 
@@ -118,16 +118,16 @@ def create_round_view(grant_code):
         else:
             return redirect(
                 url_for(
-                    "proto_onboard.platform.rounds.view_round_overview",
+                    "proto_manage.platform.rounds.view_round_overview",
                     grant_code=grant_code,
                     round_code=round.short_name,
                 )
             )
 
     return render_template(
-        "onboard/platform/create_round.html",
+        "manage/platform/create_round.html",
         form=form,
-        back_link=url_for("proto_onboard.platform.grants.view_grant_rounds", grant_code=grant_code),
+        back_link=url_for("proto_manage.platform.grants.view_grant_rounds", grant_code=grant_code),
     )
 
 
@@ -135,10 +135,10 @@ def create_round_view(grant_code):
 def view_round_overview(grant_code, round_code):
     grant, round = get_grant_and_round(grant_code, round_code)
     return render_template(
-        "onboard/platform/view_round_overview.html",
+        "manage/platform/view_round_overview.html",
         grant=grant,
         round=round,
-        back_link=url_for("proto_onboard.platform.grants.view_grant_rounds", grant_code=grant_code),
+        back_link=url_for("proto_manage.platform.grants.view_grant_rounds", grant_code=grant_code),
     )
 
 
@@ -146,10 +146,10 @@ def view_round_overview(grant_code, round_code):
 def view_round_data_collection(grant_code, round_code):
     grant, round = get_grant_and_round(grant_code, round_code)
     return render_template(
-        "onboard/platform/view_round_data_collection.html",
+        "manage/platform/view_round_data_collection.html",
         grant=grant,
         round=round,
-        back_link=url_for("proto_onboard.platform.grants.view_grant_rounds", grant_code=grant_code),
+        back_link=url_for("proto_manage.platform.grants.view_grant_rounds", grant_code=grant_code),
     )
 
 
@@ -160,14 +160,14 @@ def view_round_configuration(grant_code, round_code):
     if form.validate_on_submit():
         update_round(round, draft=False)
         return redirect(
-            url_for("proto_onboard.platform.rounds.view_round_overview", grant_code=grant_code, round_code=round_code)
+            url_for("proto_manage.platform.rounds.view_round_overview", grant_code=grant_code, round_code=round_code)
         )
     return render_template(
-        "onboard/platform/view_round_configuration.html",
+        "manage/platform/view_round_configuration.html",
         grant=grant,
         round=round,
         form=form,
-        back_link=url_for("proto_onboard.platform.grants.view_grant_rounds", grant_code=grant_code),
+        back_link=url_for("proto_manage.platform.grants.view_grant_rounds", grant_code=grant_code),
     )
 
 
@@ -180,10 +180,10 @@ def choose_from_question_bank(grant_code, round_code):
     if form.validate_on_submit():
         add_template_sections_to_round(round.id, form.sections.data)
         return redirect(
-            url_for("proto_onboard.platform.rounds.view_round_overview", grant_code=grant_code, round_code=round_code)
+            url_for("proto_manage.platform.rounds.view_round_overview", grant_code=grant_code, round_code=round_code)
         )
 
-    return render_template("onboard/platform/choose_from_question_bank.html", grant=grant, round=round, form=form)
+    return render_template("manage/platform/choose_from_question_bank.html", grant=grant, round=round, form=form)
 
 
 @rounds_blueprint.route("/grants/<grant_code>/rounds/<round_code>/create-section", methods=["GET", "POST"])
@@ -194,10 +194,10 @@ def create_section_view(grant_code, round_code):
     if form.validate_on_submit():
         create_section(round_id=round.id, **{k: v for k, v in form.data.items() if k not in {"submit", "csrf_token"}})
         return redirect(
-            url_for("proto_onboard.platform.rounds.view_round_overview", grant_code=grant_code, round_code=round_code)
+            url_for("proto_manage.platform.rounds.view_round_overview", grant_code=grant_code, round_code=round_code)
         )
 
-    return render_template("onboard/platform/create_section.html", grant=grant, round=round, form=form)
+    return render_template("manage/platform/create_section.html", grant=grant, round=round, form=form)
 
 
 @rounds_blueprint.route(
@@ -214,12 +214,10 @@ def create_question_view(grant_code, round_code, section_id):
         )
         return redirect(
             url_for(
-                "proto_onboard.platform.rounds.view_round_data_collection", grant_code=grant_code, round_code=round_code
+                "proto_manage.platform.rounds.view_round_data_collection", grant_code=grant_code, round_code=round_code
             )
         )
-    return render_template(
-        "onboard/platform/create_question.html", grant=grant, round=round, section=section, form=form
-    )
+    return render_template("manage/platform/create_question.html", grant=grant, round=round, section=section, form=form)
 
 
 # @rounds_blueprint.route("/grants/<grant_code>/rounds/<round_code>/questions/<question_id>", methods=["GET", "POST"])

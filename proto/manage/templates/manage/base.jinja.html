@@ -18,13 +18,13 @@
     "homepageUrl": "#",
     "useTudorCrown": true,
     "classes": "govuk-header--full-width-border",
-    "serviceName": _("Onboard a grant")
+    "serviceName": _("Grant management")
 }) }}
 
 {{ govukServiceNavigation({
-  "serviceName": "Onboard a grant",
+  "serviceName": "Grant management",
   "navigation": [
-    {"href": url_for('proto_onboard.platform.grants.index'), "text": "Grants", "active": active_navigation_tab == 'grants'},
+    {"href": url_for('proto_manage.platform.grants.index'), "text": "Grants", "active": active_navigation_tab == 'grants'},
     {"href": "#", "text": "Application rounds", "active": active_navigation_tab == 'rounds'},
     {"href": "#", "text": "Question bank", "active": active_navigation_tab == 'templates'},
     {"href": url_for('admin.index'), "text": "DB Admin", "active": active_navigation_tab == 'admin'},
@@ -54,8 +54,8 @@
 {{ govukFooter({
     "meta": {
         "items": [
-            { "href": url_for("proto_onboard.web.cookies_handler"), "text": _("Cookies") },
-            { "href": url_for("proto_onboard.web.accessibility_statement_handler"), "text": _("Accessibility statement") }
+            { "href": url_for("proto_manage.web.cookies_handler"), "text": _("Cookies") },
+            { "href": url_for("proto_manage.web.accessibility_statement_handler"), "text": _("Accessibility statement") }
         ]
     }
 }) }}

@@ -7,9 +7,9 @@ web_blueprint = Blueprint("web", __name__)
 
 @web_blueprint.get("/cookies")
 def cookies_handler():
-    return render_template("onboard/web/cookies.jinja.html")
+    return render_template("manage/web/cookies.jinja.html")
 
 
 @web_blueprint.get("/accessibility")
 def accessibility_statement_handler():
-    return render_template("onboard/web/accessibility.jinja.html")
+    return render_template("manage/web/accessibility.jinja.html")

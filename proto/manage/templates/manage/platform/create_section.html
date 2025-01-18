@@ -2,9 +2,9 @@
 {% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
 {% from "govuk_frontend_jinja/components/error-summary/macro.html" import govukErrorSummary %}
 
-{% extends "onboard/base.jinja.html" %}
+{% extends "manage/base.jinja.html" %}
 
-{% block pageTitle %}{% trans %}Create a new grant{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
+{% block pageTitle %}{% trans %}Create a new section{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
@@ -13,21 +13,17 @@
         {{ govukErrorSummary(wtforms_errors(form)) }}
     {% endif %}
 
-    <h1 class="govuk-heading-l">Create a new grant</h1>
+    <h1 class="govuk-heading-l">Create a new section</h1>
 
     <form method="post" novalidate>
       {{ form.csrf_token }}
-      {{ form.code }}
-      {{ form.name }}
-      {{ form.name_cy }}
+      {{ form.order }}
+
+      {{ form.type }}
       {{ form.title }}
-      {{ form.title_cy }}
-      {{ form.description }}
-      {{ form.description_cy }}
-      {{ form.welsh_available }}
-      {{ form.funding_type }}
-      {{ form.prospectus_link }}
-      {{ form.ggis_reference }}
+      {{ form.hint }}
+      {{ form.slug }}
+
       {{ form.submit }}
     </form>
   </div>

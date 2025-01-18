@@ -2,7 +2,7 @@
 {% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
 {% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
 
-{% extends "onboard/base.jinja.html" %}
+{% extends "manage/base.jinja.html" %}
 
 {% block pageTitle %}{% trans %}Manage grants{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
 
@@ -18,14 +18,14 @@
     {% if round.application_sections | length == 0 %}
       <p class="govuk-body">No questions have been set up for this round yet.</p>
 
-      <a href="{{ url_for('proto_onboard.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button">Add questions from the bank</a>
+      <a href="{{ url_for('proto_manage.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button">Add questions from the bank</a>
     {% else %}
       {% if not round.draft %}
         {{ govukInsetText({"text": "This can no longer be edited because the round is not in draft mode."}) }}
       {% else %}
         <div class="govuk-button-group">
-          <a href="{{ url_for('proto_onboard.platform.rounds.create_section_view', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button">Add a new section</a>
-          <a href="{{ url_for('proto_onboard.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button govuk-button--secondary">Add more questions from the bank</a>
+          <a href="{{ url_for('proto_manage.platform.rounds.create_section_view', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button">Add a new section</a>
+          <a href="{{ url_for('proto_manage.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button govuk-button--secondary">Add more questions from the bank</a>
         </div>
       {% endif %}
 
@@ -37,7 +37,7 @@
             [
               {"text": ' '},
               {"text": question.title},
-              {"html": ("<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('proto_onboard.platform.rounds.create_question_view', grant_code=grant.short_name, round_code=round.short_name, section_id=section.id) + "'>Edit</a>") if round.draft else ' '}
+              {"html": ("<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('proto_manage.platform.rounds.create_question_view', grant_code=grant.short_name, round_code=round.short_name, section_id=section.id) + "'>Edit</a>") if round.draft else ' '}
             ]
           ) %}
         {% endfor %}
@@ -55,7 +55,7 @@
         }}
 
         {% if round.draft %}
-        <p class="govuk-body govuk-!-margin-top-0"><a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_onboard.platform.rounds.create_question_view', grant_code=grant.short_name, round_code=round.short_name, section_id=section.id) }}">Add another question</a></p>
+        <p class="govuk-body govuk-!-margin-top-0"><a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_manage.platform.rounds.create_question_view', grant_code=grant.short_name, round_code=round.short_name, section_id=section.id) }}">Add another question</a></p>
         {% else %}
           <br>  {# lol hack #}
         {% endif %}
@@ -66,9 +66,9 @@
   <div class="govuk-grid-column-one-quarter app-sidebar__container">
     <nav class="navigation" aria-label="Application round">
       <ul class="govuk-list govuk-list--spaced">
-        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_onboard.platform.rounds.view_round_overview', grant_code=grant.short_name, round_code=round.short_name) }}">Round overview</a></li>
-        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-sidebar__item--active" href="{{ url_for('proto_onboard.platform.rounds.view_round_data_collection', grant_code=grant.short_name, round_code=round.short_name) }}">Data collection</a></li>
-        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_onboard.platform.rounds.view_round_configuration', grant_code=grant.short_name, round_code=round.short_name) }}">Configuration</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_manage.platform.rounds.view_round_overview', grant_code=grant.short_name, round_code=round.short_name) }}">Round overview</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-sidebar__item--active" href="{{ url_for('proto_manage.platform.rounds.view_round_data_collection', grant_code=grant.short_name, round_code=round.short_name) }}">Data collection</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_manage.platform.rounds.view_round_configuration', grant_code=grant.short_name, round_code=round.short_name) }}">Configuration</a></li>
       </ul>
     </nav>
   </div>

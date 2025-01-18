@@ -1,7 +1,7 @@
 {% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
 {% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
 
-{% extends "onboard/base.jinja.html" %}
+{% extends "manage/base.jinja.html" %}
 
 {% block pageTitle %}{% trans %}Manage grants{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
 
@@ -41,12 +41,12 @@
   <div class="govuk-grid-column-one-quarter app-sidebar__container">
     <nav class="navigation" aria-label="Grant">
       <ul class="govuk-list govuk-list--spaced">
-        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-sidebar__item--active" href="{{ url_for('proto_onboard.platform.grants.view_grant_overview', grant_code=grant.short_name) }}">Grant overview</a></li>
-        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_onboard.platform.grants.view_grant_rounds', grant_code=grant.short_name) }}">Application rounds</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline app-sidebar__item--active" href="{{ url_for('proto_manage.platform.grants.view_grant_overview', grant_code=grant.short_name) }}">Grant overview</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_manage.platform.grants.view_grant_rounds', grant_code=grant.short_name) }}">Application rounds</a></li>
         <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="#">Payments</a></li>
         <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="#">Monitoring</a></li>
         <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="#">Recipients</a></li>
-        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_onboard.platform.grants.view_grant_configuration', grant_code=grant.short_name) }}">Configuration</a></li>
+        <li><a class="govuk-link govuk-link--no-visited-state govuk-link--no-underline" href="{{ url_for('proto_manage.platform.grants.view_grant_configuration', grant_code=grant.short_name) }}">Configuration</a></li>
       </ul>
     </nav>
   </div>

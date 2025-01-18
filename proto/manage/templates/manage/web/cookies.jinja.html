@@ -1,8 +1,8 @@
 {% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
 
-{% extends "onboard/base.jinja.html" %}
+{% extends "manage/base.jinja.html" %}
 
-{% block pageTitle %}{% trans %}Cookies{% endtrans %} - {% trans %}Onboard a grant{% endtrans %}{% endblock %}
+{% block pageTitle %}{% trans %}Cookies{% endtrans %} - {% trans %}Grant management{% endtrans %}{% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
@@ -11,10 +11,10 @@
 
         <p class="govuk-body">{% trans %}Cookies are small files saved on your phone, tablet or computer when you visit a website.{% endtrans %}</p>
 
-        <p class="govuk-body">{% trans %}We use cookies to make the Onboard a grant service work.{% endtrans %}</p>
+        <p class="govuk-body">{% trans %}We use cookies to make the Grant management service work.{% endtrans %}</p>
 
         <h2 class="govuk-heading-m">{% trans %}Essential cookies{% endtrans %}</h2>
-        <p class="govuk-body">Essential cookies keep your information secure while you use the Onboard a grant service. We do not need to ask permission to use them.</p>
+        <p class="govuk-body">Essential cookies keep your information secure while you use the Grant management service. We do not need to ask permission to use them.</p>
 
         {{ govukTable({
             "head": [

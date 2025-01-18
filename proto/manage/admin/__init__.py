@@ -1,6 +1,6 @@
 from flask_admin.menu import MenuLink
 
-from proto.onboard.admin.entities import (
+from proto.manage.admin.entities import (
     ApplicationQuestionAdmin,
     ApplicationSectionAdmin,
     DataStandardAdmin,
@@ -20,4 +20,4 @@ def register_admin_views(flask_admin, db):
     flask_admin.add_view(ApplicationSectionAdmin(db.session, category="Applications"))
     flask_admin.add_view(ApplicationQuestionAdmin(db.session, category="Applications"))
 
-    flask_admin.add_link(MenuLink(name="← Back to Onboard a grant", url="/"))
+    flask_admin.add_link(MenuLink(name="← Back to Grant management", url="/"))

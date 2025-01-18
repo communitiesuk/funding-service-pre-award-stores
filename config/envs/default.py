@@ -119,7 +119,7 @@ class DefaultConfig(object):
     APPLY_HOST = getenv("APPLY_HOST", "frontend.levellingup.gov.localhost:3008")
     ASSESS_HOST = getenv("ASSESS_HOST", "assessment.levellingup.gov.localhost:3010")
     AUTH_HOST = getenv("AUTH_HOST", "authenticator.levellingup.gov.localhost:4004")
-    ONBOARD_HOST = "onboard.levellingup.gov.localhost:3008"
+    MANAGE_HOST = "manage.levellingup.gov.localhost:3008"
 
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
