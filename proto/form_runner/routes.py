@@ -34,14 +34,34 @@ def _next_url_for_question(application_id, section, current_question_slug):
     )
 
 
+def _back_link_for_question(question, application_id, from_check_your_answers):
+    if from_check_your_answers:
+        return url_for(
+            "proto_form_runner.check_your_answers", application_id=application_id, section_slug=question.section.slug
+        )
+
+    if question.slug == question.section.questions[0].slug:
+        return url_for("proto_form_runner.application_tasklist", application_id=application_id)
+
+    previous_question_index = question.section.questions.index(question) - 1
+
+    return url_for(
+        "proto_form_runner.ask_application_question",
+        application_id=application_id,
+        section_slug=question.section.slug,
+        question_slug=question.section.questions[previous_question_index].slug,
+    )
+
+
 @runner_blueprint.route("/application/<application_id>/<section_slug>/<question_slug>", methods=["GET", "POST"])
 def ask_application_question(application_id, section_slug, question_slug):
     application = get_application(application_id)
     question = get_application_question(application.round_id, section_slug, question_slug)
     form = build_question_form(application, question)
+    from_check_your_answers = "from_cya" in request.args
     if form.validate_on_submit():
         upsert_question_data(application, question, form.question.data)
-        if "from_cya" in request.args:
+        if from_check_your_answers:
             return redirect(
                 url_for(
                     "proto_form_runner.check_your_answers", application_id=application_id, section_slug=section_slug
@@ -55,6 +75,7 @@ def ask_application_question(application_id, section_slug, question_slug):
         question=question,
         section=question.section,
         form=form,
+        back_link=_back_link_for_question(question, application_id, from_check_your_answers),
     )
 
 

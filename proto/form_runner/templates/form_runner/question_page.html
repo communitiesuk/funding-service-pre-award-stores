@@ -5,11 +5,6 @@
 
 {% block pageTitle %}{% trans %}Your application{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
 
-{% block beforeContent %}
-{{ super() }}
-{{ govukBackLink({"text": "Go back to application overview", "href": url_for("proto_form_runner.application_tasklist", application_id=application.id) }) }}
-{% endblock %}
-
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
