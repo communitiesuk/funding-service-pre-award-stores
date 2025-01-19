@@ -25,7 +25,7 @@
       {% set _ = rowData.append(
           {
             "key": {"text": question.title},
-            "value": {"text": section_data.data[question.id|string].answer},
+            "value": {"text": section_data.data.get(question.id|string, {}).get('answer', '')},
             "actions": {"items": [{"href": "#", "text": "Change", "visuallyHiddenText": question.title, "classes": "govuk-link--no-visited-state"}]}
           }
         ) %}
