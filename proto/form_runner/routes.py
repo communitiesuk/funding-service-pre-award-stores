@@ -1,4 +1,4 @@
-from flask import redirect, render_template, url_for
+from flask import redirect, render_template, request, url_for
 
 from common.blueprints import Blueprint
 from proto.common.data.services.applications import (
@@ -41,6 +41,12 @@ def ask_application_question(application_id, section_slug, question_slug):
     form = build_question_form(application, question)
     if form.validate_on_submit():
         upsert_question_data(application, question, form.question.data)
+        if "from_cya" in request.args:
+            return redirect(
+                url_for(
+                    "proto_form_runner.check_your_answers", application_id=application_id, section_slug=section_slug
+                )
+            )
         return redirect(_next_url_for_question(application_id, question.section, question_slug))
 
     return render_template(
