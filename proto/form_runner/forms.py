@@ -10,11 +10,13 @@ from proto.common.data.models.question_bank import QuestionType
 from proto.common.data.services.applications import get_current_answer_to_question
 
 
-def build_question_form(application: "ProtoApplication", question: ApplicationQuestion) -> FlaskForm:
-    # Build the form class and attach a field for it that renders the question correctly.
-    class DynamicQuestionForm(FlaskForm):
-        submit = SubmitField(_l("Continue"), widget=GovSubmitInput())
+# Build the form class and attach a field for it that renders the question correctly.
+class DynamicQuestionForm(FlaskForm):
+    submit = SubmitField(_l("Continue"), widget=GovSubmitInput())
+    question: StringField | RadioField
 
+
+def build_question_form(application: "ProtoApplication", question: ApplicationQuestion) -> DynamicQuestionForm:
     match question.type:
         case QuestionType.TEXT_INPUT:
             field = StringField(
