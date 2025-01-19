@@ -5,7 +5,12 @@ from sqlalchemy import cast, delete, func, select
 from sqlalchemy.dialects.postgresql import JSONB, insert
 
 from db import db
-from proto.common.data.models import ApplicationQuestion, ProtoApplication, ProtoApplicationSectionData
+from proto.common.data.models import (
+    ApplicationQuestion,
+    ApplicationSection,
+    ProtoApplication,
+    ProtoApplicationSectionData,
+)
 
 
 def _generate_application_code():
@@ -62,3 +67,14 @@ def upsert_question_data(application: ProtoApplication, question: "ApplicationQu
         )
     )
     db.session.commit()
+
+
+def get_application_section_data(application_id, section_slug):
+    return db.session.scalar(
+        select(ProtoApplicationSectionData)
+        .join(ApplicationSection)
+        .filter(
+            ProtoApplicationSectionData.proto_application_id == application_id,
+            ApplicationSection.slug == section_slug,
+        )
+    )

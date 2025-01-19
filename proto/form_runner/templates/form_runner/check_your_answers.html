@@ -1,4 +1,6 @@
 {% from "govuk_frontend_jinja/components/back-link/macro.html" import govukBackLink %}
+{% from "govuk_frontend_jinja/components/summary-list/macro.html" import govukSummaryList %}
+{% from "govuk_frontend_jinja/components/error-summary/macro.html" import govukErrorSummary %}
 
 {% extends "form_runner/base.jinja.html" %}
 
@@ -6,13 +8,39 @@
 
 {% block beforeContent %}
 {{ super() }}
-{{ govukBackLink({"text": "Go back to application overview", "href": url_for("proto_form_runner.application_tasklist", application_id=application.id) }) }}
+{{ govukBackLink({"text": "Go back to application overview", "href": url_for("proto_form_runner.application_tasklist", application_id=application_id) }) }}
 {% endblock %}
 
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if form.errors %}
+        {{ govukErrorSummary(wtforms_errors(form)) }}
+    {% endif %}
+
     <h1 class="govuk-heading-l">Check your answers</h1>
+
+    {% set rowData = [] %}
+    {% for question in section.questions %}
+      {% set _ = rowData.append(
+          {
+            "key": {"text": question.title},
+            "value": {"text": section_data.data[question.id|string].answer},
+            "actions": {"items": [{"href": "#", "text": "Change", "visuallyHiddenText": question.title, "classes": "govuk-link--no-visited-state"}]}
+          }
+        ) %}
+    {% endfor %}
+    {{
+      govukSummaryList({
+        "rows": rowData
+      })
+    }}
+
+    <form method="post" novalidate>
+      {{ form.csrf_token }}
+      {{ form.complete(params={"classes": "govuk-radios--inline"}) }}
+      {{ form.submit }}
+    </form>
   </div>
 </div>
 {% endblock %}

@@ -3,10 +3,11 @@ from flask import redirect, render_template, url_for
 from common.blueprints import Blueprint
 from proto.common.data.services.applications import (
     get_application,
+    get_application_section_data,
     upsert_question_data,
 )
 from proto.common.data.services.question_bank import get_application_question
-from proto.form_runner.forms import build_question_form
+from proto.form_runner.forms import MarkAsCompleteForm, build_question_form
 
 runner_blueprint = Blueprint("proto_form_runner", __name__)
 
@@ -50,10 +51,16 @@ def ask_application_question(application_id, section_slug, question_slug):
     )
 
 
-@runner_blueprint.route("/application/<application_id>/<section_slug>/check-your-answers", methods=["GET"])
+@runner_blueprint.route("/application/<application_id>/<section_slug>/check-your-answers", methods=["GET", "POST"])
 def check_your_answers(application_id, section_slug):
-    application = get_application(application_id)
+    section_data = get_application_section_data(application_id, section_slug)
+    form = MarkAsCompleteForm()
+    if form.validate_on_submit():
+        return redirect(url_for("proto_form_runner.application_tasklist", application_id=application_id))
     return render_template(
         "form_runner/check_your_answers.html",
-        application=application,
+        application_id=application_id,
+        section=section_data.section,
+        section_data=section_data,
+        form=form,
     )

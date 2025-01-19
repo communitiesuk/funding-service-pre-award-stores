@@ -40,3 +40,13 @@ def build_question_form(application: "ProtoApplication", question: ApplicationQu
     form = DynamicQuestionForm(data={"question": get_current_answer_to_question(application, question)})
 
     return form
+
+
+class MarkAsCompleteForm(FlaskForm):
+    complete = RadioField(
+        _l("Do you want to mark this section as complete?"),
+        choices=(("yes", "Yes"), ("no", "No")),
+        widget=GovRadioInput(),
+        validators=[DataRequired(message="Choose yes if your answers are all complete")],
+    )
+    submit = SubmitField(_l("Save and continue"), widget=GovSubmitInput())
