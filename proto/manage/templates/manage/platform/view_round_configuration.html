@@ -31,9 +31,9 @@
           "firstCellIsHeader": true,
           "rows": [
             [{"text": "Code"}, {"text": round.short_name}, {}],
-            [{"text": "Opens"}, {"text": round.opens | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
+            [{"text": "Opens"}, {"text": round.proto_start_date | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
             [{"text": "Reminders at"}, {"text": round.reminder_date | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
-            [{"text": "Deadline"}, {"text": round.deadline | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
+            [{"text": "Deadline"}, {"text": round.proto_end_date | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
             [{"text": "Assessment opens"}, {"text": round.assessment_opens | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
             [{"text": "Assessment deadline"}, {"text": round.assessment_deadline | datetime_format_full_month}, {"html": "<a class='govuk-link govuk-link--no-visited-state' href='" + adminEditHref + "'>Edit</a>"}],
             [{"text": "etc"}, {"text": '...'}, {}],

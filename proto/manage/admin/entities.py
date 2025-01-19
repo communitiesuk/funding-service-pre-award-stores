@@ -90,8 +90,8 @@ class RoundAdmin(BaseAdmin):
         "proto_grant.short_name",
         Round.short_name,
         Round.title_json,
-        Round.opens,
-        Round.deadline,
+        Round.proto_start_date,
+        Round.proto_end_date,
         Round.assessment_start,
         Round.assessment_deadline,
     ]

@@ -30,7 +30,7 @@
     <a href="{{ url_for('proto_manage.platform.rounds.create_round_view', grant_code=grant.short_name) }}" class="govuk-button govuk-button--secondary">Create a new application round</a>
     <br>
 
-    {% for round in (grant.rounds | sort(attribute='short_name', case_sensitive=false, reverse=true) | sort(attribute='opens', reverse=true)) %}
+    {% for round in (grant.rounds | sort(attribute='short_name', case_sensitive=false, reverse=true) | sort(attribute='proto_start_date', reverse=true)) %}
       <h4 class="govuk-!-display-inline">
         <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_manage.platform.rounds.view_round_overview', grant_code=round.proto_grant.short_name, round_code=round.short_name) }}">{{ round.short_name }}: {{ round.title_json.en }}</a>
       </h4>

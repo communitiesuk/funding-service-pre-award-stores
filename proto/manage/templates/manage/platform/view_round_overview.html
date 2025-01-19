@@ -25,7 +25,7 @@
       {{ govukInsetText({"html": insetText}) }}
     {% else %}
       {% if round.status == 'waiting to open' %}
-      {{ govukInsetText({"text": "This funding round will open for applications on " ~ round.opens | datetime_format_full_month ~ "."}) }}
+      {{ govukInsetText({"text": "This funding round will open for applications on " ~ round.proto_start_date | datetime_format_full_month ~ "."}) }}
       {% endif %}
     {% endif %}
   </div>

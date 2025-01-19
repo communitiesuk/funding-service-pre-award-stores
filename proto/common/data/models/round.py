@@ -121,15 +121,16 @@ class Round(db.Model):
 
     @property
     def status(self):
+        today = datetime.date.today()
         now = datetime.datetime.utcnow()
 
         if self.proto_draft:
             return "draft"
 
-        if now < self.opens:
+        if today < self.proto_start_date:
             return "waiting to open"
 
-        if now < self.deadline:
+        if today < self.proto_end_date:
             return "applications open"
 
         if self.assessment_start and now < self.assessment_start:
