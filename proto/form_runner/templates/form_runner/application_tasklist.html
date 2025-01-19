@@ -62,7 +62,7 @@
       {% endfor %}
     </ol>
 
-    {% if application.completed %}
+    {% if application.can_be_submitted %}
       {% if application.fake %}
         {% set submitApplicationHref = url_for('proto_manage.platform.rounds.view_round_data_collection', grant_code=application.round.proto_grant.short_name, round_code=application.round.short_name) %}
       {% else %}

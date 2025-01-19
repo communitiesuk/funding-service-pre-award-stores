@@ -53,6 +53,12 @@ class ProtoApplication(db.Model):
         return ApplicationStatus.IN_PROGRESS
 
     @property
+    def can_be_submitted(self):
+        return len(self.section_data) == len(self.round.application_sections) and all(
+            sd.completed for sd in self.section_data
+        )
+
+    @property
     def not_started(self):
         return self.status == ApplicationStatus.NOT_STARTED
 
