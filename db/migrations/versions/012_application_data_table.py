@@ -41,7 +41,7 @@ def upgrade():
         sa.ForeignKeyConstraint(
             ["proto_application_id"],
             ["proto_application.id"],
-            name=op.f("fk_proto_application_section_data_proto_application_id_proto_application"),
+            name=op.f("fk_proto_application_section_data_proto_application_id__21b3"),
         ),
         sa.PrimaryKeyConstraint("id", name=op.f("pk_proto_application_section_data")),
     )

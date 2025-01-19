@@ -33,7 +33,9 @@ class ProtoApplication(db.Model):
     account_id: Mapped[str] = mapped_column(ForeignKey("account.id"))
     account: Mapped["Account"] = relationship("Account")
 
-    section_data: Mapped[list["ProtoApplicationSectionData"]] = relationship("ProtoApplicationSectionData")
+    section_data: Mapped[list["ProtoApplicationSectionData"]] = relationship(
+        "ProtoApplicationSectionData", passive_deletes=True
+    )
 
     @property
     def status(self):
@@ -66,7 +68,7 @@ class ProtoApplicationSectionData(db.Model):
 
     data: Mapped[dict] = mapped_column(nullable=False, default=dict)
 
-    proto_application_id: Mapped[int] = mapped_column(ForeignKey("proto_application.id"))
+    proto_application_id: Mapped[int] = mapped_column(ForeignKey("proto_application.id", ondelete="CASCADE"))
     proto_application: Mapped["Round"] = relationship("ProtoApplication")
 
     section_id: Mapped[int] = mapped_column(ForeignKey("application_section.id"))
