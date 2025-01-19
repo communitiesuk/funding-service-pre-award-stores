@@ -48,7 +48,12 @@ def _build_answer_dict(question: "ApplicationQuestion", answer: str) -> dict:
 
 def get_current_answer_to_question(application: ProtoApplication, question: "ApplicationQuestion"):
     # str(question.id) because JSON keys must be strings, but our question PK col is an int
-    return db.session.scalar(select(ProtoApplicationSectionData.data[str(question.id)]["answer"]))
+    return db.session.scalar(
+        select(ProtoApplicationSectionData.data[str(question.id)]["answer"]).filter(
+            ProtoApplicationSectionData.proto_application == application,
+            ProtoApplicationSectionData.section_id == question.section_id,
+        )
+    )
 
 
 def upsert_question_data(application: ProtoApplication, question: "ApplicationQuestion", answer: str):
