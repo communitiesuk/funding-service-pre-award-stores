@@ -1,0 +1,22 @@
+{% from "govuk_frontend_jinja/components/back-link/macro.html" import govukBackLink %}
+
+{% extends "form_runner/base.jinja.html" %}
+
+{% block pageTitle %}{% trans %}Your application{% endtrans %} - {% trans %}One Funding Service{% endtrans %}{% endblock %}
+
+{% block beforeContent %}
+{{ super() }}
+{{ govukBackLink({"text": "Go back to application overview", "href": url_for("proto_form_runner.application_tasklist", application_id=application.id) }) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form method="post" novalidate>
+      {{ form.csrf_token }}
+      {{ form.question(params={"label": {"isPageHeading": true, "classes": "govuk-label--l"} }) }}
+      {{ form.submit }}
+    </form>
+  </div>
+</div>
+{% endblock %}

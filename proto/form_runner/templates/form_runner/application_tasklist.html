@@ -44,7 +44,7 @@
         <h2 class="govuk-heading-m">Section {{ loop.index }}</h2>
 
         <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-2"/>
-        <a class="govuk-link govuk-link--no-visited-state" href="#">{{ section.title }}</a>
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_form_runner.ask_application_question', application_id=application.id, section_slug=section.slug, question_slug=section.questions[0].slug) }}">{{ section.title }}</a>
         {{ govukTag({"text": "Not started", "classes": "govuk-tag--grey app-!-float-right"}) }}
         <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-3"/>
       </li>

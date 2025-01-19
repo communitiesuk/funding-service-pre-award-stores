@@ -71,6 +71,17 @@ def add_template_sections_to_round(round_id, template_section_ids):
     db.session.commit()
 
 
+def get_application_question(round_id, section_slug, question_slug):
+    return db.session.scalar(
+        select(ApplicationQuestion)
+        .join(ApplicationSection)
+        .join(Round)
+        .filter(
+            ApplicationQuestion.slug == question_slug, ApplicationSection.slug == section_slug, Round.id == round_id
+        )
+    )
+
+
 # def get_application_question(grant_code, round_code, question_id):
 #     question = db.session.scalar(
 #         select(ApplicationQuestion)

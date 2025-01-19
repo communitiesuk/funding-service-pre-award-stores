@@ -2,7 +2,7 @@ import enum
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey, func
+from sqlalchemy import ForeignKey, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from db import db
@@ -10,7 +10,7 @@ from proto.common.data.models.types import pk_int
 
 if TYPE_CHECKING:
     from account_store.db.models import Account
-    from proto.common.data.models import Round
+    from proto.common.data.models import ApplicationSection, Round
 
 
 class ApplicationStatus(str, enum.Enum):
@@ -58,11 +58,16 @@ class ProtoApplication(db.Model):
 
 
 class ProtoApplicationSectionData(db.Model):
+    __table_args__ = (UniqueConstraint("proto_application_id", "section_id"),)
+
     id: Mapped[pk_int] = mapped_column(primary_key=True)
     created_at: Mapped[datetime] = mapped_column(default=func.now())
-    updated_at: Mapped[datetime] = mapped_column(onupdate=func.now())
+    updated_at: Mapped[datetime] = mapped_column(default=func.now(), onupdate=func.now())
 
     data: Mapped[dict] = mapped_column(nullable=False, default=dict)
 
     proto_application_id: Mapped[int] = mapped_column(ForeignKey("proto_application.id"))
     proto_application: Mapped["Round"] = relationship("ProtoApplication")
+
+    section_id: Mapped[int] = mapped_column(ForeignKey("application_section.id"))
+    section: Mapped["ApplicationSection"] = relationship("ApplicationSection")

@@ -88,6 +88,10 @@ class ApplicationSection(db.Model):
     round_id: Mapped[UUID] = mapped_column(db.ForeignKey("round.id"))
     round: Mapped["Round"] = relationship("Round")
 
+    questions: Mapped[list["ApplicationQuestion"]] = relationship(
+        "ApplicationQuestion", order_by="ApplicationQuestion.order"
+    )
+
     def __repr__(self):
         return f"<ApplicationSection {self.slug} fund={self.round.proto_grant.short_name}>"
 
@@ -111,7 +115,7 @@ class ApplicationQuestion(db.Model):
     data_source: Mapped[dict | None]
 
     section_id: Mapped[int] = mapped_column(db.ForeignKey(ApplicationSection.id))
-    section: Mapped[ApplicationSection] = relationship(ApplicationSection, backref="questions")
+    section: Mapped[ApplicationSection] = relationship(ApplicationSection)
     template_question_id: Mapped[int | None] = mapped_column(db.ForeignKey(TemplateQuestion.id))
     template_question: Mapped[TemplateQuestion] = relationship(TemplateQuestion)
     data_standard_id: Mapped[int | None] = mapped_column(db.ForeignKey(DataStandard.id))
