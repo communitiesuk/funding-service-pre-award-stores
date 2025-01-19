@@ -61,7 +61,7 @@ def ask_application_question(application_id, section_slug, question_slug):
 @runner_blueprint.route("/application/<application_id>/<section_slug>/check-your-answers", methods=["GET", "POST"])
 def check_your_answers(application_id, section_slug):
     section_data = get_application_section_data(application_id, section_slug)
-    form = MarkAsCompleteForm()
+    form = MarkAsCompleteForm(data={"complete": "yes" if section_data and section_data.completed else None})
     if form.validate_on_submit():
         if form.complete.data is True:
             set_application_section_complete(section_data)
