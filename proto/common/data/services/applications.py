@@ -83,3 +83,9 @@ def get_application_section_data(application_id, section_slug):
             ApplicationSection.slug == section_slug,
         )
     )
+
+
+def set_application_section_complete(section_data: ProtoApplicationSectionData):
+    section_data.completed = True
+    db.session.add(section_data)
+    db.session.commit()

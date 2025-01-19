@@ -4,6 +4,7 @@ from common.blueprints import Blueprint
 from proto.common.data.services.applications import (
     get_application,
     get_application_section_data,
+    set_application_section_complete,
     upsert_question_data,
 )
 from proto.common.data.services.question_bank import get_application_question
@@ -56,6 +57,9 @@ def check_your_answers(application_id, section_slug):
     section_data = get_application_section_data(application_id, section_slug)
     form = MarkAsCompleteForm()
     if form.validate_on_submit():
+        if form.complete.data == "yes":
+            set_application_section_complete(section_data)
+
         return redirect(url_for("proto_form_runner.application_tasklist", application_id=application_id))
     return render_template(
         "form_runner/check_your_answers.html",

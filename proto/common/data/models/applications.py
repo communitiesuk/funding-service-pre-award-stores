@@ -68,7 +68,7 @@ class ProtoApplication(db.Model):
         section_data = next(filter(lambda sec: sec.section_id == section_id, self.section_data), None)
         if section_data is None:
             return ApplicationSectionStatus.NOT_STARTED
-        elif len(section_data.data) < len(section_data.section.questions):
+        elif section_data.completed is False:
             return ApplicationSectionStatus.IN_PROGRESS
         return ApplicationSectionStatus.COMPLETED
 
@@ -90,6 +90,7 @@ class ProtoApplicationSectionData(db.Model):
     updated_at: Mapped[datetime] = mapped_column(default=func.now(), onupdate=func.now())
 
     data: Mapped[dict] = mapped_column(nullable=False, default=dict)
+    completed: Mapped[bool] = mapped_column(default=False)
 
     proto_application_id: Mapped[int] = mapped_column(ForeignKey("proto_application.id", ondelete="CASCADE"))
     proto_application: Mapped["Round"] = relationship("ProtoApplication")
