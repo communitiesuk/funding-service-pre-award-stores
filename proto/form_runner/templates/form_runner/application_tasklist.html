@@ -1,5 +1,7 @@
 {% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
 {% from "govuk_frontend_jinja/components/details/macro.html" import govukDetails %}
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+{% from "govuk_frontend_jinja/components/button/macro.html" import govukButton %}
 
 {% extends "form_runner/base.jinja.html" %}
 
@@ -52,6 +54,18 @@
       {% endif %}
       {% endfor %}
     </ol>
+
+    {% if application.completed %}
+      {% if application.fake %}
+        {% set submitApplicationHref = url_for('proto_manage.platform.rounds.view_round_data_collection', grant_code=application.round.proto_grant.short_name, round_code=application.round.short_name) %}
+      {% else %}
+        {% set submitApplicationHref = "#" %}
+      {% endif %}
+    {{ govukButton({"text":gettext("Submit application"), "href": submitApplicationHref, "classes": "govuk-!-margin-top-5"}) }}
+    {% else %}
+    {{ govukButton({"text":gettext("Submit application"), "classes": "govuk-!-margin-top-5 govuk-!-margin-bottom-3", "disabled": true}) }}
+      <p class="govuk-body">You cannot submit your application until you have completed all of the sections.</p>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

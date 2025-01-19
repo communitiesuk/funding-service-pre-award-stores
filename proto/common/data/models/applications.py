@@ -52,6 +52,10 @@ class ProtoApplication(db.Model):
     def in_progress(self):
         return self.status == ApplicationStatus.IN_PROGRESS
 
+    @property
+    def completed(self):
+        return self.status == ApplicationStatus.COMPLETED
+
 
 class ProtoApplicationSectionData(db.Model):
     id: Mapped[pk_int] = mapped_column(primary_key=True)
