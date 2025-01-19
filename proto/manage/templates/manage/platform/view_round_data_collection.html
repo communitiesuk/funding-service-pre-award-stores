@@ -31,12 +31,12 @@
 
       <a href="{{ url_for('proto_manage.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name) }}" class="govuk-button">Add questions from the bank</a>
     {% else %}
-      {% if not round.draft %}
+      {% if not round.proto_draft %}
         {{ govukInsetText({"text": "This can no longer be edited because the round is not in draft mode."}) }}
         {{ previewApplicationHtml }}
       {% else %}
+        {{ previewApplicationHtml }}
         <div class="govuk-button-group">
-          {{ previewApplicationHtml }}
           {{ govukButton({"text": "Add a new section", "href": url_for('proto_manage.platform.rounds.create_section_view', grant_code=grant.short_name, round_code=round.short_name), "classes": "govuk-button govuk-button--secondary"}) }}
           {{ govukButton({"text": "Add more questions from the bank", "href": url_for('proto_manage.platform.rounds.choose_from_question_bank', grant_code=grant.short_name, round_code=round.short_name), "classes": "govuk-button govuk-button--secondary"}) }}
         </div>
@@ -50,7 +50,7 @@
             [
               {"text": ' '},
               {"text": question.title},
-              {"html": ("<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('proto_manage.platform.rounds.create_question_view', grant_code=grant.short_name, round_code=round.short_name, section_id=section.id) + "'>Edit</a>") if round.draft else ' '}
+              {"html": ("<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('proto_manage.platform.rounds.create_question_view', grant_code=grant.short_name, round_code=round.short_name, section_id=section.id) + "'>Edit</a>") if round.proto_draft else ' '}
             ]
           ) %}
         {% endfor %}
@@ -67,7 +67,7 @@
           )
         }}
 
-        {% if round.draft %}
+        {% if round.proto_draft %}
         <p class="govuk-body govuk-!-margin-top-0"><a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_manage.platform.rounds.create_question_view', grant_code=grant.short_name, round_code=round.short_name, section_id=section.id) }}">Add another question</a></p>
         {% else %}
           <br>  {# lol hack #}
