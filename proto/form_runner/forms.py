@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from govuk_frontend_wtf.wtforms_widgets import GovRadioInput, GovSubmitInput, GovTextArea, GovTextInput
 from wtforms.fields.choices import RadioField
 from wtforms.fields.simple import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, InputRequired
 
 from proto.common.data.models import ApplicationQuestion, ProtoApplication
 from proto.common.data.models.question_bank import QuestionType
@@ -46,7 +46,8 @@ class MarkAsCompleteForm(FlaskForm):
     complete = RadioField(
         _l("Do you want to mark this section as complete?"),
         choices=(("yes", "Yes"), ("no", "No")),
+        coerce=lambda x: x == "yes",
         widget=GovRadioInput(),
-        validators=[DataRequired(message="Choose yes if your answers are all complete")],
+        validators=[InputRequired(message="Choose yes if your answers are all complete")],
     )
     submit = SubmitField(_l("Save and continue"), widget=GovSubmitInput())

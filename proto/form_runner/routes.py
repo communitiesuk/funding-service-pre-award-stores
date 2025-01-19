@@ -63,7 +63,7 @@ def check_your_answers(application_id, section_slug):
     section_data = get_application_section_data(application_id, section_slug)
     form = MarkAsCompleteForm()
     if form.validate_on_submit():
-        if form.complete.data == "yes":
+        if form.complete.data is True:
             set_application_section_complete(section_data)
 
         return redirect(url_for("proto_form_runner.application_tasklist", application_id=application_id))
