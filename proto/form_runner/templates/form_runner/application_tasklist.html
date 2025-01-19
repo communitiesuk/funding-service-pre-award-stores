@@ -44,7 +44,11 @@
         <h2 class="govuk-heading-m">Section {{ loop.index }}</h2>
 
         <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-2"/>
+        {% if application.section_in_progress(section.id) or application.section_completed(section.id) %}
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_form_runner.check_your_answers', application_id=application.id, section_slug=section.slug) }}">{{ section.title }}</a>
+        {% else %}
         <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_form_runner.ask_application_question', application_id=application.id, section_slug=section.slug, question_slug=section.questions[0].slug) }}">{{ section.title }}</a>
+        {% endif %}
 
         {% if application.section_not_started(section.id) %}
           {{ govukTag({"text": "Not started", "classes": "govuk-tag--grey app-!-float-right"}) }}
