@@ -33,7 +33,7 @@
         </dd>
       {% elif application.in_progress %}
         <dd class="govuk-!-margin-bottom-2">
-          {{ govukTag({"text": "In progress", "classes": "govuk-tag--green"}) }}
+          {{ govukTag({"text": "In progress", "classes": "govuk-tag--blue"}) }}
         </dd>
       {% endif %}
     </dl>
@@ -45,7 +45,14 @@
 
         <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-2"/>
         <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_form_runner.ask_application_question', application_id=application.id, section_slug=section.slug, question_slug=section.questions[0].slug) }}">{{ section.title }}</a>
-        {{ govukTag({"text": "Not started", "classes": "govuk-tag--grey app-!-float-right"}) }}
+
+        {% if application.section_not_started(section.id) %}
+          {{ govukTag({"text": "Not started", "classes": "govuk-tag--grey app-!-float-right"}) }}
+        {% elif application.section_in_progress(section.id) %}
+          {{ govukTag({"text": "In progress", "classes": "govuk-tag--blue app-!-float-right"}) }}
+        {% elif application.section_completed(section.id) %}
+          {{ govukTag({"text": "Completed", "classes": "govuk-tag--green app-!-float-right"}) }}
+        {% endif %}
         <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-3"/>
       </li>
 

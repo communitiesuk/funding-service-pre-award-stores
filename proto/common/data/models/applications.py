@@ -20,6 +20,12 @@ class ApplicationStatus(str, enum.Enum):
     COMPLETED = "completed"
 
 
+class ApplicationSectionStatus(str, enum.Enum):
+    NOT_STARTED = "not started"
+    IN_PROGRESS = "in progress"
+    COMPLETED = "completed"
+
+
 class ProtoApplication(db.Model):
     id: Mapped[pk_int] = mapped_column(primary_key=True)
     created_at: Mapped[datetime] = mapped_column(default=func.now())
@@ -57,6 +63,23 @@ class ProtoApplication(db.Model):
     @property
     def completed(self):
         return self.status == ApplicationStatus.COMPLETED
+
+    def status_for_section(self, section_id) -> ApplicationSectionStatus:
+        section_data = next(filter(lambda sec: sec.section_id == section_id, self.section_data), None)
+        if section_data is None:
+            return ApplicationSectionStatus.NOT_STARTED
+        elif len(section_data.data) < len(section_data.section.questions):
+            return ApplicationSectionStatus.IN_PROGRESS
+        return ApplicationSectionStatus.COMPLETED
+
+    def section_not_started(self, section_id) -> bool:
+        return self.status_for_section(section_id) == ApplicationSectionStatus.NOT_STARTED
+
+    def section_in_progress(self, section_id) -> bool:
+        return self.status_for_section(section_id) == ApplicationSectionStatus.IN_PROGRESS
+
+    def section_completed(self, section_id) -> bool:
+        return self.status_for_section(section_id) == ApplicationSectionStatus.COMPLETED
 
 
 class ProtoApplicationSectionData(db.Model):
