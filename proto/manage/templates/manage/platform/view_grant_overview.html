@@ -1,5 +1,6 @@
 {% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
 {% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
 
 {% extends "manage/base.jinja.html" %}
 
@@ -17,6 +18,16 @@
 
 <div class="govuk-grid-row app-sidebar">
   <div class="govuk-grid-column-two-thirds">
+    {% if grant.is_draft %}
+      {% set insetText %}
+        <p>
+          This grant is a draft and must be published before any application rounds will become available.
+          <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_manage.platform.grants.view_grant_configuration', grant_code=grant.short_name) }}">Make the grant live.</a>
+        </p>
+      {% endset %}
+      {{ govukInsetText({"html": insetText}) }}
+    {% endif %}
+
     <p class="govuk-body govuk-!-display-inline-block govuk-!-margin-3 govuk-!-padding-5 app-card">
       Applications
       <br>

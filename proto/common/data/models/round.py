@@ -157,3 +157,7 @@ class Round(db.Model):
                 return "green"
 
         return "grey"
+
+    @property
+    def is_draft(self):
+        return self.proto_draft is True

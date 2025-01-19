@@ -15,7 +15,15 @@
       Configuration
     </h1>
 
-    {% if round.status == 'draft' %}
+    {% if round.application_sections|length == 0 %}
+      {% set insetText %}
+        <p>
+          You cannot make this round live until you have configured some data collection questions.
+          <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_manage.platform.rounds.view_round_data_collection', grant_code=grant.short_name, round_code=round.short_name) }}">Manage data collection</a>.
+        </p>
+      {% endset %}
+      {{ govukInsetText({"html": insetText}) }}
+    {% else %}
       <form method="post">
         {{ form.csrf_token }}
         {{ form.submit }}

@@ -1,5 +1,6 @@
 {% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
 {% from "govuk_frontend_jinja/components/tag/macro.html" import govukTag %}
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
 
 {% extends "manage/base.jinja.html" %}
 
@@ -17,11 +18,21 @@
 <div class="govuk-grid-row app-sidebar">
   <div class="govuk-grid-column-two-thirds">
 
-    {% if grant.proto_status == 'draft' %}
-      <form method="post">
-        {{ form.csrf_token }}
-        {{ form.submit }}
-      </form>
+    {% if grant.is_draft %}
+      {% if grant.rounds|rejectattr("is_draft")|list|length == 0 %}
+        {% set insetText %}
+          <p>
+            You cannot make this grant live until some application rounds have been set up.
+            <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_manage.platform.grants.view_grant_rounds', grant_code=grant.short_name) }}">Manage application rounds</a>.
+          </p>
+        {% endset %}
+        {{ govukInsetText({"html": insetText}) }}
+      {% else %}
+        <form method="post">
+          {{ form.csrf_token }}
+          {{ form.submit }}
+        </form>
+      {% endif %}
     {% endif %}
 
     {% set editLinkHtml = "<a class='govuk-link govuk-link--no-visited-state' href='" + url_for('fund.edit_view', id=grant.id, url=url_for('proto_manage.platform.grants.view_grant_configuration', grant_code=grant.short_name)) + "'>Edit</a>" %}

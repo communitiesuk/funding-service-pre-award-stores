@@ -102,3 +102,7 @@ class Fund(db.Model):
                 return "green"
 
         return "grey"
+
+    @property
+    def is_draft(self):
+        return self.proto_status == FundStatus.DRAFT
