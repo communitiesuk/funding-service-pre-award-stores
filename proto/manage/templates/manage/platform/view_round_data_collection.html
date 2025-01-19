@@ -55,6 +55,16 @@
           ) %}
         {% endfor %}
 
+        {% if round.proto_draft %}
+          {% set _ = questionRows.append(
+            [
+              {"text": ' '},
+              {"html": '<a class="govuk-link govuk-link--no-visited-state" href="' ~ url_for('proto_manage.platform.rounds.create_question_view', grant_code=grant.short_name, round_code=round.short_name, section_id=section.id) ~ '">Add another question</a>'},
+              {"text": ' '}
+            ]
+          ) %}
+        {% endif %}
+
         {{
           govukTable(
             {
@@ -67,10 +77,8 @@
           )
         }}
 
-        {% if round.proto_draft %}
-        <p class="govuk-body govuk-!-margin-top-0"><a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('proto_manage.platform.rounds.create_question_view', grant_code=grant.short_name, round_code=round.short_name, section_id=section.id) }}">Add another question</a></p>
-        {% else %}
-          <br>  {# lol hack #}
+        {% if not loop.last %}
+          <div class="govuk-!-margin-top-5"></div>
         {% endif %}
       {% endfor %}
     {% endif %}
